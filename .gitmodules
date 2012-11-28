@@ -1,0 +1,3 @@
+[submodule "platforms-kb"]
+	path = platforms-kb
+	url = git://github.com/ezpaarse-project/ezpaarse-kb.git
