@@ -2,27 +2,23 @@ ezpaarse
 ========
 
 
-Mémo pour initialiser les sous modules (pour avoir le contenu) quand on fait un git clone du dépôt :
+Mémo pour initialiser le répertoire de la base de connaissance :
 
 ```bash
-git submodule init
-git submodule update
+git clone https://github.com/ezpaarse-project/ezpaarse-kb.git platforms-kb
 ```
 
 TODO : l'automatiser dans dans le "make setup"
 
+Remarque : quand on aura une instance analogist, il faudra que la procédure d'installation clone le dépôt d'analogist et pas celui de github ainsi on pourra plus tard automatiser les contributions des contributeurs de confiance (c'est à dire autoriser les git push sur le dépôt d'analogist)
 
-Mémo pour mettre à jour le sous module git (platforms-kb) :
+Mémo pour mettre à jour la base de connaissance (platforms-kb) :
 
 ```bash
 cd platforms-kb
 git pull
-cd ..
-git submodule update
 ```
 
-Conclusion : les submodule sont compliqués à utiliser et posent problème lorsqu'on modifie localement dans un sous module et qu'on désire le pusher, ce n'est pas trivial car un simple git push ne suffit pas.
-cf http://git-scm.com/book/fr/Utilitaires-Git-Sous-modules
+TODO : l'automatiser dans le makefile ?
 
-Solution alternative :
-make setup pourrait se charger de faire un git clone du dépot ezpaarse-kb dans un sous répertoire platforms-kb à la racine d'ezpaarse, ainsi on peut push facilement sur ce dépôt sans aucun lien avec le dépôt classique ezpaarse
+
