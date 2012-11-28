@@ -9,4 +9,14 @@ git submodule init
 git submodule update
 ```
 
-TODO : l'automatiser dans dans le "make setup")
+TODO : l'automatiser dans dans le "make setup"
+
+
+Mémo pour mettre à jour le sous module git (platforms-kb) :
+
+```bash
+cd platforms-kb
+git pull
+cd ..
+git submodule update
+```
