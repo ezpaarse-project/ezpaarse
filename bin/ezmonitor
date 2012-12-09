@@ -21,7 +21,7 @@ var argv = require('optimist')
     })
     .describe('pid', 'the pid of the process tree to monitor')
     .describe('each', 'number of seconds to wait before each probing')
-    .describe('duration', 'number of seconds for the monitoring duration')
+    .describe('duration', 'monitoring duration in seconds')
     .argv;
 var pid = argv.pid;
 
