@@ -1,0 +1,65 @@
+#!/usr/bin/env node
+//
+// Command used to generate random log
+//
+
+var fs = require('fs');
+var Faker = require('Faker');
+var moment = require('moment');
+
+// get the command line argument 
+// platform
+var argv = require('optimist')
+    .usage('Usage: $0 --platform=[string] --nb=[num]')
+    .demand('platform').default('platform', 'sd')
+    .demand('nb').default('nb', 100)
+    .describe('platform', 'the publisher platform code used as a source for generating url')
+    .describe('nb', 'number of lines of log to generate')
+    .argv;
+
+// read the platform's urls
+var urlDir  = __dirname + '/../platforms/' + argv.platform + '/test';
+var urlFiles = fs.readdirSync(urlDir).filter(function (item) {
+  return /.url$/.test(item);
+});
+
+// concatenate url list in a big array
+var urls = [];
+urlFiles.forEach(function (ufile) {
+  urls = urls.concat(fs.readFileSync(urlDir + '/' + ufile, 'UTF-8').split('\n'));
+});
+
+// generate fake ip/login
+var nb_fake_ident = 10 * argv.nb;
+var fakeident = [];
+while (nb_fake_ident-- > 0) {
+  fakeident.push({
+    ip: Math.floor(Math.random() * 255) + '.' + Math.floor(Math.random() * 255) + '.' + Math.floor(Math.random() * 255) + '.' + Math.floor(Math.random() * 255),
+    login: Faker.Internet.email().toLowerCase()
+  });
+}
+
+// generate fake lines of log
+var log = {};
+var timeline_value = 0;
+while (argv.nb-- > 0) {
+
+  // don't generate log lines with empty url
+  if (log.url == '') {
+    argv.nb++;
+    continue;
+  }
+  
+  // move the time forward (max +5 seconds)
+  timeline_value += Math.floor(Math.random() * 5);
+  
+  // generate fake log data
+  log.ip    = fakeident[Math.floor(Math.random() * (fakeident.length-1))].ip;
+  log.login = fakeident[Math.floor(Math.random() * (fakeident.length-1))].login;
+  log.url   = urls[Math.floor(Math.random() * (urls.length-1))];
+  log.date  = moment().add('seconds', timeline_value).format('DD/MMM/YYYY:hh:mm:ss +0100'); // [30/Nov/2012:00:17:37 +0100]
+  
+  // write the log to stdout
+  process.stdout.write(log.ip + ' - ' + log.login + ' [' + log.date + '] "GET ' + log.url +' HTTP/1.1" 200 ' + Math.floor(Math.random() * 1000000) + '\n');
+  
+}
