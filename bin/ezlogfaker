@@ -3,6 +3,8 @@
 // Command used to generate random log
 //
 
+"use strict";
+
 var fs = require('fs');
 var Faker = require('Faker');
 var moment = require('moment');
