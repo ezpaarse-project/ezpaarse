@@ -1,8 +1,12 @@
 #!/usr/bin/env node
+//
 // Command used to monitor a pid tree
 // - cpu
 // - mem
 // - disk
+//
+
+"use strict";
 
 require('shelljs/global');
 
@@ -26,7 +30,7 @@ var argv = require('optimist')
 var pid = argv.pid;
 
 // write csv head line
-var fields = [ 'timestamp', 'nbpid', 'cpu', 'mem_vsz', 'mem_rss', 'disk_read', 'disk_write' ];
+var fields = [ 'time', 'nbpid', 'cpu', 'mem_vsz', 'mem_rss', 'disk_read', 'disk_write' ];
 fields.forEach(function (field, index) {
   process.stdout.write('"');
   process.stdout.write(field);     
@@ -35,6 +39,7 @@ fields.forEach(function (field, index) {
 });
 
 // start process monitoring (after 10 miliseconds)
+var start_timestamp = Math.floor(new Date().getTime()/1000);
 setTimeout(monitor_pids, 10);
 
 // stop monitoring after the duration is expired
@@ -62,11 +67,11 @@ function monitor_pids() {
       // fill the record
       if (line.match(/^[0-9]/)) {
         var fields = line.split(/ +/);
-        record.timestamp  = parseInt(fields[0]);
+        record.time        = parseInt(fields[0]) - start_timestamp;
         record.pid.push(parseInt(fields[1]));
         record.cpu        += parseFloat(fields[5].replace(',', '.'));
-        record.mem_vsz    += parseInt(fields[9]);
-        record.mem_rss    += parseInt(fields[10]);
+        record.mem_vsz    += parseInt(fields[9])/1024/1024;
+        record.mem_rss    += parseInt(fields[10])/1024/1024;
         record.disk_read  += parseFloat(fields[12].replace(',', '.')*1000);
         record.disk_write += parseFloat(fields[13].replace(',', '.')*1000);
       }
@@ -77,6 +82,8 @@ function monitor_pids() {
     fields.forEach(function (field, index) {
       if (field == 'nbpid') {
         process.stdout.write(record.pid.length.toString());      
+      } else if (field == 'cpu' || field == 'mem_vsz' || field == 'mem_rss') {
+        process.stdout.write(record[field].toFixed(2).toString());      
       } else {
         process.stdout.write(record[field].toString());      
       }
