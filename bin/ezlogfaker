@@ -12,9 +12,11 @@ var moment = require('moment');
 var argv = require('optimist')
     .usage('Usage: $0 --platform=[string] --nb=[num]')
     .demand('platform').default('platform', 'sd')
-    .demand('nb').default('nb', 100)
+    .demand('nb').default('nb', 'nolimit')
+    .demand('rate').default('rate', 10)
     .describe('platform', 'the publisher platform code used as a source for generating url')
     .describe('nb', 'number of lines of log to generate')
+    .describe('rate', 'number of lines of log to generate per second (max 1000)')
     .argv;
 
 // read the platform's urls
@@ -30,7 +32,7 @@ urlFiles.forEach(function (ufile) {
 });
 
 // generate fake ip/login
-var nb_fake_ident = 10 * argv.nb;
+var nb_fake_ident = Math.max(10 * (argv.nb == 'nolimit' ? 1000 : argv.nb), 1000);
 var fakeident = [];
 while (nb_fake_ident-- > 0) {
   fakeident.push({
@@ -39,15 +41,16 @@ while (nb_fake_ident-- > 0) {
   });
 }
 
-// generate fake lines of log
-var log = {};
-var timeline_value = 0;
-while (argv.nb-- > 0) {
+// generate fake lines of log (not too fast: backpressure is handled)
+var log                    = {};
+var timeline_value         = 0;
+var stdout_no_backpressure = true;
+function writeOneLineOfLog() {
 
   // don't generate log lines with empty url
   if (log.url == '') {
-    argv.nb++;
-    continue;
+    argv.nb = argv.nb == 'nolimit' ? argv.nb : argv.nb+1;
+    return;
   }
   
   // move the time forward (max +5 seconds)
@@ -60,6 +63,23 @@ while (argv.nb-- > 0) {
   log.date  = moment().add('seconds', timeline_value).format('DD/MMM/YYYY:hh:mm:ss +0100'); // [30/Nov/2012:00:17:37 +0100]
   
   // write the log to stdout
-  process.stdout.write(log.ip + ' - ' + log.login + ' [' + log.date + '] "GET ' + log.url +' HTTP/1.1" 200 ' + Math.floor(Math.random() * 1000000) + '\n');
+  stdout_no_backpressure = process.stdout.write(log.ip + ' - ' + log.login + ' [' + log.date + '] "GET ' + log.url +' HTTP/1.1" 200 ' + Math.floor(Math.random() * 1000000) + '\n');
+
+  // stop writing to stdout if backpressure detected
+  if (!stdout_no_backpressure) {
+    return;
+  }
   
+  // continue to next line depending on the rate parameter
+  if (argv.nb == 'nolimit' || argv.nb-- > 0) {
+    setTimeout(writeOneLineOfLog, 1000/argv.rate);
+  }
+
 }
+process.stdout.on('drain', function () {
+  if (!stdout_no_backpressure) {
+    writeOneLineOfLog();
+  }
+});
+
+writeOneLineOfLog();
