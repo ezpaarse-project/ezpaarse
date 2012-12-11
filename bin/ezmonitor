@@ -13,7 +13,7 @@ require('shelljs/global');
 // get the command line argument 
 // pid
 // wait
-var argv = require('optimist')
+var optimist = require('optimist')
     .usage('Usage: $0 --pid=[num] --each=[num] --duration=[num]')
     .demand('pid')
     .demand('each').default('each', 2)
@@ -25,9 +25,14 @@ var argv = require('optimist')
     })
     .describe('pid', 'the pid of the process tree to monitor')
     .describe('each', 'number of seconds to wait before each probing')
-    .describe('duration', 'monitoring duration in seconds')
-    .argv;
-var pid = argv.pid;
+    .describe('duration', 'monitoring duration in seconds');
+var argv = optimist.argv;
+
+// show usage if --help option is used
+if (argv.help) {
+  optimist.showHelp();
+  process.exit(0);
+}
 
 // write csv head line
 var fields = [ 'time', 'nbpid', 'cpu', 'mem_vsz', 'mem_rss', 'disk_read', 'disk_write' ];
@@ -99,7 +104,7 @@ function monitor_pids() {
 
 function get_pids() {
   var pids = [];
-  exec('/usr/bin/pstree -p ' + pid, {silent: true}).output.split(/(\([0-9]+\))/).forEach(function (elt) {
+  exec('/usr/bin/pstree -p ' + argv.pid, {silent: true}).output.split(/(\([0-9]+\))/).forEach(function (elt) {
     if (elt.match(/\([0-9]+\)/)) {
       pids.push(elt.slice(1,-1));
     }
