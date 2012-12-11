@@ -9,6 +9,7 @@
 "use strict";
 
 require('shelljs/global');
+var byline = require('byline');
 
 // get the command line argument 
 // pid
@@ -17,11 +18,11 @@ var optimist = require('optimist')
     .usage('Usage: $0 --pid=[num] --each=[num] --duration=[num]')
     .demand('pid')
     .demand('each').default('each', 2)
-    .demand('duration').default('duration', 10)
+    .demand('duration').default('duration', 'nolimit')
     .check(function (argv) { 
       return !isNaN(Number(argv.pid)) &&
              !isNaN(Number(argv.each)) &&
-             !isNaN(Number(argv.duration));
+             (argv.duration == 'nolimit' || !isNaN(Number(argv.duration)));
     })
     .describe('pid', 'the pid of the process tree to monitor')
     .describe('each', 'number of seconds to wait before each probing')
@@ -34,8 +35,20 @@ if (argv.help) {
   process.exit(0);
 }
 
+// read stdin line by line and count number of line received
+var nb_input_line = 0;
+var last_nb_input_line = 0;
+process.stdin.resume();
+var inputstream = byline(process.stdin);
+inputstream.on('data', function(line) {
+  nb_input_line++;
+});
+inputstream.on('end', function() {
+  monitor = false;
+});
+
 // write csv head line
-var fields = [ 'time', 'nbpid', 'cpu', 'mem_vsz', 'mem_rss', 'disk_read', 'disk_write' ];
+var fields = [ 'time', 'nbpid', 'cpu', 'mem_vsz', 'mem_rss', 'disk_read', 'disk_write', 'nb_input_line', 'input_line_delta' ];
 fields.forEach(function (field, index) {
   process.stdout.write('"');
   process.stdout.write(field);     
@@ -49,7 +62,15 @@ setTimeout(monitor_pids, 10);
 
 // stop monitoring after the duration is expired
 var monitor = true;
-setTimeout(function () { monitor = false; }, argv.duration*1000);
+if (argv.duration != 'nolimit') {
+  setTimeout(function () {
+    // if data are received through stdin, wait for stream end
+    // instead of waiting for duration parameter
+    if (nb_input_line > 0 ) {
+      monitor = false;
+    }
+  }, argv.duration*1000);
+}
 
 function monitor_pids() {
   var pids = get_pids();
@@ -59,7 +80,17 @@ function monitor_pids() {
   // -h for all on one line (but do not display average)
   // 1 1 means check each second during 1 second
   exec('pidstat -h -d -u -r -p ' + pids.join(',') + ' 1 1', {silent: true, async: true}, function (code, output) {
-    var record = { pid: [], cpu: 0, mem_vsz: 0, mem_rss: 0, disk_read: 0, disk_write:0 };
+    var record = { pid: [],
+                   cpu: 0,
+                   mem_vsz: 0,
+                   mem_rss: 0,
+                   disk_read: 0,
+                   disk_write:0,
+                   nb_input_line: nb_input_line,
+                   input_line_delta: nb_input_line - last_nb_input_line };
+
+    // update the (last) input line marker
+    last_nb_input_line = nb_input_line;
     
     // parse the results
     output.split('\n').forEach(function (line) {
@@ -99,6 +130,8 @@ function monitor_pids() {
   
   if (monitor) {
     setTimeout(monitor_pids, argv.each*1000); // monitoring each N seconds
+  } else {
+    process.exit(0);
   }
 }
 
@@ -111,4 +144,3 @@ function get_pids() {
   });
   return pids;
 }
-
