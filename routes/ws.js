@@ -26,9 +26,10 @@ function estValide(ec) {
 }
 
 module.exports = function (app, parsers, knowledge, ignoredDomains) {
-  /*
- * POST log
- */
+  
+  /**
+   * POST log
+   */
   app.post('/ws/', function (req, res) {
     debug("Req : " + req);
 
@@ -191,4 +192,12 @@ module.exports = function (app, parsers, knowledge, ignoredDomains) {
       countLines++;
     });
   });
+  
+  /**
+   * GET route on /ws/
+   */
+  app.get('/ws/', function (req, res) {
+    res.render('ws');
+  });
+  
 }
