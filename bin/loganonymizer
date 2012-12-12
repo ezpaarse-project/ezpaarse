@@ -13,7 +13,7 @@
 var readline = require('readline');
 var Faker = require('Faker');
 var fs = require('fs');
-var tabRegex = require('../routes/regex.js');
+var tabRegex = require('../logformat.js');
 
 var red = '\u001b[31m';     // Color red
 var brown = '\u001b[33m';  // Color brown
@@ -34,14 +34,20 @@ Faker.Internet.ip = function () {
 
 // get the command line argument 
 // platform
-var argv = require('optimist')
+var optimist = require('optimist')
     .usage('Anonymize critical data in a log file\nUsage: $0 --input=[string] --output=[string]')
     .demand('input').default('input', 'stdin').alias('input','i')
     .demand('output').default('output', 'stdout').alias('output','o')
-    .describe('input', 'the input data to clean (default STDIN)')
-    .describe('output', 'the destination where to send the result to (default STDOUT)')
-    .argv;
+    .describe('input', 'the input data to clean')
+    .describe('output', 'the destination where to send the result to');
+var argv = optimist.argv;
 
+// show usage if --help option is used
+if (argv.help) {
+  optimist.showHelp();
+  process.exit(0);
+}    
+    
 var resultStream;
 var logStream;
 
