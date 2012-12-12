@@ -2,3 +2,6 @@ nvm
 public/stylesheets/style.css
 public/doc/
 test/beta/
+bench.csv
+bench.png
+platforms-pkb/

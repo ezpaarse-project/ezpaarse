@@ -1,32 +1,54 @@
 #!/usr/bin/env node
+//
 // Command used to monitor a pid tree
 // - cpu
 // - mem
 // - disk
+//
+
+"use strict";
 
 require('shelljs/global');
+var byline = require('byline');
 
 // get the command line argument 
 // pid
 // wait
-var argv = require('optimist')
+var optimist = require('optimist')
     .usage('Usage: $0 --pid=[num] --each=[num] --duration=[num]')
     .demand('pid')
     .demand('each').default('each', 2)
-    .demand('duration').default('duration', 10)
+    .demand('duration').default('duration', 'nolimit')
     .check(function (argv) { 
       return !isNaN(Number(argv.pid)) &&
              !isNaN(Number(argv.each)) &&
-             !isNaN(Number(argv.duration));
+             (argv.duration == 'nolimit' || !isNaN(Number(argv.duration)));
     })
     .describe('pid', 'the pid of the process tree to monitor')
     .describe('each', 'number of seconds to wait before each probing')
-    .describe('duration', 'monitoring duration in seconds')
-    .argv;
-var pid = argv.pid;
+    .describe('duration', 'monitoring duration in seconds');
+var argv = optimist.argv;
+
+// show usage if --help option is used
+if (argv.help) {
+  optimist.showHelp();
+  process.exit(0);
+}
+
+// read stdin line by line and count number of line received
+var nb_input_line = 0;
+var last_nb_input_line = 0;
+process.stdin.resume();
+var inputstream = byline(process.stdin);
+inputstream.on('data', function(line) {
+  nb_input_line++;
+});
+inputstream.on('end', function() {
+  monitor = false;
+});
 
 // write csv head line
-var fields = [ 'timestamp', 'nbpid', 'cpu', 'mem_vsz', 'mem_rss', 'disk_read', 'disk_write' ];
+var fields = [ 'time', 'nbpid', 'cpu', 'mem_vsz', 'mem_rss', 'disk_read', 'disk_write', 'nb_input_line', 'input_line_delta' ];
 fields.forEach(function (field, index) {
   process.stdout.write('"');
   process.stdout.write(field);     
@@ -35,11 +57,20 @@ fields.forEach(function (field, index) {
 });
 
 // start process monitoring (after 10 miliseconds)
+var start_timestamp = Math.floor(new Date().getTime()/1000);
 setTimeout(monitor_pids, 10);
 
 // stop monitoring after the duration is expired
 var monitor = true;
-setTimeout(function () { monitor = false; }, argv.duration*1000);
+if (argv.duration != 'nolimit') {
+  setTimeout(function () {
+    // if data are received through stdin, wait for stream end
+    // instead of waiting for duration parameter
+    if (nb_input_line > 0 ) {
+      monitor = false;
+    }
+  }, argv.duration*1000);
+}
 
 function monitor_pids() {
   var pids = get_pids();
@@ -49,7 +80,17 @@ function monitor_pids() {
   // -h for all on one line (but do not display average)
   // 1 1 means check each second during 1 second
   exec('pidstat -h -d -u -r -p ' + pids.join(',') + ' 1 1', {silent: true, async: true}, function (code, output) {
-    var record = { pid: [], cpu: 0, mem_vsz: 0, mem_rss: 0, disk_read: 0, disk_write:0 };
+    var record = { pid: [],
+                   cpu: 0,
+                   mem_vsz: 0,
+                   mem_rss: 0,
+                   disk_read: 0,
+                   disk_write:0,
+                   nb_input_line: nb_input_line,
+                   input_line_delta: nb_input_line - last_nb_input_line };
+
+    // update the (last) input line marker
+    last_nb_input_line = nb_input_line;
     
     // parse the results
     output.split('\n').forEach(function (line) {
@@ -62,11 +103,11 @@ function monitor_pids() {
       // fill the record
       if (line.match(/^[0-9]/)) {
         var fields = line.split(/ +/);
-        record.timestamp  = parseInt(fields[0]);
+        record.time        = parseInt(fields[0]) - start_timestamp;
         record.pid.push(parseInt(fields[1]));
         record.cpu        += parseFloat(fields[5].replace(',', '.'));
-        record.mem_vsz    += parseInt(fields[9]);
-        record.mem_rss    += parseInt(fields[10]);
+        record.mem_vsz    += parseInt(fields[9])/1024/1024;
+        record.mem_rss    += parseInt(fields[10])/1024/1024;
         record.disk_read  += parseFloat(fields[12].replace(',', '.')*1000);
         record.disk_write += parseFloat(fields[13].replace(',', '.')*1000);
       }
@@ -77,6 +118,8 @@ function monitor_pids() {
     fields.forEach(function (field, index) {
       if (field == 'nbpid') {
         process.stdout.write(record.pid.length.toString());      
+      } else if (field == 'cpu' || field == 'mem_vsz' || field == 'mem_rss') {
+        process.stdout.write(record[field].toFixed(2).toString());      
       } else {
         process.stdout.write(record[field].toString());      
       }
@@ -87,16 +130,17 @@ function monitor_pids() {
   
   if (monitor) {
     setTimeout(monitor_pids, argv.each*1000); // monitoring each N seconds
+  } else {
+    process.exit(0);
   }
 }
 
 function get_pids() {
   var pids = [];
-  exec('/usr/bin/pstree -p ' + pid, {silent: true}).output.split(/(\([0-9]+\))/).forEach(function (elt) {
+  exec('/usr/bin/pstree -p ' + argv.pid, {silent: true}).output.split(/(\([0-9]+\))/).forEach(function (elt) {
     if (elt.match(/\([0-9]+\)/)) {
       pids.push(elt.slice(1,-1));
     }
   });
   return pids;
 }
-

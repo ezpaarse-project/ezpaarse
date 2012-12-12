@@ -1,0 +1,38 @@
+set term png font arial 14 size 800,3072
+set datafile separator ","
+
+
+set multiplot layout 7, 1 title "ezPAARSE benchmark plots"
+set tmargin 2
+
+set title "Log output rate"
+unset key
+plot "./bench.csv" using 1:9 with lines title 'nb_input_line_delta'
+
+set title "Process"
+unset key
+plot "./bench.csv" using 1:2 with lines title 'process'
+
+set title "CPU"
+unset key
+plot "./bench.csv" using 1:3 with lines title 'cpu'
+
+set title "Memory (rss)"
+unset key
+plot "./bench.csv" using 1:5 with lines title 'mem'
+
+set title "Memory (vsz)"
+unset key
+plot "./bench.csv" using 1:4 with lines title 'mem'
+
+set title "Disk read access"
+unset key
+plot "./bench.csv" using 1:6 with lines title 'disk_read'
+
+set title "Disk write access"
+unset key
+plot "./bench.csv" using 1:7 with lines title 'disk_write'
+
+
+
+unset multiplot

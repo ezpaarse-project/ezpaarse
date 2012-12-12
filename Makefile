@@ -49,4 +49,15 @@ build:
 checkconfig:
 	@if which node > /dev/null; then ./bin/checkconfig; else echo "Node.js was not found" >&2; fi
 
+# Benchmarks section
+# # # # # # # # # # # #
+	
+bench:
+	@echo "Starting ezPAARSE bench (wait 20 seconds)."
+	@./bin/logfaker --duration=20 --rate=500 | ./bin/monitor --pid=1 --each=2 > ./bench.csv
+	@gnuplot ./misc/monitor.gplot > ./bench.png
+	@echo "ezPAARSE bench finished."
+	@echo "./bench.csv contains bench result data"
+	@echo "./bench.png contains bench result plot"
+	
 .PHONY: test checkconfig
