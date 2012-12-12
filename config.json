@@ -1,0 +1,10 @@
+{
+  "EZPAARSE_ADMIN_MAIL": "hector@troie",
+  "EZPAARSE_VERSION": "dev",
+  "EZPAARSE_NODEJS_PORT": "59599",
+  "EZPAARSE_IGNORED_DOMAINS":
+  [
+    "google.fr",
+    "google.com"
+  ]
+}

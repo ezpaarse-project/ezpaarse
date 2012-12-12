@@ -1,0 +1,22 @@
+#!/usr/bin/env node
+
+/*jslint node: true, maxlen: 100, maxerr: 50, indent: 2 */
+'use strict';
+var readline = require('readline');
+
+var stdin = process.stdin;
+var stdout = process.stdout;
+var rl = readline.createInterface(stdin, stdout);
+
+rl.on('line', function (line) {
+  var result = {};
+  var match;
+  if (match = /([^\/]+)\/journal\/([^\/]+)\/([^\/]+)\/([^\/]+)\/([^\/]+)/.exec(line)) {
+    if (match[5] == "toc.pdf") {
+      result.type = 'TOC';
+    } else {
+      result.type = match[4].toUpperCase();
+    }
+  }
+  stdout.write(JSON.stringify(result) + '\n');
+});
