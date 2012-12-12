@@ -1,0 +1,12 @@
+{
+    "title": "ezPAARSE",
+    "home": "presentation.md",
+    "files": [
+        "installation.md",
+        "makefile.md",
+        "routes.md",
+        "postlog.md"
+    ],
+    "css": "../stylesheets/doc.css",
+    "codeHighlightTheme": "solarized_dark"
+}

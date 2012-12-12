@@ -1,0 +1,117 @@
+#!/usr/bin/env node
+
+/*jslint node: true, maxlen: 100, maxerr: 50, indent: 2 */
+'use strict';
+
+/*
+* Log file cleaner
+* Takes a log file and and makes its critical data (hosts, logins) anonymous
+* @param1 log file to clean
+* @param2 destination of the clean log file
+*/
+
+var readline = require('readline');
+var Faker = require('Faker');
+var fs = require('fs');
+var tabRegex = require('../routes/regex.js');
+
+var red = '\u001b[31m';     // Color red
+var brown = '\u001b[33m';  // Color brown
+var reset = '\u001b[0m';    // Color reset
+
+Faker.Internet.ip = function () {
+  var randNum = function() {
+    return (Math.random()*254 + 1).toFixed(0);
+  }
+
+  var result = [];
+  for(var i=0; i<4; i++) {
+    result[i] = randNum();
+  }
+
+  return result.join(".");
+};
+
+// get the command line argument 
+// platform
+var argv = require('optimist')
+    .usage('Anonymize critical data in a log file\nUsage: $0 --input=[string] --output=[string]')
+    .demand('input').default('input', 'stdin').alias('input','i')
+    .demand('output').default('output', 'stdout').alias('output','o')
+    .describe('input', 'the input data to clean (default STDIN)')
+    .describe('output', 'the destination where to send the result to (default STDOUT)')
+    .argv;
+
+var resultStream;
+var logStream;
+
+if (argv.output === 'stdout') {
+  resultStream = process.stdout;
+} else {
+  resultStream = fs.createWriteStream(argv.output);
+}
+if (argv.input === 'stdin') {
+  logStream = process.stdin;
+} else {
+  logStream = fs.createReadStream(argv.input);
+}
+
+var hosts = [];
+var logins = [];
+var fakeHosts = [];
+var fakeLogins = [];
+
+var rl = readline.createInterface(logStream, resultStream);
+
+rl.on('line', function (line) {
+  var match;
+  var caught = tabRegex.some(function (regex) {
+    match = regex.exp.exec(line);
+    if (match) {
+      var hostIndex = regex.properties.indexOf('host');
+      var loginIndex = regex.properties.indexOf('login');
+
+      if (hostIndex != -1) {
+        var host = match[hostIndex+1];
+        if (hosts.indexOf(host) === -1) {
+          hosts.push(host);
+        }
+        var fake = fakeHosts[hosts.indexOf(host)];
+        if (!fake) {
+          fake = Faker.Internet.ip();
+          while(fakeHosts.indexOf(fake) != -1) {
+            fake = Faker.Internet.ip();
+          }
+          fakeHosts.push(fake);
+        }
+        line = line.replace(host, fake);
+      }
+      if (loginIndex != -1) {
+        var login = match[loginIndex+1];
+        if (logins.indexOf(login) === -1) {
+          logins.push(login);
+        }
+        var fake = fakeLogins[logins.indexOf(login)];
+        if (!fake) {
+          fake = Faker.Internet.userName().replace('\'', '').toUpperCase();
+          while(fakeLogins.indexOf(fake) != -1) {
+            fake = Faker.Internet.userName().replace('\'', '').toUpperCase();
+          }
+          fakeLogins.push(fake);
+        }
+        line = line.replace(login, fake);
+      }
+      return true;
+    } else {
+      return false;
+    }
+  });
+  
+  if (!caught) {
+    console.error(brown + line + reset);
+    console.error(red + 'Parse Error : couldn\'t identify the line format' + reset);
+    process.exit(1);
+  } else {
+    resultStream.write(line);
+  }
+});

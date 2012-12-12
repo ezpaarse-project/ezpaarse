@@ -1,0 +1,48 @@
+#!/usr/bin/env node
+
+/*jslint node: true, maxlen: 100, maxerr: 50, indent: 2 */
+'use strict';
+
+var fs = require('fs');
+var net = require('net');
+var Socket = net.Socket;
+var shell = require('shelljs');
+var config = require('../config.json');
+
+if (!config.EZPAARSE_ADMIN_MAIL) {
+  console.error('The admin mail must be specified');
+}
+
+if (!config.EZPAARSE_NODEJS_PORT) {
+  console.error("No server port found");
+} else {
+  var socket = new Socket();
+  var used = true;
+
+  // Socket connection established, port is open
+  socket.on('connect', function() {
+    socket.end();
+  })
+
+  // If no response, assume port is not listening
+  socket.setTimeout(400)
+  socket.on('timeout', function() {
+    used = false;
+    socket.destroy();
+  });
+
+  // Assuming the port is not open if an error. May need to refine based on
+  // exception
+  socket.on('error', function(exception) {
+    used = false;
+  });
+
+  // Return after the socket has closed
+  socket.on('close', function(exception) {
+    if (used) {
+      console.error("Server port already in use");
+    }
+  });
+
+  socket.connect(config.EZPAARSE_NODEJS_PORT, '127.0.0.1');
+}
