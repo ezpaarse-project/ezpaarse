@@ -14,8 +14,6 @@ var red = '\u001b[31m';     // Color red
 var brown = '\u001b[33m';  // Color brown
 var reset = '\u001b[0m';    // Color reset
 
-console.log('Operating system : ' + os.platform() + ' ' + os.release());
-
 if (!config.EZPAARSE_ADMIN_MAIL) {
   console.error('The admin mail must be specified');
 }
@@ -54,7 +52,27 @@ if (!config.EZPAARSE_NODEJS_PORT) {
   socket.connect(config.EZPAARSE_NODEJS_PORT, '127.0.0.1');
 }
 
+
+var platform = os.platform();
+var release = os.release();
+var dist = '';
+
 if (fs.existsSync('/etc/debian_version')) {
+  dist = 'Debian';
+} else if (fs.existsSync('/etc/SuSE-release')) {
+  dist = 'SuSE';
+} else if (fs.existsSync('/etc/redhat-release')) {
+  dist = 'RedHat';
+} else if (fs.existsSync('/etc/mandrake-release')) {
+  dist = 'Mandrake';
+}
+
+console.log('Operating system : ' + platform + ' ' + dist + ' ' + release);
+
+
+
+
+if (dist == 'Debian') {
   var dependencies = [
     'php5-cli',
     'tmpreaper',
