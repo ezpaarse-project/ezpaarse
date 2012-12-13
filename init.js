@@ -41,7 +41,7 @@ function fetch(folder, callback) {
           {
             parser: parserFile,
             platform: config.name
-          }
+          };
         }
         var csvFile = platformsFolder + '/' + folder + '/' + config.name + '.csv';
 
@@ -53,7 +53,7 @@ function fetch(folder, callback) {
               {
                 pissn: data[5],
                 eissn: data[6]
-              }
+              };
           })
           .on('end', function () {
             fetch(folders.pop(), callback);
@@ -79,4 +79,4 @@ function fetch(folder, callback) {
 
 module.exports = function (callback) {
   fetch(folders.pop(), callback);
-}
+};

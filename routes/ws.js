@@ -87,10 +87,10 @@ module.exports = function (app, parsers, knowledge, ignoredDomains) {
               debug('The parser couldn\'t find any id in the given URL');
             }
             if (ec.issn || ec.pissn || ec.eissn || ec.type) {
-              res.write(delimiter + '\n"'
-                + crypto.createHash('md5').update(ec.host + ec.date + ec.url).digest("hex")
-                + '":' + JSON.stringify(ec, null, 2));
-              if (delimiter === '') { delimiter = ',' }
+              res.write(delimiter + '\n"' +
+                crypto.createHash('md5').update(ec.host + ec.date + ec.url).digest("hex") +
+                '":' + JSON.stringify(ec, null, 2));
+              if (delimiter === '') { delimiter = ','; }
               countECs++;
             }
 
@@ -129,7 +129,7 @@ module.exports = function (app, parsers, knowledge, ignoredDomains) {
       debug("Terminating response");
       debug(countLines + " lines were read");
       debug(countECs + " ECs were created");
-    }
+    };
 
     var rl = readline.createInterface(req, res);
 
@@ -151,14 +151,14 @@ module.exports = function (app, parsers, knowledge, ignoredDomains) {
         match = regex.exp.exec(line);
         if (match) {
           ec = {};
-          regex['properties'].forEach(function (property, index) {
+          regex.properties.forEach(function (property, index) {
             ec[property] = match[index + 1];
           });
           if (ec.url) {
             ec.domain = URL.parse(ec.url).hostname;
           }
           if (ec.date) {
-            ec.date = moment(ec.date, regex['dateFormat']).format();
+            ec.date = moment(ec.date, regex.dateFormat).format();
           }
           return;
         }
@@ -200,4 +200,4 @@ module.exports = function (app, parsers, knowledge, ignoredDomains) {
     res.render('ws');
   });
   
-}
+};

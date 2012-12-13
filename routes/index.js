@@ -9,6 +9,6 @@ var appname = require('../package.json').name;
  */
 
 exports.index = function (req, res) {
-	debug("Req : " + req);
-  res.render('index', { title: appname });
-};
+    debug("Req : " + req);
+    res.render('index', { title: appname });
+  };

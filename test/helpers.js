@@ -17,7 +17,7 @@ exports.post = function (path, filePath, callback) {
   var opt = {
     method: 'POST',
     url: options.url + (path ? path : '/')
-  }
+  };
 
   if (filePath) {
     var fileContent = fs.readFileSync(filePath);
