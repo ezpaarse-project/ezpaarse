@@ -7,7 +7,14 @@ var fs = require('fs');
 var net = require('net');
 var Socket = net.Socket;
 var shell = require('shelljs');
+var os = require('os');
 var config = require('../config.json');
+
+var red = '\u001b[31m';     // Color red
+var brown = '\u001b[33m';  // Color brown
+var reset = '\u001b[0m';    // Color reset
+
+console.log('Operating system : ' + os.platform() + ' ' + os.release());
 
 if (!config.EZPAARSE_ADMIN_MAIL) {
   console.error('The admin mail must be specified');
@@ -45,4 +52,24 @@ if (!config.EZPAARSE_NODEJS_PORT) {
   });
 
   socket.connect(config.EZPAARSE_NODEJS_PORT, '127.0.0.1');
+}
+
+if (fs.existsSync('/etc/debian_version')) {
+  var dependencies = [
+    'php5-cli',
+    'tmpreaper',
+    'build-essential',
+    'libldap2-dev',
+    'uuid-dev',
+    'expect',
+    'inexistant'
+  ];
+
+  dependencies.forEach(function (dep) {
+    if (shell.exec('dpkg -l ' + dep, {silent: true}).code !== 0) {
+      console.error("\nThis script requires " + red + dep + reset + " but it is not installed.");
+      console.error("If you are running ubuntu or debian you might be able to install " + dep + " with the following command :");
+      console.error(brown + "sudo apt-get install " + dep + reset);
+    }
+  });
 }
