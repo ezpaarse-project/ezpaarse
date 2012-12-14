@@ -1,5 +1,4 @@
-{
-"a92a60b8bd1978667083b0417f99f53b":{
+[{
   "host": "a598581779c344cdac8cb8c198b949cc",
   "login": "DARYL",
   "date": "2012-11-30T00:38:49+01:00",
@@ -9,8 +8,7 @@
   "domain": "www.sciencedirect.com",
   "type": "TXT",
   "issn": "0166-445X"
-},
-"86a74541ff734d29b6368ac169736326":{
+},{
   "host": "af1d6594c6f163e3551c7633e55176b4",
   "login": "NICK",
   "date": "2012-11-30T00:37:02+01:00",
@@ -20,8 +18,7 @@
   "domain": "www.sciencedirect.com",
   "type": "TXT",
   "issn": "1360-1385"
-},
-"7102b7aa1db950116304983f6feaca63":{
+},{
   "host": "842557b46b723611950a092e8d7b97e2",
   "login": "NICK",
   "date": "2012-11-30T00:36:58+01:00",
@@ -31,19 +28,7 @@
   "domain": "www.sciencedirect.com",
   "type": "TXT",
   "issn": "1360-1385"
-},
-"6f73ab9b0bb9868d82350448ebec4cf7":{
-  "host": "a598581779c344cdac8cb8c198b949cc",
-  "login": "DARYL",
-  "date": "2012-11-30T00:51:23+01:00",
-  "url": "http://www.sciencedirect.com:80/science/article/pii/S0166445X03001772",
-  "httpCode": "200",
-  "size": "13444",
-  "domain": "www.sciencedirect.com",
-  "type": "TXT",
-  "issn": "0166-445X"
-},
-"91d5b30d3f974b57c7499d180658aa91":{
+},{
   "host": "236d47d58b8fb9f7bf8ca15b47d8276c",
   "login": "NICK",
   "date": "2012-11-30T00:36:30+01:00",
@@ -53,8 +38,7 @@
   "domain": "www.sciencedirect.com",
   "type": "TXT",
   "issn": "1360-1385"
-},
-"812d5ef2d7de9b986a24485096f4f996":{
+},{
   "host": "3f37b8130abac571104c7083fb96010b",
   "login": "MAGDALEN",
   "date": "2012-11-30T00:23:55+01:00",
@@ -64,107 +48,7 @@
   "domain": "www.sciencedirect.com",
   "type": "TXT",
   "issn": "1046-2023"
-},
-"f5fe985a458a3fe9d02d744816854a15":{
-  "host": "0f33038afebc87f4df690a0169745b0f",
-  "login": "SHAKIRA",
-  "date": "2012-11-30T01:00:12+01:00",
-  "url": "http://www.sciencedirect.com:80/science/article/pii/S1047847712001426",
-  "httpCode": "200",
-  "size": "182344",
-  "domain": "www.sciencedirect.com",
-  "type": "TXT",
-  "issn": "1047-8477"
-},
-"c3129975c839edfdccb484136ae63c34":{
-  "host": "a598581779c344cdac8cb8c198b949cc",
-  "login": "DARYL",
-  "date": "2012-11-30T00:48:03+01:00",
-  "url": "http://www.sciencedirect.com:80/science/article/pii/S0166445X11000154",
-  "httpCode": "200",
-  "size": "227805",
-  "domain": "www.sciencedirect.com",
-  "type": "TXT",
-  "issn": "0166-445X"
-},
-"4711b2e1e981ceb730992e76401bc659":{
-  "host": "17bb4f2e168f2557cb64121a29e1b719",
-  "login": "CECIL_MEDHURST",
-  "date": "2012-11-30T00:46:12+01:00",
-  "url": "http://www.sciencedirect.com:80/science/article/pii/S0006291X0202003X",
-  "httpCode": "200",
-  "size": "126031",
-  "domain": "www.sciencedirect.com",
-  "type": "TXT",
-  "issn": "0006-291X"
-},
-"2e8a5cc5a1bfb8077e896e6a676abc86":{
-  "host": "a598581779c344cdac8cb8c198b949cc",
-  "login": "DARYL",
-  "date": "2012-11-30T00:54:12+01:00",
-  "url": "http://www.sciencedirect.com:80/science/article/pii/S0166445X02000498",
-  "httpCode": "200",
-  "size": "174402",
-  "domain": "www.sciencedirect.com",
-  "type": "TXT",
-  "issn": "0166-445X"
-},
-"415ad3d6cd771d75614dad0486317d0d":{
-  "host": "a598581779c344cdac8cb8c198b949cc",
-  "login": "DARYL",
-  "date": "2012-11-30T00:39:58+01:00",
-  "url": "http://www.sciencedirect.com:80/science/article/pii/S0166445X03001772",
-  "httpCode": "200",
-  "size": "171162",
-  "domain": "www.sciencedirect.com",
-  "type": "TXT",
-  "issn": "0166-445X"
-},
-"c6284d474185ac3f23ad0a8b64db97de":{
-  "host": "a598581779c344cdac8cb8c198b949cc",
-  "login": "DARYL",
-  "date": "2012-11-30T00:52:36+01:00",
-  "url": "http://www.sciencedirect.com:80/science/article/pii/S1532045605000979",
-  "httpCode": "200",
-  "size": "165718",
-  "domain": "www.sciencedirect.com",
-  "type": "TXT",
-  "issn": "1532-0456"
-},
-"786f69e7ff5e4937e3497471293ccf0f":{
-  "host": "355ae7c2aae5b1b41b2450a6525ecbeb",
-  "login": "NEAL.GRANT",
-  "date": "2012-11-30T01:03:18+01:00",
-  "url": "http://www.sciencedirect.com:80/science/article/pii/S0165614712001800",
-  "httpCode": "200",
-  "size": "142316",
-  "domain": "www.sciencedirect.com",
-  "type": "TXT",
-  "issn": "0165-6147"
-},
-"a3d61b7a93b795d97640c7d3226e0bc6":{
-  "host": "a598581779c344cdac8cb8c198b949cc",
-  "login": "DARYL",
-  "date": "2012-11-30T00:52:10+01:00",
-  "url": "http://www.sciencedirect.com:80/science/article/pii/S0048969703000469",
-  "httpCode": "200",
-  "size": "133861",
-  "domain": "www.sciencedirect.com",
-  "type": "TXT",
-  "issn": "0048-9697"
-},
-"6f73ab9b0bb9868d82350448ebec4cf7":{
-  "host": "a598581779c344cdac8cb8c198b949cc",
-  "login": "DARYL",
-  "date": "2012-11-30T00:51:23+01:00",
-  "url": "http://www.sciencedirect.com:80/science/article/pii/S0166445X03001772",
-  "httpCode": "200",
-  "size": "171154",
-  "domain": "www.sciencedirect.com",
-  "type": "TXT",
-  "issn": "0166-445X"
-},
-"e3a23a159ca37f0768b05300af7a9830":{
+},{
   "host": "a48b14a50a3d72fa6da77da2aec5751b",
   "login": "ERNIE.BEDNAR",
   "date": "2012-11-30T01:03:16+01:00",
@@ -174,8 +58,77 @@
   "domain": "www.sciencedirect.com",
   "type": "TXT",
   "issn": "0967-0645"
-},
-"117d8ffb4a9b05393eecd887ad0abb13":{
+},{
+  "host": "a598581779c344cdac8cb8c198b949cc",
+  "login": "DARYL",
+  "date": "2012-11-30T00:51:23+01:00",
+  "url": "http://www.sciencedirect.com:80/science/article/pii/S0166445X03001772",
+  "httpCode": "200",
+  "size": "13444",
+  "domain": "www.sciencedirect.com",
+  "type": "TXT",
+  "issn": "0166-445X"
+},{
+  "host": "0f33038afebc87f4df690a0169745b0f",
+  "login": "SHAKIRA",
+  "date": "2012-11-30T01:00:12+01:00",
+  "url": "http://www.sciencedirect.com:80/science/article/pii/S1047847712001426",
+  "httpCode": "200",
+  "size": "182344",
+  "domain": "www.sciencedirect.com",
+  "type": "TXT",
+  "issn": "1047-8477"
+},{
+  "host": "a598581779c344cdac8cb8c198b949cc",
+  "login": "DARYL",
+  "date": "2012-11-30T00:54:12+01:00",
+  "url": "http://www.sciencedirect.com:80/science/article/pii/S0166445X02000498",
+  "httpCode": "200",
+  "size": "174402",
+  "domain": "www.sciencedirect.com",
+  "type": "TXT",
+  "issn": "0166-445X"
+},{
+  "host": "a598581779c344cdac8cb8c198b949cc",
+  "login": "DARYL",
+  "date": "2012-11-30T00:48:03+01:00",
+  "url": "http://www.sciencedirect.com:80/science/article/pii/S0166445X11000154",
+  "httpCode": "200",
+  "size": "227805",
+  "domain": "www.sciencedirect.com",
+  "type": "TXT",
+  "issn": "0166-445X"
+},{
+  "host": "17bb4f2e168f2557cb64121a29e1b719",
+  "login": "CECIL_MEDHURST",
+  "date": "2012-11-30T00:46:12+01:00",
+  "url": "http://www.sciencedirect.com:80/science/article/pii/S0006291X0202003X",
+  "httpCode": "200",
+  "size": "126031",
+  "domain": "www.sciencedirect.com",
+  "type": "TXT",
+  "issn": "0006-291X"
+},{
+  "host": "a598581779c344cdac8cb8c198b949cc",
+  "login": "DARYL",
+  "date": "2012-11-30T00:52:36+01:00",
+  "url": "http://www.sciencedirect.com:80/science/article/pii/S1532045605000979",
+  "httpCode": "200",
+  "size": "165718",
+  "domain": "www.sciencedirect.com",
+  "type": "TXT",
+  "issn": "1532-0456"
+},{
+  "host": "a598581779c344cdac8cb8c198b949cc",
+  "login": "DARYL",
+  "date": "2012-11-30T00:39:58+01:00",
+  "url": "http://www.sciencedirect.com:80/science/article/pii/S0166445X03001772",
+  "httpCode": "200",
+  "size": "171162",
+  "domain": "www.sciencedirect.com",
+  "type": "TXT",
+  "issn": "0166-445X"
+},{
   "host": "a48b14a50a3d72fa6da77da2aec5751b",
   "login": "ERNIE.BEDNAR",
   "date": "2012-11-30T01:01:37+01:00",
@@ -185,4 +138,34 @@
   "domain": "www.sciencedirect.com",
   "type": "TXT",
   "issn": "0304-4203"
-}}
+},{
+  "host": "a598581779c344cdac8cb8c198b949cc",
+  "login": "DARYL",
+  "date": "2012-11-30T00:52:10+01:00",
+  "url": "http://www.sciencedirect.com:80/science/article/pii/S0048969703000469",
+  "httpCode": "200",
+  "size": "133861",
+  "domain": "www.sciencedirect.com",
+  "type": "TXT",
+  "issn": "0048-9697"
+},{
+  "host": "355ae7c2aae5b1b41b2450a6525ecbeb",
+  "login": "NEAL.GRANT",
+  "date": "2012-11-30T01:03:18+01:00",
+  "url": "http://www.sciencedirect.com:80/science/article/pii/S0165614712001800",
+  "httpCode": "200",
+  "size": "142316",
+  "domain": "www.sciencedirect.com",
+  "type": "TXT",
+  "issn": "0165-6147"
+},{
+  "host": "a598581779c344cdac8cb8c198b949cc",
+  "login": "DARYL",
+  "date": "2012-11-30T00:51:23+01:00",
+  "url": "http://www.sciencedirect.com:80/science/article/pii/S0166445X03001772",
+  "httpCode": "200",
+  "size": "171154",
+  "domain": "www.sciencedirect.com",
+  "type": "TXT",
+  "issn": "0166-445X"
+}]
