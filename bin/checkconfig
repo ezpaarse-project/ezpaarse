@@ -72,7 +72,7 @@ if (platform == 'linux') {
     dist = 'Fedora';
   }
 }
-console.log('Operating system : ' + platform + ' ' + release + (dist ? ' (' + dist + ')' : ''));
+console.log('Operating system: ' + platform + ' ' + release + (dist ? ' (' + dist + ')' : ''));
 
 if (dist == 'Debian') {
   var dependencies = [
@@ -87,7 +87,7 @@ if (dist == 'Debian') {
   dependencies.forEach(function (dep) {
     if (shell.exec('dpkg -l ' + dep, {silent: true}).code !== 0) {
       console.error("\n" + appname + " requires " + red + dep + reset + " but it is not installed.");
-      console.error("If you are running ubuntu or debian you might be able to install " + dep + " with the following command :");
+      console.error("If you are running ubuntu or debian you might be able to install " + dep + " with the following command:");
       console.error(brown + "sudo apt-get install " + dep + reset);
     }
   });
