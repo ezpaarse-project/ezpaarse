@@ -55,19 +55,22 @@ if (!config.EZPAARSE_NODEJS_PORT) {
 
 var platform = os.platform();
 var release = os.release();
-var dist = '';
+var dist;
 
-if (fs.existsSync('/etc/debian_version')) {
-  dist = 'Debian';
-} else if (fs.existsSync('/etc/SuSE-release')) {
-  dist = 'SuSE';
-} else if (fs.existsSync('/etc/redhat-release')) {
-  dist = 'RedHat';
-} else if (fs.existsSync('/etc/mandrake-release')) {
-  dist = 'Mandrake';
+if (platform == 'linux') {
+  if (fs.existsSync('/etc/debian_version')) {
+    dist = 'Debian';
+  } else if (fs.existsSync('/etc/SuSE-release')) {
+    dist = 'SuSE';
+  } else if (fs.existsSync('/etc/redhat-release')) {
+    dist = 'RedHat';
+  } else if (fs.existsSync('/etc/mandrake-release')) {
+    dist = 'Mandrake';
+  } else if (fs.existsSync('/etc/fedora-release')) {
+    dist = 'Fedora';
+  }
 }
-
-console.log('Operating system : ' + platform + ' ' + dist + ' ' + release);
+console.log('Operating system : ' + platform + ' ' + release + (dist ? ' (' + dist + ')' : ''));
 
 
 
@@ -79,8 +82,7 @@ if (dist == 'Debian') {
     'build-essential',
     'libldap2-dev',
     'uuid-dev',
-    'expect',
-    'inexistant'
+    'expect'
   ];
 
   dependencies.forEach(function (dep) {
