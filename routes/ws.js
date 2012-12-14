@@ -43,7 +43,7 @@ module.exports = function (app, parsers, knowledge, ignoredDomains) {
     var ecBuffers = [];
     var ecBufferSize = 50;
 
-    res.write('{');
+    res.write('[');
 
     var queue = async.queue(function (task, callback) {
       end = false;
@@ -87,9 +87,7 @@ module.exports = function (app, parsers, knowledge, ignoredDomains) {
               debug('The parser couldn\'t find any id in the given URL');
             }
             if (ec.issn || ec.pissn || ec.eissn || ec.type) {
-              res.write(delimiter + '\n"' +
-                crypto.createHash('md5').update(ec.host + ec.date + ec.url).digest("hex") +
-                '":' + JSON.stringify(ec, null, 2));
+              res.write(delimiter + JSON.stringify(ec, null, 2));
               if (delimiter === '') { delimiter = ','; }
               countECs++;
             }
@@ -124,7 +122,7 @@ module.exports = function (app, parsers, knowledge, ignoredDomains) {
     }, 10);
 
     queue.drain = function () {
-      res.write('}');
+      res.write(']');
       res.end();
       debug("Terminating response");
       debug(countLines + " lines were read");
@@ -138,7 +136,7 @@ module.exports = function (app, parsers, knowledge, ignoredDomains) {
         queue.push({buffer: ecBuffers[i]});
       }
       if (end) {
-        res.write('}');
+        res.write(']');
         res.end();
       }
     });
