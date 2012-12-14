@@ -3,7 +3,7 @@
 
 var debug    = require('debug')('log');
 var URL      = require('url');
-var readline = require('readline');
+var byline   = require('byline');
 var moment   = require('moment');
 var crypto   = require('crypto');
 var shell    = require('shelljs');
@@ -55,8 +55,8 @@ module.exports = function (app, parsers, knowledge, ignoredDomains) {
       
       var child = shell.exec(parser, {async: true, silent: true});
       
-      var rl = readline.createInterface(child.stdout, res);
-      rl.on('line', function (line) {
+      var stream = byline.createStream(child.stdout);
+      stream.on('data', function (line) {
         if (ec) {
           var result;
           try {
@@ -129,9 +129,9 @@ module.exports = function (app, parsers, knowledge, ignoredDomains) {
       debug(countECs + " ECs were created");
     };
 
-    var rl = readline.createInterface(req, res);
+    var stream = byline.createStream(req);
 
-    rl.on('close', function () {
+    stream.on('end', function () {
       for (var i in ecBuffers) {
         queue.push({buffer: ecBuffers[i]});
       }
@@ -141,8 +141,7 @@ module.exports = function (app, parsers, knowledge, ignoredDomains) {
       }
     });
 
-    rl.on('line', function (line) {
-
+    stream.on('data', function (line) {
       var ec = false;
       var match;
       tabRegex.forEach(function (regex) {
