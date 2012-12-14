@@ -4,7 +4,7 @@
 
 var helpers = require('./helpers.js');
 var appname = require('../package.json').name;
-console.log(appname);
+
 describe('Le serveur', function () {
   it('renvoie une page contenant le nom de l\'application', function (done) {
     helpers.get('/', function (error, res, body) {
