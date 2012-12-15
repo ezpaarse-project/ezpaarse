@@ -19,8 +19,11 @@ require('./init.js')(function fill(parsers, knowledge) {
     app.use(express.logger('dev'));
     //app.use(express.bodyParser());
     app.use(express.methodOverride());
-    app.use(express.cookieParser());
-    app.use(express.session({ secret: "ezpaarse" }));
+    
+// commented because disrupt log streaming (maybe to enable only for the HTML interface because will be needed by the futur authentication system)
+//     app.use(express.cookieParser());
+//     app.use(express.session({ secret: "ezpaarse" }));
+
     //app.use(cas.casauth({root: 'https://auth.inist.fr' }));
     app.use(app.router);
     app.use(require('less-middleware')({ src: __dirname + '/public' }));
@@ -39,6 +42,6 @@ require('./init.js')(function fill(parsers, knowledge) {
   require('./routes/ws')(app, parsers, knowledge, config.EZPAARSE_IGNORED_DOMAINS);
 
   http.createServer(app).listen(app.get('port'), function () {
-    console.log(pkg.name + "-" + pkg.version + " listening on port " + app.get('port'));
+    console.log(pkg.name + "-" + pkg.version + " listening on port " + app.get('port') + " (pid is " + process.pid + ")");
   });
 });
