@@ -7,7 +7,10 @@ var express = require('express'),
   routes = require('./routes'),
   http = require('http'),
   path = require('path');
-  
+
+// to have a nice unix process name
+process.title = pkg.name.toLowerCase();
+
 require('./init.js')(function fill(parsers, knowledge) {
   var app = express();
   
