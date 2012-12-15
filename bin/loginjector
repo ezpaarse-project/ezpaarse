@@ -1,0 +1,12 @@
+#!/usr/bin/env node
+//
+// Log injector: pipe stdin to ezpaarse and pipe response to stdout
+//
+
+"use strict";
+
+var fs = require('fs');
+var request = require('request');
+var config = require('../config.json');
+
+process.stdin.pipe(request.post('http://127.0.0.1:' + config.EZPAARSE_NODEJS_PORT + '/ws/')).pipe(process.stdout);
