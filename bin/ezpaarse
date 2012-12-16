@@ -9,6 +9,17 @@ EZPAARSE_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 PATH=$EZPAARSE_PATH/build/nvm/bin/latest/:$EZPAARSE_PATH/node_modules/.bin:/usr/local/bin:/usr/bin:/bin
 EZPAARSE_PIDFILE="$EZPAARSE_PATH/ezpaarse.pid"
 
+# check make build has been called
+if [ ! -d $EZPAARSE_PATH/build/ ]; then
+  echo "ezPAARSE error: please run make build before anything" >&2
+  exit 1
+fi
+
+# if ezpaarse pid file doesn't exist, create a fake one
+if [ ! -f $EZPAARSE_PIDFILE ]; then
+  echo "XXXX" > $EZPAARSE_PIDFILE
+fi
+
 ezpaarse_start() {
   forever start -a -l $EZPAARSE_PATH/forever.log \
                   -o $EZPAARSE_PATH/out.log \
