@@ -1,0 +1,92 @@
+#!/bin/bash -e
+#
+# ezPAARSE start stop restart status script
+#
+
+set -e
+
+EZPAARSE_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
+PATH=$EZPAARSE_PATH/build/nvm/bin/latest/:$EZPAARSE_PATH/node_modules/.bin:/usr/local/bin:/usr/bin:/bin
+EZPAARSE_PIDFILE="$EZPAARSE_PATH/ezpaarse.pid"
+
+ezpaarse_start() {
+  forever start -a -l $EZPAARSE_PATH/forever.log \
+                  -o $EZPAARSE_PATH/out.log \
+                  -e $EZPAARSE_PATH/err.log \
+                  --pidFile $EZPAARSE_PIDFILE \
+                  --sourceDir $EZPAARSE_PATH app.js 1>/dev/null
+}
+
+ezpaarse_stop() {
+  forever stop --sourceDir $EZPAARSE_PATH app.js 1>/dev/null
+}
+
+ezpaarse_restart() {
+  forever restart --sourceDir $EZPAARSE_PATH app.js 1>/dev/null
+}
+
+case $1 in
+
+  start)
+    if [ -d /proc/`cat $EZPAARSE_PIDFILE` ]; then
+      echo "ezPAARSE is yet started."
+      exit 0
+    else
+      ezpaarse_start
+      if [ -d /proc/`cat $EZPAARSE_PIDFILE` ]; then
+        echo "ezPAARSE is started."
+        exit 0
+      else
+        echo "ezPAARSE is not started."
+        exit 1
+      fi
+    fi
+  ;;
+
+  stop)
+    if [ ! -d /proc/`cat $EZPAARSE_PIDFILE` ]; then
+      echo "ezPAARSE is yet stopped."
+      exit 0
+    else
+      ezpaarse_stop
+      if [ -d /proc/`cat $EZPAARSE_PIDFILE` ]; then
+        echo "ezPAARSE is not stopped."
+        exit 0
+      else
+        echo "ezPAARSE is stopped."
+        exit 1
+      fi
+    fi
+  ;;
+
+  restart | reload | force-reload)
+    if [ ! -d /proc/`cat $EZPAARSE_PIDFILE` ]; then
+      ezpaarse_start
+    else
+      ezpaarse_restart
+    fi
+    if [ -d /proc/`cat $EZPAARSE_PIDFILE` ]; then
+      echo "ezPAARSE has been restarted."
+      exit 0
+    else
+      echo "ezPAARSE has not been restarted."
+      exit 1
+    fi    
+  ;;
+
+  status)
+    if [ -d /proc/`cat $EZPAARSE_PIDFILE` ]; then
+      echo "ezPAARSE is running."
+      exit 0
+    else
+      echo "ezPAARSE is not running."
+      exit 1
+    fi
+  ;;
+
+  *)
+    echo "Usage: $0 {start|stop|restart|status}"
+    exit 1
+  ;;
+
+esac
