@@ -22,3 +22,7 @@ fi
 . $EZPAARSE_PATH/build/nvm/nvm.sh
 nvm install $NODEJS_VERSION
 nvm use $NODEJS_VERSION
+
+# create a symlink to be able to adjust the PATH easily
+rm -f $EZPAARSE_PATH/build/nvm/bin/latest
+ln -s  $EZPAARSE_PATH/build/nvm/v$NODEJS_VERSION/bin/ $EZPAARSE_PATH/build/nvm/bin/latest
