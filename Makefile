@@ -41,6 +41,9 @@ jshint:
 	@jshint $(JSFILES) --config .jshintrc
 
 build:
+	@./bin/buildnode
+	@./bin/buildmon	
+	# install nodejs dependencies
 	@npm install -d
 
 # Application section
