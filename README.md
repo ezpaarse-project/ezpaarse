@@ -6,7 +6,7 @@ Démarrage rapide :
 ```bash
 git clone http://github.com/ezpaarse-project/ezpaarse.git
 cd ezpaarse
-make build
+make
 ./bin/ezpaarse start
 ```
 

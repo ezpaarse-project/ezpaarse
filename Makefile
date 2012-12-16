@@ -9,7 +9,10 @@ DOC=$(wildcard $(DOC_MD)/*.md)
 DOC_OUTPUT=$(shell pwd)/public/doc
 DOC_HTML=$(DOC_OUTPUT)/index.html
 
-# Generated with beautiful-docs
+# Run every steps needed to start ezpaarse
+all: checkconfig build
+
+# Generate doc with beautiful-docs
 $(DOC_HTML): $(DOC)
 	@bfdocs --base-url='.' $(DOC_MD)/manifest.json $(DOC_OUTPUT)
 
