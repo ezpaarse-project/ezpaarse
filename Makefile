@@ -63,4 +63,4 @@ bench:
 	@echo "./bench.csv contains bench result data"
 	@echo "./bench.png contains bench result plot"
 	
-.PHONY: test checkconfig
+.PHONY: test checkconfig build
