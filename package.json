@@ -6,6 +6,7 @@
     "preinstall": "npm install -g jshint mocha beautiful-docs coffee-script"
   },
   "dependencies": {
+    "forever": "*",
     "express": "3.x",
     "ejs": "*",
     "less-middleware": "*",
