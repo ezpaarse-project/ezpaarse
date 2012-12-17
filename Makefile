@@ -45,6 +45,7 @@ jshint:
 
 build:
 	@./bin/buildnode
+	@./build/nvm/bin/latest/npm rebuild
 
 # Application section
 # # # # # # # # # # # #
