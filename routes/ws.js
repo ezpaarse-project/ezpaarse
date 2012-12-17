@@ -33,20 +33,26 @@ module.exports = function (app, parsers, knowledge, ignoredDomains) {
   app.post('/ws/', function (req, res) {
     debug("Req : " + req);
 
+    if (req.get('Content-length') == 0) {
+      // If no content in the body, terminate the response
+      res.status(400);
+      res.end();
+      debug("No content, terminating response");
+      return;
+    }
+
     res.status(200);
     var countLines = 0;
     var countECs = 0;
     var delimiter = '';
-    var end = true;
 
     // Array of EC buffers, used to parse multiple ECs using one process
-    var ecBuffers = [];
+    var ecBuffers = {};
     var ecBufferSize = 50;
 
     res.write('[');
 
     var queue = async.queue(function (task, callback) {
-      end = false;
       var buffer = task.buffer;
       var domain = buffer.shift();
       var parser = domain.parser;
@@ -120,13 +126,28 @@ module.exports = function (app, parsers, knowledge, ignoredDomains) {
         child.stdin.end();
       }
     }, 10);
+  
+    queue.saturated = function () {
+      req.pause();
+    };
 
     queue.drain = function () {
-      res.write(']');
-      res.end();
-      debug("Terminating response");
-      debug(countLines + " lines were read");
-      debug(countECs + " ECs were created");
+      if (req.readable) {
+        // If request was paused, resume it
+        req.resume();
+      } else if (Object.keys(ecBuffers).length === 0) {
+        // If request ended and no buffer left, terminate the response
+        res.write(']');
+        res.end();
+        debug("Terminating response");
+        debug(countLines + " lines were read");
+        debug(countECs + " ECs were created");
+      }
+
+      for (var i in ecBuffers) {
+        queue.push({buffer: ecBuffers[i]});
+        delete ecBuffers[i];
+      }
     };
 
     var stream = byline.createStream(req);
@@ -134,10 +155,7 @@ module.exports = function (app, parsers, knowledge, ignoredDomains) {
     stream.on('end', function () {
       for (var i in ecBuffers) {
         queue.push({buffer: ecBuffers[i]});
-      }
-      if (end) {
-        res.write(']');
-        res.end();
+        delete ecBuffers[i];
       }
     });
 
@@ -169,9 +187,10 @@ module.exports = function (app, parsers, knowledge, ignoredDomains) {
 
               if (!ecBuffers[parser]) { ecBuffers[parser] = [parsers[ec.domain]]; }
               ecBuffers[parser].push(ec);
+
               if (ecBuffers[parser].length > ecBufferSize) {
-                var buffer = ecBuffers[parser];
-                ecBuffers[parser] = [parsers[ec.domain]];
+                var buffer = ecBuffers[parser].slice();
+                delete ecBuffers[parser];
                 queue.push({buffer: buffer});
               }
             } else {
