@@ -5,7 +5,7 @@
 * Linux
 * Outils de base: bash, make, grep, sed ... 
 * curl (utilisé par nvm)
-* git >= 1.?.?
+* git >= 1.?.? (pour être compatible avec github)
 
 ## Téléchargement ##
 
