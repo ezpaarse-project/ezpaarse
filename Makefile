@@ -45,15 +45,19 @@ jshint:
 
 build:
 	@./bin/buildnode
-	@./bin/buildmon	
-	# install nodejs dependencies
-	@npm install -d
 
 # Application section
 # # # # # # # # # # # #
 
 checkconfig:
 	@if which node > /dev/null; then ./bin/checkconfig; else echo "Node.js was not found" >&2; fi
+
+start:
+	@./bin/ezpaarse start
+stop:
+	@./bin/ezpaarse stop
+status:
+	@./bin/ezpaarse status
 
 # Benchmarks section
 # # # # # # # # # # # #
