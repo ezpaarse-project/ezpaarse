@@ -2,7 +2,10 @@
 
 ## Pré-requis ##
 
-TODO
+* Linux
+* Outils de base: bash, make, grep, sed ... 
+* curl (utilisé par nvm)
+* git >= 1.?.?
 
 ## Téléchargement ##
 
