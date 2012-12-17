@@ -57,10 +57,11 @@ checkconfig:
 
 # Benchmarks section
 # # # # # # # # # # # #
-	
+
+PID:=`cat $(shell pwd)/ezpaarse.pid`
 bench:
 	@echo "Starting ezPAARSE bench (wait 20 seconds)."
-	@./bin/logfaker --duration=20 --rate=100 | ./bin/loginjector | ./bin/monitor --pid=1 --each=2 > ./bench.csv
+	@./bin/logfaker --duration=20 --rate=100 | ./bin/loginjector | ./bin/monitor --pid=$(PID) --each=2 > ./bench.csv
 	@gnuplot ./misc/monitor.gplot > ./bench.png
 	@echo "ezPAARSE bench finished."
 	@echo "./bench.csv contains bench result data"
