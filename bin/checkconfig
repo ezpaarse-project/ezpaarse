@@ -168,8 +168,10 @@ function checkLanguages(callback) {
   if (languages.length > 0) {
     languages.forEach(function (language) {
       if (shell.exec('which ' + language, {silent: true}).code != 0) {
-        console.error(red + language + reset + ' is not installed');
+        console.error(language + ' : ' + red + ' not installed' + reset);
         ok = false;
+      } else {
+        console.log(language + ' : installed');
       }
     });
   }
