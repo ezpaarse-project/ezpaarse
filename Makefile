@@ -52,6 +52,13 @@ build:
 checkconfig:
 	@if which node > /dev/null; then ./bin/checkconfig; else echo "Node.js was not found" >&2; fi
 
+start:
+	@./bin/ezpaarse start
+stop:
+	@./bin/ezpaarse stop
+status:
+	@./bin/ezpaarse status
+
 # Benchmarks section
 # # # # # # # # # # # #
 	
