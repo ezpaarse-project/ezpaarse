@@ -6,7 +6,9 @@
         "installation.md",
         "makefile.md",
         "routes.md",
-        "postlog.md"
+        "postlog.md",
+        "developer.md"
+        
     ],
     "css": "../stylesheets/doc.css",
     "codeHighlightTheme": "solarized_dark"
