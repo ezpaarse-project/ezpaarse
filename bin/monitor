@@ -137,7 +137,7 @@ function monitor_pids() {
 
 function get_pids() {
   var pids = [];
-  exec('/usr/bin/pstree -p ' + argv.pid, {silent: true}).output.split(/(\([0-9]+\))/).forEach(function (elt) {
+  exec('pstree -p ' + argv.pid, {silent: true}).output.split(/(\([0-9]+\))/).forEach(function (elt) {
     if (elt.match(/\([0-9]+\)/)) {
       pids.push(elt.slice(1,-1));
     }
