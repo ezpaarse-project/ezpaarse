@@ -45,7 +45,6 @@ jshint:
 
 build:
 	@./bin/buildnode
-	@./bin/buildmon
 
 # Application section
 # # # # # # # # # # # #
