@@ -45,9 +45,7 @@ jshint:
 
 build:
 	@./bin/buildnode
-	@./bin/buildmon	
-	# install nodejs dependencies
-	@npm install -d
+	@./bin/buildmon
 
 # Application section
 # # # # # # # # # # # #
