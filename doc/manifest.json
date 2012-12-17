@@ -2,6 +2,7 @@
     "title": "ezPAARSE",
     "home": "presentation.md",
     "files": [
+        "quickstart.md",
         "installation.md",
         "makefile.md",
         "routes.md",
