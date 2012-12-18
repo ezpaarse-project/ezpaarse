@@ -5,7 +5,7 @@
 * Système d'exploitation Linux
 * Outils Linux de base: bash, make, grep, sed ... 
 * curl (utilisé par nvm)
-* git >= 1.?.? (pour être compatible avec github)
+* git >= 1.7.10 (pour être compatible avec github)
 
 ## Téléchargement ##
 
