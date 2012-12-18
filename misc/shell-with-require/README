@@ -1,0 +1,19 @@
+Il y a deux façons d'appeler parser.js :
+
+* soit par un require depuis app.js
+node app.js
+
+* soit en ligne de commande (script shell)
+./parser.js
+
+
+Le premier cas fonctionne car parser.js utilise le système d'exports et donne ainsi la fonction parserExecute à disposition de app.js
+
+Le second cas fonctionne car parser.js :
+* possède #!/usr/bin/env node dans son entête
+* possède le flag exécutable (chmod +x ./parser.js)
+* et surtout teste si lui même est entrain d'être inclu comme un module par un script parent "if (!module.parent) {" Dans le cas où il n'est pas inclue par un module parent (require) alors il peut s'auto exécuter lui même.
+
+
+Avantage de l'histoire :
+pour l'écriture des parseurs en javascript, le même fichier (ex: platforms/sd/parser) peut être exécuté comme une ligne de commande shell ou inclu comme un module node avec require (bcp plus optimale dans notre cas).
