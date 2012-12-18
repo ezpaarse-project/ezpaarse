@@ -3,7 +3,7 @@
 ## Pré-requis ##
 
 * Système d'exploitation Linux
-* Outils Linux de base: bash, make, grep, sed ... 
+* Outils standards Linux : bash, make, grep, sed ... 
 * curl (utilisé par nvm)
 * git >= 1.7.10 (pour être compatible avec github)
 
