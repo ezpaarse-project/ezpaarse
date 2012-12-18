@@ -34,28 +34,29 @@ function objectsAreSame(object1, object2) {
   if (Object.keys(object1).length !== Object.keys(object2).length) {
     return false;
   }
-  var objectsAreSame = true;
-  for(var property in object1) {
-    if(object1[property] !== object2[property]) {
-      objectsAreSame = false;
+  var same = true;
+  for (var property in object1) {
+    if (object1[property] !== object2[property]) {
+      same = false;
       break;
     }
   }
-  return objectsAreSame;
+  return same;
 }
 
 exports.compareArrays = function (array1, array2) {
   if (array1.length !== array2.length) {
     return false;
   }
-  array1.forEach(function (object1) {
-    var found = false;
-    array2.forEach(function (object2) {
-      if (objectsAreSame(object1, object2));
+  var same = array1.every(function (object1) {
+    var found = array2.some(function (object2) {
+      if (objectsAreSame(object1, object2)) {
+        return true;
+      } else {
+        return false;
+      }
     });
-    if (!found) {
-      return false;
-    }
+    return found;
   });
-  return true;
-}
+  return same;
+};
