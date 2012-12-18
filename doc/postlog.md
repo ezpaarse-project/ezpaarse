@@ -28,7 +28,7 @@ Json contenant l'ensemble des évènements de consultations générés.
 Exemple d'évènement de consultation :
 
 ```
-"e363a15a49efb098ae8eee7b1642477f":{
+{
   "host": "1234567d6b8dd5dddc87939c4a407987",
   "login": "IDEXEMPLE",
   "date": "2011-12-31T10:42:42+01:00",
