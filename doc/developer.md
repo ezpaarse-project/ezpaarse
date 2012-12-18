@@ -46,12 +46,15 @@ git commit ./monfichiertest -m "ajout d'un fichier test"
 git push
 ```
 
-Remarque: à moins de disposer d'un accès privilégier (équipe ezPAARSE), vous devez tout d'abord "forker" le dépôt github d'ezPAARSE pour pouvoir ensuite travailler sur cette copie. Une fois que vous êtes satisfaits vous pouvez alors soumettre votre travail à l'équipe ezPAARSE en envoyant une ["pull request"](https://help.github.com/articles/using-pull-requests). Votre travail sera alors relu par l'équipe ezPAARSE puis intégré si aucun souci n'est repéré.
+Remarque: à moins de disposer d'un accès privilégié (équipe ezPAARSE), vous devez tout d'abord "forker" le dépôt github d'ezPAARSE pour pouvoir ensuite travailler sur cette copie. Une fois que vous êtes satisfaits vous pouvez alors soumettre votre travail à l'équipe ezPAARSE en envoyant une ["pull request"](https://help.github.com/articles/using-pull-requests). Votre travail sera alors relu par l'équipe ezPAARSE puis intégré si aucun souci n'est repéré.
 
 ## Écriture d'un parseur ##
 
 TODO expliquer comment procéder pour écrire un parseur :
 
-* qu'attend t-il en entrée
-* que doit il retourner en sortie
-* donner un exemple en PHP
+* un parseur se présente sous la forme d'un fichier executable "parser" accompagné d'un fichier de description [manifest.json](https://github.com/ezpaarse-project/ezpaarse/blob/master/platforms/sd/manifest.json) et du nécessaire pour sa validation (contenu dans un répertoire 'test')
+* il accepte en entrée : des [URLs de la plateforme qu'il sait analyser](https://raw.github.com/ezpaarse-project/ezpaarse/master/platforms/sd/test/sd.2012-11-30.url)
+* il retourne en sortie : les éléments de consultation reconnus sous forme d'un [flux json](https://github.com/ezpaarse-project/ezpaarse/blob/master/platforms/sd/test/sd.2012-11-30.result.json)
+* [exemple en Javascript](https://github.com/ezpaarse-project/ezpaarse/blob/master/platforms/sd/parser)
+* [exemple en PHP](https://github.com/ezpaarse-project/ezpaarse/blob/master/platforms/sd/parser.php)
+* [exemple en Perl](https://github.com/ezpaarse-project/ezpaarse/blob/master/platforms/sd/parser.pl)
