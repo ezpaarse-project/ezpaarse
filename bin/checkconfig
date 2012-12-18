@@ -163,11 +163,12 @@ function checkLanguages(callback) {
   console.log(yellow + 'Looking for required languages' + reset);
   var ok = true;
   var folders = fs.readdirSync(platformsFolder);
+  var languages = [];
+  var badParsers = [];
 
   for(var i in folders) {
     var folder = folders[i];
     var parserFile = platformsFolder + '/' + folder + '/parser';
-    var languages = [];
     
     if (fs.existsSync(parserFile) && fs.statSync(parserFile).isFile()) {
       // Assuming the header of all parsers is : #!/usr/bin/env XXX
@@ -179,10 +180,12 @@ function checkLanguages(callback) {
         if (languages.indexOf(lang) == -1) {
           languages.push(lang);
         }
+      } else {
+        badParsers.push(folder);
       }
     }
   }
-
+  
   if (languages.length > 0) {
     languages.forEach(function (language) {
       if (shell.exec('which ' + language, {silent: true}).code != 0) {
@@ -194,8 +197,17 @@ function checkLanguages(callback) {
     });
   }
 
+  if (badParsers.length > 0) {
+    var error = 'Couldn\'t determine the language for the following parsers :';
+    badParsers.forEach(function (platform) {
+      error += ' ' + platform;
+    })
+    console.error(red + error + reset);
+    ok = false;
+  }
+
   if (!ok) {
-    console.error(fail + ' : install required languages before running ' + appname);
+    console.error(fail + ' : install required languages or fix parsers header before running ' + appname);
     success = false;
   } else {
     console.log(pass);
@@ -217,6 +229,6 @@ async.series([
       console.log(green + appname + ' is ready to run' + reset);
     } else {
       console.error(red + appname +
-        ' won\'t be able to run correctly, fix all troubles and try again' + reset);
+        ' won\'t be able to run correctly, fix all troubles before going any further' + reset);
     }
   });
