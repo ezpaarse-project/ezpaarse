@@ -3,7 +3,5 @@
 # setup ezpaarse env variables 
 #
 
-set -e
-
 EZPAARSE_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 export PATH="$EZPAARSE_PATH/build/nvm/bin/latest/:$EZPAARSE_PATH/node_modules/.bin:$EZPAARSE_PATH/bin:$PATH:/usr/local/bin:/usr/bin:/bin"
