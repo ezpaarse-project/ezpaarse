@@ -21,6 +21,8 @@ var separator = '-------------------------------';
 var pass = green + '--> OK' + reset;
 var fail = red + '--> FAIL' + reset;
 
+var success = true;
+
 var platformsFolder = __dirname + '/../platforms'
 var dist;
 
@@ -28,7 +30,8 @@ function checkMail(callback) {
   console.log(separator);
   console.log(yellow + 'Looking for admin mail' + reset);
   if (!config.EZPAARSE_ADMIN_MAIL) {
-    console.error(fail + ' : The admin mail must be specified');
+    console.error(fail + ' : The admin mail must be specified, check your config.json');
+    success = false;
   } else {
     console.log(config.EZPAARSE_ADMIN_MAIL);
     console.log(pass);
@@ -40,7 +43,8 @@ function checkPort(callback) {
   console.log(separator);
   console.log(yellow + 'Checking server port' + reset);
   if (!config.EZPAARSE_NODEJS_PORT) {
-    console.error(fail + " : No port found");
+    console.error(fail + " : No port found, check your config.json");
+    success = false;
     callback(null);
   } else {
     console.log("Port : " + config.EZPAARSE_NODEJS_PORT);
@@ -67,6 +71,7 @@ function checkPort(callback) {
     socket.on('close', function(exception) {
       if (used) {
         console.error(fail + " : Port already in use");
+        success = false;
       } else {
         console.log("Available");
         console.log(pass);
@@ -97,6 +102,18 @@ function checkPlatform(callback) {
     }
   }
   console.log('Operating system: ' + platform + ' ' + release + (dist ? ' (' + dist + ')' : ''));
+  callback(null);
+}
+
+function checkEnvironment(callback) {
+  console.log(separator);
+  console.log(yellow + 'Checking environment' + reset);
+  if (fs.existsSync('/usr/bin/env')) {
+    console.log(pass);
+  } else {
+    console.error(fail + ' : couldn\'t find /usr/bin/env');
+    sucess = false
+  }
   callback(null);
 }
 
@@ -132,7 +149,8 @@ function checkDependencies(callback) {
   }
 
   if (!ok) {
-    console.error('\n' + fail + ' : fix dependencies before running ezPAARSE');
+    console.error('\n' + fail + ' : fix dependencies before running ' + appanme);
+    success = false;
   } else {
     console.log(pass);
   }
@@ -177,7 +195,8 @@ function checkLanguages(callback) {
   }
 
   if (!ok) {
-    console.error(fail + ' : install required languages before running ezPAARSE');
+    console.error(fail + ' : install required languages before running ' + appname);
+    success = false;
   } else {
     console.log(pass);
   }
@@ -187,7 +206,17 @@ function checkLanguages(callback) {
 
 async.series([
   checkPlatform,
+  checkEnvironment,
   checkMail,
   checkPort,
   checkDependencies,
-  checkLanguages]);
+  checkLanguages],
+  function afterCheck() {
+    console.log(separator);
+    if (success) {
+      console.log(green + appname + ' is ready to run' + reset);
+    } else {
+      console.error(red + appname +
+        ' won\'t be able to run correctly, fix all troubles and try again' + reset);
+    }
+  });
