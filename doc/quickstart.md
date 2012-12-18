@@ -17,6 +17,14 @@ cd ~/ezpaarse
 
 make
 ```
+## Test de l'Installation ##
+
+```bash
+cd ~/ezpaarse
+. ./bin/env
+make start
+make test
+```
 ## Example d'utilisation ##
 
 Le serveur est lancé sur la machine locale sur le port ``EZPAARSE_NODEJS_PORT``, par defaut 59599
