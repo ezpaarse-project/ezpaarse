@@ -43,7 +43,7 @@ test-verbose:
 jshint:
 	@jshint $(JSFILES) --config .jshintrc
 
-build:
+build: $(DOC_HTML)
 	@./bin/buildnode
 	@./build/nvm/bin/latest/npm rebuild
 
