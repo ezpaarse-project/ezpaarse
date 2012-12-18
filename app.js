@@ -23,7 +23,8 @@ require('./init.js')(function fill(parsers, knowledge) {
     //app.use(express.bodyParser());
     app.use(express.methodOverride());
     
-// commented because disrupt log streaming (maybe to enable only for the HTML interface because will be needed by the futur authentication system)
+// commented because disrupt log streaming (maybe to enable for
+// the future HTML interface as it will be needed by the authentication system)
 //     app.use(express.cookieParser());
 //     app.use(express.session({ secret: "ezpaarse" }));
 
@@ -45,6 +46,7 @@ require('./init.js')(function fill(parsers, knowledge) {
   require('./routes/ws')(app, parsers, knowledge, config.EZPAARSE_IGNORED_DOMAINS);
 
   http.createServer(app).listen(app.get('port'), function () {
-    console.log(pkg.name + "-" + pkg.version + " listening on port " + app.get('port') + " (pid is " + process.pid + ")");
+    console.log(pkg.name + "-" + pkg.version +
+      " listening on port " + app.get('port') + " (pid is " + process.pid + ")");
   });
 });

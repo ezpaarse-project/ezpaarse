@@ -33,7 +33,7 @@ module.exports = function (app, parsers, knowledge, ignoredDomains) {
   app.post('/ws/', function (req, res) {
     debug("Req : " + req);
 
-    if (req.get('Content-length') == 0) {
+    if (req.get('Content-length') === 0) {
       // If no content in the body, terminate the response
       res.status(400);
       res.end();
