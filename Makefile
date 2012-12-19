@@ -46,6 +46,7 @@ jshint:
 build:
 	@./bin/buildnode
 	@./build/nvm/bin/latest/npm rebuild
+	$(MAKE) doc
 
 # Application section
 # # # # # # # # # # # #
