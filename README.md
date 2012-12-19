@@ -16,3 +16,4 @@ Astuce pour avoir les commandes node, npm, loganonymiser, logfaker ... dans votr
 . ./bin/env
 node -v
 ```
+[Voir les pré-requis selon les versions Linux] (https://github.com/ezpaarse-project/ezpaarse/blob/master/doc/multi-os.md)
