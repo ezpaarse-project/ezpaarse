@@ -7,6 +7,8 @@
 "use strict";
 
 var config = require('../config.json');
+var pkg    = require('../package.json');
+
 
 // get the command line argument 
 // platform
@@ -32,6 +34,17 @@ if (config[argv.key] !== undefined) {
     process.exit(0);
   }
 } else {
-  process.stderr.write('Unknown key: '+ argv.key + '\n');
-  process.exit(1);
+  // search into package.json
+  if (pkg[argv.key] !== undefined) {
+    if (pkg[argv.key] instanceof Object) {
+      process.stderr.write('key not handled: '+ argv.key + '\n');
+      process.exit(1);
+    } else {
+      process.stdout.write(pkg[argv.key].toString());
+      process.exit(0);
+    }
+  } else {
+    process.stderr.write('Unknown key: '+ argv.key + '\n');
+    process.exit(1);
+  }
 }
