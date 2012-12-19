@@ -40,15 +40,17 @@ case $1 in
 
   start)
     if [ -d /proc/`cat $EZPAARSE_PIDFILE` ]; then
-      echo "ezPAARSE is yet started."
+      echo "ezPAARSE is already running."
       exit 0
     else
       ezpaarse_start
       if [ -d /proc/`cat $EZPAARSE_PIDFILE` ]; then
-        echo "ezPAARSE is started."
+        PORT=$($EZPAARSE_PATH/bin/readconfig --key EZPAARSE_NODEJS_PORT)
+        echo "ezPAARSE is now listening on port $PORT"
+        echo "Access the web service at http://localhost:$PORT/ws/"
         exit 0
       else
-        echo "ezPAARSE is not started."
+        echo "ezPAARSE was not started."
         exit 1
       fi
     fi
@@ -56,16 +58,16 @@ case $1 in
 
   stop)
     if [ ! -d /proc/`cat $EZPAARSE_PIDFILE` ]; then
-      echo "ezPAARSE is yet stopped."
+      echo "ezPAARSE is not running."
       exit 0
     else
       ezpaarse_stop
       if [ -d /proc/`cat $EZPAARSE_PIDFILE` ]; then
-        echo "ezPAARSE is not stopped."
-        exit 0
-      else
-        echo "ezPAARSE is stopped."
+        echo "ezPAARSE was not stopped."
         exit 1
+      else
+        echo "ezPAARSE is now stopped."
+        exit 0
       fi
     fi
   ;;
