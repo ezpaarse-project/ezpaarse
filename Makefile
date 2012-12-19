@@ -74,6 +74,6 @@ bench:
 	gnuplot ./misc/monitor.gplot > ./bench.png; \
 	echo "ezPAARSE bench finished."; \
 	echo "./bench.csv contains bench result data"; \
-	echo "./bench.png contains bench result plot"; \
+	echo "./bench.png contains bench result plot"
 	
 .PHONY: test checkconfig build
