@@ -8,6 +8,7 @@ set -e
 EZPAARSE_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 PATH=$EZPAARSE_PATH/build/nvm/bin/latest/:$EZPAARSE_PATH/node_modules/.bin:/usr/local/bin:/usr/bin:/bin
 EZPAARSE_PIDFILE="$EZPAARSE_PATH/ezpaarse.pid"
+PORT=$($EZPAARSE_PATH/bin/readconfig --key EZPAARSE_NODEJS_PORT)
 
 # check make build has been called
 if [ ! -d $EZPAARSE_PATH/build/ ]; then
@@ -40,17 +41,15 @@ case $1 in
 
   start)
     if [ -d /proc/`cat $EZPAARSE_PIDFILE` ]; then
-      echo "ezPAARSE is already running."
+      echo "ezPAARSE is already running, listening on http://localhost:$PORT/"
       exit 0
     else
       ezpaarse_start
       if [ -d /proc/`cat $EZPAARSE_PIDFILE` ]; then
-        PORT=$($EZPAARSE_PATH/bin/readconfig --key EZPAARSE_NODEJS_PORT)
-        echo "ezPAARSE is now listening on port $PORT"
-        echo "Access the web service at http://localhost:$PORT/ws/"
+        echo "ezPAARSE started, listening on http://localhost:$PORT/"
         exit 0
       else
-        echo "ezPAARSE was not started."
+        echo "ezPAARSE cannot be started."
         exit 1
       fi
     fi
@@ -58,15 +57,15 @@ case $1 in
 
   stop)
     if [ ! -d /proc/`cat $EZPAARSE_PIDFILE` ]; then
-      echo "ezPAARSE is not running."
+      echo "ezPAARSE is already stopped."
       exit 0
     else
       ezpaarse_stop
       if [ -d /proc/`cat $EZPAARSE_PIDFILE` ]; then
-        echo "ezPAARSE was not stopped."
+        echo "ezPAARSE cannot be stopped."
         exit 1
       else
-        echo "ezPAARSE is now stopped."
+        echo "ezPAARSE is stopped."
         exit 0
       fi
     fi
@@ -79,17 +78,17 @@ case $1 in
       ezpaarse_restart
     fi
     if [ -d /proc/`cat $EZPAARSE_PIDFILE` ]; then
-      echo "ezPAARSE has been restarted."
+      echo "ezPAARSE has been restarted, listening on http://localhost:$PORT/"
       exit 0
     else
-      echo "ezPAARSE has not been restarted."
+      echo "ezPAARSE cannot be restarted."
       exit 1
     fi    
   ;;
 
   status)
     if [ -d /proc/`cat $EZPAARSE_PIDFILE` ]; then
-      echo "ezPAARSE is running."
+      echo "ezPAARSE is running, listening on http://localhost:$PORT/"
       exit 0
     else
       echo "ezPAARSE is not running."
