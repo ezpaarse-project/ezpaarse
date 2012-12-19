@@ -2,7 +2,7 @@
 
 ## Pré-requis ##
 
-* Système d'exploitation Linux
+* Système d'exploitation Linux : [voir les pré-requis selon les versions] (https://github.com/ezpaarse-project/ezpaarse/blob/master/doc/multi-os.md)
 * Outils standards Linux : bash, make, grep, sed ... 
 * curl (utilisé par nvm)
 * git >= 1.7.10 (pour être compatible avec github)
