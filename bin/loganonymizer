@@ -10,7 +10,7 @@
 * @param2 destination of the clean log file
 */
 
-var readline = require('readline');
+var byline = require('byline');
 var Faker = require('Faker');
 var fs = require('fs');
 var tabRegex = require('../logformat.js');
@@ -67,9 +67,9 @@ var logins = [];
 var fakeHosts = [];
 var fakeLogins = [];
 
-var rl = readline.createInterface(logStream, resultStream);
+var stream = byline.createStream(logStream);
 
-rl.on('line', function (line) {
+stream.on('data', function (line) {
   var match;
   var caught = tabRegex.some(function (regex) {
     match = regex.exp.exec(line);
@@ -118,6 +118,6 @@ rl.on('line', function (line) {
     console.error(red + 'Parse Error : couldn\'t identify the line format' + reset);
     process.exit(1);
   } else {
-    resultStream.write(line);
+    resultStream.write(line + '\n');
   }
 });
