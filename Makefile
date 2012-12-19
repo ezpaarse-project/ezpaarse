@@ -1,5 +1,7 @@
 # ezPAARSE's Makefile
 
+SHELL:=/bin/bash
+
 # Doc section
 # # # # # # # # #
 
@@ -14,7 +16,7 @@ all: build checkconfig
 
 # Generate doc with beautiful-docs
 $(DOC_HTML): $(DOC)
-	@bfdocs --base-url='.' $(DOC_MD)/manifest.json $(DOC_OUTPUT)
+	@. ./bin/env; bfdocs --base-url='.' $(DOC_MD)/manifest.json $(DOC_OUTPUT)
 
 doc: $(DOC_HTML)
 
@@ -35,13 +37,13 @@ JSFILES=$(wildcard $(EZPATH)/*.js) $(wildcard $(EZPATH)/test/*.js)  $(wildcard $
 
 # Runs all tests (*-test.js) in the test folder
 test:
-	@mocha
+	@. ./bin/env; mocha
 
 test-verbose:
-	@mocha --reporter list
+	@. ./bin/env; mocha --reporter list
 
 jshint:
-	@jshint $(JSFILES) --config .jshintrc
+	@. ./bin/env; jshint $(JSFILES) --config .jshintrc
 
 build:
 	@./bin/buildnode
@@ -52,7 +54,7 @@ build:
 # # # # # # # # # # # #
 
 checkconfig:
-	@if which node > /dev/null; then ./bin/checkconfig; else echo "Node.js was not found" >&2; fi
+	@. ./bin/env; if which node > /dev/null; then ./bin/checkconfig; else echo "Node.js was not found" >&2; fi
 
 start:
 	@./bin/ezpaarse start
@@ -66,11 +68,12 @@ status:
 
 PID:=`cat $(shell pwd)/ezpaarse.pid`
 bench:
-	@echo "Starting ezPAARSE bench (please wait 120 seconds)."
-	@./bin/logfaker --duration=120 --rate=500 | ./bin/loginjector | ./bin/monitor --pid=$(PID) --each=2 > ./bench.csv
-	@gnuplot ./misc/monitor.gplot > ./bench.png
-	@echo "ezPAARSE bench finished."
-	@echo "./bench.csv contains bench result data"
-	@echo "./bench.png contains bench result plot"
+	@. ./bin/env; \
+	echo "Starting ezPAARSE bench (please wait 120 seconds)."; \
+	./bin/logfaker --duration=120 --rate=500 | ./bin/loginjector | ./bin/monitor --pid=$(PID) --each=2 > ./bench.csv; \
+	gnuplot ./misc/monitor.gplot > ./bench.png; \
+	echo "ezPAARSE bench finished."; \
+	echo "./bench.csv contains bench result data"; \
+	echo "./bench.png contains bench result plot"
 	
 .PHONY: test checkconfig build

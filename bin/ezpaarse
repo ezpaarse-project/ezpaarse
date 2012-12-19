@@ -21,9 +21,9 @@ if [ ! -f $EZPAARSE_PIDFILE ]; then
 fi
 
 ezpaarse_start() {
-  forever start -a -l $EZPAARSE_PATH/forever.log \
-                  -o $EZPAARSE_PATH/out.log \
-                  -e $EZPAARSE_PATH/err.log \
+  forever start -a -l $EZPAARSE_PATH/logs/forever.log \
+                  -o $EZPAARSE_PATH/logs/out.log \
+                  -e $EZPAARSE_PATH/logs/err.log \
                   --pidFile $EZPAARSE_PIDFILE \
                   --sourceDir $EZPAARSE_PATH app.js 1>/dev/null
 }
