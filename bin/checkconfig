@@ -12,6 +12,20 @@ var async   = require('async');
 var config  = require('../config.json');
 var appname = require('../package.json').name;
 
+// get the command line argument 
+// platform
+var optimist = require('optimist')
+    .usage('Check if ezPAARSE is able to run\nUsage: $0')
+    .alias('port','p')
+    .describe('port', 'check only if the port is available');
+var argv = optimist.argv;
+
+// show usage if --help option is used
+if (argv.help) {
+  optimist.showHelp();
+  process.exit(0);
+}
+
 var red   = '\u001b[1;31m';   // Color red
 var green = '\u001b[1;32m';   // Color green
 var yellow = '\u001b[1;36m';  // Color yellow
@@ -216,19 +230,31 @@ function checkLanguages(callback) {
   callback(null);
 }
 
-async.series([
-  checkPlatform,
-  checkEnvironment,
-  checkMail,
-  checkPort,
-  checkDependencies,
-  checkLanguages],
-  function afterCheck() {
-    console.log(separator);
+if (argv.port) {
+  checkPort(function (err) {
     if (success) {
-      console.log(green + appname + ' is ready to run' + reset);
+      process.exit(0);
     } else {
-      console.error(red + appname +
-        ' won\'t be able to run correctly, fix all troubles before going any further' + reset);
+      process.exit(1);
     }
   });
+} else {
+  async.series([
+    checkPlatform,
+    checkEnvironment,
+    checkMail,
+    checkPort,
+    checkDependencies,
+    checkLanguages],
+    function afterCheck() {
+      console.log(separator);
+      if (success) {
+        console.log(green + appname + ' is ready to run' + reset);
+        process.exit(0);
+      } else {
+        console.error(red + appname +
+          ' won\'t be able to run correctly, fix all troubles before going any further' + reset);
+        process.exit(1);
+      }
+    });
+}
