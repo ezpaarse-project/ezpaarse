@@ -1,7 +1,7 @@
 # Démarrage rapide #
 
 ezPAARSE se présente sous la forme d'un Web service dans lequel vous pourrez injecter vos logs et récupérer
-les évènements de consultation correspondants. Voici une procédure simplifiée décrivant comment installer
+les évènements de consultation correspondants. Cette procédure décrit comment installer
 ezPAARSE sur votre serveur.
 
 ## Pré-requis ##
