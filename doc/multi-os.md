@@ -21,4 +21,12 @@ yum install perl git make python gcc-c++
 ```
 
 ##Pré-requis sur SUSE
+ 
+ (à vérifier)
+```
+yum install perl git make python gcc-c++
+```
 
+##Pré-requis sur Mac OS X
+
+Sur votre Mac, installer xCode et git
