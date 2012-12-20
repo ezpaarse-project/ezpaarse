@@ -21,17 +21,17 @@ benchmark intensifs et en déduire des préconisations matériels.
 
 Ouvrez un terminal est tapez :
 
-```bash
+```console
 git clone http://github.com/ezpaarse-project/ezpaarse.git
 cd ~/ezpaarse
 make
 ```
 
-## Tests ##
+## Tester l'installation ##
 
 Cette étape vous permettra de valider que votre installation est fonctionnelle.
 
-```bash
+```console
 cd ~/ezpaarse
 . ./bin/env
 make start
@@ -45,14 +45,14 @@ sont disponibles dans les répertoires d'ezPAARSE.
 
 Vous devez tout d'abord vous assurer qu'ezPAARSE est démarré (par défaut le Web service écoute sur le port 59599) :
 
-```bash
+```console
 make start
 ```
 
 Un client HTTP (ici curl) peut envoyer un fichier de données de log (ici ./test/dataset/sd.2012-11-30.300.log)
 sur le Web service d'ezPAARSE (route /ws/) et obtenir en réponse un flux JSON d'événements de consultation.
 
-```bash
+```console
 curl -X POST http://127.0.0.1:59599/ws/ \
              -v --no-proxy --no-buffer \
              --data-binary @./test/dataset/sd.2012-11-30.300.log
@@ -61,7 +61,7 @@ curl -X POST http://127.0.0.1:59599/ws/ \
 Alternativement, vous pouvez également utiliser la commande ``./bin/loginjector`` fournie par ezPAARSE
 pour injecter encore plus simplement le fichier de log dans ezPAARSE :
 
-```bash
+```console
 . ./bin/env
 cat ./test/dataset/sd.2012-11-30.300.log | ./bin/loginjector
 ```
