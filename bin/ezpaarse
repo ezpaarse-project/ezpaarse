@@ -1,9 +1,7 @@
-#!/bin/bash -e
+#!/bin/bash
 #
 # ezPAARSE start stop restart status script
 #
-
-set -e
 
 EZPAARSE_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 PATH=$EZPAARSE_PATH/build/nvm/bin/latest/:$EZPAARSE_PATH/node_modules/.bin:/usr/local/bin:/usr/bin:/bin
@@ -44,12 +42,18 @@ case $1 in
       echo "ezPAARSE is already running, listening on http://localhost:$PORT/"
       exit 0
     else
-      ezpaarse_start
-      if [ -d /proc/`cat $EZPAARSE_PIDFILE` ]; then
-        echo "ezPAARSE started, listening on http://localhost:$PORT/"
-        exit 0
+      $EZPAARSE_PATH/bin/checkconfig -p &> /dev/null
+      if [[ $? -eq 0 ]]; then
+        ezpaarse_start
+        if [ -d /proc/`cat $EZPAARSE_PIDFILE` ]; then
+          echo "ezPAARSE started, listening on http://localhost:$PORT/"
+          exit 0
+        else
+          echo "ezPAARSE cannot be started."
+          exit 1
+        fi
       else
-        echo "ezPAARSE cannot be started."
+        echo "The port $PORT is already used, ezPAARSE cannot be started"
         exit 1
       fi
     fi
