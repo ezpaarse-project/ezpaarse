@@ -1,6 +1,8 @@
 # Démarrage rapide #
 
-ezPAARSE se présente sous la forme d'un Web service dans lequel vous pourrez injecter vos logs et récupérer les évènements de consultation correspondants. Voici une procédure simplifiée décrivant comment installer ezPAARSE sur votre serveur.
+ezPAARSE se présente sous la forme d'un Web service dans lequel vous pourrez injecter vos logs et récupérer
+les évènements de consultation correspondants. Voici une procédure simplifiée décrivant comment installer
+ezPAARSE sur votre serveur.
 
 ## Pré-requis ##
 
@@ -12,7 +14,8 @@ Voici les outils dont vous avez besoin pour faire fonctionner ezPAARSE :
 * git >= 1.7.10 (pour être compatible avec github)
 
 Remarque : nous préconiserons prochainement un dimenssionnement pour le serveur au niveau du CPU et de la RAM.
-Pour cela, nous attendons de pouvoir disposer d'un panel de parseurs plus complet pour pouvoir lancer des benchmark intensifs et en déduire des préconisations matériels.
+Pour cela, nous attendons de pouvoir disposer d'un panel de parseurs plus complet pour pouvoir lancer des
+benchmark intensifs et en déduire des préconisations matériels.
 
 ## Installation ##
 
@@ -37,7 +40,8 @@ make test
 
 ## Usage ##
 
-Des [fichiers de logs exemple et anonymisés](https://raw.github.com/ezpaarse-project/ezpaarse/master/test/dataset/sd.2012-11-30.300.log) sont disponibles dans les répertoires d'ezPAARSE.
+Des [fichiers de logs exemple et anonymisés](https://raw.github.com/ezpaarse-project/ezpaarse/master/test/dataset/sd.2012-11-30.300.log)
+sont disponibles dans les répertoires d'ezPAARSE.
 
 Vous devez tout d'abord vous assurer qu'ezPAARSE est démarré (par défaut le Web service écoute sur le port 59599) :
 
@@ -45,7 +49,8 @@ Vous devez tout d'abord vous assurer qu'ezPAARSE est démarré (par défaut le W
 make start
 ```
 
-Un client HTTP (ici curl) peut envoyer un fichier de données de log (ici ./test/dataset/sd.2012-11-30.300.log) sur le Web service d'ezPAARSE (route /ws/) et obtenir en réponse un flux JSON d'événements de consultation.
+Un client HTTP (ici curl) peut envoyer un fichier de données de log (ici ./test/dataset/sd.2012-11-30.300.log)
+sur le Web service d'ezPAARSE (route /ws/) et obtenir en réponse un flux JSON d'événements de consultation.
 
 ```bash
 curl -X POST http://127.0.0.1:59599/ws/ \
@@ -53,7 +58,8 @@ curl -X POST http://127.0.0.1:59599/ws/ \
              --data-binary @./test/dataset/sd.2012-11-30.300.log
 ```
 
-Alternativement, vous pouvez également utiliser la commande ``bin/loginjector`` fournie par ezPAARSE pour injecter encore plus simplement le fichier de log dans ezPAARSE :
+Alternativement, vous pouvez également utiliser la commande ``./bin/loginjector`` fournie par ezPAARSE
+pour injecter encore plus simplement le fichier de log dans ezPAARSE :
 
 ```bash
 . ./bin/env
