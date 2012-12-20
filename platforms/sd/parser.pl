@@ -61,7 +61,7 @@ while ($a = <STDIN>) {
     }
   }
   else {
-    if (my @matches = ($url->path =~ /^\/science\/article\/pii\/S([0-9]{4})([0-9]{3}[0-9Xx])/)) {
+    if (my @matches = ($a =~ /\/science\/article\/pii\/S([0-9]{4})([0-9]{3}[0-9Xx])/)) {
       $result{'issn'} = ($matches[0]."-".uc($matches[1]));
       $result{'type'} = 'TXT';
     }
