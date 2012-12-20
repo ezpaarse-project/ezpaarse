@@ -47,7 +47,9 @@ make start
 Un client HTTP (ici curl) peut envoyer un fichier de données de log (ici ./test/dataset/sd.2012-11-30.300.log) sur le Web service d'ezPAARSE (route /ws/) et obtenir en réponse un flux JSON d'événements de consultation.
 
 ```bash
-curl -X POST --proxy "" --no-buffer --data-binary @./test/dataset/sd.2012-11-30.300.log  http://127.0.0.1:59599/ws/ -v
+curl -X POST http://127.0.0.1:59599/ws/ \
+             -v --no-proxy --no-buffer \
+             --data-binary @./test/dataset/sd.2012-11-30.300.log
 ```
 
 Alternativement, vous pouvez également utiliser la commande ``bin/loginjector`` fournie par ezPAARSE pour injecter encore plus simplement le fichier de log dans ezPAARSE :
