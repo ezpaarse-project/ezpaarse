@@ -48,6 +48,10 @@ git push
 
 Remarque: à moins de disposer d'un accès privilégié (équipe ezPAARSE), vous devez tout d'abord "forker" le dépôt github d'ezPAARSE pour pouvoir ensuite travailler sur cette copie. Une fois que vous êtes satisfaits vous pouvez alors soumettre votre travail à l'équipe ezPAARSE en envoyant une ["pull request"](https://help.github.com/articles/using-pull-requests). Votre travail sera alors relu par l'équipe ezPAARSE puis intégré si aucun souci n'est repéré.
 
+## Fonctionnement du moteur d'ezPAARSE
+
+![Schema du fonctionnement du moteur ezPAARSE](images/ezPAARSE-Moteur.png "Moteur ezPAARSE")
+
 ## Écriture d'un parseur ##
 
 TODO expliquer comment procéder pour écrire un parseur :
@@ -58,3 +62,7 @@ TODO expliquer comment procéder pour écrire un parseur :
 * [exemple en Javascript](https://github.com/ezpaarse-project/ezpaarse/blob/master/platforms/sd/parser)
 * [exemple en PHP](https://github.com/ezpaarse-project/ezpaarse/blob/master/platforms/sd/parser.php)
 * [exemple en Perl](https://github.com/ezpaarse-project/ezpaarse/blob/master/platforms/sd/parser.pl)
+
+## Principe de gestion des bases de connaissance éditeur
+
+![Schema de gestion des bases de connaissance éditeur ezPAARSE](images/ezPAARSE-Architecture-PKB.png "PKB ezPAARSE")
