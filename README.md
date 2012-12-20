@@ -1,6 +1,6 @@
 # Démarrage rapide #
 
-ezPAARSE se présente sous la forme d'un Web service dans lequel vous pourrez injecter vos logs et récupérer
+ezPAARSE se présente sous la forme d'un Web service dans lequel vous pouvez injecter vos logs et récupérer
 les évènements de consultation correspondants. Cette procédure décrit comment installer
 ezPAARSE sur votre serveur.
 
@@ -8,18 +8,18 @@ ezPAARSE sur votre serveur.
 
 Voici les outils dont vous avez besoin pour faire fonctionner ezPAARSE :
 
-* Système d'exploitation Linux : [voir les pré-requis selon les versions] (https://github.com/ezpaarse-project/ezpaarse/blob/master/doc/multi-os.md)
+* Système d'exploitation Linux : [voir les pré-requis selon les versions](https://github.com/ezpaarse-project/ezpaarse/blob/master/doc/multi-os.md)
 * Outils standards Linux : bash, make, grep, sed ... 
 * curl (utilisé par nvm)
 * git >= 1.7.10 (pour être compatible avec github)
 
-Remarque : nous préconiserons prochainement un dimenssionnement pour le serveur au niveau du CPU et de la RAM.
+Remarque : nous préconiserons prochainement un dimensionnement pour le serveur au niveau du CPU et de la RAM.
 Pour cela, nous attendons de pouvoir disposer d'un panel de parseurs plus complet pour pouvoir lancer des
-benchmark intensifs et en déduire des préconisations matériels.
+benchmark intensifs et en déduire des préconisations matérielles.
 
 ## Installation ##
 
-Ouvrez un terminal est tapez :
+Ouvrez un terminal et tapez :
 
 ```console
 git clone http://github.com/ezpaarse-project/ezpaarse.git
