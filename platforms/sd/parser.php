@@ -55,7 +55,7 @@ while($line = trim(fgets(STDIN))) {
       break;
     }
   }
-  else if (preg_match("/^\/science\/article\/pii\/S([0-9]{4})([0-9]{3}[0-9Xx])/", $url['path'], $format)) {
+  else if (preg_match("/\/science\/article\/pii\/S([0-9]{4})([0-9]{3}[0-9Xx])/", $line, $format)) {
     $result['issn'] = ($format[1]."-".strtoupper($format[2]));
     $result['type'] = 'TXT';
   }

@@ -36,8 +36,8 @@ Faker.Internet.ip = function () {
 // platform
 var optimist = require('optimist')
     .usage('Anonymize critical data in a log file\nUsage: $0 --input=[string] --output=[string]')
-    .demand('input').default('input', 'stdin').alias('input','i')
-    .demand('output').default('output', 'stdout').alias('output','o')
+    .alias('input','i')
+    .alias('output','o')
     .describe('input', 'the input data to clean')
     .describe('output', 'the destination where to send the result to');
 var argv = optimist.argv;
@@ -51,15 +51,15 @@ if (argv.help) {
 var resultStream;
 var logStream;
 
-if (argv.output === 'stdout') {
-  resultStream = process.stdout;
-} else {
+if (argv.output) {
   resultStream = fs.createWriteStream(argv.output);
-}
-if (argv.input === 'stdin') {
-  logStream = process.stdin;
 } else {
+  resultStream = process.stdout;
+}
+if (argv.input) {
   logStream = fs.createReadStream(argv.input);
+} else {
+  logStream = process.stdin;
 }
 
 var hosts = [];
