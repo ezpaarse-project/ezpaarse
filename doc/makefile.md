@@ -1,40 +1,65 @@
 # Utilisation du makefile #
 
-Le makefile situé dans le répertoire ezpaarse autorise un certain nombre d'actions, dont l'éxécution des tests de comportement, la génération de la documentation ou la vérification syntaxique des fichiers javascripts.
+Le makefile situé dans le répertoire racine d'ezpaarse autorise un certain nombre d'actions, 
+dont l'éxécution des tests de comportement, la génération de la documentation 
+ou la vérification du respect des règles de codage.
 
 ## Installation des modules node ##
-- <code>make setup</code>
-  > Installe les modules nécessaires au fonctionnement de l'application.
 
-Les modules sont renseignés dans le fichier ``ezpaarse/package.json``
+```console
+make build
+```
+
+Télécharge, compile, et configure les modules nécessaires au fonctionnement de l'application.
 
 ## Tests mocha ##
 
-- <code>make test</code>
-  > Lance l'intégralité des tests.
+```console
+make test
+```
 
-Les fichiers de test sont situés dans le dossier ``ezpaarse/test``. Leur nom se termine par "``-test.js``".
+Lance l'intégralité des tests de non régression. Lancer cette commande est également un moyen simple
+de s'assurer qu'ezPAARSE est opérationel.
 
-NB: n'oubliez pas de relancer l'application si des changements ont été opérés.
+Les fichiers de test sont situés dans le dossier ``test/`` et le nom des fichiers contenant les tests se terminent par ``-test.js``.
+
+Remarque : n'oubliez pas de relancer l'application si vous avez modifié le code source.
 
 ## Vérification syntaxique ##
 
-- <code>make jshint</code>
-  > Vérifie la syntaxe des fichiers javascript à l'aide de ``jshint``.
+```console
+make jshint
+```
 
-La précision de JSHint peut être modifiée au besoin via un fichier de configuration (*config-jshint.json*) situé dans le même répertoire que le makefile. Le détail des différentes options peut être trouvé sur [le site de JSHint](http://www.jshint.com/options/).
+Vérifie la syntaxe des fichiers javascript à l'aide du programme ``jshint``.
+
+La précision de JSHint peut être modifiée au besoin via un fichier de configuration (``.jshintrc``). Le détail des différentes options peut être trouvé sur [le site de JSHint](http://www.jshint.com/options/).
 
 ## Gestion de la documentation ##
-- <code>make doc</code>
-  > Génère une documentation au format html à l'aide des fichiers markdown présents dans le dossier ``ezpaarse/markdown``. Cette dernière est placée dans le dossier ``ezpaarse/public/doc``.
 
-- <code>make doctest</code>
-  > Liste les fichiers présents dans le dossier ``ezpaarse/markdown``
+```console
+make doc
+```
 
-- <code>make docclean</code>
-  > Nettoie la documentation en supprimant le dossier ``ezpaarse/public/doc``.
+Génère une documentation au format html à l'aide des fichiers markdown présents 
+dans le dossier ``doc/``. La documentation HTML est placée dans le dossier ``public/doc/``.
 
-- <code>make docopen</code>
-  > Ouvre la documentation dans le navigateur Google Chrome. (via le protocole ``file://``)
+```console
+make doctest
+```
+
+Liste les fichiers présents dans le dossier ``doc/``
+
+```console
+make docclean
+```
+
+Nettoie la documentation HTML générée en supprimant le dossier ``public/doc/``.
+
+```console
+make docopen
+```
+
+Ouvre la documentation dans le navigateur Google Chrome. (via le protocole ``file://``)
   
-  > Lorsque l'application est lancée, la documentation est également consultable à l'adresse /doc.
+Lorsque l'application est lancée, la documentation est également consultable depuis le serveur Web d'ezPAARSE.
