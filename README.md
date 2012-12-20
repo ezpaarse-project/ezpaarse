@@ -36,7 +36,7 @@ make test
 
 ## Usage ##
 
-Des fichiers de logs exemple et anonymisés sont disponibles dans les répertoires d'ezPAARSE.
+Des [fichiers de logs exemple et anonymisés](https://raw.github.com/ezpaarse-project/ezpaarse/master/test/dataset/sd.2012-11-30.300.log) sont disponibles dans les répertoires d'ezPAARSE.
 
 Vous devez tout d'abord vous assurer qu'ezPAARSE est démarré (par défaut le Web service écoute sur le port 59599) :
 
