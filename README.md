@@ -11,7 +11,8 @@ Voici les outils dont vous avez besoin pour faire fonctionner ezPAARSE :
 * curl (utilisé par nvm)
 * git >= 1.7.10 (pour être compatible avec github)
 
-Remarque : nous préconiserons prochainement un dimenssionnement pour le serveur au niveau du CPU et de la RAM. Pour cela, nous attendons de pouvoir disposer d'un panel de parseurs plus complet pour pouvoir lancer des benchmark intenssifs et en déduire des préconisations matériels.
+Remarque : nous préconiserons prochainement un dimenssionnement pour le serveur au niveau du CPU et de la RAM.
+Pour cela, nous attendons de pouvoir disposer d'un panel de parseurs plus complet pour pouvoir lancer des benchmark intensifs et en déduire des préconisations matériels.
 
 ## Installation ##
 
