@@ -8,7 +8,7 @@ ezPAARSE sur votre serveur.
 
 Voici les outils dont vous avez besoin pour faire fonctionner ezPAARSE :
 
-* Système d'exploitation Linux : [voir les pré-requis selon les versions](https://github.com/ezpaarse-project/ezpaarse/blob/master/doc/multi-os.md)
+* Système d'exploitation Linux : [voir les pré-requis par systèmes](https://github.com/ezpaarse-project/ezpaarse/blob/master/doc/multi-os.md)
 * Outils standards Linux : bash, make, grep, sed ... 
 * curl (utilisé par nvm)
 * git >= 1.7.10 (pour être compatible avec github)
@@ -43,14 +43,14 @@ make test
 Des [fichiers de logs exemple et anonymisés](https://raw.github.com/ezpaarse-project/ezpaarse/master/test/dataset/sd.2012-11-30.300.log)
 sont disponibles dans les répertoires d'ezPAARSE.
 
-Vous devez tout d'abord vous assurer qu'ezPAARSE est démarré (par défaut le Web service écoute sur le port 59599) :
+Vous devez tout d'abord vous assurer qu'ezPAARSE est démarré en lançant la commande suivante :
 
 ```console
 make start
 ```
 
 Un client HTTP (ici curl) peut envoyer un fichier de données de log (ici ./test/dataset/sd.2012-11-30.300.log)
-sur le Web service d'ezPAARSE (route /ws/) et obtenir en réponse un flux JSON d'événements de consultation.
+sur le Web service d'ezPAARSE et obtenir en réponse un flux JSON d'événements de consultation.
 
 ```console
 curl -X POST http://127.0.0.1:59599/ws/ \
@@ -68,4 +68,5 @@ cat ./test/dataset/sd.2012-11-30.300.log | ./bin/loginjector
 
 ## Paramétrage avancé ##
 
-* Le port d'écoute du Web service d'ezPAARSE peut être réglé en modifiant la variable ``EZPAARSE_NODEJS_PORT`` dans le fichier ``config.json`` (par défaut 59599)
+* Le port d'écoute du Web service d'ezPAARSE peut être réglé en modifiant la variable ``EZPAARSE_NODEJS_PORT``
+dans le fichier ``config.json`` (par défaut 59599)
