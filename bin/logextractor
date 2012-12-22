@@ -33,7 +33,12 @@ var stream = byline.createStream(process.stdin);
 stream.on('data', function (line) {
   var match;
   var ignored = false;
-  var caught = tabRegex.some(function (regex) {
+  var caught = false;
+  tabRegex.forEach(function (regex) {
+    // do not try next regex if one already matched
+    if (caught) return;
+    
+    // parse the log line 
     match = regex.exp.exec(line);
     if (match) {
       
@@ -44,6 +49,7 @@ stream.on('data', function (line) {
           if (index < fields.length-1) {
             process.stdout.write(sep);
           }
+          caught = true;
         } else {
           ignored = true;
           process.stderr.write('Error: field ' + field + ' not found in line ' + linenb + '\n');
