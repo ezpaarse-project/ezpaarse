@@ -74,8 +74,9 @@ function writeOneLineOfLog() {
   timeline_value += Math.floor(Math.random() * 5);
   
   // generate fake log data
-  log.ip    = fakeident[Math.floor(Math.random() * (fakeident.length-1))].ip;
-  log.login = fakeident[Math.floor(Math.random() * (fakeident.length-1))].login;
+  var ident = fakeident[Math.floor(Math.random() * (fakeident.length-1))];
+  log.ip    = ident.ip;
+  log.login = ident.login;
   log.url   = urls[Math.floor(Math.random() * (urls.length-1))];
   log.date  = moment().subtract('days', 7).add('seconds', timeline_value).format('DD/MMM/YYYY:hh:mm:ss +0100'); // [30/Nov/2012:00:17:37 +0100]
   
