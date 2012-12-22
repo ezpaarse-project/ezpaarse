@@ -6,10 +6,19 @@ var express = require('express'),
   config = require('./config.json'),
   routes = require('./routes'),
   http = require('http'),
-  path = require('path');
+  path = require('path'),
+  fs = require('fs');
+
 
 // to have a nice unix process name
 process.title = pkg.name.toLowerCase();
+
+// write pid to ezpaarse.pid file
+var optimist = require('optimist').describe('--pidFile', 'the pid file where ezpaarse pid is stored');
+if (optimist.argv.pidFile) {
+  console.log(optimist.argv.pidFile);
+  fs.writeFileSync(optimist.argv.pidFile, process.pid);
+}
 
 require('./init.js')(function fill(parsers, knowledge) {
   var app = express();
@@ -61,6 +70,6 @@ require('./init.js')(function fill(parsers, knowledge) {
 
   http.createServer(app).listen(app.get('port'), function () {
     console.log(pkg.name + "-" + pkg.version +
-      " listening on port " + app.get('port') + " (pid is " + process.pid + ")");
+      " listening on http://localhost:" + app.get('port') + " (pid is " + process.pid + ")");
   });
 });
