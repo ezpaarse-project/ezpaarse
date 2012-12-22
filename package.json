@@ -2,9 +2,6 @@
   "name": "ezPAARSE",
   "version": "0.0.2",
   "private": true,
-  "scripts": {
-    "preinstall": "npm install -g jshint mocha beautiful-docs coffee-script"
-  },
   "dependencies": {
     "forever": "*",
     "express": "3.x",
@@ -22,6 +19,10 @@
     "byline": ">=2.0.3"
   },
   "devDependencies": {
-    "should": ">= 1.2.1"
+    "should": ">= 1.2.1",
+    "jshint": "*",
+    "mocha": "*",
+    "beautiful-docs": "*",
+    "coffee-script": "*"
   }
 }

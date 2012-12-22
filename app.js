@@ -13,12 +13,23 @@ process.title = pkg.name.toLowerCase();
 
 require('./init.js')(function fill(parsers, knowledge) {
   var app = express();
+
+  // connect ezpaarse version to expressjs env version
+  app.set('env', config.EZPAARSE_VERSION);  
   
   app.configure(function () {
     app.set('port', config.EZPAARSE_NODEJS_PORT || 3000);
+    
+    // for dynamics HTML pages (ejs template engine is used)
+    // https://github.com/visionmedia/ejs
     app.set('views', __dirname + '/views');
     app.set('view engine', 'ejs');
+
+    // used to expose a favicon in the browser
+    // http://www.senchalabs.org/connect/middleware-favicon.html
+    // todo: favico should be created
     app.use(express.favicon());
+    
     app.use(express.logger('dev'));
     //app.use(express.bodyParser());
     app.use(express.methodOverride());
@@ -28,17 +39,20 @@ require('./init.js')(function fill(parsers, knowledge) {
 //     app.use(express.cookieParser());
 //     app.use(express.session({ secret: "ezpaarse" }));
 
-    //app.use(cas.casauth({root: 'https://auth.inist.fr' }));
+    // routes handling
     app.use(app.router);
+    
+    // used to compile .less files to .css
+    // http://lesscss.org/
     app.use(require('less-middleware')({ src: __dirname + '/public' }));
+    
+    // used to expose static files from the public folder
     app.use(express.static(path.join(__dirname, 'public')));
   });
-
+  
   app.configure('development', function () {
     app.use(express.errorHandler());
   });
-
-
 
   app.get('/', routes.index);
 
