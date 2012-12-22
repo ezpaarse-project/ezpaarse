@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 //
-// Command used to extracte just a field from log lines
+// Command used to extracte fields from log lines
 //
 
 /*jslint node: true, maxlen: 100, maxerr: 50, indent: 2 */
@@ -13,9 +13,11 @@ var tabRegex = require('../logformat.js');
 // get the command line argument 
 // platform
 var optimist = require('optimist')
-    .usage('Extract specific field from a log stream\nUsage: $0 --field=[string]')
+    .usage('Extract specific field from a log stream\nUsage: $0 --field=[string] --separator=";"')
     .demand('field').alias('field', 'f')
-    .describe('field', 'field to extract from the url (ex: url or login or host)');
+    .demand('separator').alias('separator', 'sep').alias('separator', 's').default('separator', '\t')
+    .describe('field', 'field to extract from the url (ex: url,login,host)')
+    .describe('separator', 'charactere to use between each field');
 var argv = optimist.argv;
 
 // show usage if --help option is used
@@ -24,19 +26,33 @@ if (argv.help) {
   process.exit(0);
 }
 
-var field = argv.field;
+var sep    = argv.separator;
+var fields = argv.field.split(',');
 var linenb = 1;
 var stream = byline.createStream(process.stdin);
 stream.on('data', function (line) {
   var match;
+  var ignored = false;
   var caught = tabRegex.some(function (regex) {
     match = regex.exp.exec(line);
     if (match) {
-      var fieldIndex = regex.properties.indexOf(field);
-      if (fieldIndex !== -1) {
-        process.stdout.write(match[fieldIndex+1] + '\n');
-      } else {
-        process.stderr.write('Error: field ' + field + ' not found in line ' + linenb + '\n');
+      
+      fields.forEach(function (field, index) {
+        var fieldIndex = regex.properties.indexOf(field);
+        if (fieldIndex !== -1) {
+          process.stdout.write(match[fieldIndex+1]);
+          if (index < fields.length-1) {
+            process.stdout.write(sep);
+          }
+        } else {
+          ignored = true;
+          process.stderr.write('Error: field ' + field + ' not found in line ' + linenb + '\n');
+        }
+      });
+      
+      // next line
+      if (!ignored) {
+        process.stdout.write('\n');
       }
     }
   });
