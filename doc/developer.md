@@ -63,6 +63,9 @@ TODO expliquer comment procéder pour écrire un parseur :
 * [exemple en PHP](https://github.com/ezpaarse-project/ezpaarse/blob/master/platforms/sd/parser.php)
 * [exemple en Perl](https://github.com/ezpaarse-project/ezpaarse/blob/master/platforms/sd/parser.pl)
 
+A noter que l'écriture d'un parseur se base principalement sur l'écriture d'expressions régulières (regexp).
+Pour aider l'écriture des regexp, voici un [outils qui pourra aider à visualiser l'écriture d'une regexp](http://www.regexper.com/).
+
 ## Principe de gestion des bases de connaissance éditeur
 
 ![Schema de gestion des bases de connaissance éditeur ezPAARSE](images/ezPAARSE-Architecture-PKB.png "PKB ezPAARSE")
