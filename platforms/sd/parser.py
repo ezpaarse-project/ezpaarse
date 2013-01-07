@@ -6,7 +6,10 @@ import string
 import re
 import json
 
-for line in sys.stdin:
+while True:
+  if sys.stdin.closed:
+      break
+  line = sys.stdin.readline().strip()
   result = {}
   url = urlparse.urlparse(line)
   param = urlparse.parse_qs(url.query)
