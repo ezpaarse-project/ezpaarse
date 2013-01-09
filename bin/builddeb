@@ -3,6 +3,8 @@
 # Script used to generate a debian package of ezPAARSE
 #
 
+LOCALPATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
+
 set -e
 
 CUR_DIR=`pwd`
@@ -12,17 +14,31 @@ rm -rf /tmp/ezpaarse/
 mkdir -p /tmp/ezpaarse/usr/share/
 
 # todo: remplacer par l'utilisation d'un tar.gz versionné (make release)
-git clone http://github.com/ezpaarse-project/ezpaarse.git /tmp/ezpaarse/usr/share/ezpaarse
+git clone $LOCALPATH /tmp/ezpaarse/usr/share/ezpaarse
 cd /tmp/ezpaarse/
 
 # prepare folders structure
-cp -r ~/ezpaarse/misc/DEBIAN /tmp/ezpaarse/
-#mv /tmp/ezpaarse/usr/share/ezpaarse/misc/DEBIAN /tmp/ezpaarse/
+mv /tmp/ezpaarse/usr/share/ezpaarse/misc/DEBIAN /tmp/ezpaarse/
 
 # cleanup
 rm -rf /tmp/ezpaarse/usr/share/ezpaarse/test/
+rm -rf /tmp/ezpaarse/usr/share/ezpaarse/platforms/*/test/
 
 # LSBization of ezpaarse source code
+# LSB: /etc/init.d/ezpaarse
+mkdir -p /tmp/ezpaarse/etc/init.d/
+cp /tmp/ezpaarse/usr/share/ezpaarse/bin/ezpaarse /tmp/ezpaarse/etc/init.d/
+sed -i 's#^EZPAARSE_PATH=.*$#EZPAARSE_PATH=/usr/share/ezpaarse#g' /tmp/ezpaarse/etc/init.d/ezpaarse
+mkdir -p /tmp/ezpaarse/var/log/ezpaarse
+sed -i 's#^EZPAARSE_LOGDIR=.*$#EZPAARSE_LOGDIR=/var/log/ezpaarse#g' /tmp/ezpaarse/etc/init.d/ezpaarse
+mkdir -p /tmp/ezpaarse/var/run/ezpaarse
+sed -i 's#^EZPAARSE_PIDFILE=.*$#EZPAARSE_PIDFILE=/var/run/ezpaarse.pid#g' /tmp/ezpaarse/etc/init.d/ezpaarse
+# LSB: /etc/ezpaarse/
+mkdir -p /tmp/ezpaarse/etc/ezpaarse
+mv /tmp/ezpaarse/usr/share/ezpaarse/config.json  /tmp/ezpaarse/etc/ezpaarse/
+mv /tmp/ezpaarse/usr/share/ezpaarse/package.json /tmp/ezpaarse/etc/ezpaarse/
+ln -s /etc/ezpaarse/config.json  /tmp/ezpaarse/usr/share/ezpaarse/config.json
+ln -s /etc/ezpaarse/package.json /tmp/ezpaarse/usr/share/ezpaarse/package.json
 
 # create .deb
 NAME="ezpaarse"
