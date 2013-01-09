@@ -1,0 +1,9 @@
+Package: ezpaarse
+Version: 0.0.2
+Section: custom
+Priority: optional
+Architecture: all
+Essential: no
+Depends: curl, git, make
+Maintainer: ezpaarse@couperin.org
+Description: ezPAARSE permet l’analyse, l’enrichissement et l’exploitation des logs d’accès collectés localement aux ressources électroniques proposées par les plates-formes Web des éditeurs.
