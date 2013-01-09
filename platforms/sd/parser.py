@@ -55,7 +55,7 @@ def parseLine( line ):
   print json.dumps(result, separators=(',',':'))
   
 parser = argparse.ArgumentParser()
-parser.add_argument("-m", "--manual", action="store_true", help="Allow manual entry of data")
+parser.add_argument("-m", "--manual", action="store_true", help="Allow manual entry of urls")
 args = parser.parse_args()
 
 if args.manual:
