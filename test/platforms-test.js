@@ -71,7 +71,7 @@ function fetchPlatform(platform) {
     var config = JSON.parse(fs.readFileSync(configFile, 'UTF-8'));
 
     if (config.name) {
-      var parserFile = platformsFolder + '/' + platform + '/parser.py';
+      var parserFile = platformsFolder + '/' + platform + '/parser';
 
       if (fs.existsSync(parserFile) && fs.statSync(parserFile).isFile()) {
         var testFolder = platformsFolder + '/' + platform + '/test';
