@@ -7,8 +7,8 @@
         "makefile.md",
         "routes.md",
         "postlog.md",
-        "developer.md"
-        
+        "developer.md",
+        "tools.md",
     ],
     "css": "../stylesheets/doc.css",
     "codeHighlightTheme": "solarized_dark"
