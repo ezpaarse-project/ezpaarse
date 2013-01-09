@@ -66,3 +66,12 @@ TODO expliquer comment procéder pour écrire un parseur :
 ## Principe de gestion des bases de connaissance éditeur
 
 ![Schema de gestion des bases de connaissance éditeur ezPAARSE](images/ezPAARSE-Architecture-PKB.png "PKB ezPAARSE")
+
+## Générer une version d'ezPAARSE ##
+
+TODO expliquer comment modifier le n° de version et générer un tag
+
+Sous le système d'exploitation Debian, la command `sudo ./bin/builddeb` génère une archive `.deb` d'ezpaarse
+
+TODO expliquer comment générer un zip et un tar.gz
+
