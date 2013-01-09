@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# $APPNAME start stop restart status script
+# ezPAARSE start stop restart status script
 #
 
 EZPAARSE_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
@@ -9,6 +9,7 @@ EZPAARSE_PIDFILE="$EZPAARSE_PATH/ezpaarse.pid"
 PORT=$($EZPAARSE_PATH/bin/readconfig --key EZPAARSE_NODEJS_PORT)
 APPNAME=$($EZPAARSE_PATH/bin/readconfig --key name)
 EZPAARSE_VERSION=$($EZPAARSE_PATH/bin/readconfig --key EZPAARSE_VERSION)
+EZPAARSE_LOGDIR="$EZPAARSE_PATH/logs"
 
 # check make build has been called
 if [ ! -d $EZPAARSE_PATH/build/ ]; then
@@ -30,9 +31,9 @@ ezpaarse_start() {
     # run app.js forground to help developer
     NODE_ENV="$NODE_ENV" DEBUG="$DEBUG" node app.js --pidFile $EZPAARSE_PIDFILE
   else
-    forever start -a -l $EZPAARSE_PATH/logs/forever.log \
-                     -o $EZPAARSE_PATH/logs/out.log \
-                     -e $EZPAARSE_PATH/logs/err.log \
+    forever start -a -l $EZPAARSE_LOGDIR/forever.log \
+                     -o $EZPAARSE_LOGDIR/out.log \
+                     -e $EZPAARSE_LOGDIR/err.log \
                      --pidFile $EZPAARSE_PIDFILE \
                      --sourceDir $EZPAARSE_PATH app.js 1>/dev/null
   fi
