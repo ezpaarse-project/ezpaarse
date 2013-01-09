@@ -23,7 +23,7 @@ Ouvrez un terminal et tapez :
 
 ```console
 git clone http://github.com/ezpaarse-project/ezpaarse.git
-cd ~/ezpaarse
+cd ezpaarse
 make
 ```
 
@@ -32,7 +32,6 @@ make
 Cette étape vous permettra de valider que votre installation est fonctionnelle.
 
 ```console
-cd ~/ezpaarse
 . ./bin/env
 make start
 make test

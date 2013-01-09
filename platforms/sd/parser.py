@@ -5,8 +5,9 @@ import urlparse
 import string
 import re
 import json
+import argparse
 
-for line in sys.stdin:
+def parseLine( line ):
   result = {}
   url = urlparse.urlparse(line)
   param = urlparse.parse_qs(url.query)
@@ -52,3 +53,16 @@ for line in sys.stdin:
       result['issn'] = "%s-%s" % (groups[0], groups[1])
       result['type'] = 'TXT'
   print json.dumps(result, separators=(',',':'))
+  
+parser = argparse.ArgumentParser()
+parser.add_argument("-m", "--manual", action="store_true", help="Allow manual entry of urls")
+args = parser.parse_args()
+
+if args.manual:
+  while 1:
+    if sys.stdin.closed:
+      break
+    parseLine(sys.stdin.readline().strip())
+else:
+  for line in sys.stdin:
+    parseLine(line)

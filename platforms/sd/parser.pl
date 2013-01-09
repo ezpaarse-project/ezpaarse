@@ -69,3 +69,4 @@ while ($a = <STDIN>) {
   my $json = encode_json \%result;
   print STDOUT "$json\n";
 }
+exit 0;

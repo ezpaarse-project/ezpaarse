@@ -20,9 +20,6 @@ $(DOC_HTML): $(DOC)
 
 doc: $(DOC_HTML)
 
-doctest:
-	@echo $(DOC_HTML) $(DOC)
-
 docclean:
 	@rm -rf $(DOC_OUTPUT)
 
