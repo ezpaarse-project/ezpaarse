@@ -6,71 +6,86 @@ var byline = require('byline');
 var URL = require('url');
 var querystring = require('querystring');
 
-var stdin = process.stdin;
-var stdout = process.stdout;
-var stream = byline.createStream(stdin);
+exports.parserExecute = function () {
 
-stream.on('data', function (line) {
-  var result = {};
-  var param = querystring.parse(URL.parse(line).query);
-  
-  if (param._ob) {
-    if (param._cdi) {
-      result.cdi = param._cdi;
-    }
-    switch(param._ob) {
-      case 'IssueURL':
-        // The CDI is the 2nd parameter of _tockey (params separated by '#')
-        var arg = param._tockey.split('#');
-        result.cdi = arg[2];
-        // Set consultation type to TableOfContent (TOC)
-        result.type = 'TOC';
-        break;
-      case 'ArticleURL':
-        // Summary of full text
-        if (param._fmt) {
-          switch(param.fmt) {
-            case 'summary':
-              // Set consultation type to Summary
-              result.type = 'SUMMARY';
-              break;
-            case 'full':
-              // Set consultation type to Text
-              result.type = 'TXT';
-              break;
+  var stdin = process.stdin;
+  var stdout = process.stdout;
+  var stream = byline.createStream(stdin);
+
+  stream.on('end', function() {
+    process.exit(0);
+  });
+
+  stream.on('close', function() {
+    process.exit(0);
+  });
+
+  stream.on('data', function (line) {
+    var result = {};
+    var param = querystring.parse(URL.parse(line).query);
+    
+    if (param._ob) {
+      if (param._cdi) {
+        result.cdi = param._cdi;
+      }
+      switch(param._ob) {
+        case 'IssueURL':
+          // The CDI is the 2nd parameter of _tockey (params separated by '#')
+          var arg = param._tockey.split('#');
+          result.cdi = arg[2];
+          // Set consultation type to TableOfContent (TOC)
+          result.type = 'TOC';
+          break;
+        case 'ArticleURL':
+          // Summary of full text
+          if (param._fmt) {
+            switch(param.fmt) {
+              case 'summary':
+                // Set consultation type to Summary
+                result.type = 'SUMMARY';
+                break;
+              case 'full':
+                // Set consultation type to Text
+                result.type = 'TXT';
+                break;
+            }
           }
-        }
-        break;
-      case 'MImg':
-        // PDF
-        // Set consultation type to PDF
-        result.type = 'PDF';
-        break;
-      case 'MiamiImageURL':
-        if (param._pii) {
-          result.issn = param._pii.substr(1,4) + '-' + param._pii.substr(5,4);
+          break;
+        case 'MImg':
+          // PDF
           // Set consultation type to PDF
           result.type = 'PDF';
-        }
-        break;
-      case 'DocumentDeliveryURL':
-        // Order
-        // Set consultation type to Order
-        result.type = 'ORDER';
-        break;
-      default:
-        // Unknown case, skip
-        // Set Qualification to FALSE
-        result.qualification = false;
-        break;
+          break;
+        case 'MiamiImageURL':
+          if (param._pii) {
+            result.issn = param._pii.substr(1,4) + '-' + param._pii.substr(5,4);
+            // Set consultation type to PDF
+            result.type = 'PDF';
+          }
+          break;
+        case 'DocumentDeliveryURL':
+          // Order
+          // Set consultation type to Order
+          result.type = 'ORDER';
+          break;
+        default:
+          // Unknown case, skip
+          // Set Qualification to FALSE
+          result.qualification = false;
+          break;
+      }
+    } else {
+      var match;
+      if (match = /\/science\/article\/pii\/S([0-9]{4})([0-9]{3}[0-9Xx])/.exec(line)) {
+        result.issn = match[1] + '-' + match[2];
+        result.type = 'TXT';
+      }
     }
-  } else {
-    var match;
-    if (match = /\/science\/article\/pii\/S([0-9]{4})([0-9]{3}[0-9Xx])/.exec(line)) {
-      result.issn = match[1] + '-' + match[2];
-      result.type = 'TXT';
-    }
-  }
-  // if (Object.keys(result).length) stdout.write(JSON.stringify(result) + '\n');
-  stdout.write(JSON.stringify(result) + '\n');
-});
+    // if (Object.keys(result).length) stdout.write(JSON.stringify(result) + '\n');
+    stdout.write(JSON.stringify(result) + '\n');
+  });
+}
+
+if (!module.parent) {
+  exports.parserExecute();
+}

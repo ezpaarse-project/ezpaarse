@@ -61,4 +61,5 @@ while($line = trim(fgets(STDIN))) {
   }
 fprintf(STDOUT, "%s\n", json_encode($result));
 }
+exit(0);
 ?>

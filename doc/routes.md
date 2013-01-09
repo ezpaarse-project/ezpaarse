@@ -26,7 +26,7 @@
       <td>
         /ws/</td>
       <td>_NA_</td>
-      <td>[Parse un fichier de log](./100-postlog.html)</td>
+      <td>[Parse un fichier de log](./postlog.html)</td>
       <td>_NA_</td>
       <td>_NA_</td>
     </tr>
