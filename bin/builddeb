@@ -3,11 +3,17 @@
 # Script used to generate a debian package of ezPAARSE
 #
 
-LOCALPATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
-
 set -e
 
 CUR_DIR=`pwd`
+LOCALPATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
+
+# must be root to generate the package
+if [ "`id -u`" != 0 ]; then
+  echo "Error: run this script as a root user"
+  exit 1
+fi
+
 
 rm -rf /tmp/ezpaarse/
 
@@ -43,6 +49,7 @@ ln -s /etc/ezpaarse/package.json /tmp/ezpaarse/usr/share/ezpaarse/package.json
 # create .deb
 NAME="ezpaarse"
 cd /tmp/
+chown root:root -R ./ezpaarse/
 dpkg-deb --build $NAME
 
 # adjust package name
@@ -56,3 +63,5 @@ echo "ezpaarse debian package built: $CUR_DIR/${NAMENEW}.deb"
 cd $CUR_DIR
 
 rm -rf /tmp/ezpaarse/
+
+exit 0
