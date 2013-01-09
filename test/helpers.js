@@ -30,7 +30,7 @@ exports.post = function (path, filePath, callback) {
   request(opt, callback);
 };
 
-function objectsAreSame(object1, object2) {
+exports.objectsAreSame = function (object1, object2) {
   if (Object.keys(object1).length !== Object.keys(object2).length) {
     return false;
   }
@@ -50,7 +50,7 @@ exports.compareArrays = function (array1, array2) {
   }
   var same = array1.every(function (object1) {
     var found = array2.some(function (object2) {
-      if (objectsAreSame(object1, object2)) {
+      if (exports.objectsAreSame(object1, object2)) {
         return true;
       } else {
         return false;
