@@ -36,9 +36,11 @@ module.exports = function (app, parsers, knowledge, ignoredDomains) {
     res.format({
       'text/csv': function () {
         debug("CSV requested");
+        res.type('text/csv');
       },
       'application/json': function () {
         debug("JSON requested");
+        res.type('application/json');
       },
       'default': function () {
         debug("Requested format not acceptable");
