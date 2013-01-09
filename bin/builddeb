@@ -1,0 +1,42 @@
+#!/bin/bash
+#
+# Script used to generate a debian package of ezPAARSE
+#
+
+set -e
+
+CUR_DIR=`pwd`
+
+rm -rf /tmp/ezpaarse/
+
+mkdir -p /tmp/ezpaarse/usr/share/
+
+# todo: remplacer par l'utilisation d'un tar.gz versionné (make release)
+git clone http://github.com/ezpaarse-project/ezpaarse.git /tmp/ezpaarse/usr/share/ezpaarse
+cd /tmp/ezpaarse/
+
+# prepare folders structure
+cp -r ~/ezpaarse/misc/DEBIAN /tmp/ezpaarse/
+#mv /tmp/ezpaarse/usr/share/ezpaarse/misc/DEBIAN /tmp/ezpaarse/
+
+# cleanup
+rm -rf /tmp/ezpaarse/usr/share/ezpaarse/test/
+
+# LSBization of ezpaarse source code
+
+# create .deb
+NAME="ezpaarse"
+cd /tmp/
+dpkg-deb --build $NAME
+
+# adjust package name
+PACKAGE=`dpkg-deb -f $NAME.deb package`
+VERSION=`dpkg-deb -f $NAME.deb version`
+ARCHI=`dpkg-deb -f $NAME.deb architecture`
+NAMENEW="${PACKAGE}-${VERSION}_${ARCHI}"
+mv $NAME.deb $CUR_DIR/${NAMENEW}.deb
+
+echo "ezpaarse debian package built: $CUR_DIR/${NAMENEW}.deb"
+cd $CUR_DIR
+
+rm -rf /tmp/ezpaarse/
