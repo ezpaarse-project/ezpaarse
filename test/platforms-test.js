@@ -19,7 +19,7 @@ function testFile(file, parserFile, platform) {
   if (/\.url$/.test(file)) {
     var urlFile = file;
     var resultFile = urlFile.replace(/url$/, 'result.csv');
-    
+
     if (fs.existsSync(resultFile)) {
       describe(platform + ' in version ' + /[0-9]{4}-[0-9]{2}-[0-9]{2}/.exec(urlFile)[0], function () {
         it('works', function (done) {
@@ -38,11 +38,14 @@ function testFile(file, parserFile, platform) {
             
             stream.on('data', function (line) {
               var parsedLine = JSON.parse(line);
-              should.ok(helpers.objectsAreSame(parsedLine, results.shift()),
-                'the parser does not behave as expected');
+              var shift = results.shift();
+              should.exist(shift, 'the parser has returned more results than expected');
+              should.ok(helpers.objectsAreSame(parsedLine, shift),
+                'some results do not match with those expected');
             })
 
             stream.on('end', function() {
+              should.equal(results.length, 0, 'the parser has returned fewer results than expected');
               done();
             });
             
@@ -68,7 +71,7 @@ function fetchPlatform(platform) {
     var config = JSON.parse(fs.readFileSync(configFile, 'UTF-8'));
 
     if (config.name) {
-      var parserFile = platformsFolder + '/' + platform + '/parser';
+      var parserFile = platformsFolder + '/' + platform + '/parser.py';
 
       if (fs.existsSync(parserFile) && fs.statSync(parserFile).isFile()) {
         var testFolder = platformsFolder + '/' + platform + '/test';
