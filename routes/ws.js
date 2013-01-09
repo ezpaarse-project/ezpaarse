@@ -33,6 +33,21 @@ module.exports = function (app, parsers, knowledge, ignoredDomains) {
   app.post('/ws/', function (req, res) {
     debug("Req : " + req);
 
+    res.format({
+      'text/csv': function () {
+        debug("CSV requested");
+      },
+      'application/json': function () {
+        debug("JSON requested");
+      },
+      'default': function () {
+        debug("Requested format not acceptable");
+        res.status(406);
+        res.end();
+        return;
+      }
+    });
+
     if (req.get('Content-length') === 0) {
       // If no content in the body, terminate the response
       res.status(400);
