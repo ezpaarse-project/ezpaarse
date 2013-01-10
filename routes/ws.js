@@ -3,6 +3,7 @@
 
 var debug    = require('debug')('log');
 var URL      = require('url');
+var fs       = require('fs');
 var byline   = require('byline');
 var moment   = require('moment');
 var crypto   = require('crypto');
@@ -74,73 +75,118 @@ module.exports = function (app, parsers, knowledge, ignoredDomains) {
       var domain = buffer.shift();
       var parser = domain.parser;
       var platform = domain.platform;
-      var ec;
       
-      var child = shell.exec(parser, {async: true, silent: true});
-      
-      var stream = byline.createStream(child.stdout);
-      stream.on('data', function (line) {
-        if (ec) {
-          var result;
-          try {
-            result = JSON.parse(line);
-          } catch (e) {
-            debug('The value returned by the parser couldn\'t be parsed to JSON');
+      // Determine the language of the parser using de first line
+      var firstLine = fs.readFileSync(parser, 'utf8').split('\n')[0];
+      var match = /^\#\!\/usr\/bin\/env ([a-zA-Z]+)$/.exec(firstLine);
+      if (!match && match[1] && match[1] == 'node') {
+        var urls = [];
+        for(var i = 0, l = buffer.length; i < l; i++) {
+          urls.push(buffer[i].url);
+        }
+        var results = require(parser).parserExecute(urls);
+
+        for(var i = 0, l = results.length; i < l; i++) {
+          var result = results[i];
+          var ec = buffer[i];
+
+          if (result.type) {
+            ec.type = result.type;
           }
-          if (result instanceof Object) {
-            if (result.type) {
-              ec.type = result.type;
-            }
-            if (result.issn) {
-              ec.issn = result.issn;
-            } else if (result.cdi) {
-              var id;
-              if (knowledge[platform]) {
-                id = knowledge[platform][result.cdi];
-                if (id) {
-                  ec.pissn = id.pissn;
-                  ec.eissn = id.eissn;
-                } else {
-                  debug('Could\'t find any ISSN from the editor id');
-                }
+          if (result.issn) {
+            ec.issn = result.issn;
+          } else if (result.cdi) {
+            var id;
+            if (knowledge[platform]) {
+              id = knowledge[platform][result.cdi];
+              if (id) {
+                ec.pissn = id.pissn;
+                ec.eissn = id.eissn;
               } else {
-                debug('No knowledge base found for the platform : ' + platform);
+                debug('Could\'t find any ISSN from the editor id');
               }
             } else {
-              debug('The parser couldn\'t find any id in the given URL');
+              debug('No knowledge base found for the platform : ' + platform);
             }
-            if (ec.issn || ec.pissn || ec.eissn || ec.type) {
-              res.write(delimiter + JSON.stringify(ec, null, 2));
-              if (delimiter === '') { delimiter = ','; }
-              countECs++;
-            }
-
           } else {
-            debug('The value returned by the parser couldn\'t be parsed to JSON');
+            debug('The parser couldn\'t find any id in the given URL');
           }
-          
-          ec = buffer.pop();
-          if (ec) {
-            child.stdin.write(ec.url + '\n');
-          } else {
-            child.stdin.end();
+          if (ec.issn || ec.pissn || ec.eissn || ec.type) {
+            res.write(delimiter + JSON.stringify(ec, null, 2));
+            if (delimiter === '') { delimiter = ','; }
+            countECs++;
           }
-        }
-      });
-      
-      child.on('exit', function (code) {
-        if (code === 0) {
-          debug('Process complete');
-        } else {
-          debug('The process failed');
         }
         callback(null);
-      });
-      ec = buffer.pop();
-      if (ec) {
-        child.stdin.write(ec.url + '\n');
-      } else {
-        child.stdin.end();
+
+      } else { 
+        var ec;
+        var child = shell.exec(parser, {async: true, silent: true});
+        var stream = byline.createStream(child.stdout);
+
+        stream.on('data', function (line) {
+          if (ec) {
+            var result;
+            try {
+              result = JSON.parse(line);
+            } catch (e) {
+              debug('The value returned by the parser couldn\'t be parsed to JSON');
+            }
+            if (result instanceof Object) {
+              if (result.type) {
+                ec.type = result.type;
+              }
+              if (result.issn) {
+                ec.issn = result.issn;
+              } else if (result.cdi) {
+                var id;
+                if (knowledge[platform]) {
+                  id = knowledge[platform][result.cdi];
+                  if (id) {
+                    ec.pissn = id.pissn;
+                    ec.eissn = id.eissn;
+                  } else {
+                    debug('Could\'t find any ISSN from the editor id');
+                  }
+                } else {
+                  debug('No knowledge base found for the platform : ' + platform);
+                }
+              } else {
+                debug('The parser couldn\'t find any id in the given URL');
+              }
+              if (ec.issn || ec.pissn || ec.eissn || ec.type) {
+                res.write(delimiter + JSON.stringify(ec, null, 2));
+                if (delimiter === '') { delimiter = ','; }
+                countECs++;
+              }
+
+            } else {
+              debug('The value returned by the parser couldn\'t be parsed to JSON');
+            }
+            
+            ec = buffer.pop();
+            if (ec) {
+              child.stdin.write(ec.url + '\n');
+            } else {
+              child.stdin.end();
+            }
+          }
+        });
+        
+        child.on('exit', function (code) {
+          if (code === 0) {
+            debug('Process complete');
+          } else {
+            debug('The process failed');
+          }
+          callback(null);
+        });
+        ec = buffer.pop();
+        if (ec) {
+          child.stdin.write(ec.url + '\n');
+        } else {
+          child.stdin.end();
+        }
       }
     }, 10);
   
