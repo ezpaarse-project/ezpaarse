@@ -35,16 +35,16 @@ ezpaarse_start() {
                      -o $EZPAARSE_LOGDIR/out.log \
                      -e $EZPAARSE_LOGDIR/err.log \
                      --pidFile $EZPAARSE_PIDFILE \
-                     --sourceDir $EZPAARSE_PATH app.js 1>/dev/null
+                     $EZPAARSE_PATH/app.js 1>/dev/null
   fi
 }
 
 ezpaarse_stop() {
-  forever stop --sourceDir $EZPAARSE_PATH app.js 1>/dev/null
+  forever stop $EZPAARSE_PATH/app.js 1>/dev/null
 }
 
 ezpaarse_restart() {
-  forever restart --sourceDir $EZPAARSE_PATH app.js 1>/dev/null
+  forever restart $EZPAARSE_PATH/app.js 1>/dev/null
 }
 
 case $1 in
