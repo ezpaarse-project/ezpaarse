@@ -42,11 +42,6 @@ test-verbose:
 jshint:
 	@. ./bin/env; jshint $(JSFILES) --config .jshintrc
 
-build:
-	@./bin/buildnode
-	@./build/nvm/bin/latest/npm rebuild
-	$(MAKE) doc
-
 # Application section
 # # # # # # # # # # # #
 
@@ -72,5 +67,17 @@ bench:
 	echo "ezPAARSE bench finished."; \
 	echo "./bench.csv contains bench result data"; \
 	echo "./bench.png contains bench result plot"
-	
-.PHONY: test checkconfig build
+
+# Build section
+# # # # # # # # # # # #
+
+
+build:
+	@./bin/buildnode
+	@./build/nvm/bin/latest/npm rebuild
+	$(MAKE) doc
+
+deb:
+	sudo ./bin/builddeb
+
+.PHONY: test checkconfig build deb
