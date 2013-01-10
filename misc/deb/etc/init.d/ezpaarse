@@ -1,0 +1,26 @@
+#!/bin/bash
+#
+### BEGIN INIT INFO
+# Provides:          ezpaarse
+# Required-Start:    $local_fs $remote_fs $network $syslog
+# Required-Stop:     $local_fs $remote_fs $network $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Start and stop the ezpaarse Web service daemon
+### END INIT INFO
+
+[ `id -u` -ne 0 ] && echo "Must be root to run this command, try with sudo" && exit 1
+
+export EZPAARSE_PATH=/usr/share/ezpaarse
+export EZPAARSE_LOGDIR=/var/log/ezpaarse
+
+# only root can write into /var/run
+export EZPAARSE_PIDFILE=/var/run/ezpaarse.pid
+if [ ! -f $EZPAARSE_PIDFILE ]; then
+  echo "XXX" > $EZPAARSE_PIDFILE
+fi
+chown ezpaarse:ezpaarse $EZPAARSE_PIDFILE
+
+export HOME=/usr/share/ezpaarse
+
+sudo -E -u ezpaarse /usr/share/ezpaarse/bin/ezpaarse $@
