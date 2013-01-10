@@ -2,27 +2,24 @@
 #
 # ezPAARSE start stop restart status script
 #
-### BEGIN INIT INFO
-# Provides:          ezpaarse
-# Required-Start:    $local_fs $remote_fs $network $syslog
-# Required-Stop:     $local_fs $remote_fs $network $syslog
-# Default-Start:     2 3 4 5
-# Default-Stop:      0 1 6
-# Short-Description: Start and stop the ezpaarse Web service daemon
-### END INIT INFO
 
-EZPAARSE_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
-PATH=$EZPAARSE_PATH/build/nvm/bin/latest/:$EZPAARSE_PATH/node_modules/.bin:/usr/local/bin:/usr/bin:/bin
-EZPAARSE_PIDFILE="$EZPAARSE_PATH/ezpaarse.pid"
-PORT=$($EZPAARSE_PATH/bin/readconfig --key EZPAARSE_NODEJS_PORT)
-APPNAME=$($EZPAARSE_PATH/bin/readconfig --key name)
-EZPAARSE_VERSION=$($EZPAARSE_PATH/bin/readconfig --key EZPAARSE_VERSION)
-EZPAARSE_LOGDIR="$EZPAARSE_PATH/logs"
-FOREVER_CMD="forever"
+# search ezpaarse root path
+[ -z "$EZPAARSE_PATH" ] && EZPAARSE_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
+
+# load ezpaarse env
+. $EZPAARSE_PATH/bin/env
+#PATH=$EZPAARSE_PATH/build/nvm/bin/latest/:$EZPAARSE_PATH/node_modules/.bin:/usr/local/bin:/usr/bin:/bin
+
+[ -z "$EZPAARSE_PIDFILE" ] && EZPAARSE_PIDFILE="$EZPAARSE_PATH/ezpaarse.pid"
+[ -z "$EZPAARSE_PORT" ] && EZPAARSE_PORT=$($EZPAARSE_PATH/bin/readconfig --key EZPAARSE_NODEJS_PORT)
+[ -z "$EZPAARSE_NAME" ] && EZPAARSE_NAME=$($EZPAARSE_PATH/bin/readconfig --key name)
+[ -z "$EZPAARSE_VERSION" ] && EZPAARSE_VERSION=$($EZPAARSE_PATH/bin/readconfig --key EZPAARSE_VERSION)
+[ -z "$EZPAARSE_LOGDIR" ] && EZPAARSE_LOGDIR="$EZPAARSE_PATH/logs"
+[ -z "$FOREVER_CMD" ] && FOREVER_CMD="forever"
 
 # check make build has been called
 if [ ! -d $EZPAARSE_PATH/build/ ]; then
-  echo "$APPNAME error: please run make build before anything" >&2
+  echo "$EZPAARSE_NAME error: please run make build before anything" >&2
   exit 1
 fi
 
@@ -40,7 +37,7 @@ ezpaarse_start() {
     # run app.js forground to help developer
     NODE_ENV="$NODE_ENV" DEBUG="$DEBUG" node $EZPAARSE_PATH/app.js --pidFile $EZPAARSE_PIDFILE
   else
-    $FOREVER_CMD start -a -l $EZPAARSE_LOGDIR/forever.log \
+    $FOREVER_CMD start -p $EZPAARSE_PATH -a -l $EZPAARSE_LOGDIR/forever.log \
                      -o $EZPAARSE_LOGDIR/out.log \
                      -e $EZPAARSE_LOGDIR/err.log \
                      --pidFile $EZPAARSE_PIDFILE \
@@ -49,32 +46,32 @@ ezpaarse_start() {
 }
 
 ezpaarse_stop() {
-  $FOREVER_CMD stop $EZPAARSE_PATH/app.js 1>/dev/null
+  $FOREVER_CMD stop -p $EZPAARSE_PATH $EZPAARSE_PATH/app.js 1>/dev/null
 }
 
 ezpaarse_restart() {
-  $FOREVER_CMD restart $EZPAARSE_PATH/app.js 1>/dev/null
+  $FOREVER_CMD restart -p $EZPAARSE_PATH $EZPAARSE_PATH/app.js 1>/dev/null
 }
 
 case $1 in
 
   start)
     if [ -d /proc/`cat $EZPAARSE_PIDFILE` ]; then
-      echo "$APPNAME is already running, listening on http://localhost:$PORT/"
+      echo "$EZPAARSE_NAME is already running, listening on http://localhost:$EZPAARSE_PORT/"
       exit 0
     else
       $EZPAARSE_PATH/bin/checkconfig -p &> /dev/null
       if [[ $? -eq 0 ]]; then
         ezpaarse_start
         if [ -d /proc/`cat $EZPAARSE_PIDFILE` ]; then
-          echo "$APPNAME started, listening on http://localhost:$PORT/"
+          echo "$EZPAARSE_NAME started, listening on http://localhost:$EZPAARSE_PORT/"
           exit 0
         else
-          echo "$APPNAME cannot be started."
+          echo "$EZPAARSE_NAME cannot be started."
           exit 1
         fi
       else
-        echo "The port $PORT is already used, $APPNAME cannot be started"
+        echo "The port $EZPAARSE_PORT is already used, $EZPAARSE_NAME cannot be started"
         exit 1
       fi
     fi
@@ -82,15 +79,15 @@ case $1 in
 
   stop)
     if [ ! -d /proc/`cat $EZPAARSE_PIDFILE` ]; then
-      echo "$APPNAME is already stopped."
+      echo "$EZPAARSE_NAME is already stopped."
       exit 0
     else
       ezpaarse_stop
       if [ -d /proc/`cat $EZPAARSE_PIDFILE` ]; then
-        echo "$APPNAME cannot be stopped."
+        echo "$EZPAARSE_NAME cannot be stopped."
         exit 1
       else
-        echo "$APPNAME is stopped."
+        echo "$EZPAARSE_NAME is stopped."
         exit 0
       fi
     fi
@@ -103,20 +100,20 @@ case $1 in
       ezpaarse_restart
     fi
     if [ -d /proc/`cat $EZPAARSE_PIDFILE` ]; then
-      echo "$APPNAME has been restarted, listening on http://localhost:$PORT/"
+      echo "$EZPAARSE_NAME has been restarted, listening on http://localhost:$EZPAARSE_PORT/"
       exit 0
     else
-      echo "$APPNAME cannot be restarted."
+      echo "$EZPAARSE_NAME cannot be restarted."
       exit 1
     fi    
   ;;
 
   status)
     if [ -d /proc/`cat $EZPAARSE_PIDFILE` ]; then
-      echo "$APPNAME is running, listening on http://localhost:$PORT/"
+      echo "$EZPAARSE_NAME is running, listening on http://localhost:$EZPAARSE_PORT/"
       exit 0
     else
-      echo "$APPNAME is not running."
+      echo "$EZPAARSE_NAME is not running."
       exit 1
     fi
   ;;

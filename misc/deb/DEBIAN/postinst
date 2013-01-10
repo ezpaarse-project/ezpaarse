@@ -1,9 +1,44 @@
 #!/bin/bash
 
+# configuration/compilation
 cd /usr/share/ezpaarse/
 make
 
+# must start/stop when system start/stop
 update-rc.d ezpaarse defaults
 
-# if not started as root, "forever" do not start the daemon correctly
+
+# add user and unix group
+[ -z "$SERVER_HOME" ] && SERVER_HOME=/usr/share/ezpaarse
+[ -z "$SERVER_USER" ] && SERVER_USER=ezpaarse
+[ -z "$SERVER_NAME" ] && SERVER_NAME="ezPAARSE web service"
+[ -z "$SERVER_GROUP" ] && SERVER_GROUP=ezpaarse
+
+echo -n "Adding group $SERVER_GROUP.."
+addgroup --quiet --system $SERVER_GROUP 2>/dev/null || true
+echo "..done"
+
+echo -n "Adding system user $SERVER_USER.."
+adduser --quiet \
+        --system \
+        --ingroup $SERVER_GROUP \
+        --no-create-home \
+        --disabled-password \
+        $SERVER_USER 2>/dev/null || true
+echo "..done"
+
+usermod -c "$SERVER_NAME" \
+        -d $SERVER_HOME   \
+        -g $SERVER_GROUP  \
+          $SERVER_USER
+
+# folder rights
+chown -R $SERVER_USER:$SERVER_GROUP $SERVER_HOME
+chown -R $SERVER_USER:$SERVER_GROUP /var/log/ezpaarse
+chown    $SERVER_USER:$SERVER_GROUP /etc/init.d/ezpaarse
+chmod u=rwx,g=rxs,o= $SERVER_HOME
+
+# if not started with sudo, "forever" does not start the daemon correctly
 sudo /etc/init.d/ezpaarse start
+
+exit 0

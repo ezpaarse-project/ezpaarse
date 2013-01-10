@@ -1,6 +1,16 @@
 #!/bin/bash
 
-if [ "$1" = purge ]; then
+if [ "$1" == "purge" ]; then
   update-rc.d ezpaarse remove
-  rm -rf/usr/share/ezpaarse/
+  rm -rf /usr/share/ezpaarse/
+  rm -rf /var/log/ezpaarse/
+  
+  # cleanup created user/group
+  USERGROUP="ezpaarse"
+  echo -n "Removing $USERGROUP system user.."
+  deluser --quiet $USERGROUP || true
+  echo "..done"  
+  echo -n "Removing $USERGROUP group.."
+  delgroup --only-if-empty $USERGROUP || true
+  echo "..done"  
 fi

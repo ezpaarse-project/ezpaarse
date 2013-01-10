@@ -20,7 +20,7 @@ rm -rf /tmp/ezpaarse/
 mkdir -p /tmp/ezpaarse/usr/share/
 
 # todo: remplacer par l'utilisation d'un tar.gz versionné (make release)
-git clone $LOCALPATH /tmp/ezpaarse/usr/share/ezpaarse
+cp -r $LOCALPATH /tmp/ezpaarse/usr/share/ezpaarse
 cd /tmp/ezpaarse/
 
 # prepare folders structure
@@ -36,13 +36,8 @@ rm -rf /tmp/ezpaarse/usr/share/ezpaarse/platforms/*/test/
 
 # /etc/init.d/ezpaarse
 mkdir -p /tmp/ezpaarse/etc/init.d/
-cp /tmp/ezpaarse/usr/share/ezpaarse/bin/ezpaarse /tmp/ezpaarse/etc/init.d/
-sed -i 's#^EZPAARSE_PATH=.*$#EZPAARSE_PATH=/usr/share/ezpaarse#g' /tmp/ezpaarse/etc/init.d/ezpaarse
 mkdir -p /tmp/ezpaarse/var/log/ezpaarse
-sed -i 's#^EZPAARSE_LOGDIR=.*$#EZPAARSE_LOGDIR=/var/log/ezpaarse#g' /tmp/ezpaarse/etc/init.d/ezpaarse
 mkdir -p /tmp/ezpaarse/var/run/
-sed -i 's#^EZPAARSE_PIDFILE=.*$#EZPAARSE_PIDFILE=/var/run/ezpaarse.pid#g' /tmp/ezpaarse/etc/init.d/ezpaarse
-sed -i 's#^FOREVER_CMD=.*$#FOREVER_CMD="sudo -E -u ezpaarse forever"#g' /tmp/ezpaarse/etc/init.d/ezpaarse
 
 # /etc/ezpaarse/
 mkdir -p /tmp/ezpaarse/etc/ezpaarse

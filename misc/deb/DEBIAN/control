@@ -4,7 +4,7 @@ Section: custom
 Priority: optional
 Architecture: all
 Essential: no
-Depends: curl, git(>= 1.7.10), make
+Depends: curl, git(>= 1.7.10), make, adduser (>= 3.11), bash
 Recommends: logrotate
 Maintainer: ezpaarse@couperin.org
 Vcs-Git: http://github.com/ezpaarse-project/ezpaarse.git

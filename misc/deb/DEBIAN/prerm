@@ -4,3 +4,7 @@
 if [ "$?" == "0" ]; then
   /etc/init.d/ezpaarse stop
 fi
+
+# clear the generated doc
+cd /usr/share/ezpaarse/
+make docclean
