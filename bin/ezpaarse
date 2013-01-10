@@ -18,6 +18,7 @@ PORT=$($EZPAARSE_PATH/bin/readconfig --key EZPAARSE_NODEJS_PORT)
 APPNAME=$($EZPAARSE_PATH/bin/readconfig --key name)
 EZPAARSE_VERSION=$($EZPAARSE_PATH/bin/readconfig --key EZPAARSE_VERSION)
 EZPAARSE_LOGDIR="$EZPAARSE_PATH/logs"
+FOREVER_CMD="forever"
 
 # check make build has been called
 if [ ! -d $EZPAARSE_PATH/build/ ]; then
@@ -39,7 +40,7 @@ ezpaarse_start() {
     # run app.js forground to help developer
     NODE_ENV="$NODE_ENV" DEBUG="$DEBUG" node $EZPAARSE_PATH/app.js --pidFile $EZPAARSE_PIDFILE
   else
-    forever start -a -l $EZPAARSE_LOGDIR/forever.log \
+    $FOREVER_CMD start -a -l $EZPAARSE_LOGDIR/forever.log \
                      -o $EZPAARSE_LOGDIR/out.log \
                      -e $EZPAARSE_LOGDIR/err.log \
                      --pidFile $EZPAARSE_PIDFILE \
@@ -48,11 +49,11 @@ ezpaarse_start() {
 }
 
 ezpaarse_stop() {
-  forever stop $EZPAARSE_PATH/app.js 1>/dev/null
+  $FOREVER_CMD stop $EZPAARSE_PATH/app.js 1>/dev/null
 }
 
 ezpaarse_restart() {
-  forever restart $EZPAARSE_PATH/app.js 1>/dev/null
+  $FOREVER_CMD restart $EZPAARSE_PATH/app.js 1>/dev/null
 }
 
 case $1 in
