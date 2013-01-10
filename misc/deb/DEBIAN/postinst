@@ -5,4 +5,5 @@ make
 
 update-rc.d ezpaarse defaults
 
-/etc/init.d/ezpaarse start
+# if not started as root, "forever" do not start the daemon correctly
+sudo /etc/init.d/ezpaarse start
