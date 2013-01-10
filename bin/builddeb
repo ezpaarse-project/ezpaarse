@@ -47,6 +47,7 @@ mv /tmp/ezpaarse/usr/share/ezpaarse/config.json  /tmp/ezpaarse/etc/ezpaarse/
 mv /tmp/ezpaarse/usr/share/ezpaarse/package.json /tmp/ezpaarse/etc/ezpaarse/
 ln -s /etc/ezpaarse/config.json  /tmp/ezpaarse/usr/share/ezpaarse/config.json
 ln -s /etc/ezpaarse/package.json /tmp/ezpaarse/usr/share/ezpaarse/package.json
+sed -i 's#"development"#"production"#g' /tmp/ezpaarse/etc/ezpaarse/config.json
 
 # create .deb
 NAME="ezpaarse"
