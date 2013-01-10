@@ -2,6 +2,14 @@
 #
 # ezPAARSE start stop restart status script
 #
+### BEGIN INIT INFO
+# Provides:          ezpaarse
+# Required-Start:    $local_fs $remote_fs $network $syslog
+# Required-Stop:     $local_fs $remote_fs $network $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Start and stop the ezpaarse Web service daemon
+### END INIT INFO
 
 EZPAARSE_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 PATH=$EZPAARSE_PATH/build/nvm/bin/latest/:$EZPAARSE_PATH/node_modules/.bin:/usr/local/bin:/usr/bin:/bin
