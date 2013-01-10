@@ -74,10 +74,13 @@ bench:
 
 build:
 	@./bin/buildnode
-	@./build/nvm/bin/latest/npm rebuild
+	@./build/nvm/bin/latest/npm rebuild >/dev/null
 	$(MAKE) doc
 
 deb:
 	sudo ./bin/builddeb
+
+rpm: deb
+	sudo alien --to-rpm --scripts ./ezpaarse-0.0.2_all.deb
 
 .PHONY: test checkconfig build deb
