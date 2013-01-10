@@ -42,7 +42,7 @@ mkdir -p /tmp/ezpaarse/var/log/ezpaarse
 sed -i 's#^EZPAARSE_LOGDIR=.*$#EZPAARSE_LOGDIR=/var/log/ezpaarse#g' /tmp/ezpaarse/etc/init.d/ezpaarse
 mkdir -p /tmp/ezpaarse/var/run/
 sed -i 's#^EZPAARSE_PIDFILE=.*$#EZPAARSE_PIDFILE=/var/run/ezpaarse.pid#g' /tmp/ezpaarse/etc/init.d/ezpaarse
-sed -i 's#^FOREVER_CMD=.*$#FOREVER_CMD="sudo -u ezpaarse forever"#g' /tmp/ezpaarse/etc/init.d/ezpaarse
+sed -i 's#^FOREVER_CMD=.*$#FOREVER_CMD="sudo -E -u ezpaarse forever"#g' /tmp/ezpaarse/etc/init.d/ezpaarse
 
 # /etc/ezpaarse/
 mkdir -p /tmp/ezpaarse/etc/ezpaarse
