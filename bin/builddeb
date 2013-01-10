@@ -27,6 +27,8 @@ cd /tmp/ezpaarse/
 mv /tmp/ezpaarse/usr/share/ezpaarse/misc/DEBIAN /tmp/ezpaarse/
 
 # cleanup
+rm -rf /tmp/ezpaarse/usr/share/ezpaarse/logs/
+rm -rf /tmp/ezpaarse/usr/share/ezpaarse/.git/
 rm -rf /tmp/ezpaarse/usr/share/ezpaarse/test/
 rm -rf /tmp/ezpaarse/usr/share/ezpaarse/platforms/*/test/
 
