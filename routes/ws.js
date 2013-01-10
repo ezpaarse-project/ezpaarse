@@ -79,7 +79,7 @@ module.exports = function (app, parsers, knowledge, ignoredDomains) {
       // Determine the language of the parser using de first line
       var firstLine = fs.readFileSync(parser, 'utf8').split('\n')[0];
       var match = /^\#\!\/usr\/bin\/env ([a-zA-Z]+)$/.exec(firstLine);
-      if (!match && match[1] && match[1] == 'node') {
+      if (match && match[1] && match[1] == 'node') {
         var urls = [];
         for(var i = 0, l = buffer.length; i < l; i++) {
           urls.push(buffer[i].url);
