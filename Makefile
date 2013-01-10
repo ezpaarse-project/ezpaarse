@@ -76,14 +76,17 @@ bench:
 
 
 build:
+	@test -f /usr/bin/git || sudo apt-get install --yes git
 	@./bin/buildnode
 	@./build/nvm/bin/latest/npm rebuild >/dev/null
 	$(MAKE) doc
 
 deb:
+	@test -f /usr/bin/dpkg-deb || sudo apt-get install --yes dpkg
 	sudo ./bin/builddeb
 
 rpm: deb
+	@test -f /usr/bin/alien || sudo apt-get install --yes alien
 	sudo alien --to-rpm --scripts ./ezpaarse-0.0.2_all.deb
 
-.PHONY: test checkconfig build deb
+.PHONY: test checkconfig build deb rpm
