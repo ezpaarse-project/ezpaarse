@@ -8,7 +8,7 @@
         "routes.md",
         "postlog.md",
         "developer.md",
-        "tools.md",
+        "tools.md"
     ],
     "css": "../stylesheets/doc.css",
     "codeHighlightTheme": "solarized_dark"
