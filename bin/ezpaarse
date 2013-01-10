@@ -29,7 +29,7 @@ ezpaarse_start() {
     # DEBUG used to activate verbose and colored logs on stdout
     DEBUG=${DEBUG:="*"}
     # run app.js forground to help developer
-    NODE_ENV="$NODE_ENV" DEBUG="$DEBUG" node app.js --pidFile $EZPAARSE_PIDFILE
+    NODE_ENV="$NODE_ENV" DEBUG="$DEBUG" node $EZPAARSE_PATH/app.js --pidFile $EZPAARSE_PIDFILE
   else
     forever start -a -l $EZPAARSE_LOGDIR/forever.log \
                      -o $EZPAARSE_LOGDIR/out.log \
