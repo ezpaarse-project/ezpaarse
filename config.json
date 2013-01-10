@@ -1,5 +1,5 @@
 {
-  "EZPAARSE_ADMIN_MAIL": "hector@troie",
+  "EZPAARSE_ADMIN_MAIL": "ezpaarse@couperin.org",
   "EZPAARSE_VERSION": "development",
   "EZPAARSE_NODEJS_PORT": "59599",
   "EZPAARSE_IGNORED_DOMAINS":
