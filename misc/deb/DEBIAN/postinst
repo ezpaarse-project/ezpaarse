@@ -3,4 +3,6 @@
 cd /usr/share/ezpaarse/
 make
 
+update-rc.d ezpaarse defaults
+
 /etc/init.d/ezpaarse start

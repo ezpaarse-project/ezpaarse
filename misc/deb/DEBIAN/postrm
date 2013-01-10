@@ -1,2 +1,6 @@
 #!/bin/bash
 
+if [ "$1" = purge ]; then
+  update-rc.d ezpaarse remove
+  rm -rf/usr/share/ezpaarse/
+fi
