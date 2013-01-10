@@ -24,7 +24,7 @@ git clone $LOCALPATH /tmp/ezpaarse/usr/share/ezpaarse
 cd /tmp/ezpaarse/
 
 # prepare folders structure
-mv /tmp/ezpaarse/usr/share/ezpaarse/misc/DEBIAN /tmp/ezpaarse/
+mv /tmp/ezpaarse/usr/share/ezpaarse/misc/deb/* /tmp/ezpaarse/
 
 # cleanup
 rm -rf /tmp/ezpaarse/usr/share/ezpaarse/logs/
