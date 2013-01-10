@@ -30,7 +30,18 @@ cp -r $LOCALPATH/misc/deb/* /tmp/ezpaarse/
 rm -rf /tmp/ezpaarse/usr/share/ezpaarse/logs/
 rm -rf /tmp/ezpaarse/usr/share/ezpaarse/.git/
 rm -rf /tmp/ezpaarse/usr/share/ezpaarse/test/
+rm -rf /tmp/ezpaarse/usr/share/ezpaarse/build/
+rm -rf /tmp/ezpaarse/usr/share/ezpaarse/misc/
 rm -rf /tmp/ezpaarse/usr/share/ezpaarse/platforms/*/test/
+rm -rf /tmp/ezpaarse/usr/share/ezpaarse/*.deb
+rm -rf /tmp/ezpaarse/usr/share/ezpaarse/*.rpm
+find /tmp/ezpaarse/usr/share/ezpaarse/node_modules/ -name "tests"     -type d -exec rm -rf {} \; 2>/dev/null || true
+find /tmp/ezpaarse/usr/share/ezpaarse/node_modules/ -name "test"      -type d -exec rm -rf {} \; 2>/dev/null || true
+find /tmp/ezpaarse/usr/share/ezpaarse/node_modules/ -name "dist"      -type d -exec rm -rf {} \; 2>/dev/null || true
+find /tmp/ezpaarse/usr/share/ezpaarse/node_modules/ -name "build"     -type d -exec rm -rf {} \; 2>/dev/null || true
+find /tmp/ezpaarse/usr/share/ezpaarse/node_modules/ -name "example"   -type d -exec rm -rf {} \; 2>/dev/null || true
+find /tmp/ezpaarse/usr/share/ezpaarse/node_modules/ -name "examples"  -type d -exec rm -rf {} \; 2>/dev/null || true
+find /tmp/ezpaarse/usr/share/ezpaarse/node_modules/ -name "benchmark" -type d -exec rm -rf {} \; 2>/dev/null || true
 
 # LSBization of ezpaarse source code
 
