@@ -67,7 +67,7 @@ function parseUrl(url) {
         result.type = 'TXT';
       }
     }
-    return JSON.stringify(result) + '\n';
+    return result;
 }
 
 /*
@@ -96,7 +96,7 @@ exports.parserExecute = function (urls) {
     });
 
     stream.on('data', function (line) {
-      stdout.write(parseUrl(line));
+      stdout.write(JSON.stringify(parseUrl(line)) + '\n');
     });
   }
 }
