@@ -59,10 +59,12 @@ parser.add_argument("-m", "--manual", action="store_true", help="Allow manual en
 args = parser.parse_args()
 
 if args.manual:
+  # This method allows manual entry of urls (won't work with pipes)
   while 1:
     if sys.stdin.closed:
       break
     parseLine(sys.stdin.readline().strip())
 else:
+  # This method allows piping into standard input
   for line in sys.stdin:
     parseLine(line)
