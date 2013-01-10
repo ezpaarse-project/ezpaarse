@@ -7,4 +7,7 @@ Essential: no
 Depends: curl, git(>= 1.7.10), make
 Recommends: logrotate
 Maintainer: ezpaarse@couperin.org
+Vcs-Git: http://github.com/ezpaarse-project/ezpaarse.git
+Vcs-Browser: https://github.com/ezpaarse-project/ezpaarse
+Homepage: http://analogist.couperin.org/
 Description: ezPAARSE permet l’analyse, l’enrichissement et l’exploitation des logs d’accès collectés localement aux ressources électroniques proposées par les plates-formes Web des éditeurs.
