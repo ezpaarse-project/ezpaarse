@@ -60,6 +60,9 @@ status:
 
 PID:=`cat $(shell pwd)/ezpaarse.pid`
 bench:
+	@test -f /usr/bin/pidstat || sudo apt-get install --yes psmisc
+	@test -f /usr/bin/pstree  || sudo apt-get install --yes sysstat
+	@test -f /usr/bin/gnuplot || sudo apt-get install --yes gnuplot
 	@. ./bin/env; \
 	echo "Starting ezPAARSE bench (please wait 120 seconds)."; \
 	./bin/logfaker --duration=120 --rate=500 | ./bin/loginjector | ./bin/monitor --pid=$(PID) --each=2 > ./bench.csv; \
