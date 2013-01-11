@@ -40,6 +40,19 @@ var success = true;
 var platformsFolder = __dirname + '/../platforms'
 var dist;
 
+function checkAppname(callback) {
+  console.log(separator);
+  console.log(yellow + 'Looking for application name' + reset);
+  if (!appname) {
+    console.error(fail + ' : The application must be named, check your package.json');
+    success = false;
+  } else {
+    console.log(appname);
+    console.log(pass);
+  }
+  callback(null);
+}
+
 function checkMail(callback) {
   console.log(separator);
   console.log(yellow + 'Looking for admin mail' + reset);
@@ -163,7 +176,7 @@ function checkDependencies(callback) {
   }
 
   if (!ok) {
-    console.error('\n' + fail + ' : fix dependencies before running ' + appanme);
+    console.error('\n' + fail + ' : fix dependencies before running ' + appname);
     success = false;
   } else {
     console.log(pass);
@@ -242,6 +255,7 @@ if (argv.port) {
   async.series([
     checkPlatform,
     checkEnvironment,
+    checkAppname,
     checkMail,
     checkPort,
     checkDependencies,
