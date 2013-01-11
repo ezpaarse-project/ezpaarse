@@ -162,7 +162,12 @@ function checkDependencies(callback) {
       'build-essential',
       'libldap2-dev',
       'uuid-dev',
-      'expect'
+      'expect',
+      'perl',
+      'git',
+      'make',
+      'python',
+      'gcc'
     ];
 
     dependencies.forEach(function (dep) {
