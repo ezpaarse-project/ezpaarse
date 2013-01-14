@@ -4,12 +4,18 @@
 var csv = require('csv');
 var fs = require('fs');
 
-module.exports = function (file, fields, callback) {
-  if (!/\.csv$/.test(file) || !fs.existsSync(file)) {
-    return false;
+
+function extract(files, fields, recordList, callback) {
+  var file = files.pop();
+  if (!file) {
+    callback(recordList);
+    return;
   }
 
-  var recordList = [];
+  if (!/\.csv$/.test(file) || !fs.existsSync(file)) {
+    extract(files, fields, recordList, callback);
+  }
+
   var length = fields ? fields.length : false;
 
   csv().from.path(file, {columns: true})
@@ -25,6 +31,11 @@ module.exports = function (file, fields, callback) {
     }
   })
   .on('end', function () {
-    callback(recordList);
+    extract(files, fields, recordList, callback);
   });
+}
+
+module.exports = function (files, fields, callback) {
+  var recordList = [];
+  extract(files, fields, recordList, callback);
 }
