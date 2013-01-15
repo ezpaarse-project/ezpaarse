@@ -65,6 +65,18 @@ function parseUrl(url) {
       if (match = /\/science\/article\/pii\/S([0-9]{4})([0-9]{3}[0-9Xx])/.exec(url)) {
         result.issn = match[1] + '-' + match[2];
         result.type = 'TXT';
+      } else if (match = /\/science\/publication\?issn=([0-9]{4})([0-9]{4})/.exec(url)) {
+        result.issn = match[1] + '-' + match[2];
+        result.type = 'TOC';
+      } else if (match = /\/science\/journal\/([0-9]{4})([0-9]{4})/.exec(url)) {
+        result.issn = match[1] + '-' + match[2];
+        result.type = 'TOC';
+      } else if (match = /\/science\/bookseries\/([0-9]{8})/.exec(url)) {
+        result.id   = match[1];
+        result.type = 'BOOKSERIE';
+      } else if (match = /\/science\/book\/([0-9]{13})/.exec(url)) {
+        result.id   = match[1];
+        result.type = 'BOOK';
       }
     }
     return result;
