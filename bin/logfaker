@@ -40,7 +40,7 @@ if (argv.duration != 'nolimit') {
 // read the platform's urls
 var urlDir  = __dirname + '/../platforms/' + argv.platform + '/test';
 var urlFiles = fs.readdirSync(urlDir).filter(function (item) {
-  return /.url.csv$/.test(item);
+  return /.csv$/.test(item);
 });
 for (var i = 0, l = urlFiles.length; i < l; i++) {
   urlFiles[i] = urlDir + '/' + urlFiles[i];
