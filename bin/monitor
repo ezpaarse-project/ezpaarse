@@ -82,6 +82,7 @@ function monitor_pids() {
   exec('pidstat -h -d -u -r -p ' + pids.join(',') + ' 1 1', {silent: true, async: true}, function (code, output) {
     var record = { pid: [],
                    cpu: 0,
+                   time: 0,
                    mem_vsz: 0,
                    mem_rss: 0,
                    disk_read: 0,
