@@ -37,7 +37,10 @@ test:
 	@. ./bin/env; mocha
 
 test-verbose:
-	@. ./bin/env; mocha --reporter list
+	@. ./bin/env; mocha -R list
+
+test-platforms:
+	@. ./bin/env; mocha -g parser
 
 jshint:
 	@. ./bin/env; jshint $(JSFILES) --config .jshintrc
