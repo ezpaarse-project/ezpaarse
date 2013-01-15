@@ -5,7 +5,7 @@ var csv = require('csv');
 var fs = require('fs');
 
 
-function extract(files, fields, recordList, callback) {
+function extract(files, fields, recordList, callback, silent) {
   var file = files.pop();
   if (!file) {
     callback(recordList);
@@ -13,7 +13,7 @@ function extract(files, fields, recordList, callback) {
   }
 
   if (!/\.csv$/.test(file) || !fs.existsSync(file)) {
-    extract(files, fields, recordList, callback);
+    extract(files, fields, recordList, callback, silent);
   }
 
   var length = fields ? fields.length : false;
@@ -25,17 +25,20 @@ function extract(files, fields, recordList, callback) {
     } else {
       var record = {};
       for(var i = 0; i<length; i++) {
-          record[fields[i]] = data[fields[i]];
+        var field = fields[i];
+        if (!silent || silent && data[field] != null) {
+          record[field] = data[field];
+        }
       }
       recordList.push(record);
     }
   })
   .on('end', function () {
-    extract(files, fields, recordList, callback);
+    extract(files, fields, recordList, callback, silent);
   });
 }
 
-module.exports = function (files, fields, callback) {
+module.exports = function (files, fields, callback, silent) {
   var recordList = [];
-  extract(files, fields, recordList, callback);
+  extract(files, fields, recordList, callback, silent);
 }
