@@ -12,13 +12,13 @@ function parseUrl(url) {
     
     if (param._ob) {
       if (param._cdi) {
-        result.cdi = param._cdi;
+        result.pid = param._cdi;
       }
       switch(param._ob) {
         case 'IssueURL':
           // The CDI is the 2nd parameter of _tockey (params separated by '#')
           var arg = param._tockey.split('#');
-          result.cdi = arg[2];
+          result.pid = arg[2];
           // Set consultation type to TableOfContent (TOC)
           result.type = 'TOC';
           break;
@@ -72,10 +72,10 @@ function parseUrl(url) {
         result.issn = match[1] + '-' + match[2];
         result.type = 'TOC';
       } else if (match = /\/science\/bookseries\/([0-9]{8})/.exec(url)) {
-        result.id   = match[1];
+        result.pid   = match[1];
         result.type = 'BOOKSERIE';
       } else if (match = /\/science\/book\/([0-9]{13})/.exec(url)) {
-        result.id   = match[1];
+        result.pid   = match[1];
         result.type = 'BOOK';
       }
     }
