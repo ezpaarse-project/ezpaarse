@@ -95,10 +95,10 @@ module.exports = function (app, parsers, knowledge, ignoredDomains) {
           }
           if (result.issn) {
             ec.issn = result.issn;
-          } else if (result.cdi) {
+          } else if (result.pid) {
             var id;
             if (knowledge[platform]) {
-              id = knowledge[platform][result.cdi];
+              id = knowledge[platform][result.pid];
               if (id) {
                 ec.pissn = id.pissn;
                 ec.eissn = id.eissn;
@@ -138,10 +138,10 @@ module.exports = function (app, parsers, knowledge, ignoredDomains) {
               }
               if (result.issn) {
                 ec.issn = result.issn;
-              } else if (result.cdi) {
+              } else if (result.pid) {
                 var id;
                 if (knowledge[platform]) {
-                  id = knowledge[platform][result.cdi];
+                  id = knowledge[platform][result.pid];
                   if (id) {
                     ec.pissn = id.pissn;
                     ec.eissn = id.eissn;
