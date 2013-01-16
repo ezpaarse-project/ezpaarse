@@ -67,6 +67,7 @@ require('./init.js')(function fill(parsers, knowledge) {
 
   // Routes relatives aux logs
   require('./routes/ws')(app, parsers, knowledge, config.EZPAARSE_IGNORED_DOMAINS);
+  require('./routes/info')(app);
 
   http.createServer(app).listen(app.get('port'), function () {
     console.log(pkg.name + "-" + pkg.version +

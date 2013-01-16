@@ -1,14 +1,13 @@
 /*jslint node: true, maxlen: 100, maxerr: 50, indent: 2 */
 'use strict';
 
-var debug    = require('debug')('log');
+var debug    = require('debug')('info');
 var fs       = require('fs');
-var Writer   = require('../output/writer.js');
 
-module.exports = function (app, parsers, knowledge, ignoredDomains) {
+module.exports = function (app) {
   
   /**
-   * GET route on /ws/
+   * GET route on /ws/info/platforms
    */
   app.get('/ws/info/platforms', function (req, res) {
     res.status(200);
