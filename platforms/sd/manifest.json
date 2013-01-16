@@ -3,7 +3,7 @@
   "version": "0.1",
   "longname": "Science Direct",
   "describe": "Identifie les consultations du site Science Direct, version du MVP",
-  "docurl": "http://analogist.couperin.org/platforms/sd",
+  "docurl": "http://analogist.couperin.org/platforms/sd/",
   "domains": [
     "www.sciencedirect.com",
     "rss.sciencedirect.com",
