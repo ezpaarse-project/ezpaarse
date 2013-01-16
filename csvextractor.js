@@ -18,7 +18,7 @@ function extract(files, fields, recordList, callback, silent) {
 
   var length = fields ? fields.length : false;
 
-  csv().from.path(file, {columns: true})
+  csv().from.path(file, {delimiter: ';', columns: true})
   .on('record', function (data) {
     if (!length) {
       recordList.push(data);
