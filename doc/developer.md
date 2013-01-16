@@ -6,7 +6,7 @@
 * [git](http://git-scm.com/) pour gérer les bases de connaissances éditeurs et le code source
 * [php](http://php.net), [perl](http://www.perl.org/), [python](http://www.python.org/) ou autre langages pour l'écriture des parseurs
 
-## Guide rapide d'utilisation de git ##
+## Guide rapide d`utilisation de git ##
 
 Vous êtes développeur et souhaitez contribuer au code source d'ezPAARSE par exemple :
 * pour l'écriture de parseur
@@ -48,11 +48,11 @@ git push
 
 Remarque: à moins de disposer d'un accès privilégié (équipe ezPAARSE), vous devez tout d'abord "forker" le dépôt github d'ezPAARSE pour pouvoir ensuite travailler sur cette copie. Une fois que vous êtes satisfaits vous pouvez alors soumettre votre travail à l'équipe ezPAARSE en envoyant une ["pull request"](https://help.github.com/articles/using-pull-requests). Votre travail sera alors relu par l'équipe ezPAARSE puis intégré si aucun souci n'est repéré.
 
-## Fonctionnement du moteur d'ezPAARSE
+## Fonctionnement du moteur d`ezPAARSE
 
 ![Schema du fonctionnement du moteur ezPAARSE](images/ezPAARSE-Moteur.png "Moteur ezPAARSE")
 
-## Écriture d'un parseur ##
+## Écriture d`un parseur ##
 
 TODO expliquer comment procéder pour écrire un parseur :
 
@@ -70,7 +70,7 @@ Pour aider l'écriture des regexp, voici un [outils qui pourra aider à visualis
 
 ![Schema de gestion des bases de connaissance éditeur ezPAARSE](images/ezPAARSE-Architecture-PKB.png "PKB ezPAARSE")
 
-## Générer une version d'ezPAARSE ##
+## Générer une version d`ezPAARSE ##
 
 TODO expliquer comment modifier le n° de version et générer un tag
 

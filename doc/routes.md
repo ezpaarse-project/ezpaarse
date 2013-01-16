@@ -30,6 +30,14 @@
       <td>_NA_</td>
       <td>_NA_</td>
     </tr>
+    <tr>
+      <td>
+        /ws/info/platforms</td>
+      <td>Liste les plateformes disponibles</td>
+      <td>_NA_</td>
+      <td>_NA_</td>
+      <td>_NA_</td>
+    </tr>
 </table>
 
 ####Légende####
