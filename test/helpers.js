@@ -8,6 +8,7 @@ var config  = require('../config.json');
 var host    = '127.0.0.1';
 var port    =  config.EZPAARSE_NODEJS_PORT;
 var url     = 'http://' + host + ':' + port;
+var headers  = { accept: 'application/json' }
 
 exports.get = function (path, callback) {
   request({
@@ -19,7 +20,8 @@ exports.get = function (path, callback) {
 exports.post = function (path, filePath, callback) {
   var opt = {
     method: 'POST',
-    url: url + (path ? path : '/')
+    url: url + (path ? path : '/'),
+    headers: headers
   };
 
   if (filePath) {
