@@ -10,6 +10,7 @@ var crypto   = require('crypto');
 var shell    = require('shelljs');
 var async    = require('async');
 var tabRegex = require('../logformat.js');
+var Writer   = require('../output/writer.js');
 
 function estValide(ec) {
   if (!ec.url || !ec.httpCode || !ec.host) {
@@ -33,33 +34,44 @@ module.exports = function (app, parsers, knowledge, ignoredDomains) {
    */
   app.post('/ws/', function (req, res) {
     debug("Req : " + req);
+    var writer;
+    var status = 200;
 
     res.format({
       'text/csv': function () {
         debug("CSV requested");
         res.type('text/csv');
+        writer = Writer(res, 'csv');
       },
       'application/json': function () {
         debug("JSON requested");
         res.type('application/json');
+        writer = Writer(res, 'json');
       },
       'default': function () {
         debug("Requested format not acceptable");
-        res.status(406);
-        res.end();
-        return;
+        status = 406;
       }
     });
 
+    if (!writer && status === 200) {
+      status = 500;
+      debug("Writer not found");
+    }
+
     if (req.get('Content-length') === 0) {
       // If no content in the body, terminate the response
-      res.status(400);
+      status = 400;
+      debug("No content sent by the client");
+    }
+
+    res.status(status);
+
+    if (status != 200) {
       res.end();
-      debug("No content, terminating response");
       return;
     }
 
-    res.status(200);
     var countLines = 0;
     var countECs = 0;
     var delimiter = '';
@@ -68,7 +80,7 @@ module.exports = function (app, parsers, knowledge, ignoredDomains) {
     var ecBuffers = {};
     var ecBufferSize = 50;
 
-    res.write('[');
+    writer.start();
 
     var queue = async.queue(function (task, callback) {
       var buffer = task.buffer;
@@ -112,7 +124,8 @@ module.exports = function (app, parsers, knowledge, ignoredDomains) {
             debug('The parser couldn\'t find any id in the given URL');
           }
           if (ec.issn || ec.pissn || ec.eissn || ec.type) {
-            res.write(delimiter + JSON.stringify(ec, null, 2));
+            //res.write(delimiter + JSON.stringify(ec, null, 2));
+            writer.write(ec);
             if (delimiter === '') { delimiter = ','; }
             countECs++;
           }
@@ -200,7 +213,7 @@ module.exports = function (app, parsers, knowledge, ignoredDomains) {
         req.resume();
       } else if (Object.keys(ecBuffers).length === 0) {
         // If request ended and no buffer left, terminate the response
-        res.write(']');
+        writer.end();
         res.end();
         debug("Terminating response");
         debug(countLines + " lines were read");
