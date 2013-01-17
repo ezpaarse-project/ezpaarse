@@ -3,20 +3,63 @@
 /*jslint node: true, maxlen: 100, maxerr: 50, indent: 2 */
 'use strict';
 var byline = require('byline');
+var URL = require('url');
+var querystring = require('querystring');
 
-var stdin = process.stdin;
-var stdout = process.stdout;
-var stream = byline.createStream(stdin);
-
-stream.on('data', function (line) {
-  var result = {};
-  var match;
-  if (match = /([^\/]+)\/journal\/([^\/]+)\/([^\/]+)\/([^\/]+)\/([^\/]+)/.exec(line)) {
-    if (match[5] == "toc.pdf") {
-      result.type = 'TOC';
-    } else {
-      result.type = match[4].toUpperCase();
+function parseUrl(url) {
+    var result = {};
+    var param = querystring.parse(URL.parse(url).query);
+    
+    var match;
+    if (match = /\/nature\/journal\/v([0-9]*)\/n([0-9]*)\/(pdf|full)\/([a-zA-Z0-9]*).(pdf|html)/.exec(url)) {
+      result.volume = match[1];
+      result.numero = match[2];
+      result.revue  = match[4];
+      result.type   = match[3].toUpperCase();
+    } else if (match = /\/nature\/journal\/v([0-9]*)\/n([0-9]*)\/index.html/.exec(url)) {
+      result.volume = match[1];
+      result.numero = match[2];
+      result.type   = 'TOC';
+    } else if (match = /\/nature\/current_issue.html/.exec(url)) {
+      result.type   = 'TOC';
+    } else if (match = /\/siteindex\/index.html/.exec(url)) {
+      result.type   = 'TOC';
     }
+
+    return result;
+}
+
+/*
+* If an array of urls is given, return an array of results
+* Otherwise, read stdin and write into stdout
+*/
+exports.parserExecute = function (urls) {
+
+  if (urls && Array.isArray(urls)) {
+    var results = [];
+    for(var i = 0, l = urls.length; i < l; i++) {
+      results.push(parseUrl(urls[i]));
+    }
+    return results;
+  } else {
+    var stdin = process.stdin;
+    var stdout = process.stdout;
+    var stream = byline.createStream(stdin);
+
+    stream.on('end', function() {
+      process.exit(0);
+    });
+
+    stream.on('close  ', function() {
+      process.exit(0);
+    });
+
+    stream.on('data', function (line) {
+      stdout.write(JSON.stringify(parseUrl(line)) + '\n');
+    });
   }
-  stdout.write(JSON.stringify(result) + '\n');
-});
+}
+
+if (!module.parent) {
+  exports.parserExecute();
+}
