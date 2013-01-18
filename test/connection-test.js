@@ -5,11 +5,14 @@
 var helpers = require('./helpers.js');
 var appname = require('../package.json').name;
 
-describe('Le serveur', function () {
-  it('renvoie une page contenant le nom de l\'application', function (done) {
+describe('The server', function () {
+  it('sends a page containing the application name', function (done) {
     helpers.get('/', function (error, res, body) {
+      if (error) {
+        throw error;
+      }
       if (!res) {
-        throw new Error('L\'application n\'est pas lancée');
+        throw new Error('The application is not running');
       }
       res.should.have.status(200);
       res.body.should.include(appname);
