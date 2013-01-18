@@ -38,36 +38,6 @@ module.exports = function (app, parsers, knowledge, ignoredDomains) {
     var writer;
     var status = 200;
 
-    res.format({
-      'text/csv': function () {
-        debug("CSV requested");
-        res.type('text/csv');
-        writer = Writer(res, 'csv');
-      },
-      'application/json': function () {
-        debug("JSON requested");
-        res.type('application/json');
-        writer = Writer(res, 'json');
-      },
-      'default': function () {
-        debug("Requested format not acceptable");
-        status = 406;
-      }
-    });
-
-    var unzip;
-    var encoding = req.header('content-encoding');
-    if (encoding == 'gzip' || encoding == 'deflate') {
-        unzip = zlib.createUnzip();
-        req.pipe(unzip);
-    }
-
-    var request = unzip ? unzip : req;
-
-    if (!writer && status === 200) {
-      status = 500;
-      debug("Writer not found");
-    }
 
     if (req.get('Content-length') === 0) {
       // If no content in the body, terminate the response
@@ -75,16 +45,64 @@ module.exports = function (app, parsers, knowledge, ignoredDomains) {
       debug("No content sent by the client");
     }
 
+    var unzip;
+    var contentEncoding = req.header('content-encoding');
+    if (contentEncoding == 'gzip' || contentEncoding == 'deflate') {
+      unzip = zlib.createUnzip();
+      req.pipe(unzip);
+    }
+
+    var acceptEncoding = req.header('accept-encoding');
+    var zip;
+    if (acceptEncoding) {
+      if (acceptEncoding == 'gzip') {
+        res.set('Content-Encoding', 'gzip');
+        zip = zlib.createGzip();
+        zip.pipe(res);
+      } else if (acceptEncoding == 'deflate') {
+        res.set('Content-Encoding', 'deflate');
+        zip = zlib.createDeflate();
+        zip.pipe(res);
+      } else {
+        debug("Requested encoding not acceptable");
+        status = 406;
+      }
+    }
+
+    var request = unzip ? unzip : req;
+    var response = zip ? zip : res;
+
+    res.format({
+      'text/csv': function () {
+        debug("CSV requested");
+        res.type('text/csv');
+        writer = Writer(response, 'csv');
+      },
+      'application/json': function () {
+        debug("JSON requested");
+        res.type('application/json');
+        writer = Writer(response, 'json');
+      },
+      'default': function () {
+        debug("Requested format not acceptable");
+        status = 406;
+      }
+    });
+
+    if (!writer && status === 200) {
+      status = 500;
+      debug("Writer not found");
+    }
+
     res.status(status);
 
     if (status != 200) {
-      res.end();
+      response.end();
       return;
     }
 
     var countLines    = 0;
     var countECs      = 0;
-    var delimiter     = '';
     var endOfRequest  = false;
 
     // Array of EC buffers, used to parse multiple ECs using one process
@@ -135,9 +153,7 @@ module.exports = function (app, parsers, knowledge, ignoredDomains) {
             debug('The parser couldn\'t find any id in the given URL');
           }
           if (ec.issn || ec.pissn || ec.eissn || ec.type) {
-            //res.write(delimiter + JSON.stringify(ec, null, 2));
             writer.write(ec);
-            if (delimiter === '') { delimiter = ','; }
             countECs++;
           }
         }
@@ -179,8 +195,7 @@ module.exports = function (app, parsers, knowledge, ignoredDomains) {
                 debug('The parser couldn\'t find any id in the given URL');
               }
               if (ec.issn || ec.pissn || ec.eissn || ec.type) {
-                res.write(delimiter + JSON.stringify(ec, null, 2));
-                if (delimiter === '') { delimiter = ','; }
+                writer.write(ec);
                 countECs++;
               }
 
@@ -227,7 +242,7 @@ module.exports = function (app, parsers, knowledge, ignoredDomains) {
       } else if (Object.keys(ecBuffers).length === 0) {
         // If request ended and no buffer left, terminate the response
         writer.end();
-        res.end();
+        response.end();
         debug("Terminating response");
         debug(countLines + " lines were read");
         debug(countECs + " ECs were created");
