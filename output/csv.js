@@ -11,7 +11,7 @@ module.exports = function(outputStream) {
     }
 
     for (var i = 1, l = this.fields.length; i<l; i++) {
-      this.output.write(',' + this.fields[i]);
+      this.output.write(';' + this.fields[i]);
     }
     this.output.write('\n');
   }
