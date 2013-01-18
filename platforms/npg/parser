@@ -11,16 +11,22 @@ function parseUrl(url) {
     var param = querystring.parse(URL.parse(url).query);
     
     var match;
-    if (match = /\/nature\/journal\/v([0-9]*)\/n([0-9]*)\/(pdf|full)\/([a-zA-Z0-9]*).(pdf|html)/.exec(url)) {
-      result.volume = match[1];
-      result.numero = match[2];
-      result.revue  = match[4];
-      result.type   = match[3].toUpperCase();
-    } else if (match = /\/nature\/journal\/v([0-9]*)\/n([0-9]*)\/index.html/.exec(url)) {
-      result.volume = match[1];
-      result.numero = match[2];
+    if (match = /\/([a-zA-Z0-9]+)\/journal\/v([0-9]*)\/n([0-9]*)\/(pdf|full)\/([a-zA-Z0-9]*).(pdf|html)/.exec(url)) {
+      result.pid = match[1];
+      //result.volume = match[2];
+      //result.numero = match[3];
+      //result.revue  = match[5];
+      result.type   = match[4].toUpperCase() == "FULL" ? "TXT" : match[4].toUpperCase();
+    } else if (match = /\/([a-zA-Z0-9]+)\/journal\/v([0-9]*)\/n([0-9]*)\/index.html/.exec(url)) {
+      result.pid = match[1];
+//      result.volume = match[3];
+//      result.numero = match[3];
       result.type   = 'TOC';
-    } else if (match = /\/nature\/current_issue.html/.exec(url)) {
+    } else if (match = /\/([a-zA-Z0-9]+)\/index.html/.exec(url)) {
+      result.pid = match[1];
+      result.type   = 'TOC';
+    } else if (match = /\/([a-zA-Z0-9]+)\/current_issue.html/.exec(url)) {
+      result.pid = match[1];
       result.type   = 'TOC';
     } else if (match = /\/siteindex\/index.html/.exec(url)) {
       result.type   = 'TOC';
