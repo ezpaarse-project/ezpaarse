@@ -108,4 +108,4 @@ csvextractor(urlFiles, ['url'], function (records) {
   });
 
   writeOneLineOfLog();
-});
+}, {type: 'files'});

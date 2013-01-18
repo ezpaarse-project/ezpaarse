@@ -51,7 +51,7 @@ function testFiles(files, parserFile, platform) {
         } else {
           done();
         }
-      }, true);
+      }, {silent: true, type: 'files'});
     });
   });
 }
