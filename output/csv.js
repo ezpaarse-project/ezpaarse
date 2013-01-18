@@ -24,8 +24,8 @@ module.exports = function(outputStream) {
       if (ec[this.fields[i]]) {
         str += ec[this.fields[i]];
       }
-      str += ',';
+      str += ';';
     }
-    this.output.write(str.replace(/,$/, '\n'));
+    this.output.write(str.replace(/;$/, '\n'));
   };
 };
