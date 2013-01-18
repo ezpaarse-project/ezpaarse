@@ -44,9 +44,17 @@ function parseUrl(url) {
           break;
         case 'MiamiImageURL':
           if (param._pii) {
-            result.issn = param._pii.substr(1,4) + '-' + param._pii.substr(5,4);
-            // Set consultation type to PDF
-            result.type = 'PDF';
+	      if (match = /S([0-9]{4})([0-9]{3}[0-9Xx])/.exec(param._pii)) {
+		result.issn = match[1] + '-' + match[2];
+		result.type = 'PDF';
+	      } else if (match = /B([0-9]{12})([0-9Xx])/.exec(param._pii)) {
+		result.pid = match[1] + match[2];
+		result.type = 'BOOKPDF';
+              } else {
+                result.issn = param._pii.substr(1,4) + '-' + param._pii.substr(5,4);
+		// Set consultation type to PDF
+		result.type = 'PDF';
+              }
           }
           break;
         case 'DocumentDeliveryURL':
@@ -74,6 +82,9 @@ function parseUrl(url) {
       } else if (match = /\/science\/bookseries\/([0-9]{8})/.exec(url)) {
         result.pid   = match[1];
         result.type = 'BOOKSERIE';
+      } else if (match = /\/science\/handbooks\/([0-9]{8})/.exec(url)) {
+        result.pid   = match[1];
+        result.type = 'HANDBOOK';
       } else if (match = /\/science\/book\/([0-9]{13})/.exec(url)) {
         result.pid   = match[1];
         result.type = 'BOOK';
