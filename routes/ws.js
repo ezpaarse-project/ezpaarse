@@ -55,13 +55,14 @@ module.exports = function (app, parsers, knowledge, ignoredDomains) {
       }
     });
 
-    var gunzip;
-    if (req.header('content-encoding') == 'gzip') {
-        gunzip = zlib.createGunzip();
-        req.pipe(gunzip);
+    var unzip;
+    var encoding = req.header('content-encoding');
+    if (encoding == 'gzip' || encoding == 'deflate') {
+        unzip = zlib.createUnzip();
+        req.pipe(unzip);
     }
 
-    var request = gunzip ? gunzip : req;
+    var request = unzip ? unzip : req;
 
     if (!writer && status === 200) {
       status = 500;
