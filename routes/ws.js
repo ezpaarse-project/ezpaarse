@@ -1,16 +1,17 @@
 /*jslint node: true, maxlen: 100, maxerr: 50, indent: 2 */
 'use strict';
 
-var debug    = require('debug')('log');
-var URL      = require('url');
-var fs       = require('fs');
-var byline   = require('byline');
-var moment   = require('moment');
-var crypto   = require('crypto');
-var shell    = require('shelljs');
-var async    = require('async');
-var tabRegex = require('../logformat.js');
-var Writer   = require('../output/writer.js');
+var debug     = require('debug')('log');
+var URL       = require('url');
+var fs        = require('fs');
+var byline    = require('byline');
+var moment    = require('moment');
+var crypto    = require('crypto');
+var shell     = require('shelljs');
+var async     = require('async');
+var zlib      = require('zlib');
+var tabRegex  = require('../logformat.js');
+var Writer    = require('../output/writer.js');
 
 function estValide(ec) {
   if (!ec.url || !ec.httpCode || !ec.host) {
@@ -54,6 +55,14 @@ module.exports = function (app, parsers, knowledge, ignoredDomains) {
       }
     });
 
+    var gunzip;
+    if (req.header('content-encoding') == 'gzip') {
+        gunzip = zlib.createGunzip();
+        req.pipe(gunzip);
+    }
+
+    var request = gunzip ? gunzip : req;
+
     if (!writer && status === 200) {
       status = 500;
       debug("Writer not found");
@@ -72,21 +81,22 @@ module.exports = function (app, parsers, knowledge, ignoredDomains) {
       return;
     }
 
-    var countLines = 0;
-    var countECs = 0;
-    var delimiter = '';
+    var countLines    = 0;
+    var countECs      = 0;
+    var delimiter     = '';
+    var endOfRequest  = false;
 
     // Array of EC buffers, used to parse multiple ECs using one process
-    var ecBuffers = {};
-    var ecBufferSize = 50;
+    var ecBuffers     = {};
+    var ecBufferSize  = 50;
 
     writer.start();
 
     var queue = async.queue(function (task, callback) {
-      var buffer = task.buffer;
-      var domain = buffer.shift();
-      var parser = domain.parser;
-      var platform = domain.platform;
+      var buffer    = task.buffer;
+      var domain    = buffer.shift();
+      var parser    = domain.parser;
+      var platform  = domain.platform;
       
       // Determine the language of the parser using de first line
       var firstLine = fs.readFileSync(parser, 'utf8').split('\n')[0];
@@ -203,14 +213,16 @@ module.exports = function (app, parsers, knowledge, ignoredDomains) {
       }
     }, 10);
   
+    var stream = byline.createStream(request);
+
     queue.saturated = function () {
-      req.pause();
+      stream.pause();
     };
 
     queue.drain = function () {
-      if (req.readable) {
+      if (!endOfRequest) {
         // If request was paused, resume it
-        req.resume();
+        stream.resume();
       } else if (Object.keys(ecBuffers).length === 0) {
         // If request ended and no buffer left, terminate the response
         writer.end();
@@ -218,17 +230,16 @@ module.exports = function (app, parsers, knowledge, ignoredDomains) {
         debug("Terminating response");
         debug(countLines + " lines were read");
         debug(countECs + " ECs were created");
-      }
-
-      for (var i in ecBuffers) {
-        queue.push({buffer: ecBuffers[i]});
-        delete ecBuffers[i];
+      } else {
+        for (var i in ecBuffers) {
+          queue.push({buffer: ecBuffers[i]});
+          delete ecBuffers[i];
+        }
       }
     };
 
-    var stream = byline.createStream(req);
-
     stream.on('end', function () {
+      endOfRequest = true;
       for (var i in ecBuffers) {
         queue.push({buffer: ecBuffers[i]});
         delete ecBuffers[i];
