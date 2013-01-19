@@ -53,7 +53,7 @@ sur le Web service d'ezPAARSE et obtenir en réponse un flux JSON d'événements
 
 ```console
 curl -X POST http://127.0.0.1:59599/ws/ \
-             -v --no-proxy --no-buffer \
+             -v --proxy "" --no-buffer \
              --data-binary @./test/dataset/sd.2012-11-30.300.log
 ```
 
