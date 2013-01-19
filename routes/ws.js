@@ -76,12 +76,12 @@ module.exports = function (app, parsers, knowledge, ignoredDomains) {
       'text/csv': function () {
         debug("CSV requested");
         res.type('text/csv');
-        writer = Writer(response, 'csv');
+        writer = new Writer(response, 'csv');
       },
       'application/json': function () {
         debug("JSON requested");
         res.type('application/json');
-        writer = Writer(response, 'json');
+        writer = new Writer(response, 'json');
       },
       'default': function () {
         debug("Requested format not acceptable");
@@ -120,16 +120,17 @@ module.exports = function (app, parsers, knowledge, ignoredDomains) {
       // Determine the language of the parser using de first line
       var firstLine = fs.readFileSync(parser, 'utf8').split('\n')[0];
       var match = /^\#\!\/usr\/bin\/env ([a-zA-Z]+)$/.exec(firstLine);
+      var ec;
       if (match && match[1] && match[1] == 'node') {
         var urls = [];
-        for(var i = 0, l = buffer.length; i < l; i++) {
+        for (var i = 0, l = buffer.length; i < l; i++) {
           urls.push(buffer[i].url);
         }
         var results = require(parser).parserExecute(urls);
 
-        for(var i = 0, l = results.length; i < l; i++) {
+        for (i = 0, l = results.length; i < l; i++) {
           var result = results[i];
-          var ec = buffer[i];
+          ec = buffer[i];
 
           if (result.type) {
             ec.type = result.type;
@@ -159,8 +160,7 @@ module.exports = function (app, parsers, knowledge, ignoredDomains) {
         }
         callback(null);
 
-      } else { 
-        var ec;
+      } else {
         var child = shell.exec(parser, {async: true, silent: true});
         var stream = byline.createStream(child.stdout);
 

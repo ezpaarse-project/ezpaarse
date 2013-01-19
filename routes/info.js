@@ -33,8 +33,8 @@ module.exports = function (app) {
           platform.version = config.version;
           platform.describe = config.describe;
           platform.docurl = config.docurl;
-          res.write(delimiter + JSON.stringify(platform,null,2));
-          if (delimiter == '') { delimiter = ','; }
+          res.write(delimiter + JSON.stringify(platform, null, 2));
+          if (delimiter === '') { delimiter = ','; }
         }
       }
     }

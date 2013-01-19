@@ -24,7 +24,7 @@ function extractFromFile(files, fields, recordList, callback, options) {
       recordList.push(data);
     } else {
       var record = {};
-      for(var i = 0; i<length; i++) {
+      for (var i = 0; i < length; i++) {
         var field = fields[i];
         if (!options.silent || options.silent && data[field] != null) {
           record[field] = data[field];
@@ -48,7 +48,7 @@ function extractFromString(strings, fields, recordList, callback, options) {
   if (typeof string != 'string') {
     try {
       string = string.toString();
-    } catch(e) {
+    } catch (e) {
       extractFromString(strings, fields, recordList, callback, options);
     }
   }
@@ -60,7 +60,7 @@ function extractFromString(strings, fields, recordList, callback, options) {
       recordList.push(data);
     } else {
       var record = {};
-      for(var i = 0; i<length; i++) {
+      for (var i = 0; i < length; i++) {
         var field = fields[i];
         if (!options.silent || options.silent && data[field] != null) {
           record[field] = data[field];
@@ -83,7 +83,7 @@ function extractFromStream(stream, fields, recordList, callback, options) {
       recordList.push(data);
     } else {
       var record = {};
-      for(var i = 0; i<length; i++) {
+      for (var i = 0; i < length; i++) {
         var field = fields[i];
         if (!options.silent || options.silent && data[field] != null) {
           record[field] = data[field];
@@ -99,21 +99,22 @@ function extractFromStream(stream, fields, recordList, callback, options) {
 
 module.exports = function (source, fields, callback, options) {
   var recordList  = [];
-  var options     = options ? options : {}
+  options         = options ? options : {}
   options.silent  = options.silent ? options.silent : false;
   options.type    = options.type ? options.type : 'stream';
 
-  switch(options.type) {
-    case 'files':
-      extractFromFile(source, fields, recordList, callback, options);
-      break;
-    case 'strings':
-      extractFromString(source, fields, recordList, callback, options);
-      break;
-    case 'stream':
-    default:
-      extractFromStream(source, fields, recordList, callback, options)
-      break;
+  switch (options.type) {
+  case 'files':
+    extractFromFile(source, fields, recordList, callback, options);
+    break;
+  case 'strings':
+    extractFromString(source, fields, recordList, callback, options);
+    break;
+  case 'stream':
+    break;
+  default:
+    extractFromStream(source, fields, recordList, callback, options)
+    break;
   }
 
 }
