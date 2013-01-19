@@ -61,7 +61,6 @@ Alternativement, vous pouvez également utiliser la commande ``./bin/loginjector
 pour injecter encore plus simplement le fichier de log dans ezPAARSE :
 
 ```console
-. ./bin/env
 cat ./test/dataset/sd.2012-11-30.300.log | ./bin/loginjector
 ```
 
