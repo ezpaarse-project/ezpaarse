@@ -9,13 +9,13 @@ var should = require('should');
 var logFile = __dirname + '/dataset/sd.2012-11-30.300.log';
 var resultFile = __dirname + '/dataset/sd.2012-11-30.300.result.json';
 
-describe('Le serveur', function () {
-  describe('recevant un log en POST sur /ws/', function () {
-    it('renvoie un fichier d\'output correctement formatté', function (done) {
+describe('The server', function () {
+  describe('receives a log on the HTTP POST /ws/ route', function () {
+    it('and sends back a well formatted output file', function (done) {
       helpers.post('/ws/', logFile,
       function (error, res, body) {
         if (!res) {
-          throw new Error('L\'application n\'est pas lancée');
+          throw new Error('ezPAARSE is not running');
         }
         res.should.have.status(200);
         
@@ -27,7 +27,7 @@ describe('Le serveur', function () {
         bodyJson.should.be.a('object');
 
         should.ok(helpers.compareArrays(bodyJson, correctJson),
-          'La réponse du serveur ne correspond pas au résultat attendu');
+          'Server\'s answer do not match the intended result');
 
         done();
       });
