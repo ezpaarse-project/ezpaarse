@@ -15,7 +15,7 @@ Voici les outils dont vous avez besoin pour faire fonctionner ezPAARSE :
 
 Remarque : nous préconiserons prochainement un dimensionnement pour le serveur au niveau du CPU et de la RAM.
 Pour cela, nous attendons de pouvoir disposer d'un panel de parseurs plus complet pour pouvoir lancer des
-benchmark intensifs et en déduire des préconisations matérielles.
+benchmarks et en déduire des préconisations matérielles.
 
 ## Installation ##
 
