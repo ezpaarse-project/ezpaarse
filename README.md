@@ -49,7 +49,7 @@ make start
 ```
 
 Un client HTTP (ici curl) peut envoyer un fichier de données de log (ici ./test/dataset/sd.2012-11-30.300.log)
-sur le Web service d'ezPAARSE et obtenir en réponse un flux JSON d'événements de consultation.
+sur le Web service d'ezPAARSE et obtenir en réponse un flux CSV d'événements de consultation.
 
 ```console
 curl -X POST http://127.0.0.1:59599/ws/ \
