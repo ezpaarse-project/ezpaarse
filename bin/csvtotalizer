@@ -11,19 +11,19 @@ var byline = require('byline');
 var fs        = require('fs');
 var csv       = require('csv');
 var byline    = require('byline');
-var csvextractor = require('../csvextractor.js');
+var csvextractor = require('../lib/csvextractor.js');
 
 // get the command line argument
 // platform
 var optimist = require('optimist')
-    .usage('Extract specific field from a CSV stream\nUsage: $0 --field=[string] --separator=";"')
-    .demand('file').alias('file', 'F')
+    .usage('Extract specific field from a CSV stream\nUsage: $0 --fields=[string] --separator=";"')
+//    .demand('file').alias('file', 'F')
     .demand('separator').alias('separator', 'sep')
     .demand('output').alias('output', 'o').default('output', 'text')
-    .demand('fields').alias('fields', 'f').default('fields', ['domain', 'host', 'login', 'type'])
+    .demand('fields').alias('fields', 'f').default('fields', "domain,host,login,type")
     .alias('separator', 's').default('separator', '\t')
     .describe('output', 'output : text or json')
-    .describe('file', 'CSV file to compute')
+//   .describe('file', 'CSV file to compute')
     .describe('fields', 'fields to compute from the CSV (ex: domain, host, login, type)')
     .describe('separator', 'charactere to use between each field');
 var argv = optimist.argv;
@@ -36,12 +36,13 @@ if (argv.help) {
 
 var sep    = argv.separator;
 var files = [argv.file];
-var csv_fields = argv.fields;
+var csv_fields = argv.fields.split(',');
 var linenb = 0;
 var records = [];
 var columns = {};
 
-csvextractor(files, csv_fields, function (records) {
+var stream = process.stdin;
+csvextractor(stream, csv_fields, function (records) {
   var fields = [];
   records.forEach(function (record, index) {
     linenb++;
@@ -49,7 +50,7 @@ csvextractor(files, csv_fields, function (records) {
     fields.forEach(function (field) {
       var rfield = ''; // record field value prefixed with s if numéric to make a key
       if (!isNaN(record[field])) {
-        rfield = 's' + record[field];
+        rfield = 'r' + record[field];
       } else {
         rfield = record[field];
       }
@@ -74,5 +75,5 @@ csvextractor(files, csv_fields, function (records) {
 },
 {
   silent: true,
-  type: 'files'
+  type: 'stream'
 });
