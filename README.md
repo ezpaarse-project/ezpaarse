@@ -63,6 +63,12 @@ pour injecter encore plus simplement le fichier de log dans ezPAARSE :
 ```console
 cat ./test/dataset/sd.2012-11-30.300.log | ./bin/loginjector
 ```
+Et enchainer en utilisant la commande ``./bin/csvtotalizer`` fournie par ezPAARSE
+pour avoir un aperçu des événements de consultation reconnus par ezPAARSE :
+
+```console
+cat ./test/dataset/sd.2012-11-30.300.log | ./bin/loginjector | ./bin/csvtotalizer
+```
 
 ## Paramétrage avancé ##
 
