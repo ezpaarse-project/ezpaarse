@@ -14,7 +14,7 @@ var tabRegex  = require('../lib/logformat.js');
 var Writer    = require('../lib/output/writer.js');
 
 function estValide(ec) {
-  if (!ec.url || !ec.httpCode || !ec.host) {
+  if (!ec.url || !ec.host) {
     return false;
   }
   // Filters images and javascript files
@@ -22,7 +22,7 @@ function estValide(ec) {
     return false;
   }
   // Filters http codes other than 200 and 302
-  if (['200', '302'].indexOf(ec.httpCode) == -1) {
+  if (ec.httpCode && ['200', '302'].indexOf(ec.httpCode) == -1) {
     return false;
   }
   return true;
