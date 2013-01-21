@@ -111,7 +111,6 @@ module.exports = function (source, fields, callback, options) {
     extractFromString(source, fields, recordList, callback, options);
     break;
   case 'stream':
-    break;
   default:
     extractFromStream(source, fields, recordList, callback, options)
     break;
