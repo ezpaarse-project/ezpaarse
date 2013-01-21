@@ -5,7 +5,7 @@
 var helpers = require('./helpers.js');
 var fs = require('fs');
 var should = require('should');
-var csvextractor = require('../csvextractor.js');
+var csvextractor = require('../lib/csvextractor.js');
 
 var logFile = __dirname + '/dataset/sd.2012-11-30.300.log';
 var resultFile = __dirname + '/dataset/sd.2012-11-30.300.result.json';

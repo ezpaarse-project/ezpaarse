@@ -8,7 +8,7 @@
 var fs = require('fs');
 var Faker = require('Faker');
 var moment = require('moment');
-var csvextractor = require('../csvextractor.js');
+var csvextractor = require('../lib/csvextractor.js');
 
 // get the command line argument 
 // platform

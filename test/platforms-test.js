@@ -9,7 +9,7 @@ var should    = require('should');
 var shell     = require('shelljs');
 var csv       = require('csv');
 var byline    = require('byline');
-var csvextractor = require('../csvextractor.js');
+var csvextractor = require('../lib/csvextractor.js');
 
 var platformsFolder = __dirname + '/../platforms';
 var cfgFilename     = 'manifest.json';
