@@ -14,7 +14,7 @@ var tabRegex  = require('../lib/logformat.js');
 var Writer    = require('../lib/output/writer.js');
 
 function estValide(ec) {
-  if (!ec.url || !ec.httpCode || !ec.host) {
+  if (!ec.url || !ec.host) {
     return false;
   }
   // Filters images and javascript files
@@ -22,7 +22,7 @@ function estValide(ec) {
     return false;
   }
   // Filters http codes other than 200 and 302
-  if (['200', '302'].indexOf(ec.httpCode) == -1) {
+  if (ec.httpCode && ['200', '302'].indexOf(ec.httpCode) == -1) {
     return false;
   }
   return true;
@@ -265,6 +265,7 @@ module.exports = function (app, parsers, knowledge, ignoredDomains) {
     stream.on('data', function (line) {
       var ec = false;
       var match;
+
       tabRegex.forEach(function (regex) {
         match = regex.exp.exec(line);
         if (match) {
@@ -281,6 +282,7 @@ module.exports = function (app, parsers, knowledge, ignoredDomains) {
           return;
         }
       });
+
       if (ec) {
         if (ignoredDomains.indexOf(ec.domain) == -1) {
           if (estValide(ec)) {
@@ -290,7 +292,6 @@ module.exports = function (app, parsers, knowledge, ignoredDomains) {
 
               if (!ecBuffers[parser]) { ecBuffers[parser] = [parsers[ec.domain]]; }
               ecBuffers[parser].push(ec);
-
               if (ecBuffers[parser].length > ecBufferSize) {
                 var buffer = ecBuffers[parser].slice();
                 delete ecBuffers[parser];
