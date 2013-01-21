@@ -8,7 +8,6 @@ var config  = require('../config.json');
 var host    = '127.0.0.1';
 var port    =  config.EZPAARSE_NODEJS_PORT;
 var url     = 'http://' + host + ':' + port;
-var headers  = { accept: 'application/json' }
 
 exports.get = function (path, callback) {
   request({
@@ -17,15 +16,18 @@ exports.get = function (path, callback) {
     }, callback);
 };
 
-exports.post = function (path, filePath, callback) {
+exports.post = function (path, filePath, headers, callback) {
   var opt = {
     method: 'POST',
     url: url + (path ? path : '/'),
-    headers: headers
   };
 
+  if (headers) {
+    opt.headers = headers;
+  }
+
   if (filePath) {
-    var fileContent = fs.readFileSync(filePath, 'utf8');
+    var fileContent = fs.readFileSync(filePath);
     if (fileContent) { opt.body = fileContent; }
   }
   
