@@ -13,18 +13,17 @@ var gzipLogFile = __dirname + '/dataset/sd.2013-01-15.log.gz';
 var csvResultFile = __dirname + '/dataset/sd.2013-01-15.result.csv';
 
 describe('The server', function () {
-  describe('receiving a normal log file', function () {
-    it('sends back a correct output', function (done) {
+  describe('receives a log on the HTTP POST /ws/ route', function () {
+    it('and sends back a well formatted output file', function (done) {
       var headers = {
         accept: 'application/json'
       };
-      helpers.post('/ws/', logFile, headers,
-      function (error, res, body) {
+      helpers.post('/ws/', logFile, headers, function (error, res, body) {
         if (error) {
           throw error;
         }
         if (!res) {
-          throw new Error('The application is not running');
+          throw new Error('ezPAARSE is not running');
         }
         res.should.have.status(200);
         
@@ -36,14 +35,14 @@ describe('The server', function () {
         bodyJson.should.be.a('object');
 
         should.ok(helpers.compareArrays(bodyJson, correctJson),
-          'The response of the server does not match the expected one');
+          'Server\'s answer do not match the intended result');
 
         done();
       });
     });
   });
   describe('receiving a gzipped log file', function () {
-    this.timeout(7000);
+    this.timeout(40000);
     it('sends back a correct output', function (done) {
       var headers = {
         accept: 'text/csv',
@@ -58,7 +57,7 @@ describe('The server', function () {
           throw new Error('The application is not running');
         }
         res.should.have.status(200);
-        fs.writeFileSync('truc.log', body);
+        
         csvextractor(fs.createReadStream(csvResultFile), [], function (correctRecords) {
           csvextractor([body], [], function (bodyRecords) {
             should.ok(helpers.compareArrays(bodyRecords, correctRecords),

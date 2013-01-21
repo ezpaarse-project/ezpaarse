@@ -14,7 +14,8 @@ var express = require('express'),
 process.title = pkg.name.toLowerCase();
 
 // write pid to ezpaarse.pid file
-var optimist = require('optimist').describe('--pidFile', 'the pid file where ezpaarse pid is stored');
+var optimist = require('optimist')
+  .describe('--pidFile', 'the pid file where ezpaarse pid is stored');
 if (optimist.argv.pidFile) {
   console.log(optimist.argv.pidFile);
   fs.writeFileSync(optimist.argv.pidFile, process.pid);
@@ -24,7 +25,7 @@ require('./init.js')(function fill(parsers, knowledge) {
   var app = express();
 
   // connect ezpaarse version to expressjs env version
-  app.set('env', config.EZPAARSE_VERSION);  
+  app.set('env', config.EZPAARSE_VERSION);
   
   app.configure(function () {
     app.set('port', config.EZPAARSE_NODEJS_PORT || 3000);

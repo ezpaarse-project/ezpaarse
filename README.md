@@ -15,7 +15,7 @@ Voici les outils dont vous avez besoin pour faire fonctionner ezPAARSE :
 
 Remarque : nous préconiserons prochainement un dimensionnement pour le serveur au niveau du CPU et de la RAM.
 Pour cela, nous attendons de pouvoir disposer d'un panel de parseurs plus complet pour pouvoir lancer des
-benchmark intensifs et en déduire des préconisations matérielles.
+benchmarks et en déduire des préconisations matérielles.
 
 ## Installation ##
 
@@ -49,11 +49,11 @@ make start
 ```
 
 Un client HTTP (ici curl) peut envoyer un fichier de données de log (ici ./test/dataset/sd.2012-11-30.300.log)
-sur le Web service d'ezPAARSE et obtenir en réponse un flux JSON d'événements de consultation.
+sur le Web service d'ezPAARSE et obtenir en réponse un flux CSV d'événements de consultation.
 
 ```console
 curl -X POST http://127.0.0.1:59599/ws/ \
-             -v --no-proxy --no-buffer \
+             -v --proxy "" --no-buffer \
              --data-binary @./test/dataset/sd.2012-11-30.300.log
 ```
 
@@ -61,7 +61,6 @@ Alternativement, vous pouvez également utiliser la commande ``./bin/loginjector
 pour injecter encore plus simplement le fichier de log dans ezPAARSE :
 
 ```console
-. ./bin/env
 cat ./test/dataset/sd.2012-11-30.300.log | ./bin/loginjector
 ```
 

@@ -22,7 +22,7 @@ function testFiles(files, parserFile, platform) {
   }
   describe(platform, function () {
     it('works', function (done) {
-      csvextractor(files, ['url','issn','pid','type'], function (records) {
+      csvextractor(files, ['url', 'issn', 'pid', 'type'], function (records) {
         var child = shell.exec(parserFile, {async: true, silent: true})
         var stream = byline.createStream(child.stdout);
         var record = records.pop();
@@ -40,7 +40,7 @@ function testFiles(files, parserFile, platform) {
           }
         })
 
-        stream.on('end', function() {
+        stream.on('end', function () {
           done();
         });
         
@@ -91,6 +91,6 @@ function fetchPlatform(platform) {
 }
 
 describe('The parser', function () {
-    this.timeout(10000);
-    fetchPlatform(platforms.pop());
+  this.timeout(10000);
+  fetchPlatform(platforms.pop());
 });
