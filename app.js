@@ -21,7 +21,7 @@ if (optimist.argv.pidFile) {
   fs.writeFileSync(optimist.argv.pidFile, process.pid);
 }
 
-require('./init.js')(function fill(parsers, knowledge) {
+require('./lib/init.js')(function fill(parsers, knowledge) {
   var app = express();
 
   // connect ezpaarse version to expressjs env version
