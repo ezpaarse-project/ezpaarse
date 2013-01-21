@@ -1,0 +1,53 @@
+#!/bin/bash
+#
+# ezPAARSE .zip and .tag.gz generator
+#
+
+set -e
+
+MY_PATH=$(cd ${0%/*} && echo $PWD/${0##*/})
+BIN_PATH=`dirname "$MY_PATH"`
+EZPAARSE_PATH=$BIN_PATH/..
+VERSION=`$BIN_PATH/readconfig -k version`
+
+# check version exists
+if [ "`git tag -l | grep 0.0.3`" == "" ]; then
+  VERSION="latest"
+fi
+
+# a temp folder to clone the git
+TMP_DIR=$EZPAARSE_PATH/tmp
+mkdir -p $TMP_DIR
+
+EZPAARSE_SUFFIX=""
+EZPAARSE_NAME="ezpaarse-$VERSION"
+
+# clone the git with the correct name
+rm -rf $TMP_DIR/$EZPAARSE_NAME
+git clone file://$EZPAARSE_PATH $TMP_DIR/$EZPAARSE_NAME
+
+# cleanup the pfc files
+cd $TMP_DIR/$EZPAARSE_NAME
+if [ "$VERSION" != "latest" ]; then
+  git checkout $VERSION
+fi
+cp -f $EZPAARSE_PATH/Makefile $TMP_DIR/$EZPAARSE_NAME/
+touch $TMP_DIR/$EZPAARSE_NAME/clean-for-release-flag
+make clean-for-release
+
+# generate the tar.gz and .zip
+cd $TMP_DIR
+tar czf $EZPAARSE_NAME$EZPAARSE_SUFFIX.tar.gz $EZPAARSE_NAME/
+zip -Tq9r $EZPAARSE_NAME$EZPAARSE_SUFFIX.zip $EZPAARSE_NAME/
+
+# move archives into a version directory ready to upload
+mkdir -p $EZPAARSE_PATH/$EZPAARSE_NAME
+mv $EZPAARSE_NAME$EZPAARSE_SUFFIX.tar.gz $EZPAARSE_PATH/$EZPAARSE_NAME/
+echo "$EZPAARSE_PATH/$EZPAARSE_NAME/$EZPAARSE_NAME$EZPAARSE_SUFFIX.tar.gz generated"
+mv $EZPAARSE_NAME$EZPAARSE_SUFFIX.zip    $EZPAARSE_PATH/$EZPAARSE_NAME/
+echo "$EZPAARSE_PATH/$EZPAARSE_NAME/$EZPAARSE_NAME$EZPAARSE_SUFFIX.zip generated"
+
+# cleanup 
+rm -rf $TMP_DIR
+cd $EZPAARSE_PATH
+exit 0

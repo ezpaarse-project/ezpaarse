@@ -92,4 +92,12 @@ rpm: deb
 	@test -f /usr/bin/alien || sudo apt-get install --yes alien
 	sudo alien --to-rpm --scripts ./ezpaarse-0.0.2_all.deb
 
-.PHONY: test checkconfig build deb rpm
+release:
+	./bin/buildrelease
+
+clean-for-release:
+	test -f ./clean-for-release-flag || ( echo "Warning: do no run this command on your ezpaarse used for devlopements" ; exit 1 )	
+	rm -rf ./.git/
+	rm -rf ./test/
+
+.PHONY: test checkconfig build deb rpm release clean-for-release
