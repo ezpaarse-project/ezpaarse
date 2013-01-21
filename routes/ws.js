@@ -265,6 +265,7 @@ module.exports = function (app, parsers, knowledge, ignoredDomains) {
     stream.on('data', function (line) {
       var ec = false;
       var match;
+
       tabRegex.forEach(function (regex) {
         match = regex.exp.exec(line);
         if (match) {
@@ -281,6 +282,7 @@ module.exports = function (app, parsers, knowledge, ignoredDomains) {
           return;
         }
       });
+
       if (ec) {
         if (ignoredDomains.indexOf(ec.domain) == -1) {
           if (estValide(ec)) {
@@ -290,7 +292,6 @@ module.exports = function (app, parsers, knowledge, ignoredDomains) {
 
               if (!ecBuffers[parser]) { ecBuffers[parser] = [parsers[ec.domain]]; }
               ecBuffers[parser].push(ec);
-
               if (ecBuffers[parser].length > ecBufferSize) {
                 var buffer = ecBuffers[parser].slice();
                 delete ecBuffers[parser];
