@@ -10,8 +10,8 @@ var crypto    = require('crypto');
 var shell     = require('shelljs');
 var async     = require('async');
 var zlib      = require('zlib');
-var tabRegex  = require('../logformat.js');
-var Writer    = require('../output/writer.js');
+var tabRegex  = require('../lib/logformat.js');
+var Writer    = require('../lib/output/writer.js');
 
 function estValide(ec) {
   if (!ec.url || !ec.httpCode || !ec.host) {
