@@ -100,4 +100,10 @@ clean-for-release:
 	rm -rf ./.git/
 	rm -rf ./test/
 
+# example: make version v=0.0.3
+version: dummy
+	test -f node_modules/glob/package.json     || npm install glob
+	test -f node_modules/optimist/package.json || npm install optimist
+	./bin/patch-version-number --version $(v)
+
 .PHONY: test checkconfig build deb rpm release clean-for-release
