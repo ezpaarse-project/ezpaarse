@@ -2,7 +2,7 @@
 
 ## loginjector
 
-Commande permettant d'envoyer un fichier de log vers une instance locale d'ezPAARSE. Le fichier de log doit être envoyé sur l'entrée système (stdin) de la commande.
+Commande permettant d'envoyer un fichier de log en streaming vers une instance locale d'ezPAARSE. Le fichier de log doit être envoyé sur l'entrée système (stdin) de la commande.
 
 Exemple d'utilisation:
 ```bash
@@ -14,7 +14,7 @@ Usage:
 Usage: node ./bin/loginjector
 ```
 
-Cette commande simplifie l'envoi des log vers l'instance d'ezPAARSE en fournissant à la commande curl tous les paramètres dont elle a besoin.
+Cette commande simplifie l'envoi des logs vers l'instance d'ezPAARSE par rapport à l'utilisation de la commande cURL.
 
 ## logextractor
 
