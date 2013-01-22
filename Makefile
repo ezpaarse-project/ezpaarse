@@ -101,7 +101,8 @@ rpm: deb
 	@test -f /usr/bin/alien || sudo apt-get install --yes alien
 	sudo alien --to-rpm --scripts ./ezpaarse-0.0.2_all.deb
 
-release:
+# zip and tar.gz archives are generated
+zip:
 	./bin/buildrelease
 
 clean-for-release:
