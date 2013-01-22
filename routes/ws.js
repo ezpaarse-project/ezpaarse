@@ -1,17 +1,19 @@
 /*jslint node: true, maxlen: 100, maxerr: 50, indent: 2 */
 'use strict';
 
-var debug     = require('debug')('log');
-var URL       = require('url');
-var fs        = require('fs');
-var byline    = require('byline');
-var moment    = require('moment');
-var crypto    = require('crypto');
-var shell     = require('shelljs');
-var async     = require('async');
-var zlib      = require('zlib');
-var tabRegex  = require('../lib/logformat.js');
-var Writer    = require('../lib/output/writer.js');
+var debug         = require('debug')('log');
+var URL           = require('url');
+var fs            = require('fs');
+var byline        = require('byline');
+var moment        = require('moment');
+var crypto        = require('crypto');
+var shell         = require('shelljs');
+var async         = require('async');
+var zlib          = require('zlib');
+var tabRegex      = require('../lib/logformat.js');
+var Writer        = require('../lib/output/writer.js');
+var Knowledge     = require('../lib/knowledgeManager.js');
+
 
 function estValide(ec) {
   if (!ec.url || !ec.host) {
@@ -28,16 +30,26 @@ function estValide(ec) {
   return true;
 }
 
-module.exports = function (app, parsers, knowledge, ignoredDomains) {
+module.exports = function (app, parsers, ignoredDomains) {
   
   /**
    * POST log
    */
   app.post('/ws/', function (req, res) {
     debug("Req : " + req);
-    var writer;
-    var status = 200;
+    var writer, zip, unzip;
+    var status          = 200;
+    var contentEncoding = req.header('content-encoding');
+    var acceptEncoding  = req.header('accept-encoding');
 
+    var knowledge       = new Knowledge();
+    var countLines      = 0;
+    var countECs        = 0;
+    var endOfRequest    = false;
+
+    // Array of EC buffers, used to parse multiple ECs using one process
+    var ecBuffers       = {};
+    var ecBufferSize    = 50;
 
     if (req.get('Content-length') === 0) {
       // If no content in the body, terminate the response
@@ -45,15 +57,11 @@ module.exports = function (app, parsers, knowledge, ignoredDomains) {
       debug("No content sent by the client");
     }
 
-    var unzip;
-    var contentEncoding = req.header('content-encoding');
     if (contentEncoding == 'gzip' || contentEncoding == 'deflate') {
       unzip = zlib.createUnzip();
       req.pipe(unzip);
     }
 
-    var acceptEncoding = req.header('accept-encoding');
-    var zip;
     if (acceptEncoding) {
       if (acceptEncoding == 'gzip') {
         res.set('Content-Encoding', 'gzip');
@@ -101,13 +109,6 @@ module.exports = function (app, parsers, knowledge, ignoredDomains) {
       return;
     }
 
-    var countLines    = 0;
-    var countECs      = 0;
-    var endOfRequest  = false;
-
-    // Array of EC buffers, used to parse multiple ECs using one process
-    var ecBuffers     = {};
-    var ecBufferSize  = 50;
 
     writer.start();
 
@@ -121,112 +122,115 @@ module.exports = function (app, parsers, knowledge, ignoredDomains) {
       var firstLine = fs.readFileSync(parser, 'utf8').split('\n')[0];
       var match = /^\#\!\/usr\/bin\/env ([a-zA-Z]+)$/.exec(firstLine);
       var ec;
-      if (match && match[1] && match[1] == 'node') {
-        var urls = [];
-        for (var i = 0, l = buffer.length; i < l; i++) {
-          urls.push(buffer[i].url);
-        }
-        var results = require(parser).parserExecute(urls);
 
-        for (i = 0, l = results.length; i < l; i++) {
-          var result = results[i];
-          ec = buffer[i];
-
-          if (result.type) {
-            ec.type = result.type;
+      knowledge.get(platform, function (pkb) {
+        if (match && match[1] && match[1] == 'node') {
+          var urls = [];
+          for (var i = 0, l = buffer.length; i < l; i++) {
+            urls.push(buffer[i].url);
           }
-          if (result.issn) {
-            ec.issn = result.issn;
-          } else if (result.pid) {
-            var id;
-            if (knowledge[platform]) {
-              id = knowledge[platform][result.pid];
-              if (id) {
-                ec.pissn = id.pissn;
-                ec.eissn = id.eissn;
-              } else {
-                debug('Could\'t find any ISSN from the editor id');
-              }
-            } else {
-              debug('No knowledge base found for the platform : ' + platform);
+          var results = require(parser).parserExecute(urls);
+
+          for (i = 0, l = results.length; i < l; i++) {
+            var result = results[i];
+            ec = buffer[i];
+
+            if (result.type) {
+              ec.type = result.type;
             }
-          } else {
-            debug('The parser couldn\'t find any id in the given URL');
-          }
-          if (ec.issn || ec.pissn || ec.eissn || ec.type) {
-            writer.write(ec);
-            countECs++;
-          }
-        }
-        callback(null);
-
-      } else {
-        var child = shell.exec(parser, {async: true, silent: true});
-        var stream = byline.createStream(child.stdout);
-
-        stream.on('data', function (line) {
-          if (ec) {
-            var result;
-            try {
-              result = JSON.parse(line);
-            } catch (e) {
-              debug('The value returned by the parser couldn\'t be parsed to JSON');
-            }
-            if (result instanceof Object) {
-              if (result.type) {
-                ec.type = result.type;
-              }
-              if (result.issn) {
-                ec.issn = result.issn;
-              } else if (result.pid) {
-                var id;
-                if (knowledge[platform]) {
-                  id = knowledge[platform][result.pid];
-                  if (id) {
-                    ec.pissn = id.pissn;
-                    ec.eissn = id.eissn;
-                  } else {
-                    debug('Could\'t find any ISSN from the editor id');
-                  }
+            if (result.issn) {
+              ec.issn = result.issn;
+            } else if (result.pid) {
+              var id;
+              if (pkb) {
+                id = pkb[result.pid];
+                if (id) {
+                  ec.pissn = id.pissn;
+                  ec.eissn = id.eissn;
                 } else {
-                  debug('No knowledge base found for the platform : ' + platform);
+                  debug('Could\'t find any ISSN from the editor id');
                 }
               } else {
-                debug('The parser couldn\'t find any id in the given URL');
+                debug('No knowledge base found for the platform : ' + platform);
               }
-              if (ec.issn || ec.pissn || ec.eissn || ec.type) {
-                writer.write(ec);
-                countECs++;
-              }
-
             } else {
-              debug('The value returned by the parser couldn\'t be parsed to JSON');
+              debug('The parser couldn\'t find any id in the given URL');
             }
-            
-            ec = buffer.pop();
-            if (ec) {
-              child.stdin.write(ec.url + '\n');
-            } else {
-              child.stdin.end();
+            if (ec.issn || ec.pissn || ec.eissn || ec.type) {
+              writer.write(ec);
+              countECs++;
             }
-          }
-        });
-        
-        child.on('exit', function (code) {
-          if (code === 0) {
-            debug('Process complete');
-          } else {
-            debug('The process failed');
           }
           callback(null);
-        });
-        ec = buffer.pop();
-        if (ec) {
-          child.stdin.write(ec.url + '\n');
+
         } else {
-          child.stdin.end();
+          var child = shell.exec(parser, {async: true, silent: true});
+          var stream = byline.createStream(child.stdout);
+
+          stream.on('data', function (line) {
+            if (ec) {
+              var result;
+              try {
+                result = JSON.parse(line);
+              } catch (e) {
+                debug('The value returned by the parser couldn\'t be parsed to JSON');
+              }
+              if (result instanceof Object) {
+                if (result.type) {
+                  ec.type = result.type;
+                }
+                if (result.issn) {
+                  ec.issn = result.issn;
+                } else if (result.pid) {
+                  var id;
+                  if (pkb[platform]) {
+                    id = pkb[platform][result.pid];
+                    if (id) {
+                      ec.pissn = id.pissn;
+                      ec.eissn = id.eissn;
+                    } else {
+                      debug('Could\'t find any ISSN from the editor id');
+                    }
+                  } else {
+                    debug('No knowledge base found for the platform : ' + platform);
+                  }
+                } else {
+                  debug('The parser couldn\'t find any id in the given URL');
+                }
+                if (ec.issn || ec.pissn || ec.eissn || ec.type) {
+                  writer.write(ec);
+                  countECs++;
+                }
+
+              } else {
+                debug('The value returned by the parser couldn\'t be parsed to JSON');
+              }
+              
+              ec = buffer.pop();
+              if (ec) {
+                child.stdin.write(ec.url + '\n');
+              } else {
+                child.stdin.end();
+              }
+            }
+          });
+          
+          child.on('exit', function (code) {
+            if (code === 0) {
+              debug('Process complete');
+            } else {
+              debug('The process failed');
+            }
+            callback(null);
+          });
+          ec = buffer.pop();
+          if (ec) {
+            child.stdin.write(ec.url + '\n');
+          } else {
+            child.stdin.end();
+          }
         }
-      }
+      });
     }, 10);
   
     var stream = byline.createStream(request);

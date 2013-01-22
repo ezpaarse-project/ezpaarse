@@ -34,13 +34,22 @@ JSFILES=$(wildcard $(EZPATH)/*.js) $(wildcard $(EZPATH)/test/*.js)  $(wildcard $
 
 # Runs all tests (*-test.js) in the test folder
 test:
-	@. ./bin/env; mocha
+	@if test -d test; \
+	then . ./bin/env; mocha; \
+	else echo 'No test folder found'; \
+	fi
 
 test-verbose:
-	@. ./bin/env; mocha -R list
+	@if test -d test; \
+	then . ./bin/env; mocha -R list; \
+	else echo 'No test folder found'; \
+	fi
 
 test-platforms:
-	@. ./bin/env; mocha -g parser
+	@if test -d test; \
+	then . ./bin/env; mocha -g parser; \
+	else echo 'No test folder found'; \
+	fi
 
 jshint:
 	@. ./bin/env; jshint $(JSFILES) --config .jshintrc
