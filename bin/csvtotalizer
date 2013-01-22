@@ -16,16 +16,11 @@ var csvextractor = require('../lib/csvextractor.js');
 // get the command line argument
 // platform
 var optimist = require('optimist')
-    .usage('Extract specific field from a CSV stream\nUsage: $0 --fields=[string] --separator=";"')
-//    .demand('file').alias('file', 'F')
-    .demand('separator').alias('separator', 'sep')
+    .usage('Totalize fields from a CSV stream\nUsage: $0 --fields=[string] --output="text|json"')
     .demand('output').alias('output', 'o').default('output', 'text')
     .demand('fields').alias('fields', 'f').default('fields', "domain,host,login,type")
-    .alias('separator', 's').default('separator', '\t')
     .describe('output', 'output : text or json')
-//   .describe('file', 'CSV file to compute')
-    .describe('fields', 'fields to compute from the CSV (ex: domain, host, login, type)')
-    .describe('separator', 'charactere to use between each field');
+    .describe('fields', 'fields to compute from the CSV (ex: domain,host,login,type)');
 var argv = optimist.argv;
 
 // show usage if --help option is used
@@ -34,8 +29,6 @@ if (argv.help) {
   process.exit(0);
 }
 
-var sep    = argv.separator;
-var files = [argv.file];
 var csv_fields = argv.fields.split(',');
 var linenb = 0;
 var records = [];
@@ -66,11 +59,19 @@ csvextractor(stream, csv_fields, function (records) {
       }
     });
   });
-  if (argv.output == 'text') {
-    console.log("Total Evenements de Consultation : %s", linenb);
+  if (argv.output == 'json') {
     console.log(util.inspect(columns));
   } else {
-    console.log(util.inspect(columns));
+    console.log("Total Evenements de Consultation : %s", linenb);
+    fields = Object.keys(columns);
+    // todo : sort by value desc
+    fields.forEach(function (field) {
+      console.log(field + " (" + Object.keys(columns[field]).length + ")");
+      var items = Object.keys(columns[field]);
+      items.forEach(function (item, id) {
+        console.log("\t" + item + " = \t" + columns[field][item]);
+      });
+    });
   }
 },
 {
