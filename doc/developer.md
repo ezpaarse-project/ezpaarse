@@ -72,9 +72,37 @@ Pour aider l'écriture des regexp, voici un [outils qui pourra aider à visualis
 
 ## Générer une version d`ezPAARSE ##
 
-TODO expliquer comment modifier le n° de version et générer un tag
+Pour générer une nouvelle version d'ezPAARSE plusieurs étapes semi-automatiques sont nécessaires:
 
-Sous le système d'exploitation Debian, la command `sudo ./bin/builddeb` génère une archive `.deb` d'ezpaarse
+- S'assurer de ne pas avoir de modification locales en attente: `git status` permet de s'en assurer.
 
-TODO expliquer comment générer un zip et un tar.gz
+- Modifier le numéro de version des différents fichiers concernés (bien entendu, remplacez 0.0.3 par le numéro souhaité) :
+```console
+make version v=0.0.3
+git commit -a -m "Version 0.0.3"
+```
 
+- Créer un tag git:
+```console
+make tag
+```
+
+- Créer des archives zip et tar.gz:
+```
+make zip
+```
+
+- Créer une achive debian (.deb):
+```console
+make deb
+```
+
+- Créer une achive rpm (.rpm):
+```console
+make rpm
+```
+
+- Envoyer le tout sur le serveur [AnalogIST](http://analogist.couperin.org) pour mettre la version à disposition de la communauté:
+```console
+make upload
+```
