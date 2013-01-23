@@ -12,7 +12,7 @@ DOC_OUTPUT=$(shell pwd)/public/doc
 DOC_HTML=$(DOC_OUTPUT)/index.html
 
 # Run every steps needed to start ezpaarse
-all: build checkconfig
+all: build pkb-update checkconfig
 
 # Generate doc with beautiful-docs
 $(DOC_HTML): $(DOC)
@@ -98,6 +98,13 @@ rpm: deb
 # zip and tar.gz archives are generated
 zip:
 	./bin/buildrelease
+
+# Clone or update pkb folder
+pkb-update:
+	@if test -d ezpaarse-pkb; \
+	then cd ezpaarse-pkb; git pull; \
+	else git clone https://github.com/ezpaarse-project/ezpaarse-pkb.git; \
+	fi
 
 clean-for-release:
 	test -f ./clean-for-release-flag || ( echo "Warning: do no run this command on your ezpaarse used for devlopements" ; exit 1 )	

@@ -145,7 +145,7 @@ module.exports = function (app, parsers, ignoredDomains) {
               if (pkb) {
                 id = pkb[result.pid];
                 if (id) {
-                  ec.pissn = id.pissn;
+                  ec.issn = id.issn;
                   ec.eissn = id.eissn;
                 } else {
                   debug('Could\'t find any ISSN from the editor id');
@@ -156,7 +156,7 @@ module.exports = function (app, parsers, ignoredDomains) {
             } else {
               debug('The parser couldn\'t find any id in the given URL');
             }
-            if (ec.issn || ec.pissn || ec.eissn || ec.type) {
+            if (ec.issn || ec.eissn || ec.type) {
               writer.write(ec);
               countECs++;
             }
@@ -186,7 +186,7 @@ module.exports = function (app, parsers, ignoredDomains) {
                   if (pkb[platform]) {
                     id = pkb[platform][result.pid];
                     if (id) {
-                      ec.pissn = id.pissn;
+                      ec.issn = id.issn;
                       ec.eissn = id.eissn;
                     } else {
                       debug('Could\'t find any ISSN from the editor id');
@@ -197,7 +197,7 @@ module.exports = function (app, parsers, ignoredDomains) {
                 } else {
                   debug('The parser couldn\'t find any id in the given URL');
                 }
-                if (ec.issn || ec.pissn || ec.eissn || ec.type) {
+                if (ec.issn || ec.eissn || ec.type) {
                   writer.write(ec);
                   countECs++;
                 }
