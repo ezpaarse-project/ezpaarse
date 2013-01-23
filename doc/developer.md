@@ -82,7 +82,7 @@ make version v=0.0.3
 git commit -a -m "Version 0.0.3"
 ```
 
-- Créer un tag git:
+- Créer un tag git correspondant à la version précédement créée:
 ```console
 make tag
 ```
