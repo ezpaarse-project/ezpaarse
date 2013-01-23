@@ -80,12 +80,18 @@ bench:
 # Build section
 # # # # # # # # # # # #
 
-
 build:
 	@test -f /usr/bin/git || sudo apt-get install --yes git
 	@./bin/buildnode
 	@./build/nvm/bin/latest/npm rebuild >/dev/null
 	$(MAKE) doc
+
+# Clone or update pkb folder
+pkb-update:
+	@if test -d ezpaarse-pkb; \
+	then cd ezpaarse-pkb; git pull; \
+	else git clone https://github.com/ezpaarse-project/ezpaarse-pkb.git; \
+	fi
 
 deb:
 	@test -f /usr/bin/dpkg-deb || sudo apt-get install --yes dpkg
@@ -99,13 +105,6 @@ rpm: deb
 zip:
 	./bin/buildrelease
 
-# Clone or update pkb folder
-pkb-update:
-	@if test -d ezpaarse-pkb; \
-	then cd ezpaarse-pkb; git pull; \
-	else git clone https://github.com/ezpaarse-project/ezpaarse-pkb.git; \
-	fi
-
 clean-for-release:
 	test -f ./clean-for-release-flag || ( echo "Warning: do no run this command on your ezpaarse used for devlopements" ; exit 1 )	
 	rm -rf ./.git/
@@ -117,4 +116,7 @@ version:
 	test -f node_modules/optimist/package.json || npm install optimist
 	./bin/patch-version-number --version $(v)
 
-.PHONY: test checkconfig build deb rpm release clean-for-release version
+tag:
+	./bin/tagversion
+
+.PHONY: test checkconfig build deb rpm release clean-for-release version tag

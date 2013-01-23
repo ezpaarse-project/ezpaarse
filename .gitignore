@@ -6,3 +6,5 @@ logs/
 bench.csv
 bench.png
 platforms-pkb/
+bench-*.csv
+bench-*.png*
