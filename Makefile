@@ -12,7 +12,7 @@ DOC_OUTPUT=$(shell pwd)/public/doc
 DOC_HTML=$(DOC_OUTPUT)/index.html
 
 # Run every steps needed to start ezpaarse
-all: build checkconfig pkb-update
+all: build pkb-update checkconfig
 
 # Generate doc with beautiful-docs
 $(DOC_HTML): $(DOC)
