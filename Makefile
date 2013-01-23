@@ -70,18 +70,12 @@ status:
 # Benchmarks section
 # # # # # # # # # # # #
 
-PID:=`cat $(shell pwd)/ezpaarse.pid`
+# example: make bench duration=30
 bench:
 	@test -f /usr/bin/pidstat || sudo apt-get install --yes sysstat
 	@test -f /usr/bin/pstree  || sudo apt-get install --yes psmisc
 	@test -f /usr/bin/gnuplot || sudo apt-get install --yes gnuplot
-	@. ./bin/env; \
-	echo "Starting ezPAARSE bench (please wait 120 seconds)."; \
-	./bin/logfaker --duration=120 --rate=500 | ./bin/loginjector | ./bin/monitor --pid=$(PID) --each=2 > ./bench.csv; \
-	gnuplot ./misc/monitor.gplot > ./bench.png; \
-	echo "ezPAARSE bench finished."; \
-	echo "./bench.csv contains bench result data"; \
-	echo "./bench.png contains bench result plot"
+	@./bin/runbench
 
 # Build section
 # # # # # # # # # # # #
