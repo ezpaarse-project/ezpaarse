@@ -105,6 +105,13 @@ rpm: deb
 zip:
 	./bin/buildrelease
 
+# Clone or update pkb folder
+pkb-update:
+	@if test -d ezpaarse-pkb; \
+	then cd ezpaarse-pkb; git pull; \
+	else git clone https://github.com/ezpaarse-project/ezpaarse-pkb.git; \
+	fi
+
 clean-for-release:
 	test -f ./clean-for-release-flag || ( echo "Warning: do no run this command on your ezpaarse used for devlopements" ; exit 1 )	
 	rm -rf ./.git/
