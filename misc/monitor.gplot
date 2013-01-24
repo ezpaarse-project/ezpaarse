@@ -2,7 +2,7 @@ set term png font arial 14 size 800,3072
 set datafile separator ","
 
 
-set multiplot layout 7, 1 title "ezPAARSE benchmark plots"
+set multiplot layout 7, 1 title "ezPAARSE benchmark"
 set tmargin 2
 
 set title "Log output rate"

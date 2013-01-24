@@ -70,28 +70,28 @@ status:
 # Benchmarks section
 # # # # # # # # # # # #
 
-PID:=`cat $(shell pwd)/ezpaarse.pid`
+# example: make bench duration=30
 bench:
 	@test -f /usr/bin/pidstat || sudo apt-get install --yes sysstat
 	@test -f /usr/bin/pstree  || sudo apt-get install --yes psmisc
 	@test -f /usr/bin/gnuplot || sudo apt-get install --yes gnuplot
-	@. ./bin/env; \
-	echo "Starting ezPAARSE bench (please wait 120 seconds)."; \
-	./bin/logfaker --duration=120 --rate=500 | ./bin/loginjector | ./bin/monitor --pid=$(PID) --each=2 > ./bench.csv; \
-	gnuplot ./misc/monitor.gplot > ./bench.png; \
-	echo "ezPAARSE bench finished."; \
-	echo "./bench.csv contains bench result data"; \
-	echo "./bench.png contains bench result plot"
+	@./bin/runbench
 
 # Build section
 # # # # # # # # # # # #
-
 
 build:
 	@test -f /usr/bin/git || sudo apt-get install --yes git
 	@./bin/buildnode
 	@./build/nvm/bin/latest/npm rebuild >/dev/null
 	$(MAKE) doc
+
+# Clone or update pkb folder
+pkb-update:
+	@if test -d platforms-kb; \
+	then cd platforms-kb; git pull; \
+	else git clone https://github.com/ezpaarse-project/ezpaarse-pkb.git platforms-kb; \
+	fi
 
 deb:
 	@test -f /usr/bin/dpkg-deb || sudo apt-get install --yes dpkg
@@ -105,13 +105,6 @@ rpm: deb
 zip:
 	./bin/buildrelease
 
-# Clone or update pkb folder
-pkb-update:
-	@if test -d ezpaarse-pkb; \
-	then cd ezpaarse-pkb; git pull; \
-	else git clone https://github.com/ezpaarse-project/ezpaarse-pkb.git; \
-	fi
-
 clean-for-release:
 	test -f ./clean-for-release-flag || ( echo "Warning: do no run this command on your ezpaarse used for devlopements" ; exit 1 )	
 	rm -rf ./.git/
@@ -123,4 +116,7 @@ version:
 	test -f node_modules/optimist/package.json || npm install optimist
 	./bin/patch-version-number --version $(v)
 
-.PHONY: test checkconfig build deb rpm release clean-for-release version
+tag:
+	./bin/tagversion
+
+.PHONY: test checkconfig build pkb-update deb rpm release clean-for-release version tag
