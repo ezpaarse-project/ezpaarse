@@ -88,9 +88,9 @@ build:
 
 # Clone or update pkb folder
 pkb-update:
-	@if test -d ezpaarse-pkb; \
-	then cd ezpaarse-pkb; git pull; \
-	else git clone https://github.com/ezpaarse-project/ezpaarse-pkb.git; \
+	@if test -d platforms-kb; \
+	then cd platforms-kb; git pull; \
+	else git clone https://github.com/ezpaarse-project/ezpaarse-pkb.git platforms-kb; \
 	fi
 
 deb:
@@ -119,4 +119,4 @@ version:
 tag:
 	./bin/tagversion
 
-.PHONY: test checkconfig build deb rpm release clean-for-release version tag
+.PHONY: test checkconfig build pkb-update deb rpm release clean-for-release version tag
