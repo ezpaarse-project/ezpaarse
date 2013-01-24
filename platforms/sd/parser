@@ -2,74 +2,74 @@
 
 /*jslint node: true, maxlen: 100, maxerr: 50, indent: 2 */
 'use strict';
-var byline = require('byline');
-var URL = require('url');
+var byline      = require('byline');
+var URL         = require('url');
 var querystring = require('querystring');
 
 function parseUrl(url) {
-    var result = {};
-    var param = querystring.parse(URL.parse(url).query);
+    var result  = {};
+    var param   = querystring.parse(URL.parse(url).query);
+    var match;
     
     if (param._ob) {
       if (param._cdi) {
         result.pid = param._cdi;
       }
-      switch(param._ob) {
-        case 'IssueURL':
-          // The CDI is the 2nd parameter of _tockey (params separated by '#')
-          var arg = param._tockey.split('#');
-          result.pid = arg[2];
-          // Set consultation type to TableOfContent (TOC)
-          result.type = 'TOC';
-          break;
-        case 'ArticleURL':
-          // Summary of full text
-          if (param._fmt) {
-            switch(param.fmt) {
-              case 'summary':
-                // Set consultation type to Summary
-                result.type = 'SUMMARY';
-                break;
-              case 'full':
-                // Set consultation type to Text
-                result.type = 'TXT';
-                break;
-            }
+      switch (param._ob) {
+      case 'IssueURL':
+        // The CDI is the 2nd parameter of _tockey (params separated by '#')
+        var arg = param._tockey.split('#');
+        result.pid = arg[2];
+        // Set consultation type to TableOfContent (TOC)
+        result.type = 'TOC';
+        break;
+      case 'ArticleURL':
+        // Summary of full text
+        if (param._fmt) {
+          switch (param.fmt) {
+          case 'summary':
+            // Set consultation type to Summary
+            result.type = 'SUMMARY';
+            break;
+          case 'full':
+            // Set consultation type to Text
+            result.type = 'TXT';
+            break;
           }
-          break;
-        case 'MImg':
-          // PDF
-          // Set consultation type to PDF
-          result.type = 'PDF';
-          break;
-        case 'MiamiImageURL':
-          if (param._pii) {
-	      if (match = /S([0-9]{4})([0-9]{3}[0-9Xx])/.exec(param._pii)) {
-		result.issn = match[1] + '-' + match[2];
-		result.type = 'PDF';
-	      } else if (match = /B([0-9]{12})([0-9Xx])/.exec(param._pii)) {
-		result.pid = match[1] + match[2];
-		result.type = 'BOOKPDF';
-              } else {
-                result.issn = param._pii.substr(1,4) + '-' + param._pii.substr(5,4);
-		// Set consultation type to PDF
-		result.type = 'PDF';
-              }
+        }
+        break;
+      case 'MImg':
+        // PDF
+        // Set consultation type to PDF
+        result.type = 'PDF';
+        break;
+      case 'MiamiImageURL':
+        if (param._pii) {
+          if (match = /S([0-9]{4})([0-9]{3}[0-9Xx])/.exec(param._pii)) {
+            result.issn = match[1] + '-' + match[2];
+            result.type = 'PDF';
+          } else if (match = /B([0-9]{12})([0-9Xx])/.exec(param._pii)) {
+            result.pid = match[1] + match[2];
+            result.type = 'BOOKPDF';
+          } else {
+            result.issn = param._pii.substr(1, 4) + '-' + param._pii.substr(5, 4);
+            // Set consultation type to PDF
+            result.type = 'PDF';
           }
-          break;
-        case 'DocumentDeliveryURL':
-          // Order
-          // Set consultation type to Order
-          result.type = 'ORDER';
-          break;
-        default:
-          // Unknown case, skip
-          // Set Qualification to FALSE
-          result.qualification = false;
-          break;
+        }
+        break;
+      case 'DocumentDeliveryURL':
+        // Order
+        // Set consultation type to Order
+        result.type = 'ORDER';
+        break;
+      default:
+        // Unknown case, skip
+        // Set Qualification to FALSE
+        result.qualification = false;
+        break;
       }
     } else {
-      var match;
       if (match = /\/science\/article\/pii\/S([0-9]{4})([0-9]{3}[0-9Xx])/.exec(url)) {
         result.issn = match[1] + '-' + match[2];
         result.type = 'TXT';
@@ -91,7 +91,7 @@ function parseUrl(url) {
       }
     }
     return result;
-}
+  }
 
 /*
 * If an array of urls is given, return an array of results
@@ -101,7 +101,7 @@ exports.parserExecute = function (urls) {
 
   if (urls && Array.isArray(urls)) {
     var results = [];
-    for(var i = 0, l = urls.length; i < l; i++) {
+    for (var i = 0, l = urls.length; i < l; i++) {
       results.push(parseUrl(urls[i]));
     }
     return results;
@@ -110,11 +110,11 @@ exports.parserExecute = function (urls) {
     var stdout = process.stdout;
     var stream = byline.createStream(stdin);
 
-    stream.on('end', function() {
+    stream.on('end', function () {
       process.exit(0);
     });
 
-    stream.on('close  ', function() {
+    stream.on('close  ', function () {
       process.exit(0);
     });
 

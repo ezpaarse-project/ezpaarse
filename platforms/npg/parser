@@ -33,7 +33,7 @@ function parseUrl(url) {
     }
 
     return result;
-}
+  }
 
 /*
 * If an array of urls is given, return an array of results
@@ -43,7 +43,7 @@ exports.parserExecute = function (urls) {
 
   if (urls && Array.isArray(urls)) {
     var results = [];
-    for(var i = 0, l = urls.length; i < l; i++) {
+    for (var i = 0, l = urls.length; i < l; i++) {
       results.push(parseUrl(urls[i]));
     }
     return results;
@@ -52,11 +52,11 @@ exports.parserExecute = function (urls) {
     var stdout = process.stdout;
     var stream = byline.createStream(stdin);
 
-    stream.on('end', function() {
+    stream.on('end', function () {
       process.exit(0);
     });
 
-    stream.on('close  ', function() {
+    stream.on('close  ', function () {
       process.exit(0);
     });
 
