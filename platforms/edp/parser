@@ -7,8 +7,11 @@ var URL         = require('url');
 var querystring = require('querystring');
 
 function parseUrl(url) {
-    var result  = {};
-    var param   = querystring.parse(URL.parse(url).query);
+    var result    = {};
+    var parsedUrl = URL.parse(url);
+    var param     = querystring.parse(parsedUrl.query);
+    var domain    = parsedUrl.hostname;
+    result.pid    = domain;
     var match;
     if (param.url) {
       url = param.url;
@@ -17,9 +20,7 @@ function parseUrl(url) {
         result.type = 'TOC';
     } else if (match = /\/articles\/([a-zA-Z0-9]+)\/abs\/([0-9]{4}\/[0-9]{2}|first)\/contents\/contents.html$/.exec(url)) {
       result.type = 'TOC';
-      result.pid = match[1];
     } else if (match = /\/articles\/([a-zA-Z0-9]+)\/(abs|full_html|ref|olm)\/([0-9]{4}\/[0-9]{2}|first)\/[a-z]+[0-9]+\/[a-z]+[0-9]+.html$/.exec(url)) {
-      result.pid = match[1];
       switch (match[2]) {
       case 'abs':
         result.type = 'SUMMARY';
@@ -35,12 +36,8 @@ function parseUrl(url) {
         break;
       }
     } else if (match = /\/articles\/([a-zA-Z0-9]+)\/pdf\/([0-9]{4}\/[0-9]{2}|first)\/[a-z]+[0-9]+.pdf$/.exec(url)) {
-      result.pid  = match[1];
       result.type = 'PDF';
     } else {
-      if (param.jid) {
-        result.pid = param.jid;
-      }
       if (match = /\/action\/([a-zA-Z]+)/.exec(url)) {
         switch (match[1]) {
         case 'displayJournal':
