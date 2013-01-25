@@ -1,0 +1,388 @@
+AMarseille-156-1-163-3.w90-8.abo.wanadoo.fr - BVIUMR7265 [23/Jan/2013:00:55:16 +0100] "GET http://gate1.inist.fr:50162/login?url=http://www.medecinesciences.org/ HTTP/1.1" 302 0
+AMarseille-156-1-163-3.w90-8.abo.wanadoo.fr - BVIUMR7265 [23/Jan/2013:00:55:19 +0100] "GET http://www.medecinesciences.org:80/ HTTP/1.1" 200 20193
+AMarseille-156-1-163-3.w90-8.abo.wanadoo.fr - BVIUMR7265 [23/Jan/2013:00:55:21 +0100] "GET http://www.medecinesciences.org:80/components/com_accueil/assets/css/accueil.css HTTP/1.1" 200 1166
+AMarseille-156-1-163-3.w90-8.abo.wanadoo.fr - BVIUMR7265 [23/Jan/2013:00:55:21 +0100] "GET http://www.medecinesciences.org:80/modules/mod_breadcrumbs/assets/breadcrumbs.css HTTP/1.1" 200 337
+AMarseille-156-1-163-3.w90-8.abo.wanadoo.fr - BVIUMR7265 [23/Jan/2013:00:55:21 +0100] "GET http://www.medecinesciences.org:80/modules/mod_solr/assets/solr.css HTTP/1.1" 200 1896
+AMarseille-156-1-163-3.w90-8.abo.wanadoo.fr - BVIUMR7265 [23/Jan/2013:00:55:21 +0100] "GET http://www.medecinesciences.org:80/templates/css/commun.css HTTP/1.1" 200 2818
+AMarseille-156-1-163-3.w90-8.abo.wanadoo.fr - BVIUMR7265 [23/Jan/2013:00:55:21 +0100] "GET http://www.medecinesciences.org:80/templates/medsci/css/template_css.css HTTP/1.1" 200 43108
+AMarseille-156-1-163-3.w90-8.abo.wanadoo.fr - BVIUMR7265 [23/Jan/2013:00:55:21 +0100] "GET http://www.medecinesciences.org:80/templates/js/commun.js HTTP/1.1" 200 268
+AMarseille-156-1-163-3.w90-8.abo.wanadoo.fr - BVIUMR7265 [23/Jan/2013:00:55:21 +0100] "GET http://www.medecinesciences.org:80/templates/medsci/css/gal/jd.gallery.css HTTP/1.1" 200 6197
+AMarseille-156-1-163-3.w90-8.abo.wanadoo.fr - BVIUMR7265 [23/Jan/2013:00:55:21 +0100] "GET http://www.medecinesciences.org:80/templates/mattech/js/gal/jd.gallery.js HTTP/1.1" 200 25003
+AMarseille-156-1-163-3.w90-8.abo.wanadoo.fr - BVIUMR7265 [23/Jan/2013:00:55:21 +0100] "GET http://www.medecinesciences.org:80/templates/mattech/js/gal/mootools.v1.11.js HTTP/1.1" 200 35099
+AMarseille-156-1-163-3.w90-8.abo.wanadoo.fr - BVIUMR7265 [23/Jan/2013:00:55:28 +0100] "GET http://www.medecinesciences.org:80/articles/medsci/abs/2012/12/contents/contents.html HTTP/1.1" 302 593
+AMarseille-156-1-163-3.w90-8.abo.wanadoo.fr - BVIUMR7265 [23/Jan/2013:00:55:29 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_toc&url=/articles/medsci/abs/2012/12/contents/contents.html HTTP/1.1" 200 59575
+AMarseille-156-1-163-3.w90-8.abo.wanadoo.fr - BVIUMR7265 [23/Jan/2013:00:55:30 +0100] "GET http://www.medecinesciences.org:80/components/com_toc/assets/toc.css HTTP/1.1" 200 5843
+AMarseille-156-1-163-3.w90-8.abo.wanadoo.fr - BVIUMR7265 [23/Jan/2013:00:55:30 +0100] "GET http://www.medecinesciences.org:80/components/com_toc/assets/toc.js HTTP/1.1" 200 2773
+AMarseille-156-1-163-3.w90-8.abo.wanadoo.fr - BVIUMR7265 [23/Jan/2013:00:55:30 +0100] "GET http://www.medecinesciences.org:80/media/system/js/mootools.js HTTP/1.1" 200 74693
+AMarseille-156-1-163-3.w90-8.abo.wanadoo.fr - BVIUMR7265 [23/Jan/2013:00:56:23 +0100] "GET http://www.medecinesciences.org:80/articles/medsci/pdf/2012/12/medsci20122812p1121.pdf HTTP/1.1" 302 665
+AMarseille-156-1-163-3.w90-8.abo.wanadoo.fr - BVIUMR7265 [23/Jan/2013:00:56:48 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_article&access=standard&Itemid=129&url=/articles/medsci/pdf/2012/12/medsci20122812p1121.pdf HTTP/1.1" 200 3913588
+AMarseille-156-1-163-3.w90-8.abo.wanadoo.fr - BVIUMR7265 [23/Jan/2013:01:20:03 +0100] "GET http://www.medecinesciences.org:80/articles/medsci/abs/2012/11/contents/contents.html HTTP/1.1" 302 593
+AMarseille-156-1-163-3.w90-8.abo.wanadoo.fr - BVIUMR7265 [23/Jan/2013:01:20:04 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_toc&url=/articles/medsci/abs/2012/11/contents/contents.html HTTP/1.1" 200 57733
+AMarseille-156-1-163-3.w90-8.abo.wanadoo.fr - BVIUMR7265 [23/Jan/2013:01:21:12 +0100] "GET http://www.medecinesciences.org:80/articles/medsci/abs/2012/11/medsci20122811p1000/medsci20122811p1000.html HTTP/1.1" 302 707
+AMarseille-156-1-163-3.w90-8.abo.wanadoo.fr - BVIUMR7265 [23/Jan/2013:01:21:14 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_article&access=standard&Itemid=129&url=/articles/medsci/abs/2012/11/medsci20122811p1000/medsci20122811p1000.html HTTP/1.1" 200 17962
+AMarseille-156-1-163-3.w90-8.abo.wanadoo.fr - BVIUMR7265 [23/Jan/2013:01:21:15 +0100] "GET http://www.medecinesciences.org:80/components/com_article/assets/article.css HTTP/1.1" 200 7366
+AMarseille-156-1-163-3.w90-8.abo.wanadoo.fr - BVIUMR7265 [23/Jan/2013:01:21:15 +0100] "GET http://www.medecinesciences.org:80/components/com_article/assets/article.js HTTP/1.1" 200 521
+AMarseille-156-1-163-3.w90-8.abo.wanadoo.fr - BVIUMR7265 [23/Jan/2013:01:21:15 +0100] "GET http://www.medecinesciences.org:80/modules/mod_article_bookmarking/assets/bookmarking.js HTTP/1.1" 200 1404
+AMarseille-156-1-163-3.w90-8.abo.wanadoo.fr - BVIUMR7265 [23/Jan/2013:01:21:49 +0100] "GET http://www.medecinesciences.org:80/articles/medsci/pdf/2012/11/medsci20122811p918.pdf HTTP/1.1" 302 663
+AMarseille-156-1-163-3.w90-8.abo.wanadoo.fr - BVIUMR7265 [23/Jan/2013:01:21:52 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_article&access=standard&Itemid=129&url=/articles/medsci/pdf/2012/11/medsci20122811p918.pdf HTTP/1.1" 200 459726
+208.115.113.85 - - [23/Jan/2013:07:23:13 +0100] "GET http://gate1.inist.fr:50162/login?url=http://www.medecinesciences.org/robots.txt HTTP/1.1" 302 0
+10.220.40.103, 213.190.76.3 - ICHUSR3388 [23/Jan/2013:08:40:19 +0100] "GET http://www.medecinesciences.org:80/10.1051/medsci/2010268-9729 HTTP/1.1" 302 638
+10.220.40.103, 213.190.76.3 - ICHUSR3388 [23/Jan/2013:08:40:20 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_article&access=doi&doi=10.1051/medsci/2010268-9729&Itemid=129 HTTP/1.1" 200 18082
+10.220.40.103, 213.190.76.3 - ICHUSR3388 [23/Jan/2013:08:40:20 +0100] "GET http://www.medecinesciences.org:80/templates/js/commun.js HTTP/1.1" 200 268
+10.220.40.103, 213.190.76.3 - ICHUSR3388 [23/Jan/2013:08:40:21 +0100] "GET http://www.medecinesciences.org:80/components/com_article/assets/article.css HTTP/1.1" 200 7366
+10.220.40.103, 213.190.76.3 - ICHUSR3388 [23/Jan/2013:08:40:21 +0100] "GET http://www.medecinesciences.org:80/modules/mod_breadcrumbs/assets/breadcrumbs.css HTTP/1.1" 200 337
+10.220.40.103, 213.190.76.3 - ICHUSR3388 [23/Jan/2013:08:40:21 +0100] "GET http://www.medecinesciences.org:80/modules/mod_solr/assets/solr.css HTTP/1.1" 200 1896
+10.220.40.103, 213.190.76.3 - ICHUSR3388 [23/Jan/2013:08:40:21 +0100] "GET http://www.medecinesciences.org:80/media/system/js/mootools.js HTTP/1.1" 200 74693
+10.220.40.103, 213.190.76.3 - ICHUSR3388 [23/Jan/2013:08:40:21 +0100] "GET http://www.medecinesciences.org:80/components/com_article/assets/article.js HTTP/1.1" 200 521
+10.220.40.103, 213.190.76.3 - ICHUSR3388 [23/Jan/2013:08:40:21 +0100] "GET http://www.medecinesciences.org:80/modules/mod_article_bookmarking/assets/bookmarking.js HTTP/1.1" 200 1404
+10.220.40.103, 213.190.76.3 - ICHUSR3388 [23/Jan/2013:08:40:21 +0100] "GET http://www.medecinesciences.org:80/templates/css/commun.css HTTP/1.1" 200 2818
+10.220.40.103, 213.190.76.3 - ICHUSR3388 [23/Jan/2013:08:40:21 +0100] "GET http://www.medecinesciences.org:80/templates/medsci/css/template_css.css HTTP/1.1" 200 43108
+10.220.40.103, 213.190.76.3 - ICHUSR3388 [23/Jan/2013:08:40:21 +0100] "GET http://www.medecinesciences.org:80/templates/mattech/js/gal/mootools.v1.11.js HTTP/1.1" 200 35099
+10.220.40.103, 213.190.76.3 - ICHUSR3388 [23/Jan/2013:08:40:21 +0100] "GET http://www.medecinesciences.org:80/templates/medsci/css/gal/jd.gallery.css HTTP/1.1" 200 6197
+10.220.40.103, 213.190.76.3 - ICHUSR3388 [23/Jan/2013:08:40:21 +0100] "GET http://www.medecinesciences.org:80/templates/mattech/js/gal/jd.gallery.js HTTP/1.1" 200 25003
+10.220.40.103, 213.190.76.3 - ICHUSR3388 [23/Jan/2013:08:40:40 +0100] "GET http://www.medecinesciences.org:80/articles/medsci/pdf/2010/08/medsci2010268-9p729.pdf HTTP/1.1" 302 665
+10.220.40.103, 213.190.76.3 - ICHUSR3388 [23/Jan/2013:08:40:41 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_article&access=standard&Itemid=129&url=/articles/medsci/pdf/2010/08/medsci2010268-9p729.pdf HTTP/1.1" 200 162686
+10.220.40.103, 213.190.76.3 - ICHUSR3388 [23/Jan/2013:08:41:31 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_citedby&task=crossref&doi=10.1051%2Fmedsci%2F2010268-9729&lang=fr_FR.utf8%2C+fr_FR.UT HTTP/1.1" 200 12428
+10.220.40.103, 213.190.76.3 - ICHUSR3388 [23/Jan/2013:08:41:31 +0100] "GET http://www.medecinesciences.org:80/components/com_citedby/assets/css/citedby.css HTTP/1.1" 200 1417
+10.220.40.103, 213.190.76.3 - ICHUSR3388 [23/Jan/2013:08:41:36 +0100] "GET http://www.medecinesciences.org:80/10.1051/medsci/20112710008 HTTP/1.1" 302 603
+10.220.40.103, 213.190.76.3 - ICHUSR3388 [23/Jan/2013:08:41:38 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_article&access=doi&doi=10.1051/medsci/20112710008&Itemid=129 HTTP/1.1" 200 16992
+10.220.40.103, 213.190.76.3 - ICHUSR3388 [23/Jan/2013:08:41:46 +0100] "GET http://www.medecinesciences.org:80/articles/medsci/pdf/2011/08/medsci20112710p817.pdf HTTP/1.1" 302 663
+10.220.40.103, 213.190.76.3 - ICHUSR3388 [23/Jan/2013:08:41:49 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_article&access=standard&Itemid=129&url=/articles/medsci/pdf/2011/08/medsci20112710p817.pdf HTTP/1.1" 200 695277
+109.2.191.18, 77.242.201.49 - BVIUMR8204 [23/Jan/2013:09:37:49 +0100] "GET http://www.medecinesciences.org:80/10.1051/medsci/2012286018 HTTP/1.1" 302 634
+109.2.191.18, 77.242.201.49 - BVIUMR8204 [23/Jan/2013:09:37:51 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_article&access=doi&doi=10.1051/medsci/2012286018&Itemid=129 HTTP/1.1" 200 19059
+109.2.191.18, 77.242.201.49 - BVIUMR8204 [23/Jan/2013:09:37:51 +0100] "GET http://www.medecinesciences.org:80/components/com_article/assets/article.css HTTP/1.1" 200 7366
+109.2.191.18, 77.242.201.49 - BVIUMR8204 [23/Jan/2013:09:37:51 +0100] "GET http://www.medecinesciences.org:80/modules/mod_breadcrumbs/assets/breadcrumbs.css HTTP/1.1" 200 337
+109.2.191.18, 77.242.201.49 - BVIUMR8204 [23/Jan/2013:09:37:51 +0100] "GET http://www.medecinesciences.org:80/modules/mod_solr/assets/solr.css HTTP/1.1" 200 1896
+109.2.191.18, 77.242.201.49 - BVIUMR8204 [23/Jan/2013:09:37:51 +0100] "GET http://www.medecinesciences.org:80/templates/css/commun.css HTTP/1.1" 200 2818
+109.2.191.18, 77.242.201.49 - BVIUMR8204 [23/Jan/2013:09:37:51 +0100] "GET http://www.medecinesciences.org:80/templates/medsci/css/template_css.css HTTP/1.1" 200 43108
+109.2.191.18, 77.242.201.49 - BVIUMR8204 [23/Jan/2013:09:37:51 +0100] "GET http://www.medecinesciences.org:80/templates/js/commun.js HTTP/1.1" 200 268
+109.2.191.18, 77.242.201.49 - BVIUMR8204 [23/Jan/2013:09:37:52 +0100] "GET http://www.medecinesciences.org:80/templates/mattech/js/gal/mootools.v1.11.js HTTP/1.1" 200 35099
+109.2.191.18, 77.242.201.49 - BVIUMR8204 [23/Jan/2013:09:37:52 +0100] "GET http://www.medecinesciences.org:80/templates/mattech/js/gal/jd.gallery.js HTTP/1.1" 200 25003
+109.2.191.18, 77.242.201.49 - BVIUMR8204 [23/Jan/2013:09:37:52 +0100] "GET http://www.medecinesciences.org:80/components/com_article/assets/article.js HTTP/1.1" 200 521
+109.2.191.18, 77.242.201.49 - BVIUMR8204 [23/Jan/2013:09:37:52 +0100] "GET http://www.medecinesciences.org:80/templates/medsci/css/gal/jd.gallery.css HTTP/1.1" 200 6197
+109.2.191.18, 77.242.201.49 - BVIUMR8204 [23/Jan/2013:09:37:57 +0100] "GET http://www.medecinesciences.org:80/modules/mod_article_bookmarking/assets/bookmarking.js HTTP/1.1" 200 1404
+109.2.191.18, 77.242.201.49 - BVIUMR8204 [23/Jan/2013:09:37:57 +0100] "GET http://www.medecinesciences.org:80/media/system/js/mootools.js HTTP/1.1" 200 74693
+109.2.191.18, 77.242.201.49 - BVIUMR8204 [23/Jan/2013:09:38:03 +0100] "GET http://www.medecinesciences.org:80/articles/medsci/pdf/2012/08/medsci2012286-7p639.pdf HTTP/1.1" 302 665
+109.2.191.18, 77.242.201.49 - BVIUMR8204 [23/Jan/2013:09:38:04 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_article&access=standard&Itemid=129&url=/articles/medsci/pdf/2012/08/medsci2012286-7p639.pdf HTTP/1.1" 200 1245198
+109.2.191.18, 77.242.201.49 - BVIUMR8204 [23/Jan/2013:09:40:08 +0100] "GET http://www.medecinesciences.org:80/articles/medsci/pdf/2012/08/medsci2012286-7p639.pdf HTTP/1.1" 302 665
+109.2.191.18, 77.242.201.49 - BVIUMR8204 [23/Jan/2013:09:40:11 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_article&access=standard&Itemid=129&url=/articles/medsci/pdf/2012/08/medsci2012286-7p639.pdf HTTP/1.1" 200 1245198
+193.51.156.130 - - [23/Jan/2013:10:16:24 +0100] "GET http://gate1.inist.fr:50162/login?url=http://www.medecinesciences.org/ HTTP/1.1" 302 0
+193.51.156.130 - - [23/Jan/2013:10:16:28 +0100] "GET http://gate1.inist.fr:50162/login?user=BVIUMR5290&ticket=f3b266b32f9aecc86069d3bb88d98df5%24u1358932588%24gBiblioVie&url=http://www.medecinesciences.org/ HTTP/1.1" 302 0
+193.51.156.130 - BVIUMR5290 [23/Jan/2013:10:16:28 +0100] "GET http://gate1.inist.fr:50162/connect?session=sYoml29XZQFfzgCG&url=http://www.medecinesciences.org/ HTTP/1.1" 302 0
+193.51.156.130 - BVIUMR5290 [23/Jan/2013:10:16:29 +0100] "GET http://www.medecinesciences.org:80/ HTTP/1.1" 200 20193
+193.51.156.130 - BVIUMR5290 [23/Jan/2013:10:16:29 +0100] "GET http://www.medecinesciences.org:80/components/com_accueil/assets/css/accueil.css HTTP/1.1" 200 1166
+193.51.156.130 - BVIUMR5290 [23/Jan/2013:10:16:29 +0100] "GET http://www.medecinesciences.org:80/modules/mod_breadcrumbs/assets/breadcrumbs.css HTTP/1.1" 200 337
+193.51.156.130 - BVIUMR5290 [23/Jan/2013:10:16:29 +0100] "GET http://www.medecinesciences.org:80/modules/mod_solr/assets/solr.css HTTP/1.1" 200 1896
+193.51.156.130 - BVIUMR5290 [23/Jan/2013:10:16:29 +0100] "GET http://www.medecinesciences.org:80/templates/css/commun.css HTTP/1.1" 200 2818
+193.51.156.130 - BVIUMR5290 [23/Jan/2013:10:16:29 +0100] "GET http://www.medecinesciences.org:80/templates/js/commun.js HTTP/1.1" 200 268
+193.51.156.130 - BVIUMR5290 [23/Jan/2013:10:16:29 +0100] "GET http://www.medecinesciences.org:80/templates/medsci/css/template_css.css HTTP/1.1" 200 43108
+193.51.156.130 - BVIUMR5290 [23/Jan/2013:10:16:29 +0100] "GET http://www.medecinesciences.org:80/templates/medsci/css/gal/jd.gallery.css HTTP/1.1" 200 6197
+193.51.156.130 - BVIUMR5290 [23/Jan/2013:10:16:29 +0100] "GET http://www.medecinesciences.org:80/templates/mattech/js/gal/jd.gallery.js HTTP/1.1" 200 25003
+193.51.156.130 - BVIUMR5290 [23/Jan/2013:10:16:29 +0100] "GET http://www.medecinesciences.org:80/templates/mattech/js/gal/mootools.v1.11.js HTTP/1.1" 200 35099
+193.51.156.130 - BVIUMR5290 [23/Jan/2013:10:16:43 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_issues&task=all&Itemid=39&lang=fr_FR.utf8%2C+fr_FR.UT HTTP/1.1" 200 81507
+193.51.156.130 - BVIUMR5290 [23/Jan/2013:10:16:43 +0100] "GET http://www.medecinesciences.org:80/components/com_issues/assets/issues.css HTTP/1.1" 200 3331
+193.51.156.130 - BVIUMR5290 [23/Jan/2013:10:16:43 +0100] "GET http://www.medecinesciences.org:80/media/system/js/mootools.js HTTP/1.1" 200 74693
+193.51.156.130 - BVIUMR5290 [23/Jan/2013:10:16:43 +0100] "GET http://www.medecinesciences.org:80/components/com_issues/assets/issues.js HTTP/1.1" 200 3117
+193.51.156.130 - BVIUMR5290 [23/Jan/2013:10:17:00 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_content&view=article&id=229&lang=fr_FR.utf8%2C+fr_FR.UT HTTP/1.1" 200 10943
+193.51.156.130 - BVIUMR5290 [23/Jan/2013:10:17:00 +0100] "GET http://www.medecinesciences.org:80/components/com_content/assets/content.css HTTP/1.1" 200 1148
+193.51.156.130 - BVIUMR5290 [23/Jan/2013:10:17:00 +0100] "GET http://www.medecinesciences.org:80/media/system/js/caption.js HTTP/1.1" 200 2221
+193.51.156.130 - BVIUMR5290 [23/Jan/2013:10:17:26 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_content&view=article&id=227&Itemid=294&lang=fr_FR.utf8%2C+fr_FR.UT HTTP/1.1" 200 12606
+193.51.156.130 - BVIUMR5290 [23/Jan/2013:10:19:11 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_content&view=article&id=307&Itemid=303&lang=fr_FR.utf8%2C+fr_FR.UT HTTP/1.1" 200 16413
+193.51.156.130 - BVIUMR5290 [23/Jan/2013:10:19:20 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_issues&task=all&Itemid=39&lang=fr_FR.utf8%2C+fr_FR.UT HTTP/1.1" 200 81507
+193.51.156.130 - BVIUMR5290 [23/Jan/2013:10:19:30 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_content&view=article&id=229&lang=fr_FR.utf8%2C+fr_FR.UT HTTP/1.1" 200 10943
+193.51.156.130 - BVIUMR5290 [23/Jan/2013:10:20:08 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_content&view=article&id=227&Itemid=294&lang=fr_FR.utf8%2C+fr_FR.UT HTTP/1.1" 200 12606
+115.192.170.89.rev.sfr.net - BVIUMR6022 [23/Jan/2013:10:20:17 +0100] "GET http://www.medecinesciences.org:80/10.1051/medsci/2012281021 HTTP/1.1" 302 634
+115.192.170.89.rev.sfr.net - BVIUMR6022 [23/Jan/2013:10:20:17 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_article&access=doi&doi=10.1051/medsci/2012281021&Itemid=129 HTTP/1.1" 200 18997
+115.192.170.89.rev.sfr.net - BVIUMR6022 [23/Jan/2013:10:20:18 +0100] "GET http://www.medecinesciences.org:80/components/com_article/assets/article.css HTTP/1.1" 200 7366
+115.192.170.89.rev.sfr.net - BVIUMR6022 [23/Jan/2013:10:20:18 +0100] "GET http://www.medecinesciences.org:80/modules/mod_breadcrumbs/assets/breadcrumbs.css HTTP/1.1" 200 337
+115.192.170.89.rev.sfr.net - BVIUMR6022 [23/Jan/2013:10:20:18 +0100] "GET http://www.medecinesciences.org:80/modules/mod_solr/assets/solr.css HTTP/1.1" 200 1896
+115.192.170.89.rev.sfr.net - BVIUMR6022 [23/Jan/2013:10:20:18 +0100] "GET http://www.medecinesciences.org:80/components/com_article/assets/article.js HTTP/1.1" 200 521
+115.192.170.89.rev.sfr.net - BVIUMR6022 [23/Jan/2013:10:20:18 +0100] "GET http://www.medecinesciences.org:80/modules/mod_article_bookmarking/assets/bookmarking.js HTTP/1.1" 200 1404
+115.192.170.89.rev.sfr.net - BVIUMR6022 [23/Jan/2013:10:20:18 +0100] "GET http://www.medecinesciences.org:80/templates/css/commun.css HTTP/1.1" 200 2818
+115.192.170.89.rev.sfr.net - BVIUMR6022 [23/Jan/2013:10:20:18 +0100] "GET http://www.medecinesciences.org:80/media/system/js/mootools.js HTTP/1.1" 200 74693
+115.192.170.89.rev.sfr.net - BVIUMR6022 [23/Jan/2013:10:20:18 +0100] "GET http://www.medecinesciences.org:80/templates/js/commun.js HTTP/1.1" 200 268
+115.192.170.89.rev.sfr.net - BVIUMR6022 [23/Jan/2013:10:20:18 +0100] "GET http://www.medecinesciences.org:80/templates/medsci/css/gal/jd.gallery.css HTTP/1.1" 200 6197
+115.192.170.89.rev.sfr.net - BVIUMR6022 [23/Jan/2013:10:20:18 +0100] "GET http://www.medecinesciences.org:80/templates/mattech/js/gal/jd.gallery.js HTTP/1.1" 200 25003
+115.192.170.89.rev.sfr.net - BVIUMR6022 [23/Jan/2013:10:20:18 +0100] "GET http://www.medecinesciences.org:80/templates/medsci/css/template_css.css HTTP/1.1" 200 43108
+115.192.170.89.rev.sfr.net - BVIUMR6022 [23/Jan/2013:10:20:18 +0100] "GET http://www.medecinesciences.org:80/templates/mattech/js/gal/mootools.v1.11.js HTTP/1.1" 200 35099
+115.192.170.89.rev.sfr.net - BVIUMR6022 [23/Jan/2013:10:20:28 +0100] "GET http://www.medecinesciences.org:80/10.1051/medsci/200925121183 HTTP/1.1" 302 605
+115.192.170.89.rev.sfr.net - BVIUMR6022 [23/Jan/2013:10:20:29 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_article&access=doi&doi=10.1051/medsci/200925121183&Itemid=129 HTTP/1.1" 200 19166
+115.192.170.89.rev.sfr.net - BVIUMR6022 [23/Jan/2013:10:20:34 +0100] "GET http://www.medecinesciences.org:80/10.1051/medsci/200925121169 HTTP/1.1" 302 605
+115.192.170.89.rev.sfr.net - BVIUMR6022 [23/Jan/2013:10:20:36 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_article&access=doi&doi=10.1051/medsci/200925121169&Itemid=129 HTTP/1.1" 200 20008
+115.192.170.89.rev.sfr.net - BVIUMR6022 [23/Jan/2013:10:20:57 +0100] "GET http://www.medecinesciences.org:80/articles/medsci/pdf/2012/01/medsci2012281p82.pdf HTTP/1.1" 302 659
+115.192.170.89.rev.sfr.net - BVIUMR6022 [23/Jan/2013:10:20:59 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_article&access=standard&Itemid=129&url=/articles/medsci/pdf/2012/01/medsci2012281p82.pdf HTTP/1.1" 200 1065441
+115.192.170.89.rev.sfr.net - BVIUMR6022 [23/Jan/2013:10:21:11 +0100] "GET http://www.medecinesciences.org:80/articles/medsci/pdf/2009/12/medsci20092512p1183.pdf HTTP/1.1" 302 665
+115.192.170.89.rev.sfr.net - BVIUMR6022 [23/Jan/2013:10:21:11 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_article&access=standard&Itemid=129&url=/articles/medsci/pdf/2009/12/medsci20092512p1183.pdf HTTP/1.1" 200 108931
+115.192.170.89.rev.sfr.net - BVIUMR6022 [23/Jan/2013:10:21:37 +0100] "GET http://www.medecinesciences.org:80/articles/medsci/pdf/2009/12/medsci20092512p1169.pdf HTTP/1.1" 302 665
+115.192.170.89.rev.sfr.net - BVIUMR6022 [23/Jan/2013:10:21:38 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_article&access=standard&Itemid=129&url=/articles/medsci/pdf/2009/12/medsci20092512p1169.pdf HTTP/1.1" 200 108127
+vin-it-11.lyon.inserm.fr - - [23/Jan/2013:10:56:27 +0100] "GET http://gate1.inist.fr:50162/login?url=http://www.medecinesciences.org/articles/medsci/full_html/2012/12/medsci20122812p1040/medsci20122812p1040.html HTTP/1.1" 302 0
+vin-it-11.lyon.inserm.fr - - [23/Jan/2013:10:56:28 +0100] "GET http://gate1.inist.fr:50162/login?user=BVIUMR5286&ticket=b3c02ba19450356b3dcf46fa5d72c867%24u1358934988%24gBiblioVie%2BBiblioInserm&url=http://www.medecinesciences.org/articles/medsci/full_html/2012/12/medsci20122812p1040/medsci20122812p1040.html HTTP/1.1" 302 0
+vin-it-11.lyon.inserm.fr - BVIUMR5286 [23/Jan/2013:10:56:28 +0100] "GET http://gate1.inist.fr:50162/connect?session=shGVrEcl9sEEMmDI&url=http://www.medecinesciences.org/articles/medsci/full_html/2012/12/medsci20122812p1040/medsci20122812p1040.html HTTP/1.1" 302 0
+vin-it-11.lyon.inserm.fr - BVIUMR5286 [23/Jan/2013:10:56:28 +0100] "GET http://www.medecinesciences.org:80/articles/medsci/full_html/2012/12/medsci20122812p1040/medsci20122812p1040.html HTTP/1.1" 302 719
+vin-it-11.lyon.inserm.fr - BVIUMR5286 [23/Jan/2013:10:56:29 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_article&access=standard&Itemid=129&url=/articles/medsci/full_html/2012/12/medsci20122812p1040/medsci20122812p1040.html HTTP/1.1" 200 36462
+vin-it-11.lyon.inserm.fr - BVIUMR5286 [23/Jan/2013:10:56:29 +0100] "GET http://www.medecinesciences.org:80/components/com_article/assets/article.css HTTP/1.1" 304 0
+vin-it-11.lyon.inserm.fr - BVIUMR5286 [23/Jan/2013:10:56:29 +0100] "GET http://www.medecinesciences.org:80/modules/mod_breadcrumbs/assets/breadcrumbs.css HTTP/1.1" 304 0
+vin-it-11.lyon.inserm.fr - BVIUMR5286 [23/Jan/2013:10:56:29 +0100] "GET http://www.medecinesciences.org:80/media/system/js/mootools.js HTTP/1.1" 304 0
+vin-it-11.lyon.inserm.fr - BVIUMR5286 [23/Jan/2013:10:56:29 +0100] "GET http://www.medecinesciences.org:80/modules/mod_solr/assets/solr.css HTTP/1.1" 304 0
+vin-it-11.lyon.inserm.fr - BVIUMR5286 [23/Jan/2013:10:56:29 +0100] "GET http://www.medecinesciences.org:80/modules/mod_article_bookmarking/assets/bookmarking.js HTTP/1.1" 304 0
+vin-it-11.lyon.inserm.fr - BVIUMR5286 [23/Jan/2013:10:56:29 +0100] "GET http://www.medecinesciences.org:80/components/com_article/assets/article.js HTTP/1.1" 304 0
+vin-it-11.lyon.inserm.fr - BVIUMR5286 [23/Jan/2013:10:56:29 +0100] "GET http://www.medecinesciences.org:80/templates/css/commun.css HTTP/1.1" 304 0
+vin-it-11.lyon.inserm.fr - BVIUMR5286 [23/Jan/2013:10:56:29 +0100] "GET http://www.medecinesciences.org:80/templates/medsci/css/template_css.css HTTP/1.1" 304 0
+vin-it-11.lyon.inserm.fr - BVIUMR5286 [23/Jan/2013:10:56:29 +0100] "GET http://www.medecinesciences.org:80/templates/js/commun.js HTTP/1.1" 304 0
+vin-it-11.lyon.inserm.fr - BVIUMR5286 [23/Jan/2013:10:56:29 +0100] "GET http://www.medecinesciences.org:80/templates/mattech/js/gal/mootools.v1.11.js HTTP/1.1" 304 0
+vin-it-11.lyon.inserm.fr - BVIUMR5286 [23/Jan/2013:10:56:29 +0100] "GET http://www.medecinesciences.org:80/templates/mattech/js/gal/jd.gallery.js HTTP/1.1" 304 0
+vin-it-11.lyon.inserm.fr - BVIUMR5286 [23/Jan/2013:10:56:29 +0100] "GET http://www.medecinesciences.org:80/templates/medsci/css/gal/jd.gallery.css HTTP/1.1" 304 0
+vin-it-11.lyon.inserm.fr - BVIUMR5286 [23/Jan/2013:11:03:52 +0100] "GET http://www.medecinesciences.org:80/articles/medsci/full_html/2012/12/medsci20122812p1041/medsci20122812p1041.html HTTP/1.1" 302 719
+vin-it-11.lyon.inserm.fr - BVIUMR5286 [23/Jan/2013:11:03:53 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_article&access=standard&Itemid=129&url=/articles/medsci/full_html/2012/12/medsci20122812p1041/medsci20122812p1041.html HTTP/1.1" 200 46876
+m200.univ-reims.fr - BVIFRE3481 [23/Jan/2013:11:27:26 +0100] "GET http://gate1.inist.fr:50162/login?url=http://www.medecinesciences.org/ HTTP/1.1" 302 0
+m200.univ-reims.fr - BVIFRE3481 [23/Jan/2013:11:27:27 +0100] "GET http://www.medecinesciences.org:80/ HTTP/1.1" 200 20193
+m200.univ-reims.fr - BVIFRE3481 [23/Jan/2013:11:27:39 +0100] "GET http://www.medecinesciences.org:80/articles/medsci/abs/2012/12/contents/contents.html HTTP/1.1" 302 593
+m200.univ-reims.fr - BVIFRE3481 [23/Jan/2013:11:27:41 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_toc&url=/articles/medsci/abs/2012/12/contents/contents.html HTTP/1.1" 200 59575
+m200.univ-reims.fr - BVIFRE3481 [23/Jan/2013:11:27:41 +0100] "GET http://www.medecinesciences.org:80/components/com_toc/assets/toc.css HTTP/1.1" 200 5843
+m200.univ-reims.fr - BVIFRE3481 [23/Jan/2013:11:27:41 +0100] "GET http://www.medecinesciences.org:80/components/com_toc/assets/toc.js HTTP/1.1" 200 2773
+m200.univ-reims.fr - BVIFRE3481 [23/Jan/2013:11:27:41 +0100] "GET http://www.medecinesciences.org:80/media/system/js/mootools.js HTTP/1.1" 200 74693
+m200.univ-reims.fr - BVIFRE3481 [23/Jan/2013:11:28:08 +0100] "GET http://www.medecinesciences.org:80/articles/medsci/pdf/2012/12/medsci20122812p1067.pdf HTTP/1.1" 302 665
+m200.univ-reims.fr - BVIFRE3481 [23/Jan/2013:11:28:11 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_article&access=standard&Itemid=129&url=/articles/medsci/pdf/2012/12/medsci20122812p1067.pdf HTTP/1.1" 200 4538565
+178.24.17.93.rev.sfr.net - BVIUMR7211 [23/Jan/2013:11:38:01 +0100] "GET http://www.medecinesciences.org:80/10.1051/medsci/20102610842 HTTP/1.1" 302 636
+178.24.17.93.rev.sfr.net - BVIUMR7211 [23/Jan/2013:11:38:05 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_article&access=doi&doi=10.1051/medsci/20102610842&Itemid=129 HTTP/1.1" 200 19510
+178.24.17.93.rev.sfr.net - BVIUMR7211 [23/Jan/2013:11:38:06 +0100] "GET http://www.medecinesciences.org:80/components/com_article/assets/article.css HTTP/1.1" 200 7366
+178.24.17.93.rev.sfr.net - BVIUMR7211 [23/Jan/2013:11:38:06 +0100] "GET http://www.medecinesciences.org:80/modules/mod_article_bookmarking/assets/bookmarking.js HTTP/1.1" 200 1404
+178.24.17.93.rev.sfr.net - BVIUMR7211 [23/Jan/2013:11:38:06 +0100] "GET http://www.medecinesciences.org:80/modules/mod_breadcrumbs/assets/breadcrumbs.css HTTP/1.1" 200 337
+178.24.17.93.rev.sfr.net - BVIUMR7211 [23/Jan/2013:11:38:06 +0100] "GET http://www.medecinesciences.org:80/components/com_article/assets/article.js HTTP/1.1" 200 521
+178.24.17.93.rev.sfr.net - BVIUMR7211 [23/Jan/2013:11:38:06 +0100] "GET http://www.medecinesciences.org:80/modules/mod_solr/assets/solr.css HTTP/1.1" 200 1896
+178.24.17.93.rev.sfr.net - BVIUMR7211 [23/Jan/2013:11:38:06 +0100] "GET http://www.medecinesciences.org:80/media/system/js/mootools.js HTTP/1.1" 200 74693
+178.24.17.93.rev.sfr.net - BVIUMR7211 [23/Jan/2013:11:38:06 +0100] "GET http://www.medecinesciences.org:80/templates/css/commun.css HTTP/1.1" 200 2818
+178.24.17.93.rev.sfr.net - BVIUMR7211 [23/Jan/2013:11:38:06 +0100] "GET http://www.medecinesciences.org:80/templates/medsci/css/template_css.css HTTP/1.1" 200 43108
+178.24.17.93.rev.sfr.net - BVIUMR7211 [23/Jan/2013:11:38:06 +0100] "GET http://www.medecinesciences.org:80/templates/js/commun.js HTTP/1.1" 200 268
+178.24.17.93.rev.sfr.net - BVIUMR7211 [23/Jan/2013:11:38:07 +0100] "GET http://www.medecinesciences.org:80/templates/mattech/js/gal/mootools.v1.11.js HTTP/1.1" 200 35099
+178.24.17.93.rev.sfr.net - BVIUMR7211 [23/Jan/2013:11:38:07 +0100] "GET http://www.medecinesciences.org:80/templates/mattech/js/gal/jd.gallery.js HTTP/1.1" 200 25003
+178.24.17.93.rev.sfr.net - BVIUMR7211 [23/Jan/2013:11:38:07 +0100] "GET http://www.medecinesciences.org:80/templates/medsci/css/gal/jd.gallery.css HTTP/1.1" 200 6197
+178.24.17.93.rev.sfr.net - BVIUMR7211 [23/Jan/2013:11:38:20 +0100] "GET http://www.medecinesciences.org:80/articles/medsci/pdf/2010/09/medsci20102610p842.pdf HTTP/1.1" 302 663
+178.24.17.93.rev.sfr.net - BVIUMR7211 [23/Jan/2013:11:38:26 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_article&access=standard&Itemid=129&url=/articles/medsci/pdf/2010/09/medsci20102610p842.pdf HTTP/1.1" 200 992692
+147.94.107.99 - 13SDVUMR7291 [23/Jan/2013:12:57:51 +0100] "GET http://www.medecinesciences.org:80/10.1051/medsci/2012284017 HTTP/1.1" 302 634
+147.94.107.99 - 13SDVUMR7291 [23/Jan/2013:12:57:53 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_article&access=doi&doi=10.1051/medsci/2012284017&Itemid=129 HTTP/1.1" 200 18726
+147.94.107.99 - 13SDVUMR7291 [23/Jan/2013:12:57:53 +0100] "GET http://www.medecinesciences.org:80/components/com_article/assets/article.js HTTP/1.1" 200 521
+147.94.107.99 - 13SDVUMR7291 [23/Jan/2013:12:57:53 +0100] "GET http://www.medecinesciences.org:80/components/com_article/assets/article.css HTTP/1.1" 200 7366
+147.94.107.99 - 13SDVUMR7291 [23/Jan/2013:12:57:53 +0100] "GET http://www.medecinesciences.org:80/modules/mod_solr/assets/solr.css HTTP/1.1" 200 1896
+147.94.107.99 - 13SDVUMR7291 [23/Jan/2013:12:57:53 +0100] "GET http://www.medecinesciences.org:80/modules/mod_breadcrumbs/assets/breadcrumbs.css HTTP/1.1" 200 337
+147.94.107.99 - 13SDVUMR7291 [23/Jan/2013:12:57:53 +0100] "GET http://www.medecinesciences.org:80/modules/mod_article_bookmarking/assets/bookmarking.js HTTP/1.1" 200 1404
+147.94.107.99 - 13SDVUMR7291 [23/Jan/2013:12:57:54 +0100] "GET http://www.medecinesciences.org:80/media/system/js/mootools.js HTTP/1.1" 200 74693
+147.94.107.99 - 13SDVUMR7291 [23/Jan/2013:12:57:54 +0100] "GET http://www.medecinesciences.org:80/templates/css/commun.css HTTP/1.1" 200 2818
+147.94.107.99 - 13SDVUMR7291 [23/Jan/2013:12:57:54 +0100] "GET http://www.medecinesciences.org:80/templates/js/commun.js HTTP/1.1" 200 268
+147.94.107.99 - 13SDVUMR7291 [23/Jan/2013:12:57:54 +0100] "GET http://www.medecinesciences.org:80/templates/mattech/js/gal/jd.gallery.js HTTP/1.1" 200 25003
+147.94.107.99 - 13SDVUMR7291 [23/Jan/2013:12:57:54 +0100] "GET http://www.medecinesciences.org:80/templates/mattech/js/gal/mootools.v1.11.js HTTP/1.1" 200 35099
+147.94.107.99 - 13SDVUMR7291 [23/Jan/2013:12:57:54 +0100] "GET http://www.medecinesciences.org:80/templates/medsci/css/template_css.css HTTP/1.1" 200 43108
+147.94.107.99 - 13SDVUMR7291 [23/Jan/2013:12:57:54 +0100] "GET http://www.medecinesciences.org:80/templates/medsci/css/gal/jd.gallery.css HTTP/1.1" 200 6197
+147.94.107.99 - 13SDVUMR7291 [23/Jan/2013:12:58:13 +0100] "GET http://www.medecinesciences.org:80/articles/medsci/pdf/2012/05/medsci2012284p395.pdf HTTP/1.1" 302 661
+147.94.107.99 - 13SDVUMR7291 [23/Jan/2013:12:58:15 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_article&access=standard&Itemid=129&url=/articles/medsci/pdf/2012/05/medsci2012284p395.pdf HTTP/1.1" 200 1788486
+esl-bck.igmm.cnrs.fr - BVIUMR5236 [23/Jan/2013:13:54:57 +0100] "GET http://www.medecinesciences.org:80/10.1051/medsci/20122811002 HTTP/1.1" 302 636
+esl-bck.igmm.cnrs.fr - BVIUMR5236 [23/Jan/2013:13:54:58 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_article&access=doi&doi=10.1051/medsci/20122811002&Itemid=129 HTTP/1.1" 200 16900
+esl-bck.igmm.cnrs.fr - BVIUMR5236 [23/Jan/2013:13:54:58 +0100] "GET http://www.medecinesciences.org:80/components/com_article/assets/article.css HTTP/1.1" 200 7366
+esl-bck.igmm.cnrs.fr - BVIUMR5236 [23/Jan/2013:13:54:58 +0100] "GET http://www.medecinesciences.org:80/components/com_article/assets/article.js HTTP/1.1" 200 521
+esl-bck.igmm.cnrs.fr - BVIUMR5236 [23/Jan/2013:13:54:58 +0100] "GET http://www.medecinesciences.org:80/modules/mod_solr/assets/solr.css HTTP/1.1" 200 1896
+esl-bck.igmm.cnrs.fr - BVIUMR5236 [23/Jan/2013:13:54:58 +0100] "GET http://www.medecinesciences.org:80/modules/mod_article_bookmarking/assets/bookmarking.js HTTP/1.1" 200 1404
+esl-bck.igmm.cnrs.fr - BVIUMR5236 [23/Jan/2013:13:54:58 +0100] "GET http://www.medecinesciences.org:80/templates/css/commun.css HTTP/1.1" 200 2818
+esl-bck.igmm.cnrs.fr - BVIUMR5236 [23/Jan/2013:13:54:58 +0100] "GET http://www.medecinesciences.org:80/modules/mod_breadcrumbs/assets/breadcrumbs.css HTTP/1.1" 200 337
+esl-bck.igmm.cnrs.fr - BVIUMR5236 [23/Jan/2013:13:54:58 +0100] "GET http://www.medecinesciences.org:80/templates/js/commun.js HTTP/1.1" 200 268
+esl-bck.igmm.cnrs.fr - BVIUMR5236 [23/Jan/2013:13:54:58 +0100] "GET http://www.medecinesciences.org:80/templates/medsci/css/template_css.css HTTP/1.1" 200 43108
+esl-bck.igmm.cnrs.fr - BVIUMR5236 [23/Jan/2013:13:54:58 +0100] "GET http://www.medecinesciences.org:80/media/system/js/mootools.js HTTP/1.1" 200 74693
+esl-bck.igmm.cnrs.fr - BVIUMR5236 [23/Jan/2013:13:54:58 +0100] "GET http://www.medecinesciences.org:80/templates/medsci/css/gal/jd.gallery.css HTTP/1.1" 200 6197
+esl-bck.igmm.cnrs.fr - BVIUMR5236 [23/Jan/2013:13:54:58 +0100] "GET http://www.medecinesciences.org:80/templates/mattech/js/gal/mootools.v1.11.js HTTP/1.1" 200 35099
+esl-bck.igmm.cnrs.fr - BVIUMR5236 [23/Jan/2013:13:54:58 +0100] "GET http://www.medecinesciences.org:80/templates/mattech/js/gal/jd.gallery.js HTTP/1.1" 200 25003
+esl-bck.igmm.cnrs.fr - BVIUMR5236 [23/Jan/2013:13:55:06 +0100] "GET http://www.medecinesciences.org:80/articles/medsci/pdf/2012/11/medsci20122811p909.pdf HTTP/1.1" 302 663
+esl-bck.igmm.cnrs.fr - BVIUMR5236 [23/Jan/2013:13:55:07 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_article&access=standard&Itemid=129&url=/articles/medsci/pdf/2012/11/medsci20122811p909.pdf HTTP/1.1" 200 167080
+ben-pluton.igh.cnrs.fr - - [23/Jan/2013:15:28:04 +0100] "GET http://gate1.inist.fr:50162/login?url=http://www.medecinesciences.org/ HTTP/1.1" 302 0
+ben-pluton.igh.cnrs.fr - - [23/Jan/2013:15:28:05 +0100] "GET http://gate1.inist.fr:50162/login?user=BVIUPR1142&ticket=ecc96b719aa316a40e92edbfaee2890a%24u1358951286%24gBiblioVie&url=http://www.medecinesciences.org/ HTTP/1.1" 302 0
+ben-pluton.igh.cnrs.fr - BVIUPR1142 [23/Jan/2013:15:28:05 +0100] "GET http://gate1.inist.fr:50162/connect?session=syyfdJu8CTQckGEX&url=http://www.medecinesciences.org/ HTTP/1.1" 302 0
+ben-pluton.igh.cnrs.fr - BVIUPR1142 [23/Jan/2013:15:28:07 +0100] "GET http://www.medecinesciences.org:80/ HTTP/1.1" 200 20193
+ben-pluton.igh.cnrs.fr - BVIUPR1142 [23/Jan/2013:15:28:07 +0100] "GET http://www.medecinesciences.org:80/components/com_accueil/assets/css/accueil.css HTTP/1.1" 200 1166
+ben-pluton.igh.cnrs.fr - BVIUPR1142 [23/Jan/2013:15:28:07 +0100] "GET http://www.medecinesciences.org:80/modules/mod_breadcrumbs/assets/breadcrumbs.css HTTP/1.1" 200 337
+ben-pluton.igh.cnrs.fr - BVIUPR1142 [23/Jan/2013:15:28:07 +0100] "GET http://www.medecinesciences.org:80/templates/js/commun.js HTTP/1.1" 200 268
+ben-pluton.igh.cnrs.fr - BVIUPR1142 [23/Jan/2013:15:28:07 +0100] "GET http://www.medecinesciences.org:80/modules/mod_solr/assets/solr.css HTTP/1.1" 200 1896
+ben-pluton.igh.cnrs.fr - BVIUPR1142 [23/Jan/2013:15:28:07 +0100] "GET http://www.medecinesciences.org:80/templates/css/commun.css HTTP/1.1" 200 2818
+ben-pluton.igh.cnrs.fr - BVIUPR1142 [23/Jan/2013:15:28:07 +0100] "GET http://www.medecinesciences.org:80/templates/medsci/css/template_css.css HTTP/1.1" 200 43108
+ben-pluton.igh.cnrs.fr - BVIUPR1142 [23/Jan/2013:15:28:07 +0100] "GET http://www.medecinesciences.org:80/templates/medsci/css/gal/jd.gallery.css HTTP/1.1" 200 6197
+ben-pluton.igh.cnrs.fr - BVIUPR1142 [23/Jan/2013:15:28:07 +0100] "GET http://www.medecinesciences.org:80/templates/mattech/js/gal/jd.gallery.js HTTP/1.1" 200 25003
+ben-pluton.igh.cnrs.fr - BVIUPR1142 [23/Jan/2013:15:28:07 +0100] "GET http://www.medecinesciences.org:80/templates/mattech/js/gal/mootools.v1.11.js HTTP/1.1" 200 35099
+ben-pluton.igh.cnrs.fr - BVIUPR1142 [23/Jan/2013:15:28:20 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_solr&task=search&input_1=samhd1&countDiv=1&website=1&articles_sci=1&search_in=journal&journal=medsci&from=module HTTP/1.1" 200 16018
+ben-pluton.igh.cnrs.fr - BVIUPR1142 [23/Jan/2013:15:28:20 +0100] "GET http://www.medecinesciences.org:80/components/com_solr/assets/solr.css HTTP/1.1" 200 4142
+ben-pluton.igh.cnrs.fr - BVIUPR1142 [23/Jan/2013:15:28:20 +0100] "GET http://www.medecinesciences.org:80/components/com_solr/assets/results.js HTTP/1.1" 200 2228
+ben-pluton.igh.cnrs.fr - BVIUPR1142 [23/Jan/2013:15:28:20 +0100] "GET http://www.medecinesciences.org:80/media/system/js/mootools.js HTTP/1.1" 200 74693
+ben-pluton.igh.cnrs.fr - BVIUPR1142 [23/Jan/2013:15:28:22 +0100] "GET http://www.medecinesciences.org:80/articles/medsci/pdf/2012/11/medsci20122811p909.pdf HTTP/1.1" 302 663
+ben-pluton.igh.cnrs.fr - BVIUPR1142 [23/Jan/2013:15:28:23 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_article&access=standard&Itemid=129&url=/articles/medsci/pdf/2012/11/medsci20122811p909.pdf HTTP/1.1" 200 167080
+ben-pluton.igh.cnrs.fr - BVIUPR1142 [23/Jan/2013:15:29:00 +0100] "GET http://www.medecinesciences.org:80/articles/medsci/pdf/2012/05/medsci2012284p356.pdf HTTP/1.1" 302 661
+ben-pluton.igh.cnrs.fr - BVIUPR1142 [23/Jan/2013:15:29:01 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_article&access=standard&Itemid=129&url=/articles/medsci/pdf/2012/05/medsci2012284p356.pdf HTTP/1.1" 200 259784
+ben-pluton.igh.cnrs.fr - BVIUPR1142 [23/Jan/2013:15:29:43 +0100] "GET http://www.medecinesciences.org:80/articles/medsci/pdf/2010/01/medsci201026hs1p133.pdf HTTP/1.1" 302 665
+ben-pluton.igh.cnrs.fr - BVIUPR1142 [23/Jan/2013:15:29:56 +0100] "GET http://www.medecinesciences.org:80/ HTTP/1.1" 200 20073
+ben-pluton.igh.cnrs.fr - BVIUPR1142 [23/Jan/2013:15:30:07 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_article&access=standard&Itemid=129&url=/articles/medsci/pdf/2010/01/medsci201026hs1p133.pdf HTTP/1.1" 200 26044185
+ppers.univ-angers.fr - BVIUMR6214 [23/Jan/2013:15:40:59 +0100] "GET http://www.medecinesciences.org:80/10.1051/medsci/2007232198 HTTP/1.1" 302 634
+ppers.univ-angers.fr - BVIUMR6214 [23/Jan/2013:15:40:59 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_article&access=doi&doi=10.1051/medsci/2007232198&Itemid=129 HTTP/1.1" 200 21058
+ppers.univ-angers.fr - BVIUMR6214 [23/Jan/2013:15:40:59 +0100] "GET http://www.medecinesciences.org:80/components/com_article/assets/article.css HTTP/1.1" 200 7366
+ppers.univ-angers.fr - BVIUMR6214 [23/Jan/2013:15:40:59 +0100] "GET http://www.medecinesciences.org:80/templates/css/commun.css HTTP/1.1" 200 2818
+ppers.univ-angers.fr - BVIUMR6214 [23/Jan/2013:15:40:59 +0100] "GET http://www.medecinesciences.org:80/modules/mod_breadcrumbs/assets/breadcrumbs.css HTTP/1.1" 200 337
+ppers.univ-angers.fr - BVIUMR6214 [23/Jan/2013:15:40:59 +0100] "GET http://www.medecinesciences.org:80/components/com_article/assets/article.js HTTP/1.1" 200 521
+ppers.univ-angers.fr - BVIUMR6214 [23/Jan/2013:15:40:59 +0100] "GET http://www.medecinesciences.org:80/modules/mod_solr/assets/solr.css HTTP/1.1" 200 1896
+ppers.univ-angers.fr - BVIUMR6214 [23/Jan/2013:15:40:59 +0100] "GET http://www.medecinesciences.org:80/modules/mod_article_bookmarking/assets/bookmarking.js HTTP/1.1" 200 1404
+ppers.univ-angers.fr - BVIUMR6214 [23/Jan/2013:15:40:59 +0100] "GET http://www.medecinesciences.org:80/media/system/js/mootools.js HTTP/1.1" 200 74693
+ppers.univ-angers.fr - BVIUMR6214 [23/Jan/2013:15:40:59 +0100] "GET http://www.medecinesciences.org:80/templates/medsci/css/gal/jd.gallery.css HTTP/1.1" 200 6197
+ppers.univ-angers.fr - BVIUMR6214 [23/Jan/2013:15:40:59 +0100] "GET http://www.medecinesciences.org:80/templates/js/commun.js HTTP/1.1" 200 268
+ppers.univ-angers.fr - BVIUMR6214 [23/Jan/2013:15:41:00 +0100] "GET http://www.medecinesciences.org:80/templates/mattech/js/gal/jd.gallery.js HTTP/1.1" 200 25003
+ppers.univ-angers.fr - BVIUMR6214 [23/Jan/2013:15:41:00 +0100] "GET http://www.medecinesciences.org:80/templates/medsci/css/template_css.css HTTP/1.1" 200 43108
+ppers.univ-angers.fr - BVIUMR6214 [23/Jan/2013:15:41:00 +0100] "GET http://www.medecinesciences.org:80/templates/mattech/js/gal/mootools.v1.11.js HTTP/1.1" 200 35099
+ppers.univ-angers.fr - BVIUMR6214 [23/Jan/2013:15:43:25 +0100] "GET http://www.medecinesciences.org:80/articles/medsci/pdf/2007/02/medsci2007232p198.pdf HTTP/1.1" 302 661
+ppers.univ-angers.fr - BVIUMR6214 [23/Jan/2013:15:43:26 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_article&access=standard&Itemid=129&url=/articles/medsci/pdf/2007/02/medsci2007232p198.pdf HTTP/1.1" 200 124857
+pseudo216.ibs.fr - - [23/Jan/2013:15:46:24 +0100] "GET http://gate1.inist.fr:50162/login?url=http://www.medecinesciences.org/index.php?option=com_article&access=standard&Itemid=129&url=/articles/medsci/full_html/2012/11/medsci20122811p934/medsci20122811p934.html HTTP/1.1" 302 0
+pseudo216.ibs.fr - - [23/Jan/2013:15:46:28 +0100] "GET http://gate1.inist.fr:50162/login?user=BVIUMR5075&ticket=77bf7a9b077aae65166272edac77a508%24u1358952388%24gTitaneSciences%2BBiblioVie%2BCSD&url=http://www.medecinesciences.org/index.php?option=com_article&access=standard&Itemid=129&url=/articles/medsci/full_html/2012/11/medsci20122811p934/medsci20122811p934.html HTTP/1.1" 302 0
+pseudo216.ibs.fr - BVIUMR5075 [23/Jan/2013:15:46:28 +0100] "GET http://gate1.inist.fr:50162/connect?session=s6PsRViDyhi0oeAn&url=http://www.medecinesciences.org/index.php?option=com_article&access=standard&Itemid=129&url=/articles/medsci/full_html/2012/11/medsci20122811p934/medsci20122811p934.html HTTP/1.1" 302 0
+pseudo216.ibs.fr - BVIUMR5075 [23/Jan/2013:15:46:30 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_article&access=standard&Itemid=129&url=/articles/medsci/full_html/2012/11/medsci20122811p934/medsci20122811p934.html HTTP/1.1" 200 55838
+pseudo216.ibs.fr - BVIUMR5075 [23/Jan/2013:15:46:30 +0100] "GET http://www.medecinesciences.org:80/components/com_article/assets/article.css HTTP/1.1" 200 7366
+pseudo216.ibs.fr - BVIUMR5075 [23/Jan/2013:15:46:30 +0100] "GET http://www.medecinesciences.org:80/modules/mod_solr/assets/solr.css HTTP/1.1" 200 1896
+pseudo216.ibs.fr - BVIUMR5075 [23/Jan/2013:15:46:30 +0100] "GET http://www.medecinesciences.org:80/modules/mod_breadcrumbs/assets/breadcrumbs.css HTTP/1.1" 200 337
+pseudo216.ibs.fr - BVIUMR5075 [23/Jan/2013:15:46:30 +0100] "GET http://www.medecinesciences.org:80/components/com_article/assets/article.js HTTP/1.1" 200 521
+pseudo216.ibs.fr - BVIUMR5075 [23/Jan/2013:15:46:30 +0100] "GET http://www.medecinesciences.org:80/modules/mod_article_bookmarking/assets/bookmarking.js HTTP/1.1" 200 1404
+pseudo216.ibs.fr - BVIUMR5075 [23/Jan/2013:15:46:30 +0100] "GET http://www.medecinesciences.org:80/media/system/js/mootools.js HTTP/1.1" 200 74693
+pseudo216.ibs.fr - BVIUMR5075 [23/Jan/2013:15:46:30 +0100] "GET http://www.medecinesciences.org:80/templates/css/commun.css HTTP/1.1" 200 2818
+pseudo216.ibs.fr - BVIUMR5075 [23/Jan/2013:15:46:30 +0100] "GET http://www.medecinesciences.org:80/templates/js/commun.js HTTP/1.1" 200 268
+pseudo216.ibs.fr - BVIUMR5075 [23/Jan/2013:15:46:30 +0100] "GET http://www.medecinesciences.org:80/templates/medsci/css/template_css.css HTTP/1.1" 200 43108
+pseudo216.ibs.fr - BVIUMR5075 [23/Jan/2013:15:46:30 +0100] "GET http://www.medecinesciences.org:80/templates/mattech/js/gal/mootools.v1.11.js HTTP/1.1" 200 35099
+pseudo216.ibs.fr - BVIUMR5075 [23/Jan/2013:15:46:30 +0100] "GET http://www.medecinesciences.org:80/templates/medsci/css/gal/jd.gallery.css HTTP/1.1" 200 6197
+pseudo216.ibs.fr - BVIUMR5075 [23/Jan/2013:15:46:30 +0100] "GET http://www.medecinesciences.org:80/templates/mattech/js/gal/jd.gallery.js HTTP/1.1" 200 25003
+pseudo216.ibs.fr - BVIUMR5075 [23/Jan/2013:15:49:02 +0100] "GET http://www.medecinesciences.org:80/articles/medsci/full_html/2012/11/medsci20122811p934/F1.html HTTP/1.1" 302 683
+pseudo216.ibs.fr - BVIUMR5075 [23/Jan/2013:15:49:02 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_article&access=standard&Itemid=129&url=/articles/medsci/full_html/2012/11/medsci20122811p934/F1.html HTTP/1.1" 200 16397
+pseudo216.ibs.fr - BVIUMR5075 [23/Jan/2013:15:49:54 +0100] "GET http://www.medecinesciences.org:80/articles/medsci/full_html/2012/11/medsci20122811p934/F2.html HTTP/1.1" 302 683
+pseudo216.ibs.fr - BVIUMR5075 [23/Jan/2013:15:49:55 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_article&access=standard&Itemid=129&url=/articles/medsci/full_html/2012/11/medsci20122811p934/F2.html HTTP/1.1" 200 16590
+pseudo216.ibs.fr - BVIUMR5075 [23/Jan/2013:15:53:32 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_toc&url=%2Farticles%2Fmedsci%2Fabs%2F2012%2F11%2Fcontents%2Fcontents.html&lang=fr_FR.utf8%2C+fr_FR.UT HTTP/1.1" 200 57602
+pseudo216.ibs.fr - BVIUMR5075 [23/Jan/2013:15:53:32 +0100] "GET http://www.medecinesciences.org:80/components/com_toc/assets/toc.css HTTP/1.1" 200 5843
+pseudo216.ibs.fr - BVIUMR5075 [23/Jan/2013:15:53:32 +0100] "GET http://www.medecinesciences.org:80/components/com_toc/assets/toc.js HTTP/1.1" 200 2773
+pseudo216.ibs.fr - BVIUMR5075 [23/Jan/2013:15:53:58 +0100] "GET http://www.medecinesciences.org:80/articles/medsci/full_html/2012/11/medsci20122811p926/medsci20122811p926.html HTTP/1.1" 302 715
+pseudo216.ibs.fr - BVIUMR5075 [23/Jan/2013:15:53:59 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_article&access=standard&Itemid=129&url=/articles/medsci/full_html/2012/11/medsci20122811p926/medsci20122811p926.html HTTP/1.1" 200 44697
+pseudo216.ibs.fr - BVIUMR5075 [23/Jan/2013:15:54:33 +0100] "GET http://www.medecinesciences.org:80/articles/medsci/full_html/2012/11/medsci20122811p926/F1.html HTTP/1.1" 302 683
+pseudo216.ibs.fr - BVIUMR5075 [23/Jan/2013:15:54:33 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_article&access=standard&Itemid=129&url=/articles/medsci/full_html/2012/11/medsci20122811p926/F1.html HTTP/1.1" 200 15795
+pseudo216.ibs.fr - BVIUMR5075 [23/Jan/2013:15:54:44 +0100] "GET http://www.medecinesciences.org:80/articles/medsci/full_html/2012/11/medsci20122811p926/F2.html HTTP/1.1" 302 683
+pseudo216.ibs.fr - BVIUMR5075 [23/Jan/2013:15:54:44 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_article&access=standard&Itemid=129&url=/articles/medsci/full_html/2012/11/medsci20122811p926/F2.html HTTP/1.1" 200 16088
+f95.univ-reims.fr - BVIFRE3481 [23/Jan/2013:17:10:44 +0100] "GET http://www.medecinesciences.org:80/10.1051/medsci/200420155 HTTP/1.1" 302 632
+f95.univ-reims.fr - BVIFRE3481 [23/Jan/2013:17:10:44 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_article&access=doi&doi=10.1051/medsci/200420155&Itemid=129 HTTP/1.1" 200 18998
+f95.univ-reims.fr - BVIFRE3481 [23/Jan/2013:17:10:45 +0100] "GET http://www.medecinesciences.org:80/components/com_article/assets/article.css HTTP/1.1" 200 7366
+f95.univ-reims.fr - BVIFRE3481 [23/Jan/2013:17:10:45 +0100] "GET http://www.medecinesciences.org:80/modules/mod_breadcrumbs/assets/breadcrumbs.css HTTP/1.1" 200 337
+f95.univ-reims.fr - BVIFRE3481 [23/Jan/2013:17:10:45 +0100] "GET http://www.medecinesciences.org:80/modules/mod_solr/assets/solr.css HTTP/1.1" 200 1896
+f95.univ-reims.fr - BVIFRE3481 [23/Jan/2013:17:10:45 +0100] "GET http://www.medecinesciences.org:80/components/com_article/assets/article.js HTTP/1.1" 200 521
+f95.univ-reims.fr - BVIFRE3481 [23/Jan/2013:17:10:45 +0100] "GET http://www.medecinesciences.org:80/modules/mod_article_bookmarking/assets/bookmarking.js HTTP/1.1" 200 1404
+f95.univ-reims.fr - BVIFRE3481 [23/Jan/2013:17:10:45 +0100] "GET http://www.medecinesciences.org:80/templates/css/commun.css HTTP/1.1" 200 2818
+f95.univ-reims.fr - BVIFRE3481 [23/Jan/2013:17:10:45 +0100] "GET http://www.medecinesciences.org:80/media/system/js/mootools.js HTTP/1.1" 200 74693
+f95.univ-reims.fr - BVIFRE3481 [23/Jan/2013:17:10:45 +0100] "GET http://www.medecinesciences.org:80/templates/js/commun.js HTTP/1.1" 200 268
+f95.univ-reims.fr - BVIFRE3481 [23/Jan/2013:17:10:45 +0100] "GET http://www.medecinesciences.org:80/templates/medsci/css/gal/jd.gallery.css HTTP/1.1" 200 6197
+f95.univ-reims.fr - BVIFRE3481 [23/Jan/2013:17:10:45 +0100] "GET http://www.medecinesciences.org:80/templates/mattech/js/gal/mootools.v1.11.js HTTP/1.1" 200 35099
+f95.univ-reims.fr - BVIFRE3481 [23/Jan/2013:17:10:45 +0100] "GET http://www.medecinesciences.org:80/templates/mattech/js/gal/jd.gallery.js HTTP/1.1" 200 25003
+f95.univ-reims.fr - BVIFRE3481 [23/Jan/2013:17:10:45 +0100] "GET http://www.medecinesciences.org:80/templates/medsci/css/template_css.css HTTP/1.1" 200 43108
+76.215-179-91.adsl-dyn.isp.belgacom.be - - [23/Jan/2013:17:11:02 +0100] "GET http://gate1.inist.fr:50162/login?url=http://www.medecinesciences.org/ HTTP/1.1" 302 0
+f95.univ-reims.fr - BVIFRE3481 [23/Jan/2013:17:11:07 +0100] "GET http://www.medecinesciences.org:80/articles/medsci/pdf/2004/01/medsci2004201p55.pdf HTTP/1.1" 302 659
+f95.univ-reims.fr - BVIFRE3481 [23/Jan/2013:17:11:08 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_article&access=standard&Itemid=129&url=/articles/medsci/pdf/2004/01/medsci2004201p55.pdf HTTP/1.1" 200 250813
+76.215-179-91.adsl-dyn.isp.belgacom.be - - [23/Jan/2013:17:11:11 +0100] "GET http://gate1.inist.fr:50162/login?user=SDVCSMMO&ticket=04d712d94465a9b0c5e3d503702c7541%24u1358957471%24gBiblioVie&url=http://www.medecinesciences.org/ HTTP/1.1" 302 0
+76.215-179-91.adsl-dyn.isp.belgacom.be - SDVCSMMO [23/Jan/2013:17:11:11 +0100] "GET http://gate1.inist.fr:50162/connect?session=sAaKj4jNn2BY5PoY&url=http://www.medecinesciences.org/ HTTP/1.1" 302 0
+76.215-179-91.adsl-dyn.isp.belgacom.be - SDVCSMMO [23/Jan/2013:17:11:11 +0100] "GET http://www.medecinesciences.org:80/ HTTP/1.1" 200 20193
+76.215-179-91.adsl-dyn.isp.belgacom.be - SDVCSMMO [23/Jan/2013:17:11:11 +0100] "GET http://www.medecinesciences.org:80/components/com_accueil/assets/css/accueil.css HTTP/1.1" 200 1166
+76.215-179-91.adsl-dyn.isp.belgacom.be - SDVCSMMO [23/Jan/2013:17:11:11 +0100] "GET http://www.medecinesciences.org:80/modules/mod_breadcrumbs/assets/breadcrumbs.css HTTP/1.1" 200 337
+76.215-179-91.adsl-dyn.isp.belgacom.be - SDVCSMMO [23/Jan/2013:17:11:11 +0100] "GET http://www.medecinesciences.org:80/modules/mod_solr/assets/solr.css HTTP/1.1" 200 1896
+76.215-179-91.adsl-dyn.isp.belgacom.be - SDVCSMMO [23/Jan/2013:17:11:11 +0100] "GET http://www.medecinesciences.org:80/templates/css/commun.css HTTP/1.1" 200 2818
+76.215-179-91.adsl-dyn.isp.belgacom.be - SDVCSMMO [23/Jan/2013:17:11:11 +0100] "GET http://www.medecinesciences.org:80/templates/js/commun.js HTTP/1.1" 200 268
+76.215-179-91.adsl-dyn.isp.belgacom.be - SDVCSMMO [23/Jan/2013:17:11:11 +0100] "GET http://www.medecinesciences.org:80/templates/medsci/css/template_css.css HTTP/1.1" 200 43108
+76.215-179-91.adsl-dyn.isp.belgacom.be - SDVCSMMO [23/Jan/2013:17:11:11 +0100] "GET http://www.medecinesciences.org:80/templates/mattech/js/gal/mootools.v1.11.js HTTP/1.1" 200 35099
+76.215-179-91.adsl-dyn.isp.belgacom.be - SDVCSMMO [23/Jan/2013:17:11:11 +0100] "GET http://www.medecinesciences.org:80/templates/mattech/js/gal/jd.gallery.js HTTP/1.1" 200 25003
+76.215-179-91.adsl-dyn.isp.belgacom.be - SDVCSMMO [23/Jan/2013:17:11:11 +0100] "GET http://www.medecinesciences.org:80/templates/medsci/css/gal/jd.gallery.css HTTP/1.1" 200 6197
+76.215-179-91.adsl-dyn.isp.belgacom.be - SDVCSMMO [23/Jan/2013:17:11:24 +0100] "GET http://www.medecinesciences.org:80/articles/medsci/abs/2012/12/contents/contents.html HTTP/1.1" 302 593
+76.215-179-91.adsl-dyn.isp.belgacom.be - SDVCSMMO [23/Jan/2013:17:11:25 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_toc&url=/articles/medsci/abs/2012/12/contents/contents.html HTTP/1.1" 200 59575
+76.215-179-91.adsl-dyn.isp.belgacom.be - SDVCSMMO [23/Jan/2013:17:11:25 +0100] "GET http://www.medecinesciences.org:80/components/com_toc/assets/toc.css HTTP/1.1" 200 5843
+76.215-179-91.adsl-dyn.isp.belgacom.be - SDVCSMMO [23/Jan/2013:17:11:25 +0100] "GET http://www.medecinesciences.org:80/components/com_toc/assets/toc.js HTTP/1.1" 200 2773
+76.215-179-91.adsl-dyn.isp.belgacom.be - SDVCSMMO [23/Jan/2013:17:11:25 +0100] "GET http://www.medecinesciences.org:80/media/system/js/mootools.js HTTP/1.1" 200 74693
+76.215-179-91.adsl-dyn.isp.belgacom.be - SDVCSMMO [23/Jan/2013:17:11:46 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_issues&task=special&Itemid=40&lang=fr_FR.utf8%2C+fr_FR.UT HTTP/1.1" 200 17915
+76.215-179-91.adsl-dyn.isp.belgacom.be - SDVCSMMO [23/Jan/2013:17:11:46 +0100] "GET http://www.medecinesciences.org:80/components/com_issues/assets/issues.css HTTP/1.1" 200 3331
+76.215-179-91.adsl-dyn.isp.belgacom.be - SDVCSMMO [23/Jan/2013:17:11:46 +0100] "GET http://www.medecinesciences.org:80/components/com_issues/assets/issues.js HTTP/1.1" 200 3117
+76.215-179-91.adsl-dyn.isp.belgacom.be - SDVCSMMO [23/Jan/2013:17:12:19 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_solr&task=search&input_1=banchereau&countDiv=1&website=1&articles_sci=1&search_in=journal&journal=medsci&from=module HTTP/1.1" 200 37177
+76.215-179-91.adsl-dyn.isp.belgacom.be - SDVCSMMO [23/Jan/2013:17:12:19 +0100] "GET http://www.medecinesciences.org:80/components/com_solr/assets/results.js HTTP/1.1" 200 2228
+76.215-179-91.adsl-dyn.isp.belgacom.be - SDVCSMMO [23/Jan/2013:17:12:19 +0100] "GET http://www.medecinesciences.org:80/components/com_solr/assets/solr.css HTTP/1.1" 200 4142
+76.215-179-91.adsl-dyn.isp.belgacom.be - SDVCSMMO [23/Jan/2013:17:12:29 +0100] "GET http://www.medecinesciences.org:80/articles/medsci/pdf/2008/11/medsci20082410p783.pdf HTTP/1.1" 302 663
+76.215-179-91.adsl-dyn.isp.belgacom.be - SDVCSMMO [23/Jan/2013:17:12:31 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_article&access=standard&Itemid=129&url=/articles/medsci/pdf/2008/11/medsci20082410p783.pdf HTTP/1.1" 200 95193
+76.215-179-91.adsl-dyn.isp.belgacom.be - SDVCSMMO [23/Jan/2013:17:16:08 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_solr&task=search&input_1=immunologie&countDiv=1&website=1&articles_sci=1&search_in=journal&journal=medsci&from=module HTTP/1.1" 200 39138
+76.215-179-91.adsl-dyn.isp.belgacom.be - SDVCSMMO [23/Jan/2013:17:16:20 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_solr&task=search&id=2&o=publication&d=20&p=1 HTTP/1.1" 200 42488
+76.215-179-91.adsl-dyn.isp.belgacom.be - SDVCSMMO [23/Jan/2013:17:16:51 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_solr&task=search&id=2&o=publication&d=20&p=2 HTTP/1.1" 200 39371
+76.215-179-91.adsl-dyn.isp.belgacom.be - SDVCSMMO [23/Jan/2013:17:17:28 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_solr&task=search&id=2&o=publication&d=20&p=3 HTTP/1.1" 200 41335
+76.215-179-91.adsl-dyn.isp.belgacom.be - SDVCSMMO [23/Jan/2013:17:17:43 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_solr&task=search&id=2&o=publication&d=20&p=4 HTTP/1.1" 200 40523
+76.215-179-91.adsl-dyn.isp.belgacom.be - SDVCSMMO [23/Jan/2013:17:18:06 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_solr&task=search&id=2&o=publication&d=20&p=5 HTTP/1.1" 200 42073
+76.215-179-91.adsl-dyn.isp.belgacom.be - SDVCSMMO [23/Jan/2013:17:18:55 +0100] "GET http://www.medecinesciences.org:80/articles/medsci/abs/2009/05/medsci2009254p399/medsci2009254p399.html HTTP/1.1" 302 699
+76.215-179-91.adsl-dyn.isp.belgacom.be - SDVCSMMO [23/Jan/2013:17:18:56 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_article&access=standard&Itemid=129&url=/articles/medsci/abs/2009/05/medsci2009254p399/medsci2009254p399.html HTTP/1.1" 200 18774
+76.215-179-91.adsl-dyn.isp.belgacom.be - SDVCSMMO [23/Jan/2013:17:18:56 +0100] "GET http://www.medecinesciences.org:80/components/com_article/assets/article.css HTTP/1.1" 200 7366
+76.215-179-91.adsl-dyn.isp.belgacom.be - SDVCSMMO [23/Jan/2013:17:18:56 +0100] "GET http://www.medecinesciences.org:80/components/com_article/assets/article.js HTTP/1.1" 200 521
+76.215-179-91.adsl-dyn.isp.belgacom.be - SDVCSMMO [23/Jan/2013:17:18:56 +0100] "GET http://www.medecinesciences.org:80/modules/mod_article_bookmarking/assets/bookmarking.js HTTP/1.1" 200 1404
+76.215-179-91.adsl-dyn.isp.belgacom.be - SDVCSMMO [23/Jan/2013:17:19:30 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_toc&url=%2Farticles%2Fmedsci%2Fabs%2F2009%2F05%2Fcontents%2Fcontents.html&lang=fr_FR.utf8%2C+fr_FR.UT HTTP/1.1" 200 52061
+76.215-179-91.adsl-dyn.isp.belgacom.be - SDVCSMMO [23/Jan/2013:17:20:16 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_solr&task=search&id=2&o=publication&d=20&p=6 HTTP/1.1" 200 39853
+76.215-179-91.adsl-dyn.isp.belgacom.be - SDVCSMMO [23/Jan/2013:17:20:41 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_solr&task=search&id=2&o=publication&d=20&p=7 HTTP/1.1" 200 38841
+76.215-179-91.adsl-dyn.isp.belgacom.be - SDVCSMMO [23/Jan/2013:17:21:01 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_solr&task=search&id=2&o=publication&d=20&p=8 HTTP/1.1" 200 43210
+76.215-179-91.adsl-dyn.isp.belgacom.be - SDVCSMMO [23/Jan/2013:17:21:27 +0100] "GET http://www.medecinesciences.org:80/articles/medsci/full_html/2007/02/medsci2007232p115/medsci2007232p115.html HTTP/1.1" 302 711
+76.215-179-91.adsl-dyn.isp.belgacom.be - SDVCSMMO [23/Jan/2013:17:21:28 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_article&access=standard&Itemid=129&url=/articles/medsci/full_html/2007/02/medsci2007232p115/medsci2007232p115.html HTTP/1.1" 200 26429
+76.215-179-91.adsl-dyn.isp.belgacom.be - SDVCSMMO [23/Jan/2013:17:22:07 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_issues&task=all&Itemid=39&lang=fr_FR.utf8%2C+fr_FR.UT HTTP/1.1" 200 81507
+76.215-179-91.adsl-dyn.isp.belgacom.be - SDVCSMMO [23/Jan/2013:17:22:16 +0100] "GET http://www.medecinesciences.org:80/articles/medsci/abs/2012/12/contents/contents.html HTTP/1.1" 302 593
+76.215-179-91.adsl-dyn.isp.belgacom.be - SDVCSMMO [23/Jan/2013:17:22:18 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_toc&url=/articles/medsci/abs/2012/12/contents/contents.html HTTP/1.1" 200 59590
+193.52.208.233 - BVIUMR7292 [23/Jan/2013:17:25:54 +0100] "GET http://www.medecinesciences.org:80/ HTTP/1.1" 200 20193
+193.52.208.233 - BVIUMR7292 [23/Jan/2013:17:25:54 +0100] "GET http://www.medecinesciences.org:80/modules/mod_breadcrumbs/assets/breadcrumbs.css HTTP/1.1" 200 337
+193.52.208.233 - BVIUMR7292 [23/Jan/2013:17:25:54 +0100] "GET http://www.medecinesciences.org:80/components/com_accueil/assets/css/accueil.css HTTP/1.1" 200 1166
+193.52.208.233 - BVIUMR7292 [23/Jan/2013:17:25:54 +0100] "GET http://www.medecinesciences.org:80/modules/mod_solr/assets/solr.css HTTP/1.1" 200 1896
+193.52.208.233 - BVIUMR7292 [23/Jan/2013:17:25:54 +0100] "GET http://www.medecinesciences.org:80/templates/js/commun.js HTTP/1.1" 200 268
+193.52.208.233 - BVIUMR7292 [23/Jan/2013:17:25:54 +0100] "GET http://www.medecinesciences.org:80/templates/css/commun.css HTTP/1.1" 200 2818
+193.52.208.233 - BVIUMR7292 [23/Jan/2013:17:25:54 +0100] "GET http://www.medecinesciences.org:80/templates/medsci/css/gal/jd.gallery.css HTTP/1.1" 200 6197
+193.52.208.233 - BVIUMR7292 [23/Jan/2013:17:25:54 +0100] "GET http://www.medecinesciences.org:80/templates/mattech/js/gal/jd.gallery.js HTTP/1.1" 200 25003
+193.52.208.233 - BVIUMR7292 [23/Jan/2013:17:25:54 +0100] "GET http://www.medecinesciences.org:80/templates/mattech/js/gal/mootools.v1.11.js HTTP/1.1" 200 35099
+193.52.208.233 - BVIUMR7292 [23/Jan/2013:17:25:54 +0100] "GET http://www.medecinesciences.org:80/templates/medsci/css/template_css.css HTTP/1.1" 200 43108
+193.52.208.233 - BVIUMR7292 [23/Jan/2013:17:26:01 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_solr&task=search&input_1=Tn3&countDiv=1&website=1&articles_sci=1&search_in=journal&journal=medsci&from=module HTTP/1.1" 200 40475
+193.52.208.233 - BVIUMR7292 [23/Jan/2013:17:26:01 +0100] "GET http://www.medecinesciences.org:80/components/com_solr/assets/solr.css HTTP/1.1" 200 4142
+193.52.208.233 - BVIUMR7292 [23/Jan/2013:17:26:01 +0100] "GET http://www.medecinesciences.org:80/components/com_solr/assets/results.js HTTP/1.1" 200 2228
+193.52.208.233 - BVIUMR7292 [23/Jan/2013:17:26:01 +0100] "GET http://www.medecinesciences.org:80/media/system/js/mootools.js HTTP/1.1" 200 74693
+193.52.208.233 - BVIUMR7292 [23/Jan/2013:17:26:17 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_solr&task=search&input_1=transposon+Tn3&countDiv=1&website=1&articles_sci=1&search_in=journal&journal=medsci&from=module HTTP/1.1" 200 16182
+193.52.208.233 - BVIUMR7292 [23/Jan/2013:17:26:28 +0100] "GET http://www.medecinesciences.org:80/articles/medsci/full_html/2010/10/medsci20102611p936/medsci20102611p936.html HTTP/1.1" 302 715
+193.52.208.233 - BVIUMR7292 [23/Jan/2013:17:26:29 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_article&access=standard&Itemid=129&url=/articles/medsci/full_html/2010/10/medsci20102611p936/medsci20102611p936.html HTTP/1.1" 200 83702
+193.52.208.233 - BVIUMR7292 [23/Jan/2013:17:26:29 +0100] "GET http://www.medecinesciences.org:80/modules/mod_article_bookmarking/assets/bookmarking.js HTTP/1.1" 200 1404
+193.52.208.233 - BVIUMR7292 [23/Jan/2013:17:26:29 +0100] "GET http://www.medecinesciences.org:80/components/com_article/assets/article.js HTTP/1.1" 200 521
+193.52.208.233 - BVIUMR7292 [23/Jan/2013:17:26:29 +0100] "GET http://www.medecinesciences.org:80/components/com_article/assets/article.css HTTP/1.1" 200 7366
+193.52.208.233 - BVIUMR7292 [23/Jan/2013:17:26:46 +0100] "GET http://www.medecinesciences.org:80/articles/medsci/full_html/2010/10/medsci20102611p943/medsci20102611p943.html HTTP/1.1" 302 715
+193.52.208.233 - BVIUMR7292 [23/Jan/2013:17:26:47 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_article&access=standard&Itemid=129&url=/articles/medsci/full_html/2010/10/medsci20102611p943/medsci20102611p943.html HTTP/1.1" 200 88707
+193.52.208.233 - BVIUMR7292 [23/Jan/2013:17:27:01 +0100] "GET http://www.medecinesciences.org:80/articles/medsci/full_html/2010/10/medsci20102611p950/medsci20102611p950.html HTTP/1.1" 302 715
+193.52.208.233 - BVIUMR7292 [23/Jan/2013:17:27:02 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_article&access=standard&Itemid=129&url=/articles/medsci/full_html/2010/10/medsci20102611p950/medsci20102611p950.html HTTP/1.1" 200 104482
+vel78-3-88-185-162-234.fbx.proxad.net - - [23/Jan/2013:22:36:27 +0100] "GET http://gate1.inist.fr:50162/login?url=http://www.medecinesciences.org/ HTTP/1.1" 302 0
+vel78-3-88-185-162-234.fbx.proxad.net - - [23/Jan/2013:22:37:00 +0100] "GET http://gate1.inist.fr:50162/login?user=BVIUPR9073&ticket=69d5b6a6a56a03b00a424c2bbf981cdb%24u1358977019%24gBiblioVie&url=http://www.medecinesciences.org/ HTTP/1.1" 302 0
+vel78-3-88-185-162-234.fbx.proxad.net - BVIUPR9073 [23/Jan/2013:22:37:00 +0100] "GET http://gate1.inist.fr:50162/connect?session=sLvUn3as97RgEyeo&url=http://www.medecinesciences.org/ HTTP/1.1" 302 0
+vel78-3-88-185-162-234.fbx.proxad.net - BVIUPR9073 [23/Jan/2013:22:37:01 +0100] "GET http://www.medecinesciences.org:80/ HTTP/1.1" 200 20193
+vel78-3-88-185-162-234.fbx.proxad.net - BVIUPR9073 [23/Jan/2013:22:37:02 +0100] "GET http://www.medecinesciences.org:80/components/com_accueil/assets/css/accueil.css HTTP/1.1" 200 1166
+vel78-3-88-185-162-234.fbx.proxad.net - BVIUPR9073 [23/Jan/2013:22:37:02 +0100] "GET http://www.medecinesciences.org:80/modules/mod_breadcrumbs/assets/breadcrumbs.css HTTP/1.1" 200 337
+vel78-3-88-185-162-234.fbx.proxad.net - BVIUPR9073 [23/Jan/2013:22:37:02 +0100] "GET http://www.medecinesciences.org:80/modules/mod_solr/assets/solr.css HTTP/1.1" 200 1896
+vel78-3-88-185-162-234.fbx.proxad.net - BVIUPR9073 [23/Jan/2013:22:37:02 +0100] "GET http://www.medecinesciences.org:80/templates/css/commun.css HTTP/1.1" 200 2818
+vel78-3-88-185-162-234.fbx.proxad.net - BVIUPR9073 [23/Jan/2013:22:37:03 +0100] "GET http://www.medecinesciences.org:80/templates/medsci/css/template_css.css HTTP/1.1" 200 43108
+vel78-3-88-185-162-234.fbx.proxad.net - BVIUPR9073 [23/Jan/2013:22:37:03 +0100] "GET http://www.medecinesciences.org:80/templates/js/commun.js HTTP/1.1" 200 268
+vel78-3-88-185-162-234.fbx.proxad.net - BVIUPR9073 [23/Jan/2013:22:37:03 +0100] "GET http://www.medecinesciences.org:80/templates/mattech/js/gal/mootools.v1.11.js HTTP/1.1" 200 35099
+vel78-3-88-185-162-234.fbx.proxad.net - BVIUPR9073 [23/Jan/2013:22:37:03 +0100] "GET http://www.medecinesciences.org:80/templates/mattech/js/gal/jd.gallery.js HTTP/1.1" 200 25003
+vel78-3-88-185-162-234.fbx.proxad.net - BVIUPR9073 [23/Jan/2013:22:37:03 +0100] "GET http://www.medecinesciences.org:80/templates/medsci/css/gal/jd.gallery.css HTTP/1.1" 200 6197
+vel78-3-88-185-162-234.fbx.proxad.net - BVIUPR9073 [23/Jan/2013:22:37:13 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_content&view=article&id=404&Itemid=303 HTTP/1.1" 200 11144
+vel78-3-88-185-162-234.fbx.proxad.net - BVIUPR9073 [23/Jan/2013:22:37:13 +0100] "GET http://www.medecinesciences.org:80/components/com_content/assets/content.css HTTP/1.1" 200 1148
+vel78-3-88-185-162-234.fbx.proxad.net - BVIUPR9073 [23/Jan/2013:22:37:14 +0100] "GET http://www.medecinesciences.org:80/media/system/js/mootools.js HTTP/1.1" 200 74693
+vel78-3-88-185-162-234.fbx.proxad.net - BVIUPR9073 [23/Jan/2013:22:37:14 +0100] "GET http://www.medecinesciences.org:80/media/system/js/caption.js HTTP/1.1" 200 2221
+vel78-3-88-185-162-234.fbx.proxad.net - BVIUPR9073 [23/Jan/2013:22:37:30 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_content&view=article&id=256&Itemid=302&lang=fr_FR.utf8%2C+fr_FR.UT HTTP/1.1" 200 16957
+vel78-3-88-185-162-234.fbx.proxad.net - BVIUPR9073 [23/Jan/2013:22:37:34 +0100] "GET http://www.medecinesciences.org:80/articles/medsci/abs/2012/06/contents/contents.html HTTP/1.1" 302 593
+vel78-3-88-185-162-234.fbx.proxad.net - BVIUPR9073 [23/Jan/2013:22:37:35 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_toc&url=/articles/medsci/abs/2012/06/contents/contents.html HTTP/1.1" 200 53987
+vel78-3-88-185-162-234.fbx.proxad.net - BVIUPR9073 [23/Jan/2013:22:37:35 +0100] "GET http://www.medecinesciences.org:80/components/com_toc/assets/toc.css HTTP/1.1" 200 5843
+vel78-3-88-185-162-234.fbx.proxad.net - BVIUPR9073 [23/Jan/2013:22:37:35 +0100] "GET http://www.medecinesciences.org:80/components/com_toc/assets/toc.js HTTP/1.1" 200 2773
+vel78-3-88-185-162-234.fbx.proxad.net - BVIUPR9073 [23/Jan/2013:22:37:40 +0100] "GET http://www.medecinesciences.org:80/articles/medsci/pdf/2012/06/medsci2012285p454.pdf HTTP/1.1" 302 661
+vel78-3-88-185-162-234.fbx.proxad.net - BVIUPR9073 [23/Jan/2013:22:37:41 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_article&access=standard&Itemid=129&url=/articles/medsci/pdf/2012/06/medsci2012285p454.pdf HTTP/1.1" 200 128067
+ABordeaux-157-1-36-206.w90-30.abo.wanadoo.fr - BVIUMR5234 [23/Jan/2013:23:19:01 +0100] "GET http://www.medecinesciences.org:80/10.1051/medsci/200925121053 HTTP/1.1" 302 638
+ABordeaux-157-1-36-206.w90-30.abo.wanadoo.fr - BVIUMR5234 [23/Jan/2013:23:19:01 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_article&access=doi&doi=10.1051/medsci/200925121053&Itemid=129 HTTP/1.1" 200 18898
+ABordeaux-157-1-36-206.w90-30.abo.wanadoo.fr - BVIUMR5234 [23/Jan/2013:23:19:03 +0100] "GET http://www.medecinesciences.org:80/components/com_article/assets/article.css HTTP/1.1" 200 7366
+ABordeaux-157-1-36-206.w90-30.abo.wanadoo.fr - BVIUMR5234 [23/Jan/2013:23:19:03 +0100] "GET http://www.medecinesciences.org:80/modules/mod_solr/assets/solr.css HTTP/1.1" 200 1896
+ABordeaux-157-1-36-206.w90-30.abo.wanadoo.fr - BVIUMR5234 [23/Jan/2013:23:19:03 +0100] "GET http://www.medecinesciences.org:80/modules/mod_breadcrumbs/assets/breadcrumbs.css HTTP/1.1" 200 337
+ABordeaux-157-1-36-206.w90-30.abo.wanadoo.fr - BVIUMR5234 [23/Jan/2013:23:19:03 +0100] "GET http://www.medecinesciences.org:80/components/com_article/assets/article.js HTTP/1.1" 200 521
+ABordeaux-157-1-36-206.w90-30.abo.wanadoo.fr - BVIUMR5234 [23/Jan/2013:23:19:03 +0100] "GET http://www.medecinesciences.org:80/modules/mod_article_bookmarking/assets/bookmarking.js HTTP/1.1" 200 1404
+ABordeaux-157-1-36-206.w90-30.abo.wanadoo.fr - BVIUMR5234 [23/Jan/2013:23:19:03 +0100] "GET http://www.medecinesciences.org:80/templates/css/commun.css HTTP/1.1" 200 2818
+ABordeaux-157-1-36-206.w90-30.abo.wanadoo.fr - BVIUMR5234 [23/Jan/2013:23:19:03 +0100] "GET http://www.medecinesciences.org:80/media/system/js/mootools.js HTTP/1.1" 200 74693
+ABordeaux-157-1-36-206.w90-30.abo.wanadoo.fr - BVIUMR5234 [23/Jan/2013:23:19:03 +0100] "GET http://www.medecinesciences.org:80/templates/js/commun.js HTTP/1.1" 200 268
+ABordeaux-157-1-36-206.w90-30.abo.wanadoo.fr - BVIUMR5234 [23/Jan/2013:23:19:03 +0100] "GET http://www.medecinesciences.org:80/templates/medsci/css/template_css.css HTTP/1.1" 200 43108
+ABordeaux-157-1-36-206.w90-30.abo.wanadoo.fr - BVIUMR5234 [23/Jan/2013:23:19:03 +0100] "GET http://www.medecinesciences.org:80/templates/medsci/css/gal/jd.gallery.css HTTP/1.1" 200 6197
+ABordeaux-157-1-36-206.w90-30.abo.wanadoo.fr - BVIUMR5234 [23/Jan/2013:23:19:03 +0100] "GET http://www.medecinesciences.org:80/templates/mattech/js/gal/mootools.v1.11.js HTTP/1.1" 200 35099
+ABordeaux-157-1-36-206.w90-30.abo.wanadoo.fr - BVIUMR5234 [23/Jan/2013:23:19:03 +0100] "GET http://www.medecinesciences.org:80/templates/mattech/js/gal/jd.gallery.js HTTP/1.1" 200 25003
+ABordeaux-157-1-36-206.w90-30.abo.wanadoo.fr - BVIUMR5234 [23/Jan/2013:23:19:19 +0100] "GET http://www.medecinesciences.org:80/articles/medsci/pdf/2009/12/medsci20092512p1053.pdf HTTP/1.1" 302 665
+ABordeaux-157-1-36-206.w90-30.abo.wanadoo.fr - BVIUMR5234 [23/Jan/2013:23:19:20 +0100] "GET http://www.medecinesciences.org:80/index.php?option=com_article&access=standard&Itemid=129&url=/articles/medsci/pdf/2009/12/medsci20092512p1053.pdf HTTP/1.1" 200 129430
