@@ -6,6 +6,7 @@ import string
 import re
 import json
 import argparse
+from optparse import OptionParser
 
 def parseLine( line ):
   result = {}
@@ -54,11 +55,15 @@ def parseLine( line ):
       result['type'] = 'TXT'
   print json.dumps(result, separators=(',',':'))
   
-parser = argparse.ArgumentParser()
-parser.add_argument("-m", "--manual", action="store_true", help="Allow manual entry of urls")
-args = parser.parse_args()
+usage = 'Usage: %prog [-m][-h]'
+usage += '\n  Parse URLs read from standard input. '
+usage += '\n  You can either use pipes or enter URLs manually.'
+usage += '\n  Example: cat urls.txt | %prog'
+parser = OptionParser(usage=usage)
+parser.add_option("-m", "--manual", action="store_true", help="Allow manual entry of urls")
+(options, args) = parser.parse_args()
 
-if args.manual:
+if options.manual:
   # This method allows manual entry of urls (won't work with pipes)
   while 1:
     if sys.stdin.closed:
