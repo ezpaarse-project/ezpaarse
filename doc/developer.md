@@ -54,11 +54,11 @@ Remarque: à moins de disposer d'un accès privilégié (équipe ezPAARSE), vous
 
 ## Écriture d`un parseur ##
 
-TODO expliquer comment procéder pour écrire un parseur :
-
-* un parseur se présente sous la forme d'un fichier executable "parser" accompagné d'un fichier de description [manifest.json](https://github.com/ezpaarse-project/ezpaarse/blob/master/platforms/sd/manifest.json) et du nécessaire pour sa validation (contenu dans un répertoire 'test')
-* il accepte en entrée : des URLs de la plateforme qu'il sait analyser
+* un parseur se présente sous la forme d'un fichier executable "parser" accompagné d'un fichier de description [manifest.json](https://github.com/ezpaarse-project/ezpaarse/blob/master/platforms/sd/manifest.json) et du nécessaire pour sa validation (contenu dans un répertoire 'test' voir ci-dessous)
+* il fonctionne sous forme d'un filtre : traite l'entrée standard et produit un flux sur la sortie standard 
+* il accepte en entrée : des URLs de la plateforme qu'il sait analyser (une par ligne)
 * il retourne en sortie : les éléments de consultation reconnus sous forme d'un flux json
+* il produit un affichage de son usage en retour à la commnde --help
 * [exemple en Javascript](https://github.com/ezpaarse-project/ezpaarse/blob/master/platforms/sd/parser)
 * [exemple en PHP](https://github.com/ezpaarse-project/ezpaarse/blob/master/platforms/sd/parser.php)
 * [exemple en Perl](https://github.com/ezpaarse-project/ezpaarse/blob/master/platforms/sd/parser.pl)
@@ -66,9 +66,35 @@ TODO expliquer comment procéder pour écrire un parseur :
 A noter que l'écriture d'un parseur se base principalement sur l'écriture d'expressions régulières (regexp).
 Pour aider l'écriture des regexp, voici un [outils qui pourra aider à visualiser l'écriture d'une regexp](http://www.regexper.com/).
 
-## Principe de gestion des bases de connaissance éditeur
+## Tests de validation du parseur
 
-![Schema de gestion des bases de connaissance éditeur ezPAARSE](images/ezPAARSE-Architecture-PKB.png "PKB ezPAARSE")
+Le parseur est accompagné du nécessaire pour être testé.
+Les tests consiste en un ou plusieurs fichiers présents dans le sous-repertoire test du package du parseur.
+
+Les noms des fichiers de tests seront de la forme ``platform.version.csv``. Ils sont au format CSV et contiennent les colonnes suivantes : issn;pid;type;url
+
+Le principe de test du parseur est représenté par le schéma suivant :
+![Schema de test des parseurs](images/ezPAARSE-Test-des-Parseurs.png "Test des parseurs")
+
+La procedure de test des parseurs utilise les données de la colonne url et les envoie au parseur. Celui doit renvoyer des données conformes au contenu des autres colonnes. 
+L'issn est prioritaire sur le pid (identifiant éditeur). Si l'issn est présent, le pid est inutile. 
+
+La colonne type représente le type de consultation et peut prendre les valeurs suivantes :
+
+* PDF : consultation d'un article au format PDF
+* TXT : consultation d'un article en texte brut (la plupart du temps en HTML)
+* SUMMARY : consultation d'un résumé de l'article
+* TOC : consultation d'un sommaire d'une revue
+* BOOKPDF : consultation d'un Book au format PDF
+* BOOKSERIE : consultation d'un sommaire d'une monographie en série
+* HANDBOOK : consultation d'un sommaire d'un handbook
+* ORDER : consultation de type commande de document
+* REF : consultation de référence de document
+* OML : consultation de matériel en ligne (données)
+
+## Principe de gestion des bases de connaissances éditeur
+
+![Schema de gestion des bases de connaissances éditeur ezPAARSE](images/ezPAARSE-Architecture-PKB.png "PKB ezPAARSE")
 
 ## Générer une version d`ezPAARSE ##
 
