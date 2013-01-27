@@ -27,7 +27,7 @@ cd ezpaarse
 make
 ```
 
-## Tester l'installation ##
+## Tester l`installation ##
 
 Cette étape vous permettra de valider que votre installation est fonctionnelle.
 

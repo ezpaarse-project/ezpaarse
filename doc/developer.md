@@ -64,12 +64,12 @@ Remarque: à moins de disposer d'un accès privilégié (équipe ezPAARSE), vous
 * [exemple en Perl](https://github.com/ezpaarse-project/ezpaarse/blob/master/platforms/sd/parser.pl)
 
 A noter que l'écriture d'un parseur se base principalement sur l'écriture d'expressions régulières (regexp).
-Pour aider l'écriture des regexp, voici un [outils qui pourra aider à visualiser l'écriture d'une regexp](http://www.regexper.com/).
+Pour aider l'écriture des regexp, voici un [outil qui pourra aider à visualiser l'écriture d'une regexp](http://www.regexper.com/).
 
 ## Tests de validation du parseur
 
 Le parseur est accompagné du nécessaire pour être testé.
-Les tests consiste en un ou plusieurs fichiers présents dans le sous-repertoire test du package du parseur.
+Les tests consistent en un ou plusieurs fichiers présents dans le sous-repertoire test du package du parseur.
 
 Les noms des fichiers de tests seront de la forme ``platform.version.csv``. Ils sont au format CSV et contiennent les colonnes suivantes : issn;pid;type;url
 
@@ -91,6 +91,19 @@ La colonne type représente le type de consultation et peut prendre les valeurs 
 * ORDER : consultation de type commande de document
 * REF : consultation de référence de document
 * OML : consultation de matériel en ligne (données)
+
+## Description du parseur
+
+Le parseur est décrit par un fichier ``manifest.json`` présent dans le répertoire du parseur.
+Ce fichier contient les informations suivantes :
+
+* name : le nom court du parseur qui est utilisé comme préfixe dans les noms de fichier. On veillera à ne pas utiliser un nom déjà utilisé,
+* version : la version en cours du parseur. Elle est utilisée dans les noms de fichier de validation des parseurs,
+* longname : le nom long du parseur, utilisé dans la documentation,
+* describe : la description du parseur, peut être un paragraphe,
+* docurl : l'URL de la documentation sur le site analogist (se termine par /),
+* domains : un tableau des domaines que le parseur est capable de prendre en charge
+* recognize : un tableau faisant correspondre à chaque type de consultation (à true) les capacités de reconnaissance du parseur
 
 ## Principe de gestion des bases de connaissances éditeur
 
