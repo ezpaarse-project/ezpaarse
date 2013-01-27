@@ -143,7 +143,7 @@ module.exports = function (app, parsers, ignoredDomains) {
             } else if (result.pid) {
               var id;
               if (pkb) {
-                id = pkb[result.pid];
+                id = pkb.get(result.pid);
                 if (id) {
                   ec.issn = id.issn;
                   ec.eissn = id.eissn;
