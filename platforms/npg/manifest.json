@@ -2,7 +2,7 @@
   "name": "npg",
   "version": "0.1",
   "longname": "Nature Publishing Group",
-  "describe": "Identifie les consultations du site de Nature, version du MVP",
+  "describe": "Identifie les consultations du site de Nature",
   "docurl": "http://analogist.couperin.org/platforms/npg/",
 	"domains": [
     "www.nature.com",
