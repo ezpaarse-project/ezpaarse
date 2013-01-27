@@ -3,7 +3,7 @@
   "version": "0.1",
   "longname": "EDP Sciences",
   "describe": "Identifie les consultations du site EDP Sciences",
-  "docurl": "analogist.couperin.org/platforms/edp",
+  "docurl": "analogist.couperin.org/platforms/edp/",
   "domains": [
     "www.aos-journal.org",
     "www.agronomy-journal.org",
@@ -103,8 +103,8 @@
     "txt": true,  
     "pdf": true, 
     "toc": true, 
-    "res": true, 
-    "ref": true, 
-    "com": true 
+    "res": false, 
+    "ref": false, 
+    "com": false
   }
 }
