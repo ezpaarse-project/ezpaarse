@@ -75,7 +75,7 @@ if (!module.parent) {
   var argv = optimist.argv;
 
   // show usage if --help option is used
-  if (argv.help) {
+  if (argv.help || argv.h) {
     optimist.showHelp();
     process.exit(0);
   }
