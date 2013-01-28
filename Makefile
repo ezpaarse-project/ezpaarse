@@ -64,6 +64,8 @@ start:
 	@./bin/ezpaarse start
 stop:
 	@./bin/ezpaarse stop
+restart:
+	@./bin/ezpaarse restart
 status:
 	@./bin/ezpaarse status
 
