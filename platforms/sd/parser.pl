@@ -5,6 +5,12 @@ use URI;
 use URI::QueryParam;
 use Switch;
 use JSON;
+use Pod::Usage;
+use Getopt::Long;
+
+my $help = 0;
+GetOptions('help|?' => \$help) or pod2usage(2);
+pod2usage(1) if $help;
 
 while ($a = <STDIN>) {
   %result = ();
@@ -70,3 +76,18 @@ while ($a = <STDIN>) {
   print STDOUT "$json\n";
 }
 exit 0;
+
+__END__
+
+=head1 SYNOPSIS
+
+./parser.pl [options]
+
+ Options:
+   -help            brief help message
+
+Parse URLs read from standard input. You can either use pipes or enter URLs manually.
+
+Example: cat urls.txt | ./parser.pl
+
+=cut
