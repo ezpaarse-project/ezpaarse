@@ -1,7 +1,12 @@
 #!/usr/bin/env php
+
 <?php
-
-
+if (isset($argv[1]) && in_array($argv[1], array('--help', '-help', '-h'))) {
+  echo "Parse URLs read from standard input. You can either use pipes or enter URLs manually.
+  Usage: $argv[0]
+  Example: cat urls.txt | $argv[0]\n";
+  exit(0);
+}
 while($line = trim(fgets(STDIN))) {
   $result = Array();
   $url = parse_url($line);
