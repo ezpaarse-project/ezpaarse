@@ -126,7 +126,7 @@ exports.parserExecute = function (urls) {
 
 if (!module.parent) {
   var optimist = require('optimist')
-    .usage('Parse ScienceDirect URLs read from standard input. ' +
+    .usage('Parse URLs read from standard input. ' +
       'You can either use pipes or enter URLs manually.' +
       '\nUsage: $0' +
       '\nExample: cat urls.txt | $0');
