@@ -10,7 +10,7 @@
 var csvextractor = require('../lib/csvextractor.js');
 var optimist = require('optimist')
   .usage('Parse a csv source into json.' +
-    '\n  Usage: $0 [-sc] [-f string | -d string | -k string]')
+    '\n  Usage: $0 [-sc] [-f string | -d string | -k string] [--no-header]')
   .alias('file', 'f')
   .alias('fields', 'd')
   .alias('key', 'k')
@@ -20,7 +20,8 @@ var optimist = require('optimist')
   .describe('fields', 'A list of fields to extract. Default extract all fields. (Ex: --fields issn,pid)')
   .describe('key', 'If provided, the matching field will be used as a key in the resulting json.')
   .describe('silent', 'If provided, empty values or unexisting fields won\'t be showed in the results.')
-  .describe('csv', 'If provided, the result will be a csv.');
+  .describe('csv', 'If provided, the result will be a csv.')
+  .describe('noheader', 'If provided, the result won\'t have a header line. (if csv output)');
 var argv = optimist.argv;
 
 // show usage if --help option is used
@@ -37,7 +38,11 @@ if (argv.fields && argv.fields.length > 0) {
   fields = argv.fields.split(',');
 }
 if (argv.csv) {
-  csvextractor.toCsv(source, fields);
+  options.header = true;
+  if (argv['noheader']) {
+    options.header = false;
+  }
+  csvextractor.toCsv(source, fields, options);
   return;
 }
 if (argv.key) {
