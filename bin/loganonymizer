@@ -13,7 +13,7 @@
 var byline = require('byline');
 var Faker = require('Faker');
 var fs = require('fs');
-var tabRegex = require('../logformat.js');
+var tabRegex = require('../lib/logformat.js');
 
 var red = '\u001b[31m';     // Color red
 var brown = '\u001b[33m';  // Color brown

@@ -2,7 +2,7 @@
   "name": "sd",
   "version": "0.1",
   "longname": "Science Direct",
-  "describe": "Identifie les consultations du site Science Direct, version du MVP",
+  "describe": "Identifie les consultations du site Science Direct",
   "docurl": "http://analogist.couperin.org/platforms/sd/",
   "domains": [
     "www.sciencedirect.com",
@@ -15,7 +15,7 @@
     "pdf": true, 
     "toc": true, 
     "res": true, 
-    "ref": true, 
-    "com": true 
+    "ref": false, 
+    "com": false
   }
 }

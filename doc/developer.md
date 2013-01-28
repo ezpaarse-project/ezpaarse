@@ -57,8 +57,8 @@ Remarque: à moins de disposer d'un accès privilégié (équipe ezPAARSE), vous
 TODO expliquer comment procéder pour écrire un parseur :
 
 * un parseur se présente sous la forme d'un fichier executable "parser" accompagné d'un fichier de description [manifest.json](https://github.com/ezpaarse-project/ezpaarse/blob/master/platforms/sd/manifest.json) et du nécessaire pour sa validation (contenu dans un répertoire 'test')
-* il accepte en entrée : des [URLs de la plateforme qu'il sait analyser](https://raw.github.com/ezpaarse-project/ezpaarse/master/platforms/sd/test/sd.2012-11-30.url)
-* il retourne en sortie : les éléments de consultation reconnus sous forme d'un [flux json](https://github.com/ezpaarse-project/ezpaarse/blob/master/platforms/sd/test/sd.2012-11-30.result.json)
+* il accepte en entrée : des URLs de la plateforme qu'il sait analyser
+* il retourne en sortie : les éléments de consultation reconnus sous forme d'un flux json
 * [exemple en Javascript](https://github.com/ezpaarse-project/ezpaarse/blob/master/platforms/sd/parser)
 * [exemple en PHP](https://github.com/ezpaarse-project/ezpaarse/blob/master/platforms/sd/parser.php)
 * [exemple en Perl](https://github.com/ezpaarse-project/ezpaarse/blob/master/platforms/sd/parser.pl)
