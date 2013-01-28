@@ -22,7 +22,7 @@ function testFiles(files, parserFile, platform) {
   }
   describe(platform, function () {
     it('works', function (done) {
-      csvextractor.extract(files, ['url', 'issn', 'pid', 'type'], function (records) {
+      csvextractor.extract(files, [], function (records) {
         var child = shell.exec(parserFile, {async: true, silent: true})
         var stream = byline.createStream(child.stdout);
         var record = records.pop();
@@ -44,9 +44,8 @@ function testFiles(files, parserFile, platform) {
           done();
         });
         
-        // fs.createReadStream(urlFile).pipe(child.stdin);
         if (record) {
-          should(record.url, 'some entries have no URL')
+          should(record.url, 'some entries in the test file have no URL')
           child.stdin.write(record.url + '\n');
         } else {
           done();
