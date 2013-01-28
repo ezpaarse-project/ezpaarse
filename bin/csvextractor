@@ -1,80 +1,52 @@
 #!/usr/bin/env node
-//
-// Command used to extracte fields from log lines
-//
+
+/*
+* Command used to parse a csv source into json or csv
+*/
 
 /*jslint node: true, maxlen: 100, maxerr: 50, indent: 2 */
 'use strict';
 
-var util    = require('util');
-var byline = require('byline');
-var fs        = require('fs');
-var csv       = require('csv');
-var byline    = require('byline');
 var csvextractor = require('../lib/csvextractor.js');
-
-// get the command line argument
-// platform
 var optimist = require('optimist')
-    .usage('Extract fields from a CSV stream\nUsage: $0 --fields=[string] --output="text|json"')
-    .demand('output').alias('output', 'o').default('output', 'text')
-    .demand('fields').alias('fields', 'f').default('fields', "url")
-    .describe('output', 'output : text or json')
-    .describe('fields', 'fields to extract from the CSV (ex: url)');
+  .usage('Parse a csv source into json.' +
+    '\n  Usage: $0 [-sc] [-f string | -d string | -k string]')
+  .alias('file', 'f')
+  .alias('fields', 'd')
+  .alias('key', 'k')
+  .alias('silent', 's')
+  .alias('csv', 'c')
+  .describe('file', 'A csv file to parse. If absent, will read from standard input.')
+  .describe('fields', 'A list of fields to extract. Default extract all fields. (Ex: --fields issn,pid)')
+  .describe('key', 'If provided, the matching field will be used as a key in the resulting json.')
+  .describe('silent', 'If provided, empty values or unexisting fields won\'t be showed in the results.')
+  .describe('csv', 'If provided, the result will be a csv.');
 var argv = optimist.argv;
 
 // show usage if --help option is used
-if (argv.help) {
+if (argv.help || argv.h) {
   optimist.showHelp();
   process.exit(0);
 }
 
-var csv_fields = argv.fields.split(',');
-var linenb = 0;
-var records = [];
-var columns = {};
+var options = {};
+var fields  = [];
+var source = argv.file ? argv.file : process.stdin;
 
-var stream = process.stdin;
-csvextractor(stream, csv_fields, function (records) {
-  var fields = [];
-  records.forEach(function (record, index) {
-    linenb++;
-    fields = Object.keys(record);
-    fields.forEach(function (field) {
-      var rfield = ''; // record field value prefixed with s if numéric to make a key
-      if (!isNaN(record[field])) {
-        rfield = 'r' + record[field];
-      } else {
-        rfield = record[field];
-      }
-      if (columns[field]) {
-        if (columns[field][rfield]) {
-          columns[field][rfield]++;
-        } else {
-          columns[field][rfield] = 1;
-        }
-      } else {
-        columns[field] = [];
-        columns[field][rfield] = 1;
-      }
-    });
-  });
-  if (argv.output == 'json') {
-    process.stdout.write(util.inspect(columns));
-  } else {
-    console.log("Total Evenements de Consultation : %s", linenb);
-    fields = Object.keys(columns);
-    // todo : sort by value desc
-    fields.forEach(function (field) {
-      console.log(field + " (" + Object.keys(columns[field]).length + ")");
-      var items = Object.keys(columns[field]);
-      items.forEach(function (item, id) {
-        console.log("\t" + item + " = \t" + columns[field][item]);
-      });
-    });
-  }
-},
-{
-  silent: true,
-  type: 'stream'
-});
+if (argv.fields && argv.fields.length > 0) {
+  fields = argv.fields.split(',');
+}
+if (argv.csv) {
+  csvextractor.toCsv(source, fields);
+  return;
+}
+if (argv.key) {
+  options.key = argv.key;
+}
+if (argv.silent) {
+  options.silent = true;
+}
+
+csvextractor.extract(source, fields, function (records) {
+  process.stdout.write(JSON.stringify(records, null, 2) + '\n');
+}, options);
