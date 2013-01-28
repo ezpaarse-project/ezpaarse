@@ -8,7 +8,7 @@
 
 var byline = require('byline');
 var fs = require('fs');
-var tabRegex = require('../logformat.js');
+var tabRegex = require('../lib/logformat.js');
 
 // get the command line argument 
 // platform

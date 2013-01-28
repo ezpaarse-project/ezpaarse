@@ -59,6 +59,7 @@ Remarque: à moins de disposer d'un accès privilégié (équipe ezPAARSE), vous
 * il accepte en entrée : des URLs de la plateforme qu'il sait analyser (une par ligne)
 * il retourne en sortie : les éléments de consultation reconnus sous forme d'un flux json
 * il produit un affichage de son usage en retour à la commnde --help
+* le code retour est 0 si tout s'est bien passé et 1 en cas d'erreur
 * [exemple en Javascript](https://github.com/ezpaarse-project/ezpaarse/blob/master/platforms/sd/parser)
 * [exemple en PHP](https://github.com/ezpaarse-project/ezpaarse/blob/master/platforms/sd/parser.php)
 * [exemple en Perl](https://github.com/ezpaarse-project/ezpaarse/blob/master/platforms/sd/parser.pl)
@@ -106,6 +107,9 @@ Ce fichier contient les informations suivantes :
 * recognize : un tableau faisant correspondre à chaque type de consultation (à true) les capacités de reconnaissance du parseur
 
 ## Principe de gestion des bases de connaissances éditeur
+
+Les bases de connaissance éditeur sont enregistrées sous forme de fichier CSV et sont propres à chaque plateforme. Le fichier ``platform.pkb.csv`` contient les correspondances entre les identifiants de la plateforme en question appelé ``pid`` et un issn ou un identifiant normalisé.
+
 
 ![Schema de gestion des bases de connaissances éditeur ezPAARSE](images/ezPAARSE-Architecture-PKB.png "PKB ezPAARSE")
 
