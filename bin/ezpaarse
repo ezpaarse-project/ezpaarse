@@ -8,7 +8,6 @@
 
 # load ezpaarse env
 . $EZPAARSE_PATH/bin/env
-#PATH=$EZPAARSE_PATH/build/nvm/bin/latest/:$EZPAARSE_PATH/node_modules/.bin:/usr/local/bin:/usr/bin:/bin
 
 [ -z "$EZPAARSE_PIDFILE" ] && EZPAARSE_PIDFILE="$EZPAARSE_PATH/ezpaarse.pid"
 [ -z "$EZPAARSE_PORT" ] && EZPAARSE_PORT=$($EZPAARSE_PATH/bin/readconfig --key EZPAARSE_NODEJS_PORT)
@@ -21,11 +20,6 @@
 if [ ! -d $EZPAARSE_PATH/build/ ]; then
   echo "$EZPAARSE_NAME error: please run make build before anything" >&2
   exit 1
-fi
-
-# if ezpaarse pid file doesn't exist, create a fake one
-if [ ! -f $EZPAARSE_PIDFILE ]; then
-  echo "XXXX" > $EZPAARSE_PIDFILE
 fi
 
 ezpaarse_start() {
@@ -56,13 +50,21 @@ ezpaarse_restart() {
 case $1 in
 
   start)
-    if [ -d /proc/`cat $EZPAARSE_PIDFILE` ]; then
+    if [[ -f $EZPAARSE_PIDFILE && -d /proc/`cat $EZPAARSE_PIDFILE` ]]; then
       echo "$EZPAARSE_NAME is already running, listening on http://localhost:$EZPAARSE_PORT/"
       exit 0
     else
       $EZPAARSE_PATH/bin/checkconfig -p &> /dev/null
       if [[ $? -eq 0 ]]; then
         ezpaarse_start
+
+        for i in 1 2 3 4 5 6 7 8 9 10 11 12 13 14; do
+          if [ -f $EZPAARSE_PIDFILE ]; then
+            break
+          fi
+          sleep 1
+        done
+
         if [ -d /proc/`cat $EZPAARSE_PIDFILE` ]; then
           echo "$EZPAARSE_NAME started, listening on http://localhost:$EZPAARSE_PORT/"
           exit 0
@@ -78,27 +80,46 @@ case $1 in
   ;;
 
   stop)
-    if [ ! -d /proc/`cat $EZPAARSE_PIDFILE` ]; then
+    if [[ ! -f $EZPAARSE_PIDFILE || ! -d /proc/`cat $EZPAARSE_PIDFILE` ]]; then
       echo "$EZPAARSE_NAME is already stopped."
       exit 0
     else
       ezpaarse_stop
+
+      for i in 1 2 3 4 5 6 7 8 9 10 11 12 13 14; do
+        if [ ! -d /proc/`cat $EZPAARSE_PIDFILE` ]; then
+          break
+        fi
+        sleep 1
+      done
+
       if [ -d /proc/`cat $EZPAARSE_PIDFILE` ]; then
         echo "$EZPAARSE_NAME cannot be stopped."
         exit 1
       else
         echo "$EZPAARSE_NAME is stopped."
+        rm -f $EZPAARSE_PIDFILE
         exit 0
       fi
     fi
   ;;
 
   restart | reload | force-reload)
-    if [ ! -d /proc/`cat $EZPAARSE_PIDFILE` ]; then
+    if [[ ! -f $EZPAARSE_PIDFILE || ! -d /proc/`cat $EZPAARSE_PIDFILE` ]]; then
+      PID=0
       ezpaarse_start
     else
+      PID=`cat $EZPAARSE_PIDFILE`
       ezpaarse_restart
     fi
+
+    for i in 1 2 3 4 5 6 7 8 9 10 11 12 13 14; do
+      if [[ -f $EZPAARSE_PIDFILE && "$PID" != "`cat $EZPAARSE_PIDFILE`" ]]; then
+        break
+      fi
+      sleep 1
+    done
+
     if [ -d /proc/`cat $EZPAARSE_PIDFILE` ]; then
       echo "$EZPAARSE_NAME has been restarted, listening on http://localhost:$EZPAARSE_PORT/"
       exit 0
@@ -109,7 +130,7 @@ case $1 in
   ;;
 
   status)
-    if [ -d /proc/`cat $EZPAARSE_PIDFILE` ]; then
+    if [[ -f $EZPAARSE_PIDFILE && -d /proc/`cat $EZPAARSE_PIDFILE` ]]; then
       echo "$EZPAARSE_NAME is running, listening on http://localhost:$EZPAARSE_PORT/"
       exit 0
     else
