@@ -35,7 +35,7 @@ var records = [];
 var columns = {};
 
 var stream = process.stdin;
-csvextractor(stream, csv_fields, function (records) {
+csvextractor.extract(stream, csv_fields, function (records) {
   var fields = [];
   records.forEach(function (record, index) {
     linenb++;
@@ -75,6 +75,5 @@ csvextractor(stream, csv_fields, function (records) {
   }
 },
 {
-  silent: true,
-  type: 'stream'
+  silent: true
 });

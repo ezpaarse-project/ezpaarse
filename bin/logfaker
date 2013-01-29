@@ -51,7 +51,7 @@ for (var i = 0, l = urlFiles.length; i < l; i++) {
 // urlFiles.forEach(function (ufile) {
 //   urls = urls.concat(fs.readFileSync(urlDir + '/' + ufile, 'UTF-8').split('\n'));
 // });
-csvextractor(urlFiles, ['url'], function (records) {
+csvextractor.extract(urlFiles, ['url'], function (records) {
 
   // generate fake ip/login
   var nb_fake_ident = Math.max(10 * (argv.nb == 'nolimit' ? 1000 : argv.nb), 1000);
@@ -108,4 +108,4 @@ csvextractor(urlFiles, ['url'], function (records) {
   });
 
   writeOneLineOfLog();
-}, {type: 'files'});
+});
