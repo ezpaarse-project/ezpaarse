@@ -63,8 +63,8 @@ describe('The server', function () {
             should.ok(helpers.compareArrays(bodyRecords, correctRecords),
               'The response of the server does not match the expected one');
             done();
-          }, {type: 'strings', silent: true});
-        });
+          }, {silent: true});
+        }, {silent: true});
       });
     });
   });
