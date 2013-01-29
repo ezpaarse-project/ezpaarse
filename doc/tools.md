@@ -28,7 +28,13 @@ zcat monezproxy.log.gz | ./bin/logextractor --field=login,url --separator="|"
 
 Usage:
 ```
-Usage: node ./bin/logextractor --field=[string] --separator=";"
+Extract specific field from a log stream
+Usage: node ./logextractor --field=[string] --separator=";"
+
+Options:
+  --field, -f             field to extract from the url (ex: url,login,host)  [required]
+  --separator, --sep, -s  charactere to use between each field                [required]  [default: "\t"]
+
 ```
 
 Cette commande est utile pour manipuler les fichiers de logs. Un usage récurrent est l'extraction des URL d'un fichier de log pour pouvoir analyser une plate-forme d'un éditeur. Voici par exemple comment procéder pour récupérer les URL concernant la plate-forme sciencedirect en les triant alphabétiquement et en les dédoublonnant :
@@ -47,10 +53,44 @@ zcat monezproxy.log.gz | ./bin/loganonymizer
 
 Usage:
 ```
-Usage: node ./bin/loganonymizer
+Anonymize critical data in a log file
+Usage: node ./loganonymizer --input=[string] --output=[string]
+
+Options:
+  --input, -i   the input data to clean                    
+  --output, -o  the destination where to send the result to
 ```
 
 Cette commande est utile pour constituer des fichiers de test en y retirant les éléments sensibles liés à la protection des données personnelles. Chaque valeur est remplacée par la même valeur aléatoire de façon à pouvoir faire les associations et dédoublonnages nécessaires aux traitements.
+
+## csvextractor
+
+Commande permettant du contennu d'un fichier CSV. Le fichier CSV doit être envoyé sur l'entrée système (stdin) de la commande.
+
+Exemple d'utilisation:
+```bash
+cat monfichier.csv | ./bin/csvextractor
+```
+
+Usage:
+```
+Parse a csv source into json.
+  Usage: node csvextractor [-sc] [-f string | -d string | -k string]
+
+Options:
+  --file, -f    A csv file to parse. If absent, will read from standard input.                  
+  --fields, -d  A list of fields to extract. Default extract all fields. (Ex: --fields issn,pid)
+  --key, -k     If provided, the matching field will be used as a key in the resulting json.    
+  --silent, -s  If provided, empty values or unexisting fields won't be showed in the results.  
+  --csv, -c     If provided, the result will be a csv.                                          
+```
+
+Cette commande est utile pour tester le parseur directement à partir du fichier de test en extrayant la colonne URL du fichier.
+
+Exemple de test direct du parseur:
+```bash
+cat test/npg.2013-01-16.csv | ../../bin/csvextractor --fields='url' -c | ./parser 
+```
 
 ## csvtotalizer
 
@@ -63,7 +103,12 @@ cat monresultat.csv | ./bin/csvtotalizer
 
 Usage:
 ```
-Usage: node ./bin/csvtotalizer --fields=domain,host,login,type --output=text|json
+Totalize fields from a CSV stream
+Usage: node ./csvtotalizer --fields=[string] --output="text|json"
+
+Options:
+  --output, -o  output : text or json                                        [required]  [default: "text"]
+  --fields, -f  fields to compute from the CSV (ex: domain,host,login,type)  [required]  [default: "domain,host,login,type"]
 ```
 
 Cette commande est utile pour avoir un aperçu rapide du résultat du traitement d'un fichier de log par ezPAARSE.
@@ -72,3 +117,26 @@ Voici par exemple comment savoir combien d'événements de consultation différe
 ```bash
 cat ./test/dataset/sd.2012-11-30.300.log | ./bin/loginjector | ./bin/csvtotalizer
 ```
+
+## logfaker
+
+Commande permettant de produire sur stdout un flux correspondant à des lignes de log d'une plateforme donnée en paramètre.
+
+Exemple d'utilisation:
+```bash
+./logfaker | ./loginjector
+```
+
+Usage:
+```
+Usage: node ./logfaker --platform=[string] --nb=[num] --rate=[num] --duration=[num]
+
+Options:
+  --platform      the publisher platform code used as a source for generating url  [required]  [default: "sd"]
+  --nb, -n        number of lines of log to generate                               [required]  [default: "nolimit"]
+  --rate, -r      number of lines of log to generate per second (max 1000)         [required]  [default: 10]
+  --duration, -d  stop log generation after a specific number of seconds           [required]  [default: "nolimit"]
+```
+
+Cette commande est utile pour tester les performances d'ezPAARSE.
+
