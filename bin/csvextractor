@@ -37,7 +37,7 @@ if (argv.fields && argv.fields.length > 0) {
   fields = argv.fields.split(',');
 }
 if (argv.csv) {
-  toCsv(source, fields);
+  csvextractor.toCsv(source, fields);
   return;
 }
 if (argv.key) {
