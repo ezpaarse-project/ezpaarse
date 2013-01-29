@@ -22,7 +22,7 @@ function testFiles(files, parserFile, platform) {
   }
   describe(platform, function () {
     it('works', function (done) {
-      csvextractor(files, ['url', 'issn', 'pid', 'type'], function (records) {
+      csvextractor.extract(files, ['url', 'issn', 'pid', 'type'], function (records) {
         var child = shell.exec(parserFile, {async: true, silent: true})
         var stream = byline.createStream(child.stdout);
         var record = records.pop();
