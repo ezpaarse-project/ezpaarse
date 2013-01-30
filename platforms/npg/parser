@@ -9,6 +9,8 @@ var querystring = require('querystring');
 function parseUrl(url) {
     var result = {};
     var param = querystring.parse(URL.parse(url).query);
+    //console.log(URL.parse(url));
+    var path = URL.parse(url).path;
     
     var match;
     if (match = /\/([a-zA-Z0-9]+)\/journal\/v([0-9]*)\/n([0-9]*)\/(pdf|full)\/([a-zA-Z0-9]*).(pdf|html)/.exec(url)) {
@@ -17,17 +19,32 @@ function parseUrl(url) {
       //result.numero = match[3];
       //result.revue  = match[5];
       result.type   = match[4].toUpperCase() == "FULL" ? "TXT" : match[4].toUpperCase();
-    } else if (match = /\/([a-zA-Z0-9]+)\/journal\/v([0-9]*)\/n([0-9]*)\/index.html/.exec(url)) {
+    } else if (match = /\/([a-zA-Z0-9]+)\/knowledgeenvironment\/([0-9]*)\/([0-9]*)\/[a-zA-Z0-9]+\/(pdf|full)\/([a-zA-Z0-9]*).(pdf|html)/.exec(url)) {
+      result.pid = match[1];
+      //result.volume = match[2];
+      //result.numero = match[3];
+      //result.revue  = match[5];
+      result.type   = match[4].toUpperCase() == "FULL" ? "TXT" : match[4].toUpperCase();
+    } else if (match = /\/([a-zA-Z0-9]+)\/journal\/v([0-9]*)\/n([a-zA-Z0-9]*)\/index.html/.exec(url)) {
       result.pid = match[1];
 //      result.volume = match[3];
 //      result.numero = match[3];
       result.type   = 'TOC';
-    } else if (match = /\/([a-zA-Z0-9]+)\/index.html/.exec(url)) {
+    } else if (match = /^\/([a-zA-Z0-9]+)\/index.html/.exec(path)) {
+      result.pid = match[1];
+      result.type   = 'TOC';
+    } else if (match = /^\/([a-zA-Z0-9]+)\/archive\/index.html/.exec(path)) {
       result.pid = match[1];
       result.type   = 'TOC';
     } else if (match = /\/([a-zA-Z0-9]+)\/current_issue.html/.exec(url)) {
       result.pid = match[1];
       result.type   = 'TOC';
+    } else if (match = /\/news\//.exec(url)) {
+      result.pid = 'nature';
+      result.type   = 'TXT';
+    } else if (match = /\/polopoly_fs\//.exec(url)) {
+      result.pid = 'nature';
+      result.type   = 'PDF';
     } else if (match = /\/siteindex\/index.html/.exec(url)) {
       result.type   = 'TOC';
     }
