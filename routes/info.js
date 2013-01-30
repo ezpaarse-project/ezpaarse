@@ -10,6 +10,7 @@ module.exports = function (app) {
    * GET route on /ws/info/platforms
    */
   app.get('/ws/info/platforms', function (req, res) {
+    res.type('application/json');
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
     res.status(200);
