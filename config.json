@@ -25,13 +25,13 @@
       "comment": ""
     },
     {
-      "code": "TOC",
-      "description":  "consultation d'un sommaire d'une revue",
+      "code": "REVUE",
+      "description":  "consultation des informations d'une revue",
       "comment": ""
     },
     {
       "code": "TOC",
-      "description":  "consultation d'un sommaire d'une revue",
+      "description":  "consultation d'un sommaire denuméro de revue",
       "comment": ""
     },
     {
@@ -70,22 +70,12 @@
       "comment": "Cas des bases de données juridiques"
     },
     {
-      "code": "REVUE",
-      "description":  "consultation d'une revue juridique",
-      "comment": "Cas des bases de données juridiques"
-    },
-    {
       "code": "CODE",
       "description":  "consultation d'un code juridique",
       "comment": "Cas des bases de données juridiques"
     },
     {
       "code": "FORMULE",
-      "description":  "consultation d'une formule juridique",
-      "comment": "Cas des bases de données juridiques"
-    },
-    {
-      "code": "BROCHE",
       "description":  "consultation d'une formule juridique",
       "comment": "Cas des bases de données juridiques"
     }
