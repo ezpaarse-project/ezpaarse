@@ -17,7 +17,7 @@ function parseUrl(url) {
     if (match = /\/journal(\/volumesAndIssues)?\/([0-9]+)/.exec(path)) {
       result.pid  = match[2];
       result.type = 'TOC';
-    } else if (match = /\/(article|book|protocol)\/([0-9]+\.[0-9]+\/[^\/]*)(\/fulltext.html)?/.exec(path)) {
+    } else if (match = /^\/(article|book|protocol)\/([0-9]+\.[0-9]+\/[^\/]*)(\/fulltext.html)?/.exec(path)) {
       result.doi  = match[2];
       switch(match[1]) {
         case 'article':
@@ -28,18 +28,21 @@ function parseUrl(url) {
           result.type = 'BOOK';
           break;
       }
-    } else if (match = /\/content\/pdf\/([0-9]+\.[0-9]+\/.*)/.exec(path)) {
+    } else if (match = /^\/content\/pdf\/([0-9]+\.[0-9]+\/[^\/]*)/.exec(path)) {
       result.doi  = match[1];
       result.type = 'PDF';
-    } else if (match = /\/content\/([0-9]{4}-[0-9]{4})/.exec(path)) {
+    } else if (match = /^\/content\/([0-9]{4}-[0-9]{4})/.exec(path)) {
       result.issn  = match[1];
       result.type = 'TOC';
-    } else if (match = /\/content\/([a-zA-Z0-9]+)(\/fulltext.pdf)?/.exec(path)) {
+    } else if (match = /^\/content\/([a-zA-Z0-9]+)(\/fulltext.pdf)?/.exec(path)) {
       result.type = 'ABS';
-    } else if (match = /\/bookseries\/([0-9]+)/.exec(path)) {
+    } else if (match = /^\/chapter\/([0-9]+\.[0-9]+\/[^\/]*)/.exec(path)) {
+      result.doi  = match[1];
+      result.type = 'ABS';
+    } else if (match = /^\/bookseries\/([0-9]+)/.exec(path)) {
       result.pid  = match[1];
       result.type = 'BOOKSERIES';
-    } else if (match = /\/openurl.asp/.exec(path)) {
+    } else if (match = /^\/openurl.asp/.exec(path)) {
       if (param.genre && param.genre == 'journal') {
         if (param.issn) {
           result.issn = param.issn;
