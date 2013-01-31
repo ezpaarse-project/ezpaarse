@@ -33,7 +33,7 @@ Exemple d'évènement de consultation :
   "login": "IDEXEMPLE",
   "date": "2011-12-31T10:42:42+01:00",
   "url": "http://www.une-adresse.com/exemple.php?id=16",
-  "httpCode": "200",
+  "status": "200",
   "size": "0",
   "domain": "www.une-adresse.com",
   "type": "PDF",

@@ -2,7 +2,6 @@
 'use strict';
 
 var debug         = require('debug')('log');
-var URL           = require('url');
 var fs            = require('fs');
 var byline        = require('byline');
 var moment        = require('moment');
@@ -10,14 +9,13 @@ var crypto        = require('crypto');
 var shell         = require('shelljs');
 var async         = require('async');
 var zlib          = require('zlib');
-var tabRegex      = require('../lib/logformat.js');
 var LogParser     = require('../lib/logParser.js');
 var Writer        = require('../lib/output/writer.js');
 var Knowledge     = require('../lib/pkbManager.js');
 
 
 function estValide(ec) {
-  if (!ec.url || !ec.host) {
+  if (!ec.url || !ec.host || !ec.login) {
     return false;
   }
   // Filters images and javascript files
@@ -25,7 +23,7 @@ function estValide(ec) {
     return false;
   }
   // Filters http codes other than 200 and 302
-  if (ec.httpCode && ['200', '302'].indexOf(ec.httpCode) == -1) {
+  if (ec.status && ['200', '302'].indexOf(ec.status) == -1) {
     return false;
   }
   return true;
@@ -42,9 +40,10 @@ module.exports = function (app, parsers, ignoredDomains) {
     var status          = 200;
     var contentEncoding = req.header('content-encoding');
     var acceptEncoding  = req.header('accept-encoding');
+    var preferedFormat  = req.header('ezPAARSE-LogFormat');
 
     var knowledge       = new Knowledge();
-    var logParser       = new LogParser();
+    var logParser       = new LogParser(preferedFormat);
     var countLines      = 0;
     var countECs        = 0;
 
