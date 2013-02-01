@@ -46,6 +46,8 @@ module.exports = function (app, parsers, ignoredDomains) {
     var countLines      = 0;
     var countECs        = 0;
     var endOfRequest    = false;
+    var headersSent     = false;
+    var treatedLines    = false;
 
     // Array of EC buffers, used to parse multiple ECs using one process
     var ecBuffers       = {};
@@ -57,9 +59,13 @@ module.exports = function (app, parsers, ignoredDomains) {
       debug("No content sent by the client");
     }
 
-    if (contentEncoding == 'gzip' || contentEncoding == 'deflate') {
-      unzip = zlib.createUnzip();
-      req.pipe(unzip);
+    if (contentEncoding) {
+      if (contentEncoding == 'gzip' || contentEncoding == 'deflate') {
+        unzip = zlib.createUnzip();
+        req.pipe(unzip);
+      } else {
+        status = 406;
+      }
     }
 
     if (acceptEncoding) {
@@ -102,15 +108,12 @@ module.exports = function (app, parsers, ignoredDomains) {
       debug("Writer not found");
     }
 
-    res.status(status);
 
     if (status != 200) {
+      res.status(status);
       response.end();
       return;
     }
-
-
-    writer.start();
 
     var queue = async.queue(function (task, callback) {
       var buffer    = task.buffer;
@@ -157,6 +160,11 @@ module.exports = function (app, parsers, ignoredDomains) {
               debug('The parser couldn\'t find any id in the given URL');
             }
             if (ec.issn || ec.eissn || ec.type) {
+              if (!headersSent) {
+                headersSent = true;
+                res.status(200);
+                writer.start();
+              }
               writer.write(ec);
               countECs++;
             }
@@ -198,6 +206,11 @@ module.exports = function (app, parsers, ignoredDomains) {
                   debug('The parser couldn\'t find any id in the given URL');
                 }
                 if (ec.issn || ec.eissn || ec.type) {
+                  if (!headersSent) {
+                    headersSent = true;
+                    res.status(200);
+                    writer.start();
+                  }
                   writer.write(ec);
                   countECs++;
                 }
@@ -260,9 +273,14 @@ module.exports = function (app, parsers, ignoredDomains) {
 
     stream.on('end', function () {
       endOfRequest = true;
-      for (var i in ecBuffers) {
-        queue.push({buffer: ecBuffers[i]});
-        delete ecBuffers[i];
+      if (!treatedLines) {
+        res.status = 400;
+        res.end();
+      } else {
+        for (var i in ecBuffers) {
+          queue.push({buffer: ecBuffers[i]});
+          delete ecBuffers[i];
+        }
       }
     });
 
@@ -291,8 +309,9 @@ module.exports = function (app, parsers, ignoredDomains) {
         if (ignoredDomains.indexOf(ec.domain) == -1) {
           if (estValide(ec)) {
             if (parsers[ec.domain]) {
-              var parser = parsers[ec.domain].parser;
-              ec.host = crypto.createHash('md5').update(ec.host).digest("hex");
+              treatedLines = true;
+              var parser   = parsers[ec.domain].parser;
+              ec.host      = crypto.createHash('md5').update(ec.host).digest("hex");
 
               if (!ecBuffers[parser]) { ecBuffers[parser] = [parsers[ec.domain]]; }
               ecBuffers[parser].push(ec);
