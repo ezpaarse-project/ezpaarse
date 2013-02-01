@@ -45,9 +45,11 @@ module.exports = function (app, parsers, ignoredDomains) {
     var knowledge       = new Knowledge();
     var countLines      = 0;
     var countECs        = 0;
+
     var endOfRequest    = false;
     var headersSent     = false;
     var treatedLines    = false;
+    var badBeginning    = false;
 
     // Array of EC buffers, used to parse multiple ECs using one process
     var ecBuffers       = {};
@@ -285,9 +287,11 @@ module.exports = function (app, parsers, ignoredDomains) {
     });
 
     stream.on('data', function (line) {
+      if (badBeginning) {
+        return;
+      }
       var ec = false;
       var match;
-
       tabRegex.forEach(function (regex) {
         match = regex.exp.exec(line);
         if (match) {
@@ -331,6 +335,12 @@ module.exports = function (app, parsers, ignoredDomains) {
         }
       } else {
         debug('Line format was not recognized');
+        if (!treatedLines) {
+          badBeginning = true;
+          res.status(400);
+          res.end();
+          stream.end();
+        }
       }
       countLines++;
     });
