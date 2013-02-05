@@ -35,7 +35,7 @@ module.exports = function (app, parsers, ignoredDomains) {
   /**
    * POST log
    */
-  app.post('/ws/', function (req, res) {
+  app.post(/\/ws(\/)?/, function (req, res) {
     debug("Req : " + req);
     var writer, zip, unzip;
     var status          = 200;
@@ -357,7 +357,7 @@ module.exports = function (app, parsers, ignoredDomains) {
   /**
    * GET route on /ws/
    */
-  app.get('/ws/', function (req, res) {
+  app.get(/\/ws(\/)?/, function (req, res) {
     res.render('ws');
   });
   
