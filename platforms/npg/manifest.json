@@ -4,6 +4,7 @@
   "longname": "Nature Publishing Group",
   "describe": "Identifie les consultations du site de Nature",
   "docurl": "http://analogist.couperin.org/platforms/npg/",
+  "version": "stable",
 	"domains": [
     "www.nature.com",
     "chimie.gate.inist.fr"

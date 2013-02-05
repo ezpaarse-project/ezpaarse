@@ -4,6 +4,7 @@
   "longname": "Springer",
   "describe": "Identifie les consultations du site Springer",
   "docurl": "http://analogist.couperin.org/platforms/springer/",
+  "version": "stable",
   "domains": [
     "link.springer.com",
     "www.springerlink.com",
