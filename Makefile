@@ -51,6 +51,12 @@ test-platforms:
 	else echo 'No test folder found'; \
 	fi
 
+test-platforms-verbose:
+	@if test -d test; \
+	then . ./bin/env; mocha -R list -g parser; \
+	else echo 'No test folder found'; \
+	fi
+
 jshint:
 	@. ./bin/env; jshint $(JSFILES) --config .jshintrc
 
