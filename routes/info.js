@@ -45,6 +45,7 @@ module.exports = function (app) {
           platform.longname = config.longname;
           platform.version  = config.version;
           platform.status   = config.status;
+          platform.contact  = config.contact;
           platform.describe = config.describe;
           platform.docurl   = config.docurl;
           res.write(delimiter + JSON.stringify(platform, null, 2));
