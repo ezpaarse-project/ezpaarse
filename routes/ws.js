@@ -347,6 +347,7 @@ module.exports = function (app, parsers, ignoredDomains) {
           res.status(400);
           res.end();
           stream.end();
+          debug('Couln\'t recognize first line : aborted.');
         }
       }
       countLines++;
