@@ -1,4 +1,9 @@
 #!/usr/bin/env perl
+
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+# * This parser was written as an example and is not up-to-date *
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
 $| = 1;
 
 use URI;

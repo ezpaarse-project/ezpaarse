@@ -1,5 +1,9 @@
 #!/usr/bin/env python
 
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+# * This parser was written as an example and is not up-to-date *
+# * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+
 import sys
 import urlparse
 import string
