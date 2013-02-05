@@ -1,10 +1,10 @@
 {
   "name": "sd",
   "version": "2013-01-09",
+  "status": "stable",
   "longname": "Science Direct",
   "describe": "Identifie les consultations du site Science Direct",
   "docurl": "http://analogist.couperin.org/platforms/sd/",
-  "version": "stable",
   "domains": [
     "www.sciencedirect.com",
     "pdn.sciencedirect.com",

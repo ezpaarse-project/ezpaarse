@@ -1,10 +1,10 @@
 {
   "name": "edp",
   "version": "2013-01-24",
+  "status": "stable",
   "longname": "EDP Sciences",
   "describe": "Identifie les consultations du site EDP Sciences",
   "docurl": "http://analogist.couperin.org/platforms/edp/",
-  "version": "stable",
   "domains": [
     "www.aos-journal.org",
     "www.agronomy-journal.org",

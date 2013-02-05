@@ -15,13 +15,13 @@ module.exports = function (app) {
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
     res.status(200);
 
-    var version = req.param('version', null);
+    var status  = req.param('status', null);
     var sort    = req.param('sort', null);
 
-    var delimiter = '';
+    var delimiter       = '';
     var platformsFolder = __dirname + '/../platforms';
-    var cfgFilename = 'manifest.json';
-    var folders = fs.readdirSync(platformsFolder);
+    var cfgFilename     = 'manifest.json';
+    var folders         = fs.readdirSync(platformsFolder);
 
     if (sort) {
       folders.sort();
@@ -32,20 +32,21 @@ module.exports = function (app) {
     res.write('[');
 
     for (var i in folders) {
-      var folder = folders[i];
-      var configFile = platformsFolder + '/' + folder + '/' + cfgFilename;
-      var parserFile = platformsFolder + '/' + folder + '/parser';
+      var folder      = folders[i];
+      var configFile  = platformsFolder + '/' + folder + '/' + cfgFilename;
+      var parserFile  = platformsFolder + '/' + folder + '/parser';
 
       var configExists = fs.existsSync(configFile) && fs.statSync(configFile).isFile();
       var parserExists = fs.existsSync(parserFile) && fs.statSync(parserFile).isFile();
       if (configExists && parserExists) {
         var config = require(configFile);
-        if (!version || config.version == version) {
-          var platform = {};
+        if (!status || config.status == status) {
+          var platform      = {};
           platform.longname = config.longname;
-          platform.version = config.version;
+          platform.version  = config.version;
+          platform.status   = config.status;
           platform.describe = config.describe;
-          platform.docurl = config.docurl;
+          platform.docurl   = config.docurl;
           res.write(delimiter + JSON.stringify(platform, null, 2));
           if (delimiter === '') { delimiter = ','; }
         }
