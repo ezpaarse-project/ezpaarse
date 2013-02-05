@@ -5,6 +5,7 @@
   "longname": "Nature Publishing Group",
   "describe": "Identifie les consultations du site de Nature",
   "docurl": "http://analogist.couperin.org/platforms/npg/",
+  "contact": "dominique.lechaudel@gmail.com",
 	"domains": [
     "www.nature.com",
     "chimie.gate.inist.fr"

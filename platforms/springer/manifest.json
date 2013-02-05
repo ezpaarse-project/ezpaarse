@@ -5,6 +5,7 @@
   "longname": "Springer",
   "describe": "Identifie les consultations du site Springer",
   "docurl": "http://analogist.couperin.org/platforms/springer/",
+  "contact": "yannick.schurter@gmail.com",
   "domains": [
     "link.springer.com",
     "www.springerlink.com",
