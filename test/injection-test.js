@@ -42,7 +42,7 @@ describe('The server', function () {
     });
   });
   describe('receives a gzipped log file', function () {
-    it('and sends back a correct output', function (done) {
+    it('and sends back a correct csv output', function (done) {
       var headers = {
         accept: 'text/csv',
         'content-encoding': 'gzip'
@@ -64,23 +64,6 @@ describe('The server', function () {
             done();
           }, {silent: true});
         }, {silent: true});
-      });
-    });
-  });
-  describe('receives a log file whose first line is incorrect', function () {
-    it('and sends back an empty body with an error 400', function (done) {
-      var headers = {};
-      helpers.post('/ws/', wrongFirstLineLogFile, headers,
-      function (error, res, body) {
-        if (error) {
-          throw error;
-        }
-        if (!res) {
-          throw new Error('The application is not running');
-        }
-        should.not.exist(body);
-        res.should.have.status(400);
-        done();
       });
     });
   });
