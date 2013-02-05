@@ -15,10 +15,20 @@ module.exports = function (app) {
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
     res.status(200);
 
+    var version = req.param('version', null);
+    var sort    = req.param('sort', null);
+
     var delimiter = '';
     var platformsFolder = __dirname + '/../platforms';
     var cfgFilename = 'manifest.json';
     var folders = fs.readdirSync(platformsFolder);
+
+    if (sort) {
+      folders.sort();
+      if (sort == 'desc') {
+        folders.reverse();
+      }
+    }
     res.write('[');
 
     for (var i in folders) {
@@ -29,8 +39,8 @@ module.exports = function (app) {
       var configExists = fs.existsSync(configFile) && fs.statSync(configFile).isFile();
       var parserExists = fs.existsSync(parserFile) && fs.statSync(parserFile).isFile();
       if (configExists && parserExists) {
-        var config = JSON.parse(fs.readFileSync(configFile, 'UTF-8'));
-        if (config instanceof Object) {
+        var config = require(configFile);
+        if (!version || config.version == version) {
           var platform = {};
           platform.longname = config.longname;
           platform.version = config.version;
