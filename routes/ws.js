@@ -63,15 +63,16 @@ module.exports = function (app, parsers, ignoredDomains) {
 
     if (contentEncoding) {
       if (contentEncoding == 'gzip' || contentEncoding == 'deflate') {
-        try {
           unzip = zlib.createUnzip();
+          unzip.on('error', function (err) {
+            debug('Error while unziping request');
+            res.status(400);
+            res.end();
+            return;
+          });
           req.pipe(unzip);
-        } catch (e) {
-          res.status(400);
-          res.end();
-          return;
-        }
       } else {
+        debug('Content encoding not supported');
         status = 406;
       }
     }
