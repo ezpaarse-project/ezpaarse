@@ -12,7 +12,7 @@ var async         = require('async');
 var zlib          = require('zlib');
 var tabRegex      = require('../lib/logformat.js');
 var Writer        = require('../lib/output/writer.js');
-var Knowledge     = require('../lib/knowledgeManager.js');
+var Knowledge     = require('../lib/pkbManager.js');
 
 
 function estValide(ec) {
@@ -63,8 +63,14 @@ module.exports = function (app, parsers, ignoredDomains) {
 
     if (contentEncoding) {
       if (contentEncoding == 'gzip' || contentEncoding == 'deflate') {
-        unzip = zlib.createUnzip();
-        req.pipe(unzip);
+        try {
+          unzip = zlib.createUnzip();
+          req.pipe(unzip);
+        } catch (e) {
+          res.status(400);
+          res.end();
+          return;
+        }
       } else {
         status = 406;
       }
