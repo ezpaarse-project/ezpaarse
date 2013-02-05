@@ -1,0 +1,21 @@
+{
+  "name": "springer",
+  "version": "2013-01-31",
+  "longname": "Springer",
+  "describe": "Identifie les consultations du site Springer",
+  "docurl": "http://analogist.couperin.org/platforms/springer/",
+  "domains": [
+    "link.springer.com",
+    "www.springerlink.com",
+    "www.springer.com"
+  ],
+  "recognize": {
+    "id": true,  
+    "txt": true,  
+    "pdf": true, 
+    "toc": true, 
+    "res": true, 
+    "ref": false, 
+    "com": false
+  }
+}
