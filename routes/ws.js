@@ -11,6 +11,7 @@ var shell         = require('shelljs');
 var async         = require('async');
 var zlib          = require('zlib');
 var tabRegex      = require('../lib/logformat.js');
+var LogParser     = require('../lib/logParser.js');
 var Writer        = require('../lib/output/writer.js');
 var Knowledge     = require('../lib/pkbManager.js');
 
@@ -43,6 +44,7 @@ module.exports = function (app, parsers, ignoredDomains) {
     var acceptEncoding  = req.header('accept-encoding');
 
     var knowledge       = new Knowledge();
+    var logParser       = new LogParser();
     var countLines      = 0;
     var countECs        = 0;
 
@@ -297,24 +299,7 @@ module.exports = function (app, parsers, ignoredDomains) {
       if (badBeginning) {
         return;
       }
-      var ec = false;
-      var match;
-      tabRegex.forEach(function (regex) {
-        match = regex.exp.exec(line);
-        if (match) {
-          ec = {};
-          regex.properties.forEach(function (property, index) {
-            ec[property] = match[index + 1];
-          });
-          if (ec.url) {
-            ec.domain = URL.parse(ec.url).hostname;
-          }
-          if (ec.date) {
-            ec.date = moment(ec.date, regex.dateFormat).format();
-          }
-          return;
-        }
-      });
+      var ec = logParser.parse(line);
 
       if (ec) {
         if (ignoredDomains.indexOf(ec.domain) == -1) {
