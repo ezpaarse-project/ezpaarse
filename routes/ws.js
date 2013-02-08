@@ -40,10 +40,12 @@ module.exports = function (app, parsers, ignoredDomains) {
     var status          = 200;
     var contentEncoding = req.header('content-encoding');
     var acceptEncoding  = req.header('accept-encoding');
-    var preferedFormat  = req.header('ezPAARSE-LogFormat');
+    var logFormat       = req.header('ezPAARSE-LogFormat');
+    var dateFormat      = req.header('ezPAARSE-DateFormat');
+    var replacer        = req.header('ezPAARSE-Replacer');
 
     var knowledge       = new Knowledge();
-    var logParser       = new LogParser(preferedFormat);
+    var logParser       = new LogParser(logFormat, dateFormat, replacer);
     var countLines      = 0;
     var countECs        = 0;
 
