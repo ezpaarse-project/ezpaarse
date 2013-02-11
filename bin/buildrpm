@@ -1,0 +1,42 @@
+#!/bin/bash
+#
+# Script used to generate a RPM package of ezPAARSE
+#
+
+set -e
+
+MY_PATH=$(cd ${0%/*} && echo $PWD/${0##*/})
+BIN_PATH=`dirname "$MY_PATH"`
+EZPAARSE_PATH=$BIN_PATH/..
+
+. $BIN_PATH/env
+
+# must be root to generate the package
+if [ "`id -u`" != 0 ]; then
+  echo "Error: run this script as a root user"
+  exit 1
+fi
+
+# get the wanted version number
+VERSION=$1
+VERSION_PREFIX=""
+[ -z "$VERSION" ] && VERSION="`$BIN_PATH/readconfig -k version`"
+# get the latest commit id as the latest version number
+if [ "$VERSION" == "latest" ]; then
+  VERSION="`git log --pretty=format:'%h' -n 1`"
+  VERSION_PREFIX="`date +"%Y%m%d"`-"
+fi
+if [ ! -f $EZPAARSE_PATH/ezpaarse-$VERSION_PREFIX$VERSION/ezpaarse-$VERSION_PREFIX${VERSION}_all.deb ]; then
+  echo "Error: $EZPAARSE_PATH/ezpaarse-$VERSION_PREFIX$VERSION/ezpaarse-$VERSION_PREFIX${VERSION}_all.deb  does not exist. Please run 'make deb' before."
+  exit 1
+fi
+
+DEB_FILE=$EZPAARSE_PATH/ezpaarse-$VERSION_PREFIX$VERSION/ezpaarse-$VERSION_PREFIX${VERSION}_all.deb
+
+test -f /usr/bin/alien || sudo apt-get install --yes alien
+
+cd $EZPAARSE_PATH/ezpaarse-$VERSION_PREFIX$VERSION/
+sudo alien --to-rpm --scripts $DEB_FILE
+cd -
+
+exit 0
