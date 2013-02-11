@@ -21,10 +21,12 @@ fi
 
 # get the wanted version number
 VERSION=$1
+VERSION_PREFIX=""
 [ -z "$VERSION" ] && VERSION="`$BIN_PATH/readconfig -k version`"
 # get the latest commit id as the latest version number
 if [ "$VERSION" == "latest" ]; then
-  VERSION="`date +"%Y%m%d"`-`git log --pretty=format:'%h' -n 1`"
+  VERSION="`git log --pretty=format:'%h' -n 1`"
+  VERSION_PREFIX="`date +"%Y%m%d"`-"
 fi
 
 rm -rf /tmp/ezpaarse/
@@ -36,7 +38,7 @@ cd /tmp/ezpaarse/usr/share/ezpaarse
 git checkout $VERSION
 cp -f $EZPAARSE_PATH/Makefile /tmp/ezpaarse/usr/share/ezpaarse
 touch /tmp/ezpaarse/usr/share/ezpaarse/clean-for-release-flag
-make version v=$VERSION
+make version v=$VERSION_PREFIX$VERSION
 cp -r /tmp/ezpaarse/usr/share/ezpaarse/misc/deb/* /tmp/ezpaarse/
 make clean-for-release
 cd /tmp/ezpaarse/
@@ -67,11 +69,11 @@ PACKAGE=`dpkg-deb -f $NAME.deb package`
 VERSION=`dpkg-deb -f $NAME.deb version`
 ARCHI=`dpkg-deb -f $NAME.deb architecture`
 NAMENEW="${PACKAGE}-${VERSION}_${ARCHI}"
-mkdir -p $CUR_DIR/ezpaarse-$VERSION/
-chmod a+rwx $CUR_DIR/ezpaarse-$VERSION/
-mv $NAME.deb $CUR_DIR/ezpaarse-$VERSION/${NAMENEW}.deb
+mkdir -p $CUR_DIR/ezpaarse-$VERSION_PREFIX$VERSION/
+chmod a+rwx $CUR_DIR/ezpaarse-$VERSION_PREFIX$VERSION/
+mv $NAME.deb $CUR_DIR/ezpaarse-$VERSION_PREFIX$VERSION/${NAMENEW}.deb
 
-echo "ezpaarse debian package built: $CUR_DIR/ezpaarse-$VERSION/${NAMENEW}.deb"
+echo "ezpaarse debian package built: $CUR_DIR/ezpaarse-$VERSION_PREFIX$VERSION/${NAMENEW}.deb"
 cd $CUR_DIR
 
 #rm -rf /tmp/ezpaarse/

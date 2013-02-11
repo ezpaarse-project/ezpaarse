@@ -11,12 +11,14 @@ EZPAARSE_PATH=$BIN_PATH/..
 
 # read version number from the command line
 VERSION=$1
+VERSION_PREFIX=""
 [ -z "$VERSION" ] && VERSION="`$BIN_PATH/readconfig -k version`"
 if [ "$VERSION" == "latest" ]; then
-  VERSION="`date +"%Y%m%d"`-`git log --pretty=format:'%h' -n 1`"
+  VERSION="`git log --pretty=format:'%h' -n 1`"
+  VERSION_PREFIX="`date +"%Y%m%d"`-"
 fi
-if [ ! -d $EZPAARSE_PATH/ezpaarse-$VERSION/ ]; then
-  echo "Error: $EZPAARSE_PATH/ezpaarse-$VERSION/ folder does not exist. Please run 'make zip' before."
+if [ ! -d $EZPAARSE_PATH/ezpaarse-$VERSION_PREFIX$VERSION/ ]; then
+  echo "Error: $EZPAARSE_PATH/ezpaarse-$VERSION_PREFIX$VERSION/ folder does not exist. Please run 'make zip' before."
   exit 1
 fi
 
@@ -27,22 +29,22 @@ if [ "$FORCE_UPLOAD" != "--force" ]; then
 fi
 
 # check the destination folder does not exist yet
-UPLOAD_EXISTS=`ssh analogist@stats.intra.inist.fr "ls var/www/ezpaarse/versions/$VERSION/ 2>/dev/null"`
+UPLOAD_EXISTS=`ssh analogist@stats.intra.inist.fr "ls var/www/ezpaarse/versions/$VERSION_PREFIX$VERSION/ 2>/dev/null"`
 if [[ "$UPLOAD_EXISTS" != "" && $FORCE_UPLOAD == "" ]]; then
   echo "Uploaded folder already exists on analogist Web site. Use --force option  if you need to upload again."
   exit 1
 else
-  echo "Uploading to analogist:var/www/ezpaarse/versions/$VERSION/"
-  scp -r $EZPAARSE_PATH/ezpaarse-$VERSION/ analogist@stats.intra.inist.fr:var/www/ezpaarse/versions/$VERSION/
+  echo "Uploading to analogist:var/www/ezpaarse/versions/$VERSION_PREFIX$VERSION/"
+  scp -r $EZPAARSE_PATH/ezpaarse-$VERSION_PREFIX$VERSION/ analogist@stats.intra.inist.fr:var/www/ezpaarse/versions/$VERSION_PREFIX$VERSION/
   echo "Updating versions.txt file."
   ssh analogist@stats.intra.inist.fr "touch var/www/ezpaarse/versions/index.txt"
   # cleanup double
-  ssh analogist@stats.intra.inist.fr "sed -i '/^$VERSION.*$/d' var/www/ezpaarse/versions/index.txt"
+  ssh analogist@stats.intra.inist.fr "sed -i '/^$VERSION_PREFIX$VERSION.*$/d' var/www/ezpaarse/versions/index.txt"
   # append new version archives to the list
-  for vfile in `ls $EZPAARSE_PATH/ezpaarse-$VERSION/`
+  for vfile in `ls $EZPAARSE_PATH/ezpaarse-$VERSION_PREFIX$VERSION/`
   do
-    ssh analogist@stats.intra.inist.fr "echo $VERSION/$vfile >> var/www/ezpaarse/versions/index.txt"
+    ssh analogist@stats.intra.inist.fr "echo $VERSION_PREFIX$VERSION/$vfile >> var/www/ezpaarse/versions/index.txt"
   done
-  echo "$VERSION is now uploaded."
+  echo "$VERSION_PREFIX$VERSION is now uploaded."
   exit 0
 fi

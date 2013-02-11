@@ -17,8 +17,10 @@ if [ "`git tag -l | grep $VERSION`" == "" ]; then
 fi
 
 # get the latest commit id as the latest version number
+VERSION_PREFIX=""
 if [ "$VERSION" == "latest" ]; then
-  VERSION="`date +"%Y%m%d"`-`git log --pretty=format:'%h' -n 1`"
+  VERSION="`git log --pretty=format:'%h' -n 1`"
+  VERSION_PREFIX="`date +"%Y%m%d"`-"
 fi
 
 # a temp folder to clone the git
@@ -26,7 +28,7 @@ TMP_DIR=$EZPAARSE_PATH/tmp
 mkdir -p $TMP_DIR
 
 EZPAARSE_SUFFIX=""
-EZPAARSE_NAME="ezpaarse-$VERSION"
+EZPAARSE_NAME="ezpaarse-$VERSION_PREFIX$VERSION"
 
 # clone the git with the correct name
 rm -rf $TMP_DIR/$EZPAARSE_NAME
@@ -35,7 +37,7 @@ cd $TMP_DIR/$EZPAARSE_NAME
 git checkout $VERSION
 cp -f $EZPAARSE_PATH/Makefile $TMP_DIR/$EZPAARSE_NAME/
 touch $TMP_DIR/$EZPAARSE_NAME/clean-for-release-flag
-make version v=$VERSION
+make version v=$VERSION_PREFIX$VERSION
 make clean-for-release
 
 # generate the tar.gz and .zip
