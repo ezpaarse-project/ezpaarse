@@ -304,6 +304,9 @@ module.exports = function (app, parsers, ignoredDomains) {
 
       if (ec) {
         if (ignoredDomains.indexOf(ec.domain) == -1) {
+          if (!ec.login) {
+            ec.login = 'ezPAARSE-noLogin'
+          }
           if (estValide(ec)) {
             if (parsers[ec.domain]) {
               treatedLines = true;
