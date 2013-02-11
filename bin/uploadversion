@@ -1,0 +1,45 @@
+#!/bin/bash
+#
+# Script used to upload a version
+#
+
+set +e
+
+MY_PATH=$(cd ${0%/*} && echo $PWD/${0##*/})
+BIN_PATH=`dirname "$MY_PATH"`
+EZPAARSE_PATH=$BIN_PATH/..
+
+# read version number from the command line
+VERSION=$1
+[ -z "$VERSION" ] && VERSION="`$BIN_PATH/readconfig -k version`"
+if [ ! -d $EZPAARSE_PATH/ezpaarse-$VERSION/ ]; then
+  echo "Error: $EZPAARSE_PATH/ezpaarse-$VERSION/ folder does not exist. Please run 'make zip' before."
+  exit 1
+fi
+
+# check the --force option
+FORCE_UPLOAD=$2
+if [ "$FORCE_UPLOAD" != "--force" ]; then
+  FORCE_UPLOAD=""
+fi
+
+# check the destination folder does not exist yet
+UPLOAD_EXISTS=`ssh analogist@stats.intra.inist.fr "ls var/www/ezpaarse/versions/$VERSION/ 2>/dev/null"`
+if [[ "$UPLOAD_EXISTS" != "" && $FORCE_UPLOAD == "" ]]; then
+  echo "Uploaded folder already exists on analogist Web site. Use --force option  if you need to upload again."
+  exit 1
+else
+  echo "Uploading to analogist:var/www/ezpaarse/versions/$VERSION/"
+  scp -r $EZPAARSE_PATH/ezpaarse-$VERSION/ analogist@stats.intra.inist.fr:var/www/ezpaarse/versions/$VERSION/
+  echo "Updating versions.txt file."
+  ssh analogist@stats.intra.inist.fr "touch var/www/ezpaarse/versions/index.txt"
+  # cleanup double
+  ssh analogist@stats.intra.inist.fr "sed -i '/^$VERSION.*$/d' var/www/ezpaarse/versions/index.txt"
+  # append new version archives to the list
+  for vfile in `ls $EZPAARSE_PATH/ezpaarse-$VERSION/`
+  do
+    ssh analogist@stats.intra.inist.fr "echo $VERSION/$vfile >> var/www/ezpaarse/versions/index.txt"
+  done
+  echo "$VERSION is now uploaded."
+  exit 0
+fi

@@ -127,4 +127,8 @@ version:
 tag:
 	./bin/tagversion
 
+# example: make upload v=0.0.4 o=--force
+upload:
+	./bin/uploadversion $(v) $(o)
+
 .PHONY: test checkconfig build pkb-update deb rpm release clean-for-release version tag
