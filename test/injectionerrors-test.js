@@ -7,8 +7,8 @@ var fs            = require('fs');
 var should        = require('should');
 var csvextractor  = require('../lib/csvextractor.js');
 
-var logFile               = __dirname + '/dataset/sd.2012-11-30.300.log';
-var gzipLogFile           = __dirname + '/dataset/sd.2013-01-15.log.gz';
+var logFile               = __dirname + '/dataset/sd.mini.log';
+var gzipLogFile           = __dirname + '/dataset/sd.mini.log.gz';
 var wrongFirstLineLogFile = __dirname + '/dataset/sd.wrong-first-line.log';
 
 describe('The server', function () {

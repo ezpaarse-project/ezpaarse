@@ -1,0 +1,2 @@
+247.63.228.176 - THEODORE_MCCLURE [30/Nov/2012:00:13:10 +0100] "GET http://pdn.sciencedirect.com:80/science?_ob=MiamiImageURL&_cid=272543&_user=4046392&_pii=S0012160612004174&_check=y&_origin=browseVolIssue&_zone=rslt_list_item&_coverDate=2013-01-01&wchp=dGLbVlt-zSkzV&md5=259db2bef3a9fecf6d6757fea62622e8&pid=1-s2.0-S0012160612004174-main.pdf&sqtrkid=0.6689980956607747 HTTP/1.1" 302 444
+247.63.228.176 - THEODORE_MCCLURE [30/Nov/2012:00:14:17 +0100] "GET http://www.sciencedirect.com:80/science/journal/aip/00121606 HTTP/1.1" 200 224846
