@@ -137,6 +137,7 @@ clean-for-release:
 	find ./node_modules/ -name "example"   -type d -exec rm -rf {} \; 2>/dev/null || true
 	find ./node_modules/ -name "examples"  -type d -exec rm -rf {} \; 2>/dev/null || true
 	find ./node_modules/ -name "benchmark" -type d -exec rm -rf {} \; 2>/dev/null || true
+	rm -f ./clean-for-release-flag
 
 # example: make version v=0.0.3
 version:
