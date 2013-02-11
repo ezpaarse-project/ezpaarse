@@ -31,12 +31,8 @@ EZPAARSE_NAME="ezpaarse-$VERSION"
 # clone the git with the correct name
 rm -rf $TMP_DIR/$EZPAARSE_NAME
 git clone file://$EZPAARSE_PATH $TMP_DIR/$EZPAARSE_NAME
-
-# cleanup the pfc files
 cd $TMP_DIR/$EZPAARSE_NAME
-if [ "$VERSION" != "latest" ]; then
-  git checkout $VERSION
-fi
+git checkout $VERSION
 cp -f $EZPAARSE_PATH/Makefile $TMP_DIR/$EZPAARSE_NAME/
 touch $TMP_DIR/$EZPAARSE_NAME/clean-for-release-flag
 make version v=$VERSION

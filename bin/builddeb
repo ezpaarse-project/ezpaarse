@@ -18,40 +18,28 @@ if [ "`id -u`" != 0 ]; then
   exit 1
 fi
 
+
+# get the wanted version number
+VERSION=$1
 [ -z "$VERSION" ] && VERSION="`$BIN_PATH/readconfig -k version`"
-if [ ! -f $EZPAARSE_PATH/ezpaarse-$VERSION/ezpaarse-${VERSION}.tar.gz ]; then
-  echo "Error: $EZPAARSE_PATH/ezpaarse-$VERSION/ezpaarse-${VERSION}.tar.gz  does not exist. Please run 'make zip' before."
-  exit 1
+# get the latest commit id as the latest version number
+if [ "$VERSION" == "latest" ]; then
+  VERSION="`git log --pretty=format:'%h' -n 1`"
 fi
 
 rm -rf /tmp/ezpaarse/
 mkdir -p /tmp/ezpaarse/usr/share/
 
-# todo: remplacer par l'utilisation d'un tar.gz versionné (make release)
-cd /tmp/ezpaarse/usr/share/
-tar xzf $EZPAARSE_PATH/ezpaarse-$VERSION/ezpaarse-${VERSION}.tar.gz 
-mv /tmp/ezpaarse/usr/share/ezpaarse-$VERSION/ /tmp/ezpaarse/usr/share/ezpaarse/
+# clone the git with the correct name
+git clone file://$EZPAARSE_PATH /tmp/ezpaarse/usr/share/ezpaarse
+cd /tmp/ezpaarse/usr/share/ezpaarse
+git checkout $VERSION
+cp -f $EZPAARSE_PATH/Makefile /tmp/ezpaarse/usr/share/ezpaarse
+touch /tmp/ezpaarse/usr/share/ezpaarse/clean-for-release-flag
+make version v=$VERSION
+cp -r /tmp/ezpaarse/usr/share/ezpaarse/misc/deb/* /tmp/ezpaarse/
+make clean-for-release
 cd /tmp/ezpaarse/
-
-# prepare folders structure
-cp -r $EZPAARSE_PATH/misc/deb/* /tmp/ezpaarse/
-
-# cleanup
-#rm -rf /tmp/ezpaarse/usr/share/ezpaarse/logs/
-#rm -rf /tmp/ezpaarse/usr/share/ezpaarse/.git/
-#rm -rf /tmp/ezpaarse/usr/share/ezpaarse/test/
-#rm -rf /tmp/ezpaarse/usr/share/ezpaarse/build/
-#rm -rf /tmp/ezpaarse/usr/share/ezpaarse/misc/
-#rm -rf /tmp/ezpaarse/usr/share/ezpaarse/platforms/*/test/
-#rm -rf /tmp/ezpaarse/usr/share/ezpaarse/*.deb
-#rm -rf /tmp/ezpaarse/usr/share/ezpaarse/*.rpm
-#find /tmp/ezpaarse/usr/share/ezpaarse/node_modules/ -name "tests"     -type d -exec rm -rf {} \; 2>/dev/null || true
-#find /tmp/ezpaarse/usr/share/ezpaarse/node_modules/ -name "test"      -type d -exec rm -rf {} \; 2>/dev/null || true
-#find /tmp/ezpaarse/usr/share/ezpaarse/node_modules/ -name "dist"      -type d -exec rm -rf {} \; 2>/dev/null || true
-#find /tmp/ezpaarse/usr/share/ezpaarse/node_modules/ -name "build"     -type d -exec rm -rf {} \; 2>/dev/null || true
-#find /tmp/ezpaarse/usr/share/ezpaarse/node_modules/ -name "example"   -type d -exec rm -rf {} \; 2>/dev/null || true
-#find /tmp/ezpaarse/usr/share/ezpaarse/node_modules/ -name "examples"  -type d -exec rm -rf {} \; 2>/dev/null || true
-#find /tmp/ezpaarse/usr/share/ezpaarse/node_modules/ -name "benchmark" -type d -exec rm -rf {} \; 2>/dev/null || true
 
 # LSBization of ezpaarse source code
 
@@ -79,11 +67,13 @@ PACKAGE=`dpkg-deb -f $NAME.deb package`
 VERSION=`dpkg-deb -f $NAME.deb version`
 ARCHI=`dpkg-deb -f $NAME.deb architecture`
 NAMENEW="${PACKAGE}-${VERSION}_${ARCHI}"
+mkdir -p $CUR_DIR/ezpaarse-$VERSION/
+chmod a+rwx $CUR_DIR/ezpaarse-$VERSION/
 mv $NAME.deb $CUR_DIR/ezpaarse-$VERSION/${NAMENEW}.deb
 
 echo "ezpaarse debian package built: $CUR_DIR/ezpaarse-$VERSION/${NAMENEW}.deb"
 cd $CUR_DIR
 
-rm -rf /tmp/ezpaarse/
+#rm -rf /tmp/ezpaarse/
 
 exit 0

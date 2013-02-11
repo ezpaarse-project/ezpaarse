@@ -101,13 +101,15 @@ pkb-update:
 	else git clone https://github.com/ezpaarse-project/ezpaarse-pkb.git platforms-kb; \
 	fi
 
+# make deb v=0.0.3
 deb:
 	@test -f /usr/bin/dpkg-deb || sudo apt-get install --yes dpkg
-	sudo ./bin/builddeb
+	sudo -E ./bin/builddeb $(v)
 
-rpm: deb
+# make rpm v=0.0.3
+rpm:
 	@test -f /usr/bin/alien || sudo apt-get install --yes alien
-	sudo ./bin/buildrpm
+	sudo -E ./bin/buildrpm $(v)
 
 # zip and tar.gz archives are generated
 # make zip v=0.0.3
@@ -136,8 +138,6 @@ clean-for-release:
 
 # example: make version v=0.0.3
 version:
-	@test -f node_modules/glob/package.json     || npm install glob
-	@test -f node_modules/optimist/package.json || npm install optimist
 	./bin/patch-version-number --version $(v)
 
 tag:
