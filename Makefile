@@ -123,10 +123,10 @@ clean-for-release:
 	rm -rf ./.git/
 	rm -f ./test/injection-test.js
 	mv ./test/dataset/sd.wrong-first-line.log /tmp/
-	#mv ./test/dataset/sd.mini.log* /tmp/
+	mv ./test/dataset/sd.mini.log* /tmp/
 	rm -f ./test/dataset/*
 	mv /tmp/sd.wrong-first-line.log ./test/dataset/
-	#mv /tmp/sd.mini.log*            ./test/dataset/
+	mv /tmp/sd.mini.log*            ./test/dataset/
 	rm -rf ./build/
 	rm -rf ./misc/
 	rm -rf ./ezpaarse-*/
