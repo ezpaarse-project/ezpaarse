@@ -8,11 +8,17 @@ set -e
 MY_PATH=$(cd ${0%/*} && echo $PWD/${0##*/})
 BIN_PATH=`dirname "$MY_PATH"`
 EZPAARSE_PATH=$BIN_PATH/..
-VERSION=`$BIN_PATH/readconfig -k version`
 
 # check version exists
-if [ "`git tag -l | grep 0.0.3`" == "" ]; then
+VERSION=$1
+[ -z "$VERSION" ] && VERSION="`$BIN_PATH/readconfig -k version`"
+if [ "`git tag -l | grep $VERSION`" == "" ]; then
   VERSION="latest"
+fi
+
+# get the latest commit id as the latest version number
+if [ "$VERSION" == "latest" ]; then
+  VERSION="`git log --pretty=format:'%h' -n 1`"
 fi
 
 # a temp folder to clone the git
@@ -33,6 +39,7 @@ if [ "$VERSION" != "latest" ]; then
 fi
 cp -f $EZPAARSE_PATH/Makefile $TMP_DIR/$EZPAARSE_NAME/
 touch $TMP_DIR/$EZPAARSE_NAME/clean-for-release-flag
+make version v=$VERSION
 make clean-for-release
 
 # generate the tar.gz and .zip

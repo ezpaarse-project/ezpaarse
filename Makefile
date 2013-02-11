@@ -110,8 +110,9 @@ rpm: deb
 	sudo ./bin/buildrpm
 
 # zip and tar.gz archives are generated
+# make zip v=0.0.3
 zip:
-	./bin/buildrelease
+	./bin/buildrelease $(v)
 
 clean-for-release:
 	test -f ./clean-for-release-flag || ( echo "Warning: do no run this command on your ezpaarse used for devlopements" ; exit 1 )	
@@ -135,8 +136,8 @@ clean-for-release:
 
 # example: make version v=0.0.3
 version:
-	test -f node_modules/glob/package.json     || npm install glob
-	test -f node_modules/optimist/package.json || npm install optimist
+	@test -f node_modules/glob/package.json     || npm install glob
+	@test -f node_modules/optimist/package.json || npm install optimist
 	./bin/patch-version-number --version $(v)
 
 tag:
