@@ -24,7 +24,7 @@ VERSION=$1
 [ -z "$VERSION" ] && VERSION="`$BIN_PATH/readconfig -k version`"
 # get the latest commit id as the latest version number
 if [ "$VERSION" == "latest" ]; then
-  VERSION="`git log --pretty=format:'%h' -n 1`"
+  VERSION="`date +"%Y%m%d"`-`git log --pretty=format:'%h' -n 1`"
 fi
 
 rm -rf /tmp/ezpaarse/
