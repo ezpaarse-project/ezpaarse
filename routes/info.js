@@ -57,5 +57,24 @@ module.exports = function (app) {
     res.write(']');
     res.end();
   });
+
+  /**
+   * GET route on /ws/info/ectypes
+   */
+  app.get('/ws/info/ectypes', function (req, res) {
+    res.type('application/json');
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+
+    var file = __dirname + '/../platforms/ectypes.json';
+    if (fs.existsSync(file)) {
+      var types = require(file);
+      res.status(200);
+      res.write(JSON.stringify(types.EZPAARSE_ECTYPES, null, 2));
+    } else {
+      res.status(500);
+    }
+    res.end();
+  });
   
 };
