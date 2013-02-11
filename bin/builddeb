@@ -66,9 +66,8 @@ dpkg-deb --build $NAME
 
 # adjust package name
 PACKAGE=`dpkg-deb -f $NAME.deb package`
-VERSION=`dpkg-deb -f $NAME.deb version`
 ARCHI=`dpkg-deb -f $NAME.deb architecture`
-NAMENEW="${PACKAGE}-${VERSION}_${ARCHI}"
+NAMENEW="${PACKAGE}-${VERSION_PREFIX}${VERSION}_${ARCHI}"
 mkdir -p $CUR_DIR/ezpaarse-$VERSION_PREFIX$VERSION/
 chmod a+rwx $CUR_DIR/ezpaarse-$VERSION_PREFIX$VERSION/
 mv $NAME.deb $CUR_DIR/ezpaarse-$VERSION_PREFIX$VERSION/${NAMENEW}.deb
