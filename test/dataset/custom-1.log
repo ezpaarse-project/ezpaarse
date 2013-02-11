@@ -1,0 +1,3 @@
+200 3619 14.8.136.65 - MAGDALEN [30/Nov/2012:00:23:57 +0100] "GET http://www.sciencedirect.com:80/science/mlkt/rslts/S1046202310000411/Ref HTTP/1.1"
+200 8332 14.8.136.65 - MAGDALEN [30/Nov/2012:00:23:57 +0100] "GET http://www.sciencedirect.com:80/science/mlkt/rslts/S1046202310000411/Art HTTP/1.1"
+200 348 14.8.136.65 - MAGDALEN [30/Nov/2012:00:23:57 +0100] "GET http://www.sciencedirect.com:80/science/relLink/ajaxReq?_eid=1-s2.0-S1046202310000411 HTTP/1.1"
