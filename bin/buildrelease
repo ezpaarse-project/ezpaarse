@@ -10,7 +10,7 @@ BIN_PATH=`dirname "$MY_PATH"`
 EZPAARSE_PATH=$BIN_PATH/..
 
 # check version exists
-VERSION=$1
+VERSION=$v
 [ -z "$VERSION" ] && VERSION="`$BIN_PATH/readconfig -k version`"
 if [ "`git tag -l | grep $VERSION`" == "" ]; then
   VERSION="latest"

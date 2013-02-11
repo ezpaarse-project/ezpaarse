@@ -13,7 +13,7 @@ EZPAARSE_PATH=$BIN_PATH/..
 . $BIN_PATH/env
 
 # get the wanted version number
-VERSION=$1
+VERSION=$v
 VERSION_PREFIX=""
 [ -z "$VERSION" ] && VERSION="`$BIN_PATH/readconfig -k version`"
 # get the latest commit id as the latest version number

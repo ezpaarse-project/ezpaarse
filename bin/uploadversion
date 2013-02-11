@@ -10,7 +10,7 @@ BIN_PATH=`dirname "$MY_PATH"`
 EZPAARSE_PATH=$BIN_PATH/..
 
 # read version number from the command line
-VERSION=$1
+VERSION=$v
 VERSION_PREFIX=""
 [ -z "$VERSION" ] && VERSION="`$BIN_PATH/readconfig -k version`"
 if [ "$VERSION" == "latest" ]; then
@@ -23,7 +23,7 @@ if [ ! -d $EZPAARSE_PATH/ezpaarse-$VERSION_PREFIX$VERSION/ ]; then
 fi
 
 # check the --force option
-FORCE_UPLOAD=$2
+FORCE_UPLOAD=$o
 if [ "$FORCE_UPLOAD" != "--force" ]; then
   FORCE_UPLOAD=""
 fi

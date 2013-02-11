@@ -14,6 +14,24 @@ DOC_HTML=$(DOC_OUTPUT)/index.html
 # Run every steps needed to start ezpaarse
 all: build pkb-update checkconfig
 
+# Application section
+# # # # # # # # # # # #
+
+checkconfig:
+	@. ./bin/env; if which node > /dev/null; then ./bin/checkconfig; else echo "Node.js was not found" >&2; fi
+
+start:
+	@./bin/ezpaarse start
+stop:
+	@./bin/ezpaarse stop
+restart:
+	@./bin/ezpaarse restart
+status:
+	@./bin/ezpaarse status
+
+# Doc section
+# # # # # # # # # # # #
+
 # Generate doc with beautiful-docs
 $(DOC_HTML): $(DOC)
 	@. ./bin/env; bfdocs --base-url='.' $(DOC_MD)/manifest.json $(DOC_OUTPUT)
@@ -60,21 +78,6 @@ test-platforms-verbose:
 jshint:
 	@. ./bin/env; jshint $(JSFILES) --config .jshintrc
 
-# Application section
-# # # # # # # # # # # #
-
-checkconfig:
-	@. ./bin/env; if which node > /dev/null; then ./bin/checkconfig; else echo "Node.js was not found" >&2; fi
-
-start:
-	@./bin/ezpaarse start
-stop:
-	@./bin/ezpaarse stop
-restart:
-	@./bin/ezpaarse restart
-status:
-	@./bin/ezpaarse status
-
 # Benchmarks section
 # # # # # # # # # # # #
 
@@ -105,18 +108,18 @@ pkb-update:
 deb:
 	@test -f /usr/bin/dpkg-deb || sudo apt-get install --yes dpkg
 	@test -f /usr/bin/fakeroot || sudo apt-get install --yes fakeroot
-	./bin/builddeb $(v)
+	./bin/builddeb
 
 # make rpm v=0.0.3
 rpm:
 	@test -f /usr/bin/alien || sudo apt-get install --yes alien
 	@test -f /usr/bin/fakeroot || sudo apt-get install --yes fakeroot
-	./bin/buildrpm $(v)
+	./bin/buildrpm
 
 # zip and tar.gz archives are generated
 # make zip v=0.0.3
 zip:
-	./bin/buildrelease $(v)
+	./bin/buildrelease
 
 clean-for-release:
 	test -f ./clean-for-release-flag || ( echo "Warning: do no run this command on your ezpaarse used for devlopements" ; exit 1 )	
@@ -148,6 +151,6 @@ tag:
 
 # example: make upload v=0.0.4 o=--force
 upload:
-	./bin/uploadversion $(v) $(o)
+	./bin/uploadversion
 
 .PHONY: test checkconfig build pkb-update deb rpm release clean-for-release version tag
