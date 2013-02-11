@@ -107,7 +107,7 @@ deb:
 
 rpm: deb
 	@test -f /usr/bin/alien || sudo apt-get install --yes alien
-	sudo alien --to-rpm --scripts ./ezpaarse-0.0.2_all.deb
+	sudo ./bin/buildrpm
 
 # zip and tar.gz archives are generated
 zip:
@@ -116,7 +116,22 @@ zip:
 clean-for-release:
 	test -f ./clean-for-release-flag || ( echo "Warning: do no run this command on your ezpaarse used for devlopements" ; exit 1 )	
 	rm -rf ./.git/
-	rm -rf ./test/
+	rm -f ./test/injection-test.js
+	mv ./test/dataset/sd.wrong-first-line.log /tmp/
+	#mv ./test/dataset/sd.mini.log* /tmp/
+	rm -f ./test/dataset/*
+	mv /tmp/sd.wrong-first-line.log ./test/dataset/
+	#mv /tmp/sd.mini.log*            ./test/dataset/
+	rm -rf ./build/
+	rm -rf ./misc/
+	rm -rf ./ezpaarse-*/
+	find ./node_modules/ -name "tests"     -type d -exec rm -rf {} \; 2>/dev/null || true
+	find ./node_modules/ -name "test"      -type d -exec rm -rf {} \; 2>/dev/null || true
+	find ./node_modules/ -name "dist"      -type d -exec rm -rf {} \; 2>/dev/null || true
+	find ./node_modules/ -name "build"     -type d -exec rm -rf {} \; 2>/dev/null || true
+	find ./node_modules/ -name "example"   -type d -exec rm -rf {} \; 2>/dev/null || true
+	find ./node_modules/ -name "examples"  -type d -exec rm -rf {} \; 2>/dev/null || true
+	find ./node_modules/ -name "benchmark" -type d -exec rm -rf {} \; 2>/dev/null || true
 
 # example: make version v=0.0.3
 version:
