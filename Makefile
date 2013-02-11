@@ -104,12 +104,14 @@ pkb-update:
 # make deb v=0.0.3
 deb:
 	@test -f /usr/bin/dpkg-deb || sudo apt-get install --yes dpkg
-	sudo -E ./bin/builddeb $(v)
+	@test -f /usr/bin/fakeroot || sudo apt-get install --yes fakeroot
+	./bin/builddeb $(v)
 
 # make rpm v=0.0.3
 rpm:
 	@test -f /usr/bin/alien || sudo apt-get install --yes alien
-	sudo -E ./bin/buildrpm $(v)
+	@test -f /usr/bin/fakeroot || sudo apt-get install --yes fakeroot
+	./bin/buildrpm $(v)
 
 # zip and tar.gz archives are generated
 # make zip v=0.0.3

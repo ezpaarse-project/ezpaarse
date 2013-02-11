@@ -15,7 +15,7 @@ VERSION_PREFIX=""
 [ -z "$VERSION" ] && VERSION="`$BIN_PATH/readconfig -k version`"
 if [ "$VERSION" == "latest" ]; then
   VERSION="`git log --pretty=format:'%h' -n 1`"
-  VERSION_PREFIX="`date +"%Y%m%d"`-"
+  VERSION_PREFIX="`date +"%Y%m%d"`"
 fi
 if [ ! -d $EZPAARSE_PATH/ezpaarse-$VERSION_PREFIX$VERSION/ ]; then
   echo "Error: $EZPAARSE_PATH/ezpaarse-$VERSION_PREFIX$VERSION/ folder does not exist. Please run 'make zip' before."

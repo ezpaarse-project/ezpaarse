@@ -20,7 +20,7 @@ fi
 VERSION_PREFIX=""
 if [ "$VERSION" == "latest" ]; then
   VERSION="`git log --pretty=format:'%h' -n 1`"
-  VERSION_PREFIX="`date +"%Y%m%d"`-"
+  VERSION_PREFIX="`date +"%Y%m%d"`"
 fi
 
 # a temp folder to clone the git

@@ -19,7 +19,7 @@ if (argv.help) {
   process.exit(0);
 }
 
-var version_pattern = '([0-9]\.[0-9]+\.[0-9]+|[0-9]+-[0-9abcdef]+)';
+var version_pattern = '([0-9]\.[0-9]+\.[0-9]+|[0-9]+[0-9abcdef]+)';
 if (RegExp('^' + version_pattern + '$').test(version)) {
   
   var c = '';

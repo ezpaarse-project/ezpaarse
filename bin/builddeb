@@ -12,13 +12,6 @@ EZPAARSE_PATH=$BIN_PATH/..
 
 . $BIN_PATH/env
 
-# must be root to generate the package
-if [ "`id -u`" != 0 ]; then
-  echo "Error: run this script as a root user"
-  exit 1
-fi
-
-
 # get the wanted version number
 VERSION=$1
 VERSION_PREFIX=""
@@ -26,7 +19,7 @@ VERSION_PREFIX=""
 # get the latest commit id as the latest version number
 if [ "$VERSION" == "latest" ]; then
   VERSION="`git log --pretty=format:'%h' -n 1`"
-  VERSION_PREFIX="`date +"%Y%m%d"`-"
+  VERSION_PREFIX="`date +"%Y%m%d"`"
 fi
 
 rm -rf /tmp/ezpaarse/
@@ -61,15 +54,13 @@ sed -i 's#"development"#"production"#g' /tmp/ezpaarse/etc/ezpaarse/config.json
 # create .deb
 NAME="ezpaarse"
 cd /tmp/
-chown root:root -R ./ezpaarse/
-dpkg-deb --build $NAME
+fakeroot dpkg-deb --build $NAME
 
 # adjust package name
 PACKAGE=`dpkg-deb -f $NAME.deb package`
 ARCHI=`dpkg-deb -f $NAME.deb architecture`
 NAMENEW="${PACKAGE}-${VERSION_PREFIX}${VERSION}_${ARCHI}"
 mkdir -p $CUR_DIR/ezpaarse-$VERSION_PREFIX$VERSION/
-chmod a+rwx $CUR_DIR/ezpaarse-$VERSION_PREFIX$VERSION/
 mv $NAME.deb $CUR_DIR/ezpaarse-$VERSION_PREFIX$VERSION/${NAMENEW}.deb
 
 echo "ezpaarse debian package built: $CUR_DIR/ezpaarse-$VERSION_PREFIX$VERSION/${NAMENEW}.deb"
