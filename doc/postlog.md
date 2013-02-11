@@ -6,7 +6,23 @@ Parse un fichier de log et retourne des évènements de consultation. L'opérati
 *POST /ws/ HTTP/1.1*
 
 ##### Paramètres #####
-Aucun
+-   **Content-Encoding:** encodage des données envoyées. *(supportés : gzip, deflate)*  
+-   **Accept-Encoding:** encodage des données renvoyées par le serveur. *(supportés : gzip, deflate)*  
+-   **Accept:** format de sortie. Sont supportés :  
+    - text/csv (par défaut).
+    - application/json.
+-   **ezPAARSE-LogFormat:** format des lignes de log en entrée *(ex: '%h %u %t')* :
+    - %h : hôte à l'origine de la requête.
+    - %u : login utilisé pour l'authentification.
+    - %l : nom d'utilisateur distant obtenu par identd.
+    - %b : nombre d'octets transférés.
+    - %U : URL demandée *(e.g. http://www.somedb.com/)*.
+    - %m : méthode de la requête *(e.g. GET, POST)*.
+    - %r : requête complète *(e.g. GET http://www.somedb.com HTTP/1.0)*.
+    - %t : date/heure de la requête. Le format peut être précisé dans le header *ezPAARSE-DateFormat*.
+    - %s : statut numérique HTTP de la requête.
+-   **ezPAARSE-DateFormat:** format de date utilisé dans les logs envoyés. Par défaut : 'DD/MMM/YYYY:HH:mm:ss Z'.  
+-   **ezPAARSE-Replacer:** caractère / expression utilisé(e) pour remplacer les champs non disponibles. Par défaut : '-'.  
 
 ##### Body #####
 
@@ -19,11 +35,13 @@ Fichier de log généré par un proxy.
 
 ##### Status code #####
 
-  -   **204 No Content:** log parsé sans encombre.
+  -   **200 OK:** logs traités avec succès.
+  -   **400 Bad Request:** un élément de la requête rend impossible le traitement des logs.
+  -   **406 Not Acceptable:** encodage ou format de sortie non supporté.
 
 ##### Body #####
 
-Json contenant l'ensemble des évènements de consultations générés.
+CSV ou Json contenant l'ensemble des évènements de consultation générés.
 
 Exemple d'évènement de consultation :
 
@@ -45,4 +63,5 @@ Exemple d'évènement de consultation :
 ```shell
 curl -X POST http://127.0.0.1:59599/ws/ --no-buffer --data-binary @file.log -v
 curl -X POST --proxy "" --no-buffer --data-binary @test/dataset/sd.2012-11-30.log  http://127.0.0.1:59599/ws/ -v
+curl -X POST --proxy "" --no-buffer -H "Accept: application/json" --data-binary @test/dataset/sd.2012-11-30.log  http://127.0.0.1:59599/ws/ -v
 ```
