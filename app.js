@@ -44,6 +44,12 @@ app.configure(function () {
   //app.use(express.bodyParser());
   app.use(express.methodOverride());
   
+  // Set the ezPAARSE-Version header in all responses
+  app.use(function (req, res, next) {
+    res.header('ezPAARSE-Version', pkg.version || 'N/A');
+    next();
+  });
+
 // commented because disrupt log streaming (maybe to enable for
 // the future HTML interface as it will be needed by the authentication system)
 //     app.use(express.cookieParser());
