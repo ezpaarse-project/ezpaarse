@@ -70,7 +70,7 @@ module.exports = function (app) {
     if (fs.existsSync(file)) {
       var types = require(file);
       res.status(200);
-      res.write(JSON.stringify(types.EZPAARSE_ECTYPES, null, 2));
+      res.write(JSON.stringify(types, null, 2));
     } else {
       res.status(500);
     }

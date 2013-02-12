@@ -1,75 +1,72 @@
-{
-"EZPAARSE_ECTYPES":
-  [
-    {
-      "code": "PDF",
-      "description":  "consultation d'un article au format PDF",
-      "comment": ""
-    },
-    {
-      "code": "TXT",
-      "description":  "consultation d'un article en texte brut (la plupart du temps en HTML)",
-      "comment": ""
-    },
-    {
-      "code": "SUMMARY",
-      "description":  "consultation d'un résumé de l'article",
-      "comment": ""
-    },
-    {
-      "code": "REVUE",
-      "description":  "consultation des informations d'une revue",
-      "comment": ""
-    },
-    {
-      "code": "TOC",
-      "description":  "consultation d'un sommaire denuméro de revue",
-      "comment": ""
-    },
-    {
-      "code": "BOOKPDF",
-      "description":  "consultation d'un Book au format PDF",
-      "comment": ""
-    },
-    {
-      "code": "BOOKSERIE",
-      "description":  "consultation d'un sommaire d'une monographie en série",
-      "comment": ""
-    },
-    {
-      "code": "HANDBOOK",
-      "description":  "consultation d'un sommaire d'un handbook",
-      "comment": ""
-    },
-    {
-      "code": "ORDER",
-      "description":  "consultation de type commande de document",
-      "comment": ""
-    },
-    {
-      "code": "REF",
-      "description":  "consultation de référence de document",
-      "comment": ""
-    },
-    {
-      "code": "OML",
-      "description":  "consultation de matériel en ligne (données)",
-      "comment": ""
-    },
-    {
-      "code": "ENCYCLOPEDIE",
-      "description":  "consultation d'une encyclopédie",
-      "comment": "Cas des bases de données juridiques"
-    },
-    {
-      "code": "CODE",
-      "description":  "consultation d'un code juridique",
-      "comment": "Cas des bases de données juridiques"
-    },
-    {
-      "code": "FORMULE",
-      "description":  "consultation d'une formule juridique",
-      "comment": "Cas des bases de données juridiques"
-    }
-  ]
-}
+[
+  {
+    "code": "PDF",
+    "description":  "consultation d'un article au format PDF",
+    "comment": ""
+  },
+  {
+    "code": "TXT",
+    "description":  "consultation d'un article en texte brut (la plupart du temps en HTML)",
+    "comment": ""
+  },
+  {
+    "code": "SUMMARY",
+    "description":  "consultation d'un résumé de l'article",
+    "comment": ""
+  },
+  {
+    "code": "REVUE",
+    "description":  "consultation des informations d'une revue",
+    "comment": ""
+  },
+  {
+    "code": "TOC",
+    "description":  "consultation d'un sommaire denuméro de revue",
+    "comment": ""
+  },
+  {
+    "code": "BOOKPDF",
+    "description":  "consultation d'un Book au format PDF",
+    "comment": ""
+  },
+  {
+    "code": "BOOKSERIE",
+    "description":  "consultation d'un sommaire d'une monographie en série",
+    "comment": ""
+  },
+  {
+    "code": "HANDBOOK",
+    "description":  "consultation d'un sommaire d'un handbook",
+    "comment": ""
+  },
+  {
+    "code": "ORDER",
+    "description":  "consultation de type commande de document",
+    "comment": ""
+  },
+  {
+    "code": "REF",
+    "description":  "consultation de référence de document",
+    "comment": ""
+  },
+  {
+    "code": "OML",
+    "description":  "consultation de matériel en ligne (données)",
+    "comment": ""
+  },
+  {
+    "code": "ENCYCLOPEDIE",
+    "description":  "consultation d'une encyclopédie",
+    "comment": "Cas des bases de données juridiques"
+  },
+  {
+    "code": "CODE",
+    "description":  "consultation d'un code juridique",
+    "comment": "Cas des bases de données juridiques"
+  },
+  {
+    "code": "FORMULE",
+    "description":  "consultation d'une formule juridique",
+    "comment": "Cas des bases de données juridiques"
+  }
+]
