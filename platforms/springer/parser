@@ -10,7 +10,7 @@ function parseUrl(url) {
     var result    = {};
     var parsedUrl = URL.parse(url);
     var param     = querystring.parse(parsedUrl.query);
-    var path      = decodeURIComponent(parsedUrl.path);
+    var path      = decodeURIComponent(parsedUrl.path) || '';
     var match;
     
     if (match = /\/journal(\/volumesAndIssues)?\/([0-9]+)/.exec(path)) {
