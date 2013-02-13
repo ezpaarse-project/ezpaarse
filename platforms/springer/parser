@@ -12,7 +12,7 @@ function parseUrl(url) {
     var param     = querystring.parse(parsedUrl.query)
     var path      = '';
     try {
-      decodeURIComponent(parsedUrl.path);
+      path = decodeURIComponent(parsedUrl.path);
     } catch (e) {}
     var match;
     
