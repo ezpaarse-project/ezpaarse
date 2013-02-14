@@ -40,7 +40,11 @@ exports.objectsAreSame = function (object1, object2) {
   }
   var same = true;
   for (var property in object1) {
-    if (object1[property] !== object2[property]) {
+    if (property == 'date') {
+      if (!object2[property] || Date.parse(object1[property]) != Date.parse(object2[property])) {
+        same = false;
+      }
+    } else if (object1[property] !== object2[property]) {
       same = false;
       break;
     }
@@ -48,14 +52,14 @@ exports.objectsAreSame = function (object1, object2) {
   return same;
 }
 
-exports.compareArrays = function (array1, array2, showIfFalse) {
+exports.compareArrays = function (array1, array2, showIfTrue) {
   if (array1.length !== array2.length) {
-    if (showIfFalse) {
+    if (showIfTrue) {
       console.error('array1:');
       console.error(array1);
       console.error('array2:');
       console.error(array2);
-    }    
+    }
     return false;
   }
   var same = array1.every(function (object1) {
@@ -68,7 +72,7 @@ exports.compareArrays = function (array1, array2, showIfFalse) {
     });    
     return found;
   });
-  if (!same && showIfFalse) {
+  if (!same && showIfTrue) {
     console.error('array1:');
     console.error(array1);
     console.error('array2:');
