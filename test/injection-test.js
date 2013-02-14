@@ -34,7 +34,7 @@ describe('The server', function () {
 
         correctJson.should.be.a('object');
         bodyJson.should.be.a('object');
-        should.ok(helpers.compareArrays(bodyJson, correctJson),
+        should.ok(helpers.compareArrays(bodyJson, correctJson, true),
           'Server\'s answer do not match the intended result');
 
         done();
@@ -59,7 +59,7 @@ describe('The server', function () {
         
         csvextractor.extract(fs.createReadStream(csvResultFile), [], function (correctRecords) {
           csvextractor.extract([body], [], function (bodyRecords) {
-            should.ok(helpers.compareArrays(bodyRecords, correctRecords),
+            should.ok(helpers.compareArrays(bodyRecords, correctRecords, true),
               'The response of the server does not match the expected one');
             done();
           }, {silent: true});
