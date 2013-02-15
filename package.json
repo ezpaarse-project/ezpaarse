@@ -34,6 +34,6 @@
     "coffee-script": "*"
   },
   "scripts": {
-    "test": "make build && sleep 1 && make start && sleep 1 && make test"
+    "test": "make build && make start && make test"
   }
 }
