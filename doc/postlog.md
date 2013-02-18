@@ -11,18 +11,8 @@ Parse un fichier de log et retourne des évènements de consultation. L'opérati
 -   **Accept:** format de sortie. Sont supportés :  
     - text/csv (par défaut).
     - application/json.
--   **ezPAARSE-LogFormat:** format des lignes de log en entrée *(ex: '%h %u %t')* :
-    - %h : hôte à l'origine de la requête.
-    - %u : login utilisé pour l'authentification.
-    - %l : nom d'utilisateur distant obtenu par identd.
-    - %b : nombre d'octets transférés.
-    - %U : URL demandée *(e.g. http://www.somedb.com/)*.
-    - %m : méthode de la requête *(e.g. GET, POST)*.
-    - %r : requête complète *(e.g. GET http://www.somedb.com HTTP/1.0)*.
-    - %t : date/heure de la requête. Le format peut être précisé dans le header *ezPAARSE-DateFormat*.
-    - %s : statut numérique HTTP de la requête.
--   **ezPAARSE-DateFormat:** format de date utilisé dans les logs envoyés. Par défaut : 'DD/MMM/YYYY:HH:mm:ss Z'.  
--   **ezPAARSE-Replacer:** caractère / expression utilisé(e) pour remplacer les champs non disponibles. Par défaut : '-'.  
+-   **LogFormat-*xxx*:** format des lignes de log en entrée, dépend du proxy *xxx* utilisé. [Voir les formats disponibles](./formats.html).
+-   **DateFormat:** format de date utilisé dans les logs envoyés. Par défaut : 'DD/MMM/YYYY:HH:mm:ss Z'.  
 
 ##### Body #####
 
