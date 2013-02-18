@@ -35,8 +35,9 @@ if [[ "$UPLOAD_EXISTS" != "" && $FORCE_UPLOAD == "" ]]; then
   exit 1
 else
   echo "Uploading to analogist:var/www/ezpaarse/versions/$VERSION_PREFIX$VERSION/"
+  ssh    analogist@stats.intra.inist.fr " rm -rf var/www/ezpaarse/versions/$VERSION_PREFIX$VERSION/ 2>/dev/null"
   scp -r $EZPAARSE_PATH/ezpaarse-$VERSION_PREFIX$VERSION/ analogist@stats.intra.inist.fr:var/www/ezpaarse/versions/$VERSION_PREFIX$VERSION/
-  echo "Updating versions.txt file."
+  echo "Updating versions/index.txt file."
   ssh analogist@stats.intra.inist.fr "touch var/www/ezpaarse/versions/index.txt"
   # cleanup double
   ssh analogist@stats.intra.inist.fr "sed -i '/^$VERSION_PREFIX$VERSION.*$/d' var/www/ezpaarse/versions/index.txt"

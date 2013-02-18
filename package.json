@@ -3,6 +3,13 @@
   "main": "app.js",
   "version": "0.0.3",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ezpaarse-project/ezpaarse.git"
+  },
+  "engines": {
+    "node": ">=0.8.16"
+  },
   "dependencies": {
     "forever": "*",
     "express": "3.x",
@@ -25,5 +32,8 @@
     "mocha": "*",
     "beautiful-docs": "*",
     "coffee-script": "*"
+  },
+  "scripts": {
+    "test": "make build && make start && sleep 1 && make test"
   }
 }
