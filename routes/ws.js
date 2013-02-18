@@ -311,7 +311,9 @@ module.exports = function (app, parsers, ignoredDomains) {
             if (parsers[ec.domain]) {
               treatedLines = true;
               var parser   = parsers[ec.domain].parser;
-              ec.host      = crypto.createHash('md5').update(ec.host).digest("hex");
+              if (ec.host) {
+                ec.host = crypto.createHash('md5').update(ec.host).digest("hex");
+              }
 
               if (!ecBuffers[parser]) { ecBuffers[parser] = [parsers[ec.domain]]; }
               ecBuffers[parser].push(ec);
