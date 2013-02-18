@@ -4,7 +4,6 @@
 var debug         = require('debug')('log');
 var fs            = require('fs');
 var byline        = require('byline');
-var moment        = require('moment');
 var crypto        = require('crypto');
 var shell         = require('shelljs');
 var async         = require('async');
@@ -40,12 +39,11 @@ module.exports = function (app, parsers, ignoredDomains) {
     var status          = 200;
     var contentEncoding = req.header('content-encoding');
     var acceptEncoding  = req.header('accept-encoding');
-    var logFormat       = req.header('ezPAARSE-LogFormat');
-    var dateFormat      = req.header('ezPAARSE-DateFormat');
-    var replacer        = req.header('ezPAARSE-Replacer');
+    var logFormat       = req.header('LogFormat-ezproxy');
+    var dateFormat      = req.header('DateFormat');
 
     var knowledge       = new Knowledge();
-    var logParser       = new LogParser(logFormat, dateFormat, replacer);
+    var logParser       = new LogParser(logFormat, 'LogFormat-ezproxy', dateFormat);
     var countLines      = 0;
     var countECs        = 0;
 
@@ -304,15 +302,12 @@ module.exports = function (app, parsers, ignoredDomains) {
 
       if (ec) {
         if (ignoredDomains.indexOf(ec.domain) == -1) {
-          if (!ec.login) {
-            ec.login = 'ezPAARSE-noLogin'
-          }
           if (estValide(ec)) {
             if (parsers[ec.domain]) {
               treatedLines = true;
               var parser   = parsers[ec.domain].parser;
               if (ec.host) {
-                ec.host = crypto.createHash('md5').update(ec.host).digest("hex");
+                ec.host      = crypto.createHash('md5').update(ec.host).digest("hex");
               }
 
               if (!ecBuffers[parser]) { ecBuffers[parser] = [parsers[ec.domain]]; }
