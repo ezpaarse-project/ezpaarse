@@ -13,7 +13,7 @@ var ezproxyTestSets =
   { logFile: folder + '/univ_lyon.ezproxy.log',        format: '%h %l %u [%t] "%r" %s %b' },
   { logFile: folder + '/univ_strasbourg.ezproxy.log',  format: '[%t] %h %u %U %b %{session}<[a-zA-Z0-9]+>' },
   { logFile: folder + '/ul.ezproxy.log',          format: '%h %u %<[0-9]> [%t] "%r" %s %b %<[a-zA-Z\+]+>' },
-  { logFile: folder + '/upmc.ezproxy.log',        format: '%h %{session}<[a-zA-Z0-9]+> %u [%t] "%r" %s %b %<.*>' }
+  { logFile: folder + '/upmc.ezproxy.log',        format: '%h %{session} %u [%t] "%r" %s %b %<.*>' }
 ];
 
 function check(testCase, callback) {
