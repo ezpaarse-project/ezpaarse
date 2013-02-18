@@ -15,7 +15,7 @@ var Knowledge     = require('../lib/pkbManager.js');
 
 
 function estValide(ec) {
-  if (!ec.url || !ec.host || !ec.login) {
+  if (!ec.url) {
     return false;
   }
   // Filters images and javascript files
