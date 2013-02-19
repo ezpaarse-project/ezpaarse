@@ -36,7 +36,7 @@ function check(testCase, callback) {
         throw new Error('ezPAARSE is not running');
       }
       res.should.have.status(200);
-
+      
       var resultJson = require(testCase.resultFile);
       var bodyJson   = JSON.parse(body);
 
