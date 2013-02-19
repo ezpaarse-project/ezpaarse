@@ -151,6 +151,9 @@ module.exports = function (app, parsers, ignoredDomains) {
             if (result.type) {
               ec.type = result.type;
             }
+            if (result.doi) {
+              ec.doi = result.doi;
+            }
             if (result.issn) {
               ec.issn = result.issn;
             } else if (result.pid) {
@@ -169,7 +172,7 @@ module.exports = function (app, parsers, ignoredDomains) {
             } else {
               debug('The parser couldn\'t find any id in the given URL');
             }
-            if (ec.issn || ec.eissn || ec.type) {
+            if (ec.issn || ec.eissn || ec.doi || ec.type) {
               if (!headersSent) {
                 headersSent = true;
                 res.status(200);
@@ -197,6 +200,9 @@ module.exports = function (app, parsers, ignoredDomains) {
                 if (result.type) {
                   ec.type = result.type;
                 }
+                if (result.doi) {
+                  ec.doi = result.doi;
+                }
                 if (result.issn) {
                   ec.issn = result.issn;
                 } else if (result.pid) {
@@ -215,7 +221,7 @@ module.exports = function (app, parsers, ignoredDomains) {
                 } else {
                   debug('The parser couldn\'t find any id in the given URL');
                 }
-                if (ec.issn || ec.eissn || ec.type) {
+                if (ec.issn || ec.eissn || ec.doi || ec.type) {
                   if (!headersSent) {
                     headersSent = true;
                     res.status(200);

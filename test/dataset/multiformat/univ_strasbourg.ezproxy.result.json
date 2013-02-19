@@ -6,7 +6,8 @@
   "size": "68903",
   "session": "liV9RqGobWNKrdD",
   "domain": "link.springer.com",
-  "type": "ABS"
+  "type": "ABS",
+  "doi": "10.1007/s00262-008-0620-4"
 },{
   "date": "2012-11-18T00:00:34+01:00",
   "host": "87e62d4cf69c930a8a15b772e90c923d",
@@ -15,5 +16,6 @@
   "size": "116636",
   "session": "liV9RqGobWNKrdD",
   "domain": "link.springer.com",
-  "type": "TXT"
+  "type": "TXT",
+  "doi": "10.1007/s00262-008-0620-4"
 }]
