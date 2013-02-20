@@ -46,6 +46,8 @@ module.exports = function (app, parsers, ignoredDomains) {
       formatHeader = 'LogFormat-ezproxy';
     } else if (logFormat = req.header('LogFormat-bibliopam')) {
       formatHeader = 'LogFormat-bibliopam';
+    } else if (logFormat = req.header('LogFormat-squid')) {
+      formatHeader = 'LogFormat-squid';
     }
 
     var knowledge       = new Knowledge();

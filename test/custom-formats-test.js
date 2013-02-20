@@ -20,6 +20,11 @@ var bibliopamTestSets =
   { logFile: folder + '/univ_toulouse.bibliopam.log',       format: '%h %l %u %t "%r" %>s %b %<.*>' },
   { logFile: folder + '/univ_parisdescartes.bibliopam.log', format: '%h %l %u %t "%r" %>s %b %<.*>' }
 ];
+var squidTestSets =
+[
+  { logFile: folder + '/upmc.squid.log',  format: '%ts.%03tu %6tr %>a %Ss/%03>Hs %<st %rm %ru %[un %Sh/%<a %mt' },
+  { logFile: folder + '/inria.squid.log', format: '%<A:%lp %>a %ui %[un [%tl] "%rm %ru HTTP/%rv" %>Hs %<st %<.*>' }
+];
 
 function check(testSet, formatHeader, callback) {
   var testCase = testSet.pop();
@@ -39,8 +44,7 @@ function check(testSet, formatHeader, callback) {
         throw new Error('ezPAARSE is not running');
       }
       res.should.have.status(200);
-      // should.exist(body);
-
+      
       var resultJson = require(testCase.resultFile);
       if (resultJson.length === 0) {
         should.not.exist(body);
@@ -67,6 +71,11 @@ describe('The server', function () {
   describe('receives different bibliopam log files', function () {
     it('and recognizes the format of the lines using the HTTP headers', function (done) {
       check(bibliopamTestSets, 'LogFormat-bibliopam', done);
+    });
+  });
+  describe('receives different squid log files', function () {
+    it('and recognizes the format of the lines using the HTTP headers', function (done) {
+      check(squidTestSets, 'LogFormat-squid', done);
     });
   });
 });

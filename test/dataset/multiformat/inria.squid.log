@@ -1,0 +1,1 @@
+istproxy.inrialpes.fr:443 82.216.77.111 - - [10/Apr/2012:20:20:16 +0200] "GET /redirect/index.php?request=http%3A%2F%2Frss.sciencedirect.com%2Fpublication%2Fscience%2F6214 HTTP/1.1" 401 290 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10.5; rv:11.0) Gecko/20100101 Firefox/11.0"
