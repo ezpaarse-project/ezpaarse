@@ -21,12 +21,24 @@ benchmarks et en déduire des préconisations matérielles.
 
 ## Installation ##
 
-Ouvrez un terminal et tapez :
+Si vous souhaitez installer une version stable [téléchargez une archives zip ou tar.gz](http://analogist.couperin.org/ezpaarse/download) puis ouvrez un terminal et tapez :
+```console
+unzip ezpaarse-X.X.X.zip
+cd ezpaarse-X.X.X
+make
+```
 
+Si vous souhaitez installer la version de développement, ouvrez un terminal et tapez :
 ```console
 git clone http://github.com/ezpaarse-project/ezpaarse.git
 cd ezpaarse
 make
+```
+
+Vous avez également la possibilité de [télécharger une archives deb](http://analogist.couperin.org/ezpaarse/download) et de l'installer sur votre système de cette façon :
+```console
+sudo -E dpkg -i ezpaarse-X.X.X.deb
+sudo /etc/init.d/ezpaarse start
 ```
 
 ## Tester l`installation ##
@@ -34,7 +46,6 @@ make
 Cette étape vous permettra de valider que votre installation est fonctionnelle.
 
 ```console
-. ./bin/env
 make start
 make test
 ```
