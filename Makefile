@@ -97,13 +97,6 @@ build:
 	@./build/nvm/bin/latest/npm rebuild >/dev/null
 	$(MAKE) doc
 
-# Clone or update pkb folder
-pkb-update:
-	@if test -d platforms-kb; \
-	then cd platforms-kb; git pull; \
-	else git clone https://github.com/ezpaarse-project/ezpaarse-pkb.git platforms-kb; \
-	fi
-
 # make deb v=0.0.3
 deb:
 	@test -f /usr/bin/dpkg-deb || sudo apt-get install --yes dpkg
@@ -153,4 +146,16 @@ tag:
 upload:
 	./bin/uploadversion
 
-.PHONY: test checkconfig build pkb-update deb rpm release clean-for-release version tag
+update: pkb-update pull restart
+
+# Clone or update pkb folder
+pkb-update:
+	@if test -d platforms-kb; \
+	then cd platforms-kb; git pull; \
+	else git clone https://github.com/ezpaarse-project/ezpaarse-pkb.git platforms-kb; \
+	fi
+
+pull:
+	git pull
+
+.PHONY: test checkconfig build pkb-update deb rpm release clean-for-release version tag update pull start restart status stop
