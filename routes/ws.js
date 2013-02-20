@@ -39,17 +39,26 @@ module.exports = function (app, parsers, ignoredDomains) {
     var status          = 200;
     var contentEncoding = req.header('content-encoding');
     var acceptEncoding  = req.header('accept-encoding');
-    var logFormat       = req.header('LogFormat-ezproxy');
     var dateFormat      = req.header('DateFormat');
+    var logFormat       = '';
+    var formatHeader    = '';
+    if (logFormat = req.header('LogFormat-ezproxy')) {
+      formatHeader = 'LogFormat-ezproxy';
+    } else if (logFormat = req.header('LogFormat-bibliopam')) {
+      formatHeader = 'LogFormat-bibliopam';
+    } else if (logFormat = req.header('LogFormat-squid')) {
+      formatHeader = 'LogFormat-squid';
+    }
 
     var knowledge       = new Knowledge();
-    var logParser       = new LogParser(logFormat, 'LogFormat-ezproxy', dateFormat);
+    var logParser       = new LogParser(logFormat, formatHeader, dateFormat);
     var countLines      = 0;
     var countECs        = 0;
 
     var endOfRequest    = false;
-    var headersSent     = false;
+    var writerWasStarted     = false;
     var treatedLines    = false;
+    var writtenECs      = false;
     var badBeginning    = false;
 
     // Array of EC buffers, used to parse multiple ECs using one process
@@ -173,12 +182,13 @@ module.exports = function (app, parsers, ignoredDomains) {
               debug('The parser couldn\'t find any id in the given URL');
             }
             if (ec.issn || ec.eissn || ec.doi || ec.type) {
-              if (!headersSent) {
-                headersSent = true;
+              if (!writerWasStarted) {
+                writerWasStarted = true;
                 res.status(200);
                 writer.start();
               }
               writer.write(ec);
+              writtenECs = true;
               countECs++;
             }
           }
@@ -222,12 +232,13 @@ module.exports = function (app, parsers, ignoredDomains) {
                   debug('The parser couldn\'t find any id in the given URL');
                 }
                 if (ec.issn || ec.eissn || ec.doi || ec.type) {
-                  if (!headersSent) {
-                    headersSent = true;
+                  if (!writerWasStarted) {
+                    writerWasStarted = true;
                     res.status(200);
                     writer.start();
                   }
                   writer.write(ec);
+                  writtenECs = true;
                   countECs++;
                 }
 
@@ -274,7 +285,9 @@ module.exports = function (app, parsers, ignoredDomains) {
         stream.resume();
       } else if (Object.keys(ecBuffers).length === 0) {
         // If request ended and no buffer left, terminate the response
-        writer.end();
+        if (writerWasStarted) {
+          writer.end();
+        }
         response.end();
         debug("Terminating response");
         debug(countLines + " lines were read");
@@ -290,12 +303,16 @@ module.exports = function (app, parsers, ignoredDomains) {
     stream.on('end', function () {
       endOfRequest = true;
       if (!treatedLines) {
-        res.status = 400;
+        res.status(400);
         res.end();
-      } else {
-        for (var i in ecBuffers) {
-          queue.push({buffer: ecBuffers[i]});
-          delete ecBuffers[i];
+      } else if (queue.length() === 0) {
+        if (Object.keys(ecBuffers).length === 0) {
+          queue.drain();
+        } else {
+          for (var i in ecBuffers) {
+            queue.push({buffer: ecBuffers[i]});
+            delete ecBuffers[i];
+          }
         }
       }
     });
@@ -307,13 +324,13 @@ module.exports = function (app, parsers, ignoredDomains) {
       var ec = logParser.parse(line);
 
       if (ec) {
+        treatedLines = true;
         if (ignoredDomains.indexOf(ec.domain) == -1) {
           if (estValide(ec)) {
             if (parsers[ec.domain]) {
-              treatedLines = true;
-              var parser   = parsers[ec.domain].parser;
+              var parser = parsers[ec.domain].parser;
               if (ec.host) {
-                ec.host      = crypto.createHash('md5').update(ec.host).digest("hex");
+                ec.host = crypto.createHash('md5').update(ec.host).digest("hex");
               }
 
               if (!ecBuffers[parser]) { ecBuffers[parser] = [parsers[ec.domain]]; }

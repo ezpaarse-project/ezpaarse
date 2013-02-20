@@ -19,7 +19,7 @@ Parse un fichier de log et retourne des évènements de consultation. L'opérati
 Fichier de log généré par un proxy.
 
 [Doc EZProxy](http://www.oclc.org/support/documentation/ezproxy/cfg/logformat/)  
-[Doc Squid](http://wiki.squid-cache.org/Features/LogFormat)
+[Doc Squid](http://www.squid-cache.org/Doc/config/logformat/)
 
 #### Réponse ####
 
