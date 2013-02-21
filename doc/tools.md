@@ -54,11 +54,13 @@ zcat monezproxy.log.gz | ./bin/loganonymizer
 Usage:
 ```
 Anonymize critical data in a log file
-Usage: node ./loganonymizer --input=[string] --output=[string]
+Usage: node ./loganonymizer --input=[string] --output=[string] --proxy=[string] --format[string]
 
 Options:
-  --input, -i   the input data to clean                    
-  --output, -o  the destination where to send the result to
+  --input, -i   the input data to clean                      
+  --output, -o  the destination where to send the result to  
+  --proxy, -p   the proxy which generated the log file       
+  --format, -f  the format of log lines (ex: %h %u [%t] "%r")
 ```
 
 Cette commande est utile pour constituer des fichiers de test en y retirant les éléments sensibles liés à la protection des données personnelles. Chaque valeur est remplacée par la même valeur aléatoire de façon à pouvoir faire les associations et dédoublonnages nécessaires aux traitements.

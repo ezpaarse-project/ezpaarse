@@ -35,7 +35,7 @@ Faker.Internet.ip = function () {
 // get the command line argument 
 // platform
 var optimist = require('optimist')
-    .usage('Anonymize critical data in a log file\nUsage: $0 --input=[string] --output=[string]')
+    .usage('Anonymize critical data in a log file\nUsage: $0 --input=[string] --output=[string] --proxy=[string] --format[string]')
     .alias('help','h')
     .alias('input','i')
     .alias('output','o')
