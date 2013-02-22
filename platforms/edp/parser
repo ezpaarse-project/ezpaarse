@@ -20,7 +20,7 @@ function parseUrl(url) {
         result.type = 'TOC';
     } else if (match = /\/articles\/([a-zA-Z0-9]+)\/abs\/([0-9]{4}\/[0-9]{2}|first)\/contents\/contents.html$/.exec(url)) {
       result.type = 'TOC';
-    } else if (match = /\/articles\/([a-zA-Z0-9]+)\/(abs|full_html|ref|olm)\/([0-9]{4}\/[0-9]{2}|first)\/[a-z]+[0-9]+\/[a-z]+[0-9]+.html$/.exec(url)) {
+    } else if (match = /\/articles\/([a-zA-Z0-9]+)\/(abs|full_html|ref|olm)\/([0-9]{4}\/[0-9]{2}|first)\/[a-z0-9\-]+\/[a-z0-9\-]+.html$/.exec(url)) {
       switch (match[2]) {
       case 'abs':
         result.type = 'SUMMARY';
@@ -35,7 +35,7 @@ function parseUrl(url) {
         result.type = 'OLM';
         break;
       }
-    } else if (match = /\/articles\/([a-zA-Z0-9]+)\/pdf\/([0-9]{4}\/[0-9]{2}|first)\/[a-z]+[0-9]+.pdf$/.exec(url)) {
+    } else if (match = /\/articles\/([a-zA-Z0-9]+)\/pdf\/([0-9]{4}\/[0-9]{2}|first)\/[a-z0-9\-]+.pdf$/.exec(url)) {
       result.type = 'PDF';
     } else {
       if (match = /\/action\/([a-zA-Z]+)/.exec(url)) {
