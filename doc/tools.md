@@ -44,6 +44,8 @@ Usage: node ./logextractor --fields=[string] --separator=";"
 Options:
   --fields, -f            fields to extract from log lines (ex: url,login,host)  [required]
   --separator, --sep, -s  character to use between each field                    [required]  [default: "\t"]
+  --input, -i             a file to extract the fields from (default: stdin)   
+  --output, -o            a file to write the result into (default: stdout)
   --proxy, -p             the proxy which generated the log file               
   --format, -t            the format of log lines (ex: %h %u [%t] "%r")        
 

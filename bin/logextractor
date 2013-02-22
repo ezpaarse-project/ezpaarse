@@ -23,7 +23,7 @@ var optimist = require('optimist')
     .describe('fields', 'fields to extract from log lines (ex: url,login,host)')
     .describe('separator', 'character to use between each field')
     .describe('input', 'a file to extract the fields from (default: stdin)')
-    .describe('output', 'a file to send the result to (default: stdout)')
+    .describe('output', 'a file to write the result into (default: stdout)')
     .describe('proxy', 'the proxy which generated the log file')
     .describe('format', 'the format of log lines (ex: %h %u [%t] "%r")');
 var argv = optimist.argv;
