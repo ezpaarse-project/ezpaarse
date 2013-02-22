@@ -15,12 +15,15 @@ var optimist = require('optimist')
     .alias('help','h')
     .alias('input','i')
     .alias('output','o')
+    .alias('server','s')
     .alias('proxy','p')
     .alias('format','f')
     .alias('accept','a')
     .alias('encoding','e')
     .describe('input', 'a file to inject into ezPAARSE (default: stdin)')
     .describe('output', 'a file to send the result to (default: stdout)')
+    .describe('server', 'the server to send the request to (ex: http://ezpaarse.com:80). ' +
+        'If none, will send to a local instance.')
     .describe('proxy', 'the proxy which generated the log file')
     .describe('format', 'the format of log lines (ex: %h %u [%t] "%r")')
     .describe('encoding', 'encoding of sent data (gzip, deflate)')
@@ -60,8 +63,14 @@ if (argv.encoding) {
 if (argv.accept) {
   headers['Accept'] = argv.accept;
 }
+
+var url = 'http://127.0.0.1:' + config.EZPAARSE_NODEJS_PORT + '/ws/';
+if (argv.server) {
+  url = argv.server.replace(/\/$/) + '/ws/';
+}
+
 var options = {
-    url: 'http://127.0.0.1:' + config.EZPAARSE_NODEJS_PORT + '/ws/',
+    url: url,
     headers: headers
 };
 

@@ -2,7 +2,7 @@
 
 ## loginjector
 
-Commande permettant d'envoyer un fichier de log en streaming vers une instance locale d'ezPAARSE. Le fichier de log doit être envoyé sur l'entrée système (stdin) de la commande.
+Commande permettant d'envoyer un fichier de log en streaming vers une instance locale d'ezPAARSE.
 
 Exemple d'utilisation:
 ```bash
@@ -11,7 +11,17 @@ zcat monezproxy.log.gz | ./bin/loginjector
 
 Usage:
 ```
-Usage: node ./bin/loginjector
+Inject data into ezPAARSE and gets the response
+Usage: node ./loginjector
+
+Options:
+  --input, -i     a file to inject into ezPAARSE (default: stdin)
+  --output, -o    a file to send the result to (default: stdout)
+  --server, -s    the server to send the request to (ex: http://ezpaarse.com:80). If none, will send to a local instance.
+  --proxy, -p     the proxy which generated the log file
+  --format, -f    the format of log lines (ex: %h %u [%t] "%r")
+  --encoding, -e  encoding of sent data (gzip, deflate)
+  --accept, -a    wanted type for the response (text/csv, application/json)
 ```
 
 Cette commande simplifie l'envoi des logs vers l'instance d'ezPAARSE par rapport à l'utilisation de la commande cURL.
