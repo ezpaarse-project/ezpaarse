@@ -15,8 +15,7 @@ var Faker     = require('Faker');
 var fs        = require('fs');
 var LogParser = require('../lib/logParser.js');
 
-var red   = '\u001b[31m';     // Color red
-var brown = '\u001b[33m';  // Color brown
+var brown = '\u001b[33m';   // Color brown
 var reset = '\u001b[0m';    // Color reset
 
 Faker.Internet.ip = function () {
@@ -109,8 +108,6 @@ stream.on('data', function (line) {
     }
     resultStream.write(line + '\n');
   } else {
-    console.error(brown + line + reset);
-    console.error(red + 'Parse Error : the line couldn\'t be parsed (wrong format ?)' + reset);
-    process.exit(1);
+    console.error(brown + 'One line couldn\'t be parsed and has been removed' + reset);
   }
 });
