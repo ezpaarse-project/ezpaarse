@@ -19,27 +19,27 @@ var brown = '\u001b[33m';   // Color brown
 var reset = '\u001b[0m';    // Color reset
 
 Faker.Internet.ip = function () {
-  var randNum = function() {
-    return (Math.random()*254 + 1).toFixed(0);
+  var randNum = function () {
+    return (Math.random() * 254 + 1).toFixed(0);
   }
 
   var result = [];
-  for(var i=0; i<4; i++) {
+  for (var i = 0; i < 4; i++) {
     result[i] = randNum();
   }
 
   return result.join(".");
 };
 
-// get the command line argument 
-// platform
+// get the command line arguments
 var optimist = require('optimist')
-    .usage('Anonymize critical data in a log file\nUsage: $0 --input=[string] --output=[string] --proxy=[string] --format[string]')
-    .alias('help','h')
-    .alias('input','i')
-    .alias('output','o')
-    .alias('proxy','p')
-    .alias('format','f')
+    .usage('Anonymize critical data in a log file' +
+      '\nUsage: $0 --input=[string] --output=[string] --proxy=[string] --format[string]')
+    .alias('help', 'h')
+    .alias('input', 'i')
+    .alias('output', 'o')
+    .alias('proxy', 'p')
+    .alias('format', 'f')
     .describe('input', 'the input data to clean')
     .describe('output', 'the destination where to send the result to')
     .describe('proxy', 'the proxy which generated the log file')
@@ -50,9 +50,9 @@ var argv = optimist.argv;
 if (argv.help) {
   optimist.showHelp();
   process.exit(0);
-}    
+}
     
-var logParser = new LogParser(argv.format,argv.proxy);
+var logParser = new LogParser(argv.format, argv.proxy);
 
 var resultStream;
 var logStream;
@@ -68,10 +68,10 @@ if (argv.input) {
   logStream = process.stdin;
 }
 
-var hosts       = [];
-var logins      = [];
-var fakeHosts   = [];
-var fakeLogins  = [];
+var hosts           = [];
+var logins          = [];
+var fakeHostsList   = [];
+var fakeLoginsList  = [];
 
 var stream = byline.createStream(logStream);
 
@@ -82,29 +82,29 @@ stream.on('data', function (line) {
       if (hosts.indexOf(ec.host) === -1) {
         hosts.push(ec.host);
       }
-      var fake = fakeHosts[hosts.indexOf(ec.host)];
-      if (!fake) {
-        fake = Faker.Internet.ip();
-        while(fakeHosts.indexOf(fake) != -1) {
-          fake = Faker.Internet.ip();
+      var fakeHost = fakeHostsList[hosts.indexOf(ec.host)];
+      if (!fakeHost) {
+        fakeHost = Faker.Internet.ip();
+        while (fakeHostsList.indexOf(fakeHost) != -1) {
+          fakeHost = Faker.Internet.ip();
         }
-        fakeHosts.push(fake);
+        fakeHostsList.push(fakeHost);
       }
-      line = line.replace(ec.host, fake);
+      line = line.replace(ec.host, fakeHost);
     }
     if (ec.login) {
       if (logins.indexOf(ec.login) === -1) {
         logins.push(ec.login);
       }
-      var fake = fakeLogins[logins.indexOf(ec.login)];
-      if (!fake) {
-        fake = Faker.Internet.userName().replace('\'', '').toUpperCase();
-        while(fakeLogins.indexOf(fake) != -1) {
-          fake = Faker.Internet.userName().replace('\'', '').toUpperCase();
+      var fakeLogin = fakeLoginsList[logins.indexOf(ec.login)];
+      if (!fakeLogin) {
+        fakeLogin = Faker.Internet.userName().replace('\'', '').toUpperCase();
+        while (fakeLoginsList.indexOf(fakeLogin) != -1) {
+          fakeLogin = Faker.Internet.userName().replace('\'', '').toUpperCase();
         }
-        fakeLogins.push(fake);
+        fakeLoginsList.push(fakeLogin);
       }
-      line = line.replace(ec.login, fake);
+      line = line.replace(ec.login, fakeLogin);
     }
     resultStream.write(line + '\n');
   } else {
