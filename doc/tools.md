@@ -32,18 +32,20 @@ Commande permettant d'extraire un ou des champs d'un fichier de log. Le fichier 
 
 Exemples d'utilisation:
 ```bash
-zcat monezproxy.log.gz | ./bin/logextractor --field=url
-zcat monezproxy.log.gz | ./bin/logextractor --field=login,url --separator="|"
+zcat monezproxy.log.gz | ./bin/logextractor --fields=url
+zcat monezproxy.log.gz | ./bin/logextractor --fields=login,url --separator="|"
 ```
 
 Usage:
 ```
-Extract specific field from a log stream
-Usage: node ./logextractor --field=[string] --separator=";"
+Extract specific fields from a log stream
+Usage: node ./logextractor --fields=[string] --separator=";"
 
 Options:
-  --field, -f             field to extract from the url (ex: url,login,host)  [required]
-  --separator, --sep, -s  charactere to use between each field                [required]  [default: "\t"]
+  --fields, -f            fields to extract from log lines (ex: url,login,host)  [required]
+  --separator, --sep, -s  character to use between each field                    [required]  [default: "\t"]
+  --proxy, -p             the proxy which generated the log file               
+  --format, -t            the format of log lines (ex: %h %u [%t] "%r")        
 
 ```
 
