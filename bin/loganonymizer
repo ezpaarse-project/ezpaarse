@@ -108,6 +108,6 @@ stream.on('data', function (line) {
     }
     resultStream.write(line + '\n');
   } else {
-    console.error(brown + 'One line couldn\'t be parsed and has been removed' + reset);
+    console.error(brown + 'One line couldn\'t be parsed and was removed' + reset);
   }
 });
