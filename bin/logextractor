@@ -16,10 +16,14 @@ var optimist = require('optimist')
     .usage('Extract specific fields from a log stream\nUsage: $0 --fields=[string] --separator=";"')
     .demand('fields').alias('fields', 'f')
     .demand('separator').alias('separator', 'sep').alias('separator', 's').default('separator', '\t')
+    .alias('input','i')
+    .alias('output','o')
     .alias('proxy', 'p')
     .alias('format', 't')
     .describe('fields', 'fields to extract from log lines (ex: url,login,host)')
     .describe('separator', 'character to use between each field')
+    .describe('input', 'a file to extract the fields from (default: stdin)')
+    .describe('output', 'a file to send the result to (default: stdout)')
     .describe('proxy', 'the proxy which generated the log file')
     .describe('format', 'the format of log lines (ex: %h %u [%t] "%r")');
 var argv = optimist.argv;
@@ -32,10 +36,24 @@ if (argv.help) {
 
 var logParser = new LogParser(argv.format, argv.proxy);
 
+var resultStream;
+var logStream;
+
+if (argv.output) {
+  resultStream = fs.createWriteStream(argv.output);
+} else {
+  resultStream = process.stdout;
+}
+if (argv.input) {
+  logStream = fs.createReadStream(argv.input);
+} else {
+  logStream = process.stdin;
+}
+
 var sep    = argv.separator;
 var fields = argv.fields.split(',');
 var linenb = 1;
-var stream = byline.createStream(process.stdin);
+var stream = byline.createStream(logStream);
 stream.on('data', function (line) {
   var ignored = false;
   var result  = '';
@@ -53,7 +71,7 @@ stream.on('data', function (line) {
     
     // next line
     if (!ignored) {
-      process.stdout.write(result + '\n');
+      resultStream.write(result + '\n');
     }
   }
   linenb++;
