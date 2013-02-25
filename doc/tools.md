@@ -2,7 +2,7 @@
 
 ## loginjector
 
-Commande permettant d'envoyer un fichier de log en streaming vers une instance locale d'ezPAARSE. Le fichier de log doit être envoyé sur l'entrée système (stdin) de la commande.
+Commande permettant d'envoyer un fichier de log en streaming vers une instance locale d'ezPAARSE.
 
 Exemple d'utilisation:
 ```bash
@@ -11,7 +11,17 @@ zcat monezproxy.log.gz | ./bin/loginjector
 
 Usage:
 ```
-Usage: node ./bin/loginjector
+Inject data into ezPAARSE and gets the response
+Usage: node ./loginjector
+
+Options:
+  --input, -i     a file to inject into ezPAARSE (default: stdin)
+  --output, -o    a file to send the result to (default: stdout)
+  --server, -s    the server to send the request to (ex: http://ezpaarse.com:80). If none, will send to a local instance.
+  --proxy, -p     the proxy which generated the log file
+  --format, -f    the format of log lines (ex: %h %u [%t] "%r")
+  --encoding, -e  encoding of sent data (gzip, deflate)
+  --accept, -a    wanted type for the response (text/csv, application/json)
 ```
 
 Cette commande simplifie l'envoi des logs vers l'instance d'ezPAARSE par rapport à l'utilisation de la commande cURL.
@@ -22,18 +32,22 @@ Commande permettant d'extraire un ou des champs d'un fichier de log. Le fichier 
 
 Exemples d'utilisation:
 ```bash
-zcat monezproxy.log.gz | ./bin/logextractor --field=url
-zcat monezproxy.log.gz | ./bin/logextractor --field=login,url --separator="|"
+zcat monezproxy.log.gz | ./bin/logextractor --fields=url
+zcat monezproxy.log.gz | ./bin/logextractor --fields=login,url --separator="|"
 ```
 
 Usage:
 ```
-Extract specific field from a log stream
-Usage: node ./logextractor --field=[string] --separator=";"
+Extract specific fields from a log stream
+Usage: node ./logextractor --fields=[string] --separator=";"
 
 Options:
-  --field, -f             field to extract from the url (ex: url,login,host)  [required]
-  --separator, --sep, -s  charactere to use between each field                [required]  [default: "\t"]
+  --fields, -f            fields to extract from log lines (ex: url,login,host)  [required]
+  --separator, --sep, -s  character to use between each field                    [required]  [default: "\t"]
+  --input, -i             a file to extract the fields from (default: stdin)   
+  --output, -o            a file to write the result into (default: stdout)
+  --proxy, -p             the proxy which generated the log file               
+  --format, -t            the format of log lines (ex: %h %u [%t] "%r")        
 
 ```
 
@@ -54,11 +68,13 @@ zcat monezproxy.log.gz | ./bin/loganonymizer
 Usage:
 ```
 Anonymize critical data in a log file
-Usage: node ./loganonymizer --input=[string] --output=[string]
+Usage: node ./loganonymizer --input=[string] --output=[string] --proxy=[string] --format[string]
 
 Options:
-  --input, -i   the input data to clean                    
-  --output, -o  the destination where to send the result to
+  --input, -i   the input data to clean                      
+  --output, -o  the destination where to send the result to  
+  --proxy, -p   the proxy which generated the log file       
+  --format, -f  the format of log lines (ex: %h %u [%t] "%r")
 ```
 
 Cette commande est utile pour constituer des fichiers de test en y retirant les éléments sensibles liés à la protection des données personnelles. Chaque valeur est remplacée par la même valeur aléatoire de façon à pouvoir faire les associations et dédoublonnages nécessaires aux traitements.

@@ -41,17 +41,17 @@ module.exports = function (app, parsers, ignoredDomains) {
     var acceptEncoding  = req.header('accept-encoding');
     var dateFormat      = req.header('DateFormat');
     var logFormat       = '';
-    var formatHeader    = '';
+    var logProxy    = '';
     if (logFormat = req.header('LogFormat-ezproxy')) {
-      formatHeader = 'LogFormat-ezproxy';
+      logProxy = 'ezproxy';
     } else if (logFormat = req.header('LogFormat-bibliopam')) {
-      formatHeader = 'LogFormat-bibliopam';
+      logProxy = 'bibliopam';
     } else if (logFormat = req.header('LogFormat-squid')) {
-      formatHeader = 'LogFormat-squid';
+      logProxy = 'squid';
     }
 
     var knowledge       = new Knowledge();
-    var logParser       = new LogParser(logFormat, formatHeader, dateFormat);
+    var logParser       = new LogParser(logFormat, logProxy, dateFormat);
     var countLines      = 0;
     var countECs        = 0;
 

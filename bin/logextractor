@@ -6,18 +6,26 @@
 /*jslint node: true, maxlen: 100, maxerr: 50, indent: 2 */
 'use strict';
 
-var byline = require('byline');
-var fs = require('fs');
-var tabRegex = require('../lib/logformat.js');
+var byline    = require('byline');
+var fs        = require('fs');
+var LogParser = require('../lib/logParser.js');
 
 // get the command line argument 
 // platform
 var optimist = require('optimist')
-    .usage('Extract specific field from a log stream\nUsage: $0 --field=[string] --separator=";"')
-    .demand('field').alias('field', 'f')
+    .usage('Extract specific fields from a log stream\nUsage: $0 --fields=[string] --separator=";"')
+    .demand('fields').alias('fields', 'f')
     .demand('separator').alias('separator', 'sep').alias('separator', 's').default('separator', '\t')
-    .describe('field', 'field to extract from the url (ex: url,login,host)')
-    .describe('separator', 'charactere to use between each field');
+    .alias('input','i')
+    .alias('output','o')
+    .alias('proxy', 'p')
+    .alias('format', 't')
+    .describe('fields', 'fields to extract from log lines (ex: url,login,host)')
+    .describe('separator', 'character to use between each field')
+    .describe('input', 'a file to extract the fields from (default: stdin)')
+    .describe('output', 'a file to write the result into (default: stdout)')
+    .describe('proxy', 'the proxy which generated the log file')
+    .describe('format', 'the format of log lines (ex: %h %u [%t] "%r")');
 var argv = optimist.argv;
 
 // show usage if --help option is used
@@ -26,41 +34,45 @@ if (argv.help) {
   process.exit(0);
 }
 
+var logParser = new LogParser(argv.format, argv.proxy);
+
+var resultStream;
+var logStream;
+
+if (argv.output) {
+  resultStream = fs.createWriteStream(argv.output);
+} else {
+  resultStream = process.stdout;
+}
+if (argv.input) {
+  logStream = fs.createReadStream(argv.input);
+} else {
+  logStream = process.stdin;
+}
+
 var sep    = argv.separator;
-var fields = argv.field.split(',');
+var fields = argv.fields.split(',');
 var linenb = 1;
-var stream = byline.createStream(process.stdin);
+var stream = byline.createStream(logStream);
 stream.on('data', function (line) {
-  var match;
   var ignored = false;
-  var caught = false;
-  tabRegex.forEach(function (regex) {
-    // do not try next regex if one already matched
-    if (caught) return;
-    
-    // parse the log line 
-    match = regex.exp.exec(line);
-    if (match) {
-      
-      fields.forEach(function (field, index) {
-        var fieldIndex = regex.properties.indexOf(field);
-        if (fieldIndex !== -1) {
-          process.stdout.write(match[fieldIndex+1]);
-          if (index < fields.length-1) {
-            process.stdout.write(sep);
-          }
-          caught = true;
-        } else {
-          ignored = true;
-          process.stderr.write('Error: field ' + field + ' not found in line ' + linenb + '\n');
-        }
-      });
-      
-      // next line
-      if (!ignored) {
-        process.stdout.write('\n');
+  var result  = '';
+  var ec      = logParser.parse(line);
+  if (ec) {
+    fields.forEach(function (field, index) {
+      if (ec[field]) {
+        result += ec[field];
+        if (index < fields.length-1) { result += sep; }
+      } else {
+        ignored = true;
+        process.stderr.write('Error: field ' + field + ' not found in line #' + linenb + '\n');
       }
+    });
+    
+    // next line
+    if (!ignored) {
+      resultStream.write(result + '\n');
     }
-  });
+  }
   linenb++;
 });
