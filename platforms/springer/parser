@@ -43,7 +43,7 @@ function parseUrl(url) {
       result.type = 'ABS';
     } else if (match = /^\/(book)?series\/([0-9]+)/.exec(path)) {
       result.pid  = match[2];
-      result.type = 'BOOKSERIES';
+      result.type = 'BOOKSERIE';
     } else if (match = /^\/openurl.asp/.exec(path)) {
       if (param.genre && param.genre == 'journal') {
         if (param.issn) {

@@ -29,7 +29,7 @@ function parseUrl(url) {
           switch (param.fmt) {
           case 'summary':
             // Set consultation type to Summary
-            result.type = 'SUMMARY';
+            result.type = 'ABS';
             break;
           case 'full':
             // Set consultation type to Text
