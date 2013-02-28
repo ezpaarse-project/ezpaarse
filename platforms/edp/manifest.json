@@ -100,13 +100,12 @@
     "www.journal-therapie.org",
     "www.vetres.org"
   ],
-  "recognize": {
-    "id": true,  
-    "txt": true,  
-    "pdf": true, 
-    "toc": true, 
-    "res": false, 
-    "ref": false, 
-    "com": false
-  }
+  "recognize": [
+    "TXT",  
+    "PDF", 
+    "TOC", 
+    "ABS", 
+    "REF", 
+    "COM"
+  ]
 }

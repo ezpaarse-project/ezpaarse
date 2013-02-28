@@ -9,5 +9,11 @@
 	"domains": [
     "www.nature.com",
     "chimie.gate.inist.fr"
-	]
+	],
+  "recognize": [
+    "PID",
+    "TXT",  
+    "PDF", 
+    "TOC"
+  ]
 }

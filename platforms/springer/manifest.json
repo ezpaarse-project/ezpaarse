@@ -11,13 +11,15 @@
     "www.springerlink.com",
     "www.springer.com"
   ],
-  "recognize": {
-    "id": true,  
-    "txt": true,  
-    "pdf": true, 
-    "toc": true, 
-    "res": true, 
-    "ref": false, 
-    "com": false
-  }
+  "recognize": [
+    "PID",
+    "DOI",
+    "ISSN",
+    "TXT",  
+    "PDF", 
+    "TOC", 
+    "ABS", 
+    "BOOKSERIE",
+    "BOOK"
+  ]
 }
