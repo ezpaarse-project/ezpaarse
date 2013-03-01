@@ -16,11 +16,14 @@ var csvextractor = require('../lib/csvextractor.js');
 // get the command line argument
 // platform
 var optimist = require('optimist')
-    .usage('Totalize fields from a CSV stream\nUsage: $0 --fields=[string] --output="text|json"')
+    .usage('Totalize fields from a CSV stream\n' +
+      'Usage: $0 --fields=[string] --output="text|json"')
     .demand('output').alias('output', 'o').default('output', 'text')
-    .demand('fields').alias('fields', 'f').default('fields', "domain,host,login,type")
+    .demand('fields').alias('fields', 'f').default('fields', "domain;host;login;type")
+    .demand('sort').alias('sort', 's').default('sort', 'desc')
     .describe('output', 'output : text or json')
-    .describe('fields', 'fields to compute from the CSV (ex: domain,host,login,type)');
+    .describe('sort', 'sort : asc or desc in text mode')
+    .describe('fields', 'fields to compute from the CSV (ex: domain;host;login;type)');
 var argv = optimist.argv;
 
 // show usage if --help option is used
@@ -29,24 +32,51 @@ if (argv.help) {
   process.exit(0);
 }
 
-var csv_fields = argv.fields.split(',');
-var linenb = 0;
-var records = [];
-var columns = {};
+var csv_fields = argv.fields.split(';');
+var linenb = 0;   // lines in CSV file
+var records = []; // records from CSV file
+var columns = {}; // result objet
+
+// in text mode sorting function
+function sortObject(obj) {
+  var arr = [];
+  for (var prop in obj) {
+    if (obj.hasOwnProperty(prop)) {
+      arr.push({
+        'key': prop,
+        'value': obj[prop]
+      });
+    }
+  }
+  arr.sort(function (a, b) { return a.value - b.value; });
+  return arr; // returns array
+}
+
+// in text mode sorting function (reverse)
+function sortObjectR(obj) {
+  var arr = [];
+  for (var prop in obj) {
+    if (obj.hasOwnProperty(prop)) {
+      arr.push({
+        'key': prop,
+        'value': obj[prop]
+      });
+    }
+  }
+  arr.sort(function (a, b) { return b.value - a.value; });
+  return arr; // returns array
+}
 
 var stream = process.stdin;
 csvextractor.extract(stream, csv_fields, function (records) {
   var fields = [];
+  //console.log(records);
   records.forEach(function (record, index) {
     linenb++;
     fields = Object.keys(record);
     fields.forEach(function (field) {
-      var rfield = ''; // record field value prefixed with s if numéric to make a key
-      if (!isNaN(record[field])) {
-        rfield = 'r' + record[field];
-      } else {
-        rfield = record[field];
-      }
+      var rfield = record[field]; // record field value prefixed with s if numéric to make a key
+
       if (columns[field]) {
         if (columns[field][rfield]) {
           columns[field][rfield]++;
@@ -54,7 +84,7 @@ csvextractor.extract(stream, csv_fields, function (records) {
           columns[field][rfield] = 1;
         }
       } else {
-        columns[field] = [];
+        columns[field] = {};
         columns[field][rfield] = 1;
       }
     });
@@ -66,10 +96,13 @@ csvextractor.extract(stream, csv_fields, function (records) {
     fields = Object.keys(columns);
     // todo : sort by value desc
     fields.forEach(function (field) {
-      console.log(field + " (" + Object.keys(columns[field]).length + ")");
+      var arr = []; // for sorting purpose, desc by default
+      if (argv.sort == 'asc') { arr = sortObject(columns[field]); }
+      else { arr = sortObjectR(columns[field]); }
+      console.log(field + " (" + arr.length + ")");
       var items = Object.keys(columns[field]);
-      items.forEach(function (item, id) {
-        console.log("\t" + item + " = \t" + columns[field][item]);
+      arr.forEach(function (item, id) {
+        console.log("\t%s\t = %s", item.key, item.value);
       });
     });
   }
