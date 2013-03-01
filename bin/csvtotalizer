@@ -75,17 +75,17 @@ csvextractor.extract(stream, csv_fields, function (records) {
     linenb++;
     fields = Object.keys(record);
     fields.forEach(function (field) {
-      var rfield = record[field]; // record field value prefixed with s if numéric to make a key
+      var occurence = record[field]; // to count occurence of every field
 
       if (columns[field]) {
-        if (columns[field][rfield]) {
-          columns[field][rfield]++;
+        if (columns[field][occurence]) {
+          columns[field][occurence]++;
         } else {
-          columns[field][rfield] = 1;
+          columns[field][occurence] = 1;
         }
       } else {
         columns[field] = {};
-        columns[field][rfield] = 1;
+        columns[field][occurence] = 1;
       }
     });
   });
