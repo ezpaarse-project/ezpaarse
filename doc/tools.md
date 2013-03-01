@@ -120,11 +120,12 @@ cat monresultat.csv | ./bin/csvtotalizer
 Usage:
 ```
 Totalize fields from a CSV stream
-Usage: node ./csvtotalizer --fields=[string] --output="text|json"
+Usage: node ./bin/csvtotalizer --fields=[string] --output="text|json"
 
 Options:
   --output, -o  output : text or json                                        [required]  [default: "text"]
-  --fields, -f  fields to compute from the CSV (ex: domain,host,login,type)  [required]  [default: "domain,host,login,type"]
+  --sort, -s    sort : asc or desc in text mode                              [required]  [default: "desc"]
+  --fields, -f  fields to compute from the CSV (ex: domain;host;login;type)  [required]  [default: "domain;host;login;type"]
 ```
 
 Cette commande est utile pour avoir un aperçu rapide du résultat du traitement d'un fichier de log par ezPAARSE.

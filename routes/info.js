@@ -48,6 +48,7 @@ module.exports = function (app) {
           platform.contact  = config.contact;
           platform.describe = config.describe;
           platform.docurl   = config.docurl;
+          platform.recognize   = config.recognize;
           res.write(delimiter + JSON.stringify(platform, null, 2));
           if (delimiter === '') { delimiter = ','; }
         }

@@ -10,7 +10,7 @@
     "comment": ""
   },
   {
-    "code": "SUMMARY",
+    "code": "ABS",
     "description":  "consultation d'un résumé de l'article",
     "comment": ""
   },
@@ -21,7 +21,7 @@
   },
   {
     "code": "TOC",
-    "description":  "consultation d'un sommaire denuméro de revue",
+    "description":  "consultation d'un sommaire de numéro de revue",
     "comment": ""
   },
   {
