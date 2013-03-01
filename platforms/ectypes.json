@@ -1,5 +1,20 @@
 [
   {
+    "code": "PID",
+    "description":  "reconnaissance de l'identifiant éditeur",
+    "comment": "L'identifiant éditeur est ensuite utilisé avec la pkb (base de connaissance éditeur associée)"
+  },
+  {
+    "code": "ISSN",
+    "description":  "reconnaissance de l'ISSN",
+    "comment": ""
+  },
+  {
+    "code": "DOI",
+    "description":  "reconnaissance du DOI",
+    "comment": "Le DOI est ensuite utilisé pour retrouver un ISSN"
+  },
+  {
     "code": "PDF",
     "description":  "consultation d'un article au format PDF",
     "comment": ""
