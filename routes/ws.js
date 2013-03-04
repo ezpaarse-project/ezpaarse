@@ -88,16 +88,23 @@ module.exports = function (app, parsers, ignoredDomains) {
     }
 
     if (acceptEncoding) {
-      if (acceptEncoding == 'gzip') {
-        res.set('Content-Encoding', 'gzip');
-        zip = zlib.createGzip();
-        zip.pipe(res);
-      } else if (acceptEncoding == 'deflate') {
-        res.set('Content-Encoding', 'deflate');
-        zip = zlib.createDeflate();
-        zip.pipe(res);
-      } else {
-        debug("Requested encoding not acceptable");
+      var encodings = acceptEncoding.split(',');
+      for (var i = 0, l = encodings.length; i < l; i++) {
+        var encoding = encodings[i].trim();
+        if (encoding == 'gzip') {
+          res.set('Content-Encoding', 'gzip');
+          zip = zlib.createGzip();
+          zip.pipe(res);
+          break;
+        } else if (encoding == 'deflate') {
+          res.set('Content-Encoding', 'deflate');
+          zip = zlib.createDeflate();
+          zip.pipe(res);
+          break;
+        }
+      }
+      if (!zip) {
+        debug("Requested encoding(s) not supported");
         status = 406;
       }
     }
