@@ -9,9 +9,11 @@ CUR_DIR=`pwd`
 LOCALPATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 
 test $duration || duration=300
+test $rate     || rate=800
+test $pfreq    || pfreq=5
 BENCH_DURATION="$duration"
-BENCH_RATE="800"
-PROBE_FREQUENCY="5"
+BENCH_RATE="$rate"
+PROBE_FREQUENCY="$pfreq"
 PID=`cat $LOCALPATH/ezpaarse.pid`
 
 SUFFIX="`date "+%Y%m%d"`-`git log -1 | grep commit | sed 's/^commit //g' | cut -c1-5`"
