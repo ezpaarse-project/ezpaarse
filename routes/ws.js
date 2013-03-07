@@ -37,11 +37,26 @@ module.exports = function (app, parsers, ignoredDomains) {
     debug("Req : " + req);
     var writer, zip, unzip;
     var status          = 200;
+    var anonymiseHost = '';
     var contentEncoding = req.header('content-encoding');
     var acceptEncoding  = req.header('accept-encoding');
     var dateFormat      = req.header('DateFormat');
     var logFormat       = '';
     var logProxy    = '';
+
+    if (anonymiseHost = req.header('Anonymise-host')) {
+      if (anonymiseHost == 'md5' || anonymiseHost == 'none') {
+        // valid header for Anonymise-host
+      } else {
+        res.status(400);
+        res.end();
+        return;
+      }
+    } else {
+      // default value for Anonymise-host header
+      anonymiseHost = 'md5';
+    }
+
     if (logFormat = req.header('LogFormat-ezproxy')) {
       logProxy = 'ezproxy';
     } else if (logFormat = req.header('LogFormat-bibliopam')) {
@@ -336,7 +351,7 @@ module.exports = function (app, parsers, ignoredDomains) {
           if (estValide(ec)) {
             if (parsers[ec.domain]) {
               var parser = parsers[ec.domain].parser;
-              if (ec.host) {
+              if (ec.host && anonymiseHost == 'md5') {
                 ec.host = crypto.createHash('md5').update(ec.host).digest("hex");
               }
 
