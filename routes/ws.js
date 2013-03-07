@@ -38,6 +38,7 @@ module.exports = function (app, parsers, ignoredDomains) {
     var writer, zip, unzip;
     var status          = 200;
     var anonymiseHost = '';
+    var anonymiseLogin = '';
     var contentEncoding = req.header('content-encoding');
     var acceptEncoding  = req.header('accept-encoding');
     var dateFormat      = req.header('DateFormat');
@@ -55,6 +56,19 @@ module.exports = function (app, parsers, ignoredDomains) {
     } else {
       // default value for Anonymise-host header
       anonymiseHost = 'md5';
+    }
+
+    if (anonymiseLogin = req.header('Anonymise-login')) {
+      if (anonymiseLogin == 'md5' || anonymiseLogin == 'none') {
+        // valid header for Anonymise-host
+      } else {
+        res.status(400);
+        res.end();
+        return;
+      }
+    } else {
+      // default value for Anonymise-login header
+      anonymiseLogin = 'none';
     }
 
     if (logFormat = req.header('LogFormat-ezproxy')) {
@@ -353,6 +367,10 @@ module.exports = function (app, parsers, ignoredDomains) {
               var parser = parsers[ec.domain].parser;
               if (ec.host && anonymiseHost == 'md5') {
                 ec.host = crypto.createHash('md5').update(ec.host).digest("hex");
+              }
+
+              if (ec.login && anonymiseLogin == 'md5') {
+                ec.login = crypto.createHash('md5').update(ec.login).digest("hex");
               }
 
               if (!ecBuffers[parser]) { ecBuffers[parser] = [parsers[ec.domain]]; }
