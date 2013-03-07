@@ -92,11 +92,13 @@ module.exports = function (app, parsers, ignoredDomains) {
       for (var i = 0, l = encodings.length; i < l; i++) {
         var encoding = encodings[i].trim();
         if (encoding == 'gzip') {
+          debug("Gzip requested");
           res.set('Content-Encoding', 'gzip');
           zip = zlib.createGzip();
           zip.pipe(res);
           break;
         } else if (encoding == 'deflate') {
+          debug("Deflate requested");
           res.set('Content-Encoding', 'deflate');
           zip = zlib.createDeflate();
           zip.pipe(res);
