@@ -76,7 +76,11 @@ app.get('/', routes.index);
 require('./routes/ws')(app, parsers, config.EZPAARSE_IGNORED_DOMAINS);
 require('./routes/info')(app);
 
-http.createServer(app).listen(app.get('port'), function () {
+var server = http.createServer(app);
+// Set socket.io to handle uploads
+require('./lib/upload.js')(server, app.get('port'), false);
+
+server.listen(app.get('port'), function () {
   console.log(pkg.name + "-" + pkg.version +
     " listening on http://localhost:" + app.get('port') + " (pid is " + process.pid + ")");
 });

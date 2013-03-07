@@ -3,9 +3,64 @@
   <head>
     <title>ezPAARSE - Web service</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link rel='stylesheet' href='/stylesheets/uploadbox.css' />
   </head>
   <body>
     <h1>Web service d'ezPAARSE</h1>
-    <p>Vous consultez la racine du web service d'ezPAARSE. Vous pouvez envoyer vos logs brutes sur cette même URL via la méthode HTTP POST ou via le <a href="/">formulaire Web d'upload</a>.</p>
+    <p>Vous consultez la racine du web service d'ezPAARSE. Vous pouvez envoyer vos logs brutes sur cette même URL via la méthode HTTP POST ou via le formulaire Web d'upload.</p>
+
+    <div id="uploadBox">
+      <h2>Soumettre un fichier de log</h2>
+      <span id='uploadArea'>
+        <label for="inputFile">Sélectionnez un fichier: </label><input type="file" id="inputFile">
+        <div id="dropBox">Ou glissez-le ici</div>
+        <div id="fileInfo"></div>
+        <button type='button' id='uploadButton' class='Button'>Envoyer</button>
+      </span>
+      <div id="message"></div>
+      <fieldset id="options">
+        <input id="streamingRequest" type="checkbox" checked />
+        <label for="streamingRequest">Streaming</label><br />
+        <label for="proxyName">Type de log</label>
+        <select id="proxyName">
+          <option></option>
+          <option value="ezproxy">ezproxy</option>
+          <option value="squid">squid</option>
+          <option value="bibliopam">bibliopam</option>
+        </select><br />
+        <label for="logFormat">Format de log</label>
+        <input id="logFormat" type="text" value=''/>
+        <legend>Options avancées</legend>
+        <label for="accept">Format de réponse</label>
+        <select id="accept">
+          <option value="text/csv">csv</option>
+          <option value="application/json">json</option>
+        </select><br />
+        <label for="contentEncoding">Encodage du fichier</label>
+        <select id="contentEncoding">
+          <option></option>
+          <option value="gzip">gzip</option>
+          <option value="deflate">deflate</option>
+        </select><br />
+        <label for="acceptEncoding">Encodage de la réponse</label>
+        <select id="acceptEncoding">
+          <option></option>
+          <option value="gzip">gzip</option>
+          <option value="deflate">deflate</option>
+        </select><br />
+      </fieldset>
+    </div>
+
+    <div id="resultBox">
+      <div class="header">
+        <input type="button" value="Sélectionner tout" onClick="javascript:$('.text').focus();$('.text').select();">
+        <h3>Résultat</h3>
+      </div>
+      <textarea class="text" readOnly></textarea>
+    </div>
+
+    <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/js/uploadbox.js"></script>
   </body>
 </html>
