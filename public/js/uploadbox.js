@@ -20,16 +20,23 @@ function fileChosen(evnt) {
   
   if (file) {
     selectedFile = file;
-    var size = file.size;
-    var unit = '';
+    var isBig = false;
+    var size  = file.size;
+    var unit  = '';
     if (size < 1024) {
       unit = 'octets';
     } else if ((size /= 1024).toFixed(2) < 1024) {
       unit = 'Ko';
     } else if ((size /= 1024).toFixed(2) < 1024) {
+      isBig = (size > 200);
       unit = 'Mo';
     } else if ((size /= 1024).toFixed(2) < 1024) {
+      isBig = true;
       unit = 'Go';
+    }
+
+    if (isBig) {
+      $('#uploadWarning').text('Le fichier est volumineux (>200Mo), le processus peut être long.').show();
     }
 
     $('#fileInfo').html('Sélectionné :<br /><strong>' + file.name + ' (' + Math.floor(size * 100) / 100 + ' ' + unit + ')</strong>');
@@ -105,25 +112,39 @@ socket.on('moreData', function (data) {
 });
 
 socket.on('error', function (message) {
+  $('#infoArea img.loader').last().attr('src', '/img/fail.png');
   if (message)
-    $('#message').removeClass().addClass('error').text('Erreur: ' + message);
-  socket.disconnect();
+    $('#infoArea').append('<br /><span class="error">Erreur: ' + message + '</span>');
 });
 
-socket.on('info', function (message) {
-  if (message)
-    $('#message').removeClass().text(message);
+socket.on('taskWarning', function (message) {
+  if (message) {
+    var warning = '<br />';
+    warning += '<img src="/img/warning.png" class="warning" />';
+    warning += ' <span class="warning">' + message + '</span>';
+    $('#infoArea').append(warning);
+  }
 });
 
-socket.on('downloaded', function (message) {
+socket.on('taskStart', function (message) {
+  if (message) {
+    var task = '<br />';
+    task += '<img src="/img/loader.gif" class="loader" />';
+    task += ' <span>' + message + '</span>';
+    $('#infoArea').append(task);
+  }
+});
+
+socket.on('taskSuccess', function () {
+  $('#infoArea img.loader').last().attr('src', '/img/success.png');
+});
+
+socket.on('downloaded', function () {
   updateBar(100);
-  if (message)
-    $('#message').removeClass().text(message);
 });
 
 socket.on('done', function (message) {
-  if (!$('#message').hasClass('error'))
-    $('#message').removeClass().addClass('success').text(message);
+  $('#infoArea').append('<br /><span class="success">' + message + '</span>');
 });
 
 function updateBar(percent) {

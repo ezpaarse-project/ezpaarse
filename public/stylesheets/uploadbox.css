@@ -17,15 +17,32 @@
   margin-top: 0;
 }
 
-#uploadBox #message {
-  font-style: italic;
+#uploadWarning {
+  color: red;
+  border: 1px solid red;
+  background-color: pink;
+  border-radius: 5px;
+  margin: 10px 0;
+  padding: 5px;
+  text-align: center;
+  display: none;
 }
 
-#uploadBox #message.error {
+#infoArea img.loader, #infoArea img.warning {
+  width: 12px;
+  height: 12px;
+}
+
+#infoArea span.warning {
+  font-style: italic;
+  color: #9C9C9C;
+}
+
+#infoArea span.error {
   color: red;
 }
 
-#uploadBox #message.success {
+#infoArea span.success {
   color: green;
 }
 
@@ -44,8 +61,7 @@
   cursor: default;
 }
 
-#dropBox.hover
-{
+#dropBox.hover {
   border-style: solid;
   box-shadow: inset 0 3px 4px #888;
 }
@@ -85,7 +101,7 @@
   Advanced options fieldset
 --------------------------*/
 
-#uploadBox #options{
+#uploadBox #options {
   margin-top: 20px;
 }
 
@@ -93,7 +109,7 @@
   Result box
 --------------------------*/
 
-#resultBox .text{
+#resultBox .text {
   background-color: #eeeeee;
   border: 1px solid #C7C7C7;
   padding: 10px;
@@ -104,15 +120,15 @@
   overflow: auto;
 }
 
-#resultBox div.header{
+#resultBox div.header {
   padding: 5px;
 }
 
-#resultBox h3{
+#resultBox h3 {
   margin: 0;
 }
 
-#resultBox input{
+#resultBox input {
   float: right;
   margin: 0;
 }
