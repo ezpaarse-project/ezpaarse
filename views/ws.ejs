@@ -18,10 +18,14 @@
         <div id="uploadWarning"></div>
         <button type='button' id="uploadButton" class='Button'>Envoyer</button>
       </span>
+
       <div id="infoArea"></div>
       <fieldset id="options">
-        <input id="streamingRequest" type="checkbox" checked />
-        <label for="streamingRequest">Streaming</label><br />
+        <input id="streamRequest" type="checkbox" checked />
+        <label for="streamRequest">Traiter la requête en streaming</label><br />
+        <input id="streamResponse" type="checkbox" checked />
+        <label for="streamResponse">Résultats au fil de l'avancement</label><br /><br />
+
         <label for="proxyName">Type de log</label>
         <select id="proxyName">
           <option></option>
@@ -29,6 +33,7 @@
           <option value="squid">squid</option>
           <option value="bibliopam">bibliopam</option>
         </select><br />
+
         <label for="logFormat">Format de log</label>
         <input id="logFormat" type="text" value=''/>
         <legend>Options avancées</legend>
@@ -37,12 +42,14 @@
           <option value="text/csv">csv</option>
           <option value="application/json">json</option>
         </select><br />
+
         <label for="contentEncoding">Encodage du fichier</label>
         <select id="contentEncoding">
           <option></option>
           <option value="gzip">gzip</option>
           <option value="deflate">deflate</option>
         </select><br />
+
         <label for="acceptEncoding">Encodage de la réponse</label>
         <select id="acceptEncoding">
           <option></option>
@@ -52,13 +59,7 @@
       </fieldset>
     </div>
 
-    <div id="resultBox">
-      <div class="header">
-        <input type="button" value="Sélectionner tout" onClick="javascript:$('.text').focus();$('.text').select();">
-        <h3>Résultat</h3>
-      </div>
-      <textarea class="text" readOnly></textarea>
-    </div>
+    <div id="resultBox"></div>
 
     <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>

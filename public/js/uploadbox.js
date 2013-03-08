@@ -1,4 +1,5 @@
-var socket = io.connect($(location).attr('protocol') + '//' + $(location).attr('host'));
+var host = $(location).attr('protocol') + '//' + $(location).attr('host');
+var socket = io.connect(host);
 var selectedFile;
 var FReader;
 
@@ -68,7 +69,8 @@ function startUpload(){
       var acceptEncoding  = $('#acceptEncoding').val();
       var proxyName       = $('#proxyName').val();
       var logFormat       = $('#logFormat').val();
-      var streamingRequest    = $('#streamingRequest').is(':checked');
+      var streamRequest   = $('#streamRequest').is(':checked');
+      var streamResponse  = $('#streamResponse').is(':checked');
 
       var headers = {};
       if (proxyName && logFormat) {
@@ -78,20 +80,38 @@ function startUpload(){
       if (contentEncoding) { headers['Content-Encoding'] = contentEncoding; }
       if (acceptEncoding)  { headers['Accept-Encoding'] = acceptEncoding; }
 
-      FReader = new FileReader();
-      var content = "<span id='NameArea'>Envoi de " + selectedFile.name + "</span>";
-      content += '<div id="progressHolder"><div id="progressBar"></div></div>';
-      content += '<span id="percent">0%</span>';
-      content += '<span id="Uploaded"> - ';
-      content += '<span id="MB">0</span>/';
-      content += Math.round(selectedFile.size / 1048576) + 'Mo</span>';
-      $('#uploadArea').html(content);
+
+      if (streamResponse) {
+        var resultArea = '<div class="header">';
+        resultArea += '<input type="button" value="Sélectionner tout" onClick="javascript:$(\'.text\').focus();$(\'.text\').select();">';
+        resultArea += '<h3>Résultat</h3>';
+        resultArea += '</div>';
+        resultArea += '<textarea class="text" readOnly></textarea>';
+        $('#resultBox').html(resultArea);
+      }
+
+      var uploadArea = "<span id='NameArea'>Envoi de " + selectedFile.name + "</span>";
+      uploadArea += '<div id="progressHolder"><div id="progressBar"></div></div>';
+      uploadArea += '<span id="percent">0%</span>';
+      uploadArea += '<span id="Uploaded"> - ';
+      uploadArea += '<span id="MB">0</span>/';
+      uploadArea += Math.round(selectedFile.size / 1048576) + 'Mo</span>';
+      $('#uploadArea').html(uploadArea);
       $('#options input').prop('disabled', true);
       $('#options select').prop('disabled', true);
+
+      FReader = new FileReader();
       FReader.onload = function(evnt){
          socket.emit('upload', evnt.target.result );
       }
-      socket.emit('start', streamingRequest, selectedFile.name, selectedFile.size, headers);
+      var options = {
+        streamRequest: streamRequest,
+        streamResponse: streamResponse,
+        fileName: selectedFile.name,
+        fileSize: selectedFile.size,
+        headers: headers
+      }
+      socket.emit('start', options);
     } else {
       alert("Veuillez sélectionner un fichier");
     }
@@ -143,8 +163,12 @@ socket.on('downloaded', function () {
   updateBar(100);
 });
 
-socket.on('done', function (message) {
+socket.on('done', function (message, downloadPATH) {
   $('#infoArea').append('<br /><span class="success">' + message + '</span>');
+  if (downloadPATH) {
+    var downloadURL = host + downloadPATH;
+    $('#resultBox').css('text-align', 'center').html('Résultat disponible ici : <a href="' + downloadURL + '">' + downloadURL + '</a>');
+  }
 });
 
 function updateBar(percent) {

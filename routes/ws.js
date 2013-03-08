@@ -406,6 +406,25 @@ module.exports = function (app, parsers, ignoredDomains) {
   });
   
   /**
+   * GET route on /ws/result/:file
+   * Used to download results
+   */
+  app.get(/^\/ws\/results\/([^ ]+)$/, function (req, res) {
+    var resultFile = 'temp/' + req.params[0];
+    if (fs.existsSync(resultFile)) {
+      res.download(resultFile, function (err) {
+        if (err) {
+          res.status(500);
+          res.end();
+        }
+      });
+    } else {
+      res.status(404);
+      res.end();
+    }
+  });
+
+  /**
    * GET route on /ws/
    */
   app.get(/^\/ws(\/)?$/, function (req, res) {
