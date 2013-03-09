@@ -34,7 +34,7 @@ status:
 
 # Generate doc with beautiful-docs
 $(DOC_HTML): $(DOC)
-	@. ./bin/env; bfdocs --base-url='.' $(DOC_MD)/manifest.json $(DOC_OUTPUT)
+	@. ./bin/env; bfdocs --base-url='.' --templates-dir=$(DOC_MD)/templates $(DOC_MD)/manifest.json $(DOC_OUTPUT)
 
 doc: $(DOC_HTML)
 

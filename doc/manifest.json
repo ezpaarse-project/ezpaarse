@@ -11,6 +11,6 @@
         "developer.md",
         "tools.md"
     ],
-    "css": "../stylesheets/doc.css",
+    "css": "/stylesheets/doc.css",
     "codeHighlightTheme": "solarized_dark"
 }

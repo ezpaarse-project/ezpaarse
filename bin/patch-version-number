@@ -39,6 +39,13 @@ if (RegExp('^' + version_pattern + '$').test(version)) {
   fs.writeFileSync(f, c, 'utf8');  
   process.stdout.write(f + ' patched\n');
   
+  // doc/templates/layout.html: ezPAARSE - Version: 0.0.3
+  f = __dirname + '/../doc/templates/layout.html';
+  c = fs.readFileSync(f, 'utf8');
+  c = c.replace(RegExp('ezPAARSE - Version: ' + version_pattern), 'ezPAARSE - Version: ' + version);
+  fs.writeFileSync(f, c, 'utf8');  
+  process.stdout.write(f + ' patched\n');
+  
   process.exit(0);  
 } else {
   process.stderr.write('Wrong version format (should be n.n.n or a git commit id)\n');
