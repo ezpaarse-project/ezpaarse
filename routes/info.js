@@ -96,5 +96,30 @@ module.exports = function (app) {
     }
     res.end();
   });
+
+  /**
+   * GET route on /ws/info/codes/:number
+   */
+  app.get(/\/ws\/info\/codes\/([0-9]+)$/, function (req, res) {
+    res.type('application/json');
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+
+    var code = req.params[0];
+    var file = __dirname + '/../statuscodes.json';
+    if (fs.existsSync(file)) {
+      var statusCodes = require(file);
+      var status = statusCodes[code];
+      if (status) {
+        res.status(200);
+        res.write(JSON.stringify(status, null, 2));
+      } else {
+        res.status(404);
+      }
+    } else {
+      res.status(500);
+    }
+    res.end();
+  });
   
 };
