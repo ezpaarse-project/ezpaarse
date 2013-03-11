@@ -1,0 +1,9 @@
+{
+  "4001": "Got no content from the client",
+  "4002": "Error while unziping request data",
+  "4003": "Line format was not recognized",
+  "4004": "Hash not supported",
+  "4005": "Encoding not supported",
+  "4006": "Requested format(s) not supported",
+  "5001": "A problem occured when trying to format the results"
+}

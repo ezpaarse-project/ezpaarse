@@ -77,5 +77,24 @@ module.exports = function (app) {
     }
     res.end();
   });
+
+  /**
+   * GET route on /ws/info/codes
+   */
+  app.get('/ws/info/codes', function (req, res) {
+    res.type('application/json');
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+
+    var file = __dirname + '/../statuscodes.json';
+    if (fs.existsSync(file)) {
+      var statusCodes = require(file);
+      res.status(200);
+      res.write(JSON.stringify(statusCodes, null, 2));
+    } else {
+      res.status(500);
+    }
+    res.end();
+  });
   
 };
