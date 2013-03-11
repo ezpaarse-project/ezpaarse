@@ -134,7 +134,7 @@ socket.on('moreData', function (data) {
 socket.on('error', function (message) {
   $('#infoArea img.loader').last().attr('src', '/img/fail.png');
   if (message)
-    $('#infoArea').append('<br /><span class="error">Erreur: ' + message + '</span>');
+    $('#infoArea').append('<br /><span class="error">' + message + '</span>');
 });
 
 socket.on('taskWarning', function (message) {

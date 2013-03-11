@@ -37,6 +37,7 @@ module.exports = function (app, parsers, ignoredDomains) {
     debug("Req : " + req);
     var writer, zip, unzip;
     var status          = 200;
+    var statusHeader    = 'ezPAARSE-Status';
     var anonymiseLogin  = req.header('Anonymise-login');
     var anonymiseHost   = req.header('Anonymise-host');
     var contentEncoding = req.header('content-encoding');
@@ -49,6 +50,7 @@ module.exports = function (app, parsers, ignoredDomains) {
       if (anonymiseHost == 'md5' || anonymiseHost == 'none') {
         // valid header for Anonymise-host
       } else {
+        res.set(statusHeader, 4004);
         res.status(400);
         res.end();
         return;
@@ -62,6 +64,7 @@ module.exports = function (app, parsers, ignoredDomains) {
       if (anonymiseLogin == 'md5' || anonymiseLogin == 'none') {
         // valid header for Anonymise-host
       } else {
+        res.set(statusHeader, 4004);
         res.status(400);
         res.end();
         return;
@@ -98,6 +101,7 @@ module.exports = function (app, parsers, ignoredDomains) {
 
     if (req.get('Content-length') === 0) {
       // If no content in the body, terminate the response
+      res.set(statusHeader, 4001);
       status = 400;
       debug("No content sent by the client");
     }
@@ -106,7 +110,8 @@ module.exports = function (app, parsers, ignoredDomains) {
       if (contentEncoding == 'gzip' || contentEncoding == 'deflate') {
         unzip = zlib.createUnzip();
         unzip.on('error', function (err) {
-          debug('Error while unziping request');
+          debug('Error while unziping request data');
+          res.set(statusHeader, 4002);
           res.status(400);
           res.end();
           return;
@@ -114,6 +119,7 @@ module.exports = function (app, parsers, ignoredDomains) {
         req.pipe(unzip);
       } else {
         debug('Content encoding not supported');
+        res.set(statusHeader, 4005);
         status = 406;
       }
     }
@@ -138,6 +144,7 @@ module.exports = function (app, parsers, ignoredDomains) {
       }
       if (!zip) {
         debug("Requested encoding(s) not supported");
+        res.set(statusHeader, 4006);
         status = 406;
       }
     }
@@ -158,11 +165,13 @@ module.exports = function (app, parsers, ignoredDomains) {
       },
       'default': function () {
         debug("Requested format not acceptable");
+        res.set(statusHeader, 4007);
         status = 406;
       }
     });
 
     if (!writer && status === 200) {
+      res.set(statusHeader, 5001);
       status = 500;
       debug("Writer not found");
     }
@@ -343,6 +352,7 @@ module.exports = function (app, parsers, ignoredDomains) {
     stream.on('end', function () {
       endOfRequest = true;
       if (!treatedLines) {
+        res.set(statusHeader, 4003);
         res.status(400);
         res.end();
       } else if (queue.length() === 0) {
