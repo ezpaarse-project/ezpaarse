@@ -144,7 +144,7 @@ module.exports = function (app, parsers, ignoredDomains) {
       }
       if (!zip) {
         debug("Requested encoding(s) not supported");
-        res.set(statusHeader, 4006);
+        res.set(statusHeader, 4005);
         status = 406;
       }
     }
@@ -165,7 +165,7 @@ module.exports = function (app, parsers, ignoredDomains) {
       },
       'default': function () {
         debug("Requested format not acceptable");
-        res.set(statusHeader, 4007);
+        res.set(statusHeader, 4006);
         status = 406;
       }
     });
