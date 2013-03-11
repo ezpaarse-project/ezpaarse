@@ -43,7 +43,10 @@ function check(testSet, formatHeader, callback) {
   }
   testCase.resultFile = testCase.logFile.replace(/\.log$/, '.result.json');
   if (fs.existsSync(testCase.logFile) && fs.existsSync(testCase.resultFile)) {
-    var headers = { 'Accept': 'application/json' };
+    var headers = {
+      'Accept': 'application/json',
+      'Anonymise-host': 'md5'
+    };
     headers[formatHeader] = testCase.format;
     helpers.post('/ws/', testCase.logFile, headers, function (error, res, body) {
       if (error) {
@@ -53,7 +56,7 @@ function check(testSet, formatHeader, callback) {
         throw new Error('ezPAARSE is not running');
       }
       res.should.have.status(200);
-      
+
       var resultJson = require(testCase.resultFile);
       if (resultJson.length === 0) {
         should.not.exist(body);

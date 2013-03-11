@@ -13,7 +13,7 @@ Parse un fichier de log et retourne des évènements de consultation. L'opérati
     - application/json.
 -   **LogFormat-*xxx*:** format des lignes de log en entrée, dépend du proxy *xxx* utilisé. [Voir les formats disponibles](./formats.html).
 -   **DateFormat:** format de date utilisé dans les logs envoyés. Par défaut : 'DD/MMM/YYYY:HH:mm:ss Z'.  
--   **Anonymise-host:** anonymise la valeur du host des lignes de log. Par défaut : 'md5'. *(supportés : md5, none)*.  
+-   **Anonymise-host:** anonymise la valeur du host des lignes de log. Par défaut : 'none'. *(supportés : md5, none)*.  
 -   **Anonymise-login:** anonymise la valeur du login des lignes de log. Par défaut : 'none'. *(supportés : md5, none)*.  
 
 ##### Body #####

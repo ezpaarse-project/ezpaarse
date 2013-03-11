@@ -17,7 +17,8 @@ describe('The server', function () {
   describe('receives a log on the HTTP POST /ws/ route', function () {
     it('and sends back a well formatted output file', function (done) {
       var headers = {
-        accept: 'application/json'
+        accept: 'application/json',
+        'Anonymise-host': 'md5'
       };
       helpers.post('/ws/', logFile, headers, function (error, res, body) {
         if (error) {
@@ -27,7 +28,7 @@ describe('The server', function () {
           throw new Error('ezPAARSE is not running');
         }
         res.should.have.status(200);
-        
+
         var correctOutput = fs.readFileSync(resultFile, 'UTF-8');
         var correctJson   = JSON.parse(correctOutput);
         var bodyJson      = JSON.parse(body);
@@ -45,7 +46,8 @@ describe('The server', function () {
     it('and sends back a correct csv output', function (done) {
       var headers = {
         accept: 'text/csv',
-        'content-encoding': 'gzip'
+        'content-encoding': 'gzip',
+        'Anonymise-host': 'md5'
       };
       helpers.post('/ws/', gzipLogFile, headers,
       function (error, res, body) {
@@ -56,7 +58,7 @@ describe('The server', function () {
           throw new Error('The application is not running');
         }
         res.should.have.status(200);
-        
+
         csvextractor.extract(fs.createReadStream(csvResultFile), [], function (correctRecords) {
           csvextractor.extract([body], [], function (bodyRecords) {
             should.ok(helpers.compareArrays(bodyRecords, correctRecords),
