@@ -397,8 +397,6 @@ module.exports = function (app, parsers, ignoredDomains) {
         debug('Line format was not recognized');
         if (!treatedLines) {
           badBeginning = true;
-          res.status(400);
-          res.end();
           stream.end();
           debug('Couln\'t recognize first line : aborted.');
         }
