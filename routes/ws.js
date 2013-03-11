@@ -37,15 +37,15 @@ module.exports = function (app, parsers, ignoredDomains) {
     debug("Req : " + req);
     var writer, zip, unzip;
     var status          = 200;
-    var anonymiseHost = '';
-    var anonymiseLogin = '';
+    var anonymiseLogin  = req.header('Anonymise-login');
+    var anonymiseHost   = req.header('Anonymise-host');
     var contentEncoding = req.header('content-encoding');
     var acceptEncoding  = req.header('accept-encoding');
     var dateFormat      = req.header('DateFormat');
     var logFormat       = '';
-    var logProxy    = '';
+    var logProxy        = '';
 
-    if (anonymiseHost = req.header('Anonymise-host')) {
+    if (anonymiseHost) {
       if (anonymiseHost == 'md5' || anonymiseHost == 'none') {
         // valid header for Anonymise-host
       } else {
@@ -58,7 +58,7 @@ module.exports = function (app, parsers, ignoredDomains) {
       anonymiseHost = 'md5';
     }
 
-    if (anonymiseLogin = req.header('Anonymise-login')) {
+    if (anonymiseLogin) {
       if (anonymiseLogin == 'md5' || anonymiseLogin == 'none') {
         // valid header for Anonymise-host
       } else {
@@ -71,24 +71,26 @@ module.exports = function (app, parsers, ignoredDomains) {
       anonymiseLogin = 'none';
     }
 
-    if (logFormat = req.header('LogFormat-ezproxy')) {
-      logProxy = 'ezproxy';
-    } else if (logFormat = req.header('LogFormat-bibliopam')) {
-      logProxy = 'bibliopam';
-    } else if (logFormat = req.header('LogFormat-squid')) {
-      logProxy = 'squid';
+    var proxies = ['ezproxy', 'bibliopam', 'squid'];
+    for (var i = 0, l = proxies.length; i < l; i++) {
+      var proxy = proxies[i];
+      logFormat = req.header('LogFormat-' + proxy);
+      if (logFormat) {
+        logProxy = proxy;
+        break;
+      }
     }
 
-    var knowledge       = new Knowledge();
-    var logParser       = new LogParser(logFormat, logProxy, dateFormat);
-    var countLines      = 0;
-    var countECs        = 0;
+    var knowledge   = new Knowledge();
+    var logParser   = new LogParser(logFormat, logProxy, dateFormat);
+    var countLines  = 0;
+    var countECs    = 0;
 
-    var endOfRequest    = false;
-    var writerWasStarted     = false;
-    var treatedLines    = false;
-    var writtenECs      = false;
-    var badBeginning    = false;
+    var endOfRequest      = false;
+    var writerWasStarted  = false;
+    var treatedLines      = false;
+    var writtenECs        = false;
+    var badBeginning      = false;
 
     // Array of EC buffers, used to parse multiple ECs using one process
     var ecBuffers       = {};
@@ -102,14 +104,14 @@ module.exports = function (app, parsers, ignoredDomains) {
 
     if (contentEncoding) {
       if (contentEncoding == 'gzip' || contentEncoding == 'deflate') {
-          unzip = zlib.createUnzip();
-          unzip.on('error', function (err) {
-            debug('Error while unziping request');
-            res.status(400);
-            res.end();
-            return;
-          });
-          req.pipe(unzip);
+        unzip = zlib.createUnzip();
+        unzip.on('error', function (err) {
+          debug('Error while unziping request');
+          res.status(400);
+          res.end();
+          return;
+        });
+        req.pipe(unzip);
       } else {
         debug('Content encoding not supported');
         status = 406;
@@ -118,8 +120,8 @@ module.exports = function (app, parsers, ignoredDomains) {
 
     if (acceptEncoding) {
       var encodings = acceptEncoding.split(',');
-      for (var i = 0, l = encodings.length; i < l; i++) {
-        var encoding = encodings[i].trim();
+      for (var j = 0, lth = encodings.length; j < lth; j++) {
+        var encoding = encodings[j].trim();
         if (encoding == 'gzip') {
           debug("Gzip requested");
           res.set('Content-Encoding', 'gzip');

@@ -19,7 +19,7 @@ describe('The logfaker command', function () {
       stream.on('end', function () {
         should.equal(nbline, 1);
         done();
-      });      
+      });
     });
   });
 });

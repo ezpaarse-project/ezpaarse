@@ -69,7 +69,7 @@ exports.compareArrays = function (array1, array2, showIfTrue) {
       } else {
         return false;
       }
-    });    
+    });
     return found;
   });
   if (!same && showIfTrue) {
