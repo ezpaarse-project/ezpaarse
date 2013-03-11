@@ -55,7 +55,7 @@ module.exports = function (app, parsers, ignoredDomains) {
       }
     } else {
       // default value for Anonymise-host header
-      anonymiseHost = 'md5';
+      anonymiseHost = 'none';
     }
 
     if (anonymiseLogin) {
