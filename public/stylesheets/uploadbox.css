@@ -143,10 +143,11 @@
 --------------------------*/
 
 #bugs {
-  width: 500px;
-  margin: 10px auto;
-  padding: 10px;
+  width: 600px;
+  margin: 30px auto 0px auto;
+  padding: 0px 10px;
   border: 1px solid #C7C7C7;
   color: #9F6000;
   background-color: #FEEFB3;
+  text-align: center;
 }
