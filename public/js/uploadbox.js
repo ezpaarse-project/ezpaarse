@@ -102,7 +102,7 @@ function startUpload(){
 
       FReader = new FileReader();
       FReader.onload = function(evnt){
-         socket.emit('upload', evnt.target.result );
+        socket.emit('upload', evnt.target.result );
       }
       var options = {
         streamRequest: streamRequest,
