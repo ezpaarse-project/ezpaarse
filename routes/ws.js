@@ -352,7 +352,9 @@ module.exports = function (app, parsers, ignoredDomains) {
     stream.on('end', function () {
       endOfRequest = true;
       if (!treatedLines) {
-        res.set(statusHeader, 4003);
+        try {
+          res.set(statusHeader, 4003);
+        } catch(e) {}
         res.status(400);
         res.end();
       } else if (queue.length() === 0) {
