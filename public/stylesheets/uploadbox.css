@@ -132,3 +132,16 @@
   float: right;
   margin: 0;
 }
+
+/*-------------------------
+  Bugzone
+--------------------------*/
+
+#bugs {
+  width: 500px;
+  margin: 10px auto;
+  padding: 10px;
+  border: 1px solid #C7C7C7;
+  color: #9F6000;
+  background-color: #FEEFB3;
+}
