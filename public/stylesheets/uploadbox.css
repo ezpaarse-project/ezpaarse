@@ -46,6 +46,11 @@
   color: green;
 }
 
+#reload {
+  margin-top: 10px;
+  text-align: center;
+}
+
 /*-------------------------
   Dropbox
 --------------------------*/
