@@ -51,7 +51,7 @@ app.configure(function () {
   });
 
   app.use(express.cookieParser());
-  app.use(express.session({ secret: "ezpaarse" }));
+  app.use(express.session({ secret: "ezpaarse", key: "ezpaarse.sid" }));
 
   // routes handling
   app.use(app.router);
