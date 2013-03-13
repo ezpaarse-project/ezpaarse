@@ -322,6 +322,8 @@ module.exports = function (app, parsers, ignoredDomains) {
       });
     }, 10);
   
+    // Cookieparser bug workaround (TODO: Fix  with node 0.10.1)
+    request.readable = true;
     var stream = byline.createStream(request);
 
     queue.saturated = function () {

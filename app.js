@@ -50,10 +50,8 @@ app.configure(function () {
     next();
   });
 
-// commented because disrupt log streaming (maybe to enable for
-// the future HTML interface as it will be needed by the authentication system)
-//     app.use(express.cookieParser());
-//     app.use(express.session({ secret: "ezpaarse" }));
+  app.use(express.cookieParser());
+  app.use(express.session({ secret: "ezpaarse" }));
 
   // routes handling
   app.use(app.router);
