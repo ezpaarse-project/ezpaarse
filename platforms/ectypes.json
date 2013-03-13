@@ -83,5 +83,15 @@
     "code": "FORMULE",
     "description":  "consultation d'une formule juridique",
     "comment": "Cas des bases de données juridiques"
-  }
+  },
+  {
+    "code": "PREVIEW",
+    "description":  "consultation des premières lignes d'un article",
+    "comment": ""
+  },  
+  {
+    "code": "BOOKMARK",
+    "description":  "ajout de l'article dans un panier ou favoris",
+    "comment": "rencontré dans ajouter panier de cairn"
+  }  
 ]

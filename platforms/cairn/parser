@@ -1,0 +1,116 @@
+#!/usr/bin/env node
+
+/*jslint node: true, maxlen: 100, maxerr: 50, indent: 2 */
+'use strict';
+var byline      = require('byline');
+var URL         = require('url');
+var querystring = require('querystring');
+
+/**
+ * Specific part of the parser.
+ * To be adapted. Depends on each platform.
+ */
+function parseUrl(url) {
+  var result    = {};
+  var parsedUrl = URL.parse(url);
+  var param     = querystring.parse(parsedUrl.query);
+  var path      = parsedUrl.path;
+  
+  //console.error(parsedUrl);
+  //console.error(param);
+  
+  var match;
+  
+  if (parsedUrl.pathname == '/numero.php') {
+    // example: http://www.cairn.info/numero.php?ID_REVUE=ARSS&ID_NUMPUBLIE=ARSS_195&AJOUTBIBLIO=ARSS_195_0012
+    if (param.ID_REVUE) {
+      result.pid = param.ID_REVUE;
+    }
+    
+    if (param.AJOUTBIBLIO) {
+      result.type = 'BOOKMARK';
+    }
+  } else if (parsedUrl.pathname == '/load_pdf.php') {
+    // example: http://www.cairn.info/load_pdf.php?ID_ARTICLE=ARSS_195_0012
+    if (param.ID_ARTICLE) {
+      // pid is the first part of ID_ARTICLE ("_" character is the separator)
+      result.pid = param.ID_ARTICLE.split('_')[0];
+    }
+    result.type = 'PDF'; 
+  } else if  (parsedUrl.pathname == '/resume.php') {
+    // example: http://www.cairn.info/resume.php?ID_ARTICLE=ARSS_195_0012
+    if (param.ID_ARTICLE) {
+      // pid is the first part of ID_ARTICLE ("_" character is the separator)
+      result.pid = param.ID_ARTICLE.split('_')[0];
+    }
+    result.type = 'ABS'; 
+  } else if (match = /^\/(revue\-|magazine\-)([a-z0-9@\-]+)\-[0-9]{4}\-[0-9]+\-page\-[0-9]+\.htm$/.exec(parsedUrl.pathname)){
+    // example: http://www.cairn.info/revue-actes-de-la-recherche-en-sciences-sociales-2012-5-page-4.htm
+    result.pid = match[1] + match[2];
+    result.type = "TXT";
+  } else if (match = /^\/(revue\-|magazine\-)([a-z0-9@\-]+)\-[0-9]{4}\-[0-9]+\-p\-[0-9]+\.htm$/.exec(parsedUrl.pathname)){
+    // example: http://www.cairn.info/revue-actes-de-la-recherche-en-sciences-sociales-2012-5-p-4.htm
+    result.pid = match[1] + match[2];
+    result.type = "PREVIEW";
+  } else if (match = /^\/(revue\-|magazine\-)([a-z0-9@\-]+)\-[0-9]{4}\-[0-9]+\.htm$/.exec(parsedUrl.pathname)){
+    // example: http://www.cairn.info/revue-a-contrario-2012-2.htm
+    result.pid = match[1] + match[2];
+    result.type = "TOC";
+  } else if (match = /^\/(revue\-|magazine\-)([a-z0-9@\-]+)\.htm$/.exec(parsedUrl.pathname)){
+    // example: http://www.cairn.info/revue-a-contrario.htm
+    result.pid = match[1] + match[2];
+    result.type = "TOC";
+  }   
+  return result;
+}
+
+/**
+ * If an array of urls is given, return an array of results
+ * Otherwise, read stdin and write into stdout
+ * This is the entry point of the program.
+ * Generic part of the parser: should not be changed.
+ */
+exports.parserExecute = function (urls) {
+  if (urls && Array.isArray(urls)) {
+    var results = [];
+    for (var i = 0, l = urls.length; i < l; i++) {
+      results.push(parseUrl(urls[i]));
+    }
+    return results;
+  } else {
+    var stdin = process.stdin;
+    var stdout = process.stdout;
+    var stream = byline.createStream(stdin);
+
+    stream.on('end', function () {
+      process.exit(0);
+    });
+
+    stream.on('close', function () {
+      process.exit(0);
+    });
+
+    stream.on('data', function (line) {
+      stdout.write(JSON.stringify(parseUrl(line)) + '\n');
+    });
+  }
+}
+
+// when the parser is called from command line
+// (standalone version)
+if (!module.parent) {
+  var optimist = require('optimist')
+    .usage('Parse URLs read from standard input. ' +
+      'You can either use pipes or enter URLs manually.' +
+      '\n  Usage: $0' +
+      '\n  Example: cat urls.txt | $0');
+  var argv = optimist.argv;
+
+  // show usage if --help option is used
+  if (argv.help || argv.h) {
+    optimist.showHelp();
+    process.exit(0);
+  }
+
+  exports.parserExecute();
+}

@@ -1,0 +1,20 @@
+{
+  "name": "cairn",
+  "version": "2013-03-13",
+  "status": "beta",
+  "longname": "CAIRN",
+  "describe": "Identifie les consultations du site de Cairn",
+  "docurl": "http://analogist.couperin.org/platforms/cairn/",
+  "contact": "thomas.porquet at couperin.org",
+	"domains": [
+    "www.cairn.info"
+	],
+  "recognize": [
+    "TOC",
+    "PREVIEW",
+    "TXT",
+    "ABS",
+    "PDF",
+    "BOOKMARK"
+  ]
+}
