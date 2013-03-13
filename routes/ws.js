@@ -418,11 +418,13 @@ module.exports = function (app, parsers, ignoredDomains) {
   });
   
   /**
-   * GET route on /ws/result/:file
+   * GET route on /ws/result/:folder/:filename
    * Used to download results
    */
-  app.get(/^\/ws\/results\/([^ ]+)$/, function (req, res) {
-    var resultFile = 'temp/' + req.params[0];
+  app.get(/^\/ws\/results\/([a-zA-Z0-9]+)\/([^ ]+)$/, function (req, res) {
+    var folder     = 'temp/' + req.params[0];
+    var resultFile = folder + '/' + req.params[1];
+    
     if (fs.existsSync(resultFile)) {
       res.download(resultFile, function (err) {
         if (err) {
