@@ -10,6 +10,7 @@
     "www.cairn.info"
 	],
   "recognize": [
+    "PID",
     "TOC",
     "PREVIEW",
     "TXT",
