@@ -1,15 +1,19 @@
 /*jslint node: true, maxlen: 100, maxerr: 50, indent: 2 */
 'use strict';
 
-var express   = require('express');
-var pkg       = require('./package.json');
-var config    = require('./config.json');
-var routes    = require('./routes');
-var http      = require('http');
-var path      = require('path');
-var fs        = require('fs');
-var parsers   = require('./lib/init.js');
+var express       = require('express');
+var pkg           = require('./package.json');
+var config        = require('./config.json');
+var routes        = require('./routes');
+var http          = require('http');
+var path          = require('path');
+var fs            = require('fs');
+var parsers       = require('./lib/init.js');
+var folderChecker = require('./lib/folderChecker.js');
 
+if (!folderChecker.check(__dirname + '/tmp')) {
+  console.log('\u001b[31mWarning! Temporary folder not found, files won\'t be stored on disk.\u001b[0m')
+}
 
 // to have a nice unix process name
 process.title = pkg.name.toLowerCase();
