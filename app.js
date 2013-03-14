@@ -12,7 +12,7 @@ var parsers       = require('./lib/init.js');
 var folderChecker = require('./lib/folderChecker.js');
 
 if (!folderChecker.check(__dirname + '/tmp')) {
-  console.log('\u001b[31mWarning! Temporary folder not found, files won\'t be stored on disk.\u001b[0m')
+  console.error('\u001b[31mWarning! Temporary folder not found, files won\'t be stored on disk.\u001b[0m')
 }
 
 // to have a nice unix process name
