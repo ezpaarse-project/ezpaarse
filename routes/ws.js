@@ -424,9 +424,9 @@ module.exports = function (app, parsers, ignoredDomains) {
    * Used to download results
    */
   app.get(/^\/ws\/results\/([a-zA-Z0-9]+)\/([^ ]+)$/, function (req, res) {
-    var folder     = 'temp/' + req.params[0];
+    // TODO: fix the issue using res.download with an absolute path
+    var folder     = 'tmp/' + req.params[0];
     var resultFile = folder + '/' + req.params[1];
-    
     if (fs.existsSync(resultFile)) {
       res.download(resultFile, function (err) {
         if (err) {
