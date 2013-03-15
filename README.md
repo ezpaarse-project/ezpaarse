@@ -15,6 +15,9 @@ Voici les outils dont vous avez besoin pour faire fonctionner ezPAARSE :
 * curl (utilisé par nvm)
 * git >= 1.7.10 (pour être compatible avec github)
 
+ezPAARSE embarque tous les éléments nécessaires à son fonctionnement. 
+Lorsque les pré-requis sont remplis, le lancement de la commande **make** (voir ci-dessous) **réalise toutes les opérations d'installation**.
+
 Remarque : nous préconiserons prochainement un dimensionnement pour le serveur au niveau du CPU et de la RAM.
 Pour cela, nous attendons de pouvoir disposer d'un panel de parseurs plus complet pour pouvoir lancer des
 benchmarks et en déduire des préconisations matérielles.
