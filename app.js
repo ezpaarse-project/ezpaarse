@@ -10,9 +10,29 @@ var path          = require('path');
 var fs            = require('fs');
 var parsers       = require('./lib/init.js');
 var folderChecker = require('./lib/folderchecker.js');
+var FolderReaper  = require('./lib/folderreaper.js');
 
+// Set up cleaning jobs for the temporary folder
+var red   = '\u001b[31m';
+var reset = '\u001b[0m';
 if (!folderChecker.check(__dirname + '/tmp')) {
-  console.error('\u001b[31mWarning! Temporary folder not found, files won\'t be stored on disk.\u001b[0m')
+  var err = red;
+  err += 'Warning! Temporary folder not found, files won\'t be stored on disk.';
+  err += reset;
+  console.error(err);
+} else if (config.EZPAARSE_TMP_CYCLE && config.EZPAARSE_TMP_LIFETIME) {
+  var folderReaper = new FolderReaper({
+    recursive: true,
+    lifetime: config.EZPAARSE_TMP_LIFETIME,
+    cycle: config.EZPAARSE_TMP_CYCLE
+  });
+  folderReaper.watch(__dirname + '/tmp');
+} else {
+  var err = red;
+  err += 'Warning! Temporary folder won\'t be automatically cleaned, ';
+  err += 'fill TMP_CYCLE and TMP_LIFETIME in the configuration file.';
+  err += reset;
+  console.error(err);
 }
 
 // to have a nice unix process name
