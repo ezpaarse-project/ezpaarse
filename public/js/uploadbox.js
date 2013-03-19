@@ -39,6 +39,8 @@ function fileChosen(evnt) {
 
     if (isBig) {
       $('#uploadWarning').text('Le fichier est volumineux (>200Mo), le processus peut être long.').show();
+    } else {
+      $('#uploadWarning').hide().empty();
     }
 
     $('#fileInfo').html('Sélectionné :<br /><strong>' + file.name + ' (' + Math.floor(size * 100) / 100 + ' ' + unit + ')</strong>');
