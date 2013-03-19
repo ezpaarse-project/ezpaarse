@@ -1,17 +1,17 @@
 /*jslint node: true, maxlen: 100, maxerr: 50, indent: 2 */
 'use strict';
 
-var debug         = require('debug')('log');
-var fs            = require('fs');
-var byline        = require('byline');
-var crypto        = require('crypto');
-var shell         = require('shelljs');
-var async         = require('async');
-var zlib          = require('zlib');
-var LogParser     = require('../lib/logParser.js');
-var Writer        = require('../lib/output/writer.js');
-var Knowledge     = require('../lib/pkbManager.js');
-
+var debug     = require('debug')('log');
+var fs        = require('fs');
+var byline    = require('byline');
+var crypto    = require('crypto');
+var shell     = require('shelljs');
+var async     = require('async');
+var zlib      = require('zlib');
+var LogParser = require('../lib/logParser.js');
+var Writer    = require('../lib/output/writer.js');
+var Knowledge = require('../lib/pkbManager.js');
+var config    = require('../config.json');
 
 function estValide(ec) {
   if (!ec.url) {
@@ -446,4 +446,69 @@ module.exports = function (app, parsers, ignoredDomains) {
     res.render('ws');
   });
   
+  /**
+   * GET route on /ws/datasets/
+   * Returns a list of all datasets
+   */
+  app.get(/^\/ws\/datasets(\/)?$/, function (req, res) {
+    res.type('application/json');
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    
+    var fillTree = function (tree, rootFolder, folder) {
+      var absFolder = rootFolder + '/' + folder;
+      var files = fs.readdirSync(absFolder);
+      if (!files) {
+        res.status(500);
+        res.end();
+        return tree;
+      }
+
+      files.forEach(function (f) {
+        var file = folder + '/' + f;
+        var absFile = rootFolder + '/' + file;
+        var stats = fs.statSync(absFile);
+        if (!stats) {
+          return;
+        }
+        if (stats.isDirectory()) {
+          tree = fillTree(tree, rootFolder, file);
+        } else {
+          var size  = stats.size;
+          var unit  = '';
+          if (size < 1024) {
+            unit = 'octets';
+          } else if ((size /= 1024).toFixed(2) < 1024) {
+            unit = 'Ko';
+          } else if ((size /= 1024).toFixed(2) < 1024) {
+            unit = 'Mo';
+          } else if ((size /= 1024).toFixed(2) < 1024) {
+            unit = 'Go';
+          }
+          size = (Math.floor(size * 100) / 100) + ' ' + unit;
+          tree[f] = {
+            location: file,
+            size: size
+          }
+        }
+      });
+      return tree;
+    }
+    if (config.EZPAARSE_LOG_FOLDER) {
+      var rootFolder = __dirname + '/../' + config.EZPAARSE_LOG_FOLDER;
+      if (fs.existsSync(rootFolder)) {
+        var tree = {};
+        tree = fillTree(tree, rootFolder, '.');
+        res.status(200);
+        res.write(JSON.stringify(tree, null, 2));
+        res.end();
+      } else {
+        res.status(404);
+        res.end();
+      }
+    } else {
+      res.status(500);
+      res.end();
+    }
+  });
 };
