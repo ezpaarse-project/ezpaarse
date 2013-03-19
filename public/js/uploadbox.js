@@ -75,16 +75,16 @@ function fillLocalFiles() {
     url: "http://127.0.0.1:59599/ws/datasets/",
     dataType: 'json'
   }).done(function (datasets) {
-    var fieldset = $('#localFiles');
+    var div = $('#localFiles');
     for (var filename in datasets) {
       var content = '<span class="localFile" title="' + datasets[filename].location + '">';
       content += filename + '</span>';
       content += ' <span>(' + datasets[filename].size + ')</span><br />';
-      fieldset.append(content);
+      div.append(content);
     }
     $('#localFiles span.localFile').on("click", localFileChosen);
   }).error(function () {
-    console.log('erreur.');
+    $('#localFiles').text('Le dossier local n\'a pas pu être parcouru.');
   });
 }
 
