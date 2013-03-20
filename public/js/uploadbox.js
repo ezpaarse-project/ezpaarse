@@ -1,6 +1,7 @@
 var host = $(location).attr('protocol') + '//' + $(location).attr('host');
 var socket = io.connect(host);
 var selectedFile;
+var selectedLocalFile;
 var FReader;
 
 function fileDragHover(evnt) {
@@ -38,10 +39,28 @@ function fileChosen(evnt) {
 
     if (isBig) {
       $('#uploadWarning').text('Le fichier est volumineux (>200Mo), le processus peut être long.').show();
+    } else {
+      $('#uploadWarning').hide().empty();
     }
 
     $('#fileInfo').html('Sélectionné :<br /><strong>' + file.name + ' (' + Math.floor(size * 100) / 100 + ' ' + unit + ')</strong>');
+    $('#localFiles span.localFile').removeClass('selected');
+    selectedLocalFile = false;
   }
+}
+
+function localFileChosen(evnt) {
+  var target = $(evnt.target);
+  file = {
+    name: target.text(),
+    location: target.attr('title')
+  }
+  selectedLocalFile = file;
+  $('#localFiles span.localFile').removeClass('selected');
+  target.addClass('selected');
+  $('#fileInfo').html('Sélectionné :<br /><strong>' + file.name + ' (fichier local)</strong>');
+  $('#inputFile').val('');
+  selectedFile = false;
 }
 
 function setDragAndDrop() {
@@ -51,19 +70,38 @@ function setDragAndDrop() {
   filedrag.on("drop", fileChosen);
 }
 
+function fillLocalFiles() {
+  $.ajax({
+    url: "http://127.0.0.1:59599/ws/datasets/",
+    dataType: 'json'
+  }).done(function (datasets) {
+    var div = $('#localFiles');
+    for (var filename in datasets) {
+      var content = '<span class="localFile" title="' + datasets[filename].location + '">';
+      content += filename + '</span>';
+      content += ' <span>(' + datasets[filename].size + ')</span><br />';
+      div.append(content);
+    }
+    $('#localFiles span.localFile').on("click", localFileChosen);
+  }).error(function () {
+    $('#localFiles').text('Le dossier local n\'a pas pu être parcouru.');
+  });
+}
+
 window.addEventListener("load", ready);
 function ready(){
    if (window.File && window.FileReader) { //These are the relevant HTML5 objects that we are going to use
       $('#uploadButton').on('click', startUpload);
       $('#inputFile').on('change', fileChosen);
       setDragAndDrop();
+      fillLocalFiles();
    } else {
       $('#uploadArea').text("Your Browser Doesn't Support The File API Please Update Your Browser");
    }
 }
 
-function startUpload(){
-    if (selectedFile) {
+function startUpload() {
+    if (selectedFile || selectedLocalFile) {
       var accept          = $('#accept').val();
       var contentEncoding = $('#contentEncoding').val();
       var acceptEncoding  = $('#acceptEncoding').val();
@@ -90,26 +128,32 @@ function startUpload(){
         $('#resultBox').html(resultArea);
       }
 
-      var uploadArea = "<span id='NameArea'>Envoi de " + selectedFile.name + "</span>";
-      uploadArea += '<div id="progressHolder"><div id="progressBar"></div></div>';
-      uploadArea += '<span id="percent">0%</span>';
-      uploadArea += '<span id="Uploaded"> - ';
-      uploadArea += '<span id="MB">0</span>/';
-      uploadArea += Math.round(selectedFile.size / 1048576) + 'Mo</span>';
-      $('#uploadArea').html(uploadArea);
-      $('#options input').prop('disabled', true);
-      $('#options select').prop('disabled', true);
-
-      FReader = new FileReader();
-      FReader.onload = function(evnt){
-        socket.emit('upload', evnt.target.result );
+      if (!selectedLocalFile) {
+        var uploadArea = '<span id="NameArea">Envoi de ' + selectedFile.name + '</span>';
+        uploadArea += '<div id="progressHolder"><div id="progressBar"></div></div>';
+        uploadArea += '<span id="percent">0%</span>';
+        uploadArea += '<span id="Uploaded"> - ';
+        uploadArea += '<span id="MB">0</span>/';
+        uploadArea += Math.round(selectedFile.size / 1048576) + 'Mo</span>';
       }
+      $('#uploadArea').html(uploadArea);
+      $('#uploadButton').prop('disabled', true);
+
       var options = {
         streamRequest: streamRequest,
         streamResponse: streamResponse,
-        fileName: selectedFile.name,
-        fileSize: selectedFile.size,
         headers: headers
+      }
+      if (!selectedLocalFile) {
+        FReader = new FileReader();
+        FReader.onload = function(evnt){
+          socket.emit('upload', evnt.target.result );
+        }
+        options.fileName = selectedFile.name;
+        options.fileSize = selectedFile.size;
+      } else {
+        options.fileName = selectedLocalFile.name;
+        options.location = selectedLocalFile.location;
       }
       socket.emit('start', options);
     } else {
@@ -169,6 +213,7 @@ socket.on('done', function (message, downloadPATH) {
     var downloadURL = host + downloadPATH;
     $('#resultBox').css('text-align', 'center').html('Résultat disponible ici : <a href="' + downloadURL + '">' + downloadURL + '</a>');
   }
+  $('#uploadButton').prop('disabled', false);
 });
 
 function updateBar(percent) {

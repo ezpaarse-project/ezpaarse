@@ -2,6 +2,7 @@
   "EZPAARSE_ADMIN_MAIL": "ezpaarse@couperin.org",
   "EZPAARSE_VERSION": "production",
   "EZPAARSE_NODEJS_PORT": "59599",
+  "EZPAARSE_LOG_FOLDER": "test/dataset",
   "EZPAARSE_TMP_CYCLE": 60,
   "EZPAARSE_TMP_LIFETIME":
   {

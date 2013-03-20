@@ -21,9 +21,14 @@
         <div id="fileInfo"></div>
         <div id="uploadWarning"></div>
       </span>
-
+      
       <div id="infoArea"></div>
+      <fieldset>
+        <legend>Fichiers locaux</legend>
+        <div id="localFiles"></div>
+      </fieldset>
       <fieldset id="options">
+        <legend>Options avancées</legend>
         <input id="streamRequest" type="checkbox" checked />
         <label for="streamRequest">Traiter la requête en streaming</label><br />
         <input id="streamResponse" type="checkbox" checked />
@@ -39,7 +44,6 @@
 
         <label for="logFormat">Format de log</label>
         <input id="logFormat" type="text" value=''/>
-        <legend>Options avancées</legend>
         <label for="accept">Format de réponse</label>
         <select id="accept">
           <option value="text/csv">csv</option>

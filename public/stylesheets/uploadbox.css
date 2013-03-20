@@ -28,6 +28,10 @@
   display: none;
 }
 
+#infoArea {
+  margin-bottom: 20px;
+}
+
 #infoArea img.loader, #infoArea img.warning {
   width: 12px;
   height: 12px;
@@ -108,6 +112,29 @@
 
 #uploadBox #options {
   margin-top: 20px;
+}
+
+/*-------------------------
+  Local files div
+--------------------------*/
+
+#uploadBox #localFiles {
+  height: 150px;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+#uploadBox #localFiles span.localFile {
+  color: #000000;
+  cursor: pointer;
+}
+
+#uploadBox #localFiles span.localFile:hover {
+  color: #008CFF;
+}
+
+#uploadBox #localFiles span.localFile.selected {
+  color: #008CFF;
 }
 
 /*-------------------------
