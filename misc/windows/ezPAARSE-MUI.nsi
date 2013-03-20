@@ -1,6 +1,6 @@
 ;NSIS Modern User Interface
-;Basic Example Script
-;Written by Joost Verburg
+;ezPAARSE MUI script
+;Written by ezPAARSE team 2013/03/20
 
 ;--------------------------------
 ;Include Modern UI
@@ -24,7 +24,7 @@ InstallDir "$LOCALAPPDATA\${APP_NAME}-${APP_VERSION}"
 ;Get installation folder from registry if available
 InstallDirRegKey HKCU "Software\ezPAARSE-Project" ""
 
-;Request application privileges for Windows Vista
+;Request application privileges for Windows
 RequestExecutionLevel user
 
 
@@ -151,12 +151,12 @@ Section "Uninstall"
 SectionEnd
 
 Function LaunchEZPAARSE
-  MessageBox MB_OK "Le Web Service ezPAARSE va être lancé $\r$\n \
+  MessageBox MB_OK "Le Web Service ezPAARSE va etre lance $\r$\n \
                    et la Home Page ezPAARSE sera ouverte dans votre navigateur$\r$\n \
                    Cliquer sur la croix pour fermer le Web Service$\r$\n \
                    Le Web Service a besoin des autorisations de votre pare-feu windows"
   ExecShell "" "$SMPROGRAMS\$StartMenuFolder\1-WebService ezPAARSE.lnk"
   Sleep 5000 ; wait for node startup
-  ExecShell "open" "http://localhost:59599"
+  ExecShell "open" "http://localhost:59599/ws"
 FunctionEnd
 

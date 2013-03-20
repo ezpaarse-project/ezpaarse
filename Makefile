@@ -114,6 +114,10 @@ rpm:
 zip:
 	./bin/buildrelease
 
+# exe installer for windows
+exe:
+	./bin/buildexe
+
 clean-for-release:
 	test -f ./clean-for-release-flag || ( echo "Warning: do no run this command on your ezpaarse used for devlopements" ; exit 1 )	
 	rm -rf ./.git/
