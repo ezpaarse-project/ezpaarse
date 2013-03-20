@@ -29,7 +29,21 @@
 ;Variables
 
   Var StartMenuFolder
+  Var DefaultBrowser
 
+;--------------------------------
+;Detecting default browser for shortcut
+
+Section
+
+FileOpen $0 "$PLUGINSDIR\dummy.htm" "w"
+FileClose $0
+System::Call "Shell32::FindExecutable(t '$PLUGINSDIR\dummy.htm', i 0, t .r1)"
+DetailPrint "Your Default Browser is:"
+DetailPrint $1
+StrCpy $DefaultBrowser $1
+
+SectionEnd
 
 ;--------------------------------
 ;Interface Settings
@@ -39,7 +53,7 @@
 ;--------------------------------
 ;Pages
 
-  !insertmacro MUI_PAGE_LICENSE "Licence_CeCILL_V2-fr.txt"
+  !insertmacro MUI_PAGE_LICENSE "misc\windows\Licence_CeCILL_V2-fr.txt"
   !insertmacro MUI_PAGE_COMPONENTS
   !insertmacro MUI_PAGE_DIRECTORY
 
@@ -96,7 +110,7 @@ Section "Menu ezPAARSE" SecMenuEZPAARSE
     CreateDirectory "$SMPROGRAMS\$StartMenuFolder"
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Uninstall.lnk" "$INSTDIR\Uninstall.exe"
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\1-WebService ezPAARSE.lnk" "$INSTDIR\node.exe" "app.js" 0
-    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\2-Utiliser ezPAARSE.lnk" "open" "http://localhost:59599" 0 
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\2-Utiliser ezPAARSE.lnk" "$DefaultBrowser" "http://localhost:59599" 0 
   !insertmacro MUI_STARTMENU_WRITE_END
 
 SectionEnd
@@ -140,7 +154,7 @@ Function LaunchEZPAARSE
                    Cliquer sur la croix pour fermer le Web Service$\r$\n \
                    Le Web Service a besoin des autorisations de votre pare-feu windows"
   ExecShell "" "$SMPROGRAMS\$StartMenuFolder\1-WebService ezPAARSE.lnk"
-  Sleep 5000
+  Sleep 5000 ; wait for node startup
   ExecShell "open" "http://localhost:59599"
 FunctionEnd
 
