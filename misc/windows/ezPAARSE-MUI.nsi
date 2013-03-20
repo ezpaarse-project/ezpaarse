@@ -10,18 +10,22 @@
 ;--------------------------------
 ;General
 
-  ;Name and file
-  Name "ezPAARSE"
-  OutFile "ezPAARSE-Windows-Install.exe"
+!define APP_NAME "ezpaarse"
+!define APP_VERSION "0.0.4"
 
-  ;Default installation folder
-  InstallDir "$LOCALAPPDATA\ezPAARSE"
-  
-  ;Get installation folder from registry if available
-  InstallDirRegKey HKCU "Software\ezPAARSE-Project" ""
 
-  ;Request application privileges for Windows Vista
-  RequestExecutionLevel user
+;Name and file
+Name "${APP_NAME}"
+OutFile "${APP_NAME}-${APP_VERSION}-Windows-Install.exe"
+
+;Default installation folder
+InstallDir "$LOCALAPPDATA\${APP_NAME}-${APP_VERSION}"
+
+;Get installation folder from registry if available
+InstallDirRegKey HKCU "Software\ezPAARSE-Project" ""
+
+;Request application privileges for Windows Vista
+RequestExecutionLevel user
 
 
 
@@ -36,12 +40,12 @@
 
 Section
 
-FileOpen $0 "$PLUGINSDIR\dummy.htm" "w"
-FileClose $0
-System::Call "Shell32::FindExecutable(t '$PLUGINSDIR\dummy.htm', i 0, t .r1)"
-DetailPrint "Your Default Browser is:"
-DetailPrint $1
-StrCpy $DefaultBrowser $1
+  FileOpen $0 "$PLUGINSDIR\dummy.htm" "w"
+  FileClose $0
+  System::Call "Shell32::FindExecutable(t '$PLUGINSDIR\dummy.htm', i 0, t .r1)"
+  DetailPrint "Your Default Browser is:"
+  DetailPrint $1
+  StrCpy $DefaultBrowser $1
 
 SectionEnd
 
@@ -53,28 +57,30 @@ SectionEnd
 ;--------------------------------
 ;Pages
 
-  !insertmacro MUI_PAGE_LICENSE "misc\windows\Licence_CeCILL_V2-fr.txt"
-  !insertmacro MUI_PAGE_COMPONENTS
-  !insertmacro MUI_PAGE_DIRECTORY
+!insertmacro MUI_PAGE_LICENSE "Licence_CeCILL_V2-fr.txt"
+!insertmacro MUI_PAGE_COMPONENTS
+!insertmacro MUI_PAGE_DIRECTORY
 
-  ;Start Menu Folder Page Configuration
-  !define MUI_STARTMENUPAGE_REGISTRY_ROOT "HKCU" 
-  !define MUI_STARTMENUPAGE_REGISTRY_KEY "Software\ezPAARSE-Project" 
-  !define MUI_STARTMENUPAGE_REGISTRY_VALUENAME "Start Menu Folder"
-  
-  !insertmacro MUI_PAGE_STARTMENU Application $StartMenuFolder
+;Start Menu Folder Page Configuration
+!define MUI_STARTMENUPAGE_REGISTRY_ROOT "HKCU" 
+!define MUI_STARTMENUPAGE_REGISTRY_KEY "Software\ezPAARSE-Project" 
+!define MUI_STARTMENUPAGE_REGISTRY_VALUENAME "Start Menu Folder"
 
-  !insertmacro MUI_PAGE_INSTFILES
- 
+; ending image
+!define MUI_WELCOMEFINISHPAGE_BITMAP "ezPAARSE-HeaderPageNSIS.bmp"
+
+!insertmacro MUI_PAGE_STARTMENU Application $StartMenuFolder
+
+!insertmacro MUI_PAGE_INSTFILES
+
 !define MUI_FINISHPAGE_RUN
 !define MUI_FINISHPAGE_RUN_TEXT "Lancer ezPAARSE"
 !define MUI_FINISHPAGE_RUN_FUNCTION "LaunchEZPAARSE"
 
 !insertmacro MUI_PAGE_FINISH
 
-
-  !insertmacro MUI_UNPAGE_CONFIRM
-  !insertmacro MUI_UNPAGE_INSTFILES
+!insertmacro MUI_UNPAGE_CONFIRM
+!insertmacro MUI_UNPAGE_INSTFILES
   
 ;--------------------------------
 ;Languages
@@ -90,7 +96,7 @@ Section "ezPAARSE (required)" SecEZPAARSE
   SectionIn RO
   
   ;ADD YOUR OWN FILES HERE...
-  File /r "*.*"
+  File /r "${APP_NAME}-${APP_VERSION}\*.*"
 
   ;Store installation folder
   WriteRegStr HKCU "Software\ezPAARSE-Project" "" $INSTDIR
@@ -98,9 +104,8 @@ Section "ezPAARSE (required)" SecEZPAARSE
   ;Create uninstaller
   WriteUninstaller "$INSTDIR\Uninstall.exe"
 
-
-
 SectionEnd
+
 
 Section "Menu ezPAARSE" SecMenuEZPAARSE
 
@@ -110,7 +115,9 @@ Section "Menu ezPAARSE" SecMenuEZPAARSE
     CreateDirectory "$SMPROGRAMS\$StartMenuFolder"
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Uninstall.lnk" "$INSTDIR\Uninstall.exe"
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\1-WebService ezPAARSE.lnk" "$INSTDIR\node.exe" "app.js" 0
-    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\2-Utiliser ezPAARSE.lnk" "$DefaultBrowser" "http://localhost:59599" 0 
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\2-Utiliser ezPAARSE.lnk" "$DefaultBrowser" "http://localhost:59599/ws" 0 
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Documentation ezPAARSE.lnk" "$DefaultBrowser" "http://localhost:59599/doc" 0 
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Site AnalogIST.lnk" "$DefaultBrowser" "http://analogist.couperin.org" 0 
   !insertmacro MUI_STARTMENU_WRITE_END
 
 SectionEnd
@@ -131,17 +138,12 @@ SectionEnd
 
 Section "Uninstall"
 
-  ;ADD YOUR OWN FILES HERE...
-
   Delete "$INSTDIR\Uninstall.exe"
 
   RMDir /r "$INSTDIR"
 
   !insertmacro MUI_STARTMENU_GETFOLDER Application $StartMenuFolder
     
-  Delete "$SMPROGRAMS\$StartMenuFolder\Uninstall.lnk"
-  Delete "$SMPROGRAMS\$StartMenuFolder\1-WebService ezPAARSE.lnk"
-  Delete "$SMPROGRAMS\$StartMenuFolder\2-Utiliser ezPAARSE.lnk"
   RMDir /r "$SMPROGRAMS\$StartMenuFolder"
 
   DeleteRegKey /ifempty HKCU "Software\ezPAARSE-Project"
@@ -149,7 +151,7 @@ Section "Uninstall"
 SectionEnd
 
 Function LaunchEZPAARSE
-  MessageBox MB_OK "Le Web Service ezPAARSE va être lancé $\r$\n \
+  MessageBox MB_OK "Le Web Service ezPAARSE va Ãªtre lancÃ© $\r$\n \
                    et la Home Page ezPAARSE sera ouverte dans votre navigateur$\r$\n \
                    Cliquer sur la croix pour fermer le Web Service$\r$\n \
                    Le Web Service a besoin des autorisations de votre pare-feu windows"
