@@ -8,5 +8,6 @@ bench.png
 platforms-pkb/
 bench-*.csv
 bench-*.png*
+node_modules/*/build/
 
 .DS_Store
