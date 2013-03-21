@@ -25,6 +25,16 @@ Les fichiers de test sont situés dans le dossier ``test/`` et le nom des fichie
 
 Remarque : n'oubliez pas de relancer l'application si vous avez modifié le code source.
 
+```console
+make test-platforms
+```
+Vérifie le bon fonctionnement des parseurs disponibles
+
+```console
+make test-platforms-verbose
+```
+Propose une vérification avec la liste des parseurs testés
+
 ## Vérification syntaxique ##
 
 ```console
