@@ -152,6 +152,7 @@ tag:
 upload:
 	./bin/uploadversion
 
+# make git pulls easier and do not forget to restart ezpaarse
 update: pkb-update pull restart
 
 # Clone or update pkb folder
@@ -161,6 +162,7 @@ pkb-update:
 	else git clone https://github.com/ezpaarse-project/ezpaarse-pkb.git platforms-kb; \
 	fi
 
+# alias for git pull
 pull:
 	git pull
 
