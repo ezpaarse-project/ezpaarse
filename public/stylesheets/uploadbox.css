@@ -120,9 +120,15 @@
   color:#000;
   text-decoration:none;
 }
+
+.tooltip img {
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;
+}
+
 .tooltip:hover {
   z-index:25;
-  background-color:#E3E3E3
 }
 
 .tooltip span {
@@ -133,7 +139,7 @@
   display:block;
   position:absolute;
   top:1em;
-  left:3em;
+  left:1em;
   width:250px;
   padding: 5px;
   border-radius: 5px;

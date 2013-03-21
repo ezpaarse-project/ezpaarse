@@ -34,16 +34,24 @@
         <legend>Options avancées</legend>
         <input id="streamRequest" type="checkbox" checked />
         <label for="streamRequest" class="tooltip">Traitement en streaming
-          <span>Si coché, les données seront traitées au fil de leur réception et ne seront pas stockées sur le serveur. Sinon, elles seront d'abords récupérées et stockées avant de commencer le traitement.</span>
-        </label><br />
-        <input id="streamResponse" type="checkbox" checked />
-        <label for="streamResponse" class="tooltip">Résultats au fil de l'avancement
-          <span>Si coché, le résultat généré par <strong>ezPAARSE</strong> ne sera pas stocké sur le serveur et apparaîtra dans le navigateur au fil du traitement. Sinon, il sera stocké et un lien de téléchargement sera envoyé à la fin du traitement.</span>
-        </label><br /><br />
-
-        <label for="proxyName" class="tooltip">Type de log
-          <span>Proxy à l'origine du fichier de log. Si précisé, le <strong>format de log</strong> doit être rempli. Dans le cas contraire, ezPAARSE tentera de reconnaître automatiquement le format des lignes.</span>
         </label>
+        <span class="tooltip">
+          <img src="/img/help.png" />
+          <span>Si coché, les données seront traitées au fil de leur réception et ne seront pas stockées sur le serveur. Sinon, elles seront d'abords récupérées et stockées avant de commencer le traitement.</span>
+        </span><br />
+
+        <input id="streamResponse" type="checkbox" checked />
+        <label for="streamResponse">Résultats au fil de l'avancement</label>
+        <span class="tooltip">
+          <img src="/img/help.png" />
+          <span>Si coché, le résultat généré par <strong>ezPAARSE</strong> ne sera pas stocké sur le serveur et apparaîtra dans le navigateur au fil du traitement. Sinon, il sera stocké et un lien de téléchargement sera envoyé à la fin du traitement.</span>
+        </span><br /><br />
+
+        <span class="tooltip">
+          <img src="/img/help.png" />
+          <span>Proxy à l'origine du fichier de log. Si précisé, le <strong>format de log</strong> doit être rempli. Dans le cas contraire, <strong>ezPAARSE</strong> tentera de reconnaître automatiquement le format des lignes.</span>
+        </span>
+        <label for="proxyName">Type de log</label>
         <select id="proxyName">
           <option></option>
           <option value="ezproxy">ezproxy</option>
@@ -51,20 +59,29 @@
           <option value="bibliopam">bibliopam</option>
         </select><br />
 
-        <label for="logFormat" class="tooltip">Format de log
+        <span class="tooltip">
+          <img src="/img/help.png" />
           <span>Format utilisé pour la reconnaissance des lignes de log. Plus de détails <a href="/doc/formats.html" target="_blank">dans la documentation</a>.</span>
-        </label>
-        <input id="logFormat" type="text" value=''/>
-        <label for="accept" class="tooltip">Format de réponse
+        </span>
+        <label for="logFormat">Format de log</label>
+        <input id="logFormat" type="text" value=''/><br />
+
+        <span class="tooltip">
+          <img src="/img/help.png" />
           <span>Format souhaité pour les données en sortie. Inutile si le résultat est récupéré en streaming.</span>
+        </span>
+        <label for="accept">Format de réponse
         </label>
         <select id="accept">
           <option value="text/csv">csv</option>
           <option value="application/json">json</option>
         </select><br />
 
-        <label for="contentEncoding" class="tooltip">Encodage du fichier
+        <span class="tooltip">
+          <img src="/img/help.png" />
           <span>Type de compression du fichier à envoyer. (s'il est compressé)</span>
+        </span>
+        <label for="contentEncoding">Encodage du fichier
         </label>
         <select id="contentEncoding">
           <option></option>
@@ -72,8 +89,11 @@
           <option value="deflate">deflate</option>
         </select><br />
 
-        <label for="acceptEncoding" class="tooltip">Encodage de la réponse
+        <span class="tooltip">
+          <img src="/img/help.png" />
           <span>Type de compression souhaité pour les données en sortie.</span>
+        </span>
+        <label for="acceptEncoding">Encodage de la réponse
         </label>
         <select id="acceptEncoding">
           <option></option>
