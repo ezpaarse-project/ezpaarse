@@ -61,7 +61,8 @@ function check(testSet, formatHeader, callback) {
       if (resultJson.length === 0) {
         should.not.exist(body);
       } else {
-        var bodyJson   = JSON.parse(body);
+        should.exist(body);
+        var bodyJson = JSON.parse(body);
 
         bodyJson.should.be.a('object');
         should.ok(helpers.compareArrays(bodyJson, resultJson),
