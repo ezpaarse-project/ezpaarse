@@ -1,7 +1,34 @@
 var host = $(location).attr('protocol') + '//' + $(location).attr('host');
 var socket = io.connect(host);
 var selectedFile;
+var selectedLocalFile;
 var FReader;
+var grid;
+var dataView;
+
+var rowObject = {};
+var rowKey = '';
+var num = 1;
+var parser = clarinet.parser();
+parser.onvalue = function (value) {
+  rowObject[rowKey] = value;
+};
+parser.onopenobject = function (key) {
+  rowKey = key;
+}
+parser.onkey = function (key) {
+  rowKey = key;
+}
+parser.oncloseobject = function () {
+  rowObject.id = num;
+  dataView.beginUpdate();
+  dataView.insertItem(num, rowObject);
+  dataView.endUpdate();
+  rowObject = {};
+  grid.scrollRowIntoView(num);
+  num++;
+};
+
 
 function fileDragHover(evnt) {
   evnt.stopPropagation();
@@ -38,10 +65,38 @@ function fileChosen(evnt) {
 
     if (isBig) {
       $('#uploadWarning').text('Le fichier est volumineux (>200Mo), le processus peut être long.').show();
+    } else {
+      $('#uploadWarning').hide().empty();
+    }
+    if (/\.gz$/.test(file.name)) {
+      $('#contentEncoding').val('gzip');
+    } else {
+      $('#contentEncoding').val('');
     }
 
     $('#fileInfo').html('Sélectionné :<br /><strong>' + file.name + ' (' + Math.floor(size * 100) / 100 + ' ' + unit + ')</strong>');
+    $('#localFiles span.localFile').removeClass('selected');
+    selectedLocalFile = false;
   }
+}
+
+function localFileChosen(evnt) {
+  var target = $(evnt.target);
+  file = {
+    name: target.text(),
+    location: target.attr('title')
+  }
+  selectedLocalFile = file;
+  $('#localFiles span.localFile').removeClass('selected');
+  target.addClass('selected');
+  if (/\.gz$/.test(file.name)) {
+    $('#contentEncoding').val('gzip');
+  } else {
+    $('#contentEncoding').val('');
+  }
+  $('#fileInfo').html('Sélectionné :<br /><strong>' + file.name + ' (fichier local)</strong>');
+  $('#inputFile').val('');
+  selectedFile = false;
 }
 
 function setDragAndDrop() {
@@ -51,19 +106,69 @@ function setDragAndDrop() {
   filedrag.on("drop", fileChosen);
 }
 
+function fillLocalFiles() {
+  $.ajax({
+    url: "http://127.0.0.1:59599/ws/datasets/",
+    dataType: 'json'
+  }).done(function (datasets) {
+    var div = $('#localFiles');
+    for (var filename in datasets) {
+      var content = '<span class="localFile" title="' + datasets[filename].location + '">';
+      content += filename + '</span>';
+      content += ' <span>(' + datasets[filename].size + ')</span><br />';
+      div.append(content);
+    }
+    $('#localFiles span.localFile').on("click", localFileChosen);
+  }).error(function () {
+    $('#localFiles').text('Le dossier local n\'a pas pu être parcouru.');
+  });
+}
+
 window.addEventListener("load", ready);
 function ready(){
    if (window.File && window.FileReader) { //These are the relevant HTML5 objects that we are going to use
       $('#uploadButton').on('click', startUpload);
       $('#inputFile').on('change', fileChosen);
       setDragAndDrop();
+      fillLocalFiles();
    } else {
       $('#uploadArea').text("Your Browser Doesn't Support The File API Please Update Your Browser");
    }
 }
 
-function startUpload(){
-    if (selectedFile) {
+function exportCSV() {
+  var fieldSeparator = ';';
+  var textSeparator  = '\"';
+  var data           = grid.getData().getItems();
+  var columns        = grid.getColumns();
+  var csvContent     = "data:text/csv;charset=utf-8,";
+
+  var line = '';
+  columns.forEach(function (column) {
+    line += (line === '' ? '' : fieldSeparator);
+    line += column.name;
+  });
+  csvContent += line;
+
+  data.forEach(function (rowObj, index) {
+    line = '';
+    columns.forEach(function (column) {
+      line += (line === '' ? '\r\n' : fieldSeparator);
+      line += textSeparator;
+      line += rowObj[column.field] || '';
+      line += textSeparator;
+    });
+    csvContent += line;
+  });
+  var encodedUri = encodeURI(csvContent);
+  var link = document.createElement("a");
+  link.setAttribute("href", encodedUri);
+  link.setAttribute("download", "result.csv");
+  link.click();
+}
+
+function startUpload() {
+    if (selectedFile || selectedLocalFile) {
       var accept          = $('#accept').val();
       var contentEncoding = $('#contentEncoding').val();
       var acceptEncoding  = $('#acceptEncoding').val();
@@ -71,6 +176,12 @@ function startUpload(){
       var logFormat       = $('#logFormat').val();
       var streamRequest   = $('#streamRequest').is(':checked');
       var streamResponse  = $('#streamResponse').is(':checked');
+
+      if (streamResponse) {
+        // One format is enough as we have to parse the response into json anyway
+        // Accepting more formats would require more client-side stream parsers
+        accept = 'application/json';
+      }
 
       var headers = {};
       if (proxyName && logFormat) {
@@ -82,41 +193,76 @@ function startUpload(){
 
 
       if (streamResponse) {
-        var resultArea = '<div class="header">';
-        resultArea += '<input type="button" value="Sélectionner tout" onClick="javascript:$(\'.text\').focus();$(\'.text\').select();">';
-        resultArea += '<h3>Résultat</h3>';
-        resultArea += '</div>';
-        resultArea += '<textarea class="text" readOnly></textarea>';
+        var resultArea = '<input type="button" value="Télécharger en CSV" onClick="exportCSV()">';
+        resultArea += '<div id="resultGrid"></div>'
         $('#resultBox').html(resultArea);
+        var columns = [
+          {id: "id", name: "#", field: "id",behavior: "select", cssClass: "cell-selection",
+          width: 40, cannotTriggerInsert: true, resizable: false, selectable: false },
+          {id: "host",    name: "host",   field: "host"},
+          {id: "login",   name: "login",  field: "login"},
+          {id: "date",    name: "date",   field: "date"},
+          {id: "status",  name: "status", field: "status"},
+          {id: "size",    name: "size",   field: "size"},
+          {id: "domain",  name: "domain", field: "domain"},
+          {id: "type",    name: "type",   field: "type"},
+          {id: "doi",     name: "doi",    field: "doi"},
+          {id: "issn",    name: "issn",   field: "issn"},
+          {id: "eissn",   name: "eissn",  field: "eissn"},
+          {id: "url",     name: "url",    field: "url"}
+        ];
+        var options = {
+          enableCellNavigation: true,
+          enableColumnReorder: false
+        };
+        
+        dataView = new Slick.Data.DataView();
+        dataView.onRowCountChanged.subscribe(function (e, args) {
+          grid.updateRowCount();
+          grid.render();
+        });
+        dataView.onRowsChanged.subscribe(function (e, args) {
+          grid.invalidateRows(args.rows);
+          grid.render();
+        });
+
+        grid = new Slick.Grid($("#resultGrid"), dataView, columns, options);
+        // var pager = new Slick.Controls.Pager(dataView, grid, $("#pager"));
       }
 
-      var uploadArea = "<span id='NameArea'>Envoi de " + selectedFile.name + "</span>";
-      uploadArea += '<div id="progressHolder"><div id="progressBar"></div></div>';
-      uploadArea += '<span id="percent">0%</span>';
-      uploadArea += '<span id="Uploaded"> - ';
-      uploadArea += '<span id="MB">0</span>/';
-      uploadArea += Math.round(selectedFile.size / 1048576) + 'Mo</span>';
+      if (!selectedLocalFile) {
+        var uploadArea = '<span id="NameArea">Envoi de ' + selectedFile.name + '</span>';
+        uploadArea += '<div id="progressHolder"><div id="progressBar"></div></div>';
+        uploadArea += '<span id="percent">0%</span>';
+        uploadArea += '<span id="Uploaded"> - ';
+        uploadArea += '<span id="MB">0</span>/';
+        uploadArea += Math.round(selectedFile.size / 1048576) + 'Mo</span>';
+      }
       $('#uploadArea').html(uploadArea);
-      $('#options input').prop('disabled', true);
-      $('#options select').prop('disabled', true);
+      $('#uploadButton').prop('disabled', true);
 
-      FReader = new FileReader();
-      FReader.onload = function(evnt){
-        socket.emit('upload', evnt.target.result );
-      }
       var options = {
         streamRequest: streamRequest,
         streamResponse: streamResponse,
-        fileName: selectedFile.name,
-        fileSize: selectedFile.size,
         headers: headers
+      }
+      if (!selectedLocalFile) {
+        FReader = new FileReader();
+        FReader.onload = function(evnt){
+          socket.emit('upload', evnt.target.result );
+        }
+        options.fileName = selectedFile.name;
+        options.fileSize = selectedFile.size;
+      } else {
+        options.fileName = selectedLocalFile.name;
+        options.location = selectedLocalFile.location;
       }
       socket.emit('start', options);
     } else {
       alert("Veuillez sélectionner un fichier");
     }
 }
-
+var result = '';
 socket.on('moreData', function (data) {
   updateBar(data.percent);
   var place = data.place * 524288; //The Next Blocks Starting Position
@@ -169,6 +315,7 @@ socket.on('done', function (message, downloadPATH) {
     var downloadURL = host + downloadPATH;
     $('#resultBox').css('text-align', 'center').html('Résultat disponible ici : <a href="' + downloadURL + '">' + downloadURL + '</a>');
   }
+  $('#uploadButton').prop('disabled', false);
 });
 
 function updateBar(percent) {
@@ -179,5 +326,5 @@ function updateBar(percent) {
 }
 
 socket.on('resData', function (data) {
-  $('#resultBox textarea').append(data);
+  parser.write(data);
 });

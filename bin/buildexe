@@ -1,0 +1,73 @@
+#!/bin/bash
+#
+# ezPAARSE .exe generator
+#
+
+set -e
+
+MY_PATH=$(cd ${0%/*} && echo $PWD/${0##*/})
+BIN_PATH=`dirname "$MY_PATH"`
+EZPAARSE_PATH=$BIN_PATH/..
+EZPAARSE_NODE_VERSION=0.8.22
+
+
+# check version exists
+VERSION=$1
+[ -z "$VERSION" ] && VERSION="`$BIN_PATH/readconfig -k version`"
+if [ "`git tag -l | grep $VERSION`" == "" ]; then
+  VERSION="latest"
+fi
+
+# get the latest commit id as the latest version number
+VERSION_PREFIX=""
+if [ "$VERSION" == "latest" ]; then
+  VERSION="`git log --pretty=format:'%h' -n 1`"
+  VERSION_PREFIX="`date +"%Y%m%d"`"
+fi
+
+# a temp folder to clone the git
+TMP_DIR=$EZPAARSE_PATH/tmp
+mkdir -p $TMP_DIR
+
+EZPAARSE_SUFFIX=""
+EZPAARSE_NAME="ezpaarse-$VERSION_PREFIX$VERSION"
+
+# clone the git with the correct name
+rm -rf $TMP_DIR/$EZPAARSE_NAME
+git clone file://$EZPAARSE_PATH $TMP_DIR/$EZPAARSE_NAME
+cd $TMP_DIR/$EZPAARSE_NAME
+git checkout $VERSION
+cp -f $EZPAARSE_PATH/Makefile $TMP_DIR/$EZPAARSE_NAME/
+touch $TMP_DIR/$EZPAARSE_NAME/clean-for-release-flag
+make version v=$VERSION_PREFIX$VERSION
+make clean-for-release
+
+cd $TMP_DIR/$EZPAARSE_NAME
+
+make doc
+# download node version for windows
+# http://nodejs.org/dist/v0.8.22/node.exe
+curl -L http://nodejs.org/dist/v$EZPAARSE_NODE_VERSION/node.exe > node.exe
+
+cd $TMP_DIR
+# compile with ezpaarse nsis script file
+sed -e "s/APP_VERSION \"[0-9]\+.[0-9]\+.[0-9a-z]\+\"/APP_VERSION \"$VERSION_PREFIX$VERSION\"/g" $EZPAARSE_PATH/misc/windows/ezPAARSE-MUI.nsi > ezPAARSE-MUI.nsi
+#cp $EZPAARSE_PATH/misc/windows/ezPAARSE-MUI.nsi .
+cp $EZPAARSE_PATH/misc/windows/Licence_CeCILL_V2-fr.txt .
+cp $EZPAARSE_PATH/misc/windows/ezPAARSE-HeaderPageNSIS.bmp .
+makensis ezPAARSE-MUI.nsi 
+
+
+INSTALLER="`ls *-Setup.exe`"
+
+# move archives into a version directory ready to upload
+
+mkdir -p $EZPAARSE_PATH/$EZPAARSE_NAME
+mv $INSTALLER $EZPAARSE_PATH/$EZPAARSE_NAME/
+
+echo "$EZPAARSE_PATH/$EZPAARSE_NAME/$INSTALLER generated"
+
+# cleanup 
+rm -rf $TMP_DIR
+cd $EZPAARSE_PATH
+exit 0

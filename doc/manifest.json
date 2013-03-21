@@ -5,6 +5,7 @@
         "quickstart.md",
         "installation.md",
         "makefile.md",
+        "multi-os.md",
         "routes.md",
         "postlog.md",
         "formats.md",
