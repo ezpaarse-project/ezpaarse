@@ -2,8 +2,11 @@
 <html>
   <head>
     <title>ezPAARSE - Web service</title>
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-    <link rel='stylesheet' href='/stylesheets/uploadbox.css' />
+    <link rel='stylesheet' href="/stylesheets/style.css" type="text/css"/>
+    <link rel='stylesheet' href="/stylesheets/uploadbox.css" type="text/css"/>
+    <link rel="stylesheet" href="/SlickGrid/slick.grid.css" type="text/css"/>
+    <link rel="stylesheet" href="/SlickGrid/css/smoothness/jquery-ui-1.8.16.custom.css" type="text/css"/>
+    <link rel="stylesheet" href="/stylesheets/slick-custom.css" type="text/css"/>
   </head>
   <body>
     <h1>Web service d'ezPAARSE</h1>
@@ -30,11 +33,17 @@
       <fieldset id="options">
         <legend>Options avancées</legend>
         <input id="streamRequest" type="checkbox" checked />
-        <label for="streamRequest">Traiter la requête en streaming</label><br />
+        <label for="streamRequest" class="tooltip">Traitement en streaming
+          <span>Si coché, les données seront traitées au fil de leur réception et ne seront pas stockées sur le serveur. Sinon, elles seront d'abords récupérées et stockées avant de commencer le traitement.</span>
+        </label><br />
         <input id="streamResponse" type="checkbox" checked />
-        <label for="streamResponse">Résultats au fil de l'avancement</label><br /><br />
+        <label for="streamResponse" class="tooltip">Résultats au fil de l'avancement
+          <span>Si coché, le résultat généré par <strong>ezPAARSE</strong> ne sera pas stocké sur le serveur et apparaîtra dans le navigateur au fil du traitement. Sinon, il sera stocké et un lien de téléchargement sera envoyé à la fin du traitement.</span>
+        </label><br /><br />
 
-        <label for="proxyName">Type de log</label>
+        <label for="proxyName" class="tooltip">Type de log
+          <span>Proxy à l'origine du fichier de log. Si précisé, le <strong>format de log</strong> doit être rempli. Dans le cas contraire, ezPAARSE tentera de reconnaître automatiquement le format des lignes.</span>
+        </label>
         <select id="proxyName">
           <option></option>
           <option value="ezproxy">ezproxy</option>
@@ -42,22 +51,30 @@
           <option value="bibliopam">bibliopam</option>
         </select><br />
 
-        <label for="logFormat">Format de log</label>
+        <label for="logFormat" class="tooltip">Format de log
+          <span>Format utilisé pour la reconnaissance des lignes de log. Plus de détails <a href="/doc/formats.html" target="_blank">dans la documentation</a>.</span>
+        </label>
         <input id="logFormat" type="text" value=''/>
-        <label for="accept">Format de réponse</label>
+        <label for="accept" class="tooltip">Format de réponse
+          <span>Format souhaité pour les données en sortie. Inutile si le résultat est récupéré en streaming.</span>
+        </label>
         <select id="accept">
           <option value="text/csv">csv</option>
           <option value="application/json">json</option>
         </select><br />
 
-        <label for="contentEncoding">Encodage du fichier</label>
+        <label for="contentEncoding" class="tooltip">Encodage du fichier
+          <span>Type de compression du fichier à envoyer. (s'il est compressé)</span>
+        </label>
         <select id="contentEncoding">
           <option></option>
           <option value="gzip">gzip</option>
           <option value="deflate">deflate</option>
         </select><br />
 
-        <label for="acceptEncoding">Encodage de la réponse</label>
+        <label for="acceptEncoding" class="tooltip">Encodage de la réponse
+          <span>Type de compression souhaité pour les données en sortie.</span>
+        </label>
         <select id="acceptEncoding">
           <option></option>
           <option value="gzip">gzip</option>
@@ -73,6 +90,12 @@
     <div id="resultBox"></div>
 
     <script src="http://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="/SlickGrid/lib/jquery.event.drag-2.2.js"></script>
+    <script src="/SlickGrid/slick.core.js"></script>
+    <script src="/SlickGrid/slick.grid.js"></script>
+    <script src="/SlickGrid/slick.dataview.js"></script>
+    <script src="/SlickGrid/controls/slick.pager.js"></script>
+    <script src="/js/clarinet.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="/js/uploadbox.js"></script>
   </body>

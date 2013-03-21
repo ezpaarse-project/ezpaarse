@@ -3,6 +3,32 @@ var socket = io.connect(host);
 var selectedFile;
 var selectedLocalFile;
 var FReader;
+var grid;
+var dataView;
+
+var rowObject = {};
+var rowKey = '';
+var num = 1;
+var parser = clarinet.parser();
+parser.onvalue = function (value) {
+  rowObject[rowKey] = value;
+};
+parser.onopenobject = function (key) {
+  rowKey = key;
+}
+parser.onkey = function (key) {
+  rowKey = key;
+}
+parser.oncloseobject = function () {
+  rowObject.id = num;
+  dataView.beginUpdate();
+  dataView.insertItem(num, rowObject);
+  dataView.endUpdate();
+  rowObject = {};
+  grid.scrollRowIntoView(num);
+  num++;
+};
+
 
 function fileDragHover(evnt) {
   evnt.stopPropagation();
@@ -42,6 +68,11 @@ function fileChosen(evnt) {
     } else {
       $('#uploadWarning').hide().empty();
     }
+    if (/\.gz$/.test(file.name)) {
+      $('#contentEncoding').val('gzip');
+    } else {
+      $('#contentEncoding').val('');
+    }
 
     $('#fileInfo').html('Sélectionné :<br /><strong>' + file.name + ' (' + Math.floor(size * 100) / 100 + ' ' + unit + ')</strong>');
     $('#localFiles span.localFile').removeClass('selected');
@@ -58,6 +89,11 @@ function localFileChosen(evnt) {
   selectedLocalFile = file;
   $('#localFiles span.localFile').removeClass('selected');
   target.addClass('selected');
+  if (/\.gz$/.test(file.name)) {
+    $('#contentEncoding').val('gzip');
+  } else {
+    $('#contentEncoding').val('');
+  }
   $('#fileInfo').html('Sélectionné :<br /><strong>' + file.name + ' (fichier local)</strong>');
   $('#inputFile').val('');
   selectedFile = false;
@@ -100,6 +136,37 @@ function ready(){
    }
 }
 
+function exportCSV() {
+  var fieldSeparator = ';';
+  var textSeparator  = '\"';
+  var data           = grid.getData().getItems();
+  var columns        = grid.getColumns();
+  var csvContent     = "data:text/csv;charset=utf-8,";
+
+  var line = '';
+  columns.forEach(function (column) {
+    line += (line === '' ? '' : fieldSeparator);
+    line += column.name;
+  });
+  csvContent += line;
+
+  data.forEach(function (rowObj, index) {
+    line = '';
+    columns.forEach(function (column) {
+      line += (line === '' ? '\r\n' : fieldSeparator);
+      line += textSeparator;
+      line += rowObj[column.field] || '';
+      line += textSeparator;
+    });
+    csvContent += line;
+  });
+  var encodedUri = encodeURI(csvContent);
+  var link = document.createElement("a");
+  link.setAttribute("href", encodedUri);
+  link.setAttribute("download", "result.csv");
+  link.click();
+}
+
 function startUpload() {
     if (selectedFile || selectedLocalFile) {
       var accept          = $('#accept').val();
@@ -109,6 +176,12 @@ function startUpload() {
       var logFormat       = $('#logFormat').val();
       var streamRequest   = $('#streamRequest').is(':checked');
       var streamResponse  = $('#streamResponse').is(':checked');
+
+      if (streamResponse) {
+        // One format is enough as we have to parse the response into json anyway
+        // Accepting more formats would require more client-side stream parsers
+        accept = 'application/json';
+      }
 
       var headers = {};
       if (proxyName && logFormat) {
@@ -120,12 +193,41 @@ function startUpload() {
 
 
       if (streamResponse) {
-        var resultArea = '<div class="header">';
-        resultArea += '<input type="button" value="Sélectionner tout" onClick="javascript:$(\'.text\').focus();$(\'.text\').select();">';
-        resultArea += '<h3>Résultat</h3>';
-        resultArea += '</div>';
-        resultArea += '<textarea class="text" readOnly></textarea>';
+        var resultArea = '<input type="button" value="Télécharger en CSV" onClick="exportCSV()">';
+        resultArea += '<div id="resultGrid"></div>'
         $('#resultBox').html(resultArea);
+        var columns = [
+          {id: "id", name: "#", field: "id",behavior: "select", cssClass: "cell-selection",
+          width: 40, cannotTriggerInsert: true, resizable: false, selectable: false },
+          {id: "host",    name: "host",   field: "host"},
+          {id: "login",   name: "login",  field: "login"},
+          {id: "date",    name: "date",   field: "date"},
+          {id: "status",  name: "status", field: "status"},
+          {id: "size",    name: "size",   field: "size"},
+          {id: "domain",  name: "domain", field: "domain"},
+          {id: "type",    name: "type",   field: "type"},
+          {id: "doi",     name: "doi",    field: "doi"},
+          {id: "issn",    name: "issn",   field: "issn"},
+          {id: "eissn",   name: "eissn",  field: "eissn"},
+          {id: "url",     name: "url",    field: "url"}
+        ];
+        var options = {
+          enableCellNavigation: true,
+          enableColumnReorder: false
+        };
+        
+        dataView = new Slick.Data.DataView();
+        dataView.onRowCountChanged.subscribe(function (e, args) {
+          grid.updateRowCount();
+          grid.render();
+        });
+        dataView.onRowsChanged.subscribe(function (e, args) {
+          grid.invalidateRows(args.rows);
+          grid.render();
+        });
+
+        grid = new Slick.Grid($("#resultGrid"), dataView, columns, options);
+        // var pager = new Slick.Controls.Pager(dataView, grid, $("#pager"));
       }
 
       if (!selectedLocalFile) {
@@ -160,7 +262,7 @@ function startUpload() {
       alert("Veuillez sélectionner un fichier");
     }
 }
-
+var result = '';
 socket.on('moreData', function (data) {
   updateBar(data.percent);
   var place = data.place * 524288; //The Next Blocks Starting Position
@@ -224,5 +326,5 @@ function updateBar(percent) {
 }
 
 socket.on('resData', function (data) {
-  $('#resultBox textarea').append(data);
+  parser.write(data);
 });
