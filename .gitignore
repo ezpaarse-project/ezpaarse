@@ -8,5 +8,7 @@ bench.png
 platforms-pkb/
 bench-*.csv
 bench-*.png*
+build/
+
 
 .DS_Store
