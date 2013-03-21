@@ -12,7 +12,7 @@ EZPAARSE_NODE_VERSION=0.8.22
 
 
 # check version exists
-VERSION=$1
+VERSION=$v
 [ -z "$VERSION" ] && VERSION="`$BIN_PATH/readconfig -k version`"
 if [ "`git tag -l | grep $VERSION`" == "" ]; then
   VERSION="latest"
@@ -45,6 +45,7 @@ make clean-for-release
 cd $TMP_DIR/$EZPAARSE_NAME
 
 make doc
+make pkb-update
 # download node version for windows
 # http://nodejs.org/dist/v0.8.22/node.exe
 curl -L http://nodejs.org/dist/v$EZPAARSE_NODE_VERSION/node.exe > node.exe
