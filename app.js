@@ -42,7 +42,6 @@ process.title = pkg.name.toLowerCase();
 var optimist = require('optimist')
   .describe('--pidFile', 'the pid file where ezpaarse pid is stored');
 if (optimist.argv.pidFile) {
-  console.log(optimist.argv.pidFile);
   fs.writeFileSync(optimist.argv.pidFile, process.pid);
 }
 
