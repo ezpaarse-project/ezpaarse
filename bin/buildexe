@@ -12,7 +12,7 @@ EZPAARSE_NODE_VERSION=0.8.22
 
 
 # check version exists
-VERSION=$v
+VERSION=$1
 [ -z "$VERSION" ] && VERSION="`$BIN_PATH/readconfig -k version`"
 if [ "`git tag -l | grep $VERSION`" == "" ]; then
   VERSION="latest"
@@ -58,7 +58,7 @@ cp $EZPAARSE_PATH/misc/windows/ezPAARSE-HeaderPageNSIS.bmp .
 makensis ezPAARSE-MUI.nsi 
 
 
-INSTALLER="`ls *-Windows-Install.exe`"
+INSTALLER="`ls *-Setup.exe`"
 
 # move archives into a version directory ready to upload
 
