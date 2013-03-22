@@ -220,7 +220,7 @@ function startUpload() {
         $('#resultBox').html(resultArea);
         var columns = [
           {id: "id", name: "#", field: "id",behavior: "select", cssClass: "cell-selection",
-          width: 40, cannotTriggerInsert: true, resizable: false, selectable: false },
+          width: 50, cannotTriggerInsert: true, selectable: false },
           {id: "host",    name: "host",   field: "host"},
           {id: "login",   name: "login",  field: "login"},
           {id: "date",    name: "date",   field: "date"},
