@@ -474,6 +474,10 @@ module.exports = function (app, parsers, ignoredDomains) {
         if (stats.isDirectory()) {
           tree = fillTree(tree, rootFolder, file);
         } else {
+          // only list log files (.log or .log.gz)
+          if (! /\.log$/.test(f) && ! /\.log\.gz$/.test(f)) {
+            return;
+          }
           var size  = stats.size;
           var unit  = '';
           if (size < 1024) {
