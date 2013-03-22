@@ -131,6 +131,28 @@ function ready(){
       $('#inputFile').on('change', fileChosen);
       setDragAndDrop();
       fillLocalFiles();
+      $('#acceptEncoding').on('change', function () {
+        if ($(this).val() !== '') {
+          $('#streamResponse').prop('disabled', true);
+          $('#streamResponse').prop('checked', false);
+          $('label[for=streamResponse]').css('color', '#C0C0C0');
+          $('#streamResponse').change();
+        } else {
+          $('#streamResponse').prop('disabled', false);
+          $('label[for=streamResponse]').css('color', 'inherit');
+        }
+      });
+      $('#streamResponse').on('change', function () {
+        if ($(this).is(':checked')) {
+          $('#accept').prop('disabled', true);
+          $('label[for=accept]').css('color', '#C0C0C0');
+        } else {
+          $('#accept').prop('disabled', false);
+          $('label[for=accept]').css('color', 'inherit');
+        }
+      });
+      $('#accept').prop('disabled', true);
+      $('label[for=accept]').css('color', '#C0C0C0');
    } else {
       $('#uploadArea').text("Your Browser Doesn't Support The File API Please Update Your Browser");
    }
