@@ -157,12 +157,8 @@ function checkDependencies(callback) {
 
   if (dist == 'Debian') {
     var dependencies = [
-      'php5-cli',
-      'tmpreaper',
       'build-essential',
       'libldap2-dev',
-      'uuid-dev',
-      'expect',
       'perl',
       'git',
       'make',
