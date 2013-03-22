@@ -7,8 +7,8 @@ var grid;
 var dataView;
 
 var rowObject = {};
-var rowKey = '';
-var num = 1;
+var rowKey    = '';
+var rowNumber = 1;
 var parser = clarinet.parser();
 parser.onvalue = function (value) {
   rowObject[rowKey] = value;
@@ -20,15 +20,14 @@ parser.onkey = function (key) {
   rowKey = key;
 }
 parser.oncloseobject = function () {
-  rowObject.id = num;
+  rowObject.id = rowNumber;
   dataView.beginUpdate();
-  dataView.insertItem(num, rowObject);
+  dataView.insertItem(rowNumber, rowObject);
   dataView.endUpdate();
   rowObject = {};
-  grid.scrollRowIntoView(num);
-  num++;
+  grid.scrollRowIntoView(rowNumber);
+  rowNumber++;
 };
-
 
 function fileDragHover(evnt) {
   evnt.stopPropagation();
@@ -164,29 +163,61 @@ function exportCSV() {
   var data           = grid.getData().getItems();
   var columns        = grid.getColumns();
   var csvContent     = "data:text/csv;charset=utf-8,";
+  var index          = 0;
+  var length         = data.length;
+  var line           = '';
 
-  var line = '';
+  var resultArea = '<div class="progressHolder"><div class="progressBar"></div></div>';
+  resultArea += '<img src="/img/loader.gif"/> Génération du fichier CSV';
+  resultArea += '<br /><strong><span id="processedLines">0</span> / ' + length + '</strong> lignes générées.';
+  $('#export').html(resultArea);
+  var processedLines = $('#processedLines');
+  var progressBar    = $('#export .progressBar');
+  var percentDone    = 0;
+
   columns.forEach(function (column) {
     line += (line === '' ? '' : fieldSeparator);
     line += column.name;
   });
   csvContent += line;
 
-  data.forEach(function (rowObj, index) {
-    line = '';
-    columns.forEach(function (column) {
-      line += (line === '' ? '\r\n' : fieldSeparator);
-      line += textSeparator;
-      line += rowObj[column.field] || '';
-      line += textSeparator;
-    });
-    csvContent += line;
-  });
-  var encodedUri = encodeURI(csvContent);
-  var link = document.createElement("a");
-  link.setAttribute("href", encodedUri);
-  link.setAttribute("download", "result.csv");
-  link.click();
+  var process = function () {
+    if (index < length) {
+      var rowObj = data[index];
+      line = '';
+      for (var i = 0, l = columns.length; i < l; i++) {
+        line += (line === '' ? '\r\n' : fieldSeparator);
+        line += textSeparator;
+        line += rowObj[columns[i].field] || '';
+        line += textSeparator;
+      }
+      csvContent += line;
+      index++
+      percentDone = (index / length) * 100;
+      progressBar.width(percentDone + '%');
+      processedLines.text(index);
+      // Wait 5ms every 100 rows to lighten browser load a little
+      if (index % 100 === 0) {
+        setTimeout(process, 5);
+      } else {
+        process();
+      }
+    } else {
+      Downloadify.create('export',{
+        filename: 'result.csv',
+        data: csvContent,
+        onComplete: function(){ $('#export').html('<strong>Fichier sauvegardé</strong>'); },
+        onError: function(){ alert('Impossible de sauvegarder'); },
+        swf: '/downloadify/media/downloadify.swf',
+        downloadImage: '/downloadify/images/download.png',
+        width: 215,
+        height: 25,
+        transparent: true,
+        append: false
+      });
+    }
+  }
+  process();
 }
 
 function startUpload() {
@@ -215,7 +246,9 @@ function startUpload() {
 
 
       if (streamResponse) {
-        var resultArea = '<input type="button" value="Télécharger en CSV" onClick="exportCSV()">';
+        var resultArea = '<div id="export">';
+        resultArea += '<input type="button" value="Générer un fichier CSV" onClick="exportCSV()" disabled>'
+        resultArea += '</div>'
         resultArea += '<div id="resultGrid"></div>'
         $('#resultBox').html(resultArea);
         var columns = [
@@ -237,8 +270,9 @@ function startUpload() {
           enableCellNavigation: true,
           enableColumnReorder: false
         };
-        
-        dataView = new Slick.Data.DataView();
+        rowNumber = 1;
+
+        dataView = new Slick.Data.DataView({ inlineFilters: true });
         dataView.onRowCountChanged.subscribe(function (e, args) {
           grid.updateRowCount();
           grid.render();
@@ -249,12 +283,11 @@ function startUpload() {
         });
 
         grid = new Slick.Grid($("#resultGrid"), dataView, columns, options);
-        // var pager = new Slick.Controls.Pager(dataView, grid, $("#pager"));
       }
 
       if (!selectedLocalFile) {
         var uploadArea = '<span id="NameArea">Envoi de ' + selectedFile.name + '</span>';
-        uploadArea += '<div id="progressHolder"><div id="progressBar"></div></div>';
+        uploadArea += '<div class="progressHolder"><div class="progressBar"></div></div>';
         uploadArea += '<span id="percent">0%</span>';
         uploadArea += '<span id="Uploaded"> - ';
         uploadArea += '<span id="MB">0</span>/';
@@ -337,11 +370,12 @@ socket.on('done', function (message, downloadPATH) {
     var downloadURL = host + downloadPATH;
     $('#resultBox').css('text-align', 'center').html('Résultat disponible ici : <a href="' + downloadURL + '">' + downloadURL + '</a>');
   }
+  $('#export input').prop('disabled', false);
   $('#uploadButton').prop('disabled', false);
 });
 
 function updateBar(percent) {
-  $('#progressBar').width(percent + '%');
+  $('#uploadBox .progressBar').width(percent + '%');
   $('#percent').text((Math.round(percent*100)/100) + '%');
   var MBDone = Math.round(((percent/100.0) * selectedFile.size) / 1048576);
   $('#MB').text(MBDone);

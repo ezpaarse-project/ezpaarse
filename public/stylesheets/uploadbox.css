@@ -79,7 +79,7 @@
   Progress Bars
 --------------------------*/
 
-#uploadBox #progressHolder {
+.progressHolder {
   position: relative;
   background-color: #DEDEDE;
   border: 1px solid #B1D1FA;
@@ -88,7 +88,7 @@
   width:100%;
 }
 
-#uploadBox #progressBar {
+.progressBar {
   background-color:#3593DB;
   position: absolute;
   height:100%;
@@ -104,6 +104,15 @@
 
 #uploadBox.done .progressBar {
   width:100% !important;
+}
+
+/*-------------------------
+  CSV export div
+--------------------------*/
+
+div#export {
+  position: relative;
+  width: 300px;
 }
 
 /*-------------------------
