@@ -34,6 +34,6 @@ Sur votre Mac, installer xCode et git
 ##Usage sous Windows
 
 ezPAARSE peut être utilisé sous windows, mais de façon partielle.
-Seul le coeur et les modules écrits en node seront fonctionnels (Certains modules (parseurs) pourront fonctionner selon votre installation windows, en particulier les outils ne sont pas disponibles).
+Seul le coeur d'ezPAARSE et les parseurs écrits en nodejs sont fonctionnels (les outils en ligne de commande sont disponibles sur les systèmes à base d'Unix).
 Cet usage est réservé pour des tests de fonctionnement ou de compatibilité des formats de log.
 Un installeur est disponible sur [la page de téléchargement](http://analogist.couperin.org/ezpaarse/download).
