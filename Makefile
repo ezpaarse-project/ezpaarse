@@ -12,7 +12,7 @@ DOC_OUTPUT=$(shell pwd)/public/doc
 DOC_HTML=$(DOC_OUTPUT)/index.html
 
 # Run every steps needed to start ezpaarse
-all: build pkb-update checkconfig
+all: nodejs doc pkb-update checkconfig
 
 # Application section
 # # # # # # # # # # # #
@@ -91,11 +91,10 @@ bench:
 # Build section
 # # # # # # # # # # # #
 
-build:
+nodejs:
 	@test -f /usr/bin/git || sudo apt-get install --yes git
 	@./bin/buildnode
 	@./build/nvm/bin/latest/npm rebuild >/dev/null
-	$(MAKE) doc
 
 # make deb v=0.0.3
 deb:
@@ -109,10 +108,10 @@ rpm:
 	@test -f /usr/bin/fakeroot || sudo apt-get install --yes fakeroot
 	./bin/buildrpm
 
-# zip and tar.gz archives are generated
-# make zip v=0.0.3
-zip:
-	./bin/buildrelease
+# tar.gz archive generated
+# make tar v=0.0.3
+tar:
+	./bin/buildtar
 
 # exe installer for windows
 exe:
@@ -166,4 +165,4 @@ pkb-update:
 pull:
 	git pull
 
-.PHONY: test checkconfig build pkb-update deb rpm release clean-for-release version tag update pull start restart status stop
+.PHONY: test checkconfig nodejs pkb-update deb rpm tar exe clean-for-release version tag update pull start restart status stop

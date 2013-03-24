@@ -7,7 +7,7 @@ ou la vérification du respect des règles de codage.
 ## Installation des modules node ##
 
 ```console
-make build
+make nodejs
 ```
 
 Télécharge, compile, et configure les modules nécessaires au fonctionnement de l'application.

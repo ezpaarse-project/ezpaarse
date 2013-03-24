@@ -43,14 +43,15 @@ make clean-for-release
 # generate the tar.gz and .zip
 cd $TMP_DIR
 tar czf $EZPAARSE_NAME$EZPAARSE_SUFFIX.tar.gz $EZPAARSE_NAME/
-zip -Tq9r $EZPAARSE_NAME$EZPAARSE_SUFFIX.zip $EZPAARSE_NAME/
+# do not generate zip file cause it is the standard format used for windows users
+#zip -Tq9r $EZPAARSE_NAME$EZPAARSE_SUFFIX.zip $EZPAARSE_NAME/
 
 # move archives into a version directory ready to upload
 mkdir -p $EZPAARSE_PATH/$EZPAARSE_NAME
 mv $EZPAARSE_NAME$EZPAARSE_SUFFIX.tar.gz $EZPAARSE_PATH/$EZPAARSE_NAME/
 echo "$EZPAARSE_PATH/$EZPAARSE_NAME/$EZPAARSE_NAME$EZPAARSE_SUFFIX.tar.gz generated"
-mv $EZPAARSE_NAME$EZPAARSE_SUFFIX.zip    $EZPAARSE_PATH/$EZPAARSE_NAME/
-echo "$EZPAARSE_PATH/$EZPAARSE_NAME/$EZPAARSE_NAME$EZPAARSE_SUFFIX.zip generated"
+#mv $EZPAARSE_NAME$EZPAARSE_SUFFIX.zip    $EZPAARSE_PATH/$EZPAARSE_NAME/
+#echo "$EZPAARSE_PATH/$EZPAARSE_NAME/$EZPAARSE_NAME$EZPAARSE_SUFFIX.zip generated"
 
 # cleanup 
 rm -rf $TMP_DIR

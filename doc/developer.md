@@ -120,7 +120,7 @@ Pour générer une nouvelle version d'ezPAARSE plusieurs étapes semi-automatiqu
 
 - S'assurer de ne pas avoir de modification locales en attente: `git status` permet de s'en assurer.
 
-- Modifier le numéro de version des différents fichiers concernés (bien entendu, remplacez 0.0.3 par le numéro souhaité) :
+- Modifier le numéro de version des différents fichiers concernés (bien entendu, remplacez `0.0.3` par le numéro souhaité) :
 ```console
 make version v=0.0.3
 git commit -a -m "Version 0.0.3"
@@ -131,9 +131,9 @@ git commit -a -m "Version 0.0.3"
 make tag
 ```
 
-- Créer des archives zip et tar.gz :
+- Créer une archive tar.gz :
 ```
-make zip
+make tar
 ```
 
 - Créer une achive debian (.deb) :
@@ -146,7 +146,27 @@ make deb
 make rpm
 ```
 
+- Créer une achive windows (.exe) :
+```console
+make exe
+```
+
 - Envoyer le tout sur le serveur [AnalogIST](http://analogist.couperin.org) pour mettre la version à disposition de la communauté :
 ```console
 make upload
 ```
+
+## Générer une archive snapshot d`ezPAARSE ##
+
+Le numéro de version `latest` doit être utilisé pour générer un snapshot (une archive de la version de développement).
+
+```
+make tar v=latest
+make deb v=latest
+make rpm v=latest
+make exe v=latest
+make upload v=latest
+```
+
+Le numéro de version aura cette forme : `AAAAMMJJ<commitid>`
+Exemple: `201303240bc258f` (24 mars 2013 commit id = 0bc258f)
