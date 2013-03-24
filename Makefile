@@ -115,6 +115,7 @@ tar:
 
 # exe installer for windows
 exe:
+	@test -f /usr/bin/makensis || sudo apt-get install --yes nsis
 	./bin/buildexe
 
 clean-for-release:
