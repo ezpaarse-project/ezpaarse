@@ -46,6 +46,10 @@ cd $TMP_DIR/$EZPAARSE_NAME
 
 make doc
 make pkb-update
+
+# pkb git cleanup
+rm -rf ./platforms-kb/.git/
+
 # download node version for windows
 # http://nodejs.org/dist/v0.8.22/node.exe
 curl -L http://nodejs.org/dist/v$EZPAARSE_NODE_VERSION/node.exe > node.exe
