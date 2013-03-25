@@ -114,7 +114,6 @@ module.exports = function (app, parsers, ignoredDomains) {
           if (!res.headerSent) {
             res.set(statusHeader, 4002);
             res.status(400);
-            req.emit('error', '4002: Error while unziping request data');
           }
           res.end();
           return;
