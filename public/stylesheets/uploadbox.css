@@ -115,11 +115,6 @@
   left:0;
   width:0;
   text-align: center;
-
-  -moz-transition:0.25s;
-  -webkit-transition:0.25s;
-  -o-transition:0.25s;
-  transition:0.25s;
 }
 
 #uploadBox.done .progressBar {

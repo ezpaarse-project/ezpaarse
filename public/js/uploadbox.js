@@ -384,7 +384,7 @@ socket.on('done', function (message, downloadPATH) {
 
 function updateBar(percent) {
   $('#uploadBox .progressBar').width(percent + '%');
-  $('#percent').text((Math.round(percent*100)/100) + '%');
+  $('#percent').text((Math.round(percent*100)/100).toFixed(2) + '%');
   var MBDone = Math.round(((percent/100.0) * selectedFile.size) / 1048576);
   $('#MB').text(MBDone);
 }
