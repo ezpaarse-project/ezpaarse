@@ -107,7 +107,7 @@ function setDragAndDrop() {
 
 function fillLocalFiles() {
   $.ajax({
-    url: "http://127.0.0.1:59599/ws/datasets/",
+    url: "/ws/datasets/",
     dataType: 'json'
   }).done(function (datasets) {
     var div = $('#localFiles');
