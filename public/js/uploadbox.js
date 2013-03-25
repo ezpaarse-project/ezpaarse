@@ -246,10 +246,16 @@ function startUpload() {
 
 
       if (streamResponse) {
+        var hasFlash = swfobject.getFlashPlayerVersion().major;
+
         var resultArea = '<div id="export">';
-        resultArea += '<input type="button" value="Générer un fichier CSV" onClick="exportCSV()" disabled>'
-        resultArea += '</div>'
-        resultArea += '<div id="resultGrid"></div>'
+        resultArea += '<input type="button" value="Générer un fichier CSV" onClick="exportCSV()" disabled>';
+        if (!hasFlash) {
+          resultArea += '<br /><span class="warning">Nécessite Flash version 10 ou plus.';
+          resultArea += '<br /><a href="http://get.adobe.com/fr/flashplayer/" target="_blank">Installer Flash.</a></span>';
+        }
+        resultArea += '</div>';
+        resultArea += '<div id="resultGrid"></div>';
         $('#resultBox').html(resultArea);
         var columns = [
           {id: "id", name: "#", field: "id",behavior: "select", cssClass: "cell-selection",

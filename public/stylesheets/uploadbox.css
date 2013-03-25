@@ -1,6 +1,6 @@
-/**
- * Box layout
- */
+/*-------------------------
+  Box layout
+--------------------------*/
 #box1 {
   width: 380px;
   height: 400px;
@@ -133,6 +133,10 @@
 div#export {
   position: relative;
   width: 300px;
+}
+
+div#export .warning {
+  color: red;
 }
 
 /*-------------------------
