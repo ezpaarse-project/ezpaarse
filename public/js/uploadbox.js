@@ -162,7 +162,7 @@ function exportCSV() {
   var textSeparator  = '\"';
   var data           = grid.getData().getItems();
   var columns        = grid.getColumns();
-  var csvContent     = "data:text/csv;charset=utf-8,";
+  var csvContent     = '';
   var index          = 0;
   var length         = data.length;
   var line           = '';
