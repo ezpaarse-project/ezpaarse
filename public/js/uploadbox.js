@@ -289,6 +289,8 @@ function startUpload() {
         });
 
         grid = new Slick.Grid($("#resultGrid"), dataView, columns, options);
+      } else {
+        $('#resultBox').empty();
       }
 
       if (!selectedLocalFile) {
