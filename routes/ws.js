@@ -111,7 +111,7 @@ module.exports = function (app, parsers, ignoredDomains) {
         unzip = zlib.createUnzip();
         unzip.on('error', function (err) {
           debug('Error while unziping request data');
-          if (res.headerSent) {
+          if (!res.headerSent) {
             res.set(statusHeader, 4002);
             res.status(400);
           }
