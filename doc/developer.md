@@ -124,6 +124,7 @@ Pour générer une nouvelle version d'ezPAARSE plusieurs étapes semi-automatiqu
 ```console
 make version v=0.0.3
 git commit -a -m "Version 0.0.3"
+git push
 ```
 
 - Créer un tag git correspondant à la version précédement créée :
