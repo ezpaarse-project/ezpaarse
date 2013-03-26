@@ -166,6 +166,12 @@ function exportCSV() {
   var index          = 0;
   var length         = data.length;
   var line           = '';
+  var filename       = selectedFile.name || selectedLocalFile.name;
+  if (filename) {
+    filename += '.result.csv';
+  } else {
+    filename = 'result.csv';
+  }
 
   var resultArea = '<div class="progressHolder"><div class="progressBar"></div></div>';
   resultArea += '<img src="/img/loader.gif"/> Génération du fichier CSV';
@@ -192,7 +198,7 @@ function exportCSV() {
         line += textSeparator;
       }
       csvContent += line;
-      index++
+      index++;
       percentDone = (index / length) * 100;
       progressBar.width(percentDone + '%');
       processedLines.text(index);
@@ -204,7 +210,7 @@ function exportCSV() {
       }
     } else {
       Downloadify.create('export',{
-        filename: 'result.csv',
+        filename: filename,
         data: csvContent,
         onComplete: function(){ $('#export').html('<strong>Fichier sauvegardé</strong>'); },
         onError: function(){ alert('Impossible de sauvegarder'); },
