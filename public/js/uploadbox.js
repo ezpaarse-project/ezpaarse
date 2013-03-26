@@ -298,6 +298,7 @@ function startUpload() {
       } else {
         $('#resultBox').empty();
       }
+      $('#infoArea').empty();
 
       if (!selectedLocalFile) {
         var uploadArea = '<span id="NameArea">Envoi de ' + selectedFile.name + '</span>';
@@ -379,7 +380,10 @@ socket.on('downloaded', function () {
 });
 
 socket.on('done', function (message, downloadPATH) {
-  $('#infoArea').append('<br /><span class="success">' + message + '</span>');
+  var div = '<div class="success"><img src="/img/success-big.png" /><p>';
+  div += message || '';
+  div += '</p></div>';
+  $('#infoArea').append(div);
   if (downloadPATH) {
     var downloadURL = host + downloadPATH;
     $('#resultBox').css('text-align', 'center').html('Résultat disponible ici : <a href="' + downloadURL + '">' + downloadURL + '</a>');
