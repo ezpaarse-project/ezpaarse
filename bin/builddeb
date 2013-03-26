@@ -9,6 +9,7 @@ CUR_DIR=`pwd`
 MY_PATH=$(cd ${0%/*} && echo $PWD/${0##*/})
 BIN_PATH=`dirname "$MY_PATH"`
 EZPAARSE_PATH=$BIN_PATH/..
+TMP_PATH=$EZPAARSE_PATH/tmp
 
 . $BIN_PATH/env
 
@@ -22,38 +23,38 @@ if [ "$VERSION" == "latest" ]; then
   VERSION_PREFIX="`date +"%Y%m%d"`"
 fi
 
-rm -rf /tmp/ezpaarse/
-mkdir -p /tmp/ezpaarse/usr/share/
+rm -rf $TMP_PATH/ezpaarse/
+mkdir -p $TMP_PATH/ezpaarse/usr/share/
 
 # clone the git with the correct name
-git clone file://$EZPAARSE_PATH /tmp/ezpaarse/usr/share/ezpaarse
-cd /tmp/ezpaarse/usr/share/ezpaarse
+git clone file://$EZPAARSE_PATH $TMP_PATH/ezpaarse/usr/share/ezpaarse
+cd $TMP_PATH/ezpaarse/usr/share/ezpaarse
 git checkout $VERSION
-cp -f $EZPAARSE_PATH/Makefile /tmp/ezpaarse/usr/share/ezpaarse
-touch /tmp/ezpaarse/usr/share/ezpaarse/clean-for-release-flag
+cp -f $EZPAARSE_PATH/Makefile $TMP_PATH/ezpaarse/usr/share/ezpaarse
+touch $TMP_PATH/ezpaarse/usr/share/ezpaarse/clean-for-release-flag
 make version v=$VERSION_PREFIX$VERSION
-cp -r /tmp/ezpaarse/usr/share/ezpaarse/misc/deb/* /tmp/ezpaarse/
+cp -r $TMP_PATH/ezpaarse/usr/share/ezpaarse/misc/deb/* $TMP_PATH/ezpaarse/
 make clean-for-release
-cd /tmp/ezpaarse/
+cd $TMP_PATH/ezpaarse/
 
 # LSBization of ezpaarse source code
 
 # /etc/init.d/ezpaarse
-mkdir -p /tmp/ezpaarse/etc/init.d/
-mkdir -p /tmp/ezpaarse/var/log/ezpaarse
-mkdir -p /tmp/ezpaarse/var/run/
+mkdir -p $TMP_PATH/ezpaarse/etc/init.d/
+mkdir -p $TMP_PATH/ezpaarse/var/log/ezpaarse
+mkdir -p $TMP_PATH/ezpaarse/var/run/
 
 # /etc/ezpaarse/
-mkdir -p /tmp/ezpaarse/etc/ezpaarse
-mv /tmp/ezpaarse/usr/share/ezpaarse/config.json  /tmp/ezpaarse/etc/ezpaarse/
-mv /tmp/ezpaarse/usr/share/ezpaarse/package.json /tmp/ezpaarse/etc/ezpaarse/
-ln -s /etc/ezpaarse/config.json  /tmp/ezpaarse/usr/share/ezpaarse/config.json
-ln -s /etc/ezpaarse/package.json /tmp/ezpaarse/usr/share/ezpaarse/package.json
-sed -i 's#"development"#"production"#g' /tmp/ezpaarse/etc/ezpaarse/config.json
+mkdir -p $TMP_PATH/ezpaarse/etc/ezpaarse
+mv $TMP_PATH/ezpaarse/usr/share/ezpaarse/config.json  $TMP_PATH/ezpaarse/etc/ezpaarse/
+mv $TMP_PATH/ezpaarse/usr/share/ezpaarse/package.json $TMP_PATH/ezpaarse/etc/ezpaarse/
+ln -s /etc/ezpaarse/config.json  $TMP_PATH/ezpaarse/usr/share/ezpaarse/config.json
+ln -s /etc/ezpaarse/package.json $TMP_PATH/ezpaarse/usr/share/ezpaarse/package.json
+sed -i 's#"development"#"production"#g' $TMP_PATH/ezpaarse/etc/ezpaarse/config.json
 
 # create .deb
 NAME="ezpaarse"
-cd /tmp/
+cd $TMP_PATH/
 fakeroot dpkg-deb --build $NAME
 
 # adjust package name
@@ -66,6 +67,6 @@ mv $NAME.deb $CUR_DIR/ezpaarse-$VERSION_PREFIX$VERSION/${NAMENEW}.deb
 echo "ezpaarse debian package built: $CUR_DIR/ezpaarse-$VERSION_PREFIX$VERSION/${NAMENEW}.deb"
 cd $CUR_DIR
 
-#rm -rf /tmp/ezpaarse/
+#rm -rf $TMP_PATH/ezpaarse/
 
 exit 0
