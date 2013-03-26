@@ -265,18 +265,18 @@ function startUpload() {
         $('#resultBox').html(resultArea);
         var columns = [
           {id: "id", name: "#", field: "id",behavior: "select", cssClass: "cell-selection",
-          width: 50, cannotTriggerInsert: true, selectable: false },
-          {id: "host",    name: "host",   field: "host"},
-          {id: "login",   name: "login",  field: "login"},
-          {id: "date",    name: "date",   field: "date"},
-          {id: "status",  name: "status", field: "status"},
-          {id: "size",    name: "size",   field: "size"},
-          {id: "domain",  name: "domain", field: "domain"},
-          {id: "type",    name: "type",   field: "type"},
-          {id: "doi",     name: "doi",    field: "doi"},
-          {id: "issn",    name: "issn",   field: "issn"},
-          {id: "eissn",   name: "eissn",  field: "eissn"},
-          {id: "url",     name: "url",    field: "url"}
+          width: 60, cannotTriggerInsert: true, selectable: false },
+          {id: "host",    name: "host",   field: "host",    width: 150 },
+          {id: "login",   name: "login",  field: "login",   width: 150 },
+          {id: "date",    name: "date",   field: "date",    width: 230},
+          {id: "status",  name: "status", field: "status",  width: 60},
+          {id: "type",    name: "type",   field: "type",    width: 90},
+          {id: "size",    name: "size",   field: "size",    width: 70},
+          {id: "issn",    name: "issn",   field: "issn",    width: 90},
+          {id: "eissn",   name: "eissn",  field: "eissn",   width: 90},
+          {id: "doi",     name: "doi",    field: "doi",     width: 90},
+          {id: "domain",  name: "domain", field: "domain",  width: 140},
+          {id: "url",     name: "url",    field: "url",     width: 60}
         ];
         var options = {
           enableCellNavigation: true,
