@@ -265,22 +265,23 @@ function startUpload() {
         $('#resultBox').html(resultArea);
         var columns = [
           {id: "id", name: "#", field: "id",behavior: "select", cssClass: "cell-selection",
-          width: 60, cannotTriggerInsert: true, selectable: false },
-          {id: "host",    name: "host",   field: "host",    width: 150 },
-          {id: "login",   name: "login",  field: "login",   width: 150 },
-          {id: "date",    name: "date",   field: "date",    width: 230},
-          {id: "status",  name: "status", field: "status",  width: 60},
-          {id: "type",    name: "type",   field: "type",    width: 90},
-          {id: "size",    name: "size",   field: "size",    width: 70},
-          {id: "issn",    name: "issn",   field: "issn",    width: 90},
-          {id: "eissn",   name: "eissn",  field: "eissn",   width: 90},
-          {id: "doi",     name: "doi",    field: "doi",     width: 90},
-          {id: "domain",  name: "domain", field: "domain",  width: 140},
-          {id: "url",     name: "url",    field: "url",     width: 60}
+          width: 60, cannotTriggerInsert: true, selectable: false, sortable: true   },
+          {id: "host",    name: "host",   field: "host",    width: 150, sortable: true  },
+          {id: "login",   name: "login",  field: "login",   width: 150, sortable: true  },
+          {id: "date",    name: "date",   field: "date",    width: 230, sortable: true  },
+          {id: "status",  name: "status", field: "status",  width: 60,  sortable: true  },
+          {id: "type",    name: "type",   field: "type",    width: 90,  sortable: true  },
+          {id: "size",    name: "size",   field: "size",    width: 70,  sortable: true  },
+          {id: "issn",    name: "issn",   field: "issn",    width: 90,  sortable: true  },
+          {id: "eissn",   name: "eissn",  field: "eissn",   width: 90,  sortable: true  },
+          {id: "doi",     name: "doi",    field: "doi",     width: 90,  sortable: true  },
+          {id: "domain",  name: "domain", field: "domain",  width: 140, sortable: true  },
+          {id: "url",     name: "url",    field: "url",     width: 60,  sortable: true  }
         ];
         var options = {
           enableCellNavigation: true,
-          enableColumnReorder: false
+          enableColumnReorder: false,
+          multiColumnSort: true
         };
         rowNumber = 1;
 
@@ -295,6 +296,25 @@ function startUpload() {
         });
 
         grid = new Slick.Grid($("#resultGrid"), dataView, columns, options);
+        
+        grid.onSort.subscribe(function(e, args) {
+          var cols = args.sortCols;
+          dataView.sort(function (dataRow1, dataRow2) {
+            for (var i = 0, l = cols.length; i < l; i++) {
+              var field  = cols[i].sortCol.field;
+              var sign   = cols[i].sortAsc ? 1 : -1;
+              var value1 = dataRow1[field];
+              var value2 = dataRow2[field];
+              var result = (value1 == value2 ? 0 : (value1 > value2 ? 1 : -1)) * sign;
+              if (result != 0) {
+                return result;
+              }
+            }
+            return 0;
+          });
+          grid.invalidate();
+          grid.render();
+        });
       } else {
         $('#resultBox').empty();
       }
