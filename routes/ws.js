@@ -8,9 +8,9 @@ var crypto    = require('crypto');
 var shell     = require('shelljs');
 var async     = require('async');
 var zlib      = require('zlib');
-var LogParser = require('../lib/logParser.js');
+var LogParser = require('../lib/logparser.js');
 var Writer    = require('../lib/output/writer.js');
-var Knowledge = require('../lib/pkbManager.js');
+var Knowledge = require('../lib/pkbmanager.js');
 var config    = require('../config.json');
 
 function estValide(ec) {

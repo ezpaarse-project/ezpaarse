@@ -13,7 +13,7 @@
 var byline    = require('byline');
 var Faker     = require('Faker');
 var fs        = require('fs');
-var LogParser = require('../lib/logParser.js');
+var LogParser = require('../lib/logparser.js');
 
 var brown = '\u001b[33m';   // Color brown
 var reset = '\u001b[0m';    // Color reset

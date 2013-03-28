@@ -3,7 +3,7 @@
 'use strict';
 
 var should    = require('should');
-var PkbManager = require('../lib/pkbManager.js');
+var PkbManager = require('../lib/pkbmanager.js');
 
 describe('The pkb manager', function () {
   it('works properly', function (done) {
