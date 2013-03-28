@@ -9,7 +9,7 @@ var shell     = require('shelljs');
 var async     = require('async');
 var zlib      = require('zlib');
 var LogParser = require('../lib/logparser.js');
-var Writer    = require('../lib/output/writer.js');
+var Writer    = require('../lib/outputformats/writer.js');
 var Knowledge = require('../lib/pkbmanager.js');
 var config    = require('../config.json');
 
