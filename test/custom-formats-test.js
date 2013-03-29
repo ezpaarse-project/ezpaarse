@@ -45,7 +45,7 @@ function check(testSet, formatHeader, callback) {
   if (fs.existsSync(testCase.logFile) && fs.existsSync(testCase.resultFile)) {
     var headers = {
       'Accept': 'application/json',
-      'Anonymise-host': 'md5'
+      'Anonymize-host': 'md5'
     };
     headers[formatHeader] = testCase.format;
     helpers.post('/ws/', testCase.logFile, headers, function (error, res, body) {

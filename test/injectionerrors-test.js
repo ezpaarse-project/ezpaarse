@@ -15,7 +15,7 @@ describe('The server', function () {
   describe('receives a log file whose first line is incorrect', function () {
     it('and sends back an empty body with an error 400', function (done) {
       var headers = {
-        'Anonymise-host': 'md5'
+        'Anonymize-host': 'md5'
       };
       helpers.post('/ws/', wrongFirstLineLogFile, headers,
       function (error, res, body) {
@@ -34,7 +34,7 @@ describe('The server', function () {
   describe('receives a gzipped log file with no content-encoding', function () {
     it('and sends back an empty body with an error 400', function (done) {
       var headers = {
-        'Anonymise-host': 'md5'
+        'Anonymize-host': 'md5'
       };
       helpers.post('/ws/', gzipLogFile, headers,
       function (error, res, body) {
@@ -54,7 +54,7 @@ describe('The server', function () {
     it('and sends back an empty body with an error 400', function (done) {
       var headers = {
         'content-encoding': 'gzip',
-        'Anonymise-host': 'md5'
+        'Anonymize-host': 'md5'
       };
       helpers.post('/ws/', logFile, headers,
       function (error, res, body) {

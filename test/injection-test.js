@@ -18,7 +18,7 @@ describe('The server', function () {
     it('and sends back a well formatted output file', function (done) {
       var headers = {
         accept: 'application/json',
-        'Anonymise-host': 'md5'
+        'Anonymize-host': 'md5'
       };
       helpers.post('/ws/', logFile, headers, function (error, res, body) {
         if (error) {
@@ -47,7 +47,7 @@ describe('The server', function () {
       var headers = {
         accept: 'text/csv',
         'content-encoding': 'gzip',
-        'Anonymise-host': 'md5'
+        'Anonymize-host': 'md5'
       };
       helpers.post('/ws/', gzipLogFile, headers,
       function (error, res, body) {
