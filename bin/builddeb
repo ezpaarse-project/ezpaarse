@@ -67,6 +67,6 @@ mv $NAME.deb $CUR_DIR/ezpaarse-$VERSION_PREFIX$VERSION/${NAMENEW}.deb
 echo "ezpaarse debian package built: $CUR_DIR/ezpaarse-$VERSION_PREFIX$VERSION/${NAMENEW}.deb"
 cd $CUR_DIR
 
-#rm -rf $TMP_PATH/ezpaarse/
+rm -rf $TMP_PATH/ezpaarse/
 
 exit 0
