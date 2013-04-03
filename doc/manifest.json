@@ -10,7 +10,8 @@
         "postlog.md",
         "formats.md",
         "developer.md",
-        "tools.md"
+        "tools.md",
+        "changelog.md"
     ],
     "css": "/stylesheets/doc.css",
     "codeHighlightTheme": "solarized_dark"
