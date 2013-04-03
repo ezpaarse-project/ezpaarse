@@ -6,21 +6,31 @@
   var defaultMaxListeners = 10;
 
   function init() {
-    this._events = new Object;
+    this._events = {};
+    if (this._conf) {
+      configure.call(this, this._conf);
+    }
   }
 
   function configure(conf) {
     if (conf) {
+      
+      this._conf = conf;
+      
       conf.delimiter && (this.delimiter = conf.delimiter);
+      conf.maxListeners && (this._events.maxListeners = conf.maxListeners);
       conf.wildcard && (this.wildcard = conf.wildcard);
+      conf.newListener && (this.newListener = conf.newListener);
+
       if (this.wildcard) {
-        this.listenerTree = new Object;
+        this.listenerTree = {};
       }
     }
   }
 
   function EventEmitter(conf) {
-    this._events = new Object;
+    this._events = {};
+    this.newListener = false;
     configure.call(this, conf);
   }
 
@@ -154,7 +164,7 @@
     while (name) {
 
       if (!tree[name]) {
-        tree[name] = new Object;
+        tree[name] = {};
       }
 
       tree = tree[name];
@@ -209,6 +219,8 @@
   EventEmitter.prototype.setMaxListeners = function(n) {
     this._events || init.call(this);
     this._events.maxListeners = n;
+    if (!this._conf) this._conf = {};
+    this._conf.maxListeners = n;
   };
 
   EventEmitter.prototype.event = '';
@@ -240,11 +252,12 @@
   };
 
   EventEmitter.prototype.emit = function() {
+    
     this._events || init.call(this);
 
     var type = arguments[0];
 
-    if (type === 'newListener') {
+    if (type === 'newListener' && !this.newListener) {
       if (!this._events.newListener) { return false; }
     }
 
