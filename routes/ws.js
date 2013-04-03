@@ -3,9 +3,10 @@
 
 var debug       = require('debug')('log');
 var fs          = require('fs');
-var byline      = require('byline');
+var MatchStream = require('match-stream');
 var async       = require('async');
 var crypto      = require('crypto');
+var Readable    = require('stream').Readable;
 var initializer = require('../lib/requestinitializer.js');
 var ECFilter    = require('../lib/ecfilter.js');
 var ECHandler   = require('../lib/echandler.js');
@@ -55,67 +56,18 @@ module.exports = function (app, domains, ignoredDomains) {
           res.end();
         });
       }
-
       var request  = unzipReq ? unzipReq : req;
       var response = zipRes   ? zipRes   : res;
 
       var ecFilter = new ECFilter(ignoredDomains);
       // Takes "raw" ECs and returns those which can be sent
       var handler = new ECHandler(writer);
-      handler.on('ec', function (ec) {
-        if (!writerWasStarted) {
-          writerWasStarted = true;
-          res.status(200);
-          writer.start();
-        }
-        writer.write(ec);
-        writtenECs = true;
-        countECs++;
-      });
-    
-      handler.on('saturated', function () {
-        stream.pause();
-      });
-
-      handler.on('drain', function () {
-        if (!endOfRequest) {
-          // If request was paused, resume it
-          stream.resume();
-        } else {
-          // If request ended and no buffer left, terminate the response
-          if (writerWasStarted) {
-            writer.end();
-          }
-          res.end();
-          debug("Terminating response");
-          debug(countLines + " lines were read");
-          debug(countECs + " ECs were created");
-        }
-      });
-
-      // Cookieparser bug workaround (TODO: Fix  with node 0.10.1)
-      req.readable = true;
-      var stream = byline.createStream(request);
-
-      stream.on('end', function () {
-        endOfRequest = true;
-        if (!treatedLines) {
-          try {
-            res.set(statusHeader, 4003);
-          } catch (e) {}
-          res.status(400);
-          res.end();
-        } else if (handler.queue.length() === 0) {
-          handler.queue.drain();
-        }
-      });
-
-      stream.on('data', function (line) {
+      
+      var processLine = function (line) {
         if (badBeginning) {
           return;
         }
         var ec = logParser.parse(line);
-        
         if (ec) {
           treatedLines = true;
           if (ecFilter.isValid(ec)) {
@@ -138,11 +90,64 @@ module.exports = function (app, domains, ignoredDomains) {
           debug('Line format was not recognized');
           if (!treatedLines) {
             badBeginning = true;
-            stream.end();
+            matchstream.end();
             debug('Couln\'t recognize first line : aborted.');
           }
         }
         countLines++;
+      }
+
+      var line = '';
+      var matchstream = new MatchStream({ pattern: '\n', consume: true},
+        function (buf, matched, extra) {
+        line += buf.toString();
+        if (matched) {
+          processLine(line.trim());
+          line = '';
+        }
+      }).once('finish', function () {
+        endOfRequest = true;
+        // Workaround: when the file does not end with \n,
+        // process remaining data in the buffer of matchstream
+        if (line = matchstream._bufs.buffers[0]) {
+          processLine(line);
+        }
+        if (!treatedLines) {
+          debug('End of request but no line treated');
+          try {
+            res.set(statusHeader, 4003);
+          } catch (e) {}
+          res.status(400);
+          res.end();
+        } else if (handler.queue.length() === 0) {
+          handler.queue.drain();
+        }
+      });
+      
+      request.pipe(matchstream);
+
+      handler.on('ec', function (ec) {
+        if (!writerWasStarted) {
+          writerWasStarted = true;
+          res.status(200);
+          writer.start();
+        }
+        writer.write(ec);
+        writtenECs = true;
+        countECs++;
+      });
+
+      handler.on('drain', function () {
+        if (endOfRequest) {
+          // If request ended and no buffer left, terminate the response
+          if (writerWasStarted) {
+            writer.end();
+          }
+          res.end();
+          debug("Terminating response");
+          debug(countLines + " lines were read");
+          debug(countECs + " ECs were created");
+        }
       });
     });
   });

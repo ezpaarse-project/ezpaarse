@@ -10,7 +10,7 @@ var folder   = __dirname + '/dataset/multiformat';
 var ezproxyTestSets =
 [
   { logFile: folder + '/univ_limoges.ezproxy.log',
-    format: '%<[ ]>[%t] %h %U' },
+    format: '%<[ ]?>[%t] %h %U' },
   { logFile: folder + '/univ_lyon.ezproxy.log',
     format: '%h %l %u [%t] "%r" %s %b' },
   { logFile: folder + '/univ_strasbourg.ezproxy.log',
