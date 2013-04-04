@@ -162,8 +162,10 @@ function checkDependencies(callback) {
       'perl',
       'git',
       'make',
+      'curl',
       'python',
-      'gcc'
+      'gcc',
+      'flashplugin-installer'
     ];
 
     dependencies.forEach(function (dep) {
