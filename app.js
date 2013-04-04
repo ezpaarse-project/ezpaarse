@@ -4,7 +4,6 @@
 var express       = require('express');
 var pkg           = require('./package.json');
 var config        = require('./config.json');
-var routes        = require('./routes');
 var http          = require('http');
 var path          = require('path');
 var fs            = require('fs');
@@ -90,8 +89,6 @@ app.configure(function () {
 app.configure('development', function () {
   app.use(express.errorHandler());
 });
-
-app.get('/', routes.index);
 
 // Routes relatives aux logs
 require('./routes/ws')(app, parsers, config.EZPAARSE_IGNORED_DOMAINS);

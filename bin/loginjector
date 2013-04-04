@@ -64,9 +64,9 @@ if (argv.accept) {
   headers['Accept'] = argv.accept;
 }
 
-var url = 'http://127.0.0.1:' + config.EZPAARSE_NODEJS_PORT + '/ws/';
+var url = 'http://127.0.0.1:' + config.EZPAARSE_NODEJS_PORT;
 if (argv.server) {
-  url = argv.server.replace(/\/$/) + '/ws/';
+  url = argv.server;
 }
 
 var options = {

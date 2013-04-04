@@ -14,13 +14,13 @@ var csvResultFile         = __dirname + '/dataset/sd.2013-01-15.result.csv';
 var wrongFirstLineLogFile = __dirname + '/dataset/sd.wrong-first-line.log';
 
 describe('The server', function () {
-  describe('receives a log on the HTTP POST /ws/ route', function () {
+  describe('receives a log on the HTTP POST / route', function () {
     it('and sends back a well formatted output file', function (done) {
       var headers = {
         accept: 'application/json',
         'Anonymize-host': 'md5'
       };
-      helpers.post('/ws/', logFile, headers, function (error, res, body) {
+      helpers.post('/', logFile, headers, function (error, res, body) {
         if (error) {
           throw error;
         }
@@ -49,7 +49,7 @@ describe('The server', function () {
         'content-encoding': 'gzip',
         'Anonymize-host': 'md5'
       };
-      helpers.post('/ws/', gzipLogFile, headers,
+      helpers.post('/', gzipLogFile, headers,
       function (error, res, body) {
         if (error) {
           throw error;

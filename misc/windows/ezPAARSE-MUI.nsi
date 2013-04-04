@@ -115,7 +115,7 @@ Section "Menu ezPAARSE" SecMenuEZPAARSE
     CreateDirectory "$SMPROGRAMS\$StartMenuFolder"
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Uninstall.lnk" "$INSTDIR\Uninstall.exe"
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\1-Lancer ezPAARSE.lnk" "$INSTDIR\node.exe" "app.js" 0
-    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\2-Utiliser ezPAARSE.lnk" "$DefaultBrowser" "http://localhost:59599/ws" 0 
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\2-Utiliser ezPAARSE.lnk" "$DefaultBrowser" "http://localhost:59599" 0 
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Documentation ezPAARSE.lnk" "$DefaultBrowser" "http://localhost:59599/doc" 0 
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Site AnalogIST.lnk" "$DefaultBrowser" "http://analogist.couperin.org" 0 
   !insertmacro MUI_STARTMENU_WRITE_END
@@ -157,6 +157,6 @@ Function LaunchEZPAARSE
                    Le Web Service a besoin des autorisations de votre pare-feu windows"
   ExecShell "" "$SMPROGRAMS\$StartMenuFolder\1-Lancer ezPAARSE.lnk"
   Sleep 5000 ; wait for node startup
-  ExecShell "open" "http://localhost:59599/ws"
+  ExecShell "open" "http://localhost:59599"
 FunctionEnd
 

@@ -17,7 +17,7 @@ module.exports = function (app, domains, ignoredDomains) {
   /**
    * POST log
    */
-  app.post(/^\/ws(\/)?$/, function (req, res) {
+  app.post('/', function (req, res) {
     debug("Req : " + req);
     var countLines  = 0;
     var countECs    = 0;
@@ -153,10 +153,10 @@ module.exports = function (app, domains, ignoredDomains) {
   });
   
   /**
-   * GET route on /ws/result/:folder/:filename
+   * GET route on /result/:folder/:filename
    * Used to download results
    */
-  app.get(/^\/ws\/results\/([a-zA-Z0-9]+)\/([^ ]+)$/, function (req, res) {
+  app.get(/^\/results\/([a-zA-Z0-9]+)\/([^ ]+)$/, function (req, res) {
     var folder     = __dirname + '/../tmp/' + req.params[0];
     var resultFile = folder + '/' + req.params[1];
     if (fs.existsSync(resultFile)) {
@@ -173,17 +173,17 @@ module.exports = function (app, domains, ignoredDomains) {
   });
 
   /**
-   * GET route on /ws/
+   * GET route on /
    */
-  app.get(/^\/ws(\/)?$/, function (req, res) {
+  app.get('/', function (req, res) {
     res.render('ws');
   });
   
   /**
-   * GET route on /ws/datasets/
+   * GET route on /datasets/
    * Returns a list of all datasets
    */
-  app.get(/^\/ws\/datasets(\/)?$/, function (req, res) {
+  app.get(/^\/datasets(\/)?$/, function (req, res) {
     res.type('application/json');
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");

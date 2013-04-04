@@ -58,5 +58,5 @@ Un paramètre peut être formulé de trois façons :
 
 #### Exemple ####
 ```shell
-curl -X POST --proxy "" --no-buffer -H 'LogFormat-ezproxy: %h %<[-]> %u [%t] "%r" %s %b' --data-binary @test/dataset/sd.2012-11-30.300.log  http://127.0.0.1:59599/ws/ -v
+curl -X POST --proxy "" --no-buffer -H 'LogFormat-ezproxy: %h %<[-]> %u [%t] "%r" %s %b' --data-binary @test/dataset/sd.2012-11-30.300.log  http://127.0.0.1:59599 -v
 ```
