@@ -266,17 +266,18 @@ function startUpload() {
         var columns = [
           {id: "id", name: "#", field: "id",behavior: "select", cssClass: "cell-selection",
           width: 60, cannotTriggerInsert: true, selectable: false, sortable: true   },
-          {id: "host",    name: "host",   field: "host",    width: 150, sortable: true  },
-          {id: "login",   name: "login",  field: "login",   width: 150, sortable: true  },
-          {id: "date",    name: "date",   field: "date",    width: 230, sortable: true  },
-          {id: "status",  name: "status", field: "status",  width: 60,  sortable: true  },
-          {id: "type",    name: "type",   field: "type",    width: 90,  sortable: true  },
-          {id: "size",    name: "size",   field: "size",    width: 70,  sortable: true  },
-          {id: "issn",    name: "issn",   field: "issn",    width: 90,  sortable: true  },
-          {id: "eissn",   name: "eissn",  field: "eissn",   width: 90,  sortable: true  },
-          {id: "doi",     name: "doi",    field: "doi",     width: 90,  sortable: true  },
-          {id: "domain",  name: "domain", field: "domain",  width: 140, sortable: true  },
-          {id: "url",     name: "url",    field: "url",     width: 60,  sortable: true  }
+          {id: "host",     name: "host",     field: "host",     width: 150, sortable: true  },
+          {id: "login",    name: "login",    field: "login",    width: 150, sortable: true  },
+          {id: "date",     name: "date",     field: "date",     width: 230, sortable: true  },
+          {id: "status",   name: "status",   field: "status",   width: 60,  sortable: true  },
+          {id: "type",     name: "type",     field: "type",     width: 90,  sortable: true  },
+          {id: "size",     name: "size",     field: "size",     width: 70,  sortable: true  },
+          {id: "issn",     name: "issn",     field: "issn",     width: 90,  sortable: true  },
+          {id: "eissn",    name: "eissn",    field: "eissn",    width: 90,  sortable: true  },
+          {id: "doi",      name: "doi",      field: "doi",      width: 90,  sortable: true  },
+          {id: "domain",   name: "domain",   field: "domain",   width: 140, sortable: true  },
+          {id: "platform", name: "platform", field: "platform", width: 140, sortable: true  },
+          {id: "url",      name: "url",      field: "url",      width: 60,  sortable: true  }
         ];
         var options = {
           enableCellNavigation: true,
