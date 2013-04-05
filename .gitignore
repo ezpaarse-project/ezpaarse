@@ -13,3 +13,5 @@ platforms-kb/
 
 
 .DS_Store
+
+*.csv#

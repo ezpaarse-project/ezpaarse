@@ -10,6 +10,9 @@ var fs            = require('fs');
 var parsers       = require('./lib/init.js');
 var folderChecker = require('./lib/folderchecker.js');
 var FolderReaper  = require('./lib/folderreaper.js');
+var winston       = require('winston');
+
+winston.addColors({ verbose: 'green', info: 'green', warn: 'yellow', error: 'red' });
 
 // Set up cleaning jobs for the temporary folder
 var red   = '\u001b[31m';
@@ -73,7 +76,11 @@ app.configure(function () {
   });
 
   app.use(express.cookieParser());
-  app.use(express.session({ secret: "ezpaarse", key: "ezpaarse.sid" }));
+  app.use(express.session({
+    secret: "ezpaarse",
+    key: "ezpaarse.sid",
+    cookie: { maxAge: 365 * 24 * 60 * 60 * 1000 }
+  }));
 
   // routes handling
   app.use(app.router);

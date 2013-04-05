@@ -1,8 +1,7 @@
 /*jslint node: true, maxlen: 100, maxerr: 50, indent: 2 */
 'use strict';
 
-var debug    = require('debug')('info');
-var fs       = require('fs');
+var fs = require('fs');
 
 module.exports = function (app) {
   
