@@ -1,7 +1,6 @@
 /*jslint node: true, maxlen: 100, maxerr: 50, indent: 2 */
 'use strict';
 
-var debug       = require('debug')('log');
 var fs          = require('fs');
 var MatchStream = require('match-stream');
 var async       = require('async');
@@ -11,14 +10,29 @@ var initializer = require('../lib/requestinitializer.js');
 var ECFilter    = require('../lib/ecfilter.js');
 var ECHandler   = require('../lib/echandler.js');
 var config      = require('../config.json');
+var winston     = require('winston');
 
 module.exports = function (app, domains, ignoredDomains) {
-  
   /**
    * POST log
    */
   app.post('/', function (req, res) {
-    debug("Req : " + req);
+    var loglevel = req.header('LogLevel') || 'error';
+
+    var logger = new (winston.Logger)({
+      transports: [
+        new (winston.transports.Console)({
+          level: loglevel,
+          colorize: 'true'
+        }),
+        new (winston.transports.File)({
+          level: loglevel,
+          dirname: __dirname + '/../logs',
+          filename: 'debug.log' // should be sessionized
+        })
+      ]
+    });
+    
     var countLines  = 0;
     var countECs    = 0;
 
@@ -29,26 +43,26 @@ module.exports = function (app, domains, ignoredDomains) {
     var badBeginning      = false;
     var statusHeader = 'ezPAARSE-Status';
     
+    
     if (req.get('Content-length') === 0) {
       // If no content in the body, terminate the response
-      debug("No content sent by the client");
+      logger.warn("No content sent by the client");
       res.set(statusHeader, 4001);
       res.status(400);
       res.end();
       return;
     }
 
-    initializer.init(req, res, function (err, unzipReq, zipRes, anonymize, logParser, writer) {
+    initializer.init(logger, req, res, function (err, unzipReq, zipRes, anonymize, logParser, writer) {
       if (err) {
         res.set(statusHeader, err.ezStatus);
         res.status(err.status);
         res.end();
         return;
       }
-
       if (unzipReq) {
         unzipReq.on('error', function (err) {
-          debug('Error while unziping request data');
+          logger.error('Error while unziping request data');
           if (!res.headerSent) {
             res.set(statusHeader, 4002);
             res.status(400);
@@ -56,12 +70,13 @@ module.exports = function (app, domains, ignoredDomains) {
           res.end();
         });
       }
+      logger.info('Starting response');
       var request  = unzipReq ? unzipReq : req;
       var response = zipRes   ? zipRes   : res;
 
       var ecFilter = new ECFilter(ignoredDomains);
       // Takes "raw" ECs and returns those which can be sent
-      var handler = new ECHandler(writer);
+      var handler = new ECHandler(logger);
       
       var processLine = function (line) {
         if (badBeginning) {
@@ -81,17 +96,17 @@ module.exports = function (app, domains, ignoredDomains) {
             if (parser) {
               handler.push(ec, parser);
             } else {
-              debug('No parser found for : ' + ec.domain);
+              logger.silly('No parser found for : ' + ec.domain);
             }
           } else {
-            debug('Line was ignored');
+            logger.silly('Line was ignored');
           }
         } else {
-          debug('Line format was not recognized');
+          logger.silly('Line format was not recognized');
           if (!treatedLines) {
             badBeginning = true;
             matchstream.end();
-            debug('Couln\'t recognize first line : aborted.');
+            logger.warn('Couln\'t recognize first line : aborted.');
           }
         }
         countLines++;
@@ -113,7 +128,7 @@ module.exports = function (app, domains, ignoredDomains) {
           processLine(line);
         }
         if (!treatedLines) {
-          debug('End of request but no line treated');
+          logger.warn('End of request but no line treated');
           try {
             res.set(statusHeader, 4003);
           } catch (e) {}
@@ -144,9 +159,9 @@ module.exports = function (app, domains, ignoredDomains) {
             writer.end();
           }
           res.end();
-          debug("Terminating response");
-          debug(countLines + " lines were read");
-          debug(countECs + " ECs were created");
+          logger.info("Terminating response");
+          logger.info(countLines + " lines were read");
+          logger.info(countECs + " ECs were created");
         }
       });
     });
