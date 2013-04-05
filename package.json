@@ -34,6 +34,6 @@
     "coffee-script": "*"
   },
   "scripts": {
-    "test": "export EZPAARSE_VERSION=\"production\" ; export EZPAARSE_DEBUG_LEVEL=\"pkb\" ; make && make start && sleep 1 && make test"
+    "test": "export EZPAARSE_VERSION=\"production\" ; export EZPAARSE_DEBUG_LEVEL=\"pkb\" ; make && make start && sleep 1 && make test && make jshint"
   }
 }
