@@ -164,8 +164,7 @@ function checkDependencies(callback) {
       'make',
       'curl',
       'python',
-      'gcc',
-      'flashplugin-installer'
+      'gcc'
     ];
 
     dependencies.forEach(function (dep) {
