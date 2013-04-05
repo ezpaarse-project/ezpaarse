@@ -176,7 +176,7 @@ module.exports = function (app, domains, ignoredDomains) {
    * GET route on /
    */
   app.get('/', function (req, res) {
-    res.render('ws');
+    res.render('ws', { title: 'ezPAARSE - Web service' });
   });
   
   /**
