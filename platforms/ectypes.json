@@ -93,5 +93,40 @@
     "code": "BOOKMARK",
     "description":  "ajout de l'article dans un panier ou favoris",
     "comment": "rencontré dans ajouter panier de cairn"
+  },  
+  {
+    "code": "BOOK",
+    "description":  "consultation d'un ouvrage complet",
+    "comment": "tout format autre que html et pdf"
+  },  
+  {
+    "code": "BOOK_HTML",
+    "description":  "consultation d'un ouvrage complet au format html",
+    "comment": ""
+  },  
+  {
+    "code": "BOOK_PDF",
+    "description":  "consultation d'un ouvrage complet au format pdf",
+    "comment": ""
+  },  
+  {
+    "code": "BOOK_SECTION",
+    "description":  "consultation d'une partie d'ouvrage",
+    "comment": "tout format autre que html et pdf"
+  },  
+  {
+    "code": "BOOK_SECTION_HTML",
+    "description":  "consultation d'une partie d'ouvrage au format html",
+    "comment": ""
+  },  
+  {
+    "code": "BOOK_SECTION_PDF",
+    "description":  "consultation d'une partie d'ouvrage au format pdf",
+    "comment": ""
+  },  
+  {
+    "code": "BOOKMARK",
+    "description":  "ajout de l'article dans un panier ou favoris",
+    "comment": "rencontré dans ajouter panier de cairn"
   }  
 ]
