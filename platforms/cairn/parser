@@ -78,15 +78,15 @@ function parseUrl(url) {
     result.type = "TOC";
   } else if (match = /^\/[a-z0-9@\-]+\-\-([0-9]{13})\-page\-[0-9]+.htm$/.exec(parsedUrl.pathname)){
     // book example: http://www.cairn.info/a-l-ecole-du-sujet--9782749202358-page-9.htm
-    result.pid = match[1];
+    result.isbn = match[1];
     result.type = "BOOK_SECTION_HTML";
   } else if (match = /^\/[a-z0-9@\-]+\-\-([0-9]{13})\-p\-[0-9]+.htm$/.exec(parsedUrl.pathname)){
     // book example: http://www.cairn.info/a-l-ecole-du-sujet--9782749202358-page-9.htm
-    result.pid = match[1];
+    result.isbn = match[1];
     result.type = "PREVIEW";
   } else if (match = /^\/[a-z0-9@\-]+\-\-([0-9]{13}).htm$/.exec(parsedUrl.pathname)){
     // book example: http://www.cairn.info/a-l-ecole-du-sujet--9782749202358-page-9.htm
-    result.pid = match[1];
+    result.isbn = match[1];
     result.type = "TOC";
   }
   return result;
