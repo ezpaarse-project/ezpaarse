@@ -48,7 +48,7 @@ function check(testSet, formatHeader, callback) {
       'Anonymize-host': 'md5'
     };
     headers[formatHeader] = testCase.format;
-    helpers.post('/ws/', testCase.logFile, headers, function (error, res, body) {
+    helpers.post('/', testCase.logFile, headers, function (error, res, body) {
       if (error) {
         throw error;
       }

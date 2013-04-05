@@ -107,7 +107,7 @@ function setDragAndDrop() {
 
 function fillLocalFiles() {
   $.ajax({
-    url: "/ws/datasets/",
+    url: "/datasets/",
     dataType: 'json'
   }).done(function (datasets) {
     var div = $('#localFiles');
@@ -276,7 +276,7 @@ function startUpload() {
           {id: "eissn",    name: "eissn",    field: "eissn",    width: 90,  sortable: true  },
           {id: "doi",      name: "doi",      field: "doi",      width: 90,  sortable: true  },
           {id: "domain",   name: "domain",   field: "domain",   width: 140, sortable: true  },
-          {id: "platform", name: "platform", field: "platform", width: 140, sortable: true  },
+          {id: "platform", name: "platform", field: "platform", width: 70, sortable: true  },
           {id: "url",      name: "url",      field: "url",      width: 60,  sortable: true  }
         ];
         var options = {

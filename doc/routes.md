@@ -24,7 +24,7 @@
     </tr>
     <tr>
       <td>
-        /ws/</td>
+        /</td>
       <td>_NA_</td>
       <td>[Parse un fichier de log](./postlog.html)</td>
       <td>_NA_</td>
@@ -32,8 +32,32 @@
     </tr>
     <tr>
       <td>
-        /ws/info/platforms</td>
+        /info/platforms</td>
       <td>Liste les plateformes disponibles</td>
+      <td>_NA_</td>
+      <td>_NA_</td>
+      <td>_NA_</td>
+    </tr>
+    <tr>
+      <td>
+        /info/ectypes</td>
+      <td>Liste les types d'EC</td>
+      <td>_NA_</td>
+      <td>_NA_</td>
+      <td>_NA_</td>
+    </tr>
+    <tr>
+      <td>
+        /info/codes</td>
+      <td>Liste les codes de retour de l'application et leur signification</td>
+      <td>_NA_</td>
+      <td>_NA_</td>
+      <td>_NA_</td>
+    </tr>
+    <tr>
+      <td>
+        /info/codes/{code}</td>
+      <td>Retourne la signification d'un code</td>
       <td>_NA_</td>
       <td>_NA_</td>
       <td>_NA_</td>

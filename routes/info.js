@@ -7,9 +7,9 @@ var fs       = require('fs');
 module.exports = function (app) {
   
   /**
-   * GET route on /ws/info/platforms
+   * GET route on /info/platforms
    */
-  app.get('/ws/info/platforms', function (req, res) {
+  app.get('/info/platforms', function (req, res) {
     res.type('application/json');
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
@@ -60,9 +60,9 @@ module.exports = function (app) {
   });
 
   /**
-   * GET route on /ws/info/ectypes
+   * GET route on /info/ectypes
    */
-  app.get('/ws/info/ectypes', function (req, res) {
+  app.get('/info/ectypes', function (req, res) {
     res.type('application/json');
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
@@ -79,9 +79,9 @@ module.exports = function (app) {
   });
 
   /**
-   * GET route on /ws/info/codes
+   * GET route on /info/codes
    */
-  app.get('/ws/info/codes', function (req, res) {
+  app.get('/info/codes', function (req, res) {
     res.type('application/json');
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
@@ -98,9 +98,9 @@ module.exports = function (app) {
   });
 
   /**
-   * GET route on /ws/info/codes/:number
+   * GET route on /info/codes/:number
    */
-  app.get(/\/ws\/info\/codes\/([0-9]+)$/, function (req, res) {
+  app.get(/\/info\/codes\/([0-9]+)$/, function (req, res) {
     res.type('application/json');
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");

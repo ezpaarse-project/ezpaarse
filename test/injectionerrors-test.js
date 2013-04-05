@@ -17,7 +17,7 @@ describe('The server', function () {
       var headers = {
         'Anonymize-host': 'md5'
       };
-      helpers.post('/ws/', wrongFirstLineLogFile, headers,
+      helpers.post('/', wrongFirstLineLogFile, headers,
       function (error, res, body) {
         if (error) {
           throw error;
@@ -36,7 +36,7 @@ describe('The server', function () {
       var headers = {
         'Anonymize-host': 'md5'
       };
-      helpers.post('/ws/', gzipLogFile, headers,
+      helpers.post('/', gzipLogFile, headers,
       function (error, res, body) {
         if (error) {
           throw error;
@@ -56,7 +56,7 @@ describe('The server', function () {
         'content-encoding': 'gzip',
         'Anonymize-host': 'md5'
       };
-      helpers.post('/ws/', logFile, headers,
+      helpers.post('/', logFile, headers,
       function (error, res, body) {
         if (error) {
           throw error;

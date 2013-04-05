@@ -3,7 +3,7 @@ Parse un fichier de log et retourne des évènements de consultation. L'opérati
  
 #### Requête ####
 
-*POST /ws/ HTTP/1.1*
+*POST / HTTP/1.1*
 
 ##### Paramètres #####
 -   **Content-Encoding:** encodage des données envoyées. *(supportés : gzip, deflate)*  
@@ -53,7 +53,7 @@ Exemple d'évènement de consultation :
 
 #### Exemple de requête ####
 ```shell
-curl -X POST http://127.0.0.1:59599/ws/ --no-buffer --data-binary @file.log -v
-curl -X POST --proxy "" --no-buffer --data-binary @test/dataset/sd.2012-11-30.log  http://127.0.0.1:59599/ws/ -v
-curl -X POST --proxy "" --no-buffer -H "Accept: application/json" --data-binary @test/dataset/sd.2012-11-30.log  http://127.0.0.1:59599/ws/ -v
+curl -X POST http://127.0.0.1:59599 --no-buffer --data-binary @file.log -v
+curl -X POST --proxy "" --no-buffer --data-binary @test/dataset/sd.2012-11-30.log  http://127.0.0.1:59599 -v
+curl -X POST --proxy "" --no-buffer -H "Accept: application/json" --data-binary @test/dataset/sd.2012-11-30.log  http://127.0.0.1:59599 -v
 ```
