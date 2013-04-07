@@ -36,6 +36,8 @@ ezpaarse_start() {
                      -o $EZPAARSE_LOGDIR/out.log \
                      -e $EZPAARSE_LOGDIR/err.log \
                      --pidFile $EZPAARSE_PIDFILE \
+                     --watch --watchDirectory $EZPAARSE_PATH/ \
+                     --watchIgnore "logs/" --watchIgnore "tmp/" --watchIgnore "*.log" --watchIgnore "*.md" --watchIgnore "*.pid" \
                      $EZPAARSE_PATH/app.js 1>/dev/null
   fi
 }
