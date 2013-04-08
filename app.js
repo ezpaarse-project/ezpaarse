@@ -49,8 +49,20 @@ if (optimist.argv.pidFile) {
 
 var app = express();
 
-// connect ezpaarse version to expressjs env version
-app.set('env', config.EZPAARSE_VERSION);
+// connect ezpaarse env to expressjs env
+config.EZPAARSE_ENV = process.env.NODE_ENV || config.EZPAARSE_ENV;
+app.set('env', config.EZPAARSE_ENV);
+
+app.configure('development', function () {
+  // http://www.senchalabs.org/connect/middleware-logger.html
+  app.use(express.logger('dev'));
+  
+  app.use(express.errorHandler());
+});
+app.configure('production', function () {
+  // http://www.senchalabs.org/connect/middleware-logger.html
+  app.use(express.logger());
+});
 
 app.configure(function () {
   app.set('port', config.EZPAARSE_NODEJS_PORT || 3000);
@@ -65,7 +77,6 @@ app.configure(function () {
   // todo: favico should be created
   app.use(express.favicon());
   
-  app.use(express.logger('dev'));
   //app.use(express.bodyParser());
   app.use(express.methodOverride());
   
@@ -93,11 +104,7 @@ app.configure(function () {
   app.use(express.static(path.join(__dirname, 'public')));
 });
 
-app.configure('development', function () {
-  app.use(express.errorHandler());
-});
-
-// Routes relatives aux logs
+// log related routes
 require('./routes/ws')(app, parsers, config.EZPAARSE_IGNORED_DOMAINS);
 require('./routes/info')(app);
 

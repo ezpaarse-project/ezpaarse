@@ -53,7 +53,8 @@ module.exports = function (app, domains, ignoredDomains) {
       return;
     }
 
-    initializer.init(logger, req, res, function (err, unzipReq, zipRes, anonymize, logParser, writer) {
+    initializer.init(logger, req, res,
+                     function (err, unzipReq, zipRes, anonymize, logParser, writer) {
       if (err) {
         res.set(statusHeader, err.ezStatus);
         res.status(err.status);
@@ -124,7 +125,8 @@ module.exports = function (app, domains, ignoredDomains) {
         endOfRequest = true;
         // Workaround: when the file does not end with \n,
         // process remaining data in the buffer of matchstream
-        if (line = matchstream._bufs.buffers[0]) {
+        line = matchstream._bufs.buffers[0];
+        if (line) {
           processLine(line);
         }
         if (!treatedLines) {

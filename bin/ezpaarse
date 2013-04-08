@@ -12,7 +12,7 @@
 [ -z "$EZPAARSE_PIDFILE" ] && EZPAARSE_PIDFILE="$EZPAARSE_PATH/ezpaarse.pid"
 [ -z "$EZPAARSE_PORT" ] && EZPAARSE_PORT=$($EZPAARSE_PATH/bin/readconfig --key EZPAARSE_NODEJS_PORT)
 [ -z "$EZPAARSE_NAME" ] && EZPAARSE_NAME=$($EZPAARSE_PATH/bin/readconfig --key name)
-[ -z "$EZPAARSE_VERSION" ] && EZPAARSE_VERSION=$($EZPAARSE_PATH/bin/readconfig --key EZPAARSE_VERSION)
+[ -z "$EZPAARSE_ENV" ] && EZPAARSE_ENV=$($EZPAARSE_PATH/bin/readconfig --key EZPAARSE_ENV)
 [ -z "$EZPAARSE_DEBUG_LEVEL" ] && EZPAARSE_DEBUG_LEVEL="*"
 [ -z "$EZPAARSE_LOGDIR" ] && EZPAARSE_LOGDIR="$EZPAARSE_PATH/logs"
 [ -z "$FOREVER_CMD" ] && FOREVER_CMD="forever"
@@ -24,9 +24,9 @@ if [ ! -d $EZPAARSE_PATH/build/ ]; then
 fi
 
 ezpaarse_start() {
-  if [ "$EZPAARSE_VERSION" == "development" ]; then
+  if [ "$EZPAARSE_ENV" == "development" ]; then
     # NODE_ENV used to control the expressjs development or production flag
-    NODE_ENV=${NODE_ENV:="$EZPAARSE_VERSION"}
+    NODE_ENV=${NODE_ENV:="$EZPAARSE_ENV"}
     # DEBUG used to activate verbose and colored logs on stdout
     DEBUG=${DEBUG:="$EZPAARSE_DEBUG_LEVEL"}
     # run app.js forground to help developer
@@ -36,12 +36,14 @@ ezpaarse_start() {
                      -o $EZPAARSE_LOGDIR/out.log \
                      -e $EZPAARSE_LOGDIR/err.log \
                      --pidFile $EZPAARSE_PIDFILE \
+                     --watch --watchDirectory $EZPAARSE_PATH/ \
+                     --watchIgnore "logs/" --watchIgnore "tmp/" --watchIgnore ".git/" --watchIgnore "*.log" --watchIgnore "*.md" --watchIgnore "*.pid" \
                      $EZPAARSE_PATH/app.js 1>/dev/null
   fi
 }
 
 ezpaarse_stop() {
-  if [ "$EZPAARSE_VERSION" == "development" ]; then
+  if [ "$EZPAARSE_ENV" == "development" ]; then
     kill `cat $EZPAARSE_PIDFILE`
   else
     $FOREVER_CMD stop -p $EZPAARSE_PATH $EZPAARSE_PATH/app.js 1>/dev/null
@@ -49,7 +51,7 @@ ezpaarse_stop() {
 }
 
 ezpaarse_restart() {
-  if [ "$EZPAARSE_VERSION" == "development" ]; then
+  if [ "$EZPAARSE_ENV" == "development" ]; then
     ezpaarse_stop
     ezpaarse_start
   else
