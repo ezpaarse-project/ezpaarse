@@ -121,7 +121,8 @@ exe:
 clean-for-release:
 	test -f ./clean-for-release-flag || ( echo "Warning: do no run this command on your ezpaarse used for devlopements" ; exit 1 )	
 	rm -rf ./.git/
-	rm -f ./test/injection-test.js
+	rm -f ./test/injection-*-test.js
+	rm -f ./test/customformat-test.js
 	mv ./test/dataset/sd.wrong-first-line.log /tmp/ ; echo -n ""
 	mv ./test/dataset/sd.mini.log* /tmp/            ; echo -n ""
 	rm -rf ./test/dataset/multiformat/*
