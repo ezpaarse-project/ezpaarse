@@ -60,7 +60,9 @@ describe('The server', function () {
         res.should.have.status(200);
 
         csvextractor.extract(fs.createReadStream(csvResultFile), [], function (correctRecords) {
-          csvextractor.extract([body], [], function (bodyRecords) {
+          csvextractor.extract([body], [], function (bodyRecords) {            
+            fs.writeFileSync('/tmp/d1', JSON.stringify(bodyRecords, null, '  '));
+            fs.writeFileSync('/tmp/d2', JSON.stringify(correctRecords, null, '  '));
             should.ok(helpers.compareArrays(bodyRecords, correctRecords),
               'The response of the server does not match the expected one');
             done();
