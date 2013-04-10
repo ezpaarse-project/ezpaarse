@@ -118,6 +118,8 @@ exe:
 	@test -f /usr/bin/makensis || sudo apt-get install --yes nsis
 	./bin/buildexe
 
+release: tar deb rpm exe
+
 clean-for-release:
 	test -f ./clean-for-release-flag || ( echo "Warning: do no run this command on your ezpaarse used for devlopements" ; exit 1 )	
 	rm -rf ./.git/
