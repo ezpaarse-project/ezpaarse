@@ -135,6 +135,7 @@ clean-for-release:
 	rm -rf ./build/
 	rm -rf ./misc/
 	rm -rf ./ezpaarse-*/
+	sed -i 's/development/production/g' ./config.json
 	find ./node_modules/ -name "tests"     -type d -exec rm -rf {} \; 2>/dev/null || true
 	find ./node_modules/ -name "test"      -type d -exec rm -rf {} \; 2>/dev/null || true
 	find ./node_modules/ -name "dist"      -type d -exec rm -rf {} \; 2>/dev/null || true
