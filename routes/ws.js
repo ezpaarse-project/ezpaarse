@@ -53,17 +53,15 @@ module.exports = function (app, domains, ignoredDomains) {
       return;
     }
 
-    // TODO put all results of the callback in a single array
-    initializer.init(logger, req, res,
-            function (err, unzipReq, zipRes, anonymize, logParser, writer, outputFields, fieldsUsage) {
+    initializer.init(logger, req, res, function (err, init) {
       if (err) {
         res.set(statusHeader, err.ezStatus);
         res.status(err.status);
         res.end();
         return;
       }
-      if (unzipReq) {
-        unzipReq.on('error', function (err) {
+      if (init.unzipReq) {
+        init.unzipReq.on('error', function (err) {
           logger.error('Error while unziping request data');
           if (!res.headerSent) {
             res.set(statusHeader, 4002);
@@ -73,9 +71,11 @@ module.exports = function (app, domains, ignoredDomains) {
         });
       }
       logger.info('Starting response');
-      var request  = unzipReq ? unzipReq : req;
-      var response = zipRes   ? zipRes   : res;
+      var request  = init.unzipReq ? init.unzipReq : req;
+      var response = init.zipRes   ? init.zipRes   : res;
 
+      var logParser = init.logParser;
+      var writer = init.writer;
       var ecFilter = new ECFilter(ignoredDomains);
       // Takes "raw" ECs and returns those which can be sent
       var handler = new ECHandler(logger);
@@ -88,11 +88,11 @@ module.exports = function (app, domains, ignoredDomains) {
         if (ec) {
           treatedLines = true;
           if (ecFilter.isValid(ec)) {
-            if (ec.host && anonymize.host) {
-              ec.host = crypto.createHash(anonymize.host).update(ec.host).digest("hex");
+            if (ec.host && init.anonymize.host) {
+              ec.host = crypto.createHash(init.anonymize.host).update(ec.host).digest("hex");
             }
-            if (ec.login && anonymize.login) {
-              ec.login = crypto.createHash(anonymize.login).update(ec.login).digest("hex");
+            if (ec.login && init.anonymize.login) {
+              ec.login = crypto.createHash(init.anonymize.login).update(ec.login).digest("hex");
             }
             var parser = domains[ec.domain];
             if (parser) {
@@ -148,7 +148,7 @@ module.exports = function (app, domains, ignoredDomains) {
         if (!writerWasStarted) {
           writerWasStarted = true;
           res.status(200);
-          writer.start(outputFields, fieldsUsage);
+          writer.start(init.outputFields, init.fieldsUsage);
         }
         writer.write(ec);
         writtenECs = true;

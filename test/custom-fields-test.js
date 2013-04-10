@@ -10,7 +10,8 @@ var logFile       = __dirname + '/dataset/customformat.log';
 
 describe('The server', function () {
   describe('receives a log on the HTTP POST / route with a specific log format', function () {
-    it('and sends back a CSV containings the fields specified by the custom format', function (done) {
+    it('and sends back a CSV containings the fields specified by the custom format',
+        function (done) {
       var headers = {
         'Accept'            : 'text/csv',
         'LogFormat-ezproxy' : '%u %{col1}<[0-9]+> "%r" %{col2}<[A-Z]+>',
