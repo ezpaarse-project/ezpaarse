@@ -14,8 +14,7 @@ describe('The server', function () {
         function (done) {
       var headers = {
         'Accept'            : 'text/csv',
-        'LogFormat-ezproxy' : '%u %{col1}<[0-9]+> "%r" %{col2}<[A-Z]+>',
-        'OutputFields'      : '+col1,col2'
+        'LogFormat-ezproxy' : '%u %{col1}<[0-9]+> "%r" %{col2}<[A-Z]+>'
       };
       helpers.post('/', logFile, headers, function (error, res, body) {
         if (error) {

@@ -75,6 +75,7 @@ module.exports = function (app, domains, ignoredDomains) {
       var response = init.zipRes   ? init.zipRes   : res;
 
       var logParser = init.logParser;
+
       var writer = init.writer;
       var ecFilter = new ECFilter(ignoredDomains);
       // Takes "raw" ECs and returns those which can be sent
@@ -148,6 +149,15 @@ module.exports = function (app, domains, ignoredDomains) {
         if (!writerWasStarted) {
           writerWasStarted = true;
           res.status(200);
+          // Merges asked fields with those extracted by logParser
+          // (but doesn't if the fields replace the defaults)
+          if (!init.outputFields) {
+            init.outputFields = logParser.getFields();
+          } else {
+            if (!init.fieldsUsage || init.fieldsUsage !== 'replace') {
+              init.outputFields = init.outputFields.concat(logParser.getFields());
+            }
+          }
           writer.start(init.outputFields, init.fieldsUsage);
         }
         writer.write(ec);
