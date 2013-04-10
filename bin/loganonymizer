@@ -1,5 +1,4 @@
-#!/usr/bin/env node
-
+#!/usr/bin/env ezpaarse-node
 /*jslint node: true, maxlen: 100, maxerr: 50, indent: 2 */
 'use strict';
 

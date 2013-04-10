@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env ezpaarse-node
 //
 // Log injector: Inject data into ezPAARSE and gets the response
 //
@@ -22,10 +22,10 @@ var optimist = require('optimist')
     .alias('encoding','e')
     .describe('input', 'a file to inject into ezPAARSE (default: stdin)')
     .describe('output', 'a file to send the result to (default: stdout)')
-    .describe('server', 'the server to send the request to (ex: http://ezpaarse.com:80). ' +
-        'If none, will send to a local instance.')
+    .describe('server', 'the server to send the request to (ex: http://ezpaarse.couperin.org). ' +
+        'If none, will send to the local ezPAARSE installation.')
     .describe('proxy', 'the proxy which generated the log file')
-    .describe('format', 'the format of log lines (ex: %h %u [%t] "%r")')
+    .describe('format', 'the format of log lines (ex: %h %u %t "%r")')
     .describe('encoding', 'encoding of sent data (gzip, deflate)')
     .describe('accept', 'wanted type for the response (text/csv, application/json)');
 var argv = optimist.argv;

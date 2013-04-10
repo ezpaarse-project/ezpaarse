@@ -1,4 +1,4 @@
-#!/usr/bin/env node
+#!/usr/bin/env ezpaarse-node
 //
 // Command used to extract config value from config.json
 //
