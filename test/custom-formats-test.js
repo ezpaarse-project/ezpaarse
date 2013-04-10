@@ -10,15 +10,15 @@ var folder   = __dirname + '/dataset/multiformat';
 var ezproxyTestSets =
 [
   { logFile: folder + '/univ_limoges.ezproxy.log',
-    format: '%<[ ]?>[%t] %h %U' },
+    format: '%<[ ]?>%t %h %U' },
   { logFile: folder + '/univ_lyon.ezproxy.log',
-    format: '%h %l %u [%t] "%r" %s %b' },
+    format: '%h %l %u %t "%r" %s %b' },
   { logFile: folder + '/univ_strasbourg.ezproxy.log',
-    format: '[%t] %h %u %U %b %{session}<[a-zA-Z0-9]+>' },
+    format: '%t %h %u %U %b %{session}<[a-zA-Z0-9]+>' },
   { logFile: folder + '/ul.ezproxy.log',
-    format: '%h %u %<[0-9]> [%t] "%r" %s %b %<[a-zA-Z\\+]+>' },
+    format: '%h %u %<[0-9]> %t "%r" %s %b %<[a-zA-Z\\+]+>' },
   { logFile: folder + '/upmc.ezproxy.log',
-    format: '%h %{session} %u [%t] "%r" %s %b %<.*>' }
+    format: '%h %{session} %u %t "%r" %s %b %<.*>' }
 ];
 var bibliopamTestSets =
 [
