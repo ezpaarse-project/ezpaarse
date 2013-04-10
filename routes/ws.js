@@ -53,8 +53,9 @@ module.exports = function (app, domains, ignoredDomains) {
       return;
     }
 
+    // TODO put all results of the callback in a single array
     initializer.init(logger, req, res,
-                     function (err, unzipReq, zipRes, anonymize, logParser, writer) {
+            function (err, unzipReq, zipRes, anonymize, logParser, writer, outputFields, fieldsUsage) {
       if (err) {
         res.set(statusHeader, err.ezStatus);
         res.status(err.status);
@@ -147,7 +148,7 @@ module.exports = function (app, domains, ignoredDomains) {
         if (!writerWasStarted) {
           writerWasStarted = true;
           res.status(200);
-          writer.start();
+          writer.start(outputFields, fieldsUsage);
         }
         writer.write(ec);
         writtenECs = true;

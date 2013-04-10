@@ -13,7 +13,8 @@ describe('The server', function () {
     it('and sends back a CSV containings the fields specified by the custom format', function (done) {
       var headers = {
         'Accept'            : 'text/csv',
-        'LogFormat-ezproxy' : '%u %{col1}<[0-9]+> "%r" %{col2}<[A-Z]+>'
+        'LogFormat-ezproxy' : '%u %{col1}<[0-9]+> "%r" %{col2}<[A-Z]+>',
+        'OutputFields'      : '+col1,col2'
       };
       helpers.post('/', logFile, headers, function (error, res, body) {
         if (error) {
