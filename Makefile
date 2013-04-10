@@ -48,7 +48,7 @@ docopen: doc $(DOC_HMTL)
 # # # # # # # # #
 
 EZPATH = $(shell pwd)
-JSFILES=$(wildcard $(EZPATH)/*.js) $(wildcard $(EZPATH)/test/*.js)  $(wildcard $(EZPATH)/routes/*.js)
+JSFILES=$(wildcard $(EZPATH)/*.js) $(wildcard $(EZPATH)/lib/*.js) $(wildcard $(EZPATH)/lib/*/*.js) $(wildcard $(EZPATH)/test/*.js)  $(wildcard $(EZPATH)/routes/*.js)
 
 # Runs all tests (*-test.js) in the test folder
 test:
