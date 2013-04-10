@@ -120,27 +120,5 @@ module.exports = function (app) {
     }
     res.end();
   });
-
-  
-  app.get('/info/dltest', function (req, res) {
-    res.type('text/plain');
-    res.header('Content-Disposition', 'attachment; filename=monfichier2.txt');
-    res.status(200);
-    
-    var stopWrite = false;
-    function writeDataToRes() {
-      if (!stopWrite) {
-        res.write('.');
-        setTimeout(writeDataToRes, 1);
-      }
-    }
-    writeDataToRes();
-    
-    setTimeout(function () {
-      stopWrite = true;
-      res.end();
-    }, 30000);
-    
-  });
   
 };
