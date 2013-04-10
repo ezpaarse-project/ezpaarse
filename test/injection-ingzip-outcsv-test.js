@@ -7,8 +7,8 @@ var fs            = require('fs');
 var should        = require('should');
 var csvextractor  = require('../lib/csvextractor.js');
 
-var gzipLogFile           = __dirname + '/dataset/sd.2013-01-15.log.gz';
-var csvResultFile         = __dirname + '/dataset/sd.2013-01-15.result.csv';
+var gzipLogFile   = __dirname + '/dataset/sd.2013-01-15.log.gz';
+var csvResultFile = __dirname + '/dataset/sd.2013-01-15.result.csv';
 
 describe('The server', function () {
   describe('receives a gzipped log file', function () {
