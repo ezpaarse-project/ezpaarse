@@ -9,15 +9,12 @@ var csvextractor  = require('../lib/csvextractor.js');
 
 var logFile               = __dirname + '/dataset/sd.2012-11-30.300.log';
 var resultFile            = __dirname + '/dataset/sd.2012-11-30.300.result.json';
-var gzipLogFile           = __dirname + '/dataset/sd.2013-01-15.log.gz';
-var csvResultFile         = __dirname + '/dataset/sd.2013-01-15.result.csv';
-var wrongFirstLineLogFile = __dirname + '/dataset/sd.wrong-first-line.log';
 
 describe('The server', function () {
   describe('receives a log on the HTTP POST / route', function () {
     it('and sends back a well formatted output file', function (done) {
       var headers = {
-        accept: 'application/json',
+        'Accept'        : 'application/json',
         'Anonymize-host': 'md5'
       };
       helpers.post('/', logFile, headers, function (error, res, body) {
@@ -39,33 +36,6 @@ describe('The server', function () {
           'Server\'s answer do not match the intended result');
 
         done();
-      });
-    });
-  });
-  describe('receives a gzipped log file', function () {
-    it('and sends back a correct csv output', function (done) {
-      var headers = {
-        accept: 'text/csv',
-        'content-encoding': 'gzip',
-        'Anonymize-host': 'md5'
-      };
-      helpers.post('/', gzipLogFile, headers,
-      function (error, res, body) {
-        if (error) {
-          throw error;
-        }
-        if (!res) {
-          throw new Error('The application is not running');
-        }
-        res.should.have.status(200);
-
-        csvextractor.extract(fs.createReadStream(csvResultFile), [], function (correctRecords) {
-          csvextractor.extract([body], [], function (bodyRecords) {
-            should.ok(helpers.compareArrays(bodyRecords, correctRecords),
-              'The response of the server does not match the expected one');
-            done();
-          }, {silent: true});
-        }, {silent: true});
       });
     });
   });
