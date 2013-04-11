@@ -1,5 +1,4 @@
-#!/usr/bin/env node
-
+#!/usr/bin/env ezpaarse-node
 /*
 * Command used to parse a csv source into json or csv
 */
