@@ -7,7 +7,8 @@
   "docurl": "http://analogist.couperin.org/platforms/dalloz/",
   "contact": "dominique.lechaudel at inist.fr",
 	"domains": [
-    "www.dalloz.fr"
+    "www.dalloz.fr",
+    "bu.dalloz.fr"
 	],
   "recognize": [
     "PID",
