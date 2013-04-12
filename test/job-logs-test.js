@@ -6,7 +6,7 @@ var helpers = require('./helpers.js');
 var fs      = require('fs');
 var should  = require('should');
 
-var logFile     = __dirname + '/dataset/sd.2012-11-30.300.log';
+var logFile     = __dirname + '/dataset/sd.mini.log';
 
 describe('The server', function () {
   describe('receives a log on the HTTP POST / route', function () {
