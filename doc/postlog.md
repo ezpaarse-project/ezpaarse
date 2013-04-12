@@ -15,6 +15,7 @@ Parse un fichier de log et retourne des évènements de consultation. L'opérati
 -   **DateFormat:** format de date utilisé dans les logs envoyés. Par défaut : 'DD/MMM/YYYY:HH:mm:ss Z'.  
 -   **Anonymise-host:** anonymise la valeur du host des lignes de log. Par défaut : 'none'. *(supportés : md5, none)*.  
 -   **Anonymise-login:** anonymise la valeur du login des lignes de log. Par défaut : 'none'. *(supportés : md5, none)*.  
+-   **OutputFields:** champs à retrouver dans les données en sortie (si le format le permet). [(Plus de détails)](./outputfields.html)
 
 ##### Body #####
 

@@ -11,7 +11,8 @@
         "formats.md",
         "developer.md",
         "tools.md",
-        "changelog.md"
+        "changelog.md",
+        "outputfields.md"
     ],
     "css": "/stylesheets/doc.css",
     "codeHighlightTheme": "solarized_dark"
