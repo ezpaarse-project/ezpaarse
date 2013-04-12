@@ -107,6 +107,7 @@ app.configure(function () {
 // log related routes
 require('./routes/ws')(app, parsers, config.EZPAARSE_IGNORED_DOMAINS);
 require('./routes/info')(app);
+require('./routes/logs')(app);
 
 var server = http.createServer(app);
 // Set socket.io to handle uploads
