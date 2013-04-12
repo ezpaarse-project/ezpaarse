@@ -61,7 +61,9 @@ app.configure('development', function () {
 });
 app.configure('production', function () {
   // http://www.senchalabs.org/connect/middleware-logger.html
-  app.use(express.logger());
+  app.use(express.logger({
+    stream: fs.createWriteStream(__dirname + '/logs/access.log', { flags: 'a+' })
+  }));
 });
 
 app.configure(function () {
