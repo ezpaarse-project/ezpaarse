@@ -24,8 +24,11 @@ describe('The server', function () {
         res.should.have.status(200);
         var jobID = res.headers['jobid'];
         should.exist(jobID, 'The JobID header was not sent by the server');
-        should.ok(fs.existsSync(__dirname + '/../tmp/logs/' + jobID),
+        var logPath = __dirname + '/../tmp/logs/' + jobID;
+        should.ok(fs.existsSync(logPath),
           'The log folder has not been created');
+        should.ok(fs.existsSync(logPath + '/JobTraces.log'),
+          'JobTraces.log has not been created');
 
         done();
       });
