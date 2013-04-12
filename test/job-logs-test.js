@@ -27,7 +27,7 @@ describe('The server', function () {
         var logPath = __dirname + '/../tmp/logs/' + jobID;
         should.ok(fs.existsSync(logPath),
           'The log folder has not been created');
-        should.ok(fs.existsSync(logPath + '/JobTraces.log'),
+        should.ok(fs.existsSync(logPath + '/jobtraces.log'),
           'JobTraces.log has not been created');
 
         done();

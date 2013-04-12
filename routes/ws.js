@@ -21,7 +21,7 @@ module.exports = function (app, domains, ignoredDomains) {
   app.post('/', function (req, res) {
     var requestID = uuid.v1();
     res.set('JobID', requestID);
-    
+
     var loglevel = req.header('LogLevel') || 'error';
     var logPath = __dirname + '/../tmp/logs/' + requestID;
     mkdirp.sync(logPath);
@@ -33,7 +33,7 @@ module.exports = function (app, domains, ignoredDomains) {
         }),
         new (winston.transports.File)({
           level: loglevel,
-          stream: fs.createWriteStream(logPath + '/JobTraces.log')
+          stream: fs.createWriteStream(logPath + '/jobtraces.log')
         })
       ]
     });
