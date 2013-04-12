@@ -23,7 +23,13 @@ describe('The server', function () {
         }
         res.should.have.status(200);
         var jobID = res.headers['jobid'];
-        should.exist(jobID, 'The JobID header was not sent by the server');
+        should.exist(jobID, 'The header "JobID" was not sent by the server');
+        should.exist(res.headers['jobtraces'], 'The header "JobTraces" was not sent by the server');
+        should.exist(res.headers['jobunknownformats'], 'The header "JobUnknownFormats" was not sent by the server');
+        should.exist(res.headers['jobignoreddomains'], 'The header "JobIgnoredDomains" was not sent by the server');
+        should.exist(res.headers['jobunqualifiedecs'], 'The header "JobUnqualifiedECs" was not sent by the server');
+        should.exist(res.headers['jobpkbmissecs'], 'The header "JobPKBMissECs" was not sent by the server');
+
         var logPath = __dirname + '/../tmp/logs/' + jobID;
         should.ok(fs.existsSync(logPath),
           'The log folder has not been created');

@@ -21,6 +21,12 @@ module.exports = function (app, domains, ignoredDomains) {
   app.post('/', function (req, res) {
     var requestID = uuid.v1();
     res.set('JobID', requestID);
+    var logRoute = 'http://' + req.headers.host + '/logs/' + requestID;
+    res.set('JobTraces', logRoute + '/jobtraces.log');
+    res.set('JobUnknownFormats', logRoute + '/jobunknownformats.log');
+    res.set('JobIgnoredDomains', logRoute + '/jobignoreddomains.log');
+    res.set('JobUnqualifiedECs', logRoute + '/jobunqualifiedecs.log');
+    res.set('JobPKBMissECs', logRoute + '/jobpkbmissecs.log');
 
     var loglevel = req.header('LogLevel') || 'error';
     var logPath = __dirname + '/../tmp/logs/' + requestID;
