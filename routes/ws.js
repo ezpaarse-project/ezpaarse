@@ -11,12 +11,15 @@ var ECFilter    = require('../lib/ecfilter.js');
 var ECHandler   = require('../lib/echandler.js');
 var config      = require('../config.json');
 var winston     = require('winston');
+var uuid        = require('uuid');
 
 module.exports = function (app, domains, ignoredDomains) {
   /**
    * POST log
    */
   app.post('/', function (req, res) {
+    var requestID = uuid.v1();
+    res.set('JobID', requestID);
     var loglevel = req.header('LogLevel') || 'error';
 
     var logger = new (winston.Logger)({
