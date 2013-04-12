@@ -12,6 +12,7 @@ var ECHandler   = require('../lib/echandler.js');
 var config      = require('../config.json');
 var winston     = require('winston');
 var uuid        = require('uuid');
+var mkdirp      = require('mkdirp');
 
 module.exports = function (app, domains, ignoredDomains) {
   /**
@@ -20,8 +21,10 @@ module.exports = function (app, domains, ignoredDomains) {
   app.post('/', function (req, res) {
     var requestID = uuid.v1();
     res.set('JobID', requestID);
+    
     var loglevel = req.header('LogLevel') || 'error';
-
+    var logPath = __dirname + '/../tmp/logs/' + requestID;
+    mkdirp.sync(logPath);
     var logger = new (winston.Logger)({
       transports: [
         new (winston.transports.Console)({
@@ -30,8 +33,7 @@ module.exports = function (app, domains, ignoredDomains) {
         }),
         new (winston.transports.File)({
           level: loglevel,
-          dirname: __dirname + '/../logs',
-          filename: 'debug.log' // should be sessionized
+          stream: fs.createWriteStream(logPath + '/JobTraces.log')
         })
       ]
     });
