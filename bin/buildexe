@@ -8,7 +8,7 @@ set -e
 MY_PATH=$(cd ${0%/*} && echo $PWD/${0##*/})
 BIN_PATH=`dirname "$MY_PATH"`
 EZPAARSE_PATH=$BIN_PATH/..
-EZPAARSE_NODE_VERSION=0.8.22
+EZPAARSE_NODEJS_VERSION="`$BIN_PATH/readconfig -k EZPAARSE_NODEJS_VERSION`"
 
 
 # check version exists
@@ -52,7 +52,7 @@ rm -rf ./platforms-kb/.git/
 
 # download node version for windows
 # http://nodejs.org/dist/v0.8.22/node.exe
-curl -L http://nodejs.org/dist/v$EZPAARSE_NODE_VERSION/node.exe > node.exe
+curl -L http://nodejs.org/dist/v$EZPAARSE_NODEJS_VERSION/node.exe > node.exe
 
 cd $TMP_DIR
 # compile with ezpaarse nsis script file

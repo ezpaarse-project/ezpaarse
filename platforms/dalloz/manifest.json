@@ -1,0 +1,19 @@
+{
+  "name": "dalloz",
+  "version": "2013-04-12",
+  "status": "development",
+  "longname": "Dalloz",
+  "describe": "Identifie les consultations des bases juridiques Dalloz",
+  "docurl": "http://analogist.couperin.org/platforms/dalloz/",
+  "contact": "dominique.lechaudel at inist.fr",
+	"domains": [
+    "www.dalloz.fr",
+    "bu.dalloz.fr"
+	],
+  "recognize": [
+    "PID",
+    "TXT",  
+    "PDF", 
+    "TOC"
+  ]
+}
