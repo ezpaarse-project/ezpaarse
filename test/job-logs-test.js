@@ -10,7 +10,7 @@ var logFile     = __dirname + '/dataset/sd.mini.log';
 
 describe('The server', function () {
   describe('receives a log on the HTTP POST / route', function () {
-    it('and correctly sends log headers', function (done) {
+    it('and correctly handles logs', function (done) {
       var headers = {
         'Accept'        : 'application/json'
       };
@@ -22,7 +22,10 @@ describe('The server', function () {
           throw new Error('ezPAARSE is not running');
         }
         res.should.have.status(200);
-        should.exist(res.headers['jobid'], 'The JobID header was not sent by the server');
+        var jobID = res.headers['jobid'];
+        should.exist(jobID, 'The JobID header was not sent by the server');
+        should.ok(fs.existsSync(__dirname + '/../tmp/logs/' + jobID),
+          'The log folder has not been created');
 
         done();
       });
