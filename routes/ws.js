@@ -20,6 +20,7 @@ module.exports = function (app, domains, ignoredDomains) {
    */
   app.post('/', function (req, res) {
     var requestID = uuid.v1();
+
     res.set('Job-ID', requestID);
     var logRoute = 'http://' + req.headers.host + '/logs/' + requestID;
     res.set('Job-Traces', logRoute + '/job-traces.log');
@@ -29,7 +30,10 @@ module.exports = function (app, domains, ignoredDomains) {
     res.set('Job-PKB-Miss-ECs', logRoute + '/job-pkb-miss-ecs.log');
 
     var loglevel = req.header('LogLevel') || 'error';
-    var logPath = __dirname + '/../tmp/logs/' + requestID;
+    var logPath = __dirname + '/../tmp/logs/'
+    + requestID.charAt(0) + '/'
+    + requestID.charAt(1) + '/'
+    + requestID;
     mkdirp.sync(logPath);
     var logger = new (winston.Logger)({
       transports: [

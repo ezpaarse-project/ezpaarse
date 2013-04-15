@@ -9,11 +9,15 @@ module.exports = function (app) {
    * GET route on /logs/:rid/:logfile
    * Used to get a logfile
    */
-  app.get(/^\/logs\/([a-zA-Z0-9\-]+)\/([a-zA-Z]+\.log)$/, function (req, res) {
-    var folder  = __dirname + '/../tmp/logs/' + req.params[0];
-    var logFile = folder + '/' + req.params[1];
+  app.get(/^\/logs\/([a-zA-Z0-9\-]+)\/([a-zA-Z\-]+\.log)$/, function (req, res) {
+    var requestID = req.params[0];
+    var logPath   = __dirname + '/../tmp/logs/'
+    + requestID.charAt(0) + '/'
+    + requestID.charAt(1) + '/'
+    + requestID;
+    var logFile = logPath + '/' + req.params[1];
     if (fs.existsSync(logFile)) {
-      res.sendfile(req.params[1], {root: folder}, function (err) {
+      res.sendfile(req.params[1], {root: logPath}, function (err) {
         if (err) {
           res.status(500);
           res.end();
