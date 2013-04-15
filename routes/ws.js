@@ -54,7 +54,8 @@ module.exports = function (app, domains, ignoredDomains) {
     });
 
     var logstreams = {
-      unknownFormats: fs.createWriteStream(logPath + '/job-unknown-formats.log')
+      unknownFormats: fs.createWriteStream(logPath + '/job-unknown-formats.log'),
+      ignoredDomains: fs.createWriteStream(logPath + '/job-ignored-domains.log')
     }
     
     var countLines  = 0;
@@ -101,7 +102,7 @@ module.exports = function (app, domains, ignoredDomains) {
       var logParser = init.logParser;
 
       var writer = init.writer;
-      var ecFilter = new ECFilter(ignoredDomains);
+      var ecFilter = new ECFilter();
       // Takes "raw" ECs and returns those which can be sent
       var handler = new ECHandler(logger);
       
@@ -113,17 +114,22 @@ module.exports = function (app, domains, ignoredDomains) {
         if (ec) {
           treatedLines = true;
           if (ecFilter.isValid(ec)) {
-            if (ec.host && init.anonymize.host) {
-              ec.host = crypto.createHash(init.anonymize.host).update(ec.host).digest("hex");
-            }
-            if (ec.login && init.anonymize.login) {
-              ec.login = crypto.createHash(init.anonymize.login).update(ec.login).digest("hex");
-            }
-            var parser = domains[ec.domain];
-            if (parser) {
-              handler.push(ec, parser);
+            if (ignoredDomains.indexOf(ec.domain) === -1) {
+              if (ec.host && init.anonymize.host) {
+                ec.host = crypto.createHash(init.anonymize.host).update(ec.host).digest("hex");
+              }
+              if (ec.login && init.anonymize.login) {
+                ec.login = crypto.createHash(init.anonymize.login).update(ec.login).digest("hex");
+              }
+              var parser = domains[ec.domain];
+              if (parser) {
+                handler.push(ec, parser);
+              } else {
+                logger.silly('No parser found for : ' + ec.domain);
+              }
             } else {
-              logger.silly('No parser found for : ' + ec.domain);
+              logger.silly('The domain is ignored');
+              logstreams.ignoredDomains.write(line + '\n');
             }
           } else {
             logger.silly('Line was ignored');
