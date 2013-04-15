@@ -46,13 +46,10 @@ describe('The server', function () {
         should.exist(res.headers['job-traces'],
           'The header "Job-Traces" was not sent by the server');
 
-        var logDir = __dirname + '/../tmp/logs/' + jobID;
-        should.ok(fs.existsSync(logDir),
-          'The log folder has not been created');
-        should.ok(fs.existsSync(logDir + '/job-traces.log'),
-          'JobTraces.log has not been created');
-
-        done();
+        helpers.get('/logs/' + jobID + '/job-traces.log', function (error, res, body) {
+          res.should.have.status(200);
+          done();
+        });
       });
     });
   });
