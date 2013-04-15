@@ -31,6 +31,7 @@ module.exports = function (app, domains, ignoredDomains) {
     res.set('Job-Traces', logRoute + '/job-traces.log');
     res.set('Job-Unknown-Formats', logRoute + '/job-unknown-formats.log');
     res.set('Job-Ignored-Domains', logRoute + '/job-ignored-domains.log');
+    res.set('Job-Unknown-Domains', logRoute + '/job-unknown-domains.log');
     res.set('Job-Unqualified-ECs', logRoute + '/job-unqualified-ecs.log');
     res.set('Job-PKB-Miss-ECs', logRoute + '/job-pkb-miss-ecs.log');
 
@@ -55,7 +56,8 @@ module.exports = function (app, domains, ignoredDomains) {
 
     var logstreams = {
       unknownFormats: fs.createWriteStream(logPath + '/job-unknown-formats.log'),
-      ignoredDomains: fs.createWriteStream(logPath + '/job-ignored-domains.log')
+      ignoredDomains: fs.createWriteStream(logPath + '/job-ignored-domains.log'),
+      unknownDomains: fs.createWriteStream(logPath + '/job-unknown-domains.log')
     }
     
     var countLines  = 0;
@@ -126,6 +128,7 @@ module.exports = function (app, domains, ignoredDomains) {
                 handler.push(ec, parser);
               } else {
                 logger.silly('No parser found for : ' + ec.domain);
+                logstreams.unknownDomains.write(line + '\n');
               }
             } else {
               logger.silly('The domain is ignored');

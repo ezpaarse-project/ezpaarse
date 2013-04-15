@@ -137,12 +137,12 @@ describe('The server', function () {
         res.should.have.status(200);
 
         // TODO make a specific test for each header
-        should.exist(res.headers['job-ignored-domains'],
-          'The header "JobIgnoredDomains" was not sent by the server');
+        should.exist(res.headers['job-unknown-domains'],
+          'The header "Job-Unknown-Domains" was not sent by the server');
         should.exist(res.headers['job-unqualified-ecs'],
-          'The header "JobUnqualifiedECs" was not sent by the server');
+          'The header "Job-Unqualified-ECs" was not sent by the server');
         should.exist(res.headers['job-pkb-miss-ecs'],
-          'The header "JobPKBMissECs" was not sent by the server');
+          'The header "Job-PKB-Miss-ECs" was not sent by the server');
         done();
       });
     });
