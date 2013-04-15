@@ -1,7 +1,7 @@
 {
   "name": "dalloz",
   "version": "2013-04-12",
-  "status": "development",
+  "status": "beta",
   "longname": "Dalloz",
   "describe": "Identifie les consultations des bases juridiques Dalloz",
   "docurl": "http://analogist.couperin.org/platforms/dalloz/",
@@ -12,8 +12,9 @@
 	],
   "recognize": [
     "PID",
-    "TXT",  
-    "PDF", 
-    "TOC"
+    "ENCYCLOPEDIES",
+    "CODES",
+    "FORMULES",
+    "BROCHES"
   ]
 }
