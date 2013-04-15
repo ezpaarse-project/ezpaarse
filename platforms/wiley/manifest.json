@@ -1,0 +1,22 @@
+{
+  "name": "wiley",
+  "version": "2013-04-15",
+  "status": "beta",
+  "longname": "Wiley",
+  "describe": "Identifie les consultations des bases Wiley",
+  "docurl": "http://analogist.couperin.org/platforms/wiley/",
+  "contact": "dominique.lechaudel at inist.fr",
+	"domains": [
+    "onlinelibrary.wiley.com"
+	],
+  "recognize": [
+    "PID",
+    "DOI",
+    "TOC",
+    "ABS",
+    "TXT",  
+    "PDF",
+    "BOOK_SECTION",
+    "BOOK_SECTION_PDF"
+  ]
+}
