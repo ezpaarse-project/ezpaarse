@@ -24,7 +24,8 @@ module.exports = function (app, domains, ignoredDomains) {
     // Job traces absolute url is calculated from the client headers
     // if the client request is forwarded by a reverse proxy, the x-forwarded-host
     // variable is used.
-    var logRoute = 'http://' + (req.headers['x-forwarded-host'] ? req.headers['x-forwarded-host'] : req.headers.host) + '/logs/' + requestID;
+    var logRoute = 'http://'
+    + (req.headers['x-forwarded-host'] || req.headers.host) + '/logs/' + requestID;
 
     res.set('Job-ID', requestID);
     res.set('Job-Traces', logRoute + '/job-traces.log');
