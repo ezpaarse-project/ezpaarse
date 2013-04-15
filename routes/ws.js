@@ -47,6 +47,10 @@ module.exports = function (app, domains, ignoredDomains) {
         })
       ]
     });
+
+    var logstreams = {
+      unknownFormats: fs.createWriteStream(logPath + '/job-unknown-formats.log')
+    }
     
     var countLines  = 0;
     var countECs    = 0;
@@ -121,6 +125,7 @@ module.exports = function (app, domains, ignoredDomains) {
           }
         } else {
           logger.silly('Line format was not recognized');
+          logstreams.unknownFormats.write(line + '\n');
           if (!treatedLines) {
             badBeginning = true;
             matchstream.end();
@@ -187,6 +192,9 @@ module.exports = function (app, domains, ignoredDomains) {
             writer.end();
           }
           res.end();
+          for (var stream in logstreams) {
+            logstreams[stream].end();
+          }
           logger.info("Terminating response");
           logger.info(countLines + " lines were read");
           logger.info(countECs + " ECs were created");
