@@ -1,0 +1,2 @@
+247.63.228.176 - THEODORE_MCCLURE [30/Nov/2012:00:15:35 +0100] "GET http://pdn.sciencedirect.com:80/science?_ob=MiamiImageURL&_cid=272543&_user=4046392&_pii=S0012160612006458&_check=y&_origin=articlesInPress&_zone=rslt_list_item&_coverDate=2012-11-28&wchp=dGLbVlB-zSkzV&md5=9c64ad403cf3463420138d2a8f5ab8c4&pid=1-s2.0-S0012160612006458-main.pdf&sqtrkid=0.4951963498822506 HTTP/1.1" 302 444
+This line does not look like any kind of log but is not the first !

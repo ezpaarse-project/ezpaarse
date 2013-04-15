@@ -6,10 +6,11 @@ var helpers = require('./helpers.js');
 var fs      = require('fs');
 var should  = require('should');
 
-var logFile = __dirname + '/dataset/sd.mini.log';
+var logFile                = __dirname + '/dataset/sd.mini.log';
+var wrongSecondLineLogFile = __dirname + '/dataset/sd.wrong-second-line.log';
 
 describe('The server', function () {
-  describe('receives a log', function () {
+  describe('receives a log file', function () {
     it('and sends a job ID in headers', function (done) {
       var headers = {
         'Accept' : 'application/json'
@@ -28,8 +29,8 @@ describe('The server', function () {
       });
     });
   });
-  describe('receives a log', function () {
-    it('and correctly handles JobTraces.log', function (done) {
+  describe('receives a log file', function () {
+    it('and correctly handles Job-Traces.log', function (done) {
       var headers = {
         'Accept' : 'application/json'
       };
@@ -53,7 +54,43 @@ describe('The server', function () {
       });
     });
   });
-  describe('receives a log', function () {
+  describe('receives a log file', function () {
+    it('and correctly handles Job-Unknown-Formats.log', function (done) {
+      var headers = {
+        'Accept' : 'text/csv'
+      };
+      helpers.post('/', wrongSecondLineLogFile, headers, function (error, res, body) {
+        if (error) {
+          throw error;
+        }
+        if (!res) {
+          throw new Error('ezPAARSE is not running');
+        }
+        res.should.have.status(200);
+
+        body = body.trim().split('\n');
+        should.ok(body.length === 2, 'One EC should be returned');
+
+        var jobID = res.headers['job-id'];
+        should.exist(jobID, 'The header "Job-ID" was not sent by the server');
+        should.exist(res.headers['job-unknown-formats'],
+          'The header "Job-Unknown-Formats" was not sent by the server');
+
+        helpers.get('/logs/' + jobID + '/job-unknown-formats.log',
+        function (error, res, logBody) {
+          res.should.have.status(200);
+
+          logBody = logBody.trim().split('\n');
+          should.ok(logBody.length === 1, 'One line should be present in the log file');
+
+          var logLine = fs.readFileSync(wrongSecondLineLogFile).toString().split('\n')[1]
+          logBody[0].should.equal(logLine);
+          done();
+        });
+      });
+    });
+  });
+  describe('receives a log file', function () {
     it('and sends all log-related headers', function (done) {
       var headers = {
         'Accept' : 'application/json'
@@ -68,8 +105,6 @@ describe('The server', function () {
         res.should.have.status(200);
 
         // TODO make a specific test for each header
-        should.exist(res.headers['job-unknown-formats'],
-          'The header "JobUnknownFormats" was not sent by the server');
         should.exist(res.headers['job-ignored-domains'],
           'The header "JobIgnoredDomains" was not sent by the server');
         should.exist(res.headers['job-unqualified-ecs'],
