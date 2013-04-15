@@ -21,8 +21,12 @@ module.exports = function (app, domains, ignoredDomains) {
   app.post('/', function (req, res) {
     var requestID = uuid.v1();
 
+    // Job traces absolute url is calculated from the client headers
+    // if the client request is forwarded by a reverse proxy, the x-forwarded-host
+    // variable is used.
+    var logRoute = 'http://' + (req.headers['x-forwarded-host'] ? req.headers['x-forwarded-host'] : req.headers.host) + '/logs/' + requestID;
+
     res.set('Job-ID', requestID);
-    var logRoute = 'http://' + req.headers.host + '/logs/' + requestID;
     res.set('Job-Traces', logRoute + '/job-traces.log');
     res.set('Job-Unknown-Formats', logRoute + '/job-unknown-formats.log');
     res.set('Job-Ignored-Domains', logRoute + '/job-ignored-domains.log');
