@@ -22,8 +22,8 @@ describe('The server', function () {
           throw new Error('ezPAARSE is not running');
         }
         res.should.have.status(200);
-        should.exist(res.headers['jobid'],
-          'The header "JobID" was not sent by the server');
+        should.exist(res.headers['job-id'],
+          'The header "Job-ID" was not sent by the server');
         done();
       });
     });
@@ -41,15 +41,15 @@ describe('The server', function () {
           throw new Error('ezPAARSE is not running');
         }
         res.should.have.status(200);
-        var jobID = res.headers['jobid'];
-        should.exist(jobID, 'The header "JobID" was not sent by the server');
-        should.exist(res.headers['jobtraces'],
-          'The header "JobTraces" was not sent by the server');
+        var jobID = res.headers['job-id'];
+        should.exist(jobID, 'The header "Job-ID" was not sent by the server');
+        should.exist(res.headers['job-traces'],
+          'The header "Job-Traces" was not sent by the server');
 
         var logDir = __dirname + '/../tmp/logs/' + jobID;
         should.ok(fs.existsSync(logDir),
           'The log folder has not been created');
-        should.ok(fs.existsSync(logDir + '/jobtraces.log'),
+        should.ok(fs.existsSync(logDir + '/job-traces.log'),
           'JobTraces.log has not been created');
 
         done();
@@ -71,13 +71,13 @@ describe('The server', function () {
         res.should.have.status(200);
 
         // TODO make a specific test for each header
-        should.exist(res.headers['jobunknownformats'],
+        should.exist(res.headers['job-unknown-formats'],
           'The header "JobUnknownFormats" was not sent by the server');
-        should.exist(res.headers['jobignoreddomains'],
+        should.exist(res.headers['job-ignored-domains'],
           'The header "JobIgnoredDomains" was not sent by the server');
-        should.exist(res.headers['jobunqualifiedecs'],
+        should.exist(res.headers['job-unqualified-ecs'],
           'The header "JobUnqualifiedECs" was not sent by the server');
-        should.exist(res.headers['jobpkbmissecs'],
+        should.exist(res.headers['job-pkb-miss-ecs'],
           'The header "JobPKBMissECs" was not sent by the server');
         done();
       });
