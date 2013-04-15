@@ -22,11 +22,11 @@ module.exports = function (app, domains, ignoredDomains) {
     var requestID = uuid.v1();
     res.set('Job-ID', requestID);
     var logRoute = 'http://' + req.headers.host + '/logs/' + requestID;
-    res.set('Job-Traces', logRoute + '/jobtraces.log');
-    res.set('Job-Unknown-Formats', logRoute + '/jobunknownformats.log');
-    res.set('Job-Ignored-Domains', logRoute + '/jobignoreddomains.log');
-    res.set('Job-Unqualified-ECs', logRoute + '/jobunqualifiedecs.log');
-    res.set('Job-PKB-Miss-ECs', logRoute + '/jobpkbmissecs.log');
+    res.set('Job-Traces', logRoute + '/job-traces.log');
+    res.set('Job-Unknown-Formats', logRoute + '/job-unknown-formats.log');
+    res.set('Job-Ignored-Domains', logRoute + '/job-ignored-domains.log');
+    res.set('Job-Unqualified-ECs', logRoute + '/job-unqualified-ecs.log');
+    res.set('Job-PKB-Miss-ECs', logRoute + '/job-pkb-miss-ecs.log');
 
     var loglevel = req.header('LogLevel') || 'error';
     var logPath = __dirname + '/../tmp/logs/' + requestID;
@@ -39,7 +39,7 @@ module.exports = function (app, domains, ignoredDomains) {
         }),
         new (winston.transports.File)({
           level: loglevel,
-          stream: fs.createWriteStream(logPath + '/jobtraces.log')
+          stream: fs.createWriteStream(logPath + '/job-traces.log')
         })
       ]
     });
