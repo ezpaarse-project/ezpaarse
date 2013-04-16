@@ -4,12 +4,14 @@
 
 var helpers = require('./helpers.js');
 var fs      = require('fs');
+var request = require('request');
 var should  = require('should');
 
 var logFile                = __dirname + '/dataset/sd.mini.log';
 var wrongSecondLineLogFile = __dirname + '/dataset/sd.wrong-second-line.log';
 var ignoredDomain          = __dirname + '/dataset/ignored-domain.log';
 var unknownDomain          = __dirname + '/dataset/unknown-domain.log';
+var unqualifiedEC          = __dirname + '/dataset/unqualified-ec.log';
 
 describe('The server', function () {
   describe('receives a log file', function () {
@@ -44,12 +46,12 @@ describe('The server', function () {
           throw new Error('ezPAARSE is not running');
         }
         res.should.have.status(200);
-        var jobID = res.headers['job-id'];
-        should.exist(jobID, 'The header "Job-ID" was not sent by the server');
-        should.exist(res.headers['job-traces'],
+
+        var logURL = res.headers['job-traces'];
+        should.exist(logURL,
           'The header "Job-Traces" was not sent by the server');
 
-        helpers.get('/logs/' + jobID + '/job-traces.log', function (error, res, body) {
+        request.get(logURL, function (error, res, logBody) {
           res.should.have.status(200);
           done();
         });
@@ -73,13 +75,11 @@ describe('The server', function () {
         body = body.trim().split('\n');
         should.ok(body.length === 2, 'One EC should be returned');
 
-        var jobID = res.headers['job-id'];
-        should.exist(jobID, 'The header "Job-ID" was not sent by the server');
-        should.exist(res.headers['job-unknown-formats'],
+        var logURL = res.headers['job-unknown-formats'];
+        should.exist(logURL,
           'The header "Job-Unknown-Formats" was not sent by the server');
 
-        helpers.get('/logs/' + jobID + '/job-unknown-formats.log',
-        function (error, res, logBody) {
+        request.get(logURL, function (error, res, logBody) {
           res.should.have.status(200);
 
           logBody = logBody.trim().split('\n');
@@ -107,13 +107,11 @@ describe('The server', function () {
         res.should.have.status(200);
         should.not.exist(body);
 
-        var jobID = res.headers['job-id'];
-        should.exist(jobID, 'The header "Job-ID" was not sent by the server');
-        should.exist(res.headers['job-ignored-domains'],
+        var logURL = res.headers['job-ignored-domains'];
+        should.exist(logURL,
           'The header "Job-Ignored-Domains" was not sent by the server');
 
-        helpers.get('/logs/' + jobID + '/job-ignored-domains.log',
-        function (error, res, logBody) {
+        request.get(logURL, function (error, res, logBody) {
           res.should.have.status(200);
 
           var logLine = fs.readFileSync(ignoredDomain).toString().trim();
@@ -138,16 +136,43 @@ describe('The server', function () {
         res.should.have.status(200);
         should.not.exist(body);
 
-        var jobID = res.headers['job-id'];
-        should.exist(jobID, 'The header "Job-ID" was not sent by the server');
-        should.exist(res.headers['job-unknown-domains'],
+        var logURL = res.headers['job-unknown-domains'];
+        should.exist(logURL,
           'The header "Job-Unknown-Domains" was not sent by the server');
 
-        helpers.get('/logs/' + jobID + '/job-unknown-domains.log',
-        function (error, res, logBody) {
+        request.get(logURL, function (error, res, logBody) {
           res.should.have.status(200);
 
           var logLine = fs.readFileSync(unknownDomain).toString().trim();
+          logBody.trim().should.equal(logLine, 'The logfile and the input should be identical');
+          done();
+        });
+      });
+    });
+  });
+  describe('receives a log file with an unqualified log line', function () {
+    it('and correctly handles Job-Unqualified-ECs.log', function (done) {
+      var headers = {
+        'Accept' : 'text/csv'
+      };
+      helpers.post('/', unqualifiedEC, headers, function (error, res, body) {
+        if (error) {
+          throw error;
+        }
+        if (!res) {
+          throw new Error('ezPAARSE is not running');
+        }
+        res.should.have.status(200);
+        should.not.exist(body);
+
+        var logURL = res.headers['job-unqualified-ecs'];
+        should.exist(logURL,
+          'The header "Job-Unqualified-ECs" was not sent by the server');
+
+        request.get(logURL, function (error, res, logBody) {
+          res.should.have.status(200);
+
+          var logLine = fs.readFileSync(unqualifiedEC).toString().trim();
           logBody.trim().should.equal(logLine, 'The logfile and the input should be identical');
           done();
         });
@@ -169,8 +194,6 @@ describe('The server', function () {
         res.should.have.status(200);
 
         // TODO make a specific test for each header
-        should.exist(res.headers['job-unqualified-ecs'],
-          'The header "Job-Unqualified-ECs" was not sent by the server');
         should.exist(res.headers['job-pkb-miss-ecs'],
           'The header "Job-PKB-Miss-ECs" was not sent by the server');
         done();
