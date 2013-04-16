@@ -58,7 +58,8 @@ module.exports = function (app, domains, ignoredDomains) {
       unknownFormats: fs.createWriteStream(logPath + '/job-unknown-formats.log'),
       ignoredDomains: fs.createWriteStream(logPath + '/job-ignored-domains.log'),
       unknownDomains: fs.createWriteStream(logPath + '/job-unknown-domains.log'),
-      unqualifiedECs: fs.createWriteStream(logPath + '/job-unqualified-ecs.log')
+      unqualifiedECs: fs.createWriteStream(logPath + '/job-unqualified-ecs.log'),
+      pkbMissECs:     fs.createWriteStream(logPath + '/job-pkb-miss-ecs.log')
     }
     
     var countLines  = 0;

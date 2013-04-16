@@ -12,6 +12,7 @@ var wrongSecondLineLogFile = __dirname + '/dataset/sd.wrong-second-line.log';
 var ignoredDomain          = __dirname + '/dataset/ignored-domain.log';
 var unknownDomain          = __dirname + '/dataset/unknown-domain.log';
 var unqualifiedEC          = __dirname + '/dataset/unqualified-ec.log';
+var pkbmissEC              = __dirname + '/dataset/pkb-miss-ec.log';
 
 describe('The server', function () {
   describe('receives a log file', function () {
@@ -179,12 +180,12 @@ describe('The server', function () {
       });
     });
   });
-  describe('receives a log file', function () {
-    it('and sends all log-related headers', function (done) {
+  describe('receives a log file with an unknown PID', function () {
+    it('and correctly handles Job-PKB-Miss-ECs.log', function (done) {
       var headers = {
-        'Accept' : 'application/json'
+        'Accept' : 'text/csv'
       };
-      helpers.post('/', logFile, headers, function (error, res, body) {
+      helpers.post('/', pkbmissEC, headers, function (error, res, body) {
         if (error) {
           throw error;
         }
@@ -193,10 +194,20 @@ describe('The server', function () {
         }
         res.should.have.status(200);
 
-        // TODO make a specific test for each header
-        should.exist(res.headers['job-pkb-miss-ecs'],
+        body = body.trim().split('\n');
+        should.ok(body.length === 2, 'One EC should be returned');
+
+        var logURL = res.headers['job-pkb-miss-ecs'];
+        should.exist(logURL,
           'The header "Job-PKB-Miss-ECs" was not sent by the server');
-        done();
+
+        request.get(logURL, function (error, res, logBody) {
+          res.should.have.status(200);
+
+          var logLine = fs.readFileSync(pkbmissEC).toString().trim();
+          logBody.trim().should.equal(logLine, 'The logfile and the input should be identical');
+          done();
+        });
       });
     });
   });
