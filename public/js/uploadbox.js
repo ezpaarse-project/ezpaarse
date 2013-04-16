@@ -244,7 +244,7 @@ function startUpload() {
 
       var headers = {};
       if (proxyName && logFormat) {
-        headers['LogFormat-' + proxyName] = logFormat;
+        headers['Log-Format-' + proxyName] = logFormat;
       }
       if (accept)          { headers['Accept'] = accept; }
       if (contentEncoding) { headers['Content-Encoding'] = contentEncoding; }

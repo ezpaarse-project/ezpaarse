@@ -1,5 +1,5 @@
 ### Formats de logs ###
-ezPAARSE permet aux utilisateurs de préciser le format des lignes de logs générées par leur proxy en utilisant le header HTTP *LogFormat-xxx*, où *xxx* correspond au nom du proxy.  
+ezPAARSE permet aux utilisateurs de préciser le format des lignes de logs générées par leur proxy en utilisant le header HTTP *Log-Format-xxx*, où *xxx* correspond au nom du proxy.  
 
 Les différentes syntaxes sont calquées sur celles utilisées par les proxy, de sorte qu'il suffise de coller le format présent dans la configuration du proxy afin que les lignes soient reconnues. Attention cependant, **les paramètres ne sont pas repris dans leur globalité**.
 
@@ -12,7 +12,7 @@ Les différentes syntaxes sont calquées sur celles utilisées par les proxy, de
 - %U : URL demandée *(e.g. http://www.somedb.com/)*.
 - %m : méthode de la requête *(e.g. GET, POST)*.
 - %r : requête complète *(e.g. GET http://www.somedb.com HTTP/1.0)*.
-- %t : date/heure de la requête. Le format peut être précisé dans le header *ezPAARSE-DateFormat*.
+- %t : date/heure de la requête. Le format peut être précisé dans le header *Date-Format*.
 - %s : statut numérique HTTP de la requête.
 
 #### Syntaxe Bibliopam (Apache) ####
@@ -23,7 +23,7 @@ Les différentes syntaxes sont calquées sur celles utilisées par les proxy, de
 - %b  : nombre d'octets transférés.
 - %U  : URL demandée *(e.g. http://www.somedb.com/)*.
 - %r  : requête complète *(e.g. GET http://www.somedb.com HTTP/1.0)*.
-- %t  : date/heure de la requête. Le format peut être précisé dans le header *ezPAARSE-DateFormat*.
+- %t  : date/heure de la requête. Le format peut être précisé dans le header *Date-Format*.
 - %>s : statut numérique HTTP de la requête.
 
 #### Syntaxe Squid ####
@@ -31,7 +31,7 @@ Les différentes syntaxes sont calquées sur celles utilisées par les proxy, de
 - %ts  : timestamp de la requête (en secondes).
 - %tu  : nombre de millisecondes (du timestamp).
 - %tr  : temps de réponse du serveur.
-- %tl  : date/heure de la requête. Le format peut être précisé dans le header *ezPAARSE-DateFormat*.
+- %tl  : date/heure de la requête. Le format peut être précisé dans le header *Date-Format*.
 - %>a  : hôte à l'origine de la requête.
 - %<a  : adresse IP de la dernière connexion.
 - %<A  : nom de domaine demandé dans la requête.
@@ -58,5 +58,5 @@ Un paramètre peut être formulé de trois façons :
 
 #### Exemple ####
 ```shell
-curl -X POST --proxy "" --no-buffer -H 'LogFormat-ezproxy: %h %<[-]> %u [%t] "%r" %s %b' --data-binary @test/dataset/sd.2012-11-30.300.log  http://127.0.0.1:59599 -v
+curl -X POST --proxy "" --no-buffer -H 'Log-Format-ezproxy: %h %<[-]> %u [%t] "%r" %s %b' --data-binary @test/dataset/sd.2012-11-30.300.log  http://127.0.0.1:59599 -v
 ```

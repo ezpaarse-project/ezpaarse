@@ -14,7 +14,7 @@ describe('The server', function () {
         function (done) {
       var headers = {
         'Accept'            : 'text/csv',
-        'LogFormat-ezproxy' : '%u %{col1}<[0-9]+> "%r" %{col2}<[A-Z]+>'
+        'Log-Format-ezproxy' : '%u %{col1}<[0-9]+> "%r" %{col2}<[A-Z]+>'
       };
       helpers.post('/', logFile, headers, function (error, res, body) {
         if (error) {
@@ -46,7 +46,7 @@ describe('The server', function () {
         function (done) {
       var headers = {
         'Accept'            : 'text/csv',
-        'LogFormat-ezproxy' : '%u %{col1}<[0-9]+> "%r" %{col2}<[A-Z]+>',
+        'Log-Format-ezproxy' : '%u %{col1}<[0-9]+> "%r" %{col2}<[A-Z]+>',
         'Output-Fields'     : 'col1,col2'
       };
       helpers.post('/', logFile, headers, function (error, res, body) {
@@ -72,7 +72,7 @@ describe('The server', function () {
         function (done) {
       var headers = {
         'Accept'            : 'text/csv',
-        'LogFormat-ezproxy' : '%u %{col1}<[0-9]+> "%r" %{col2}<[A-Z]+>',
+        'Log-Format-ezproxy' : '%u %{col1}<[0-9]+> "%r" %{col2}<[A-Z]+>',
         'Output-Fields'     : '+newCol1,newCol2'
       };
       helpers.post('/', logFile, headers, function (error, res, body) {
