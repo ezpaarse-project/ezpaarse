@@ -1,6 +1,11 @@
 #!/usr/bin/env node
 
 /*jslint node: true, maxlen: 100, maxerr: 50, indent: 2 */
+
+/**
+ * parser for wiley platform
+ * http://analogist.couperin.org/platforms/wiley/
+ */
 'use strict';
 var byline = require('byline');
 var URL = require('url');
@@ -8,7 +13,7 @@ var querystring = require('querystring');
 
 function parseUrl(url) {
     var result = {};
-    var param = querystring.parse(URL.parse(url).query);
+    var param=querystring.parse(URL.parse(url).query);
     var path = decodeURIComponent(URL.parse(url).path);
 
     //console.log(path);
@@ -17,48 +22,44 @@ function parseUrl(url) {
 
     if (match = /\/journal\/([0-9]{2}\.[0-9]{4})\/\(ISSN\)([0-9]{4}-[0-9]{3}[0-9xX])/.exec(path)) {
         // /journal/10.1111/%28ISSN%291600-5724
-      result.doi = match[1];
+      // result.doi = match[1] + "/" + "(ISSN)" + match[2];
       result.eissn = match[2];
       result.type = 'TOC';
     } else if (match = /^\/doi\/([0-9]{2}\.[0-9]{4})\/([^.]+)\.([0-9]{4}\.([^.]+)\.([^.]+\/issuetoc$))/.exec(path)) {
         // /doi/10.1111/aar.2012.83.issue-1/issuetoc
-      result.doi = match[1];
-      result.pid = match[2];
+        // pid is upper case in PKB from wiley site
+      result.pid = match[2].toUpperCase();
       result.type = 'TOC';
     } else if (match = /^\/doi\/([0-9]{2}\.[0-9]{4})\/j\.([0-9]{4}-[0-9]{3}[0-9xX])\.([0-9]{4}\.([^.]+)\.([^.]+\/abstract$))/.exec(path)) {
         // /doi/10.1111/j.1600-0390.2012.00514.x/abstract
-      result.doi = match[1];
+      // result.doi = match[1] + "/" + "(ISSN)" + match[2];
       result.eissn = match[2];
       result.type = 'ABS';
     } else if (match = /^\/doi\/([0-9]{2}\.[0-9]{4})\/([^.]+)\.[0-9]+\/abstract$/.exec(path)) {
         // /doi/10.1002/anie.201209878/abstract
-      result.doi = match[1];
-      result.pid = match[2];
+      result.pid = match[2].toUpperCase();
       result.type = 'ABS';
     } else if (match = /^\/doi\/([0-9]{2}\.[0-9]{4})\/([^.]+)\.[0-9]+\/full$/.exec(path)) {
         // /doi/10.1111/acv.12024/full
-      result.doi = match[1];
-      result.pid = match[2];
+      result.pid = match[2].toUpperCase();
       result.type = 'TXT';
     } else if (match = /^\/doi\/([0-9]{2}\.[0-9]{4})\/j\.([0-9]{4}-[0-9]{3}[0-9xX])\.([0-9]{4}\.([^.]+)\.([^.]+\/pdf$))/.exec(path)) {
         // /doi/10.1111/j.1600-0390.2012.00514.x/pdf
-      result.doi = match[1];
+      // result.doi = match[1] + "/" + "(ISSN)" + match[2];
       result.eissn = match[2];
       result.type = 'PDF';
     } else if (match = /^\/doi\/([0-9]{2}\.[0-9]{4})\/([^.]+)\.[0-9]+\/pdf$/.exec(path)) {
         // /doi/10.1002/anie.201209878/pdf
-      result.doi = match[1];
-      result.pid = match[2];
+      result.pid = match[2].toUpperCase();
       result.type = 'PDF';
     } else if (match = /^\/book\/([0-9]{2}\.[0-9]{4})\/([0-9]+)$/.exec(path)) {
         // /book/10.1002/9781118268117
-      result.doi = match[1];
-      result.pid = match[2];
+      result.pid = match[2].toUpperCase();
       result.type = 'BOOK_SECTION';
     } else if (match = /^\/doi\/([0-9]{2}\.[0-9]{4})\/([0-9]+)\.([^.]+)\/pdf$/.exec(path)) {
         // /doi/10.1002/9781118268117.ch3/pdf
-      result.doi = match[1];
-      result.pid = match[2];
+      //result.doi = match[1];
+      result.pid = match[2].toUpperCase();
       result.type = 'BOOK_SECTION_PDF';
     }
     return result;
