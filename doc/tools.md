@@ -105,7 +105,7 @@ Cette commande est utile pour tester le parseur directement à partir du fichier
 
 Exemple de test direct du parseur:
 ```bash
-cat test/npg.2013-01-16.csv | ../../bin/csvextractor --fields='url' -c | ./parser 
+cat ./test/npg.2013-01-16.csv | ../../bin/csvextractor --fields='url' -c | ./parser.js 
 ```
 
 ## csvtotalizer

@@ -55,13 +55,13 @@ Remarque: à moins de disposer d'un accès privilégié (équipe ezPAARSE), vous
 
 ## Écriture d`un parseur ##
 
-* un parseur se présente sous la forme d'un fichier executable "parser" accompagné d'un fichier de description [manifest.json](https://github.com/ezpaarse-project/ezpaarse/blob/master/platforms/sd/manifest.json) et du nécessaire pour sa validation (contenu dans un répertoire 'test' voir ci-dessous).
+* un parseur se présente sous la forme d'un fichier executable "parser[.xx]" ([.xx] étant l'extension facultative du fichier) accompagné d'un fichier de description [manifest.json](https://github.com/ezpaarse-project/ezpaarse/blob/master/platforms/sd/manifest.json) et du nécessaire pour sa validation (contenu dans un répertoire 'test' voir ci-dessous).
 * il fonctionne sous forme d'un filtre : traite l'entrée standard et produit un flux sur la sortie standard .
 * il accepte en entrée : des URLs de la plateforme qu'il sait analyser (une par ligne).
 * il retourne en sortie : les éléments de consultation reconnus sous forme d'un flux json.
 * il produit un affichage de son usage en retour à la commnde --help.
 * le code retour est 0 si tout s'est bien passé et 1 en cas d'erreur.
-* [exemple en Javascript](https://github.com/ezpaarse-project/ezpaarse/blob/master/platforms/sd/parser)
+* [exemple en Javascript](https://github.com/ezpaarse-project/ezpaarse/blob/master/platforms/sd/parser.js)
 * [exemple en PHP](https://github.com/ezpaarse-project/ezpaarse/blob/master/platforms/sd/parser.php)
 * [exemple en Perl](https://github.com/ezpaarse-project/ezpaarse/blob/master/platforms/sd/parser.pl)
 
