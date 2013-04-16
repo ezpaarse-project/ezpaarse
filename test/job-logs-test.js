@@ -109,8 +109,8 @@ describe('The server', function () {
 
         var jobID = res.headers['job-id'];
         should.exist(jobID, 'The header "Job-ID" was not sent by the server');
-        should.exist(res.headers['job-unknown-formats'],
-          'The header "Job-Unknown-Formats" was not sent by the server');
+        should.exist(res.headers['job-ignored-domains'],
+          'The header "Job-Ignored-Domains" was not sent by the server');
 
         helpers.get('/logs/' + jobID + '/job-ignored-domains.log',
         function (error, res, logBody) {
@@ -140,8 +140,8 @@ describe('The server', function () {
 
         var jobID = res.headers['job-id'];
         should.exist(jobID, 'The header "Job-ID" was not sent by the server');
-        should.exist(res.headers['job-unknown-formats'],
-          'The header "Job-Unknown-Formats" was not sent by the server');
+        should.exist(res.headers['job-unknown-domains'],
+          'The header "Job-Unknown-Domains" was not sent by the server');
 
         helpers.get('/logs/' + jobID + '/job-unknown-domains.log',
         function (error, res, logBody) {
