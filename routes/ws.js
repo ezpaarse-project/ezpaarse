@@ -35,7 +35,7 @@ module.exports = function (app, domains, ignoredDomains) {
     res.set('Job-Unqualified-ECs', logRoute + '/job-unqualified-ecs.log');
     res.set('Job-PKB-Miss-ECs', logRoute + '/job-pkb-miss-ecs.log');
 
-    var loglevel = req.header('LogLevel') || 'error';
+    var loglevel = req.header('Trace-Level') || 'error';
     var logPath = __dirname + '/../tmp/logs/'
     + requestID.charAt(0) + '/'
     + requestID.charAt(1) + '/'
