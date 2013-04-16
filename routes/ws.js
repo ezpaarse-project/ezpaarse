@@ -54,10 +54,12 @@ module.exports = function (app, domains, ignoredDomains) {
       ]
     });
 
-    var logstreams = {
+    var logStreams = {
       unknownFormats: fs.createWriteStream(logPath + '/job-unknown-formats.log'),
       ignoredDomains: fs.createWriteStream(logPath + '/job-ignored-domains.log'),
-      unknownDomains: fs.createWriteStream(logPath + '/job-unknown-domains.log')
+      unknownDomains: fs.createWriteStream(logPath + '/job-unknown-domains.log'),
+      unqualifiedECs: fs.createWriteStream(logPath + '/job-unqualified-ecs.log'),
+      pkbMissECs:     fs.createWriteStream(logPath + '/job-pkb-miss-ecs.log')
     }
     
     var countLines  = 0;
@@ -106,7 +108,7 @@ module.exports = function (app, domains, ignoredDomains) {
       var writer = init.writer;
       var ecFilter = new ECFilter();
       // Takes "raw" ECs and returns those which can be sent
-      var handler = new ECHandler(logger);
+      var handler = new ECHandler(logger, logStreams);
       
       var processLine = function (line) {
         if (badBeginning) {
@@ -125,21 +127,21 @@ module.exports = function (app, domains, ignoredDomains) {
               }
               var parser = domains[ec.domain];
               if (parser) {
-                handler.push(ec, parser);
+                handler.push(ec, line, parser);
               } else {
                 logger.silly('No parser found for : ' + ec.domain);
-                logstreams.unknownDomains.write(line + '\n');
+                logStreams.unknownDomains.write(line + '\n');
               }
             } else {
               logger.silly('The domain is ignored');
-              logstreams.ignoredDomains.write(line + '\n');
+              logStreams.ignoredDomains.write(line + '\n');
             }
           } else {
             logger.silly('Line was ignored');
           }
         } else {
           logger.silly('Line format was not recognized');
-          logstreams.unknownFormats.write(line + '\n');
+          logStreams.unknownFormats.write(line + '\n');
           if (!treatedLines) {
             badBeginning = true;
             matchstream.end();
@@ -206,8 +208,8 @@ module.exports = function (app, domains, ignoredDomains) {
             writer.end();
           }
           res.end();
-          for (var stream in logstreams) {
-            logstreams[stream].end();
+          for (var stream in logStreams) {
+            logStreams[stream].end();
           }
           logger.info("Terminating response");
           logger.info(countLines + " lines were read");
