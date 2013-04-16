@@ -7,16 +7,17 @@ var URL = require('url');
 var querystring = require('querystring');
 
 function parseUrl(url) {
-    var result = {};
-    var param = querystring.parse(URL.parse(url).query);
-    var path = URL.parse(url).path;
-    
-    var match;
-
-    if (match = /\/Document/.exec(url)) {
-      if (param['produit-id']) result.pid = param['produit-id'];
-      if (param['famille-id']) {
-        switch (param['famille-id']) {
+  var result = {};
+  var param = querystring.parse(URL.parse(url).query);
+  var path = URL.parse(url).path;
+  
+  var match;
+  if ((match = /\/Document/.exec(url)) !== null) {
+    if (param['produit-id']) {
+      result.pid = param['produit-id'];
+    }
+    if (param['famille-id']) {
+      switch (param['famille-id']) {
       case 'REVUES':
         result.type = 'TOC';
         break;
@@ -32,7 +33,7 @@ function parseUrl(url) {
       case 'BROCHES':
         result.type = 'BROCHES';
         break;
-        /** ces cas rencontrés ne sont peut etre pas traités 
+        /** ces cas rencontrés ne sont peut etre pas traités
       case 'JURIS':
         result.type = 'JURIS';
         break;
@@ -44,8 +45,8 @@ function parseUrl(url) {
     }
   }
 
-    return result;
-  }
+  return result;
+}
 
 /*
 * If an array of urls is given, return an array of results

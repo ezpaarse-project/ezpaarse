@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-/*jslint node: true, maxlen: 100, maxerr: 50, indent: 2 */
+/*jslint node: true, maxlen: 150, maxerr: 50, indent: 2 */
 'use strict';
 var byline      = require('byline');
 var URL         = require('url');
@@ -34,15 +34,18 @@ function parseUrl(url) {
     // journal article example: http://www.cairn.info/load_pdf.php?ID_ARTICLE=ARSS_195_0012
     // book section example: http://www.cairn.info/load_pdf.php?ID_ARTICLE=ERES_DUMEZ_2003_01_0009
     if (param.ID_ARTICLE) {
-        if(match =/[A-Z]+/.exec(param.ID_ARTICLE.split('_')[1])){
-          //case of a book section pdf event
-          result.pid = param.ID_ARTICLE.split('_')[0] + "_" + param.ID_ARTICLE.split('_')[1] + "_" + param.ID_ARTICLE.split('_')[2] + "_" + param.ID_ARTICLE.split('_')[3] ;
-          result.type = 'BOOK_SECTION_PDF'; 
-        } else {
-          // case of journal article
-          // pid is the first part of ID_ARTICLE ("_" character is the separator)
-          result.pid = param.ID_ARTICLE.split('_')[0];
-          result.type = 'PDF'; 
+      if ((match = /[A-Z]+/.exec(param.ID_ARTICLE.split('_')[1])) !== null) {
+        //case of a book section pdf event
+        result.pid = param.ID_ARTICLE.split('_')[0] + "_" +
+                     param.ID_ARTICLE.split('_')[1] + "_" +
+                     param.ID_ARTICLE.split('_')[2] + "_" +
+                     param.ID_ARTICLE.split('_')[3];
+        result.type = 'BOOK_SECTION_PDF';
+      } else {
+        // case of journal article
+        // pid is the first part of ID_ARTICLE ("_" character is the separator)
+        result.pid = param.ID_ARTICLE.split('_')[0];
+        result.type = 'PDF';
       }
     }
   } else if  (parsedUrl.pathname == '/resume.php') {
@@ -51,40 +54,43 @@ function parseUrl(url) {
       // pid is the first part of ID_ARTICLE ("_" character is the separator)
       result.pid = param.ID_ARTICLE.split('_')[0];
     }
-    result.type = 'ABS'; 
+    result.type = 'ABS';
   } else if  (parsedUrl.pathname == '/feuilleter.php') {
     // leaf-through a book section, in a flash player
     // example: http://www.cairn.info/feuilleter.php?ID_ARTICLE=PUF_MAZIE_2010_01_0003
-      if (param.ID_ARTICLE) {
-        // pid is the concatenation of the first to the forelast part of the ID_ARTICLE parameter
-        result.pid = param.ID_ARTICLE.split('_')[0] + "_" + param.ID_ARTICLE.split('_')[1] + "_" + param.ID_ARTICLE.split('_')[2] + "_" + param.ID_ARTICLE.split('_')[3] ;
-        result.type = 'BOOK_SECTION'; 
-      }
-  } else if (match = /^\/(revue\-|magazine\-)([a-z0-9@\-]+)\-[0-9]{4}\-[0-9]+\-page\-[0-9]+\.htm$/.exec(parsedUrl.pathname)){
+    if (param.ID_ARTICLE) {
+      // pid is the concatenation of the first to the forelast part of the ID_ARTICLE parameter
+      result.pid = param.ID_ARTICLE.split('_')[0] + "_" +
+                   param.ID_ARTICLE.split('_')[1] + "_" +
+                   param.ID_ARTICLE.split('_')[2] + "_" +
+                   param.ID_ARTICLE.split('_')[3];
+      result.type = 'BOOK_SECTION';
+    }
+  } else if ((match = /^\/(revue\-|magazine\-)([a-z0-9@\-]+)\-[0-9]{4}\-[0-9]+\-page\-[0-9]+\.htm$/.exec(parsedUrl.pathname)) !== null) {
     // journal example: http://www.cairn.info/revue-actes-de-la-recherche-en-sciences-sociales-2012-5-page-4.htm
     result.pid = match[1] + match[2];
     result.type = "TXT";
-  } else if (match = /^\/(revue\-|magazine\-)([a-z0-9@\-]+)\-[0-9]{4}\-[0-9]+\-p\-[0-9]+\.htm$/.exec(parsedUrl.pathname)){
+  } else if ((match = /^\/(revue\-|magazine\-)([a-z0-9@\-]+)\-[0-9]{4}\-[0-9]+\-p\-[0-9]+\.htm$/.exec(parsedUrl.pathname)) !== null) {
     // journal example: http://www.cairn.info/revue-actes-de-la-recherche-en-sciences-sociales-2012-5-p-4.htm
     result.pid = match[1] + match[2];
     result.type = "PREVIEW";
-  } else if (match = /^\/(revue\-|magazine\-)([a-z0-9@\-]+)\-[0-9]{4}\-[0-9]+\.htm$/.exec(parsedUrl.pathname)){
+  } else if ((match = /^\/(revue\-|magazine\-)([a-z0-9@\-]+)\-[0-9]{4}\-[0-9]+\.htm$/.exec(parsedUrl.pathname)) !== null) {
     // journal example: http://www.cairn.info/revue-a-contrario-2012-2.htm
     result.pid = match[1] + match[2];
     result.type = "TOC";
-  } else if (match = /^\/(revue\-|magazine\-)([a-z0-9@\-]+)\.htm$/.exec(parsedUrl.pathname)){
+  } else if ((match = /^\/(revue\-|magazine\-)([a-z0-9@\-]+)\.htm$/.exec(parsedUrl.pathname)) !== null) {
     // journal example: http://www.cairn.info/revue-a-contrario.htm
     result.pid = match[1] + match[2];
     result.type = "TOC";
-  } else if (match = /^\/[a-z0-9@\-]+\-\-([0-9]{13})\-page\-[0-9]+.htm$/.exec(parsedUrl.pathname)){
+  } else if ((match = /^\/[a-z0-9@\-]+\-\-([0-9]{13})\-page\-[0-9]+.htm$/.exec(parsedUrl.pathname)) !== null) {
     // book example: http://www.cairn.info/a-l-ecole-du-sujet--9782749202358-page-9.htm
     result.isbn = match[1];
     result.type = "BOOK_SECTION_HTML";
-  } else if (match = /^\/[a-z0-9@\-]+\-\-([0-9]{13})\-p\-[0-9]+.htm$/.exec(parsedUrl.pathname)){
+  } else if ((match = /^\/[a-z0-9@\-]+\-\-([0-9]{13})\-p\-[0-9]+.htm$/.exec(parsedUrl.pathname)) !== null) {
     // book example: http://www.cairn.info/a-l-ecole-du-sujet--9782749202358-page-9.htm
     result.isbn = match[1];
     result.type = "PREVIEW";
-  } else if (match = /^\/[a-z0-9@\-]+\-\-([0-9]{13}).htm$/.exec(parsedUrl.pathname)){
+  } else if ((match = /^\/[a-z0-9@\-]+\-\-([0-9]{13}).htm$/.exec(parsedUrl.pathname)) !== null) {
     // book example: http://www.cairn.info/a-l-ecole-du-sujet--9782749202358-page-9.htm
     result.isbn = match[1];
     result.type = "TOC";
