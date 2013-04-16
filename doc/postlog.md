@@ -71,7 +71,7 @@ Exemple d'évènement de consultation :
 }
 ```
 
-#### Exemple de requête ####
+#### Exemple de requêtes ####
 ```shell
 curl -X POST http://127.0.0.1:59599 --no-buffer --data-binary @file.log -v
 curl -X POST --proxy "" --no-buffer --data-binary @test/dataset/sd.2012-11-30.log  http://127.0.0.1:59599 -v
