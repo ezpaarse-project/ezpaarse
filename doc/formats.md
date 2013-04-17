@@ -15,7 +15,7 @@ Les différentes syntaxes sont calquées sur celles utilisées par les proxy, de
 - %t : date/heure de la requête. Le format peut être précisé dans le header *Date-Format*.
 - %s : statut numérique HTTP de la requête.
 
-#### Syntaxe Bibliopam (Apache) ####
+#### Syntaxe Apache ####
 
 - %h  : hôte à l'origine de la requête.
 - %u  : login utilisé pour l'authentification.
@@ -60,3 +60,37 @@ Un paramètre peut être formulé de trois façons :
 ```shell
 curl -X POST --proxy "" --no-buffer -H 'Log-Format-ezproxy: %h %<[-]> %u [%t] "%r" %s %b' --data-binary @test/dataset/sd.2012-11-30.300.log  http://127.0.0.1:59599 -v
 ```
+
+#### Cas concrets ####
+
+<table>
+  <tr>
+    <th>Proxy</th>
+    <th style="text-align:left;">Type de ligne</th>
+    <th>Format possible</th>
+  </tr>
+  <tr>
+    <td rowspan="2">EZproxy</td>
+    <td>80.80.80.80 - oBzrStkEVAeUDeA [20/Nov/2011:17:45:50 +0100] "GET http://www.sciencedirect.com:80/science/journal/aip/00121606 HTTP/1.1" 200 162009</td>
+    <td>%h %l %u %t "%r" %s %b</td>
+  </tr>
+  <tr>
+    <td>[18/Nov/2012:00:00:34 +0100] 40.30.25.122 40.30.25.122 5mpcyan6 http://link.springer.com:80/article/10.1007/s00262-008-0620-4/fulltext.html 116636 liV9RqGobWNKrdD</td>
+    <td>%t %h %u %U %b %{session}</td>
+  </tr>
+  <tr>
+    <td>Apache</td>
+    <td>50.50.50.50 - uid=aaa2561c,ou=people,dc=uep-tlfy,dc=fr [27/Mar/2012:06:52:44 +0200] "GET /http/www.sciencedirect.com/science/article/pii/S1875389212003823 HTTP/1.1" 200 45022 "-" "Mozilla/5.0 (Windows NT 5.1) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.79 Safari/535.11"
+    </td>
+    <td>%h %l %u %t "%r" %&gt;s %b %&lt;.\*&gt;</td>
+  </tr>
+  <tr>
+    <td rowspan="2">Squid</td>
+    <td>1319061710.284   2102 90.90.90.90 TCP_MISS/200 309401 GET http://www.sciencedirect.com/science/article/pii/S0166218X11003477 cousteau DIRECT/198.81.200.2 text/html</td>
+    <td>%ts.%03tu %6tr %>a %Ss/%03&gt;Hs %&lt;st %rm %ru %[un %Sh/%&lt;a %mt</td>
+  </tr>
+  <tr>
+    <td>istproxy.inrialpes.fr:443 123.123.123.123 - tartempion [10/Apr/2012:09:38:21 +0200] "GET http://www.sciencedirect.com/science/article/pii/S0166218X11003477 HTTP/1.1" 302 20 "-" "Mozilla/5.0 (Windows NT 6.1; rv:11.0) Gecko/20100101 Firefox/11.0"</td>
+    <td>%&lt;A:%lp %&gt;a %ui %[un [%tl] "%rm %ru HTTP/%rv" %&gt;Hs %&lt;st %&lt;.\*&gt;</td>
+  </tr>
+</table>
