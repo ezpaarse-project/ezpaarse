@@ -78,22 +78,15 @@ app.configure(function () {
   // http://www.senchalabs.org/connect/middleware-favicon.html
   // todo: favico should be created
   app.use(express.favicon());
-  
-  //app.use(express.bodyParser());
+
   app.use(express.methodOverride());
+  app.use(express.cookieParser());
   
   // Set the ezPAARSE-Version header in all responses
   app.use(function (req, res, next) {
     res.header('ezPAARSE-Version', pkg.version || 'N/A');
     next();
   });
-
-  app.use(express.cookieParser());
-  app.use(express.session({
-    secret: "ezpaarse",
-    key: "ezpaarse.sid",
-    cookie: { maxAge: 365 * 24 * 60 * 60 * 1000 }
-  }));
 
   // routes handling
   app.use(app.router);

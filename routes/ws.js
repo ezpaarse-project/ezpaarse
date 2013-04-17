@@ -13,6 +13,8 @@ var config      = require('../config.json');
 var winston     = require('winston');
 var uuid        = require('uuid');
 var mkdirp      = require('mkdirp');
+var formidable  = require('formidable');
+var Lazy        = require('lazy');
 
 module.exports = function (app, domains, ignoredDomains) {
   /**
@@ -35,7 +37,8 @@ module.exports = function (app, domains, ignoredDomains) {
     res.set('Job-Unqualified-ECs', logRoute + '/job-unqualified-ecs.log');
     res.set('Job-PKB-Miss-ECs', logRoute + '/job-pkb-miss-ecs.log');
 
-    var loglevel = req.header('Traces-Level') || 'error';
+    var loglevel = req.header('Traces-Level') ||
+                   (app.get('env') == 'production' ? 'info' : 'silly');
     var logPath = __dirname + '/../tmp/logs/'
     + requestID.charAt(0) + '/'
     + requestID.charAt(1) + '/'
@@ -144,31 +147,54 @@ module.exports = function (app, domains, ignoredDomains) {
           logStreams.unknownFormats.write(line + '\n');
           if (!treatedLines) {
             badBeginning = true;
-            matchstream.end();
+            lazy.emit('end');
             logger.warn('Couln\'t recognize first line : aborted.');
           }
         }
         countLines++;
       }
 
-      var line = '';
-      var matchstream = new MatchStream({ pattern: '\n', consume: true},
-        function (buf, matched, extra) {
-        line += buf.toString();
-        if (matched) {
-          processLine(line.trim());
-          line = '';
-        }
-      }).once('finish', function () {
+      // to handle HTML form upload
+      var form = new formidable.IncomingForm();
+      // to handle stream spliting line by line
+      var lazy;
+      // start parsing the req object (required to get the "part")
+      if (req.is('multipart/form-data')) {
+        // form multipart stream
+        logger.info('Handling a multipart encoded upload')
+        form.parse(request);
+        lazy = new Lazy();
+      } else {
+        // basic stream
+        logger.info('Handling a not encoded upload')
+        lazy = new Lazy(request);
+      }
+      // for each part (one part is one sent file by the HTML form)
+      // connect the input stream to the lazy line by line reader
+      form.onPart = function (part) {
+        part.addListener('data', function (chunk) {
+          lazy.emit('data', chunk);
+        });
+      };
+      // when the HTML form upload is finished
+      // tell that the HTTP response can be closed
+      form.on('end', function () {
+        lazy.emit('end');
+      });
+
+      // read input stream line by line
+      lazy.lines
+          .map(String)
+          .map(function (line) {
+            processLine(line);
+          })
+      lazy.on('end', function () {
+        // when the input stream is closed,
+        // tell that the response stream can be closed
+        logger.info('No more data in the request');
         endOfRequest = true;
-        // Workaround: when the file does not end with \n,
-        // process remaining data in the buffer of matchstream
-        line = matchstream._bufs.buffers[0];
-        if (line) {
-          processLine(line);
-        }
         if (!treatedLines) {
-          logger.warn('End of request but no line treated');
+          logger.warn('No line treated in the request');
           try {
             res.set(statusHeader, 4003);
           } catch (e) {}
@@ -178,8 +204,6 @@ module.exports = function (app, domains, ignoredDomains) {
           handler.queue.drain();
         }
       });
-      
-      request.pipe(matchstream);
 
       handler.on('ec', function (ec) {
         if (!writerWasStarted) {
