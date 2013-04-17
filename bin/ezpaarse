@@ -38,7 +38,7 @@ ezpaarse_start() {
                      --pidFile $EZPAARSE_PIDFILE \
                      --watch --watchDirectory $EZPAARSE_PATH/ \
                      --watchIgnore "logs/" --watchIgnore "tmp/" --watchIgnore ".git/" --watchIgnore "*.log" --watchIgnore "*.md" --watchIgnore "*.pid" \
-                     --watchIgnore "*.pkb.miss.csv" \
+                     --watchIgnore "*.pkb.miss.csv" --watchIgnore "public/" \
                      $EZPAARSE_PATH/app.js 1>/dev/null
   fi
 }
