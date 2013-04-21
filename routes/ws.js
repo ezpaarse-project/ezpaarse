@@ -63,7 +63,11 @@ module.exports = function (app, domains, ignoredDomains) {
     if (app.ezJobs[rid].ecsStream) {
       // if job is still running (ECs are still writen in the temp file)
       // use the GrowingFile module to stream the result to the HTTP response
-      app.ezJobs[rid].ecsGFile = GrowingFile.open(app.ezJobs[rid].ecsPath, { timeout: 10000 });
+      // TODO: the growing file module doesn't work as expected because it waits that the
+      //       ECs are all generated to pipe file content to the HTTP response
+      app.ezJobs[rid].ecsGFile = GrowingFile.open(app.ezJobs[rid].ecsPath, {
+        timeout: 10000 // TODO: find a better way to stop watching the growing file
+      });
       app.ezJobs[rid].ecsGFile.pipe(res);
     } else {
       // if job is finished (ECs are all writing it the temp file)
@@ -78,13 +82,17 @@ module.exports = function (app, domains, ignoredDomains) {
    *  - POST data on /
    *  - PUT  data on /:uuid
    *  - POST data on /:uuid?_METHOD=PUT
+   * Notice: resIsDeferred = true means that the result will be stored in a
+   * tmp file to make possible a deferred download
    */
   app.post('/', function (req, res) {
     var ezRID = uuid.v1();
+    app.ezJobs[ezRID] = { resIsDeferred: false };
     startEzpaarseJob(req, res, ezRID);
   });
   app.put(uuidRegExp, function (req, res) {
     var ezRID = req.params[0];
+    app.ezJobs[ezRID] = { resIsDeferred: true };
     startEzpaarseJob(req, res, ezRID);
   });
   // this route is usfule cause sometime PUT is not allowed by reverse proxies
@@ -92,9 +100,10 @@ module.exports = function (app, domains, ignoredDomains) {
   app.post(uuidRegExp, function (req, res) {
     var ezRID = req.params[0];
     if (req.query._METHOD == 'PUT') {
+      app.ezJobs[ezRID] = { resIsDeferred: true };
       startEzpaarseJob(req, res, ezRID);
     } else {
-      req.send(400, 'Please add _METHOD=PUT as a query in the URL (RESTful way)');
+      res.send(400, 'Please add _METHOD=PUT as a query in the URL (RESTful way)');
     }
   });
 
@@ -104,7 +113,7 @@ module.exports = function (app, domains, ignoredDomains) {
   function startEzpaarseJob(req, res, ezRID) {
 
     // job is started
-    app.ezJobs[ezRID] = {};
+    app.ezJobs[ezRID] = app.ezJobs[ezRID] || {};
     req.ezRID         = ezRID;
 
     // Job traces absolute url is calculated from the client headers
@@ -149,7 +158,7 @@ module.exports = function (app, domains, ignoredDomains) {
     }
     
     // register the temp job directory
-    app.ezJobs[ezRID].tmpPath = logPath;
+    app.ezJobs[ezRID].jobPath = logPath;
 
     var countLines  = 0;
     var countECs    = 0;
@@ -269,12 +278,13 @@ module.exports = function (app, domains, ignoredDomains) {
       });
 
       form.on('error', function (err) {
+        logger.info('Form multipart error (nothing is done)')
         // todo: to something ?
         // to simulate an error, just send a long
         // multipart request and close the request during the process
         // ex:
         // curl -v -X POST --no-buffer --proxy "" \
-        //      -F myfile=@./test/dataset/sd.2013-03-12.log http://localhost:59599/?redirect=1
+        //      -F myfile=@./test/dataset/sd.2013-03-12.log http://localhost:59599/
         // then CTRL+C
       });
 
@@ -305,13 +315,7 @@ module.exports = function (app, domains, ignoredDomains) {
         if (!writerWasStarted) {
           writerWasStarted = true;
           
-          if (app.ezJobs[req.ezRID].ecsPath) {
-            res.status(302);
-             // todo: rename the route name to something more RESTful
-            res.header('Location', req.ezBaseURL + '/' + req.ezRID);
-          } else {
-            res.status(200);
-          }
+          res.status(200);
 
           // Merges asked fields with those extracted by logParser
           // (but doesn't if the fields replace the defaults)
@@ -345,9 +349,11 @@ module.exports = function (app, domains, ignoredDomains) {
             //       maybe we should wait as long as the folderreaper ?
             app.ezJobs[req.ezRID].ecsStream.end();
             app.ezJobs[req.ezRID].ecsStream = null;
-            if (app.ezJobs[req.ezRID].ecsGFile) {
-              app.ezJobs[req.ezRID].ecsGFile._ended = true;
-            }
+            // if (app.ezJobs[req.ezRID].ecsGFile) {
+            //   // when ECs are generated, the growing file _ended flag must not be
+            //   // set to true or the download will be interrupted before the end
+            //   //app.ezJobs[req.ezRID].ecsGFile._ended = true;
+            // }
           }
           logger.info("Terminating response");
           logger.info(countLines + " lines were read");
