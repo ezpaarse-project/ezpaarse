@@ -15,21 +15,104 @@ var uuid        = require('uuid');
 var mkdirp      = require('mkdirp');
 var formidable  = require('formidable');
 var Lazy        = require('lazy');
+var GrowingFile = require('growing-file');
 
 module.exports = function (app, domains, ignoredDomains) {
+
+  // app.get('/test-long-file', function (req, res) {
+  //   res.writeHead(200, {
+  //     'Content-Type': 'text/plain'
+  //   });
+  //   var moreData = true;
+  //   function writeData() {
+  //     if (moreData) {
+  //       res.write('.');
+  //       setTimeout(writeData, 100);
+  //     }
+  //   }
+  //   writeData();
+  //   setTimeout(function () {
+  //     moreData = false;
+  //     res.end();
+  //   }, 10000);
+  // });
+
   /**
-   * POST log
+   * Route used for deferred downloads
+   * ?filename=myname can be used to force a specific filename for the download
+   * Example: /3e167f80-aa9f-11e2-b9c5-c7c7ad0be3cd
+   */
+  var uuidRegExp = /^\/([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})$/;
+  app.get(uuidRegExp, function (req, res) {
+    var rid  = req.params[0];
+    var name = req.query.filename ? req.query.filename : rid;
+
+    // check if this job exists
+    if (!app.ezJobs[rid] || !app.ezJobs[rid].ecsPath) {
+      res.writeHead(404, {});
+      res.end();
+      return;
+    }
+
+    var ext = app.ezJobs[rid].contentType.split('/')[1];
+    res.writeHead(200, {
+      'Content-Type': app.ezJobs[rid].contentType,
+      'Content-Disposition': 'attachment; filename="' + name + '.' + ext + '"'
+    });
+
+    if (app.ezJobs[rid].ecsStream) {
+      // if job is still running (ECs are still writen in the temp file)
+      // use the GrowingFile module to stream the result to the HTTP response
+      app.ezJobs[rid].ecsGFile = GrowingFile.open(app.ezJobs[rid].ecsPath, { timeout: 10000 });
+      app.ezJobs[rid].ecsGFile.pipe(res);
+    } else {
+      // if job is finished (ECs are all writing it the temp file)
+      // use a basic pipe between the file and the http response
+      fs.createReadStream(app.ezJobs[rid].ecsPath).pipe(res);
+    }
+  });
+
+  /**
+   * POST data to ezPAARSE
+   * two way to start a job:
+   *  - POST data on /
+   *  - PUT  data on /:uuid
+   *  - POST data on /:uuid?_METHOD=PUT
    */
   app.post('/', function (req, res) {
-    var requestID = uuid.v1();
+    var ezRID = uuid.v1();
+    startEzpaarseJob(req, res, ezRID);
+  });
+  app.put(uuidRegExp, function (req, res) {
+    var ezRID = req.params[0];
+    startEzpaarseJob(req, res, ezRID);
+  });
+  // this route is usfule cause sometime PUT is not allowed by reverse proxies
+  // PUT is replaced by a POST with a _METHOD=PUT as a query
+  app.post(uuidRegExp, function (req, res) {
+    var ezRID = req.params[0];
+    if (req.query._METHOD == 'PUT') {
+      startEzpaarseJob(req, res, ezRID);
+    } else {
+      req.send(400, 'Please add _METHOD=PUT as a query in the URL (RESTful way)');
+    }
+  });
+
+  /**
+   * Start a new job (data comes from the req stream)
+   */
+  function startEzpaarseJob(req, res, ezRID) {
+
+    // job is started
+    app.ezJobs[ezRID] = {};
+    req.ezRID         = ezRID;
 
     // Job traces absolute url is calculated from the client headers
     // if the client request is forwarded by a reverse proxy, the x-forwarded-host
     // variable is used.
-    var logRoute = 'http://'
-    + (req.headers['x-forwarded-host'] || req.headers.host) + '/logs/' + requestID;
+    var logRoute = req.ezBaseURL + '/logs/' + ezRID;
 
-    res.set('Job-ID', requestID);
+    res.set('Job-ID', ezRID);
     res.set('Job-Traces', logRoute + '/job-traces.log');
     res.set('Job-Unknown-Formats', logRoute + '/job-unknown-formats.log');
     res.set('Job-Ignored-Domains', logRoute + '/job-ignored-domains.log');
@@ -38,11 +121,11 @@ module.exports = function (app, domains, ignoredDomains) {
     res.set('Job-PKB-Miss-ECs', logRoute + '/job-pkb-miss-ecs.log');
 
     var loglevel = req.header('Traces-Level') ||
-                   (app.get('env') == 'production' ? 'info' : 'silly');
+                   (app.get('env') == 'production' ? 'info' : 'verbose');
     var logPath = __dirname + '/../tmp/logs/'
-    + requestID.charAt(0) + '/'
-    + requestID.charAt(1) + '/'
-    + requestID;
+                            + ezRID.charAt(0) + '/'
+                            + ezRID.charAt(1) + '/'
+                            + ezRID;
     mkdirp.sync(logPath);
     var logger = new (winston.Logger)({
       transports: [
@@ -65,6 +148,9 @@ module.exports = function (app, domains, ignoredDomains) {
       pkbMissECs:     fs.createWriteStream(logPath + '/job-pkb-miss-ecs.log')
     }
     
+    // register the temp job directory
+    app.ezJobs[ezRID].tmpPath = logPath;
+
     var countLines  = 0;
     var countECs    = 0;
 
@@ -85,7 +171,7 @@ module.exports = function (app, domains, ignoredDomains) {
       return;
     }
 
-    initializer.init(logger, req, res, function (err, init) {
+    initializer.init(app, req, res, logger, function (err, init) {
       if (err) {
         res.set(statusHeader, err.ezStatus);
         res.status(err.status);
@@ -161,7 +247,7 @@ module.exports = function (app, domains, ignoredDomains) {
       // start parsing the req object (required to get the "part")
       if (req.is('multipart/form-data')) {
         // form multipart stream
-        logger.info('Handling a multipart encoded upload')
+        logger.info('Handling a multipart encoded upload');
         form.parse(request);
         lazy = new Lazy();
       } else {
@@ -180,6 +266,16 @@ module.exports = function (app, domains, ignoredDomains) {
       // tell that the HTTP response can be closed
       form.on('end', function () {
         lazy.emit('end');
+      });
+
+      form.on('error', function (err) {
+        // todo: to something ?
+        // to simulate an error, just send a long
+        // multipart request and close the request during the process
+        // ex:
+        // curl -v -X POST --no-buffer --proxy "" \
+        //      -F myfile=@./test/dataset/sd.2013-03-12.log http://localhost:59599/?redirect=1
+        // then CTRL+C
       });
 
       // read input stream line by line
@@ -208,7 +304,15 @@ module.exports = function (app, domains, ignoredDomains) {
       handler.on('ec', function (ec) {
         if (!writerWasStarted) {
           writerWasStarted = true;
-          res.status(200);
+          
+          if (app.ezJobs[req.ezRID].ecsPath) {
+            res.status(302);
+             // todo: rename the route name to something more RESTful
+            res.header('Location', req.ezBaseURL + '/' + req.ezRID);
+          } else {
+            res.status(200);
+          }
+
           // Merges asked fields with those extracted by logParser
           // (but doesn't if the fields replace the defaults)
           if (!init.outputFields) {
@@ -235,33 +339,23 @@ module.exports = function (app, domains, ignoredDomains) {
           for (var stream in logStreams) {
             logStreams[stream].end();
           }
+          if (app.ezJobs[req.ezRID].ecsStream) {
+            // todo: clear the app.ezJobs[req.ezRID] from the memory
+            //       but have to think when is the best time for that
+            //       maybe we should wait as long as the folderreaper ?
+            app.ezJobs[req.ezRID].ecsStream.end();
+            app.ezJobs[req.ezRID].ecsStream = null;
+            if (app.ezJobs[req.ezRID].ecsGFile) {
+              app.ezJobs[req.ezRID].ecsGFile._ended = true;
+            }
+          }
           logger.info("Terminating response");
           logger.info(countLines + " lines were read");
           logger.info(countECs + " ECs were created");
         }
       });
     });
-  });
-  
-  /**
-   * GET route on /result/:folder/:filename
-   * Used to download results
-   */
-  app.get(/^\/results\/([a-zA-Z0-9]+)\/([^ ]+)$/, function (req, res) {
-    var folder     = __dirname + '/../tmp/' + req.params[0];
-    var resultFile = folder + '/' + req.params[1];
-    if (fs.existsSync(resultFile)) {
-      res.sendfile(req.params[1], {root: folder}, function (err) {
-        if (err) {
-          res.status(500);
-          res.end();
-        }
-      });
-    } else {
-      res.status(404);
-      res.end();
-    }
-  });
+  }
 
   /**
    * GET route on /

@@ -88,6 +88,17 @@ app.configure(function () {
     next();
   });
 
+  // calculate the baseurl depending on reverse proxy variables
+  app.use(function (req, res, next) {
+    req.ezBaseURL = 'http://' +
+      (req.headers['x-forwarded-host'] || req.headers.host);
+    next();
+  });
+
+  // global object which contains
+  // temporary data about ezPAARSE jobs
+  app.ezJobs = {};
+
   // routes handling
   app.use(app.router);
   
