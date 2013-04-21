@@ -1,7 +1,8 @@
 /*jslint node: true, maxlen: 100, maxerr: 50, indent: 2 */
 'use strict';
 
-var fs = require('fs');
+var fs   = require('fs');
+var uuid = require('uuid');
 
 module.exports = function (app) {
   
@@ -119,6 +120,14 @@ module.exports = function (app) {
       res.status(500);
     }
     res.end();
+  });
+
+  /**
+   * GET a uuid
+   */
+  app.get('/info/uuid', function (req, res) {
+    res.header('Content-Type', 'text/plain');
+    res.send(uuid.v1());
   });
   
 };
