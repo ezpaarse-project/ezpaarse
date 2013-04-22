@@ -15,34 +15,17 @@ var uuid        = require('uuid');
 var mkdirp      = require('mkdirp');
 var formidable  = require('formidable');
 var Lazy        = require('lazy');
-var GrowingFile = require('growing-file');
+//var GrowingFile = require('growing-file');
+var rgf         = require('../lib/readgrowingfile.js');
+var uuidRegExp  = /^\/([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})$/;
 
 module.exports = function (app, domains, ignoredDomains) {
-
-  // app.get('/test-long-file', function (req, res) {
-  //   res.writeHead(200, {
-  //     'Content-Type': 'text/plain'
-  //   });
-  //   var moreData = true;
-  //   function writeData() {
-  //     if (moreData) {
-  //       res.write('.');
-  //       setTimeout(writeData, 100);
-  //     }
-  //   }
-  //   writeData();
-  //   setTimeout(function () {
-  //     moreData = false;
-  //     res.end();
-  //   }, 10000);
-  // });
 
   /**
    * Route used for deferred downloads
    * ?filename=myname can be used to force a specific filename for the download
    * Example: /3e167f80-aa9f-11e2-b9c5-c7c7ad0be3cd
    */
-  var uuidRegExp = /^\/([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})$/;
   app.get(uuidRegExp, function (req, res) {
     var rid  = req.params[0];
     var name = req.query.filename ? req.query.filename : rid;
@@ -61,15 +44,28 @@ module.exports = function (app, domains, ignoredDomains) {
     });
 
     if (app.ezJobs[rid].ecsStream) {
+      console.log('Requesting deferred result ECs file (while response is generated)');
       // if job is still running (ECs are still writen in the temp file)
       // use the GrowingFile module to stream the result to the HTTP response
-      // TODO: the growing file module doesn't work as expected because it waits that the
-      //       ECs are all generated to pipe file content to the HTTP response
-      app.ezJobs[rid].ecsGFile = GrowingFile.open(app.ezJobs[rid].ecsPath, {
-        timeout: 10000 // TODO: find a better way to stop watching the growing file
+      rgf.readGrowingFile({
+        sourceFilePath: app.ezJobs[rid].ecsPath,
+        onData: function (data) {
+          console.log('Data added to ECs temp file (' + data.length + ' bytes)');
+          res.write(data);
+        },
+        isStillGrowing: function () {
+          return !app.ezJobs[rid].ecsStreamEnd;
+        },
+        lastByteOfFile: function () {
+          return app.ezJobs[rid].byteWriten;
+        },
+        endCallback: function () {
+          console.log('ECs temp file completed');
+          res.end();
+        }
       });
-      app.ezJobs[rid].ecsGFile.pipe(res);
     } else {
+      console.log('Requesting deferred result ECs file');
       // if job is finished (ECs are all writing it the temp file)
       // use a basic pipe between the file and the http response
       fs.createReadStream(app.ezJobs[rid].ecsPath).pipe(res);
