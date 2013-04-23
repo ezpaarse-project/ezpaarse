@@ -22,7 +22,7 @@ var uuidRegExp  = /^\/([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{
 module.exports = function (app, domains, ignoredDomains) {
 
   /**
-   * Route used for deferred downloads
+   * Route used for deferred ECs downloads
    * ?filename=myname can be used to force a specific filename for the download
    * Example: /3e167f80-aa9f-11e2-b9c5-c7c7ad0be3cd
    */
@@ -335,25 +335,32 @@ module.exports = function (app, domains, ignoredDomains) {
           if (writerWasStarted) {
             writer.end();
           }
-          res.end();
+
+          var streams = [];
           for (var stream in logStreams) {
-            logStreams[stream].end();
+            streams.push(logStreams[stream]);
           }
-          if (app.ezJobs[req.ezRID].ecsStream) {
-            // todo: clear the app.ezJobs[req.ezRID] from the memory
-            //       but have to think when is the best time for that
-            //       maybe we should wait as long as the folderreaper ?
-            app.ezJobs[req.ezRID].ecsStream.end();
-            app.ezJobs[req.ezRID].ecsStream = null;
-            // if (app.ezJobs[req.ezRID].ecsGFile) {
-            //   // when ECs are generated, the growing file _ended flag must not be
-            //   // set to true or the download will be interrupted before the end
-            //   //app.ezJobs[req.ezRID].ecsGFile._ended = true;
-            // }
+          var closeStreams = function (streams, callback) {
+            var stream = streams.pop();
+            if (stream) {
+              stream.end(function () { closeStreams(streams, callback); });
+            } else {
+              callback();
+            }
           }
-          logger.info("Terminating response");
-          logger.info(countLines + " lines were read");
-          logger.info(countECs + " ECs were created");
+          closeStreams(streams, function () {
+            res.end();
+            if (app.ezJobs[req.ezRID].ecsStream) {
+              // todo: clear the app.ezJobs[req.ezRID] from the memory
+              //       but have to think when is the best time for that
+              //       maybe we should wait as long as the folderreaper ?
+              app.ezJobs[req.ezRID].ecsStream.end();
+              app.ezJobs[req.ezRID].ecsStream = null;
+            }
+            logger.info("Terminating response");
+            logger.info(countLines + " lines were read");
+            logger.info(countECs + " ECs were created");
+          });
         }
       });
     });
