@@ -56,7 +56,38 @@ Un paramètre peut être formulé de trois façons :
 - %{**proprieté**} : récupère une chaîne alphanumérique et l'ajoute à l'évènement de consultation sous le nom défini entre {...}.  
 - %<**regexp**> : ignore le morceau de ligne de log correspondant à l'expression régulière entre <...>.
 
-#### Exemple ####
+#### Exemples de champs particuliers ####
+
+<table>
+  <tr>
+    <th>Champ</th>
+    <th style="text-align:left;">Formes</th>
+    <th>Format à indiquer</th>
+  </tr>
+  <tr>
+    <td>%{X-FORWARDED-FOR}i</td>
+    <td><span style="color: red">61.117.43.242</span>
+      <br /><span style="color: green">209.85.238.58, 10.0.0.99</span>
+    </td>
+    <td>%{X-FORWARDED-FOR}&lt;[a-zA-Z0-9\\., ]+&gt;</td>
+  </tr>
+  <tr>
+    <td>%{ezproxy-groups}i</td>
+    <td><span style="color: red">Default+inpl</span>
+      <br /><span style="color: green">Default+915</span></td>
+    <td>%{ezproxy-groups}&lt;a-zA-Z0-9\\+&gt;</td>
+  </tr>
+  <tr>
+    <td>%{ezproxy-session}i</td>
+    <td><span style="color: red">pvJ0HWGo6eWhhVv</span>
+      <br /><span style="color: green">UX0Yi0agVZQwHNs</span></td>
+    <td>%{ezproxy-session}
+      <br />**ou**
+      <br />%{ezproxy-session}&lt;a-zA-Z0-9&gt;</td>
+  </tr>
+</table>
+
+#### Exemple de requête ####
 ```shell
 curl -X POST --proxy "" --no-buffer -H 'Log-Format-ezproxy: %h %<[-]> %u [%t] "%r" %s %b' --data-binary @test/dataset/sd.2012-11-30.300.log  http://127.0.0.1:59599 -v
 ```
