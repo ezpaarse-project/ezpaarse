@@ -127,7 +127,7 @@ module.exports = function (app, domains, ignoredDomains) {
 
     var loglevel = req.header('Traces-Level') ||
                    (app.get('env') == 'production' ? 'info' : 'verbose');
-    var logPath = __dirname + '/../tmp/logs/'
+    var logPath = __dirname + '/../tmp/jobs/'
                             + ezRID.charAt(0) + '/'
                             + ezRID.charAt(1) + '/'
                             + ezRID;

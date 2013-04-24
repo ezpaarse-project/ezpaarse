@@ -11,7 +11,7 @@ module.exports = function (app) {
    */
   app.get(/^\/logs\/([a-zA-Z0-9\-]+)\/([a-zA-Z\-]+\.log)$/, function (req, res) {
     var requestID = req.params[0];
-    var logPath   = __dirname + '/../tmp/logs/'
+    var logPath   = __dirname + '/../tmp/jobs/'
     + requestID.charAt(0) + '/'
     + requestID.charAt(1) + '/'
     + requestID;
