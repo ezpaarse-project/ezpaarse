@@ -10,6 +10,7 @@ bench-*.csv
 bench-*.png*
 build/
 platforms-kb/
+tmp/
 
 
 .DS_Store
