@@ -56,6 +56,8 @@ Un paramètre peut être formulé de trois façons :
 - %{**proprieté**} : récupère une chaîne alphanumérique et l'ajoute à l'évènement de consultation sous le nom défini entre {...}.  
 - %<**regexp**> : ignore le morceau de ligne de log correspondant à l'expression régulière entre <...>.
 
+**NB:** pour les expressions régulières complexes, utilisez des parenthèses non capturantes : **(?:x)**.
+
 #### Exemples de champs particuliers ####
 
 <table>
@@ -69,7 +71,7 @@ Un paramètre peut être formulé de trois façons :
     <td><span style="color: red">61.117.43.242</span>
       <br /><span style="color: green">209.85.238.58, 10.0.0.99</span>
     </td>
-    <td>%{X-FORWARDED-FOR}&lt;[a-zA-Z0-9\\., ]+&gt;</td>
+    <td>%{X-FORWARDED-FOR}&lt;[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}(?:, [0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3})\*&gt;</td>
   </tr>
   <tr>
     <td>%{ezproxy-groups}i</td>
