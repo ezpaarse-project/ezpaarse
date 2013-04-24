@@ -115,7 +115,7 @@ module.exports = function (app, domains, ignoredDomains) {
     // Job traces absolute url is calculated from the client headers
     // if the client request is forwarded by a reverse proxy, the x-forwarded-host
     // variable is used.
-    var logRoute = req.ezBaseURL + '/logs/' + ezRID;
+    var logRoute = req.ezBaseURL + '/' + ezRID;
 
     res.set('Job-ID', ezRID);
     res.set('Job-Traces', logRoute + '/job-traces.log');
