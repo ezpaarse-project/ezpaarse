@@ -75,7 +75,7 @@ Un paramètre peut être formulé de trois façons :
     <td>%{ezproxy-groups}i</td>
     <td><span style="color: red">Default+inpl</span>
       <br /><span style="color: green">Default+915</span></td>
-    <td>%{ezproxy-groups}&lt;a-zA-Z0-9\\+&gt;</td>
+    <td>%{ezproxy-groups}&lt;[a-zA-Z0-9\\+]+&gt;</td>
   </tr>
   <tr>
     <td>%{ezproxy-session}i</td>
@@ -83,7 +83,7 @@ Un paramètre peut être formulé de trois façons :
       <br /><span style="color: green">UX0Yi0agVZQwHNs</span></td>
     <td>%{ezproxy-session}
       <br />**ou**
-      <br />%{ezproxy-session}&lt;a-zA-Z0-9&gt;</td>
+      <br />%{ezproxy-session}&lt;[a-zA-Z0-9]+&gt;</td>
   </tr>
 </table>
 
