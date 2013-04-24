@@ -53,6 +53,9 @@ describe('The server', function () {
           'The header "Job-Traces" was not sent by the server');
 
         request.get(logURL, function (error, res, logBody) {
+          if (error) {
+            throw error;
+          }
           res.should.have.status(200);
           done();
         });
@@ -81,6 +84,9 @@ describe('The server', function () {
           'The header "Job-Unknown-Formats" was not sent by the server');
 
         request.get(logURL, function (error, res, logBody) {
+          if (error) {
+            throw error;
+          }
           res.should.have.status(200);
 
           logBody = logBody.trim().split('\n');
@@ -113,6 +119,9 @@ describe('The server', function () {
           'The header "Job-Ignored-Domains" was not sent by the server');
 
         request.get(logURL, function (error, res, logBody) {
+          if (error) {
+            throw error;
+          }
           res.should.have.status(200);
 
           var logLine = fs.readFileSync(ignoredDomain).toString().trim();
@@ -142,6 +151,9 @@ describe('The server', function () {
           'The header "Job-Unknown-Domains" was not sent by the server');
 
         request.get(logURL, function (error, res, logBody) {
+          if (error) {
+            throw error;
+          }
           res.should.have.status(200);
 
           var logLine = fs.readFileSync(unknownDomain).toString().trim();
@@ -171,6 +183,9 @@ describe('The server', function () {
           'The header "Job-Unqualified-ECs" was not sent by the server');
 
         request.get(logURL, function (error, res, logBody) {
+          if (error) {
+            throw error;
+          }
           res.should.have.status(200);
 
           var logLine = fs.readFileSync(unqualifiedEC).toString().trim();
@@ -202,6 +217,9 @@ describe('The server', function () {
           'The header "Job-PKB-Miss-ECs" was not sent by the server');
 
         request.get(logURL, function (error, res, logBody) {
+          if (error) {
+            throw error;
+          }
           res.should.have.status(200);
 
           var logLine = fs.readFileSync(pkbmissEC).toString().trim();
