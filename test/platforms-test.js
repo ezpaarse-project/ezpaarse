@@ -10,6 +10,7 @@ var shell     = require('shelljs');
 var csv       = require('csv');
 var byline    = require('byline');
 var csvextractor = require('../lib/csvextractor.js');
+var pp        = require('../lib/platform-parser.js');
 
 var platformsFolder = __dirname + '/../platforms';
 var cfgFilename     = 'manifest.json';
@@ -68,9 +69,10 @@ function fetchPlatform(platform) {
     var config = JSON.parse(fs.readFileSync(configFile, 'UTF-8'));
 
     if (config.name) {
-      var parserFile = platformsFolder + '/' + platform + '/parser';
+      var pfile = pp.getParser(platform);
 
-      if (fs.existsSync(parserFile) && fs.statSync(parserFile).isFile()) {
+      if (pfile) {
+        var parserFile = pfile.path;
         var testFolder = platformsFolder + '/' + platform + '/test';
 
         if (fs.existsSync(testFolder) && fs.statSync(testFolder).isDirectory()) {
