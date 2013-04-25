@@ -65,13 +65,13 @@ test-verbose:
 
 test-platforms:
 	@if test -d test; \
-	then . ./bin/env; mocha -g parser; \
+	then . ./bin/env; mocha -g platform; \
 	else echo 'No test folder found'; \
 	fi
 
 test-platforms-verbose:
 	@if test -d test; \
-	then . ./bin/env; mocha -R list -g parser; \
+	then . ./bin/env; mocha -R list -g platform; \
 	else echo 'No test folder found'; \
 	fi
 
