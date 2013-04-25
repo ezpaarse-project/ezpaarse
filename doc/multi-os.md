@@ -9,7 +9,7 @@ Selon les OS des pré-requis sont nécessaires avant le lancement de la [procéd
 A partir d'une [image ubuntu](http://www.ubuntu.com/download) chargée dans une machine virtuelle, avec les droits root ou via sudo.
 
 ```
-apt-get install perl git make curl python gcc build-essential libldap2-dev nsis flashplugin-installer
+apt-get install perl git make curl python gcc build-essential libldap2-dev nsis
 ```
 
 ##Pré-requis sur Fedora

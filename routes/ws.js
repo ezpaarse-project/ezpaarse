@@ -2,19 +2,19 @@
 'use strict';
 
 var fs          = require('fs');
-var MatchStream = require('match-stream');
+var Lazy        = require('lazy');
+var uuid        = require('uuid');
 var async       = require('async');
 var crypto      = require('crypto');
+var mkdirp      = require('mkdirp');
+var winston     = require('winston');
+var formidable  = require('formidable');
 var Readable    = require('stream').Readable;
-var initializer = require('../lib/requestinitializer.js');
+var config      = require('../config.json');
 var ECFilter    = require('../lib/ecfilter.js');
 var ECHandler   = require('../lib/echandler.js');
-var config      = require('../config.json');
-var winston     = require('winston');
-var uuid        = require('uuid');
-var mkdirp      = require('mkdirp');
-var formidable  = require('formidable');
-var Lazy        = require('lazy');
+var statusCodes = require('../statuscodes.json');
+var initializer = require('../lib/requestinitializer.js');
 //var GrowingFile = require('growing-file');
 var rgf         = require('../lib/readgrowingfile.js');
 var uuidRegExp  = /^\/([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})$/;
@@ -164,13 +164,15 @@ module.exports = function (app, domains, ignoredDomains) {
     var treatedLines      = false;
     var writtenECs        = false;
     var badBeginning      = false;
-    var statusHeader = 'ezPAARSE-Status';
+    var statusHeader      = 'ezPAARSE-Status';
+    var msgHeader         = 'ezPAARSE-Status-Message';
     
     
     if (req.get('Content-length') === 0) {
       // If no content in the body, terminate the response
       logger.warn("No content sent by the client");
       res.set(statusHeader, 4001);
+      res.set(msgHeader, statusCodes['4001']);
       res.status(400);
       res.end();
       return;
@@ -179,6 +181,7 @@ module.exports = function (app, domains, ignoredDomains) {
     initializer.init(app, req, res, logger, function (err, init) {
       if (err) {
         res.set(statusHeader, err.ezStatus);
+        res.set(msgHeader, statusCodes[err.ezStatus]);
         res.status(err.status);
         res.end();
         return;
@@ -188,6 +191,7 @@ module.exports = function (app, domains, ignoredDomains) {
           logger.error('Error while unziping request data');
           if (!res.headerSent) {
             res.set(statusHeader, 4002);
+            res.set(msgHeader, statusCodes['4002']);
             res.status(400);
           }
           res.end();
@@ -299,6 +303,7 @@ module.exports = function (app, domains, ignoredDomains) {
           logger.warn('No line treated in the request');
           try {
             res.set(statusHeader, 4003);
+            res.set(msgHeader, statusCodes['4003']);
           } catch (e) {}
           res.status(400);
           res.end();

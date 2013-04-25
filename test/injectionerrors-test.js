@@ -13,10 +13,8 @@ var wrongFirstLineLogFile = __dirname + '/dataset/sd.wrong-first-line.log';
 
 describe('The server', function () {
   describe('receives a log file whose first line is incorrect', function () {
-    it('and sends back an empty body with an error 400', function (done) {
-      var headers = {
-        'Anonymize-host': 'md5'
-      };
+    it('and sends back an empty body with an error 4003', function (done) {
+      var headers = {};
       helpers.post('/', wrongFirstLineLogFile, headers,
       function (error, res, body) {
         if (error) {
@@ -27,15 +25,17 @@ describe('The server', function () {
         }
         should.not.exist(body);
         res.should.have.status(400);
+        res.should.have.header('ezpaarse-status');
+        res.should.have.header('ezpaarse-status-message');
+        var status = res.headers['ezpaarse-status'];
+        status.should.equal('4003', 'ezPAARSE returned a wrong status header');
         done();
       });
     });
   });
   describe('receives a gzipped log file with no content-encoding', function () {
-    it('and sends back an empty body with an error 400', function (done) {
-      var headers = {
-        'Anonymize-host': 'md5'
-      };
+    it('and sends back an empty body with an error 4003', function (done) {
+      var headers = {};
       helpers.post('/', gzipLogFile, headers,
       function (error, res, body) {
         if (error) {
@@ -46,15 +46,18 @@ describe('The server', function () {
         }
         should.not.exist(body);
         res.should.have.status(400);
+        res.should.have.header('ezpaarse-status');
+        res.should.have.header('ezpaarse-status-message');
+        var status = res.headers['ezpaarse-status'];
+        status.should.equal('4003', 'ezPAARSE returned a wrong status header');
         done();
       });
     });
   });
   describe('receives a non-gzipped log file with a gzip content-encoding', function () {
-    it('and sends back an empty body with an error 400', function (done) {
+    it('and sends back an empty body with an error 4002', function (done) {
       var headers = {
-        'content-encoding': 'gzip',
-        'Anonymize-host': 'md5'
+        'content-encoding': 'gzip'
       };
       helpers.post('/', logFile, headers,
       function (error, res, body) {
@@ -66,6 +69,79 @@ describe('The server', function () {
         }
         should.not.exist(body);
         res.should.have.status(400);
+        res.should.have.header('ezpaarse-status');
+        res.should.have.header('ezpaarse-status-message');
+        var status = res.headers['ezpaarse-status'];
+        status.should.equal('4002', 'ezPAARSE returned a wrong status header');
+        done();
+      });
+    });
+  });
+  describe('receives a gzipped log file with an unknown content-encoding', function () {
+    it('and sends back an empty body with an error 4005', function (done) {
+      var headers = {
+        'content-encoding': 'unsupported/encoding'
+      };
+      helpers.post('/', gzipLogFile, headers,
+      function (error, res, body) {
+        if (error) {
+          throw error;
+        }
+        if (!res) {
+          throw new Error('The application is not running');
+        }
+        should.not.exist(body);
+        res.should.have.status(406);
+        res.should.have.header('ezpaarse-status');
+        res.should.have.header('ezpaarse-status-message');
+        var status = res.headers['ezpaarse-status'];
+        status.should.equal('4005', 'ezPAARSE returned a wrong status header');
+        done();
+      });
+    });
+  });
+  describe('receives a log file with an unsupported hash for anonymization', function () {
+    it('and sends back an empty body with an error 4004', function (done) {
+      var headers = {
+        'Anonymize-Host': 'unsupported/hash'
+      };
+      helpers.post('/', logFile, headers,
+      function (error, res, body) {
+        if (error) {
+          throw error;
+        }
+        if (!res) {
+          throw new Error('The application is not running');
+        }
+        should.not.exist(body);
+        res.should.have.status(400);
+        res.should.have.header('ezpaarse-status');
+        res.should.have.header('ezpaarse-status-message');
+        var status = res.headers['ezpaarse-status'];
+        status.should.equal('4004', 'ezPAARSE returned a wrong status header');
+        done();
+      });
+    });
+  });
+  describe('receives a log file with an unsupported output format requested', function () {
+    it('and sends back an empty body with an error 4006', function (done) {
+      var headers = {
+        'Accept': 'unsupported/format'
+      };
+      helpers.post('/', logFile, headers,
+      function (error, res, body) {
+        if (error) {
+          throw error;
+        }
+        if (!res) {
+          throw new Error('The application is not running');
+        }
+        should.not.exist(body);
+        res.should.have.status(406);
+        res.should.have.header('ezpaarse-status');
+        res.should.have.header('ezpaarse-status-message');
+        var status = res.headers['ezpaarse-status'];
+        status.should.equal('4006', 'ezPAARSE returned a wrong status header');
         done();
       });
     });
