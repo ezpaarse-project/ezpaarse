@@ -11,6 +11,7 @@ bench-*.png*
 build/
 platforms-kb/
 tmp/
+ezpaarse.pid
 
 
 .DS_Store

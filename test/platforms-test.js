@@ -23,7 +23,7 @@ function testFiles(files, parserFile, done) {
     var child = shell.exec(parserFile, {async: true, silent: true});
     var stream = byline.createStream(child.stdout);
     var record = records.pop();
-
+    
     stream.on('data', function (line) {
       var parsedLine = JSON.parse(line);
       delete record.url;
@@ -81,7 +81,7 @@ function fetchPlatform(platform) {
       var pfile = pp.getParser(platform);
       
       if (pfile) {
-        
+
         var parserFile = pfile.path;
         var testFolder = platformsFolder + '/' + platform + '/test';
 
