@@ -80,7 +80,7 @@ function fetchPlatform(platform) {
       should.ok(config.name.length > 0, "field 'name' in manifest.json is empty");
       var pfile = pp.getParser(platform);
       
-      if (pfile) {
+      if (pfile && pfile.language !== '') {
 
         var parserFile = pfile.path;
         var testFolder = platformsFolder + '/' + platform + '/test';
