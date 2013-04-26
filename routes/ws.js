@@ -345,15 +345,20 @@ module.exports = function (app, domains, ignoredDomains) {
           for (var stream in logStreams) {
             streams.push(logStreams[stream]);
           }
-          var closeStreams = function (streams, callback) {
-            var stream = streams.pop();
-            if (stream) {
-              stream.end(function () { closeStreams(streams, callback); });
-            } else {
-              callback();
-            }
-          }
-          closeStreams(streams, function () {
+
+          var closeLogStreams = function closeWinston(callback) {
+            logger.transports.file._stream.on('close', function closeStreams() {
+              var stream = streams.pop();
+              if (stream) {
+                stream.end(function () { closeStreams(callback); });
+              } else {
+                callback();
+              }
+            });
+            logger.clear();
+          };
+
+          closeLogStreams(function () {
             res.end();
             if (app.ezJobs[req.ezRID].ecsStream) {
               // todo: clear the app.ezJobs[req.ezRID] from the memory
