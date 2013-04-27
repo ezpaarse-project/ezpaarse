@@ -2,9 +2,9 @@
 
 [![Build Status](https://secure.travis-ci.org/ezpaarse-project/ezpaarse.png?branch=master)](http://travis-ci.org/ezpaarse-project/ezpaarse)
 
-ezPAARSE se présente sous la forme d'un Web service dans lequel vous pouvez injecter vos logs et récupérer
-les évènements de consultation correspondants. Cette procédure décrit comment installer
-ezPAARSE sur votre serveur.
+ezPAARSE se présente sous la forme d'un Web service dans lequel vous pouvez
+injecter vos logs et récupérer les évènements de consultation correspondants.
+Cette procédure décrit comment installer ezPAARSE sur votre ordinateur.
 
 ## Pré-requis ##
 
@@ -13,18 +13,19 @@ Voici les outils dont vous avez besoin pour faire fonctionner ezPAARSE :
 * Système d'exploitation Linux : [voir les pré-requis par systèmes](https://github.com/ezpaarse-project/ezpaarse/blob/master/doc/multi-os.md)
 * Outils standards Linux : bash, make, grep, sed ... 
 * curl (utilisé par nvm)
-* git >= 1.7.10 (pour être compatible avec github)
+* git >= 1.7.10 (demandé par github)
 
 ezPAARSE embarque tous les éléments nécessaires à son fonctionnement. 
 Lorsque les pré-requis sont remplis, le lancement de la commande **make** (voir ci-dessous) **réalise toutes les opérations d'installation**.
 
-Remarque : nous préconiserons prochainement un dimensionnement pour le serveur au niveau du CPU et de la RAM.
-Pour cela, nous attendons de pouvoir disposer d'un panel de parseurs plus complet pour pouvoir lancer des
-benchmarks et en déduire des préconisations matérielles.
-
 ## Installation ##
 
-Si vous souhaitez installer une version stable [téléchargez une archives zip ou tar.gz](http://analogist.couperin.org/ezpaarse/download) puis ouvrez un terminal et tapez :
+Si vous êtes utilisateur du système d'exploitation Windows, vous pouvez
+installer ezPAARSE sur votre ordinateur en [téléchargant le setup](http://analogist.couperin.org/ezpaarse/download) et en lançant l'installation comme n'importe quel autre programme.
+
+Si vous souhaitez installer ezPAARSE sur un système de type Unix,
+téléchargez une version stable au format [tar.gz](http://analogist.couperin.org/ezpaarse/download)
+puis ouvrez un terminal et tapez :
 ```console
 unzip ezpaarse-X.X.X.zip
 cd ezpaarse-X.X.X
@@ -38,7 +39,7 @@ cd ezpaarse
 make
 ```
 
-Vous avez également la possibilité de [télécharger une archives deb](http://analogist.couperin.org/ezpaarse/download) et de l'installer sur votre système de cette façon :
+Vous avez également la possibilité de [télécharger une archives pour deb](http://analogist.couperin.org/ezpaarse/download) et de l'installer sur votre système Debian/Ubuntu de cette façon :
 ```console
 sudo -E dpkg -i ezpaarse-X.X.X.deb
 sudo /etc/init.d/ezpaarse start
@@ -64,8 +65,13 @@ Vous devez tout d'abord vous assurer qu'ezPAARSE est démarré en lançant la co
 make start
 ```
 
-Un client HTTP (ici curl) peut envoyer un fichier de données de log (ici ./test/dataset/sd.2012-11-30.300.log)
-sur le Web service d'ezPAARSE et obtenir en réponse un flux CSV d'événements de consultation.
+Si vous n'êtes pas informaticien, la méthode la plus simple pour utiliser ezPAARSE est de
+passer par son formulaire HTML directement accessible depuis votre navigateur Web favoris.
+Il suffit pour cela d'ouvrir cette adresse : http://localhost:59599/
+
+Si vous êtes informaticien, vous pouvez utiliser un client HTTP (ici curl) pour envoyer un
+fichier de données de log (ici ./test/dataset/sd.2012-11-30.300.log) sur le Web service
+d'ezPAARSE et obtenir en réponse un flux CSV d'événements de consultation :
 
 ```console
 curl -X POST http://127.0.0.1:59599 \
@@ -73,15 +79,17 @@ curl -X POST http://127.0.0.1:59599 \
              --data-binary @./test/dataset/sd.2012-11-30.300.log
 ```
 
-Alternativement, vous pouvez également utiliser la commande ``./bin/loginjector`` fournie par ezPAARSE
-pour injecter encore plus simplement le fichier de log dans ezPAARSE :
+Alternativement, vous pouvez utiliser la commande ``./bin/loginjector`` fournie par ezPAARSE
+pour injecter plus simplement le fichier de log dans le Web service d'ezPAARSE :
 
 ```console
 . ./bin/env
 cat ./test/dataset/sd.2012-11-30.300.log | ./bin/loginjector
 ```
-Et enchainer en utilisant la commande ``./bin/csvtotalizer`` fournie par ezPAARSE
-pour avoir un aperçu des événements de consultation reconnus par ezPAARSE :
+Vous pouvez également réaluser des comptages rapides en rajoutant
+la commande ``./bin/csvtotalizer`` à la suite de la ligne de commande.
+Vous aurez entre autre un aperçu des événements de consultation reconnus
+par ezPAARSE sur vos logs :
 
 ```console
 . ./bin/env
