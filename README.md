@@ -67,7 +67,7 @@ make start
 
 Si vous n'êtes pas informaticien, la méthode la plus simple pour utiliser ezPAARSE est de
 passer par son formulaire HTML directement accessible depuis votre navigateur Web favoris.
-Il suffit pour cela d'ouvrir cette adresse : http://localhost:59599/
+Il suffit pour cela d'ouvrir cette adresse : [http://localhost:59599/](http://localhost:59599/)
 
 Si vous êtes informaticien, vous pouvez utiliser un client HTTP (ici curl) pour envoyer un
 fichier de données de log (ici ./test/dataset/sd.2012-11-30.300.log) sur le Web service
