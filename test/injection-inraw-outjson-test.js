@@ -32,8 +32,6 @@ describe('The server', function () {
 
         correctJson.should.be.a('object');
         bodyJson.should.be.a('object');
-        console.log(bodyJson);
-        console.log(correctJson);
         should.ok(helpers.compareArrays(bodyJson, correctJson),
           'Server\'s answer do not match the intended result');
 
