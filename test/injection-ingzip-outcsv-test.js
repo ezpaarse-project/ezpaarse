@@ -31,7 +31,7 @@ describe('The server', function () {
         csvextractor.extract(fs.createReadStream(csvResultFile), [], function (correctRecords) {
           csvextractor.extract([body], [], function (bodyRecords) {
             should.ok(helpers.compareArrays(bodyRecords, correctRecords),
-              'The response of the server does not match the expected one');
+              'The response of the server does not match the expected one', bodyRecords);
             done();
           }, {silent: true});
         }, {silent: true});
