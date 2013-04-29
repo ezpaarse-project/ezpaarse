@@ -6,7 +6,6 @@ var helpers       = require('./helpers.js');
 var fs            = require('fs');
 var should        = require('should');
 var csvextractor  = require('../lib/csvextractor.js');
-var util  = require('util');
 
 var gzipLogFile   = __dirname + '/dataset/sd.2013-01-15.log.gz';
 var csvResultFile = __dirname + '/dataset/sd.2013-01-15.result.csv';
@@ -32,8 +31,7 @@ describe('The server', function () {
         csvextractor.extract(fs.createReadStream(csvResultFile), [], function (correctRecords) {
           csvextractor.extract([body], [], function (bodyRecords) {
             should.ok(helpers.compareArrays(bodyRecords, correctRecords),
-              'The response of the server does not match the expected one'
-              + util.inspect(correctRecords));
+              'The response of the server does not match the expected one');
             done();
           }, {silent: true});
         }, {silent: true});
