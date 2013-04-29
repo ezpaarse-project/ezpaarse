@@ -346,6 +346,10 @@ module.exports = function (app, domains, ignoredDomains) {
             streams.push(logStreams[stream]);
           }
 
+          logger.info("Terminating response");
+          logger.info(countLines + " lines were read");
+          logger.info(countECs + " ECs were created");
+          
           var closeLogStreams = function closeWinston(callback) {
             logger.transports.file._stream.on('close', function closeStreams() {
               var stream = streams.pop();
@@ -367,9 +371,6 @@ module.exports = function (app, domains, ignoredDomains) {
               app.ezJobs[req.ezRID].ecsStream.end();
               app.ezJobs[req.ezRID].ecsStream = null;
             }
-            logger.info("Terminating response");
-            logger.info(countLines + " lines were read");
-            logger.info(countECs + " ECs were created");
           });
         }
       });
