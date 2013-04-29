@@ -40,7 +40,7 @@ exports.objectsAreSame = function (object1, object2) {
   }
   var same = true;
   for (var property in object1) {
-    if (property == 'date') {
+    if (property == 'datetime') {
       if (!object2[property] || Date.parse(object1[property]) != Date.parse(object2[property])) {
         same = false;
       }
