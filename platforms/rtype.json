@@ -1,0 +1,72 @@
+[
+  {
+    "code": "ARTICLE",
+    "description":  "consultation d'un article",
+    "comment": ""
+  },
+  {
+    "code": "ABS",
+    "description":  "consultation d'un résumé de l'article",
+    "comment": ""
+  },
+  {
+    "code": "REVUE",
+    "description":  "consultation des informations d'une revue",
+    "comment": ""
+  },
+  {
+    "code": "BOOKSERIE",
+    "description":  "consultation d'un sommaire d'une monographie en série",
+    "comment": ""
+  },
+  {
+    "code": "HANDBOOK",
+    "description":  "consultation d'un sommaire d'un handbook",
+    "comment": ""
+  },
+  {
+    "code": "ORDER",
+    "description":  "consultation de type commande de document",
+    "comment": ""
+  },
+  {
+    "code": "REF",
+    "description":  "consultation de référence de document",
+    "comment": ""
+  },
+  {
+    "code": "OML",
+    "description":  "consultation de matériel en ligne (données)",
+    "comment": ""
+  },
+  {
+    "code": "ENCYCLOPEDIE",
+    "description":  "consultation d'une encyclopédie",
+    "comment": "Cas des bases de données juridiques"
+  },
+  {
+    "code": "CODE",
+    "description":  "consultation d'un code juridique",
+    "comment": "Cas des bases de données juridiques"
+  },
+  {
+    "code": "PREVIEW",
+    "description":  "consultation des premières lignes d'un article",
+    "comment": ""
+  },
+  {
+    "code": "BOOKMARK",
+    "description":  "ajout de l'article dans un panier ou favoris",
+    "comment": "rencontré dans ajouter panier de cairn"
+  },
+  {
+    "code": "BOOK",
+    "description":  "consultation d'un ouvrage complet",
+    "comment": ""
+  },
+  {
+    "code": "BOOK_SECTION",
+    "description":  "consultation d'une partie d'ouvrage",
+    "comment": ""
+  }
+]

@@ -11,16 +11,21 @@ var csv       = require('csv');
 var byline    = require('byline');
 var csvextractor = require('../lib/csvextractor.js');
 var pp        = require('../lib/platform-parser.js');
+var assert    = require('assert');
 
 var platformsFolder = __dirname + '/../platforms';
 var cfgFilename     = 'manifest.json';
 
 var platforms       = fs.readdirSync(platformsFolder);
 
-function testFiles(files, parserFile, done) {
+function testFiles(files, platformName, parserFile, done) {
   
+  var test = shell.exec("echo '[]' | " + parserFile, {async: false, silent: true});
+  assert.ok(test.code !== 126, "Platform " + platformName + " : the parser is not executable");
+
   csvextractor.extract(files, [], function (records) {
     var child = shell.exec(parserFile, {async: true, silent: true});
+
     var stream = byline.createStream(child.stdout);
     var record = records.pop();
     
@@ -100,7 +105,7 @@ function fetchPlatform(platform) {
           }
         }
         should.ok(csvFiles.length > 0, "no test file");
-        testFiles(csvFiles, parserFile, done);
+        testFiles(csvFiles, platform, parserFile, done);
       } else {
 
         done();
