@@ -123,10 +123,5 @@
     "code": "BOOK_SECTION_PDF",
     "description":  "consultation d'une partie d'ouvrage au format pdf",
     "comment": ""
-  },  
-  {
-    "code": "BOOKMARK",
-    "description":  "ajout de l'article dans un panier ou favoris",
-    "comment": "rencontré dans ajouter panier de cairn"
-  }  
+  }
 ]
