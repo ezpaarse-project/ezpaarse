@@ -1,7 +1,8 @@
 [{
   "host": "930433f326b0763070e23ec0428b4aff",
   "login": "uid=cousteau,ou=Personnels,ou=People,dc=univ-paris5,dc=fr",
-  "date": "2012-08-19T22:16:52+02:00",
+  "date": "2012-08-19",
+  "datetime": "2012-08-19T22:16:52+02:00",
   "url": "http://pdn.sciencedirect.com/science?_ob=MiamiImageURL&_cid=272873&_user=5262028&_pii=S0196064404001969&_check=y&_origin=article&_zone=toolbar&_coverDate=31-Jul-2004&view=c&originContentFamily=serial&wchp=dGLbVlt-zSkzV&md5=bbbfa2dba5a899dea8c4d2e3e29dd49a&pid=1-s2.0-S0196064404001969-main.pdf",
   "status": "302",
   "domain": "pdn.sciencedirect.com",
