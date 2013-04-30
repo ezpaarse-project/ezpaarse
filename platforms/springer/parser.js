@@ -18,38 +18,52 @@ function parseUrl(url) {
   
   if ((match = /\/journal(\/volumesAndIssues)?\/([0-9]+)/.exec(path)) !== null) {
     result.pid  = match[2];
-    result.type = 'TOC';
+    result.rtype = 'TOC';
+    result.mime = 'MISC';
   } else if ((match = /^\/(article|book|protocol)\/([0-9]+\.[0-9]+\/[^\/]*)(\/fulltext.html)?/.exec(path)) !== null) {
     result.doi  = match[2];
     switch (match[1]) {
     case 'article':
-      result.type = match[3] ? 'TXT' : 'ABS';
+      if(match[3]) {
+        result.rtype = 'ARTICLE';
+        result.mime = 'HTML';
+      } else {
+        result.rtype = 'ABS';
+        result.mime = 'MISC';
+      }
       break;
     case 'book':
     case 'protocol':
-      result.type = 'BOOK';
+      result.rtype = 'BOOK';
+      result.mime = 'HTML';
       break;
     }
   } else if ((match = /^\/content\/pdf\/([0-9]+\.[0-9]+\/[^\/]*)/.exec(path)) !== null) {
     result.doi  = match[1];
-    result.type = 'PDF';
+    result.rtype = 'ARTICLE';
+    result.mime = 'PDF';
   } else if ((match = /^\/content\/([0-9]{4}-[0-9]{4})/.exec(path)) !== null) {
     result.issn  = match[1];
-    result.type = 'TOC';
+    result.rtype = 'TOC';
+    result.mime = 'MISC';
   } else if ((match = /^\/content\/([a-zA-Z0-9]+)(\/fulltext.pdf)?/.exec(path)) !== null) {
-    result.type = 'ABS';
+    result.rtype = 'ABS';
+    result.mime = 'MISC';
   } else if ((match = /^\/chapter\/([0-9]+\.[0-9]+\/[^\/]*)/.exec(path)) !== null) {
     result.doi  = match[1];
-    result.type = 'ABS';
+    result.rtype = 'ABS';
+    result.mime = 'MISC';
   } else if ((match = /^\/(book)?series\/([0-9]+)/.exec(path)) !== null) {
     result.pid  = match[2];
-    result.type = 'BOOKSERIE';
+    result.rtype = 'BOOKSERIE';
+    result.mime = 'MISC';
   } else if ((match = /^\/openurl.asp/.exec(path)) !== null) {
     if (param.genre && param.genre == 'journal') {
       if (param.issn) {
         result.issn = param.issn;
       }
-      result.type = 'TOC';
+      result.rtype = 'TOC';
+      result.mime = 'MISC';
     }
   }
   return result;
