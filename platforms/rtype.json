@@ -10,6 +10,11 @@
     "comment": ""
   },
   {
+    "code": "TOC",
+    "description":  "consultation d'un sommaire de numéro de revue",
+    "comment": ""
+  },
+  {
     "code": "REVUE",
     "description":  "consultation des informations d'une revue",
     "comment": ""

@@ -21,7 +21,8 @@ function parseUrl(url) {
       var arg = param._tockey.split('#');
       result.pid = arg[2];
       // Set consultation type to TableOfContent (TOC)
-      result.type = 'TOC';
+      result.rtype = 'TOC';
+      result.mime = 'MISC';
       break;
     case 'ArticleURL':
       // Summary of full text
@@ -29,11 +30,13 @@ function parseUrl(url) {
         switch (param.fmt) {
         case 'summary':
           // Set consultation type to Summary
-          result.type = 'ABS';
+          result.rtype = 'ABS';
+          result.mime = 'MISC';
           break;
         case 'full':
           // Set consultation type to Text
-          result.type = 'TXT';
+          result.rtype = 'ARTICLE';
+          result.mime = 'HTML';
           break;
         }
       }
@@ -41,27 +44,32 @@ function parseUrl(url) {
     case 'MImg':
       // PDF
       // Set consultation type to PDF
-      result.type = 'PDF';
+      result.rtype = 'ARTICLE';
+      result.mime = 'PDF';
       break;
     case 'MiamiImageURL':
       if (param._pii) {
         if ((match = /S([0-9]{4})([0-9]{3}[0-9Xx])/.exec(param._pii)) !== null) {
           result.issn = match[1] + '-' + match[2];
-          result.type = 'PDF';
+          result.rtype = 'ARTICLE';
+          result.mime = 'PDF';
         } else if ((match = /B([0-9]{12})([0-9Xx])/.exec(param._pii)) !== null) {
           result.pid = match[1] + match[2];
-          result.type = 'BOOKPDF';
+          result.rtype = 'BOOK';
+          result.mime = 'PDF';
         } else {
           result.issn = param._pii.substr(1, 4) + '-' + param._pii.substr(5, 4);
           // Set consultation type to PDF
-          result.type = 'PDF';
+          result.rtype = 'ARTICLE';
+          result.mime = 'PDF';
         }
       }
       break;
     case 'DocumentDeliveryURL':
       // Order
       // Set consultation type to Order
-      result.type = 'ORDER';
+      result.rtype = 'ORDER';
+      result.mime = 'MISC';
       break;
     default:
       // Unknown case, skip
@@ -72,22 +80,28 @@ function parseUrl(url) {
   } else {
     if ((match = /\/science\/article\/pii\/S([0-9]{4})([0-9]{3}[0-9Xx])/.exec(url)) !== null) {
       result.issn = match[1] + '-' + match[2];
-      result.type = 'TXT';
+      result.rtype = 'ARTICLE';
+      result.mime = 'HTML';
     } else if ((match = /\/science\/publication\?issn=([0-9]{4})([0-9]{4})/.exec(url)) !== null) {
       result.issn = match[1] + '-' + match[2];
-      result.type = 'TOC';
+      result.rtype = 'TOC';
+      result.mime = 'MISC';
     } else if ((match = /\/science\/journal\/([0-9]{4})([0-9]{4})/.exec(url)) !== null) {
       result.issn = match[1] + '-' + match[2];
-      result.type = 'TOC';
+      result.rtype = 'TOC';
+      result.mime = 'MISC';
     } else if ((match = /\/science\/bookseries\/([0-9]{8})/.exec(url)) !== null) {
       result.pid   = match[1];
-      result.type = 'BOOKSERIE';
+      result.rtype = 'BOOKSERIE';
+      result.mime = 'MISC';
     } else if ((match = /\/science\/handbooks\/([0-9]{8})/.exec(url)) !== null) {
       result.pid   = match[1];
-      result.type = 'HANDBOOK';
+      result.rtype = 'HANDBOOK';
+      result.mime = 'MISC';
     } else if ((match = /\/science\/book\/([0-9]{13})/.exec(url)) !== null) {
       result.pid   = match[1];
-      result.type = 'BOOK';
+      result.rtype = 'BOOK';
+      result.mime = 'HTML'
     }
   }
   return result;
