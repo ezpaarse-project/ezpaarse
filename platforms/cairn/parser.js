@@ -28,7 +28,8 @@ function parseUrl(url) {
     }
     
     if (param.AJOUTBIBLIO) {
-      result.type = 'BOOKMARK';
+      result.rtype = 'BOOKMARK';
+      result.mime = 'MISC';
     }
   } else if (parsedUrl.pathname == '/load_pdf.php') {
     // journal article example: http://www.cairn.info/load_pdf.php?ID_ARTICLE=ARSS_195_0012
@@ -40,12 +41,14 @@ function parseUrl(url) {
                      param.ID_ARTICLE.split('_')[1] + "_" +
                      param.ID_ARTICLE.split('_')[2] + "_" +
                      param.ID_ARTICLE.split('_')[3];
-        result.type = 'BOOK_SECTION_PDF';
+        result.rtype = 'BOOK_SECTION';
+        result.mime = 'PDF';
       } else {
         // case of journal article
         // pid is the first part of ID_ARTICLE ("_" character is the separator)
         result.pid = param.ID_ARTICLE.split('_')[0];
-        result.type = 'PDF';
+        result.rtype = 'ARTICLE';
+        result.mime = 'PDF';
       }
     }
   } else if  (parsedUrl.pathname == '/resume.php') {
@@ -54,7 +57,8 @@ function parseUrl(url) {
       // pid is the first part of ID_ARTICLE ("_" character is the separator)
       result.pid = param.ID_ARTICLE.split('_')[0];
     }
-    result.type = 'ABS';
+    result.rtype = 'ABS';
+    result.mime = 'MISC';
   } else if  (parsedUrl.pathname == '/feuilleter.php') {
     // leaf-through a book section, in a flash player
     // example: http://www.cairn.info/feuilleter.php?ID_ARTICLE=PUF_MAZIE_2010_01_0003
@@ -64,36 +68,44 @@ function parseUrl(url) {
                    param.ID_ARTICLE.split('_')[1] + "_" +
                    param.ID_ARTICLE.split('_')[2] + "_" +
                    param.ID_ARTICLE.split('_')[3];
-      result.type = 'BOOK_SECTION';
+      result.rtype = 'BOOK_SECTION';
+      result.mime = 'MISC';
     }
   } else if ((match = /^\/(revue\-|magazine\-)([a-z0-9@\-]+)\-[0-9]{4}\-[0-9]+\-page\-[0-9]+\.htm$/.exec(parsedUrl.pathname)) !== null) {
     // journal example: http://www.cairn.info/revue-actes-de-la-recherche-en-sciences-sociales-2012-5-page-4.htm
     result.pid = match[1] + match[2];
-    result.type = "TXT";
+    result.rtype = 'ARTICLE';
+    result.mime = 'HTML';
   } else if ((match = /^\/(revue\-|magazine\-)([a-z0-9@\-]+)\-[0-9]{4}\-[0-9]+\-p\-[0-9]+\.htm$/.exec(parsedUrl.pathname)) !== null) {
     // journal example: http://www.cairn.info/revue-actes-de-la-recherche-en-sciences-sociales-2012-5-p-4.htm
     result.pid = match[1] + match[2];
-    result.type = "PREVIEW";
+    result.rtype = "PREVIEW";
+    result.mime = 'MISC';
   } else if ((match = /^\/(revue\-|magazine\-)([a-z0-9@\-]+)\-[0-9]{4}\-[0-9]+\.htm$/.exec(parsedUrl.pathname)) !== null) {
     // journal example: http://www.cairn.info/revue-a-contrario-2012-2.htm
     result.pid = match[1] + match[2];
-    result.type = "TOC";
+    result.rtype = "TOC";
+    result.mime = 'MISC';
   } else if ((match = /^\/(revue\-|magazine\-)([a-z0-9@\-]+)\.htm$/.exec(parsedUrl.pathname)) !== null) {
     // journal example: http://www.cairn.info/revue-a-contrario.htm
     result.pid = match[1] + match[2];
-    result.type = "TOC";
+    result.rtype = "TOC";
+    result.mime = 'MISC';
   } else if ((match = /^\/[a-z0-9@\-]+\-\-([0-9]{13})\-page\-[0-9]+.htm$/.exec(parsedUrl.pathname)) !== null) {
     // book example: http://www.cairn.info/a-l-ecole-du-sujet--9782749202358-page-9.htm
     result.isbn = match[1];
-    result.type = "BOOK_SECTION_HTML";
+    result.rtype = "BOOK_SECTION";
+    result.mime = 'HTML';
   } else if ((match = /^\/[a-z0-9@\-]+\-\-([0-9]{13})\-p\-[0-9]+.htm$/.exec(parsedUrl.pathname)) !== null) {
     // book example: http://www.cairn.info/a-l-ecole-du-sujet--9782749202358-page-9.htm
     result.isbn = match[1];
-    result.type = "PREVIEW";
+    result.rtype = "PREVIEW";
+    result.mime = 'MISC';
   } else if ((match = /^\/[a-z0-9@\-]+\-\-([0-9]{13}).htm$/.exec(parsedUrl.pathname)) !== null) {
     // book example: http://www.cairn.info/a-l-ecole-du-sujet--9782749202358-page-9.htm
     result.isbn = match[1];
-    result.type = "TOC";
+    result.rtype = "TOC";
+    result.mime = 'MISC';
   }
   return result;
 }

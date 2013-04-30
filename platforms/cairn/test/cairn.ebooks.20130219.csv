@@ -1,7 +1,7 @@
-isbn;pid;type;url
-9782749202358;;TOC;http://www.cairn.info/a-l-ecole-du-sujet--9782749202358.htm
-9782749202358;;PREVIEW;http://www.cairn.info/a-l-ecole-du-sujet--9782749202358-p-9.htm
-9782749202358;;BOOK_SECTION_HTML;http://www.cairn.info/a-l-ecole-du-sujet--9782749202358-page-9.htm
-;ERES_DUMEZ_2003_01;BOOK_SECTION_PDF;http://www.cairn.info/load_pdf.php?ID_ARTICLE=ERES_DUMEZ_2003_01_0009
-9782130585237;;BOOK_SECTION_HTML;http://www.cairn.info/l-analyse-du-discours--9782130585237-page-3.htm
-;PUF_MAZIE_2010_01;BOOK_SECTION;http://www.cairn.info/feuilleter.php?ID_ARTICLE=PUF_MAZIE_2010_01_0003
+isbn;pid;rtype;mime;url
+9782749202358;;TOC;MISC;http://www.cairn.info/a-l-ecole-du-sujet--9782749202358.htm
+9782749202358;;PREVIEW;MISC;http://www.cairn.info/a-l-ecole-du-sujet--9782749202358-p-9.htm
+9782749202358;;BOOK_SECTION;HTML;http://www.cairn.info/a-l-ecole-du-sujet--9782749202358-page-9.htm
+;ERES_DUMEZ_2003_01;BOOK_SECTION;PDF;http://www.cairn.info/load_pdf.php?ID_ARTICLE=ERES_DUMEZ_2003_01_0009
+9782130585237;;BOOK_SECTION;HTML;http://www.cairn.info/l-analyse-du-discours--9782130585237-page-3.htm
+;PUF_MAZIE_2010_01;BOOK_SECTION;MISC;http://www.cairn.info/feuilleter.php?ID_ARTICLE=PUF_MAZIE_2010_01_0003
