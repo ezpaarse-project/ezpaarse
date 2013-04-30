@@ -19,35 +19,54 @@ function parseUrl(url) {
     //result.volume = match[2];
     //result.numero = match[3];
     //result.revue  = match[5];
-    result.type   = match[4].toUpperCase() == "FULL" ? "TXT" : match[4].toUpperCase();
+    if (match[4].toUpperCase() == "FULL") {
+      result.rtype = 'ARTICLE';
+      result.mime = 'HTML';
+    } else {
+      result.rtype = 'ARTICLE';
+      result.mime = 'PDF';
+    }
   } else if ((match = /\/([a-zA-Z0-9]+)\/knowledgeenvironment\/([0-9]*)\/([0-9]*)\/[a-zA-Z0-9]+\/(pdf|full)\/([a-zA-Z0-9]*).(pdf|html)/.exec(url)) !== null) {
     result.pid = match[1];
     //result.volume = match[2];
     //result.numero = match[3];
     //result.revue  = match[5];
-    result.type   = match[4].toUpperCase() == "FULL" ? "TXT" : match[4].toUpperCase();
+    if (match[4].toUpperCase() == "FULL") {
+      result.rtype = 'ARTICLE';
+      result.mime = 'HTML';
+    } else {
+      result.rtype = 'ARTICLE';
+      result.mime = 'PDF';
+    }
   } else if ((match = /\/([a-zA-Z0-9]+)\/journal\/v([0-9]*)\/n([a-zA-Z0-9]*)\/index.html/.exec(url)) !== null) {
     result.pid = match[1];
-//      result.volume = match[3];
-//      result.numero = match[3];
-    result.type   = 'TOC';
+    //result.volume = match[3];
+    //result.numero = match[3];
+    result.rtype = 'TOC';
+    result.mime = 'MISC';
   } else if ((match = /^\/([a-zA-Z0-9]+)\/index.html/.exec(path)) !== null) {
     result.pid = match[1];
-    result.type   = 'TOC';
+    result.rtype = 'TOC';
+    result.mime = 'MISC';
   } else if ((match = /^\/([a-zA-Z0-9]+)\/archive\/index.html/.exec(path)) !== null) {
     result.pid = match[1];
-    result.type   = 'TOC';
+    result.rtype = 'TOC';
+    result.mime = 'MISC';
   } else if ((match = /\/([a-zA-Z0-9]+)\/current_issue.html/.exec(url)) !== null) {
     result.pid = match[1];
-    result.type   = 'TOC';
+    result.rtype = 'TOC';
+    result.mime = 'MISC';
   } else if ((match = /\/news\//.exec(url)) !== null) {
     result.pid = 'nature';
-    result.type   = 'TXT';
+    result.rtype = 'ARTICLE';
+    result.mime = 'HTML';
   } else if ((match = /\/polopoly_fs\//.exec(url)) !== null) {
     result.pid = 'nature';
-    result.type   = 'PDF';
+    result.rtype = 'ARTICLE';
+    result.mime = 'PDF';
   } else if ((match = /\/siteindex\/index.html/.exec(url)) !== null) {
-    result.type   = 'TOC';
+    result.rtype = 'TOC';
+    result.mime = 'MISC';
   }
 
   return result;
