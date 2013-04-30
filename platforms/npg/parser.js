@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+// ##EZPAARSE
+
 /*jslint node: true, maxlen: 180, maxerr: 50, indent: 2 */
 'use strict';
 

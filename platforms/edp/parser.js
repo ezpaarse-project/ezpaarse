@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+// ##EZPAARSE
+
 /*jslint node: true, maxlen: 180, maxerr: 50, indent: 2 */
 'use strict';
 var byline      = require('byline');
@@ -18,41 +20,52 @@ function parseUrl(url) {
     url = param.url;
   }
   if (param.option && param.options == 'com_journals') {
-    result.type = 'TOC';
+    result.rtype = 'TOC';
+    result.mime = 'MISC';
   } else if ((match = /\/articles\/([a-zA-Z0-9]+)\/abs\/([0-9]{4}\/[0-9]{2}|first)\/contents\/contents.html$/.exec(url)) !== null) {
-    result.type = 'TOC';
+    result.rtype = 'TOC';
+    result.mime = 'MISC';
   } else if ((match = /\/articles\/([a-zA-Z0-9]+)\/(abs|full_html|ref|olm)\/([0-9]{4}\/[0-9]{2}|first)\/[a-z0-9\-]+\/[a-z0-9\-]+.html$/.exec(url)) !== null) {
     switch (match[2]) {
     case 'abs':
-      result.type = 'ABS';
+      result.rtype = 'ABS';
+      result.mime = 'MISC';
       break;
     case 'full_html':
-      result.type = 'TXT';
+      result.rtype = 'ARTICLE';
+      result.mime = 'HTML';
       break;
     case 'ref':
-      result.type = 'REF';
+      result.rtype = 'REF';
+      result.mime = 'MISC';
       break;
     case 'olm':
-      result.type = 'OLM';
+      result.rtype = 'OLM';
+      result.mime = 'MISC';
       break;
     }
   } else if ((match = /\/articles\/([a-zA-Z0-9]+)\/pdf\/([0-9]{4}\/[0-9]{2}|first)\/[a-z0-9\-]+.pdf$/.exec(url)) !== null) {
-    result.type = 'PDF';
+    result.rtype = 'ARTICLE';
+    result.mime = 'PDF';
   } else {
     if ((match = /\/action\/([a-zA-Z]+)/.exec(url)) !== null) {
       switch (match[1]) {
       case 'displayJournal':
-        result.type = 'TOC';
+        result.rtype = 'TOC';
+        result.mime = 'MISC';
         break;
       case 'displayFulltext':
         if (param.pdftype) {
-          result.type = 'PDF';
+          result.rtype = 'ARTICLE';
+          result.mime = 'PDF';
         } else {
-          result.type = 'REF';
+          result.rtype = 'REF';
+          result.mime = 'MISC';
         }
         break;
       case 'displayAbstract':
-        result.type = 'ABS';
+        result.rtype = 'ABS';
+        result.mime = 'MISC';
         if (param.fileId) {
           result.issn = param.fileId.substr(1, 4) + '-' + param.fileId.substr(5, 4);
         }
