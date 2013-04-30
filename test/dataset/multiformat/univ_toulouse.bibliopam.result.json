@@ -3,6 +3,7 @@
   "login": "uid=foe2561c,ou=people,dc=ups-tlse,dc=fr",
   "date": "2012-03-27",
   "datetime": "2012-03-27T06:52:44+02:00",
+  "timestamp": 1332823964,
   "url": "http://www.sciencedirect.com/science/article/pii/S1875389212003823",
   "size": "45022",
   "status": "200",

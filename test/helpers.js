@@ -44,7 +44,7 @@ exports.objectsAreSame = function (object1, object2) {
       if (!object2[property] || Date.parse(object1[property]) !== Date.parse(object2[property])) {
         same = false;
       }
-    } else if (object1[property] !== object2[property] && property !== 'date') {
+    } else if (object1[property] != object2[property] && property !== 'date') {
       same = false;
       break;
     }
