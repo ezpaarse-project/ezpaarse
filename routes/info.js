@@ -73,7 +73,64 @@ module.exports = function (app) {
       res.status(200);
       res.write(JSON.stringify(types, null, 2));
     } else {
-      res.status(500);
+      res.status(404);
+    }
+    res.end();
+  });
+
+  /**
+   * GET route on /info/rtype
+   */
+  app.get('/info/rtype', function (req, res) {
+    res.type('application/json');
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+
+    var file = __dirname + '/../platforms/rtype.json';
+    if (fs.existsSync(file)) {
+      var types = require(file);
+      res.status(200);
+      res.write(JSON.stringify(types, null, 2));
+    } else {
+      res.status(404);
+    }
+    res.end();
+  });
+
+  /**
+   * GET route on /info/mime
+   */
+  app.get('/info/mime', function (req, res) {
+    res.type('application/json');
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+
+    var file = __dirname + '/../platforms/mime.json';
+    if (fs.existsSync(file)) {
+      var types = require(file);
+      res.status(200);
+      res.write(JSON.stringify(types, null, 2));
+    } else {
+      res.status(404);
+    }
+    res.end();
+  });
+
+  /**
+   * GET route on /info/rid
+   */
+  app.get('/info/rid', function (req, res) {
+    res.type('application/json');
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+
+    var file = __dirname + '/../platforms/rid.json';
+    if (fs.existsSync(file)) {
+      var types = require(file);
+      res.status(200);
+      res.write(JSON.stringify(types, null, 2));
+    } else {
+      res.status(404);
     }
     res.end();
   });
@@ -92,7 +149,7 @@ module.exports = function (app) {
       res.status(200);
       res.write(JSON.stringify(statusCodes, null, 2));
     } else {
-      res.status(500);
+      res.status(404);
     }
     res.end();
   });
@@ -117,7 +174,7 @@ module.exports = function (app) {
         res.status(404);
       }
     } else {
-      res.status(500);
+      res.status(404);
     }
     res.end();
   });
