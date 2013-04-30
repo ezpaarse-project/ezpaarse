@@ -45,12 +45,12 @@
     "comment": ""
   },
   {
-    "code": "ENCYCLOPEDIE",
+    "code": "ENCYCLOPEDIES",
     "description":  "consultation d'une encyclopédie",
     "comment": "Cas des bases de données juridiques"
   },
   {
-    "code": "CODE",
+    "code": "CODES",
     "description":  "consultation d'un code juridique",
     "comment": "Cas des bases de données juridiques"
   },
@@ -73,5 +73,15 @@
     "code": "BOOK_SECTION",
     "description":  "consultation d'une partie d'ouvrage",
     "comment": ""
+  },
+  {
+    "code": "FORMULES",
+    "description":  "consultation d'une formule juridique",
+    "comment": "Cas des bases de données juridiques"
+  },
+  {
+    "code": "BROCHES",
+    "description":  "consultation d'un livre broché",
+    "comment": "Cas des bases de données juridiques"
   }
 ]

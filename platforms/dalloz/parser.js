@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 
+// ##EZPAARSE
+
 /*jslint node: true, maxlen: 100, maxerr: 50, indent: 2 */
 'use strict';
 var byline = require('byline');
@@ -19,19 +21,24 @@ function parseUrl(url) {
     if (param['famille-id']) {
       switch (param['famille-id']) {
       case 'REVUES':
-        result.type = 'TOC';
+        result.rtype = 'TOC';
+        result.mime = 'MISC';
         break;
       case 'ENCYCLOPEDIES':
-        result.type = 'ENCYCLOPEDIES';
+        result.rtype = 'ENCYCLOPEDIES';
+        result.mime = 'MISC';
         break;
       case 'CODES':
-        result.type = 'CODES';
+        result.rtype = 'CODES';
+        result.mime = 'MISC';
         break;
       case 'FORMULES':
-        result.type = 'FORMULES';
+        result.rtype = 'FORMULES';
+        result.mime = 'MISC';
         break;
       case 'BROCHES':
-        result.type = 'BROCHES';
+        result.rtype = 'BROCHES';
+        result.mime = 'MISC';
         break;
         /** ces cas rencontrés ne sont peut etre pas traités
       case 'JURIS':
