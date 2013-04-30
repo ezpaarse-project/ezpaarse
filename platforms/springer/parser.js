@@ -24,7 +24,7 @@ function parseUrl(url) {
     result.doi  = match[2];
     switch (match[1]) {
     case 'article':
-      if(match[3]) {
+      if (match[3]) {
         result.rtype = 'ARTICLE';
         result.mime = 'HTML';
       } else {
