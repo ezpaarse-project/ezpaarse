@@ -9,6 +9,7 @@
   "size": "162009",
   "domain": "www.sciencedirect.com",
   "platform": "sd",
-  "type": "PDF",
+  "rtype": "ARTICLE",
+  "mime": "PDF",
   "issn": "0969-5931"
 }]

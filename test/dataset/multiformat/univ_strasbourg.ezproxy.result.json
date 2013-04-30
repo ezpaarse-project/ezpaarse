@@ -9,7 +9,8 @@
   "session": "liV9RqGobWNKrdD",
   "domain": "link.springer.com",
   "platform": "springer",
-  "type": "ABS",
+  "rtype": "ABS",
+  "mime": "MISC",
   "doi": "10.1007/s00262-008-0620-4"
 },{
   "date": "2012-11-18",
@@ -22,6 +23,7 @@
   "session": "liV9RqGobWNKrdD",
   "domain": "link.springer.com",
   "platform": "springer",
-  "type": "TXT",
+  "rtype": "ARTICLE",
+  "mime": "HTML",
   "doi": "10.1007/s00262-008-0620-4"
 }]

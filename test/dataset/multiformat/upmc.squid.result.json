@@ -14,6 +14,7 @@
   "mime": "text/html",
   "domain": "www.sciencedirect.com",
   "platform": "sd",
-  "type": "TXT",
+  "rtype": "ARTICLE",
+  "mime": "HTML",
   "issn": "0166-218X"
 }]

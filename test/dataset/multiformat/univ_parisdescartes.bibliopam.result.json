@@ -8,6 +8,7 @@
   "status": "302",
   "domain": "pdn.sciencedirect.com",
   "platform": "sd",
-  "type": "PDF",
+  "rtype": "ARTICLE",
+  "mime": "PDF",
   "issn": "0196-0644"
 }]

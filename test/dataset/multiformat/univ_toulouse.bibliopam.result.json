@@ -9,6 +9,7 @@
   "status": "200",
   "domain": "www.sciencedirect.com",
   "platform": "sd",
-  "type": "TXT",
+  "rtype": "ARTICLE",
+  "mime": "HTML",
   "issn": "1875-3892"
 }]
