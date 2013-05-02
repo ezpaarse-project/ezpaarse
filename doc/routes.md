@@ -1,7 +1,6 @@
 # Routes #
 
-##Architecture RESTful##
-
+ezPAARSE est une application RESTful.  
 **REST**: Representational State Transfer
 
 ####Methodes####
@@ -18,15 +17,15 @@
       <td>
         /</td>
       <td>Page d'accueil</td>
-      <td>_NA_</td>
+      <td>[Parse un fichier de log](./postlog.html)</td>
       <td>_NA_</td>
       <td>_NA_</td>
     </tr>
     <tr>
       <td>
-        /</td>
+        /{jobID}/{log}</td>
+      <td>Récupère un fichier de log lié au job d'ID donné</td>
       <td>_NA_</td>
-      <td>[Parse un fichier de log](./postlog.html)</td>
       <td>_NA_</td>
       <td>_NA_</td>
     </tr>
