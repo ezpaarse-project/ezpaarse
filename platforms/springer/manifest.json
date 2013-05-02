@@ -11,15 +11,23 @@
     "www.springerlink.com",
     "www.springer.com"
   ],
-  "recognize": [
-    "PID",
-    "DOI",
-    "ISSN",
-    "TXT",  
-    "PDF", 
-    "TOC", 
-    "ABS", 
-    "BOOKSERIE",
-    "BOOK"
-  ]
+  "recognize": {
+    "rid": [
+      "pid",
+      "doi",
+      "issn"
+    ],
+    "rtype": [
+      "TOC",
+      "ARTICLE",
+      "ABS",
+      "BOOK",
+      "BOOKSERIE"
+    ],
+    "mime": [
+      "HTML",
+      "PDF",
+      "MISC"
+    ]
+  }
 }
