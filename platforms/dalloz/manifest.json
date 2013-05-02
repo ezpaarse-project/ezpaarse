@@ -10,11 +10,19 @@
     "www.dalloz.fr",
     "bu.dalloz.fr"
 	],
-  "recognize": [
-    "PID",
-    "ENCYCLOPEDIES",
-    "CODES",
-    "FORMULES",
-    "BROCHES"
-  ]
+  "recognize": {
+    "rid": [
+      "pid"
+    ],
+    "rtype": [
+      "TOC",
+      "ENCYCLOPEDIES",
+      "CODES",
+      "FORMULES",
+      "BROCHES"
+    ],
+    "mime": [
+      "MISC"
+    ]
+  }
 }
