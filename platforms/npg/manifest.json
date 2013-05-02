@@ -10,10 +10,18 @@
     "www.nature.com",
     "chimie.gate.inist.fr"
 	],
-  "recognize": [
-    "PID",
-    "TXT",  
-    "PDF", 
-    "TOC"
-  ]
+  "recognize": {
+    "rid": [
+      "pid"
+    ],
+    "rtype": [
+      "ARTICLE",
+      "TOC"
+    ],
+    "mime": [
+      "HTML",
+      "PDF",
+      "MISC"
+    ]
+  }
 }
