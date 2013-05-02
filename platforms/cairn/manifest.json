@@ -9,13 +9,23 @@
 	"domains": [
     "www.cairn.info"
 	],
-  "recognize": [
-    "PID",
-    "TOC",
-    "PREVIEW",
-    "TXT",
-    "ABS",
-    "PDF",
-    "BOOKMARK"
-  ]
+  "recognize": {
+    "rid": [
+      "pid",
+      "isbn"
+    ],
+    "rtype": [
+      "BOOKMARK",
+      "BOOK_SECTION",
+      "ARTICLE",
+      "ABS",
+      "PREVIEW",
+      "TOC"
+    ],
+    "mime": [
+      "HTML",
+      "PDF",
+      "MISC"
+    ]
+  }
 }
