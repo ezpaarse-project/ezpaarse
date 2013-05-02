@@ -100,12 +100,22 @@
     "www.journal-therapie.org",
     "www.vetres.org"
   ],
-  "recognize": [
-    "TXT",  
-    "PDF", 
-    "TOC", 
-    "ABS", 
-    "REF", 
-    "COM"
-  ]
+  "recognize": {
+    "rid": [
+      "pid",
+      "issn"
+    ],
+    "rtype": [
+      "TOC",
+      "ABS",
+      "ARTICLE",
+      "REF",
+      "OLM"
+    ],
+    "mime": [
+      "HTML",
+      "PDF",
+      "MISC"
+    ]
+  }
 }
