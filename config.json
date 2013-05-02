@@ -12,7 +12,8 @@
     "doi",
     "issn",
     "eissn",
-    "platform"
+    "platform",
+    "unitid"
   ],
   "EZPAARSE_TMP_CYCLE": 60,
   "EZPAARSE_TMP_LIFETIME":
