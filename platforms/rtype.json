@@ -40,11 +40,6 @@
     "comment": ""
   },
   {
-    "code": "OLM",
-    "description":  "consultation de matériel en ligne (données)",
-    "comment": ""
-  },
-  {
     "code": "ENCYCLOPEDIES",
     "description":  "consultation d'une encyclopédie",
     "comment": "Cas des bases de données juridiques"
