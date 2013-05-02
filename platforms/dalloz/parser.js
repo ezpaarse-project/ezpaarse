@@ -2,7 +2,7 @@
 
 // ##EZPAARSE
 
-/*jslint node: true, maxlen: 100, maxerr: 50, indent: 2 */
+/*jslint node: true, maxlen: 150, maxerr: 50, indent: 2 */
 'use strict';
 var byline = require('byline');
 var URL = require('url');
@@ -21,22 +21,27 @@ function parseUrl(url) {
     if (param['famille-id']) {
       switch (param['famille-id']) {
       case 'REVUES':
+      // example : http://www.dalloz.fr/Document?produit-id=REVTRAV&famille-id=REVUES
         result.rtype = 'TOC';
         result.mime = 'MISC';
         break;
       case 'ENCYCLOPEDIES':
+      // example : http://www.dalloz.fr/Document?produit-id=IMMO&famille-id=ENCYCLOPEDIES
         result.rtype = 'ENCYCLOPEDIES';
         result.mime = 'MISC';
         break;
       case 'CODES':
+      // example : http://www.dalloz.fr/Document?produit-id=CCIV&famille-id=CODES
         result.rtype = 'CODES';
         result.mime = 'MISC';
         break;
       case 'FORMULES':
+      // example : http://www.dalloz.fr.bases-doc.univ-lorraine.fr/Document?produit-id=FORMPCIV&famille-id=FORMULES
         result.rtype = 'FORMULES';
         result.mime = 'MISC';
         break;
       case 'BROCHES':
+      // example : http://www.dalloz.fr.bases-doc.univ-lorraine.fr/Document?produit-id=DRCONTRAFF&famille-id=BROCHES
         result.rtype = 'BROCHES';
         result.mime = 'MISC';
         break;
