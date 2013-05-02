@@ -19,6 +19,8 @@ function parseUrl(url) {
   var match;
   
   if ((match = /\/journal(\/volumesAndIssues)?\/([0-9]+)/.exec(path)) !== null) {
+    // example : http://link.springer.com.gate1.inist.fr/journal/10696
+    // other example : http://link.springer.com.gate1.inist.fr/journal/volumesAndIssues/436
     result.pid  = match[2];
     result.rtype = 'TOC';
     result.mime = 'MISC';
@@ -27,40 +29,52 @@ function parseUrl(url) {
     switch (match[1]) {
     case 'article':
       if (match[3]) {
+        // example : http://link.springer.com.gate1.inist.fr/article/10.1007/s10696-011-9117-0/fulltext.html
         result.rtype = 'ARTICLE';
         result.mime = 'HTML';
       } else {
+        // example : http://link.springer.com.gate1.inist.fr/article/10.1007/s10696-011-9117-0
         result.rtype = 'ABS';
         result.mime = 'MISC';
       }
       break;
     case 'book':
+      // example : http://link.springer.com.gate1.inist.fr/book/10.1007/BFb0009075/page/1
     case 'protocol':
+      // example : http://link.springer.com/protocol/10.1007/978-1-61779-998-3_39
       result.rtype = 'BOOK';
       result.mime = 'HTML';
       break;
     }
   } else if ((match = /^\/content\/pdf\/([0-9]+\.[0-9]+\/[^\/]*)/.exec(path)) !== null) {
+    // example : http://link.springer.com.gate1.inist.fr/content/pdf/10.1007/s00359-010-0615-4
     result.doi  = match[1];
     result.rtype = 'ARTICLE';
     result.mime = 'PDF';
   } else if ((match = /^\/content\/([0-9]{4}-[0-9]{4})/.exec(path)) !== null) {
+    // example : http://www.springerlink.com.gate1.inist.fr/content/1590-4261
     result.issn  = match[1];
     result.rtype = 'TOC';
     result.mime = 'MISC';
   } else if ((match = /^\/content\/([a-zA-Z0-9]+)(\/fulltext.pdf)?/.exec(path)) !== null) {
+    // example : http://www.springerlink.com.gate1.inist.fr/content/1643m244v35p35n5/
+    // other example : http://www.springerlink.com.gate1.inist.fr/content/m181480225654444/fulltext.pdf
     result.rtype = 'ABS';
     result.mime = 'MISC';
   } else if ((match = /^\/chapter\/([0-9]+\.[0-9]+\/[^\/]*)/.exec(path)) !== null) {
+    // example : http://link.springer.com.gate1.inist.fr/chapter/10.1007/978-3-540-71233-6_4
     result.doi  = match[1];
     result.rtype = 'ABS';
     result.mime = 'MISC';
   } else if ((match = /^\/(book)?series\/([0-9]+)/.exec(path)) !== null) {
+    // example : http://link.springer.com.gate1.inist.fr/bookseries/7651
+    // other example : http://www.springer.com.gate1.inist.fr/series/7651
     result.pid  = match[2];
     result.rtype = 'BOOKSERIE';
     result.mime = 'MISC';
   } else if ((match = /^\/openurl.asp/.exec(path)) !== null) {
     if (param.genre && param.genre == 'journal') {
+      // example : http://www.springerlink.com.gate1.inist.fr/openurl.asp?genre=journal&issn=1633-8065
       if (param.issn) {
         result.issn = param.issn;
       }
