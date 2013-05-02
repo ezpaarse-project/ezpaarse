@@ -30,11 +30,6 @@
     "comment": ""
   },
   {
-    "code": "ORDER",
-    "description":  "consultation de type commande de document",
-    "comment": ""
-  },
-  {
     "code": "REF",
     "description":  "consultation de référence de document",
     "comment": ""

@@ -2,7 +2,7 @@
 
 // ##EZPAARSE
 
-/*jslint node: true, maxlen: 100, maxerr: 50, indent: 2 */
+/*jslint node: true, maxlen: 150, maxerr: 50, indent: 2 */
 'use strict';
 var byline      = require('byline');
 var URL         = require('url');
@@ -52,10 +52,16 @@ function parseUrl(url) {
     case 'MiamiImageURL':
       if (param._pii) {
         if ((match = /S([0-9]{4})([0-9]{3}[0-9Xx])/.exec(param._pii)) !== null) {
+          // example : http://pdn.sciencedirect.com.gate1.inist.fr/science?_ob=MiamiImageURL&_cid=282179&_user=4046392
+          // &_pii=S221267161200100X&_check=y&_origin=browseVolIssue&_zone=rslt_list_item&_coverDate=2012-12-31
+          // &wchp=dGLbVlB-zSkWz&md5=79a307d3c9bdbea6d6a6092d73c25545&pid=1-s2.0-S221267161200100X-main.pdf
           result.issn = match[1] + '-' + match[2];
           result.rtype = 'ARTICLE';
           result.mime = 'PDF';
         } else if ((match = /B([0-9]{12})([0-9Xx])/.exec(param._pii)) !== null) {
+          // example : http://pdn.sciencedirect.com.gate1.inist.fr/science?_ob=MiamiImageURL&_cid=276181&_user=4046392
+          // &_pii=B9780122694400500017&_check=y&_origin=browse&_zone=rslt_list_item&_coverDate=1996-12-31
+          // &wchp=dGLzVlV-zSkWz&md5=7e7ed3b95463e5438053bb62f487cf57&pid=3-s2.0-B9780122694400500017-main.pdf
           result.pid = match[1] + match[2];
           result.rtype = 'BOOK';
           result.mime = 'PDF';
@@ -67,20 +73,10 @@ function parseUrl(url) {
         }
       }
       break;
-    case 'DocumentDeliveryURL':
-      // Order
-      // Set consultation type to Order
-      result.rtype = 'ORDER';
-      result.mime = 'MISC';
-      break;
-    default:
-      // Unknown case, skip
-      // Set Qualification to FALSE
-      result.qualification = false;
-      break;
     }
   } else {
     if ((match = /\/science\/article\/pii\/S([0-9]{4})([0-9]{3}[0-9Xx])/.exec(url)) !== null) {
+      // example : http://www.sciencedirect.com.gate1.inist.fr/science/article/pii/S2212671612001011
       result.issn = match[1] + '-' + match[2];
       result.rtype = 'ARTICLE';
       result.mime = 'HTML';
@@ -89,10 +85,12 @@ function parseUrl(url) {
       result.rtype = 'TOC';
       result.mime = 'MISC';
     } else if ((match = /\/science\/journal\/([0-9]{4})([0-9]{4})/.exec(url)) !== null) {
+      // example : http://www.sciencedirect.com.gate1.inist.fr/science/journal/22126716
       result.issn = match[1] + '-' + match[2];
       result.rtype = 'TOC';
       result.mime = 'MISC';
     } else if ((match = /\/science\/bookseries\/([0-9]{8})/.exec(url)) !== null) {
+      // example : http://www.sciencedirect.com.gate1.inist.fr/science/bookseries/00652458
       result.pid   = match[1];
       result.rtype = 'BOOKSERIE';
       result.mime = 'MISC';
@@ -101,6 +99,7 @@ function parseUrl(url) {
       result.rtype = 'HANDBOOK';
       result.mime = 'MISC';
     } else if ((match = /\/science\/book\/([0-9]{13})/.exec(url)) !== null) {
+      // example : http://www.sciencedirect.com.gate1.inist.fr/science/book/9780122694400
       result.pid   = match[1];
       result.rtype = 'BOOK';
       result.mime = 'HTML'
