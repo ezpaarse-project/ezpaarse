@@ -11,17 +11,24 @@
     "pdn.sciencedirect.com",
     "binary-services.sciencedirect.com"
   ],
-  "recognize": [
-    "PID",
-    "ISSN",
-    "TXT",  
-    "PDF", 
-    "TOC", 
-    "ABS", 
-    "BOOKPDF", 
-    "ORDER",
-    "BOOKSERIE",
-    "HANDBOOK",
-    "BOOK"
-  ]
+  "recognize": {
+    "rid": [
+      "pid",
+      "issn"
+    ],
+    "rtype": [
+      "TOC",
+      "ABS",
+      "ARTICLE",
+      "BOOK",
+      "ORDER",
+      "BOOKSERIE",
+      "HANDBOOK"
+    ],
+    "mime": [
+      "HTML",
+      "PDF",
+      "MISC"
+    ]
+  }
 }
