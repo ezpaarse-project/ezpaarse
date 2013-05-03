@@ -6,6 +6,7 @@ var Lazy          = require('lazy');
 var uuid          = require('uuid');
 var async         = require('async');
 var crypto        = require('crypto');
+var moment        = require('moment');
 var mkdirp        = require('mkdirp');
 var winston       = require('winston');
 var formidable    = require('formidable');
@@ -123,8 +124,20 @@ module.exports = function (app, domains, ignoredDomains) {
                              + ezRID.charAt(1) + '/'
                              + ezRID;
     mkdirp.sync(logPath);
-    var report = new ReportManager(logPath + '/report.json');
-    report.set('Job-ID', ezRID);
+
+    var baseReport = {
+      'Job-ID': ezRID,
+      'Job-Date': moment().format(),
+      'nb-ecs':                   0,
+      'nb-lines-input':           0,
+      'nb-lines-ignored':         0,
+      'nb-lines-unknown-domains': 0,
+      'nb-lines-unknown-format':  0,
+      'nb-lines-unqualified-ecs': 0,
+      'nb-lines-pkb-miss-ecs':    0
+    };
+    var report = new ReportManager(logPath + '/report.json', baseReport);
+    report.cycle(10);
 
     res.set('Job-ID', ezRID);
     res.set('Job-Traces', logRoute + '/job-traces.log');
@@ -205,7 +218,7 @@ module.exports = function (app, domains, ignoredDomains) {
       var writer = init.writer;
       var ecFilter = new ECFilter();
       // Takes "raw" ECs and returns those which can be sent
-      var handler = new ECHandler(logger, logStreams);
+      var handler = new ECHandler(logger, logStreams, report);
       
       var processLine = function (line) {
         if (badBeginning) {
@@ -228,17 +241,21 @@ module.exports = function (app, domains, ignoredDomains) {
               } else {
                 logger.silly('No parser found for : ' + ec.domain);
                 logStreams.unknownDomains.write(line + '\n');
+                report.inc('nb-lines-unknown-domains');
               }
             } else {
               logger.silly('The domain is ignored');
               logStreams.ignoredDomains.write(line + '\n');
+              report.inc('nb-lines-ignored-domains');
             }
           } else {
             logger.silly('Line was ignored');
+            report.inc('nb-lines-ignored');
           }
         } else {
           logger.silly('Line format was not recognized');
           logStreams.unknownFormats.write(line + '\n');
+          report.inc('nb-lines-unknown-format');
           if (!treatedLines) {
             badBeginning = true;
             lazy.emit('end');
@@ -340,33 +357,43 @@ module.exports = function (app, domains, ignoredDomains) {
             writer.end();
           }
 
+
+          logger.info("Terminating response");
+          logger.info(report.get('nb-lines-input') + " lines were read");
+          logger.info(report.get('nb-ecs') + " ECs were created");
+
+
           var streams = [];
           for (var stream in logStreams) {
             streams.push(logStreams[stream]);
           }
 
-          logger.info("Terminating response");
-          logger.info(report.get('nb-lines-input') + " lines were read");
-          logger.info(report.get('nb-ecs') + " ECs were created");
-          
-          /**
-           * 1 - Clear winston logger
-           * 2 - Close log writeStreams
-           * 3 - Updates report file
-           */
-          var closeLogStreams = function closeWinston(callback) {
-            logger.transports.file._stream.on('close', function closeStreams() {
-              var stream = streams.pop();
-              if (stream) {
-                stream.end(function () { closeStreams(callback); });
-              } else {
-                report.updateFile(callback);
-              }
-            });
+          var closeWinston = function (callback) {
+            logger.info('Closing trace loggers');
+            logger.transports.file._stream.on('close', callback);
             logger.clear();
           };
+          
+          // Can take a very long time when processing a big log file (>300k lines)
+          // TODO manage reject logs better
+          var closeLogStreams = function (callback) {
+            var stream = streams.pop();
+            if (stream) {
+              stream.end(function () { closeLogStreams(callback); });
+            } else {
+              closeWinston(callback);
+            }
+          }
 
-          closeLogStreams(function () {
+          var finalizeReport = function (callback) {
+            logger.info('Finalizing report file');
+            report.finalize(function () {
+              logger.info('Closing reject log streams');
+              closeLogStreams(callback);
+            });
+          }
+
+          finalizeReport(function () {
             res.end();
             if (app.ezJobs[req.ezRID].ecsStream) {
               // todo: clear the app.ezJobs[req.ezRID] from the memory
