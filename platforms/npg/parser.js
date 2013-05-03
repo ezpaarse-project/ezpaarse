@@ -23,10 +23,12 @@ function parseUrl(url) {
     //result.revue  = match[5];
     if (match[4].toUpperCase() == "FULL") {
       // example : http://www.nature.com.gate1.inist.fr/nature/journal/v493/n7431/full/493166a.html
+      // result.unitid = match[5];
       result.rtype = 'ARTICLE';
       result.mime = 'HTML';
     } else {
       // example : http://www.nature.com.gate1.inist.fr/nature/journal/v493/n7431/pdf/493166a.pdf
+      // result.unitid = match[5];
       result.rtype = 'ARTICLE';
       result.mime = 'PDF';
     }
@@ -37,18 +39,21 @@ function parseUrl(url) {
     //result.revue  = match[5];
     if (match[4].toUpperCase() == "FULL") {
       // example : http://www.nature.com.gate1.inist.fr/bonekey/knowledgeenvironment/2012/120613/bonekey2012109/full/bonekey2012109.html
+      // result.unitid = match[5];
       result.rtype = 'ARTICLE';
       result.mime = 'HTML';
     } else {
       // example : http://www.nature.com.gate1.inist.fr/bonekey/knowledgeenvironment/2012/120613/bonekey2012109/pdf/bonekey2012109.html
+      // result.unitid = match[5];
       result.rtype = 'ARTICLE';
       result.mime = 'PDF';
     }
   } else if ((match = /\/([a-zA-Z0-9]+)\/journal\/v([0-9]*)\/n([a-zA-Z0-9]*)\/index.html/.exec(url)) !== null) {
     // example http://www.nature.com.gate1.inist.fr/nature/journal/v493/n7431/index.html
     result.pid = match[1];
-    //result.volume = match[3];
+    //result.volume = match[2];
     //result.numero = match[3];
+    //result.unitid = 'v' + match[2] + '/n' + match[3];
     result.rtype = 'TOC';
     result.mime = 'MISC';
   } else if ((match = /^\/([a-zA-Z0-9]+)\/index.html/.exec(path)) !== null) {
