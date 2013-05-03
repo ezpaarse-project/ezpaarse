@@ -112,6 +112,7 @@ module.exports = function (app, domains, ignoredDomains) {
     // job is started
     app.ezJobs[ezRID] = app.ezJobs[ezRID] || {};
     req.ezRID         = ezRID;
+    var startTime     = process.hrtime();
 
     // Job traces absolute url is calculated from the client headers
     // if the client request is forwarded by a reverse proxy, the x-forwarded-host
@@ -403,14 +404,31 @@ module.exports = function (app, domains, ignoredDomains) {
 
           var finalizeReport = function (callback) {
             logger.info('Finalizing report file');
-            report.set('Job-Done', true);
-            var nbInputLines = report.get('nb-lines-input');
-            var nbRejects    = report.get('nb-lines-unknown-format');
-            nbRejects       += report.get('nb-lines-unknown-domains');
-            nbRejects       += report.get('nb-lines-unqualified-ecs');
             
-            var rejectionRate = Math.floor((nbRejects * 10000) / nbInputLines) / 100
+            var nbInputLines  = report.get('nb-lines-input');
+            var nbRejects     = report.get('nb-lines-unknown-format');
+            nbRejects        += report.get('nb-lines-unknown-domains');
+            nbRejects        += report.get('nb-lines-unqualified-ecs');
+            var rejectionRate = (nbRejects * 100 / nbInputLines).toFixed(2);
             report.set('Rejection-Rate', rejectionRate + '%');
+            
+            var elaspedTime = process.hrtime(startTime);
+            elaspedTime     = elaspedTime[0] * 1e3 + elaspedTime[1] / 1e6; // milliseconds
+            
+            var timeUnit = '';
+            if (elaspedTime < 1000) {
+              timeUnit = 'ms';
+            } else if ((elaspedTime /= 1000) < 60) {
+              timeUnit = 's';
+            } else if ((elaspedTime /= 60) < 60) {
+              timeUnit = 'm';
+            } else {
+              elaspedTime /= 60;
+              timeUnit = 'h';
+            }
+
+            report.set('Job-Duration', elaspedTime.toFixed(2) + timeUnit);
+            report.set('Job-Done', true);
 
             report.finalize(function () {
               logger.info('Closing reject log streams');
