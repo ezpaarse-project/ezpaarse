@@ -127,6 +127,7 @@ module.exports = function (app, domains, ignoredDomains) {
 
     var baseReport = {
       'Job-ID': ezRID,
+      'Job-Done': false,
       'Job-Date': moment().format(),
       'URL-Traces': logRoute + '/job-traces.log',
       'nb-ecs':                   0,
@@ -402,6 +403,7 @@ module.exports = function (app, domains, ignoredDomains) {
 
           var finalizeReport = function (callback) {
             logger.info('Finalizing report file');
+            report.set('Job-Done', true);
             report.finalize(function () {
               logger.info('Closing reject log streams');
               closeLogStreams(callback);
