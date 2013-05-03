@@ -1,23 +1,23 @@
 /*jslint node: true, maxlen: 100, maxerr: 50, indent: 2 */
 'use strict';
 
-var fs          = require('fs');
-var Lazy        = require('lazy');
-var uuid        = require('uuid');
-var async       = require('async');
-var crypto      = require('crypto');
-var mkdirp      = require('mkdirp');
-var winston     = require('winston');
-var formidable  = require('formidable');
-var Readable    = require('stream').Readable;
-var config      = require('../config.json');
-var ECFilter    = require('../lib/ecfilter.js');
-var ECHandler   = require('../lib/echandler.js');
-var statusCodes = require('../statuscodes.json');
-var initializer = require('../lib/requestinitializer.js');
-//var GrowingFile = require('growing-file');
-var rgf         = require('../lib/readgrowingfile.js');
-var uuidRegExp  = /^\/([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})$/;
+var fs            = require('fs');
+var Lazy          = require('lazy');
+var uuid          = require('uuid');
+var async         = require('async');
+var crypto        = require('crypto');
+var mkdirp        = require('mkdirp');
+var winston       = require('winston');
+var formidable    = require('formidable');
+var Readable      = require('stream').Readable;
+var config        = require('../config.json');
+var ECFilter      = require('../lib/ecfilter.js');
+var ECHandler     = require('../lib/echandler.js');
+var statusCodes   = require('../statuscodes.json');
+var initializer   = require('../lib/requestinitializer.js');
+var ReportManager = require('../lib/reportmanager.js');
+var rgf           = require('../lib/readgrowingfile.js');
+var uuidRegExp    = /^\/([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})$/;
 
 module.exports = function (app, domains, ignoredDomains) {
 
@@ -116,6 +116,15 @@ module.exports = function (app, domains, ignoredDomains) {
     // if the client request is forwarded by a reverse proxy, the x-forwarded-host
     // variable is used.
     var logRoute = req.ezBaseURL + '/' + ezRID;
+    var loglevel = req.header('Traces-Level') ||
+                   (app.get('env') == 'production' ? 'info' : 'verbose');
+    var logPath  = __dirname + '/../tmp/jobs/'
+                             + ezRID.charAt(0) + '/'
+                             + ezRID.charAt(1) + '/'
+                             + ezRID;
+    mkdirp.sync(logPath);
+    var report = new ReportManager(logPath + '/report.json');
+    report.set('Job-ID', ezRID);
 
     res.set('Job-ID', ezRID);
     res.set('Job-Traces', logRoute + '/job-traces.log');
@@ -125,13 +134,6 @@ module.exports = function (app, domains, ignoredDomains) {
     res.set('Job-Unqualified-ECs', logRoute + '/job-unqualified-ecs.log');
     res.set('Job-PKB-Miss-ECs', logRoute + '/job-pkb-miss-ecs.log');
 
-    var loglevel = req.header('Traces-Level') ||
-                   (app.get('env') == 'production' ? 'info' : 'verbose');
-    var logPath = __dirname + '/../tmp/jobs/'
-                            + ezRID.charAt(0) + '/'
-                            + ezRID.charAt(1) + '/'
-                            + ezRID;
-    mkdirp.sync(logPath);
     var logger = new (winston.Logger)({
       transports: [
         new (winston.transports.Console)({
@@ -155,9 +157,6 @@ module.exports = function (app, domains, ignoredDomains) {
     
     // register the temp job directory
     app.ezJobs[ezRID].jobPath = logPath;
-
-    var countLines  = 0;
-    var countECs    = 0;
 
     var endOfRequest      = false;
     var writerWasStarted  = false;
@@ -246,7 +245,7 @@ module.exports = function (app, domains, ignoredDomains) {
             logger.warn('Couln\'t recognize first line : aborted.');
           }
         }
-        countLines++;
+        report.inc('nb-lines-input');
       }
 
       // to handle HTML form upload
@@ -331,7 +330,7 @@ module.exports = function (app, domains, ignoredDomains) {
         }
         writer.write(ec);
         writtenECs = true;
-        countECs++;
+        report.inc('nb-ecs');
       });
 
       handler.on('drain', function () {
@@ -347,16 +346,21 @@ module.exports = function (app, domains, ignoredDomains) {
           }
 
           logger.info("Terminating response");
-          logger.info(countLines + " lines were read");
-          logger.info(countECs + " ECs were created");
+          logger.info(report.get('nb-lines-input') + " lines were read");
+          logger.info(report.get('nb-ecs') + " ECs were created");
           
+          /**
+           * 1 - Clear winston logger
+           * 2 - Close log writeStreams
+           * 3 - Updates report file
+           */
           var closeLogStreams = function closeWinston(callback) {
             logger.transports.file._stream.on('close', function closeStreams() {
               var stream = streams.pop();
               if (stream) {
                 stream.end(function () { closeStreams(callback); });
               } else {
-                callback();
+                report.updateFile(callback);
               }
             });
             logger.clear();
