@@ -404,6 +404,14 @@ module.exports = function (app, domains, ignoredDomains) {
           var finalizeReport = function (callback) {
             logger.info('Finalizing report file');
             report.set('Job-Done', true);
+            var nbInputLines = report.get('nb-lines-input');
+            var nbRejects    = report.get('nb-lines-unknown-format');
+            nbRejects       += report.get('nb-lines-unknown-domains');
+            nbRejects       += report.get('nb-lines-unqualified-ecs');
+            
+            var rejectionRate = Math.floor((nbRejects * 10000) / nbInputLines) / 100
+            report.set('Rejection-Rate', rejectionRate + '%');
+
             report.finalize(function () {
               logger.info('Closing reject log streams');
               closeLogStreams(callback);
