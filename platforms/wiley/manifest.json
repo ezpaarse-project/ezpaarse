@@ -9,14 +9,21 @@
 	"domains": [
     "onlinelibrary.wiley.com"
 	],
-  "recognize": [
-    "PID",
-    "DOI",
-    "TOC",
-    "ABS",
-    "TXT",  
-    "PDF",
-    "BOOK_SECTION",
-    "BOOK_SECTION_PDF"
-  ]
+  "recognize": {
+    "rid": [
+      "pid",
+      "eissn"
+    ],
+    "rtype": [
+      "TOC",
+      "ARTICLE",
+      "ABS",
+      "BOOK_SECTION"
+    ],
+    "mime": [
+      "HTML",
+      "PDF",
+      "MISC"
+    ]
+  }
 }

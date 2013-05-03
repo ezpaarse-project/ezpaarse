@@ -25,28 +25,33 @@ function parseUrl(url) {
     result.mime = 'MISC';
   } else if ((match = /\/articles\/([a-zA-Z0-9]+)\/abs\/([0-9]{4}\/[0-9]{2}|first)\/contents\/contents.html$/.exec(url)) !== null) {
     // example : http://www.apidologie.org/index.php?option=com_toc&url=/articles/apido/abs/2010/06/contents/contents.html
+    // result.unitid = match[2];
     result.rtype = 'TOC';
     result.mime = 'MISC';
-  } else if ((match = /\/articles\/([a-zA-Z0-9]+)\/(abs|full_html|ref)\/([0-9]{4}\/[0-9]{2}|first)\/[a-z0-9\-]+\/[a-z0-9\-]+.html$/.exec(url)) !== null) {
+  } else if ((match = /\/articles\/([a-zA-Z0-9]+)\/(abs|full_html|ref)\/([0-9]{4}\/[0-9]{2}|first)(\/[a-z0-9\-]+)\/[a-z0-9\-]+.html$/.exec(url)) !== null) {
     switch (match[2]) {
     case 'abs':
       // example : http://www.apidologie.org/index.php?option=com_article&url=/articles/apido/abs/2010/06/m08176/m08176.html
+      // result.unitid = match[2]+match[3];
       result.rtype = 'ABS';
       result.mime = 'MISC';
       break;
     case 'full_html':
-      //example : http://www.apidologie.org/index.php?option=com_article&url=/articles/apido/full_html/2010/06/m08176/m08176.html
+      // example : http://www.apidologie.org/index.php?option=com_article&url=/articles/apido/full_html/2010/06/m08176/m08176.html
+      // result.unitid = match[2]+match[3];
       result.rtype = 'ARTICLE';
       result.mime = 'HTML';
       break;
     case 'ref':
       // example http://www.apidologie.org/index.php?option=com_article&url=/articles/apido/ref/2010/06/m09075/m09075.html
+      // result.unitid = match[2]+match[3];
       result.rtype = 'REF';
       result.mime = 'MISC';
       break;
     }
-  } else if ((match = /\/articles\/([a-zA-Z0-9]+)\/pdf\/([0-9]{4}\/[0-9]{2}|first)\/[a-z0-9\-]+.pdf$/.exec(url)) !== null) {
+  } else if ((match = /\/articles\/([a-zA-Z0-9]+)\/pdf\/([0-9]{4}\/[0-9]{2}|first)(\/[a-z0-9\-]+).pdf$/.exec(url)) !== null) {
     // example : http://www.apidologie.org/articles/apido/pdf/2010/06/m08176.pdf
+    // result.unitid = match[2]+match[3];
     result.rtype = 'ARTICLE';
     result.mime = 'PDF';
   } else {
@@ -60,16 +65,19 @@ function parseUrl(url) {
       case 'displayFulltext':
         if (param.pdftype) {
           // example : http://www.epjap.org/action/displayFulltext?type=1&pdftype=1&fid=8820898&jid=JAP&volumeId=61&issueId=01&aid=8820896
+          // if (param.aid) result.unitid = param.aid;
           result.rtype = 'ARTICLE';
           result.mime = 'PDF';
         } else {
           // example : http://www.epjap.org/action/displayFulltext?type=8&fid=8820897&jid=JAP&volumeId=61&issueId=01&aid=8820896
+          // if (param.aid) result.unitid = param.aid;
           result.rtype = 'REF';
           result.mime = 'MISC';
         }
         break;
       case 'displayAbstract':
         // example : http://www.epjap.org/action/displayAbstract?fromPage=online&aid=8820896&fulltextType=RA&fileId=S1286004212303182
+        // if (param.aid) result.unitid = param.aid;
         result.rtype = 'ABS';
         result.mime = 'MISC';
         if (param.fileId) {
