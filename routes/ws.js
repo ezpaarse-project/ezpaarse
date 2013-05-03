@@ -128,6 +128,7 @@ module.exports = function (app, domains, ignoredDomains) {
     var baseReport = {
       'Job-ID': ezRID,
       'Job-Date': moment().format(),
+      'URL-Traces': logRoute + '/job-traces.log',
       'nb-ecs':                   0,
       'nb-lines-input':           0,
       'nb-lines-ignored':         0,
