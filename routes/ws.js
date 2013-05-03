@@ -131,10 +131,16 @@ module.exports = function (app, domains, ignoredDomains) {
       'nb-ecs':                   0,
       'nb-lines-input':           0,
       'nb-lines-ignored':         0,
+      'nb-lines-ignored-domains': 0,
       'nb-lines-unknown-domains': 0,
       'nb-lines-unknown-format':  0,
       'nb-lines-unqualified-ecs': 0,
-      'nb-lines-pkb-miss-ecs':    0
+      'nb-lines-pkb-miss-ecs':    0,
+      'url-ignored-domains':      logRoute + '/job-ignored-domains.log',
+      'url-unknown-domains':      logRoute + '/job-unknown-domains.log',
+      'url-unknown-format':       logRoute + '/job-unknown-formats.log',
+      'url-unqualified-ecs':      logRoute + '/job-unqualified-ecs.log',
+      'url-pkb-miss-ecs':         logRoute + '/job-pkb-miss-ecs.log'
     };
     var report = new ReportManager(logPath + '/report.json', baseReport);
     report.cycle(10);
@@ -185,6 +191,8 @@ module.exports = function (app, domains, ignoredDomains) {
       logger.warn("No content sent by the client");
       res.set(statusHeader, 4001);
       res.set(msgHeader, statusCodes['4001']);
+      report.set('status', 4001);
+      report.set('status-message', statusCodes['4001']);
       res.status(400);
       res.end();
       return;
@@ -194,6 +202,8 @@ module.exports = function (app, domains, ignoredDomains) {
       if (err) {
         res.set(statusHeader, err.ezStatus);
         res.set(msgHeader, statusCodes[err.ezStatus]);
+        report.set('status', err.ezStatus);
+        report.set('status-message', statusCodes[err.ezStatus]);
         res.status(err.status);
         res.end();
         return;
@@ -204,6 +214,8 @@ module.exports = function (app, domains, ignoredDomains) {
           if (!res.headerSent) {
             res.set(statusHeader, 4002);
             res.set(msgHeader, statusCodes['4002']);
+            report.set('status', 4002);
+            report.set('status-message', statusCodes['4002']);
             res.status(400);
           }
           res.end();
@@ -320,6 +332,8 @@ module.exports = function (app, domains, ignoredDomains) {
           try {
             res.set(statusHeader, 4003);
             res.set(msgHeader, statusCodes['4003']);
+            report.set('status', 4003);
+            report.set('status-message', statusCodes['4003']);
           } catch (e) {}
           res.status(400);
           res.end();
