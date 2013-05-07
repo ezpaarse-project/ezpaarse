@@ -3,6 +3,7 @@
 
 var fs   = require('fs');
 var uuid = require('uuid');
+var pp   = require('../lib/platform-parser.js')
 
 module.exports = function (app) {
   
@@ -34,11 +35,10 @@ module.exports = function (app) {
     for (var i in folders) {
       var folder      = folders[i];
       var configFile  = platformsFolder + '/' + folder + '/' + cfgFilename;
-      var parserFile  = platformsFolder + '/' + folder + '/parser';
+      var parserFile  = pp.getParser(folder);
 
       var configExists = fs.existsSync(configFile) && fs.statSync(configFile).isFile();
-      var parserExists = fs.existsSync(parserFile) && fs.statSync(parserFile).isFile();
-      if (configExists && parserExists) {
+      if (configExists && parserFile !== false) {
         var config = require(configFile);
         if (!status || config.status == status) {
           var platform      = {};
