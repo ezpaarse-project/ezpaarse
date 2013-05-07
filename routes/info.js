@@ -35,7 +35,8 @@ module.exports = function (app) {
     for (var i in folders) {
       var folder      = folders[i];
       var configFile  = platformsFolder + '/' + folder + '/' + cfgFilename;
-      var parserFile  = pp.getParser(folder);
+      var pFile  = pp.getParser(folder);
+      var parserFile = pFile.path;
 
       var configExists = fs.existsSync(configFile) && fs.statSync(configFile).isFile();
       if (configExists && parserFile !== false) {
