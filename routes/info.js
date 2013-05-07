@@ -60,7 +60,7 @@ module.exports = function (app) {
   });
 
   /**
-   * GET route on /info/ectypes
+   *  GET route on /info/ectypes
    */
   app.get('/info/ectypes', function (req, res) {
     res.type('application/json');
