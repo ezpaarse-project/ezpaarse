@@ -10,13 +10,13 @@ var moment        = require('moment');
 var mkdirp        = require('mkdirp');
 var winston       = require('winston');
 var formidable    = require('formidable');
-var Readable      = require('stream').Readable;
 var config        = require('../config.json');
 var ECFilter      = require('../lib/ecfilter.js');
 var ECHandler     = require('../lib/echandler.js');
 var statusCodes   = require('../statuscodes.json');
 var initializer   = require('../lib/requestinitializer.js');
 var ReportManager = require('../lib/reportmanager.js');
+var StreamHandler = require('../lib/streamhandler.js');
 var rgf           = require('../lib/readgrowingfile.js');
 var uuidRegExp    = /^\/([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})$/;
 
@@ -169,13 +169,12 @@ module.exports = function (app, domains, ignoredDomains) {
       ]
     });
 
-    var logStreams = {
-      unknownFormats: fs.createWriteStream(logPath + '/lines-unknown-formats.log'),
-      ignoredDomains: fs.createWriteStream(logPath + '/lines-ignored-domains.log'),
-      unknownDomains: fs.createWriteStream(logPath + '/lines-unknown-domains.log'),
-      unqualifiedECs: fs.createWriteStream(logPath + '/lines-unqualified-ecs.log'),
-      pkbMissECs:     fs.createWriteStream(logPath + '/lines-pkb-miss-ecs.log')
-    }
+    var sh = new StreamHandler();
+    sh.add('unknownFormats', logPath + '/lines-unknown-formats.log');
+    sh.add('ignoredDomains', logPath + '/lines-ignored-domains.log');
+    sh.add('unknownDomains', logPath + '/lines-unknown-domains.log');
+    sh.add('unqualifiedECs', logPath + '/lines-unqualified-ecs.log');
+    sh.add('pkbMissECs',     logPath + '/lines-pkb-miss-ecs.log');
     
     // register the temp job directory
     app.ezJobs[ezRID].jobPath = logPath;
@@ -233,7 +232,7 @@ module.exports = function (app, domains, ignoredDomains) {
       var writer = init.writer;
       var ecFilter = new ECFilter();
       // Takes "raw" ECs and returns those which can be sent
-      var handler = new ECHandler(logger, logStreams, report);
+      var handler = new ECHandler(logger, sh, report);
       
       var processLine = function (line) {
         if (badBeginning) {
@@ -255,12 +254,12 @@ module.exports = function (app, domains, ignoredDomains) {
                 handler.push(ec, line, parser);
               } else {
                 logger.silly('No parser found for : ' + ec.domain);
-                logStreams.unknownDomains.write(line + '\n');
+                sh.write('unknownDomains', line + '\n');
                 report.inc('nb-lines-unknown-domains');
               }
             } else {
               logger.silly('The domain is ignored');
-              logStreams.ignoredDomains.write(line + '\n');
+              sh.write('ignoredDomains', line + '\n');
               report.inc('nb-lines-ignored-domains');
             }
           } else {
@@ -269,7 +268,7 @@ module.exports = function (app, domains, ignoredDomains) {
           }
         } else {
           logger.silly('Line format was not recognized');
-          logStreams.unknownFormats.write(line + '\n');
+          sh.write('unknownFormats', line + '\n');
           report.inc('nb-lines-unknown-format');
           if (!treatedLines) {
             badBeginning = true;
@@ -379,28 +378,11 @@ module.exports = function (app, domains, ignoredDomains) {
           logger.info(report.get('nb-lines-input') + " lines were read");
           logger.info(report.get('nb-ecs') + " ECs were created");
 
-
-          var streams = [];
-          for (var stream in logStreams) {
-            streams.push(logStreams[stream]);
-          }
-
           var closeWinston = function (callback) {
             logger.info('Closing trace loggers');
             logger.transports.file._stream.on('close', callback);
             logger.clear();
           };
-          
-          // Can take a very long time when processing a big log file (>300k lines)
-          // TODO manage reject logs better
-          var closeLogStreams = function (callback) {
-            var stream = streams.pop();
-            if (stream) {
-              stream.end(function () { closeLogStreams(callback); });
-            } else {
-              closeWinston(callback);
-            }
-          }
 
           var finalizeReport = function (callback) {
             logger.info('Finalizing report file');
@@ -432,7 +414,7 @@ module.exports = function (app, domains, ignoredDomains) {
 
             report.finalize(function () {
               logger.info('Closing reject log streams');
-              closeLogStreams(callback);
+              sh.closeAll(function () { closeWinston(callback); });
             });
           }
 
