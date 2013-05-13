@@ -61,25 +61,6 @@ module.exports = function (app) {
   });
 
   /**
-   *  GET route on /info/ectypes
-   */
-  app.get('/info/ectypes', function (req, res) {
-    res.type('application/json');
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
-
-    var file = __dirname + '/../platforms/ectypes.json';
-    if (fs.existsSync(file)) {
-      var types = require(file);
-      res.status(200);
-      res.write(JSON.stringify(types, null, 2));
-    } else {
-      res.status(404);
-    }
-    res.end();
-  });
-
-  /**
    * GET route on /info/rtype
    */
   app.get('/info/rtype', function (req, res) {
