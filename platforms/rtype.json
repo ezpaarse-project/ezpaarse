@@ -15,11 +15,6 @@
     "comment": ""
   },
   {
-    "code": "REVUES",
-    "description":  "consultation des informations d'une revue",
-    "comment": ""
-  },
-  {
     "code": "BOOKSERIE",
     "description":  "consultation d'un sommaire d'une monographie en série",
     "comment": ""
