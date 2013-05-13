@@ -139,22 +139,22 @@ module.exports = function (app, domains, ignoredDomains) {
       'nb-lines-unknown-format':  0,
       'nb-lines-unqualified-ecs': 0,
       'nb-lines-pkb-miss-ecs':    0,
-      'url-ignored-domains':      logRoute + '/job-ignored-domains.log',
-      'url-unknown-domains':      logRoute + '/job-unknown-domains.log',
-      'url-unknown-format':       logRoute + '/job-unknown-formats.log',
-      'url-unqualified-ecs':      logRoute + '/job-unqualified-ecs.log',
-      'url-pkb-miss-ecs':         logRoute + '/job-pkb-miss-ecs.log'
+      'url-ignored-domains':      logRoute + '/lines-ignored-domains.log',
+      'url-unknown-domains':      logRoute + '/lines-unknown-domains.log',
+      'url-unknown-formats':      logRoute + '/lines-unknown-formats.log',
+      'url-unqualified-ecs':      logRoute + '/lines-unqualified-ecs.log',
+      'url-pkb-miss-ecs':         logRoute + '/lines-pkb-miss-ecs.log'
     };
     var report = new ReportManager(logPath + '/report.json', baseReport);
     report.cycle(10);
 
     res.set('Job-ID', ezRID);
     res.set('Job-Traces', logRoute + '/job-traces.log');
-    res.set('Job-Unknown-Formats', logRoute + '/job-unknown-formats.log');
-    res.set('Job-Ignored-Domains', logRoute + '/job-ignored-domains.log');
-    res.set('Job-Unknown-Domains', logRoute + '/job-unknown-domains.log');
-    res.set('Job-Unqualified-ECs', logRoute + '/job-unqualified-ecs.log');
-    res.set('Job-PKB-Miss-ECs', logRoute + '/job-pkb-miss-ecs.log');
+    res.set('Lines-Unknown-Formats', logRoute + '/lines-unknown-formats.log');
+    res.set('Lines-Ignored-Domains', logRoute + '/lines-ignored-domains.log');
+    res.set('Lines-Unknown-Domains', logRoute + '/lines-unknown-domains.log');
+    res.set('Lines-Unqualified-ECs', logRoute + '/lines-unqualified-ecs.log');
+    res.set('Lines-PKB-Miss-ECs',    logRoute + '/lines-pkb-miss-ecs.log');
 
     var logger = new (winston.Logger)({
       transports: [
@@ -170,11 +170,11 @@ module.exports = function (app, domains, ignoredDomains) {
     });
 
     var logStreams = {
-      unknownFormats: fs.createWriteStream(logPath + '/job-unknown-formats.log'),
-      ignoredDomains: fs.createWriteStream(logPath + '/job-ignored-domains.log'),
-      unknownDomains: fs.createWriteStream(logPath + '/job-unknown-domains.log'),
-      unqualifiedECs: fs.createWriteStream(logPath + '/job-unqualified-ecs.log'),
-      pkbMissECs:     fs.createWriteStream(logPath + '/job-pkb-miss-ecs.log')
+      unknownFormats: fs.createWriteStream(logPath + '/lines-unknown-formats.log'),
+      ignoredDomains: fs.createWriteStream(logPath + '/lines-ignored-domains.log'),
+      unknownDomains: fs.createWriteStream(logPath + '/lines-unknown-domains.log'),
+      unqualifiedECs: fs.createWriteStream(logPath + '/lines-unqualified-ecs.log'),
+      pkbMissECs:     fs.createWriteStream(logPath + '/lines-pkb-miss-ecs.log')
     }
     
     // register the temp job directory

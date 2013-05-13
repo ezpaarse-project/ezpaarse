@@ -45,11 +45,11 @@ Fichier de log généré par un proxy.
 Headers contenant des URLs d'accès aux logs :  
 
 -   **Job-Traces:** traces du fonctionnement d'ezPAARSE. (verbosité modifiable via le header Traces-Level)  
--   **Job-Unknown-Formats:** lignes dont le format n'a pas été reconnu.  
--   **Job-Ignored-Domains:** lignes dont le domaine est ignoré.  
--   **Job-Unknown-Domains:** lignes dont le domaine n'est pas associé à un parseur.  
--   **Job-Unqualified-ECs:** lignes ayant généré des ECs trop pauvres en information.  
--   **Job-PKB-Miss-ECs:** lignes ayant généré des identifiants introuvables dans la PKB de la plateforme associée.  
+-   **Lines-Unknown-Formats:** lignes dont le format n'a pas été reconnu.  
+-   **Lines-Ignored-Domains:** lignes dont le domaine est ignoré.  
+-   **Lines-Unknown-Domains:** lignes dont le domaine n'est pas associé à un parseur.  
+-   **Lines-Unqualified-ECs:** lignes ayant généré des ECs trop pauvres en information.  
+-   **Lines-PKB-Miss-ECs:** lignes ayant généré des identifiants introuvables dans la PKB de la plateforme associée.  
 
 ##### Body #####
 
