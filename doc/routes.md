@@ -39,8 +39,24 @@ ezPAARSE est une application RESTful.
     </tr>
     <tr>
       <td>
-        /info/ectypes</td>
-      <td>Liste les types d'EC</td>
+        /info/rid</td>
+      <td>Liste les identifiants de ressources</td>
+      <td>_NA_</td>
+      <td>_NA_</td>
+      <td>_NA_</td>
+    </tr>
+    <tr>
+      <td>
+        /info/rtype</td>
+      <td>Liste les types de ressources</td>
+      <td>_NA_</td>
+      <td>_NA_</td>
+      <td>_NA_</td>
+    </tr>
+    <tr>
+      <td>
+        /info/mime</td>
+      <td>Liste les formats de ressources</td>
       <td>_NA_</td>
       <td>_NA_</td>
       <td>_NA_</td>
