@@ -1,0 +1,14 @@
+<% include header %>
+
+<% if (report) { %>
+  <table>
+  <% for (var key in report) { %>
+    <tr>
+      <td><%= key %></td>
+      <td><%= report[key] %></td>
+    </tr>
+  <% } %>
+  </table>
+<% } %>
+
+<% include footer %>
