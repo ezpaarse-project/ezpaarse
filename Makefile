@@ -53,7 +53,7 @@ JSFILES=$(wildcard $(EZPATH)/*.js) $(wildcard $(EZPATH)/lib/*.js) $(wildcard $(E
 # Runs all tests (*-test.js) in the test folder
 test:
 	@if test -d test; \
-	then . ./bin/env; mocha; \
+	then . ./bin/env; mocha -g bear -i; \
 	else echo 'No test folder found'; \
 	fi
 
@@ -72,6 +72,18 @@ test-platforms:
 test-platforms-verbose:
 	@if test -d test; \
 	then . ./bin/env; mocha -R list -g platform; \
+	else echo 'No test folder found'; \
+	fi
+
+test-big:
+	@if test -d test; \
+	then . ./bin/env; mocha -g bear; \
+	else echo 'No test folder found'; \
+	fi
+
+test-big-verbose:
+	@if test -d test; \
+	then . ./bin/env; mocha -R list -g bear; \
 	else echo 'No test folder found'; \
 	fi
 

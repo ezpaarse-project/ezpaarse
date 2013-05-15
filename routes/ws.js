@@ -149,6 +149,7 @@ module.exports = function (app, domains, ignoredDomains) {
     report.cycle(10);
 
     res.set('Job-ID', ezRID);
+    res.set('Job-Report', logRoute + '/job-report.json');
     res.set('Job-Traces', logRoute + '/job-traces.log');
     res.set('Lines-Unknown-Formats', logRoute + '/lines-unknown-formats.log');
     res.set('Lines-Ignored-Domains', logRoute + '/lines-ignored-domains.log');

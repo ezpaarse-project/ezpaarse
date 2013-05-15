@@ -34,6 +34,19 @@ exports.post = function (path, filePath, headers, callback) {
   request(opt, callback);
 };
 
+exports.postPiped = function (path, headers, stream, callback) {
+  var opt = {
+    method: 'POST',
+    url: url + (path ? path : '/'),
+  };
+
+  if (headers) {
+    opt.headers = headers;
+  }
+  
+  stream.pipe(request(opt, callback));
+};
+
 exports.objectsAreSame = function (object1, object2) {
   if (Object.keys(object1).length !== Object.keys(object2).length) {
     return false;
