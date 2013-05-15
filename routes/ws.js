@@ -273,7 +273,7 @@ module.exports = function (app, domains, ignoredDomains) {
           if (!treatedLines) {
             badBeginning = true;
             lazy.emit('end');
-            logger.warn('Couln\'t recognize first line : aborted.');
+            logger.warn('Couln\'t recognize first line : aborted.', {line: line});
           }
         }
         report.inc('nb-lines-input');
