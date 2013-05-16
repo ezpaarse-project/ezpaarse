@@ -8,6 +8,7 @@ var async         = require('async');
 var crypto        = require('crypto');
 var moment        = require('moment');
 var mkdirp        = require('mkdirp');
+var stream        = require('stream');
 var winston       = require('winston');
 var formidable    = require('formidable');
 var config        = require('../config.json');
@@ -170,6 +171,7 @@ module.exports = function (app, domains, ignoredDomains) {
       ]
     });
 
+    var saturated = false;
     var sh = new StreamHandler();
     sh.add('unknownFormats', logPath + '/lines-unknown-formats.log');
     sh.add('ignoredDomains', logPath + '/lines-ignored-domains.log');
@@ -274,50 +276,75 @@ module.exports = function (app, domains, ignoredDomains) {
           if (!treatedLines) {
             badBeginning = true;
             lazy.emit('end');
-            logger.warn('Couln\'t recognize first line : aborted.');
+            logger.warn('Couln\'t recognize first line : aborted.', {line: line});
           }
         }
         report.inc('nb-lines-input');
       }
 
-      // to handle HTML form upload
-      var form = new formidable.IncomingForm();
       // to handle stream spliting line by line
       var lazy;
       // start parsing the req object (required to get the "part")
       if (req.is('multipart/form-data')) {
         // form multipart stream
         logger.info('Handling a multipart encoded upload');
+        // to handle HTML form upload
+        var form = new formidable.IncomingForm();
         form.parse(request);
         lazy = new Lazy();
+        // for each part (one part is one sent file by the HTML form)
+        // connect the input stream to the lazy line by line reader
+        form.onPart = function (part) {
+          part.addListener('data', function (chunk) {
+            lazy.emit('data', chunk);
+          });
+          sh.on('saturated', function () {
+            form.pause();
+          });
+          sh.on('drain', function () {
+            form.resume();
+          });
+        };
+        // when the HTML form upload is finished
+        // tell that the HTTP response can be closed
+        form.on('end', function () {
+          lazy.emit('end');
+        });
+
+        form.on('error', function (err) {
+          logger.info('Form multipart error (nothing is done)');
+          // todo: to something ?
+          // to simulate an error, just send a long
+          // multipart request and close the request during the process
+          // ex:
+          // curl -v -X POST --no-buffer --proxy "" \
+          //      -F myfile=@./test/dataset/sd.2013-03-12.log http://localhost:59599/
+          // then CTRL+C
+        });
       } else {
         // basic stream
-        logger.info('Handling a not encoded upload')
-        lazy = new Lazy(request);
-      }
-      // for each part (one part is one sent file by the HTML form)
-      // connect the input stream to the lazy line by line reader
-      form.onPart = function (part) {
-        part.addListener('data', function (chunk) {
-          lazy.emit('data', chunk);
-        });
-      };
-      // when the HTML form upload is finished
-      // tell that the HTTP response can be closed
-      form.on('end', function () {
-        lazy.emit('end');
-      });
+        logger.info('Handling a not encoded upload');
+        lazy = new Lazy();
 
-      form.on('error', function (err) {
-        logger.info('Form multipart error (nothing is done)')
-        // todo: to something ?
-        // to simulate an error, just send a long
-        // multipart request and close the request during the process
-        // ex:
-        // curl -v -X POST --no-buffer --proxy "" \
-        //      -F myfile=@./test/dataset/sd.2013-03-12.log http://localhost:59599/
-        // then CTRL+C
-      });
+        sh.on('saturated', function () {
+          saturated = true;
+        });
+        sh.on('drain', function () {
+          saturated = false;
+          var data = request.read();
+          if (data) { lazy.emit('data', data); }
+        });
+
+        request.on('readable', function () {
+          if (!saturated) {
+            lazy.emit('data', request.read());
+          }
+        });
+        request.on('end', function () {
+          lazy.emit('end');
+        });
+      }
+
 
       // read input stream line by line
       lazy.lines
