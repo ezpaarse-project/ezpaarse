@@ -10,8 +10,8 @@ var fs       = require('fs');
 var should   = require('should');
 var shell    = require('shelljs');
 var request  = require('request');
-var rate     = 900;
-var duration = 60;
+var rate     = 5000;
+var duration = 20;
 
 var headers = {};
 
