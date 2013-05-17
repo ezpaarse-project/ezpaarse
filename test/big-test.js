@@ -10,10 +10,10 @@ var fs       = require('fs');
 var should   = require('should');
 var shell    = require('shelljs');
 var request  = require('request');
-var rate     = 5000;
-var duration = 20;
+var rate     = 900;
+var duration = 60;
 
-var headers = {};
+var headers = {"traces-level" : "silly"};
 
 describe('The server', function () {
 
@@ -49,7 +49,6 @@ describe('The server', function () {
           }
       
           var report = JSON.parse(body);
-          fs.writeFileSync(__dirname + '/BUDDY.json', body);
 
           should.ok(report['Job-Done'] === true);
         
