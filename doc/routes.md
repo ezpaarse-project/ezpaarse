@@ -97,18 +97,22 @@ curl -X POST --proxy "" --no-buffer --data-binary @test/dataset/sd.2012-11-30.lo
 curl -X POST --proxy "" --no-buffer -H "Accept: application/json" --data-binary @test/dataset/sd.2012-11-30.log  http://127.0.0.1:59599 -v
 ```
 
-## Consultation des logs ##
+## Consultation des traces/rejets ##
 
 Lors du traitement d'un job (requête), ezPAARSE génère des fichiers informatifs liés à son activité. Ces derniers peuvent être consultés en utilisant l'identifiant unique attribué au job.
 
 <table>
     <tr>
-        <th style="text-align:left;width:140px;">URL</th>
+        <th style="text-align:left;width:240px;">URL</th>
         <th>Information retournée</th>
     </tr>
     <tr>
       <td>/{jobID}/job-traces.log</td>
       <td>Traces du fonctionnement interne d'ezPAARSE. Ne présente d'utilité qu'en cas de comportement anormal du traitement.</td>
+    </tr>
+    <tr>
+      <td>/{jobID}/job-report.(json|html)</td>
+      <td>Rapport regroupant diverses informations sur le traitement : nombre de lignes rejetées, taux de rejet, date et longueur du traitement...</td>
     </tr>
     <tr>
       <td>/{jobID}/lines-unknown-formats.log</td>
@@ -130,7 +134,7 @@ Lors du traitement d'un job (requête), ezPAARSE génère des fichiers informati
       <td>/{jobID}/lines-pkb-miss-ecs.log</td>
       <td>Lignes ayant généré des identifiants introuvables dans la PKB de la plateforme associée.</td>
     </tr>
-</table> 
+</table>
 
 ####Légende####
 
