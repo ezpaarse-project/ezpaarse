@@ -7,8 +7,11 @@
         "makefile.md",
         "multi-os.md",
         "routes.md",
+<<<<<<< HEAD
         "ec-attributes.md"
         "postlog.md",
+=======
+>>>>>>> 28653b7050af0f7b59b83dcb7a8d6e20fa4fb253
         "formats.md",
         "developer.md",
         "tools.md",
