@@ -1,9 +1,9 @@
-### Formats de logs ###
+# Formats de logs #
 ezPAARSE permet aux utilisateurs de préciser le format des lignes de logs générées par leur proxy en utilisant le header HTTP *Log-Format-xxx*, où *xxx* correspond au nom du proxy.  
 
 Les différentes syntaxes sont calquées sur celles utilisées par les proxy, de sorte qu'il suffise de coller le format présent dans la configuration du proxy afin que les lignes soient reconnues. Attention cependant, **les paramètres ne sont pas repris dans leur globalité**.
 
-#### Syntaxe EZproxy ####
+## Syntaxe EZproxy ##
 
 - %h : hôte à l'origine de la requête.
 - %u : login utilisé pour l'authentification.
@@ -15,7 +15,7 @@ Les différentes syntaxes sont calquées sur celles utilisées par les proxy, de
 - %t : date/heure de la requête. Le format peut être précisé dans le header *Date-Format*.
 - %s : statut numérique HTTP de la requête.
 
-#### Syntaxe Apache ####
+## Syntaxe Apache ##
 
 - %h  : hôte à l'origine de la requête.
 - %u  : login utilisé pour l'authentification.
@@ -26,7 +26,7 @@ Les différentes syntaxes sont calquées sur celles utilisées par les proxy, de
 - %t  : date/heure de la requête. Le format peut être précisé dans le header *Date-Format*.
 - %>s : statut numérique HTTP de la requête.
 
-#### Syntaxe Squid ####
+## Syntaxe Squid ##
 
 - %ts  : timestamp de la requête (en secondes).
 - %tu  : nombre de millisecondes (du timestamp).
@@ -47,7 +47,7 @@ Les différentes syntaxes sont calquées sur celles utilisées par les proxy, de
 - %mt  : type MIME du contenu.
 - %ui  : nom d'utilisateur distant obtenu par identd.
 
-##### Paramètres personnalisés (commun) #####
+## Paramètres personnalisés ##
 
 Utiliser des paramètres personnalisés permet de récupérer des informations présentes dans les lignes de logs qui ne répondent pas au standard EZproxy. A l'inverse, il est possible d'ignorer certaines informations, qui ne seront pas retrouvées dans les évènements de consultation générés par ezPAARSE.  
 
@@ -58,7 +58,7 @@ Un paramètre peut être formulé de trois façons :
 
 **NB:** pour les expressions régulières complexes, utilisez des parenthèses non capturantes : **(?:x)**.
 
-#### Exemples de champs particuliers ####
+### Exemples de champs particuliers ###
 
 <table>
   <tr>
@@ -89,12 +89,12 @@ Un paramètre peut être formulé de trois façons :
   </tr>
 </table>
 
-#### Exemple de requête ####
+### Exemple de requête ###
 ```shell
 curl -X POST --proxy "" --no-buffer -H 'Log-Format-ezproxy: %h %<[-]> %u [%t] "%r" %s %b' --data-binary @test/dataset/sd.2012-11-30.300.log  http://127.0.0.1:59599 -v
 ```
 
-#### Cas concrets ####
+### Cas concrets ###
 
 <table>
   <tr>
