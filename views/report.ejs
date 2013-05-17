@@ -1,14 +1,17 @@
 <% include header %>
 
 <% if (report) { %>
-  <table style="border:1px solid black;border-collapse:collapse;">
+  <h1>Rapport d'exécution</h1>
+  <table style="border:1px solid black;border-collapse:collapse; margin-bottom: 10px;">
   <% for (var key in report) { %>
     <tr>
-      <td style="border:1px solid black;"><%= key %></td>
-      <td style="border:1px solid black;"><%= report[key] %></td>
+      <td style="border:1px solid black; padding: 3px;"><%= key %></td>
+      <td style="border:1px solid black; padding: 3px;"><%= report[key] %></td>
     </tr>
   <% } %>
   </table>
+<% } else { %>
+  <p>Le rapport que vous recherchez n'existe pas.</p>
 <% } %>
 
 <% include footer %>
