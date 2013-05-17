@@ -10,11 +10,14 @@ var fs       = require('fs');
 var should   = require('should');
 var shell    = require('shelljs');
 var request  = require('request');
-var rate     = 5000;
-var duration = 20;
+var config   = require('../config.json');
+var duration = config.EZPAARSE_BIG_DURATION;
+var rate     = config.EZPAARSE_BIG_RATE;
+
 
 var headers = {};
 
+console.log(rate + ' , ' + duration);
 describe('The server', function () {
 
   this.timeout(0);
@@ -49,7 +52,6 @@ describe('The server', function () {
           }
       
           var report = JSON.parse(body);
-          fs.writeFileSync(__dirname + '/BUDDY.json', body);
 
           should.ok(report['Job-Done'] === true);
         
