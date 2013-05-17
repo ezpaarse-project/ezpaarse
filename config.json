@@ -15,6 +15,8 @@
     "platform",
     "unitid"
   ],
+  "EZPAARSE_BIG_RATE": 900,
+  "EZPAARSE_BIG_DURATION": 60,
   "EZPAARSE_TMP_CYCLE": 60,
   "EZPAARSE_TMP_LIFETIME":
   {

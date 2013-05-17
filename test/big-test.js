@@ -10,11 +10,14 @@ var fs       = require('fs');
 var should   = require('should');
 var shell    = require('shelljs');
 var request  = require('request');
-var rate     = 900;
-var duration = 60;
+var config   = require('../config.json');
+var duration = config.EZPAARSE_BIG_DURATION;
+var rate     = config.EZPAARSE_BIG_RATE;
 
-var headers = {"traces-level" : "silly"};
 
+var headers = {};
+
+console.log(rate + ' , ' + duration);
 describe('The server', function () {
 
   this.timeout(0);
