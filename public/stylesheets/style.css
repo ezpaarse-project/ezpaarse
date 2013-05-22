@@ -2,12 +2,34 @@ body {
   padding-top: 20px;
   padding-bottom: 40px;
 }
+
+ul {
+  list-style-type: none;
+}
+
 /* Custom container */
 .container-narrow {
   margin: 0 auto;
-  max-width: 700px;
+  max-width: 960px;
 }
 .container-narrow > hr {
   margin: 15px 0;
   clear: both;
+}
+
+#link-list{
+  margin-top: 25px;
+}
+
+.link-text {
+  display: inline;
+}
+
+.content {
+  text-align: justify;
+  color: white;
+}
+
+.footer {
+  text-align: center;
 }
