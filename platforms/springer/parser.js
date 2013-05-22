@@ -25,12 +25,16 @@ function parseUrl(url) {
     // result.unitid = match[2];
     result.rtype = 'TOC';
     result.mime = 'MISC';
-  } else if ((match = /^\/(article|book|protocol)\/([0-9]+\.[0-9]+\/[^\/]*)(\/fulltext.html)?/.exec(path)) !== null) {
+  } else if ((match = /^\/(article|book|protocol)\/([0-9]+\.[0-9]+\/[^\/]*)(\/page\/[0-9]+)?(\/fulltext.html)?/.exec(path)) !== null) {
     result.doi  = match[2];
-    // result.unitid = match[2];
+    // if (match[3]) {
+    //   result.unitid = match[2]+match[3];
+    // } else {
+    //   result.unitid = match[2];
+    // }
     switch (match[1]) {
     case 'article':
-      if (match[3]) {
+      if (match[4]) {
         // example : http://link.springer.com.gate1.inist.fr/article/10.1007/s10696-011-9117-0/fulltext.html
         result.rtype = 'ARTICLE';
         result.mime = 'HTML';

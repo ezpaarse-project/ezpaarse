@@ -28,7 +28,7 @@ function parseUrl(url) {
     // example: http://www.cairn.info/numero.php?ID_REVUE=ARSS&ID_NUMPUBLIE=ARSS_195&AJOUTBIBLIO=ARSS_195_0012
     if (param.ID_REVUE) {
       result.pid = param.ID_REVUE;
-      // result.unitid = param.ID_REVUE;
+      // result.unitid = param.AJOUTBIBLIO;
     }
     
     if (param.AJOUTBIBLIO) {
