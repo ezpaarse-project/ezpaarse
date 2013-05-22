@@ -102,10 +102,6 @@ app.configure(function () {
   // routes handling
   app.use(app.router);
   
-  // used to compile .less files to .css
-  // http://lesscss.org/
-  app.use(require('less-middleware')({ src: __dirname + '/public' }));
-  
   // used to expose static files from the public folder
   app.use(express.static(path.join(__dirname, 'public')));
 });
