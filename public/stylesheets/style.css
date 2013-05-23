@@ -23,13 +23,15 @@ ul {
 
 .link-text {
   display: inline;
+  font-size: 1em;
 }
 
 .content {
   text-align: justify;
-  color: white;
 }
 
 .footer {
   text-align: center;
+  font-size: 0.9em;
+  color: gray;
 }
