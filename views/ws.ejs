@@ -1,6 +1,112 @@
 <% include header %>
-      <div class="content">
-        <h1>Lorem ipsum dolor sit amet, consectetur.</h1>
-        <p> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatum, fugiat, similique officia molestias laudantium modi aut amet obcaecati ducimus nostrum eaque fuga quo deleniti ut quos repellat unde rerum commodi nulla porro odit soluta eligendi facere architecto dolorem impedit quasi repellendus minima esse. Sunt, quibusdam, porro, repellat voluptatem labore temporibus modi repudiandae obcaecati vero aliquid fugiat quaerat mollitia culpa id aspernatur ipsa ut? Vero, excepturi, iusto saepe debitis maxime aperiam id dignissimos laborum velit odio natus illum esse doloribus nihil architecto suscipit at culpa nam nobis consequuntur accusantium doloremque sequi? Impedit, magni, error, quas sunt id quia rem accusamus tempore officiis velit esse repudiandae porro voluptatibus dolorem perferendis dignissimos hic cum et voluptatem aspernatur deleniti provident dolore similique. Optio, iste, consequatur, maxime, dolores mollitia iure sequi temporibus alias quas quod officiis ipsam voluptates delectus fugiat natus deleniti laudantium nam quis nemo quisquam ducimus qui dolorem recusandae aspernatur distinctio sint a harum repellat et voluptate corporis dolorum quos illo officia ut labore architecto quae aut vitae iusto veritatis quasi facilis perspiciatis obcaecati nesciunt consequuntur id exercitationem nihil facere soluta! Nemo, beatae, et reprehenderit ex distinctio omnis tempore molestias in assumenda expedita placeat maiores eos facilis fuga voluptas hic nisi quo possimus nostrum quia repellendus nam ipsam unde eius magni sunt accusamus quidem cupiditate fugit tempora adipisci eum recusandae dolor! Quisquam, aspernatur, maiores quo earum veritatis quam deserunt reprehenderit atque eveniet suscipit nesciunt aut perferendis ab tenetur dolor! Cum, officiis, quisquam, reprehenderit, odio voluptatibus nam quis veritatis animi cupiditate sit voluptas nesciunt doloremque harum. Ea deserunt nihil a consectetur eius impedit soluta sapiente animi vel. Quam, atque rem dicta excepturi quae nemo consequatur voluptates aut soluta nam? Tempora, cumque, laudantium, nisi molestiae officia modi magnam amet nobis autem magni perspiciatis eveniet possimus laborum ad eos voluptatem natus impedit reprehenderit aliquam consequuntur repellendus.</p>
-      </div>
+        <form class="form-horizontal">
+          <div class="row-fluid">
+            <div class="accordion span6" id="pane-file-select">
+              <div class="accordion-group">
+                <div class="accordion-heading">
+                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#pane-file-select" href="#collapseOne">
+                    Fichiers internes
+                  </a>
+                </div>
+                <div id="collapseOne" class="accordion-body collapse">
+                  <div id="local-files" class="accordion-inner">
+                    
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-group">
+                <div class="accordion-heading">
+                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#pane-file-select" href="#collapseTwo">
+                    Uploader un fichier
+                  </a>
+                </div>
+                <div id="collapseTwo" class="accordion-body collapse in">
+                  <div class="accordion-inner">
+                    <input type="file" />
+                    <div class="dropbox">Glisser ici</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="accordion span6" id="pane-options">
+              <div class="accordion-group">
+                <div class="accordion-heading">
+                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#pane-options" href="#collapseThree">
+                    Options avancées
+                  </a>
+                </div>
+                <div id="collapseThree" class="accordion-body collapse">
+                  <div class="accordion-inner">
+                    <div class="control-group">
+                      <label class="control-label" for="input-log-type">Type de log</label>
+                      <div class="controls">
+                        <select id="input-log-type">
+                          <option value="auto" selected>Auto</option>
+                          <option value="ezproxy">EZproxy</option>
+                          <option value="apache">Apache</option>
+                          <option value="squid">Squid</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label" for="input-log-format">Format de log</label>
+                      <div class="controls">
+                        <input id="input-log-format" type="text" disabled />
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label" for="input-log-compression">Compression du fichier</label>
+                      <div class="controls">
+                        <select id="input-log-compression">
+                          <option value="none" selected>Aucune</option>
+                          <option value="gzip">Gzip</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label" for="input-result-format">Format du résultat</label>
+                      <div class="controls">
+                        <select id="input-result-format">
+                          <option value="csv" selected>CSV</option>
+                          <option value="json">JSON</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label" for="input-result-compression">Compression du résultat</label>
+                      <div class="controls">
+                        <select id="input-result-compression">
+                          <option value="none" selected>Aucune</option>
+                          <option value="gzip">Gzip</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label" for="input-traces">Traces</label>
+                      <div class="controls">
+                        <select id="input-traces">
+                          <option value="error">Error</option>
+                          <option value="debug">Debug</option>
+                          <option value="warn">Warn</option>
+                          <option value="info" selected>Info</option>
+                          <option value="verbose">Verbose</option>
+                          <option value="silly">Silly</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label" for="input-output-fields">Champs en sortie</label>
+                      <div class="controls">
+                        <input id="input-output-fields" placeholder="Ex: host,login,date" type="text" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="text-center">
+            <input type="submit" class="btn" />
+          </div>
+        </form>
 <% include footer %>
