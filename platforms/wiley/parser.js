@@ -71,6 +71,7 @@ function parseUrl(url) {
   } else if ((match = /^\/book\/([0-9]{2}\.[0-9]{4})\/([0-9]+)$/.exec(path)) !== null) {
     // /book/10.1002/9781118268117
     // result.unitid = match[2];
+    // ##RN
     result.pid = match[2].toUpperCase();
     result.rtype = 'BOOK_SECTION';
     result.mime = 'MISC';

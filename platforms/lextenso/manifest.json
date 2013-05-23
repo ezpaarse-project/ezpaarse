@@ -1,0 +1,25 @@
+{
+  "name": "lextenso",
+  "version": "2013-05-17",
+  "status": "beta",
+  "longname": "Lextenso",
+  "describe": "Identifie les consultations de la base de droit lextenso fr",
+  "docurl": "http://analogist.couperin.org/platforms/lextenso/",
+  "contact": "dominique.lechaudel at inist.fr",
+	"domains": [
+    "www.lextenso.fr"
+	],
+  "recognize": {
+    "rid": [
+      "pid"
+    ],
+    "rtype": [
+      "ARTICLE",
+      "JURISPRUDENCE"
+    ],
+    "mime": [
+      "HTML",
+      "MISC"
+    ]
+  }
+}

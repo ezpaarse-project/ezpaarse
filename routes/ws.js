@@ -8,15 +8,16 @@ var async         = require('async');
 var crypto        = require('crypto');
 var moment        = require('moment');
 var mkdirp        = require('mkdirp');
+var stream        = require('stream');
 var winston       = require('winston');
 var formidable    = require('formidable');
-var Readable      = require('stream').Readable;
 var config        = require('../config.json');
 var ECFilter      = require('../lib/ecfilter.js');
 var ECHandler     = require('../lib/echandler.js');
 var statusCodes   = require('../statuscodes.json');
 var initializer   = require('../lib/requestinitializer.js');
 var ReportManager = require('../lib/reportmanager.js');
+var StreamHandler = require('../lib/streamhandler.js');
 var rgf           = require('../lib/readgrowingfile.js');
 var uuidRegExp    = /^\/([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})$/;
 
@@ -139,22 +140,23 @@ module.exports = function (app, domains, ignoredDomains) {
       'nb-lines-unknown-format':  0,
       'nb-lines-unqualified-ecs': 0,
       'nb-lines-pkb-miss-ecs':    0,
-      'url-ignored-domains':      logRoute + '/job-ignored-domains.log',
-      'url-unknown-domains':      logRoute + '/job-unknown-domains.log',
-      'url-unknown-format':       logRoute + '/job-unknown-formats.log',
-      'url-unqualified-ecs':      logRoute + '/job-unqualified-ecs.log',
-      'url-pkb-miss-ecs':         logRoute + '/job-pkb-miss-ecs.log'
+      'url-ignored-domains':      logRoute + '/lines-ignored-domains.log',
+      'url-unknown-domains':      logRoute + '/lines-unknown-domains.log',
+      'url-unknown-formats':      logRoute + '/lines-unknown-formats.log',
+      'url-unqualified-ecs':      logRoute + '/lines-unqualified-ecs.log',
+      'url-pkb-miss-ecs':         logRoute + '/lines-pkb-miss-ecs.log'
     };
     var report = new ReportManager(logPath + '/report.json', baseReport);
     report.cycle(10);
 
     res.set('Job-ID', ezRID);
+    res.set('Job-Report', logRoute + '/job-report.json');
     res.set('Job-Traces', logRoute + '/job-traces.log');
-    res.set('Job-Unknown-Formats', logRoute + '/job-unknown-formats.log');
-    res.set('Job-Ignored-Domains', logRoute + '/job-ignored-domains.log');
-    res.set('Job-Unknown-Domains', logRoute + '/job-unknown-domains.log');
-    res.set('Job-Unqualified-ECs', logRoute + '/job-unqualified-ecs.log');
-    res.set('Job-PKB-Miss-ECs', logRoute + '/job-pkb-miss-ecs.log');
+    res.set('Lines-Unknown-Formats', logRoute + '/lines-unknown-formats.log');
+    res.set('Lines-Ignored-Domains', logRoute + '/lines-ignored-domains.log');
+    res.set('Lines-Unknown-Domains', logRoute + '/lines-unknown-domains.log');
+    res.set('Lines-Unqualified-ECs', logRoute + '/lines-unqualified-ecs.log');
+    res.set('Lines-PKB-Miss-ECs',    logRoute + '/lines-pkb-miss-ecs.log');
 
     var logger = new (winston.Logger)({
       transports: [
@@ -169,13 +171,13 @@ module.exports = function (app, domains, ignoredDomains) {
       ]
     });
 
-    var logStreams = {
-      unknownFormats: fs.createWriteStream(logPath + '/job-unknown-formats.log'),
-      ignoredDomains: fs.createWriteStream(logPath + '/job-ignored-domains.log'),
-      unknownDomains: fs.createWriteStream(logPath + '/job-unknown-domains.log'),
-      unqualifiedECs: fs.createWriteStream(logPath + '/job-unqualified-ecs.log'),
-      pkbMissECs:     fs.createWriteStream(logPath + '/job-pkb-miss-ecs.log')
-    }
+    var saturated = false;
+    var sh = new StreamHandler();
+    sh.add('unknownFormats', logPath + '/lines-unknown-formats.log');
+    sh.add('ignoredDomains', logPath + '/lines-ignored-domains.log');
+    sh.add('unknownDomains', logPath + '/lines-unknown-domains.log');
+    sh.add('unqualifiedECs', logPath + '/lines-unqualified-ecs.log');
+    sh.add('pkbMissECs',     logPath + '/lines-pkb-miss-ecs.log');
     
     // register the temp job directory
     app.ezJobs[ezRID].jobPath = logPath;
@@ -233,7 +235,7 @@ module.exports = function (app, domains, ignoredDomains) {
       var writer = init.writer;
       var ecFilter = new ECFilter();
       // Takes "raw" ECs and returns those which can be sent
-      var handler = new ECHandler(logger, logStreams, report);
+      var handler = new ECHandler(logger, sh, report);
       
       var processLine = function (line) {
         if (badBeginning) {
@@ -255,12 +257,12 @@ module.exports = function (app, domains, ignoredDomains) {
                 handler.push(ec, line, parser);
               } else {
                 logger.silly('No parser found for : ' + ec.domain);
-                logStreams.unknownDomains.write(line + '\n');
+                sh.write('unknownDomains', line + '\n');
                 report.inc('nb-lines-unknown-domains');
               }
             } else {
               logger.silly('The domain is ignored');
-              logStreams.ignoredDomains.write(line + '\n');
+              sh.write('ignoredDomains', line + '\n');
               report.inc('nb-lines-ignored-domains');
             }
           } else {
@@ -269,55 +271,80 @@ module.exports = function (app, domains, ignoredDomains) {
           }
         } else {
           logger.silly('Line format was not recognized');
-          logStreams.unknownFormats.write(line + '\n');
+          sh.write('unknownFormats', line + '\n');
           report.inc('nb-lines-unknown-format');
           if (!treatedLines) {
             badBeginning = true;
             lazy.emit('end');
-            logger.warn('Couln\'t recognize first line : aborted.');
+            logger.warn('Couln\'t recognize first line : aborted.', {line: line});
           }
         }
         report.inc('nb-lines-input');
       }
 
-      // to handle HTML form upload
-      var form = new formidable.IncomingForm();
       // to handle stream spliting line by line
       var lazy;
       // start parsing the req object (required to get the "part")
       if (req.is('multipart/form-data')) {
         // form multipart stream
         logger.info('Handling a multipart encoded upload');
+        // to handle HTML form upload
+        var form = new formidable.IncomingForm();
         form.parse(request);
         lazy = new Lazy();
+        // for each part (one part is one sent file by the HTML form)
+        // connect the input stream to the lazy line by line reader
+        form.onPart = function (part) {
+          part.addListener('data', function (chunk) {
+            lazy.emit('data', chunk);
+          });
+          sh.on('saturated', function () {
+            form.pause();
+          });
+          sh.on('drain', function () {
+            form.resume();
+          });
+        };
+        // when the HTML form upload is finished
+        // tell that the HTTP response can be closed
+        form.on('end', function () {
+          lazy.emit('end');
+        });
+
+        form.on('error', function (err) {
+          logger.info('Form multipart error (nothing is done)');
+          // todo: to something ?
+          // to simulate an error, just send a long
+          // multipart request and close the request during the process
+          // ex:
+          // curl -v -X POST --no-buffer --proxy "" \
+          //      -F myfile=@./test/dataset/sd.2013-03-12.log http://localhost:59599/
+          // then CTRL+C
+        });
       } else {
         // basic stream
-        logger.info('Handling a not encoded upload')
-        lazy = new Lazy(request);
-      }
-      // for each part (one part is one sent file by the HTML form)
-      // connect the input stream to the lazy line by line reader
-      form.onPart = function (part) {
-        part.addListener('data', function (chunk) {
-          lazy.emit('data', chunk);
-        });
-      };
-      // when the HTML form upload is finished
-      // tell that the HTTP response can be closed
-      form.on('end', function () {
-        lazy.emit('end');
-      });
+        logger.info('Handling a not encoded upload');
+        lazy = new Lazy();
 
-      form.on('error', function (err) {
-        logger.info('Form multipart error (nothing is done)')
-        // todo: to something ?
-        // to simulate an error, just send a long
-        // multipart request and close the request during the process
-        // ex:
-        // curl -v -X POST --no-buffer --proxy "" \
-        //      -F myfile=@./test/dataset/sd.2013-03-12.log http://localhost:59599/
-        // then CTRL+C
-      });
+        sh.on('saturated', function () {
+          saturated = true;
+        });
+        sh.on('drain', function () {
+          saturated = false;
+          var data = request.read();
+          if (data) { lazy.emit('data', data); }
+        });
+
+        request.on('readable', function () {
+          if (!saturated) {
+            lazy.emit('data', request.read());
+          }
+        });
+        request.on('end', function () {
+          lazy.emit('end');
+        });
+      }
+
 
       // read input stream line by line
       lazy.lines
@@ -379,28 +406,11 @@ module.exports = function (app, domains, ignoredDomains) {
           logger.info(report.get('nb-lines-input') + " lines were read");
           logger.info(report.get('nb-ecs') + " ECs were created");
 
-
-          var streams = [];
-          for (var stream in logStreams) {
-            streams.push(logStreams[stream]);
-          }
-
           var closeWinston = function (callback) {
             logger.info('Closing trace loggers');
             logger.transports.file._stream.on('close', callback);
             logger.clear();
           };
-          
-          // Can take a very long time when processing a big log file (>300k lines)
-          // TODO manage reject logs better
-          var closeLogStreams = function (callback) {
-            var stream = streams.pop();
-            if (stream) {
-              stream.end(function () { closeLogStreams(callback); });
-            } else {
-              closeWinston(callback);
-            }
-          }
 
           var finalizeReport = function (callback) {
             logger.info('Finalizing report file');
@@ -432,7 +442,7 @@ module.exports = function (app, domains, ignoredDomains) {
 
             report.finalize(function () {
               logger.info('Closing reject log streams');
-              closeLogStreams(callback);
+              sh.closeAll(function () { closeWinston(callback); });
             });
           }
 

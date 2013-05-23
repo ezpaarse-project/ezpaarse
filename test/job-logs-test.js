@@ -63,7 +63,7 @@ describe('The server', function () {
     });
   });
   describe('receives a log file with a bad line', function () {
-    it('and correctly handles Job-Unknown-Formats.log', function (done) {
+    it('and correctly handles Lines-Unknown-Formats.log', function (done) {
       var headers = {
         'Accept' : 'text/csv'
       };
@@ -79,9 +79,9 @@ describe('The server', function () {
         body = body.trim().split('\n');
         should.ok(body.length === 2, 'One EC should be returned');
 
-        var logURL = res.headers['job-unknown-formats'];
+        var logURL = res.headers['lines-unknown-formats'];
         should.exist(logURL,
-          'The header "Job-Unknown-Formats" was not sent by the server');
+          'The header "Lines-Unknown-Formats" was not sent by the server');
 
         request.get(logURL, function (error, res, logBody) {
           if (error) {
@@ -100,7 +100,7 @@ describe('The server', function () {
     });
   });
   describe('receives a log file with an ignored domain', function () {
-    it('and correctly handles Job-Ignored-Domains.log', function (done) {
+    it('and correctly handles Lines-Ignored-Domains.log', function (done) {
       var headers = {
         'Accept' : 'text/csv'
       };
@@ -114,9 +114,9 @@ describe('The server', function () {
         res.should.have.status(200);
         should.not.exist(body);
 
-        var logURL = res.headers['job-ignored-domains'];
+        var logURL = res.headers['lines-ignored-domains'];
         should.exist(logURL,
-          'The header "Job-Ignored-Domains" was not sent by the server');
+          'The header "Lines-Ignored-Domains" was not sent by the server');
 
         request.get(logURL, function (error, res, logBody) {
           if (error) {
@@ -132,7 +132,7 @@ describe('The server', function () {
     });
   });
   describe('receives a log file with an unknown domain', function () {
-    it('and correctly handles Job-Unknown-Domains.log', function (done) {
+    it('and correctly handles Lines-Unknown-Domains.log', function (done) {
       var headers = {
         'Accept' : 'text/csv'
       };
@@ -146,9 +146,9 @@ describe('The server', function () {
         res.should.have.status(200);
         should.not.exist(body);
 
-        var logURL = res.headers['job-unknown-domains'];
+        var logURL = res.headers['lines-unknown-domains'];
         should.exist(logURL,
-          'The header "Job-Unknown-Domains" was not sent by the server');
+          'The header "Lines-Unknown-Domains" was not sent by the server');
 
         request.get(logURL, function (error, res, logBody) {
           if (error) {
@@ -164,7 +164,7 @@ describe('The server', function () {
     });
   });
   describe('receives a log file with an unqualified log line', function () {
-    it('and correctly handles Job-Unqualified-ECs.log', function (done) {
+    it('and correctly handles Lines-Unqualified-ECs.log', function (done) {
       var headers = {
         'Accept' : 'text/csv'
       };
@@ -178,9 +178,9 @@ describe('The server', function () {
         res.should.have.status(200);
         should.not.exist(body);
 
-        var logURL = res.headers['job-unqualified-ecs'];
+        var logURL = res.headers['lines-unqualified-ecs'];
         should.exist(logURL,
-          'The header "Job-Unqualified-ECs" was not sent by the server');
+          'The header "Lines-Unqualified-ECs" was not sent by the server');
 
         request.get(logURL, function (error, res, logBody) {
           if (error) {
@@ -196,7 +196,7 @@ describe('The server', function () {
     });
   });
   describe('receives a log file with an unknown PID', function () {
-    it('and correctly handles Job-PKB-Miss-ECs.log', function (done) {
+    it('and correctly handles Lines-PKB-Miss-ECs.log', function (done) {
       var headers = {
         'Accept' : 'text/csv'
       };
@@ -212,9 +212,9 @@ describe('The server', function () {
         body = body.trim().split('\n');
         should.ok(body.length === 2, 'One EC should be returned');
 
-        var logURL = res.headers['job-pkb-miss-ecs'];
+        var logURL = res.headers['lines-pkb-miss-ecs'];
         should.exist(logURL,
-          'The header "Job-PKB-Miss-ECs" was not sent by the server');
+          'The header "Lines-PKB-Miss-ECs" was not sent by the server');
 
         request.get(logURL, function (error, res, logBody) {
           if (error) {

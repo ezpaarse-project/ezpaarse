@@ -1,126 +1,112 @@
 <% include header %>
-    <link rel='stylesheet' href="/stylesheets/uploadbox.css" type="text/css"/>
-    <link rel="stylesheet" href="/slickgrid/slick.grid.css" type="text/css"/>
-    <link rel="stylesheet" href="/slickgrid/css/smoothness/jquery-ui-1.8.16.custom.css" type="text/css"/>
-    <link rel="stylesheet" href="/stylesheets/slick-custom.css" type="text/css"/>
-    
-    <h1>Web service d'ezPAARSE</h1>
-    <p>Vous consultez la racine du web service d'ezPAARSE. Vous pouvez envoyer vos logs brutes sur cette même URL via la méthode HTTP POST ou via le formulaire Web d'upload.</p>
-
-    <div id="bugs">
-      <p><strong>Attention</strong>, ce formulaire n'est pas encore en version finale et peut être sujet à des bugs.</p>
-    </div>
-
-    <div id="uploadBox">
-      <h2>Soumettre un fichier de log</h2>
-      <div id="box1">
-        <span id="uploadArea">
-          <label for="inputFile">Sélectionnez un fichier: </label><input type="file" id="inputFile">
-          <div id="dropBox">Ou glissez-le ici</div>
-          <div id="fileInfo"></div>
-          <div id="uploadWarning"></div>
-        </span>
-        <div id="infoArea"></div>
-      </div>
-      
-      <div id="box2">
-        <fieldset>
-          <legend>Fichiers locaux</legend>
-          <div id="localFiles"></div>
-        </fieldset>
-      </div>
-      
-      <div id="box3">
-        <fieldset id="options">
-          <legend>Options avancées</legend>
-          <input id="streamRequest" type="checkbox" checked />
-          <label for="streamRequest" class="tooltip">Traitement en streaming
-          </label>
-          <span class="tooltip">
-            <img src="/img/help.png" />
-            <span>Si coché, les données seront traitées au fil de leur réception et ne seront pas stockées sur le serveur. Sinon, elles seront d'abords récupérées et stockées avant de commencer le traitement.</span>
-          </span><br />
-
-          <input id="streamResponse" type="checkbox" checked />
-          <label for="streamResponse">Résultats au fil de l'avancement</label>
-          <span class="tooltip">
-            <img src="/img/help.png" />
-            <span>Si coché, le résultat généré par <strong>ezPAARSE</strong> ne sera pas stocké sur le serveur et apparaîtra dans le navigateur au fil du traitement. Sinon, il sera stocké et un lien de téléchargement sera envoyé à la fin du traitement.</span>
-          </span><br /><br />
-
-          <span class="tooltip">
-            <img src="/img/help.png" />
-            <span>Proxy à l'origine du fichier de log. Si précisé, le <strong>format de log</strong> doit être rempli. Dans le cas contraire, <strong>ezPAARSE</strong> tentera de reconnaître automatiquement le format des lignes.</span>
-          </span>
-          <label for="proxyName">Type de log</label>
-          <select id="proxyName">
-            <option></option>
-            <option value="ezproxy">ezproxy</option>
-            <option value="squid">squid</option>
-            <option value="bibliopam">bibliopam</option>
-          </select><br />
-
-          <span class="tooltip">
-            <img src="/img/help.png" />
-            <span>Format utilisé pour la reconnaissance des lignes de log. Plus de détails <a href="/doc/formats.html" target="_blank">dans la documentation</a>.</span>
-          </span>
-          <label for="logFormat">Format de log</label>
-          <input id="logFormat" type="text" value=''/><br />
-
-          <span class="tooltip">
-            <img src="/img/help.png" />
-            <span>Format souhaité pour les données en sortie. Inutile si le résultat est récupéré en streaming.</span>
-          </span>
-          <label for="accept">Format de réponse
-          </label>
-          <select id="accept">
-            <option value="text/csv">csv</option>
-            <option value="application/json">json</option>
-          </select><br />
-
-          <span class="tooltip">
-            <img src="/img/help.png" />
-            <span>Type de compression du fichier à envoyer. (s'il est compressé)</span>
-          </span>
-          <label for="contentEncoding">Encodage du fichier
-          </label>
-          <select id="contentEncoding">
-            <option></option>
-            <option value="gzip">gzip</option>
-            <option value="deflate">deflate</option>
-          </select><br />
-
-          <span class="tooltip">
-            <img src="/img/help.png" />
-            <span>Type de compression souhaité pour les données en sortie.</span>
-          </span>
-          <label for="acceptEncoding">Encodage de la réponse
-          </label>
-          <select id="acceptEncoding">
-            <option></option>
-            <option value="gzip">gzip</option>
-            <option value="deflate">deflate</option>
-          </select><br />
-        </fieldset>
-      </div>
-      
-      <div id="buttons">
-        <button type='button' id="uploadButton" class='Button'>Envoyer</button>
-        <button onClick="location.reload()">Remettre à zéro</button>
-      </div>
-    </div>
-
-    <div id="resultBox"></div>
-
-    <script type="text/javascript" src="/js/jquery-1.9.1.min.js"></script>
-    <script type="text/javascript" src="/slickgrid/lib/jquery.event.drag-2.2.js"></script>
-    <script type="text/javascript" src="/js/swfobject.js"></script>
-    <script type="text/javascript" src="/slickgrid/slick.core.js"></script>
-    <script type="text/javascript" src="/slickgrid/slick.grid.js"></script>
-    <script type="text/javascript" src="/slickgrid/slick.dataview.js"></script>
-    <script type="text/javascript" src="/downloadify/js/swfobject.js"></script>
-    <script type="text/javascript" src="/downloadify/js/downloadify.min.js"></script>
-    <script type="text/javascript" src="/js/clarinet.js"></script>
-    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
-    <script type="text/javascript" src="/js/uploadbox.js"></script>
+        <form class="form-horizontal">
+          <div class="row-fluid">
+            <div class="accordion span6" id="pane-file-select">
+              <div class="accordion-group">
+                <div class="accordion-heading">
+                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#pane-file-select" href="#collapseOne">
+                    Fichiers internes
+                  </a>
+                </div>
+                <div id="collapseOne" class="accordion-body collapse">
+                  <div id="local-files" class="accordion-inner">
+                    
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-group">
+                <div class="accordion-heading">
+                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#pane-file-select" href="#collapseTwo">
+                    Uploader un fichier
+                  </a>
+                </div>
+                <div id="collapseTwo" class="accordion-body collapse in">
+                  <div class="accordion-inner">
+                    <input type="file" />
+                    <div class="dropbox">Glisser ici</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="accordion span6" id="pane-options">
+              <div class="accordion-group">
+                <div class="accordion-heading">
+                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#pane-options" href="#collapseThree">
+                    Options avancées
+                  </a>
+                </div>
+                <div id="collapseThree" class="accordion-body collapse">
+                  <div class="accordion-inner">
+                    <div class="control-group">
+                      <label class="control-label" for="input-log-type">Type de log</label>
+                      <div class="controls">
+                        <select id="input-log-type">
+                          <option value="auto" selected>Auto</option>
+                          <option value="ezproxy">EZproxy</option>
+                          <option value="apache">Apache</option>
+                          <option value="squid">Squid</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label" for="input-log-format">Format de log</label>
+                      <div class="controls">
+                        <input id="input-log-format" type="text" disabled />
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label" for="input-log-compression">Compression du fichier</label>
+                      <div class="controls">
+                        <select id="input-log-compression">
+                          <option value="none" selected>Aucune</option>
+                          <option value="gzip">Gzip</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label" for="input-result-format">Format du résultat</label>
+                      <div class="controls">
+                        <select id="input-result-format">
+                          <option value="csv" selected>CSV</option>
+                          <option value="json">JSON</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label" for="input-result-compression">Compression du résultat</label>
+                      <div class="controls">
+                        <select id="input-result-compression">
+                          <option value="none" selected>Aucune</option>
+                          <option value="gzip">Gzip</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label" for="input-traces">Traces</label>
+                      <div class="controls">
+                        <select id="input-traces">
+                          <option value="error">Error</option>
+                          <option value="debug">Debug</option>
+                          <option value="warn">Warn</option>
+                          <option value="info" selected>Info</option>
+                          <option value="verbose">Verbose</option>
+                          <option value="silly">Silly</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label" for="input-output-fields">Champs en sortie</label>
+                      <div class="controls">
+                        <input id="input-output-fields" placeholder="Ex: host,login,date" type="text" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="text-center">
+            <input type="submit" class="btn" />
+          </div>
+        </form>
 <% include footer %>

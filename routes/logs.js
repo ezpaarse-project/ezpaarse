@@ -5,12 +5,12 @@ var fs = require('fs');
 
 module.exports = function (app) {
   
+  var jobidPattern = '^/([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})';
   /**
-   * GET route on /logs/:rid/:logfile
+   * GET route on /:rid/:logfile
    * Used to get a logfile
    */
-  app.get(/^\/([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})\/([a-zA-Z\-]+\.log)$/,
-    function (req, res) {
+  app.get(new RegExp(jobidPattern + '/([a-zA-Z\\-]+\\.log)$'), function (req, res) {
     var requestID = req.params[0];
     var logPath   = __dirname + '/../tmp/jobs/'
     + requestID.charAt(0) + '/'
@@ -24,6 +24,39 @@ module.exports = function (app) {
           res.end();
         }
       });
+    } else {
+      res.status(404);
+      res.end();
+    }
+  });
+
+  /**
+   * GET route on /:rid/job-report.{html|json}
+   * Used to get a report file
+   */
+  app.get(new RegExp(jobidPattern + '/job-report\\.(html|json)$'), function (req, res) {
+    var requestID  = req.params[0];
+    var format     = req.params[1];
+    var logPath    = __dirname + '/../tmp/jobs/'
+    + requestID.charAt(0) + '/'
+    + requestID.charAt(1) + '/'
+    + requestID;
+    var reportFile = logPath + '/report.json';
+    if (fs.existsSync(reportFile)) {
+      switch (format) {
+      case 'json':
+        res.sendfile('report.json', {root: logPath}, function (err) {
+          if (err) {
+            res.status(500);
+            res.end();
+          }
+        });
+        break;
+      case 'html':
+        var report = require(reportFile);
+        res.render('report', { report: report, title: 'Rapport' });
+        break;
+      }
     } else {
       res.status(404);
       res.end();
