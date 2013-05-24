@@ -1,11 +1,11 @@
 {
   "name": "bmc",
   "version": "2013-05-16",
-  "status": "unstable",
+  "status": "beta",
   "longname": "biomed Central",
   "describe": "Identifie les consultations du site Biomed Central",
   "docurl": "http://analogist.couperin.org/platforms/bmc/",
-  "contact": "dominique.roufer at univ-st-teienne.fr",
+  "contact": "dominique.rouger at univ-st-teienne.fr",
   "domains": [
     "www.actavetscand.com",
     "www.ascpjournal.org",
