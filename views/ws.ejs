@@ -1,33 +1,35 @@
 <% include header %>
-        <form class="form-horizontal">
+        <div id="content-form">
           <div class="row-fluid">
-            <div class="accordion span6" id="pane-file-select">
-              <div class="accordion-group">
-                <div class="accordion-heading">
-                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#pane-file-select" href="#collapseOne">
-                    Fichiers internes
-                  </a>
+            <form id="form" class="form-horizontal span6" enctype="multipart/form-data">
+              <div class="accordion" id="pane-file-select">
+                <div class="accordion-group">
+                  <div class="accordion-heading">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#pane-file-select" href="#collapseOne">
+                      Fichiers internes
+                    </a>
+                  </div>
+                  <div id="collapseOne" class="accordion-body collapse">
+                    <div id="local-files" class="accordion-inner">
+                      
+                    </div>
+                  </div>
                 </div>
-                <div id="collapseOne" class="accordion-body collapse">
-                  <div id="local-files" class="accordion-inner">
-                    
+                <div class="accordion-group">
+                  <div class="accordion-heading">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#pane-file-select" href="#collapseTwo">
+                      Uploader un fichier
+                    </a>
+                  </div>
+                  <div id="collapseTwo" class="accordion-body collapse in">
+                    <div class="accordion-inner">
+                      <input type="file" name="file" />
+                      <div class="dropbox">Glisser ici</div>
+                    </div>
                   </div>
                 </div>
               </div>
-              <div class="accordion-group">
-                <div class="accordion-heading">
-                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#pane-file-select" href="#collapseTwo">
-                    Uploader un fichier
-                  </a>
-                </div>
-                <div id="collapseTwo" class="accordion-body collapse in">
-                  <div class="accordion-inner">
-                    <input type="file" />
-                    <div class="dropbox">Glisser ici</div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            </form> <!-- form -->
             <div class="accordion span6" id="pane-options">
               <div class="accordion-group">
                 <div class="accordion-heading">
@@ -40,8 +42,8 @@
                     <div class="control-group">
                       <label class="control-label" for="input-log-type">Type de log</label>
                       <div class="controls">
-                        <select id="input-log-type">
-                          <option value="auto" selected>Auto</option>
+                        <select id="input-log-type" name="input-log-type">
+                          <option value="" selected>Auto</option>
                           <option value="ezproxy">EZproxy</option>
                           <option value="apache">Apache</option>
                           <option value="squid">Squid</option>
@@ -51,14 +53,14 @@
                     <div class="control-group">
                       <label class="control-label" for="input-log-format">Format de log</label>
                       <div class="controls">
-                        <input id="input-log-format" type="text" disabled />
+                        <input id="input-log-format" name="input-log-format" type="text" disabled />
                       </div>
                     </div>
                     <div class="control-group">
                       <label class="control-label" for="input-log-compression">Compression du fichier</label>
                       <div class="controls">
-                        <select id="input-log-compression">
-                          <option value="none" selected>Aucune</option>
+                        <select id="input-log-compression" name="input-log-compression">
+                          <option value="" selected>Aucune</option>
                           <option value="gzip">Gzip</option>
                         </select>
                       </div>
@@ -66,17 +68,17 @@
                     <div class="control-group">
                       <label class="control-label" for="input-result-format">Format du résultat</label>
                       <div class="controls">
-                        <select id="input-result-format">
-                          <option value="csv" selected>CSV</option>
-                          <option value="json">JSON</option>
+                        <select id="input-result-format" name="input-result-format">
+                          <option value="text/csv" selected>CSV</option>
+                          <option value="application/json">JSON</option>
                         </select>
                       </div>
                     </div>
                     <div class="control-group">
                       <label class="control-label" for="input-result-compression">Compression du résultat</label>
                       <div class="controls">
-                        <select id="input-result-compression">
-                          <option value="none" selected>Aucune</option>
+                        <select id="input-result-compression" name="input-result-compression">
+                          <option value="" selected>Aucune</option>
                           <option value="gzip">Gzip</option>
                         </select>
                       </div>
@@ -84,7 +86,7 @@
                     <div class="control-group">
                       <label class="control-label" for="input-traces">Traces</label>
                       <div class="controls">
-                        <select id="input-traces">
+                        <select id="input-traces" name="input-traces">
                           <option value="error">Error</option>
                           <option value="debug">Debug</option>
                           <option value="warn">Warn</option>
@@ -97,7 +99,7 @@
                     <div class="control-group">
                       <label class="control-label" for="input-output-fields">Champs en sortie</label>
                       <div class="controls">
-                        <input id="input-output-fields" placeholder="Ex: host,login,date" type="text" />
+                        <input id="input-output-fields" placeholder="Ex: host,login,date" type="text"  name="input-output-fields"/>
                       </div>
                     </div>
                   </div>
@@ -106,7 +108,46 @@
             </div>
           </div>
           <div class="text-center">
-            <input type="submit" class="btn" />
+            <input type="submit" class="btn" value="Envoyer" id="submit" />
           </div>
-        </form>
+        </div><!-- form-content -->
+        <div id="content-result" class="ninja">
+          <div class="progress progress-striped active">
+            <div class="bar" style="width: 0%;"></div>
+          </div>
+          <div class="alert alert-error text-center ninja">
+            Erreur : <span id="error"></span>
+          </div>
+          <div class="row-fluid">
+            <div id="submitted-files" class="span6">
+              <fieldset>
+                <legend>Fichiers traités</legend>
+              </fieldset>
+            </div>
+            <div id="report" class="span6">
+              <fieldset>
+                <legend>Traitements</legend>
+                <ul>
+                  <li>Lignes en entrée : <span id="nb-lines-input"></span></li>
+                  <li>ECs générés : <span id="nb-ecs"></span></li>
+                  <li>Taux de rejet : <span id="rejection-rate"></span></li>
+                  <li>Durée du traitement : <span id="job-duration"></span></li>
+                </ul>
+                Rejets :
+                <ul>
+                  <a id="link-lines-ignored" href=""><li>Lignes ignorées : <span id="nb-lines-ignored"></span></li></a>
+                  <a id="link-lines-ignored-domains" href=""><li>Domaines ignorés : <span id="nb-lines-ignored-domains"></span></li></a>
+                  <a id="link-lines-unknown-domains" href=""><li>Domaines inconnus : <span id="nb-lines-unknown-domains"></span></li></a>
+                  <a id="link-lines-unknown-format" href=""><li>Formats inconnus : <span id="nb-lines-unknown-format"></span></li></a>
+                  <a id="link-lines-unqualified-ecs" href=""><li>ECs non qualifiés : <span id="nb-lines-unqualified-ecs"></span></li></a>
+                  <a id="link-lines-pkb-miss-ecs" href=""><li>PKBs manquantes : <span id="nb-lines-pkb-miss-ecs"></span></li></a>
+                </ul>
+              </fieldset>
+            </div>
+          </div>
+          <div id="result-btns" class="text-center">
+              <a href="" target="_blank" id="report-btn" class="btn">Rapport</a>
+              <a href="" target="_blank" id="traces-btn" class="btn">Traces</a>
+            </div>
+        </div><!-- result-content -->
 <% include footer %>
