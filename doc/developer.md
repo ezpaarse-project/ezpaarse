@@ -14,6 +14,8 @@ Vous êtes développeur et souhaitez contribuer au code source d'ezPAARSE par ex
 * ou pour la maintenance d'un parseur existant.
 * ou même en proposant des améliorations dans le coeur d'ezPAARSE.
 
+Consultez régulièrement [la page de contribution à la reconnaissance de plateforme](http://analogist.couperin.org/platforms/contribute/start).
+
 Tout d'abord, veuillez vous enregistrer sur [Github](https://github.com/).
 
 Vous avez ensuite besoin de maîtriser quelques commandes [git](http://git-scm.com/) :
@@ -73,26 +75,31 @@ Pour aider l'écriture des regexp, voici un [outil qui pourra aider à visualise
 Le parseur est accompagné du nécessaire pour être testé.
 Les tests consistent en un ou plusieurs fichiers présents dans le sous-repertoire test du package du parseur.
 
-Les noms des fichiers de tests seront de la forme ``platform.version.csv``. Ils sont au format CSV et contiennent les colonnes suivantes : issn;pid;type;url.
+Les noms des fichiers de tests seront de la forme ``platform.version.csv``. Ils sont au format CSV et contiennent les colonnes suivantes : issn;pid;unitid;rtype;mime;url.
 
 Le principe de test du parseur est représenté par le schéma suivant :
 ![Schema de test des parseurs](images/ezPAARSE-Test-des-Parseurs.png "Test des parseurs")
 
-La procedure de test des parseurs utilise les données de la colonne url et les envoie au parseur. Celui doit renvoyer des données conformes au contenu des autres colonnes. 
-L'issn est prioritaire sur le pid (identifiant éditeur). Si l'issn est présent, le pid est inutile. 
+La procedure de test des parseurs utilise les données de la colonne url et les envoie au parseur. Celui-ci doit renvoyer des données conformes au contenu des autres colonnes. 
+L'issn est prioritaire sur le pid (identifiant éditeur). Si l'issn est présent, le pid est inutile.
 
-La colonne type représente le type de consultation et peut prendre les valeurs suivantes :
+La colonne rtype représente [le type de ressource](http://analogist.couperin.org/ezpaarse/doc/glossaire#types-de-ressources).
 
-* PDF : consultation d'un article au format PDF.
-* TXT : consultation d'un article en texte brut (la plupart du temps en HTML).
-* SUMMARY : consultation d'un résumé de l'article.
-* TOC : consultation d'un sommaire d'une revue.
-* BOOKPDF : consultation d'un Book au format PDF.
-* BOOKSERIE : consultation d'un sommaire d'une monographie en série.
-* HANDBOOK : consultation d'un sommaire d'un handbook.
-* ORDER : consultation de type commande de document.
-* REF : consultation de référence de document.
-* OML : consultation de matériel en ligne (données).
+La colonne mime représente [le format de la ressource](http://analogist.couperin.org/ezpaarse/doc/glossaire#formats-de-ressources).
+
+L'élément unitid contient l'identifiant complet d'un événement de consultation sur une plateforme. Il sert à dédoublonner les ojets identiques.
+
+Les tests peuvent être utilisés au début du développement du parseur par une commande du type (dans le répertoire de la plateforme en question):
+
+```
+cat test/platform.version.csv | ../../bin/csvextractor --fields="url" -c --noheader | ./parser.js
+```
+
+Puis ensuite utilisés automatiquement intégré dans ezPAARSE par la commande (à la racine d'ezPAARSE) qui lance les tests sur toutes les plateformes :
+
+```
+make test-platforms-verbose
+```
 
 ## Description du parseur
 
@@ -106,6 +113,9 @@ Ce fichier contient les informations suivantes :
 * docurl : l'URL de la documentation sur le site analogist (se termine par /),
 * domains : un tableau des domaines que le parseur est capable de prendre en charge,
 * recognize : un tableau faisant correspondre à chaque type de consultation (à true) les capacités de reconnaissance du parseur.
+
+Le fichier manifest.json est utilisé pour afficher dynamiquement les [caractéristiques de tous les parseurs](http://analogist.couperin.org/platforms/start#capacites-des-parseurs).
+
 
 ## Principe de gestion des bases de connaissances éditeur
 
