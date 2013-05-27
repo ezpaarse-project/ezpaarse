@@ -14,6 +14,8 @@ Vous êtes développeur et souhaitez contribuer au code source d'ezPAARSE par ex
 * ou pour la maintenance d'un parseur existant.
 * ou même en proposant des améliorations dans le coeur d'ezPAARSE.
 
+Consultez régulièrement [la page de contribution à la reconnaissance de plateforme](http://analogist.couperin.org/platforms/contribute/start).
+
 Tout d'abord, veuillez vous enregistrer sur [Github](https://github.com/).
 
 Vous avez ensuite besoin de maîtriser quelques commandes [git](http://git-scm.com/) :
