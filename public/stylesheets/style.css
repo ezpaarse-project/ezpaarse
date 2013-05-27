@@ -49,6 +49,10 @@ ul {
   text-align: center;
 }
 
+#process-success {
+  text-align: center;
+}
+
 #process-btns {
   margin-right: 5px;
   margin-left: 5px;

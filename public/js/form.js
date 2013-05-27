@@ -11,6 +11,7 @@ $('#input-log-type').on('change', function () {
 });
 
 $('#submit').on('click', function () {
+
   jobid = uuid.v1();
   logroute = host + '/' + jobid + '/';
 
@@ -41,6 +42,19 @@ $('#submit').on('click', function () {
   }
 
   var data = new FormData(document.getElementById('form'));
+  var test = false;
+  
+  $('input[type=file]').each(function () {
+    if ($(this).val() != '') {
+      test = true;
+    }
+  });
+
+  if (!test) {
+    $('#nofile-warn').slideDown();
+    return false;
+  }
+
   $.ajax({
     headers:     headers, 
     type:        'PUT',
@@ -52,6 +66,7 @@ $('#submit').on('click', function () {
           if(e.lengthComputable){
             var percentComplete = ( e.loaded * 100 ) / e.total;
             $('.bar').width(percentComplete + "%");
+            $('.bar').text(percentComplete.toFixed(0) + "%");
           }
         });
       }
@@ -72,6 +87,13 @@ $('#submit').on('click', function () {
       });
     },
     'success': function(data) {
+      $('#reset-btn').text('Réinitialiser');
+      $('.progress').addClass('progress-success');
+      $('#process-btns a').removeClass('btn-primary');
+      $('#process-btns a').addClass('btn-success');
+      $('#process-info').slideUp(function () {
+        $('#process-success').slideDown();
+      });
     },
     'error': function(jqXHR, textStatus, errorThrown) {
       var error;
@@ -84,8 +106,9 @@ $('#submit').on('click', function () {
 
       $("#error").text(error);
 
-      $('#process-info').slideUp();
-      $('.alert-error').slideDown();
+      $('#process-info').slideUp(function () {
+        $('.alert-error').slideDown();
+      });
     },
     'complete': function(data) {
     }

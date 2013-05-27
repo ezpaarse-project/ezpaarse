@@ -107,6 +107,7 @@
               </div>
             </div>
           </div>
+          <div id="nofile-warn" class="alert alert-warning ninja">Vous devez sélectionner au moins un fichier</div>
           <div class="text-center">
             <input type="submit" class="btn" value="Envoyer" id="submit" />
           </div>
@@ -115,11 +116,14 @@
           <div id="process-info" class="texte-center alert alert-info">
             Vos logs sont en cours de traitement mais vous pouvez déjà commencer à les télécharger.
           </div>
+          <div id="process-success" class="texte-center alert alert-success ninja">
+            Le traitement de vos logs s'est terminé avec succès.
+          </div>
           <div class="alert alert-error text-center ninja">
             Erreur : <span id="error"></span>
           </div>
           <div class="progress progress-striped active">
-            <div class="bar" style="width: 0%;"></div>
+            <div class="bar" style="width: 0%;">0%</div>
           </div>
           <div id="process-btns" class="text-center">
             <a href="" target="_blank" id="get-btn" class="btn btn-primary">Télécharger</a>
