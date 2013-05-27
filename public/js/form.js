@@ -40,7 +40,6 @@ $('#submit').on('click', function () {
     headers['Output-Fields'] = $('#input-output-fields').val();
   }
 
-  console.log('', headers);
   var data = new FormData(document.getElementById('form'));
   $.ajax({
     headers:     headers, 
@@ -53,7 +52,6 @@ $('#submit').on('click', function () {
           if(e.lengthComputable){
             var percentComplete = ( e.loaded * 100 ) / e.total;
             $('.bar').width(percentComplete + "%");
-            console.log('' + percentComplete);
           }
         });
       }
