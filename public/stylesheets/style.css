@@ -17,11 +17,13 @@ ul {
   clear: both;
 }
 
-#link-list{
+#link-list {
   margin-top: 25px;
+  font-size: 0.9em;
 }
 
 .link-text {
+  vertical-align: middle;
   display: inline;
   font-size: 1em;
 }
@@ -37,6 +39,35 @@ ul {
 #local-files {
   max-height: 150px;
   overflow-y: scroll;
+}
+
+.ninja {
+  display: none;
+}
+
+#process-info {
+  text-align: center;
+}
+
+#process-success {
+  text-align: center;
+}
+
+#process-btns {
+  margin-right: 5px;
+  margin-left: 5px;
+  margin-bottom: 10px;
+}
+
+#submitted-files > fieldset > ul {
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+#result-btns a {
+  width: 74px;
+  margin-right: 5px;
+  margin-left: 5px;
 }
 
 .footer {

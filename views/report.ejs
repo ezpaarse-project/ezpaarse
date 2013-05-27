@@ -2,11 +2,11 @@
 
 <% if (report) { %>
   <h1>Rapport d'exécution</h1>
-  <table style="border:1px solid black;border-collapse:collapse; margin-bottom: 10px;">
+  <table class="table table-bordered table-hover">
   <% for (var key in report) { %>
     <tr>
-      <td style="border:1px solid black; padding: 3px;"><%= key %></td>
-      <td style="border:1px solid black; padding: 3px;"><%= report[key] %></td>
+      <td><%= key %></td>
+      <td><%= report[key] %></td>
     </tr>
   <% } %>
   </table>

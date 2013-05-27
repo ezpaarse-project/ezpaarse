@@ -313,6 +313,9 @@ module.exports = function (app, domains, ignoredDomains) {
 
         form.on('error', function (err) {
           logger.info('Form multipart error (nothing is done)');
+          console.log('PAMPLEMOUSSE: ' + err);
+          res.status(500);
+          res.end();
           // todo: to something ?
           // to simulate an error, just send a long
           // multipart request and close the request during the process
