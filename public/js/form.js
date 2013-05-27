@@ -1,7 +1,7 @@
 var jobid;
 var host = $(location).attr('protocol') + '//' + $(location).attr('host');
 
-$('#input-log-type').on('change', function() {
+$('#input-log-type').on('change', function () {
   if ($('#input-log-type').val()) {
     $('#input-log-format').prop("disabled", false);
   } else {
@@ -63,7 +63,13 @@ $('#submit').on('click', function () {
     contentType: false,
     processData: false,
     'beforeSend': function() {
-      
+      $('#get-btn').prop('href', host + '/' + jobid);
+
+      $('#report-btn').prop("href", logroute + 'job-report.html');
+
+      $('#content-form').slideUp(function () {
+        $('#content-result').slideDown();
+      });
     },
     'success': function(data) {
     },
@@ -78,21 +84,19 @@ $('#submit').on('click', function () {
 
       $("#error").text(error);
 
+      $('#process-info').slideUp();
       $('.alert-error').slideDown();
     },
     'complete': function(data) {
     }
   });
-
-  $('#report-btn').prop("href", logroute + 'job-report.html');
-
-  $('#content-form').slideUp(function () {
-    $('#content-result').slideDown();
-  });
-
 });
 
 $('#form').on('submit', function () {
 
   return false;
+});
+
+$('#reset-btn').on('click', function () {
+  location.reload();
 });

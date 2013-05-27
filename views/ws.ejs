@@ -112,11 +112,18 @@
           </div>
         </div><!-- form-content -->
         <div id="content-result" class="ninja">
-          <div class="progress progress-striped active">
-            <div class="bar" style="width: 0%;"></div>
+          <div id="process-info" class="texte-center alert alert-info">
+            Vos logs sont en cours de traitement mais vous pouvez déjà commencer à les télécharger.
           </div>
           <div class="alert alert-error text-center ninja">
             Erreur : <span id="error"></span>
+          </div>
+          <div class="progress progress-striped active">
+            <div class="bar" style="width: 0%;"></div>
+          </div>
+          <div id="process-btns" class="text-center">
+            <a href="" target="_blank" id="get-btn" class="btn btn-primary">Télécharger</a>
+            <a href="" id="reset-btn" class="btn btn-primary">Annuler</a>
           </div>
           <div class="row-fluid">
             <div id="submitted-files" class="span6">
@@ -146,8 +153,8 @@
             </div>
           </div>
           <div id="result-btns" class="text-center">
-              <a href="" target="_blank" id="report-btn" class="btn">Rapport</a>
-              <a href="" target="_blank" id="traces-btn" class="btn">Traces</a>
-            </div>
+            <a href="" target="_blank" id="report-btn" class="btn">Rapport</a>
+            <a href="" target="_blank" id="traces-btn" class="btn">Traces</a>
+          </div>
         </div><!-- result-content -->
 <% include footer %>

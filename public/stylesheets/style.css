@@ -45,6 +45,16 @@ ul {
   display: none;
 }
 
+#process-info {
+  text-align: center;
+}
+
+#process-btns {
+  margin-right: 5px;
+  margin-left: 5px;
+  margin-bottom: 10px;
+}
+
 #submitted-files > fieldset > ul {
   max-height: 220px;
   overflow-y: auto;
