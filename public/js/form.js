@@ -46,6 +46,19 @@ $('#submit').on('click', function () {
     headers:     headers, 
     type:        'PUT',
     url:         '/' + jobid,
+    xhr: function() {
+      var myXhr = $.ajaxSettings.xhr();
+      if(myXhr.upload){ // check if upload property exists
+        myXhr.upload.addEventListener("progress", function (e) {
+          if(e.lengthComputable){
+            var percentComplete = ( e.loaded * 100 ) / e.total;
+            $('.bar').width(percentComplete + "%");
+            console.log('' + percentComplete);
+          }
+        });
+      }
+      return myXhr;
+    },
     dataType:    'html',
     data:        data,
     cache:       false,
