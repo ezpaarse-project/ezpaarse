@@ -2,13 +2,32 @@ var jobid;
 var socketID;
 var host = $(location).attr('protocol') + '//' + $(location).attr('host');
 var socket = io.connect(host);
+var socketStarted = false;
 
 socket.on('connected', function (id) {
   socketID = id;
 });
 
 socket.on('report', function (report) {
-  console.log('Report: ', report);
+  if (!socketStarted) {
+    socketStarted = true;
+    $('#traces-btn').prop("href", report["URL-Traces"]);
+    $('#link-lines-ignored-domains').prop("href", report["url-ignored-domains"]);
+    $('#link-lines-unknown-domains').prop("href", report["url-unknown-domains"]);
+    $('#link-lines-unknown-format').prop("href", report["url-unknown-format"]);
+    $('#link-lines-unqualified-ecs').prop("href", report["url-unqualified-ecs"]);
+    $('#link-lines-pkb-miss-ecs').prop("href", report["url-pkb-miss-ecs"]);
+  }
+  $('#nb-lines-input').text(report["nb-lines-input"]);
+  $('#nb-ecs').text(report["nb-ecs"]);
+  $('#rejection-rate').text(report["Rejection-Rate"]);
+  $('#job-duration').text(report["Job-Duration"]);
+  $('#nb-lines-ignored').text(report["nb-lines-ignored-domains"]);
+  $('#nb-lines-ignored-domains').text(report["nb-lines-ignored-domains"]);
+  $('#nb-lines-unknown-domains').text(report["nb-lines-unknown-domains"]);
+  $('#nb-lines-unknown-format').text(report["nb-lines-unknown-format"]);
+  $('#nb-lines-unqualified-ecs').text(report["nb-lines-unqualified-ecs"]);
+  $('#nb-lines-pkb-miss-ecs').text(report["nb-lines-pkb-miss-ecs"]);
 });
 
 $('#input-log-type').on('change', function () {
@@ -58,7 +77,10 @@ $('#submit').on('click', function () {
   var data = new FormData(document.getElementById('form'));
   var test = false;
   
+
+
   $('input[type=file]').each(function () {
+    // console.log($(this).val().split("\\").pop());
     if ($(this).val() != '') {
       test = true;
     }

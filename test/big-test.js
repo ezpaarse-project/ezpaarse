@@ -17,7 +17,6 @@ var rate     = config.EZPAARSE_BIG_RATE;
 
 var headers = {};
 
-console.log(rate + ' , ' + duration);
 describe('The server', function () {
 
   this.timeout(0);

@@ -446,7 +446,7 @@ module.exports = function (app, domains, ignoredDomains) {
             report.finalize(function () {
               logger.info('Closing reject log streams');
               sh.closeAll(function () { closeWinston(callback); });
-            });
+            }, socket);
           }
 
           finalizeReport(function () {
