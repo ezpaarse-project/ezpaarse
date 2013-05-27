@@ -11,6 +11,7 @@ var parsers       = require('./lib/init.js');
 var folderChecker = require('./lib/folderchecker.js');
 var FolderReaper  = require('./lib/folderreaper.js');
 var winston       = require('winston');
+var socketio      = require('socket.io');
 
 winston.addColors({ verbose: 'green', info: 'green', warn: 'yellow', error: 'red' });
 
@@ -112,8 +113,21 @@ require('./routes/info')(app);
 require('./routes/logs')(app);
 
 var server = http.createServer(app);
-// Set socket.io to handle uploads
-require('./lib/upload.js')(server, app.get('port'), false);
+
+// Set socket.io
+app.io = socketio.listen(server, { log: false });
+app.io.set('transports', [
+  'websocket',
+  'flashsocket',
+  'htmlfile',
+  'xhr-polling',
+  'jsonp-polling'
+]);
+// Send the socket ID to the client on connection
+// This ID is used to identify the client on AJAX requests
+app.io.sockets.on('connection', function (socket) {
+  socket.emit('connected', socket.id);
+});
 
 server.listen(app.get('port'), function () {
   console.log(pkg.name + "-" + pkg.version +
