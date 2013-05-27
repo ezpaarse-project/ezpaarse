@@ -113,6 +113,7 @@ module.exports = function (app, domains, ignoredDomains) {
     // job is started
     app.ezJobs[ezRID] = app.ezJobs[ezRID] || {};
     req.ezRID         = ezRID;
+    var socket        = app.io.sockets.socket(req.header('Socket-ID'));
     var startTime     = process.hrtime();
 
     // Job traces absolute url is calculated from the client headers
@@ -147,7 +148,7 @@ module.exports = function (app, domains, ignoredDomains) {
       'url-pkb-miss-ecs':         logRoute + '/lines-pkb-miss-ecs.log'
     };
     var report = new ReportManager(logPath + '/report.json', baseReport);
-    report.cycle(10);
+    report.cycle(5, socket);
 
     res.set('Job-ID', ezRID);
     res.set('Job-Report', logRoute + '/job-report.json');
@@ -313,7 +314,6 @@ module.exports = function (app, domains, ignoredDomains) {
 
         form.on('error', function (err) {
           logger.info('Form multipart error (nothing is done)');
-          console.log('PAMPLEMOUSSE: ' + err);
           res.status(500);
           res.end();
           // todo: to something ?
@@ -470,7 +470,7 @@ module.exports = function (app, domains, ignoredDomains) {
   app.get('/', function (req, res) {
     res.render('ws', { title: 'ezPAARSE - Web service' });
   });
-  
+
   /**
    * GET route on /datasets/
    * Returns a list of all datasets

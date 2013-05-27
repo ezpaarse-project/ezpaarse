@@ -1,5 +1,15 @@
 var jobid;
+var socketID;
 var host = $(location).attr('protocol') + '//' + $(location).attr('host');
+var socket = io.connect(host);
+
+socket.on('connected', function (id) {
+  socketID = id;
+});
+
+socket.on('report', function (report) {
+  console.log('Report: ', report);
+});
 
 $('#input-log-type').on('change', function () {
   if ($('#input-log-type').val()) {
@@ -39,6 +49,10 @@ $('#submit').on('click', function () {
 
   if ($('#input-output-fields').val()) {
     headers['Output-Fields'] = $('#input-output-fields').val();
+  }
+
+  if (socketID) {
+    headers['Socket-ID'] = socketID;
   }
 
   var data = new FormData(document.getElementById('form'));
