@@ -114,6 +114,11 @@ $('#submit').on('click', function () {
     contentType: false,
     processData: false,
     'beforeSend': function() {
+      var filename;
+      $('input[type=file]').each(function () {
+        filename = $(this).val().split("\\").pop();
+        $('#submitted-files fieldset ul').append('<li>' + filename + '</li>');
+      });
       $('#get-btn').prop('href', host + '/' + jobid);
 
       $('#report-btn').prop("href", logroute + 'job-report.html');
