@@ -125,6 +125,7 @@ $('#submit').on('click', function () {
     'success': function(data) {
       $('#reset-btn').text('Réinitialiser');
       $('.progress').addClass('progress-success');
+      $('.progress').removeClass('active');
       $('#process-btns a').removeClass('btn-primary');
       $('#process-btns a').addClass('btn-success');
       $('#process-info').slideUp(function () {
