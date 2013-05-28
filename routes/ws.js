@@ -145,10 +145,12 @@ module.exports = function (app, domains, ignoredDomains) {
       'url-unknown-domains':      logRoute + '/lines-unknown-domains.log',
       'url-unknown-formats':      logRoute + '/lines-unknown-formats.log',
       'url-unqualified-ecs':      logRoute + '/lines-unqualified-ecs.log',
-      'url-pkb-miss-ecs':         logRoute + '/lines-pkb-miss-ecs.log'
+      'url-pkb-miss-ecs':         logRoute + '/lines-pkb-miss-ecs.log',
+      'Rejection-Rate':           '0%',
+      'Job-Duration':             '0s'
     };
     var report = new ReportManager(logPath + '/report.json', baseReport);
-    report.cycle(5, socket);
+    report.cycle(1, socket);
 
     res.set('Job-ID', ezRID);
     res.set('Job-Report', logRoute + '/job-report.json');
@@ -281,6 +283,29 @@ module.exports = function (app, domains, ignoredDomains) {
           }
         }
         report.inc('nb-lines-input');
+        
+        var nbRejects     = report.get('nb-lines-unknown-format');
+        nbRejects        += report.get('nb-lines-unknown-domains');
+        nbRejects        += report.get('nb-lines-unqualified-ecs');
+        var rejectionRate = (nbRejects * 100 / report.get('nb-lines-input')).toFixed(2);
+        report.set('Rejection-Rate', rejectionRate + '%');
+
+        var elapsedTime = process.hrtime(startTime);
+        elapsedTime     = elapsedTime[0] * 1e3 + elapsedTime[1] / 1e6; // milliseconds
+        
+        var timeUnit = '';
+        if (elapsedTime < 1000) {
+          timeUnit = 'ms';
+        } else if ((elapsedTime /= 1000) < 60) {
+          timeUnit = 's';
+        } else if ((elapsedTime /= 60) < 60) {
+          timeUnit = 'm';
+        } else {
+          elapsedTime /= 60;
+          timeUnit = 'h';
+        }
+
+        report.set('Job-Duration', elapsedTime.toFixed(2) + timeUnit);
       }
 
       // to handle stream spliting line by line
@@ -425,22 +450,22 @@ module.exports = function (app, domains, ignoredDomains) {
             var rejectionRate = (nbRejects * 100 / nbInputLines).toFixed(2);
             report.set('Rejection-Rate', rejectionRate + '%');
             
-            var elaspedTime = process.hrtime(startTime);
-            elaspedTime     = elaspedTime[0] * 1e3 + elaspedTime[1] / 1e6; // milliseconds
+            var elapsedTime = process.hrtime(startTime);
+            elapsedTime     = elapsedTime[0] * 1e3 + elapsedTime[1] / 1e6; // milliseconds
             
             var timeUnit = '';
-            if (elaspedTime < 1000) {
+            if (elapsedTime < 1000) {
               timeUnit = 'ms';
-            } else if ((elaspedTime /= 1000) < 60) {
+            } else if ((elapsedTime /= 1000) < 60) {
               timeUnit = 's';
-            } else if ((elaspedTime /= 60) < 60) {
+            } else if ((elapsedTime /= 60) < 60) {
               timeUnit = 'm';
             } else {
-              elaspedTime /= 60;
+              elapsedTime /= 60;
               timeUnit = 'h';
             }
 
-            report.set('Job-Duration', elaspedTime.toFixed(2) + timeUnit);
+            report.set('Job-Duration', elapsedTime.toFixed(2) + timeUnit);
             report.set('Job-Done', true);
 
             report.finalize(function () {
