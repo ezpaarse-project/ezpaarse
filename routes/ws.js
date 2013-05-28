@@ -114,7 +114,6 @@ module.exports = function (app, domains, ignoredDomains) {
     app.ezJobs[ezRID] = app.ezJobs[ezRID] || {};
     req.ezRID         = ezRID;
     var socket        = app.io.sockets.socket(req.header('Socket-ID'));
-    var startTime     = process.hrtime();
 
     // Job traces absolute url is calculated from the client headers
     // if the client request is forwarded by a reverse proxy, the x-forwarded-host
@@ -283,29 +282,6 @@ module.exports = function (app, domains, ignoredDomains) {
           }
         }
         report.inc('nb-lines-input');
-        
-        var nbRejects     = report.get('nb-lines-unknown-format');
-        nbRejects        += report.get('nb-lines-unknown-domains');
-        nbRejects        += report.get('nb-lines-unqualified-ecs');
-        var rejectionRate = (nbRejects * 100 / report.get('nb-lines-input')).toFixed(2);
-        report.set('Rejection-Rate', rejectionRate + '%');
-
-        var elapsedTime = process.hrtime(startTime);
-        elapsedTime     = elapsedTime[0] * 1e3 + elapsedTime[1] / 1e6; // milliseconds
-        
-        var timeUnit = '';
-        if (elapsedTime < 1000) {
-          timeUnit = 'ms';
-        } else if ((elapsedTime /= 1000) < 60) {
-          timeUnit = 's';
-        } else if ((elapsedTime /= 60) < 60) {
-          timeUnit = 'm';
-        } else {
-          elapsedTime /= 60;
-          timeUnit = 'h';
-        }
-
-        report.set('Job-Duration', elapsedTime.toFixed(2) + timeUnit);
       }
 
       // to handle stream spliting line by line
@@ -443,29 +419,6 @@ module.exports = function (app, domains, ignoredDomains) {
           var finalizeReport = function (callback) {
             logger.info('Finalizing report file');
             
-            var nbInputLines  = report.get('nb-lines-input');
-            var nbRejects     = report.get('nb-lines-unknown-format');
-            nbRejects        += report.get('nb-lines-unknown-domains');
-            nbRejects        += report.get('nb-lines-unqualified-ecs');
-            var rejectionRate = (nbRejects * 100 / nbInputLines).toFixed(2);
-            report.set('Rejection-Rate', rejectionRate + '%');
-            
-            var elapsedTime = process.hrtime(startTime);
-            elapsedTime     = elapsedTime[0] * 1e3 + elapsedTime[1] / 1e6; // milliseconds
-            
-            var timeUnit = '';
-            if (elapsedTime < 1000) {
-              timeUnit = 'ms';
-            } else if ((elapsedTime /= 1000) < 60) {
-              timeUnit = 's';
-            } else if ((elapsedTime /= 60) < 60) {
-              timeUnit = 'm';
-            } else {
-              elapsedTime /= 60;
-              timeUnit = 'h';
-            }
-
-            report.set('Job-Duration', elapsedTime.toFixed(2) + timeUnit);
             report.set('Job-Done', true);
 
             report.finalize(function () {

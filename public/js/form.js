@@ -30,6 +30,17 @@ socket.on('report', function (report) {
   $('#nb-lines-pkb-miss-ecs').text(report["nb-lines-pkb-miss-ecs"]);
 });
 
+$(document).on('change', '.file-input', function () {
+  
+  $('input[type=file]').each(function () {
+    if ($(this).val() == '') {
+      $(this).remove();
+    }
+  });
+
+  $('#classic-inputs').append('<input class="file-input" type="file" name="file" />');
+});
+
 $('#input-log-type').on('change', function () {
   if ($('#input-log-type').val()) {
     $('#input-log-format').prop("disabled", false);
@@ -76,11 +87,8 @@ $('#submit').on('click', function () {
 
   var data = new FormData(document.getElementById('form'));
   var test = false;
-  
-
 
   $('input[type=file]').each(function () {
-    // console.log($(this).val().split("\\").pop());
     if ($(this).val() != '') {
       test = true;
     }
@@ -153,6 +161,7 @@ $('#submit').on('click', function () {
       });
     },
     'complete': function(data) {
+      $('#report-btn').removeClass('ninja');
     }
   });
 });
@@ -162,6 +171,6 @@ $('#form').on('submit', function () {
   return false;
 });
 
-$('#reset-btn').on('click', function () {
+$('#report-btn').on('click', function () {
   location.reload();
 });
