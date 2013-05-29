@@ -32,6 +32,7 @@ socket.on('report', function (report) {
   $('#nb-lines-unknown-format').text(report["nb-lines-unknown-format"]);
   $('#nb-lines-unqualified-ecs').text(report["nb-lines-unqualified-ecs"]);
   $('#nb-lines-pkb-miss-ecs').text(report["nb-lines-pkb-miss-ecs"]);
+  $('#process-speed').text(report["process-speed"]);
 });
 
 /**

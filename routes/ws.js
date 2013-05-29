@@ -146,7 +146,8 @@ module.exports = function (app, domains, ignoredDomains) {
       'url-unqualified-ecs':      logRoute + '/lines-unqualified-ecs.log',
       'url-pkb-miss-ecs':         logRoute + '/lines-pkb-miss-ecs.log',
       'Rejection-Rate':           '0%',
-      'Job-Duration':             '0s'
+      'Job-Duration':             '0s',
+      'process-speed':            '0 lignes / seconde'
     };
     var report = new ReportManager(logPath + '/report.json', baseReport);
     report.cycle(1, socket);
