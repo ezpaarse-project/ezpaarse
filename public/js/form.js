@@ -8,6 +8,10 @@ socket.on('connected', function (id) {
   socketID = id;
 });
 
+/**
+ * On report from the socket, generate links the first time then
+ * display values of the report
+ */
 socket.on('report', function (report) {
   if (!socketStarted) {
     socketStarted = true;
@@ -30,6 +34,12 @@ socket.on('report', function (report) {
   $('#nb-lines-pkb-miss-ecs').text(report["nb-lines-pkb-miss-ecs"]);
 });
 
+/**
+ * On change in .file-input NOW and in the FUTUR
+ * (if new .file-inputs are created it will works too),
+ * delete all empty .file-inputs and create a new one.
+ * There will always be one empty input only, and in last position.
+ */
 $(document).on('change', '.file-input', function () {
   
   $('input[type=file]').each(function () {
@@ -41,6 +51,9 @@ $(document).on('change', '.file-input', function () {
   $('#classic-inputs').append('<input class="file-input" type="file" name="file" />');
 });
 
+/**
+ * When #input-log-type is not Auto, enable #input-log-format
+ */
 $('#input-log-type').on('change', function () {
   if ($('#input-log-type').val()) {
     $('#input-log-format').prop("disabled", false);
@@ -50,6 +63,11 @@ $('#input-log-type').on('change', function () {
   }
 });
 
+/**
+ * On click on the submit button, generates jobid, headers with advanced options,
+ * then test if files are submitted. If not, display an error and do nothing.
+ * Else, PUT the files with the headers.
+ */
 $('#submit').on('click', function () {
 
   jobid = uuid.v1();
@@ -121,6 +139,7 @@ $('#submit').on('click', function () {
     cache:       false,
     contentType: false,
     processData: false,
+    // before send, display filenames, generate buttons' links then display the result view
     'beforeSend': function() {
       var filename;
       $('input[type=file]').each(function () {
@@ -135,6 +154,7 @@ $('#submit').on('click', function () {
         $('#content-result').slideDown();
       });
     },
+    // on success, display the success alert
     'success': function(data) {
       $('#reset-btn').text('Réinitialiser');
       $('.progress').addClass('progress-success');
@@ -145,6 +165,7 @@ $('#submit').on('click', function () {
         $('#process-success').slideDown();
       });
     },
+    // on error, display the error alert
     'error': function(jqXHR, textStatus, errorThrown) {
       var error;
 
@@ -160,17 +181,19 @@ $('#submit').on('click', function () {
         $('.alert-error').slideDown();
       });
     },
+    // always display the report button at the end
     'complete': function(data) {
       $('#report-btn').removeClass('ninja');
     }
   });
 });
 
+// the navigator do nothing with the form
 $('#form').on('submit', function () {
 
   return false;
 });
 
-$('#report-btn').on('click', function () {
+$('#reset-btn').on('click', function () {
   location.reload();
 });
