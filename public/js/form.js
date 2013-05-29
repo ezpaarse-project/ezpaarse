@@ -18,7 +18,7 @@ socket.on('report', function (report) {
     $('#traces-btn').prop("href", report["URL-Traces"]);
     $('#link-lines-ignored-domains').prop("href", report["url-ignored-domains"]);
     $('#link-lines-unknown-domains').prop("href", report["url-unknown-domains"]);
-    $('#link-lines-unknown-format').prop("href", report["url-unknown-format"]);
+    $('#link-lines-unknown-format').prop("href", report["url-unknown-formats"]);
     $('#link-lines-unqualified-ecs').prop("href", report["url-unqualified-ecs"]);
     $('#link-lines-pkb-miss-ecs').prop("href", report["url-pkb-miss-ecs"]);
   }
