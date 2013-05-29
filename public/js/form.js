@@ -181,6 +181,13 @@ $('#submit').on('click', function () {
       $('#process-info').slideUp(function () {
         $('.alert-error').slideDown();
       });
+
+      $.getJSON(logroute + 'job-report.json', function (data) {
+        if (data['nb-ecs'] == 0) {
+          $('#get-btn').addClass('ninja');
+        }
+      });
+      //jqHXR.abort();
     },
     // always display the report button at the end
     'complete': function(data) {
