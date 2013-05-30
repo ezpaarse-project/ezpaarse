@@ -86,7 +86,7 @@
                       </div>
                     </div>
                     <div class="control-group">
-                      <label class="control-label" for="input-traces">Traces</label>
+                      <label class="control-label" for="input-traces">Traces système</label>
                       <div class="controls">
                         <select id="input-traces" name="input-traces">
                           <option value="error">Error</option>
@@ -140,29 +140,67 @@
             </div>
             <div id="report" class="span6">
               <fieldset>
-                <legend>Traitements</legend>
-                <ul>
-                  <li>Lignes en entrée : <span id="nb-lines-input"></span></li>
-                  <li>ECs générés : <span id="nb-ecs"></span></li>
-                  <li>Taux de rejet : <span id="rejection-rate"></span></li>
-                  <li>Durée du traitement : <span id="job-duration"></span></li>
-                  <li>Vitesse du traitement : <span id="process-speed"></span></li>
-                </ul>
-                Rejets :
-                <ul>
-                  <li>Lignes ignorées : <span id="nb-lines-ignored"></span></li>
-                  <a id="link-lines-ignored-domains" target="_blank"><li>Domaines ignorés : <span id="nb-lines-ignored-domains"></span></li></a>
-                  <a id="link-lines-unknown-domains" target="_blank"><li>Domaines inconnus : <span id="nb-lines-unknown-domains"></span></li></a>
-                  <a id="link-lines-unknown-format" target="_blank"><li>Formats inconnus : <span id="nb-lines-unknown-format"></span></li></a>
-                  <a id="link-lines-unqualified-ecs" target="_blank"><li>ECs non qualifiés : <span id="nb-lines-unqualified-ecs"></span></li></a>
-                  <a id="link-lines-pkb-miss-ecs" target="_blank"><li>PKBs manquantes : <span id="nb-lines-pkb-miss-ecs"></span></li></a>
-                </ul>
+                <legend>État du traitements</legend>
+                <table class="table table-bordered table-hover">
+                  <tr><td>Lignes en entrée</td><td id="nb-lines-input"></td></tr>
+                  <tr><td>ECs générés</td><td id="nb-ecs"></td></tr>
+                  <tr><td>Taux de rejet</td><td id="rejection-rate"></td></tr>
+                  <tr><td>Durée du traitement</td><td id="job-duration"></td></tr>
+                  <tr><td>Vitesse du traitement</td><td id="process-speed"></td></tr>
+                </table>
+              </fieldset>
+              <fieldset>
+                <legend>Lignes de log ignorées</legend>
+                <table class="table table-bordered table-hover">
+                  <tr>
+                    <td>Lignes ignorées</td>
+                    <td id="nb-lines-ignored"></td></tr>
+                  <tr>
+                    <td><a id="link-lines-ignored-domains" target="_blank">Domaines ignorés</a></td>
+                    <td>
+                      <a id="link-lines-ignored-domains" target="_blank">
+                        <span id="nb-lines-ignored-domains"></span>
+                      </a></td>
+                  </tr>
+                  <tr>
+                    <td><a id="link-lines-unknown-domains" target="_blank">Domaines inconnus</a></td>
+                    <td>
+                      <a id="link-lines-unknown-domains" target="_blank">
+                        <span id="nb-lines-unknown-domains"></span>
+                      </a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><a id="link-lines-unknown-format" target="_blank">Formats inconnus</a></td>
+                    <td>
+                      <a id="link-lines-unknown-format" target="_blank">
+                        <span id="nb-lines-unknown-format"></span>
+                      </a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><a id="link-lines-unqualified-ecs" target="_blank">ECs non qualifiés</a></td>
+                    <td>
+                      <a id="link-lines-unqualified-ecs" target="_blank">
+                        <span id="nb-lines-unqualified-ecs"></span>
+                      </a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><a id="link-lines-pkb-miss-ecs" target="_blank">PKBs manquantes</a></td>
+                    <td>
+                      <a id="link-lines-pkb-miss-ecs" target="_blank">
+                        <span id="nb-lines-pkb-miss-ecs"></span>
+                      </a>
+                    </td>
+                  </tr>
+                </table>
               </fieldset>
             </div>
           </div>
           <div id="result-btns" class="text-center">
             <a href="" target="_blank" id="report-btn" class="btn ninja">Rapport détaillé</a>
-            <a href="" target="_blank" id="traces-btn" class="btn">Traces</a>
+            <a href="" target="_blank" id="traces-btn" class="btn">Traces système</a>
           </div>
         </div><!-- result-content -->
 <% include footer %>
