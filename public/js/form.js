@@ -16,11 +16,11 @@ socket.on('report', function (report) {
   if (!socketStarted) {
     socketStarted = true;
     $('#traces-btn').prop("href", report["URL-Traces"]);
-    $('#link-lines-ignored-domains').prop("href", report["url-ignored-domains"]);
-    $('#link-lines-unknown-domains').prop("href", report["url-unknown-domains"]);
-    $('#link-lines-unknown-format').prop("href", report["url-unknown-formats"]);
-    $('#link-lines-unqualified-ecs').prop("href", report["url-unqualified-ecs"]);
-    $('#link-lines-pkb-miss-ecs').prop("href", report["url-pkb-miss-ecs"]);
+    $('.link-lines-ignored-domains').prop("href", report["url-ignored-domains"]);
+    $('.link-lines-unknown-domains').prop("href", report["url-unknown-domains"]);
+    $('.link-lines-unknown-format').prop("href", report["url-unknown-formats"]);
+    $('.link-lines-unqualified-ecs').prop("href", report["url-unqualified-ecs"]);
+    $('.link-lines-pkb-miss-ecs').prop("href", report["url-pkb-miss-ecs"]);
   }
   $('#nb-lines-input').text(report["nb-lines-input"]);
   $('#nb-ecs').text(report["nb-ecs"]);
