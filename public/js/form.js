@@ -153,11 +153,12 @@ $('#submit').on('click', function () {
     },
     // on success, display the success alert
     'success': function(data) {
-      $('#reset-btn').text('Réinitialiser');
+      $('#cancel-btn').text('Réinitialiser');
       $('.progress').addClass('progress-success');
       $('.progress').removeClass('active');
       $('#process-btns a').removeClass('btn-primary');
-      $('#process-btns a').addClass('btn-success');
+      $('#get-btn').addClass('btn-success');
+      $('#cancel-btn').addClass('ninja');
       $('#process-info').slideUp(function () {
         $('#process-success').slideDown();
       });
@@ -188,6 +189,7 @@ $('#submit').on('click', function () {
     // always display the report button at the end
     'complete': function(data) {
       $('#report-btn').removeClass('ninja');
+      $('#reset-btn').removeClass('ninja');
     }
   });
 });
@@ -198,6 +200,6 @@ $('#form').on('submit', function () {
   return false;
 });
 
-$('#reset-btn').on('click', function () {
+$('#cancel-btn').on('click', function () {
   location.reload();
 });
