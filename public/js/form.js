@@ -88,10 +88,6 @@ $('#submit').on('click', function () {
     headers['Accept'] = $('#input-result-format').val();
   }
 
-  if ($('#input-result-compression').val()) {
-    headers['Accept-Encoding'] = $('#input-result-compression').val();
-  }
-
   if ($('#input-traces').val()) {
     headers['Traces-Level'] = $('#input-traces').val();
   }
