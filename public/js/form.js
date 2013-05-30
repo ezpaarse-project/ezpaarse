@@ -36,6 +36,14 @@ socket.on('report', function (report) {
 });
 
 /**
+ * set the right arrow icon.
+ */
+$(".in").on('click', function () {
+  return false;
+});
+
+
+/**
  * On change in .file-input NOW and in the FUTUR
  * (if new .file-inputs are created it will works too),
  * delete all empty .file-inputs and create a new one.
