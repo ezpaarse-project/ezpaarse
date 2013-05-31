@@ -214,6 +214,7 @@ $('#submit').on('click', function () {
           $('#get-btn').addClass('ninja');
         }
       });
+      socket.disconnect();
       //jqHXR.abort();
     },
     // always display the report button at the end
