@@ -72,15 +72,12 @@ $("#collapseThree").on('hide', function () {
  * There will always be one empty input only, and in last position.
  */
 $(document).on('change', '.file-input', function () {
-  // $('.file-input').each(function (i,v) {
-  //   console.log('v', v.files[0].size);
-  // });
   var firstExt;
   var totalSize = 0;
   var extWarn = false;
   $('input[type=file]').each(function (index, input) {
     if ($(this).val() == '') {
-      $(this).remove();
+      $(this).parent().remove();
     } else {
       totalSize += input.files[0].size;
       var thisExt = $(this).val().split('.').pop();
@@ -96,7 +93,20 @@ $(document).on('change', '.file-input', function () {
   else                              { $('#ext-warn').slideUp(); }
   if (totalSize > 209715200)        { $('#big-warn').slideDown(); }
   else                              { $('#big-warn').slideUp(); }
-  $('#classic-inputs').append('<input class="file-input" type="file" name="file" />');
+
+  var newInput = '<div class="single-input">';
+  newInput    += '<button class="btn btn-danger btn-mini file-remove-button" title="remove">';
+  newInput    += '<i class="icon-remove icon-white"></i></button>';
+  newInput    += '<input class="file-input" type="file" name="file" />';
+  newInput    += '</div>';
+  $('#classic-inputs').append(newInput);
+});
+
+/**
+ * Recheck file inputs when clicking on a remove button
+ */
+$(document).on('click', '.file-remove-button', function () {
+  $(this).next().val('').change();
 });
 
 /**
