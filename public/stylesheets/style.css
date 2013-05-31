@@ -41,6 +41,10 @@ ul {
   overflow-y: scroll;
 }
 
+.notALink {
+  color: #333333;
+}
+
 .ninja {
   display: none;
 }

@@ -45,7 +45,9 @@
                 <div id="collapseThree" class="accordion-body collapse">
                   <div class="accordion-inner">
                     <div class="control-group">
-                      <label class="control-label" for="input-log-type">Type de log</label>
+                      <label class="control-label" for="input-log-type">
+                        <a class="notALink" data-toggle="tooltip" title="Plateforme d'origine des logs">Type de log <i class="icon-question-sign"></i></a>
+                      </label>
                       <div class="controls">
                         <select id="input-log-type" name="input-log-type">
                           <option value="" selected>Auto</option>
@@ -56,13 +58,17 @@
                       </div>
                     </div>
                     <div class="control-group">
-                      <label class="control-label" for="input-log-format">Format de log</label>
+                      <label class="control-label" for="input-log-format">
+                        <a class="notALink" data-toggle="tooltip" title="Format des lignes de log, du style '%h %l %u %t %s %b'. Pour plus d'infos, consulter Formats de logs dans la documentation">Format de log <i class="icon-question-sign"></i></a>
+                      </label>
                       <div class="controls">
                         <textarea id="input-log-format" name="input-log-format" row="1" disabled></textarea>
                       </div>
                     </div>
                     <div class="control-group">
-                      <label class="control-label" for="input-log-compression">Compression du fichier</label>
+                      <label class="control-label" for="input-log-compression">
+                        <a class="notALink" data-toggle="tooltip" title="Format de compression de votre/vos fichier(s)">Compression du fichier <i class="icon-question-sign"></i></a>
+                      </label>
                       <div class="controls">
                         <select id="input-log-compression" name="input-log-compression">
                           <option value="" selected>Aucune</option>
@@ -71,7 +77,9 @@
                       </div>
                     </div>
                     <div class="control-group">
-                      <label class="control-label" for="input-result-format">Format du résultat</label>
+                      <label class="control-label" for="input-result-format">
+                        <a class="notALink" data-toggle="tooltip" title="Format du fichier en résultat">Format du résultat <i class="icon-question-sign"></i></a>
+                      </label>
                       <div class="controls">
                         <select id="input-result-format" name="input-result-format">
                           <option value="text/csv" selected>CSV</option>
@@ -80,11 +88,12 @@
                       </div>
                     </div>
                     <div class="control-group">
-                      <label class="control-label" for="input-traces">Traces système</label>
+                      <label class="control-label" for="input-traces">
+                        <a class="notALink" data-toggle="tooltip" title="Niveau de verbosité des traces, du moins verbeux Error au plus verbeux Silly.">Traces système <i class="icon-question-sign"></i></a>
+                      </label>
                       <div class="controls">
                         <select id="input-traces" name="input-traces">
                           <option value="error">Error</option>
-                          <option value="debug">Debug</option>
                           <option value="warn">Warn</option>
                           <option value="info" selected>Info</option>
                           <option value="verbose">Verbose</option>
@@ -93,7 +102,9 @@
                       </div>
                     </div>
                     <div class="control-group">
-                      <label class="control-label" for="input-output-fields">Champs en sortie</label>
+                      <label class="control-label" for="input-output-fields">
+                        <a class="notALink" data-toggle="tooltip" title="Indiquer les champs (en-têtes) désirés pour le fichier de sortie. Exemple : host, login, date, domain,rtype, mime, doi, issn, eissn, platform, unitid">Champs en sortie <i class="icon-question-sign"></i></a>
+                      </label>
                       <div class="controls">
                         <input id="input-output-fields" placeholder="Ex: host,login,date" type="text"  name="input-output-fields"/>
                       </div>
@@ -124,7 +135,7 @@
             <div class="bar" style="width: 0%;">0%</div>
           </div>
           <div id="process-btns" class="text-center">
-            <a href="" target="_blank" id="get-btn" class="btn btn-primary btn-large">Télécharger</a>
+            <a href="" target="_blank" id="get-btn" class="btn btn-primary btn-large">Télécharger le résultat en <span id='result-format'></span></a>
             <a href="" id="cancel-btn" class="btn">Annuler</a>
           </div>
           <div class="row-fluid">
@@ -140,7 +151,11 @@
                 <table class="table table-bordered table-hover">
                   <tr><td>Lignes en entrée</td><td id="nb-lines-input"></td></tr>
                   <tr><td>ECs générés</td><td id="nb-ecs"></td></tr>
-                  <tr><td>Taux de rejet</td><td id="rejection-rate"></td></tr>
+                  <tr>
+                    <td>
+                      <a class="notALink" data-toggle="tooltip" title="Le nombre de lignes rejetées divisé pour cent lignes en entrée. Les lignes ignorées ne sont pas prise en compte lors de ce calcul.">Taux de rejet <i class="icon-question-sign"></i></a>
+                    </td>
+                    <td id="rejection-rate"></td></tr>
                   <tr><td>Durée du traitement</td><td id="job-duration"></td></tr>
                   <tr><td>Vitesse du traitement</td><td id="process-speed"></td></tr>
                 </table>

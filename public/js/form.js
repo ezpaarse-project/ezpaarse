@@ -143,6 +143,7 @@ $('#submit').on('click', function () {
 
   if ($('#input-result-format').val()) {
     headers['Accept'] = $('#input-result-format').val();
+    $("#result-format").text($('#input-result-format').val().split("/")[1]);
   }
 
   if ($('#input-traces').val()) {
@@ -223,14 +224,19 @@ $('#submit').on('click', function () {
     // on error, display the error alert
     'error': function(jqXHR, textStatus, errorThrown) {
       var error;
-
-      if (errorThrown) {
-        error = textStatus + ", " + errorThrown;
+      var status = jqXHR.getResponseHeader("ezPAARSE-Status");
+      var message = jqXHR.getResponseHeader("ezPAARSE-Status-Message");
+      if (message) {
+        error = status + ", " + message;
       } else {
-        error = textStatus;
+        error = status;
       }
 
-      $("#error").text(error);
+      if (status) {
+        $("#error").text(error);
+      } else {
+        $("#error").text("500, Internal Server Error");
+      }
 
       $('#process-info').slideUp(function () {
         $('.alert-error').slideDown();
