@@ -42,7 +42,9 @@
                 <div id="collapseThree" class="accordion-body collapse">
                   <div class="accordion-inner">
                     <div class="control-group">
-                      <label class="control-label" for="input-log-type">Type de log</label>
+                      <label class="control-label" for="input-log-type">
+                        <a class="notALink" data-toggle="tooltip" title="Plateforme d'origine des logs">Type de log</a>
+                      </label>
                       <div class="controls">
                         <select id="input-log-type" name="input-log-type">
                           <option value="" selected>Auto</option>
@@ -53,13 +55,17 @@
                       </div>
                     </div>
                     <div class="control-group">
-                      <label class="control-label" for="input-log-format">Format de log</label>
+                      <label class="control-label" for="input-log-format">
+                        <a class="notALink" data-toggle="tooltip" title="Format des lignes de log, du style '%h %l %u %t %s %b'. Pour plus d'infos, consulter Formats de logs dans la documentation">Format de log</a>
+                      </label>
                       <div class="controls">
                         <textarea id="input-log-format" name="input-log-format" row="1" disabled></textarea>
                       </div>
                     </div>
                     <div class="control-group">
-                      <label class="control-label" for="input-log-compression">Compression du fichier</label>
+                      <label class="control-label" for="input-log-compression">
+                        <a class="notALink" data-toggle="tooltip" title="Format de compression de votre/vos fichier(s)">Compression du fichier</a>
+                      </label>
                       <div class="controls">
                         <select id="input-log-compression" name="input-log-compression">
                           <option value="" selected>Aucune</option>
@@ -68,7 +74,9 @@
                       </div>
                     </div>
                     <div class="control-group">
-                      <label class="control-label" for="input-result-format">Format du résultat</label>
+                      <label class="control-label" for="input-result-format">
+                        <a class="notALink" data-toggle="tooltip" title="Format du fichier en résultat">Format du résultat</a>
+                      </label>
                       <div class="controls">
                         <select id="input-result-format" name="input-result-format">
                           <option value="text/csv" selected>CSV</option>
@@ -77,7 +85,9 @@
                       </div>
                     </div>
                     <div class="control-group">
-                      <label class="control-label" for="input-traces">Traces système</label>
+                      <label class="control-label" for="input-traces">
+                        <a class="notALink" data-toggle="tooltip" title="Niveau de verbosité des traces, du moins verbeux Error au plus verbeux Silly.">Traces système</a>
+                      </label>
                       <div class="controls">
                         <select id="input-traces" name="input-traces">
                           <option value="error">Error</option>
@@ -90,7 +100,9 @@
                       </div>
                     </div>
                     <div class="control-group">
-                      <label class="control-label" for="input-output-fields">Champs en sortie</label>
+                      <label class="control-label" for="input-output-fields">
+                        <a class="notALink" data-toggle="tooltip" title="Indiquer les champs (en-têtes) désirés pour le fichier de sortie. Exemple : host, login, date, domain,rtype, mime, doi, issn, eissn, platform, unitid">Champs en sortie</a>
+                      </label>
                       <div class="controls">
                         <input id="input-output-fields" placeholder="Ex: host,login,date" type="text"  name="input-output-fields"/>
                       </div>
