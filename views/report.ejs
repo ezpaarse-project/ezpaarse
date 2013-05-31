@@ -6,7 +6,11 @@
   <% for (var key in report) { %>
     <tr>
       <td><%= key %></td>
-      <td><%= report[key] %></td>
+      <% if (/^http/.test(report[key])) { %>
+        <td><a href="<%= report[key] %>"><%= report[key] %></a></td>
+      <% } else { %>
+        <td><%= report[key] %></td>
+      <% } %>
     </tr>
   <% } %>
   </table>
