@@ -133,6 +133,7 @@ $('#submit').on('click', function () {
 
   if ($('#input-result-format').val()) {
     headers['Accept'] = $('#input-result-format').val();
+    $("#result-format").text($('#input-result-format').val().split("/")[1]);
   }
 
   if ($('#input-traces').val()) {
