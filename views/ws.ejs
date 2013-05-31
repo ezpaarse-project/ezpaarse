@@ -43,7 +43,7 @@
                   <div class="accordion-inner">
                     <div class="control-group">
                       <label class="control-label" for="input-log-type">
-                        <a class="notALink" data-toggle="tooltip" title="Plateforme d'origine des logs">Type de log</a>
+                        <a class="notALink" data-toggle="tooltip" title="Plateforme d'origine des logs">Type de log <i class="icon-question-sign"></i></a>
                       </label>
                       <div class="controls">
                         <select id="input-log-type" name="input-log-type">
@@ -56,7 +56,7 @@
                     </div>
                     <div class="control-group">
                       <label class="control-label" for="input-log-format">
-                        <a class="notALink" data-toggle="tooltip" title="Format des lignes de log, du style '%h %l %u %t %s %b'. Pour plus d'infos, consulter Formats de logs dans la documentation">Format de log</a>
+                        <a class="notALink" data-toggle="tooltip" title="Format des lignes de log, du style '%h %l %u %t %s %b'. Pour plus d'infos, consulter Formats de logs dans la documentation">Format de log <i class="icon-question-sign"></i></a>
                       </label>
                       <div class="controls">
                         <textarea id="input-log-format" name="input-log-format" row="1" disabled></textarea>
@@ -64,7 +64,7 @@
                     </div>
                     <div class="control-group">
                       <label class="control-label" for="input-log-compression">
-                        <a class="notALink" data-toggle="tooltip" title="Format de compression de votre/vos fichier(s)">Compression du fichier</a>
+                        <a class="notALink" data-toggle="tooltip" title="Format de compression de votre/vos fichier(s)">Compression du fichier <i class="icon-question-sign"></i></a>
                       </label>
                       <div class="controls">
                         <select id="input-log-compression" name="input-log-compression">
@@ -75,7 +75,7 @@
                     </div>
                     <div class="control-group">
                       <label class="control-label" for="input-result-format">
-                        <a class="notALink" data-toggle="tooltip" title="Format du fichier en résultat">Format du résultat</a>
+                        <a class="notALink" data-toggle="tooltip" title="Format du fichier en résultat">Format du résultat <i class="icon-question-sign"></i></a>
                       </label>
                       <div class="controls">
                         <select id="input-result-format" name="input-result-format">
@@ -86,7 +86,7 @@
                     </div>
                     <div class="control-group">
                       <label class="control-label" for="input-traces">
-                        <a class="notALink" data-toggle="tooltip" title="Niveau de verbosité des traces, du moins verbeux Error au plus verbeux Silly.">Traces système</a>
+                        <a class="notALink" data-toggle="tooltip" title="Niveau de verbosité des traces, du moins verbeux Error au plus verbeux Silly.">Traces système <i class="icon-question-sign"></i></a>
                       </label>
                       <div class="controls">
                         <select id="input-traces" name="input-traces">
@@ -101,7 +101,7 @@
                     </div>
                     <div class="control-group">
                       <label class="control-label" for="input-output-fields">
-                        <a class="notALink" data-toggle="tooltip" title="Indiquer les champs (en-têtes) désirés pour le fichier de sortie. Exemple : host, login, date, domain,rtype, mime, doi, issn, eissn, platform, unitid">Champs en sortie</a>
+                        <a class="notALink" data-toggle="tooltip" title="Indiquer les champs (en-têtes) désirés pour le fichier de sortie. Exemple : host, login, date, domain,rtype, mime, doi, issn, eissn, platform, unitid">Champs en sortie <i class="icon-question-sign"></i></a>
                       </label>
                       <div class="controls">
                         <input id="input-output-fields" placeholder="Ex: host,login,date" type="text"  name="input-output-fields"/>
@@ -149,7 +149,11 @@
                 <table class="table table-bordered table-hover">
                   <tr><td>Lignes en entrée</td><td id="nb-lines-input"></td></tr>
                   <tr><td>ECs générés</td><td id="nb-ecs"></td></tr>
-                  <tr><td>Taux de rejet</td><td id="rejection-rate"></td></tr>
+                  <tr>
+                    <td>
+                      <a class="notALink" data-toggle="tooltip" title="Le nombre de lignes rejetées divisé pour cent lignes en entrée. Les lignes ignorées ne sont pas prise en compte lors de ce calcul.">Taux de rejet <i class="icon-question-sign"></i></a>
+                    </td>
+                    <td id="rejection-rate"></td></tr>
                   <tr><td>Durée du traitement</td><td id="job-duration"></td></tr>
                   <tr><td>Vitesse du traitement</td><td id="process-speed"></td></tr>
                 </table>
