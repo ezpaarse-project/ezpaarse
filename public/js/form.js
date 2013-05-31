@@ -42,13 +42,30 @@ socket.on('report', function (report) {
  * There will always be one empty input only, and in last position.
  */
 $(document).on('change', '.file-input', function () {
-  
-  $('input[type=file]').each(function () {
+  // $('.file-input').each(function (i,v) {
+  //   console.log('v', v.files[0].size);
+  // });
+  var firstExt;
+  var totalSize = 0;
+  var extWarn = false;
+  $('input[type=file]').each(function (index, input) {
     if ($(this).val() == '') {
       $(this).remove();
+    } else {
+      totalSize += input.files[0].size;
+      var thisExt = $(this).val().split('.').pop();
+      firstExt = firstExt || thisExt;
+      if (firstExt != thisExt) {
+        extWarn = true;
+      }
     }
   });
-
+  if (firstExt && firstExt == 'gz') { $('#input-log-compression').val('gzip'); }
+  else                              { $('#input-log-compression').val(''); }
+  if (extWarn)                      { $('#ext-warn').slideDown(); }
+  else                              { $('#ext-warn').slideUp(); }
+  if (totalSize > 209715200)        { $('#big-warn').slideDown(); }
+  else                              { $('#big-warn').slideUp(); }
   $('#classic-inputs').append('<input class="file-input" type="file" name="file" />');
 });
 
