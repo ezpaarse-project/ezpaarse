@@ -35,6 +35,36 @@ socket.on('report', function (report) {
   $('#process-speed').text(report["process-speed"]);
 });
 
+$("#collapseOne").on('show', function () {
+  $("#iOne").removeClass("icon-chevron-right");
+  $("#iOne").addClass("icon-chevron-down");
+});
+
+$("#collapseOne").on('hide', function () {
+  $("#iOne").removeClass("icon-chevron-down");
+  $("#iOne").addClass("icon-chevron-right");
+});
+
+$("#collapseTwo").on('show', function () {
+  $("#iTwo").removeClass("icon-chevron-right");
+  $("#iTwo").addClass("icon-chevron-down");
+});
+
+$("#collapseTwo").on('hide', function () {
+  $("#iTwo").removeClass("icon-chevron-down");
+  $("#iTwo").addClass("icon-chevron-right");
+});
+
+$("#collapseThree").on('show', function () {
+  $("#iThree").removeClass("icon-chevron-right");
+  $("#iThree").addClass("icon-chevron-down");
+});
+
+$("#collapseThree").on('hide', function () {
+  $("#iThree").removeClass("icon-chevron-down");
+  $("#iThree").addClass("icon-chevron-right");
+});
+
 /**
  * On change in .file-input NOW and in the FUTUR
  * (if new .file-inputs are created it will works too),
@@ -201,6 +231,7 @@ $('#submit').on('click', function () {
           $('#get-btn').addClass('ninja');
         }
       });
+      socket.disconnect();
       //jqHXR.abort();
     },
     // always display the report button at the end
