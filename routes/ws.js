@@ -217,19 +217,19 @@ module.exports = function (app, domains, ignoredDomains) {
         res.end();
         return;
       }
-      if (init.unzipReq) {
-        init.unzipReq.on('error', function (err) {
-          logger.error('Error while unziping request data');
-          if (!res.headerSent) {
-            res.set(statusHeader, 4002);
-            res.set(msgHeader, statusCodes['4002']);
-            report.set('status', 4002);
-            report.set('status-message', statusCodes['4002']);
-            res.status(400);
-          }
-          res.end();
-        });
-      }
+//       if (init.unzipReq) {
+//         init.unzipReq.on('error', function (err) {
+//           logger.error('Error while unziping request data');
+//           if (!res.headerSent) {
+//             res.set(statusHeader, 4002);
+//             res.set(msgHeader, statusCodes['4002']);
+//             report.set('status', 4002);
+//             report.set('status-message', statusCodes['4002']);
+//             res.status(400);
+//           }
+//           res.end();
+//         });
+//       }
       logger.info('Starting response');
       var request  = init.unzipReq ? init.unzipReq : req;
       var response = init.zipRes   ? init.zipRes   : res;
@@ -287,98 +287,129 @@ module.exports = function (app, domains, ignoredDomains) {
       }
 
       // to handle stream spliting line by line
-      var lazy;
-      // start parsing the req object (required to get the "part")
-      if (req.is('multipart/form-data')) {
-        //var isGzip = new RegExp('^gzip$', 'i').test(req.header('content-encoding'));
-        // form multipart stream
-        logger.info('Handling a multipart upload');
-        // to handle HTML form upload
-        lazy = new Lazy();
+      var lazy = new Lazy();
+
+      // function used to handled a log file (a part)
+      var partHandlingFunction = function (data, callback) {
+        var part   = data.part;
+        var lazy   = data.lazy;
+        var logger = data.logger;
+        var sh     = data.sh;
         
-        var partHandlingFunction = function (data, callback) {
-          var part   = data.part;
-          var lazy   = data.lazy;
-          var logger = data.logger;
-          var sh     = data.sh;
+        // if this is the latest part, tell it to lazy
+        if (part === null) {
+          logger.info('Request upload: finished reading all parts');
+          lazy.emit('end');
+          callback();
+          return;
+        }
+        
+        var pipeInputStreamToLazy = function (inputStream, part, cbEndRead) {
+          var data = '';
           
-          // if this is the latest part, tell it to lazy
-          if (part === null) {
-            logger.info('Request upload: finished reading all parts');
-            lazy.emit('end');
-            callback();
-            return;
-          }
-          
-          var pipeInputStreamToLazy = function (inputStream, part, cbEndRead) {
-            var data = '';
-            
-            sh.on('saturated', function () {
-              saturated = true;
-            });
-            sh.on('drain', function () {
-              saturated = false;
+          sh.on('saturated', function () {
+            saturated = true;
+          });
+          sh.on('drain', function () {
+            saturated = false;
+            data = inputStream.read();
+            if (data) {
+              logger.silly('Request upload: reading data ' + part.filename + ' (drain)');
+              lazy.emit('data', data);
+            }
+          });
+
+          inputStream.on('readable', function () {
+            if (!saturated) {
               data = inputStream.read();
               if (data) {
-                logger.silly('Request upload: reading data ' + part.filename + ' (drain)');
+                logger.silly('Request upload: reading data ' + part.filename + ' (readable)');
                 lazy.emit('data', data);
               }
-            });
-
-            inputStream.on('readable', function () {
-              if (!saturated) {
-                data = inputStream.read();
-                if (data) {
-                  logger.silly('Request upload: reading data ' + part.filename + ' (readable)');
-                  lazy.emit('data', data);
-                }
-              }
-            });
-            inputStream.on('end', function () {
-              logger.info('Request upload: finished reading part ' + part.filename);
-              cbEndRead();
-            });
-          };
-          
-          // check if this part is gzip encoded
-          var contentType = part.headers['content-type'] ? part.headers['content-type'] : '';
-          var isGzip = [
-            'application/gzip',
-            'application/x-gzip',
-            'application/x-gunzip',
-            'application/gzipped',
-            'application/gzip-compressed',
-            'application/x-compressed',
-            'application/x-compress',
-            'gzip/document'
-          ].indexOf(contentType) != -1;
-          if (isGzip) {
-            // Gziped
-            logger.info('Request upload: start reading a gziped encoded part [' +
-                        part.filename + '] [' + contentType + ']');
-            var unzip = require('zlib').createUnzip();
-            part.pipe(unzip);
-            pipeInputStreamToLazy(unzip, part, callback);
-            
-          } else {
-            // Not gziped
-            logger.info('Request upload: start reading a not encoded part [' +
-                        part.filename + '] [' + contentType + ']');
-            // PassThrough stream is a workaround because if
-            // "part" is directly given to pipeInputStreamToLazy
-            // data are strangely not readed
-            var PassThrough = require('stream').PassThrough;
-            var passthrough = new PassThrough();
-            part.pipe(passthrough);
-            pipeInputStreamToLazy(passthrough, part, callback);
+            }
+          });
+          inputStream.on('end', function () {
+            logger.info('Request upload: finished reading part ' + part.filename);
+            cbEndRead();
+          });
+        };
+        
+        // check if this part is gzip encoded
+        var contentType = (part.headers && part.headers['content-type'])
+                          ? part.headers['content-type'] : '';
+        var contentEncoding = (part.headers && part.headers['content-encoding'])
+                          ? part.headers['content-encoding'] : '';
+        var isGzip = [
+          'application/gzip',
+          'application/x-gzip',
+          'application/x-gunzip',
+          'application/gzipped',
+          'application/gzip-compressed',
+          'application/x-compressed',
+          'application/x-compress',
+          'gzip/document'
+        ].indexOf(contentType) != -1 ||
+        [ 'gzip' ].indexOf(contentEncoding) != -1;
+        
+        // only accepted encoding is gzip
+        if (contentEncoding && contentEncoding != 'gzip') {
+          logger.error('Content encoding not supported');
+          if (!res.headerSent) {
+            res.set(statusHeader, 4005);
+            res.set(msgHeader, statusCodes[4005]);
+            report.set('status', 4005);
+            report.set('status-message', statusCodes[4005]);
+            res.status(406);
           }
+          res.end();
+          callback();
+          return;
         }
-        // queue to handle parts one by one
-        // 1 means that it handles parts one by one ! (no mixed data)
-        var partHandlingQueue = async.queue(partHandlingFunction, 1);
 
-        // to parse multipart data it the HTTP body,
-        // we use the multiparty module
+        if (isGzip) {
+          // Gziped
+          logger.info('Request upload: start reading a gziped encoded part [' +
+                      part.filename + '] [' + contentType + ']');
+          // it also exists createGunzip, createInflate maybe useful ? ...
+          var unzip = require('zlib').createUnzip();
+          unzip.on('error', function (err) {
+            logger.error('Error while unziping request data:' + err);
+            if (!res.headerSent) {
+              res.set(statusHeader, 4002);
+              res.set(msgHeader, statusCodes['4002']);
+              report.set('status', 4002);
+              report.set('status-message', statusCodes['4002']);
+              res.status(400);
+            }
+            res.end();
+            callback();
+            return;
+          });
+          part.pipe(unzip);
+          pipeInputStreamToLazy(unzip, part, callback);
+          
+        } else {
+          // Not gziped
+          logger.info('Request upload: start reading a not encoded part [' +
+                      part.filename + '] [' + contentType + ']');
+          // PassThrough stream is a workaround because if
+          // "part" is directly given to pipeInputStreamToLazy
+          // data are strangely not readed
+          var PassThrough = require('stream').PassThrough;
+          var passthrough = new PassThrough();
+          part.pipe(passthrough);
+          pipeInputStreamToLazy(passthrough, part, callback);
+        }
+      }
+      // queue to handle parts one by one
+      // 1 means that it handles parts one by one ! (no mixed data)
+      var partHandlingQueue = async.queue(partHandlingFunction, 1);
+      
+      if (req.is('multipart/form-data')) {
+        // multipart stream handling (ex: HTML multifile form upload)
+        logger.info('Handling a multipart stream upload');
+      
+        // to parse multipart data it the HTTP body, we use the multiparty module
         var form = new multiparty.Form({
           autoFiles: false, // input files are not stored in a tmp folder
         });
@@ -392,37 +423,27 @@ module.exports = function (app, domains, ignoredDomains) {
           partHandlingQueue.push({ part: null, lazy: lazy, logger: logger, sh: sh });
         });
         form.on('error', function () {
-          logger.info('Request upload: form error');
+          logger.error('Request upload: form error');
           // tells there is no more part to handle
           partHandlingQueue.push({ part: null, lazy: lazy, logger: logger, sh: sh });
-          // TODO: generate an error to the client ?
-        });
-        form.parse(request);
-
-      } else {
-        // basic stream
-        logger.info('Handling a not encoded upload');
-        lazy = new Lazy();
-
-        sh.on('saturated', function () {
-          saturated = true;
-        });
-        sh.on('drain', function () {
-          saturated = false;
-          var data = request.read();
-          if (data) { lazy.emit('data', data); }
-        });
-
-        request.on('readable', function () {
-          if (!saturated) {
-            lazy.emit('data', request.read());
+          if (!res.headerSent) {
+            res.set(statusHeader, 4007);
+            res.set(msgHeader, statusCodes['4007']);
+            report.set('status', 4007);
+            report.set('status-message', statusCodes['4007']);
+            res.status(400);
           }
+          res.end();
         });
-        request.on('end', function () {
-          lazy.emit('end');
-        });
+        // launch the multipart parsing
+        form.parse(request);
+      } else {
+        // handle a not multipart stream: log data are embeded directly in the HTTP body
+        logger.info('Handling a direct stream upload');
+        partHandlingQueue.push({ part: request, lazy: lazy, logger: logger, sh: sh });
+        // tells there is no more part to handle
+        partHandlingQueue.push({ part: null,    lazy: lazy, logger: logger, sh: sh });
       }
-
 
       // read input stream line by line
       lazy.lines
