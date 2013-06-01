@@ -10,7 +10,7 @@ var moment        = require('moment');
 var mkdirp        = require('mkdirp');
 var stream        = require('stream');
 var winston       = require('winston');
-var formidable    = require('formidable');
+var multiparty    = require('multiparty');
 var config        = require('../config.json');
 var ECFilter      = require('../lib/ecfilter.js');
 var ECHandler     = require('../lib/echandler.js');
@@ -290,43 +290,115 @@ module.exports = function (app, domains, ignoredDomains) {
       var lazy;
       // start parsing the req object (required to get the "part")
       if (req.is('multipart/form-data')) {
+        //var isGzip = new RegExp('^gzip$', 'i').test(req.header('content-encoding'));
         // form multipart stream
-        logger.info('Handling a multipart encoded upload');
+        logger.info('Handling a multipart upload');
         // to handle HTML form upload
-        var form = new formidable.IncomingForm();
-        form.parse(request);
         lazy = new Lazy();
-        // for each part (one part is one sent file by the HTML form)
-        // connect the input stream to the lazy line by line reader
-        form.onPart = function (part) {
-          part.addListener('data', function (chunk) {
-            lazy.emit('data', chunk);
-          });
-          sh.on('saturated', function () {
-            form.pause();
-          });
-          sh.on('drain', function () {
-            form.resume();
-          });
-        };
-        // when the HTML form upload is finished
-        // tell that the HTTP response can be closed
-        form.on('end', function () {
-          lazy.emit('end');
-        });
+        
+        var partHandlingFunction = function (data, callback) {
+          var part   = data.part;
+          var lazy   = data.lazy;
+          var logger = data.logger;
+          var sh     = data.sh;
+          
+          // if this is the latest part, tell it to lazy
+          if (part === null) {
+            logger.info('Request upload: finished reading all parts');
+            lazy.emit('end');
+            callback();
+            return;
+          }
+          
+          var pipeInputStreamToLazy = function (inputStream, part, cbEndRead) {
+            var data = '';
+            
+            sh.on('saturated', function () {
+              saturated = true;
+            });
+            sh.on('drain', function () {
+              saturated = false;
+              data = inputStream.read();
+              if (data) {
+                logger.silly('Request upload: reading data ' + part.filename + ' (drain)');
+                lazy.emit('data', data);
+              }
+            });
 
-        form.on('error', function (err) {
-          logger.info('Form multipart error (nothing is done)');
-          res.status(500);
-          res.end();
-          // todo: to something ?
-          // to simulate an error, just send a long
-          // multipart request and close the request during the process
-          // ex:
-          // curl -v -X POST --no-buffer --proxy "" \
-          //      -F myfile=@./test/dataset/sd.2013-03-12.log http://localhost:59599/
-          // then CTRL+C
+            inputStream.on('readable', function () {
+              if (!saturated) {
+                data = inputStream.read();
+                if (data) {
+                  logger.silly('Request upload: reading data ' + part.filename + ' (readable)');
+                  lazy.emit('data', data);
+                }
+              }
+            });
+            inputStream.on('end', function () {
+              logger.info('Request upload: finished reading part ' + part.filename);
+              cbEndRead();
+            });
+          };
+          
+          // check if this part is gzip encoded
+          var contentType = part.headers['content-type'] ? part.headers['content-type'] : '';
+          var isGzip = [
+            'application/gzip',
+            'application/x-gzip',
+            'application/x-gunzip',
+            'application/gzipped',
+            'application/gzip-compressed',
+            'application/x-compressed',
+            'application/x-compress',
+            'gzip/document'
+          ].indexOf(contentType) != -1;
+          if (isGzip) {
+            // Gziped
+            logger.info('Request upload: start reading a gziped encoded part [' +
+                        part.filename + '] [' + contentType + ']');
+            var unzip = require('zlib').createUnzip();
+            part.pipe(unzip);
+            pipeInputStreamToLazy(unzip, part, callback);
+            
+          } else {
+            // Not gziped
+            logger.info('Request upload: start reading a not encoded part [' +
+                        part.filename + '] [' + contentType + ']');
+            // PassThrough stream is a workaround because if
+            // "part" is directly given to pipeInputStreamToLazy
+            // data are strangely not readed
+            var PassThrough = require('stream').PassThrough;
+            var passthrough = new PassThrough();
+            part.pipe(passthrough);
+            pipeInputStreamToLazy(passthrough, part, callback);
+          }
+        }
+        // queue to handle parts one by one
+        // 1 means that it handles parts one by one ! (no mixed data)
+        var partHandlingQueue = async.queue(partHandlingFunction, 1);
+
+        // to parse multipart data it the HTTP body,
+        // we use the multiparty module
+        var form = new multiparty.Form({
+          autoFiles: false, // input files are not stored in a tmp folder
         });
+        form.on('part', function (part) {
+          partHandlingQueue.push({ part: part, lazy: lazy, logger: logger, sh: sh });
+        });
+        
+        form.on('close', function () {
+          logger.info('Request upload: form closed');
+          // tells there is no more part to handle
+          partHandlingQueue.push({ part: null, lazy: lazy, logger: logger, sh: sh });
+        });
+        form.on('error', function () {
+          logger.info('Request upload: form error');
+          // tells there is no more part to handle
+          partHandlingQueue.push({ part: null, lazy: lazy, logger: logger, sh: sh });
+          // TODO: generate an error to the client ?
+        });
+        form.parse(request);
+
       } else {
         // basic stream
         logger.info('Handling a not encoded upload');
