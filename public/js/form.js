@@ -24,6 +24,9 @@ socket.on('report', function (report) {
   }
   $('#nb-lines-input').text(report["nb-lines-input"]);
   $('#nb-ecs').text(report["nb-ecs"]);
+  $('#platforms').text(report["platforms"]);
+  $('#mime-PDF').text(report["mime-PDF"]);
+  $('#mime-HTML').text(report["mime-HTML"]);
   $('#rejection-rate').text(report["Rejection-Rate"]);
   $('#job-duration').text(report["Job-Duration"]);
   $('#nb-lines-ignored').text(report["nb-lines-ignored-domains"]);
