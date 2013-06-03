@@ -6,7 +6,7 @@ var socketStarted = false;
 
 $(document).on('ready' ,function () {
 
-  if (!FormData) {
+  if (typeof FormData === "undefined") {
     $("#content-form").addClass("ninja");
     $("#navigator-alert").removeClass("ninja");
   }
