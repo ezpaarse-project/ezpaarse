@@ -7,6 +7,10 @@ ul {
   list-style-type: none;
 }
 
+#banner {
+  width: 400px;
+}
+
 /* Custom container */
 .container-narrow {
   margin: 0 auto;
@@ -66,6 +70,10 @@ ul {
 #submitted-files > fieldset > ul {
   max-height: 220px;
   overflow-y: auto;
+}
+
+.table td.result-value {
+  text-align: right;
 }
 
 #result-btns a {

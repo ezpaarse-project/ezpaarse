@@ -3,7 +3,7 @@
           <div class="row-fluid">
             <form id="form" class="form-horizontal span6" enctype="multipart/form-data">
               <div class="accordion" id="pane-file-select">
-                <div class="accordion-group">
+                <div class="accordion-group ninja">
                   <div class="accordion-heading">
                     <a class="accordion-toggle" data-toggle="collapse" data-parent="#pane-file-select" href="#collapseOne">
                       <i id="iOne" class="icon-chevron-right"></i> Traiter des fichiers du serveur
@@ -25,7 +25,7 @@
                     <div class="accordion-inner">
                       <div id="classic-inputs">
                         <div class="single-input">
-                          <button class="btn btn-danger btn-mini file-remove-button" title="remove"><i class="icon-remove icon-white"></i></button>
+                          <button class="btn btn-danger btn-mini file-remove-button ninja" title="remove"><i class="icon-remove icon-white"></i></button>
                           <input class='file-input' type="file" name="file" multiple/>
                         </div>
                       </div>
@@ -137,18 +137,18 @@
               <fieldset>
                 <legend>État du traitement</legend>
                 <table class="table table-bordered table-hover">
-                  <tr><td>Lignes en entrée</td><td id="nb-lines-input"></td></tr>
-                  <tr><td><abbr title="Évènements de Consultations">ECs</abbr> générés</td><td id="nb-ecs"></td></tr>
-                  <tr><td>Plateformes reconnues</td><td id="platforms"></td></tr>
-                  <tr><td>PDF</td><td id="mime-PDF"></td></tr>
-                  <tr><td>HTML</td><td id="mime-HTML"></td></tr>
+                  <tr><td>Lignes en entrée</td><td id="nb-lines-input" class="result-value"></td></tr>
+                  <tr><td><abbr title="Évènements de Consultations">ECs</abbr> générés</td><td id="nb-ecs" class="result-value"></td></tr>
+                  <tr><td>Plateformes reconnues</td><td id="platforms" class="result-value"></td></tr>
+                  <tr><td>PDF</td><td id="mime-PDF" class="result-value"></td></tr>
+                  <tr><td>HTML</td><td id="mime-HTML" class="result-value"></td></tr>
                   <tr>
                     <td>
-                      <a class="notALink" data-toggle="tooltip" title="Le nombre de lignes rejetées pour cent lignes en entrée. A noter que les lignes ignorées (jpg, js, css ...) ne sont pas prise en compte lors de ce calcul.">Taux de rejet <i class="icon-question-sign"></i></a>
+                      <a class="notALink" data-toggle="tooltip" title="Le nombre de lignes rejetées pour cent lignes en entrée. A noter que les lignes ignorées (jpg, js, css ...) ne sont pas prise en compte lors de ce calcul.">Taux de filtrage<i class="icon-question-sign"></i></a>
                     </td>
-                    <td id="rejection-rate"></td></tr>
-                  <tr><td>Durée du traitement</td><td id="job-duration"></td></tr>
-                  <tr><td>Vitesse du traitement</td><td id="process-speed"></td></tr>
+                    <td id="rejection-rate" class="result-value"></td></tr>
+                  <tr><td>Durée du traitement</td><td id="job-duration" class="result-value"></td></tr>
+                  <tr><td>Vitesse du traitement</td><td id="process-speed" class="result-value"></td></tr>
                 </table>
               </fieldset>
               <fieldset>
@@ -156,17 +156,17 @@
                 <table class="table table-bordered table-hover">
                   <tr>
                     <td>Lignes ignorées</td>
-                    <td id="nb-lines-ignored"></td></tr>
+                    <td id="nb-lines-ignored" class="result-value"></td></tr>
                   <tr>
                     <td><a class="link-lines-ignored-domains" target="_blank">Domaines ignorés</a></td>
-                    <td>
+                    <td class="result-value">
                       <a class="link-lines-ignored-domains" target="_blank">
                         <span id="nb-lines-ignored-domains"></span>
                       </a></td>
                   </tr>
                   <tr>
                     <td><a class="link-lines-unknown-domains" target="_blank">Domaines inconnus</a></td>
-                    <td>
+                    <td class="result-value">
                       <a class="link-lines-unknown-domains" target="_blank">
                         <span id="nb-lines-unknown-domains"></span>
                       </a>
@@ -174,7 +174,7 @@
                   </tr>
                   <tr>
                     <td><a class="link-lines-unknown-format" target="_blank">Formats inconnus</a></td>
-                    <td>
+                    <td class="result-value">
                       <a class="link-lines-unknown-format" target="_blank">
                         <span id="nb-lines-unknown-format"></span>
                       </a>
@@ -182,7 +182,7 @@
                   </tr>
                   <tr>
                     <td><a class="link-lines-unqualified-ecs" target="_blank">ECs non qualifiés</a></td>
-                    <td>
+                    <td class="result-value">
                       <a class="link-lines-unqualified-ecs" target="_blank">
                         <span id="nb-lines-unqualified-ecs"></span>
                       </a>
@@ -190,7 +190,7 @@
                   </tr>
                   <tr>
                     <td><a class="link-lines-pkb-miss-ecs" target="_blank">PKBs manquantes</a></td>
-                    <td>
+                    <td class="result-value">
                       <a id="link-lines-pkb-miss-ecs" target="_blank">
                         <span id="nb-lines-pkb-miss-ecs"></span>
                       </a>
@@ -206,4 +206,31 @@
             <a href="" id="reset-btn" class="btn ninja">Nouveau traitement</a>
           </div>
         </div><!-- result-content -->
+        <div id="navigator-alert" class="text-center ninja">
+          <h2>
+            Votre navigateur n'est pas compatible avec ezPAARSE.
+          </h2>
+          <h2>
+            Nous vous conseillons d'utiliser :
+          </h2>
+          <div class="span2"></div>
+          <div class="row-fluid">
+            <div class="span3">
+              <a href="http://www.google.fr/intl/fr/chrome/browser/">
+                <h2>Chrome</h2>
+                <img src="/img/chrome.jpg" alt="logo chrome">
+              </a>
+            </div>
+            <div class="span1">
+              <h2>ou</h2>
+            </div>
+            <div class="span3">
+              <a href="http://www.mozilla.org/fr/firefox/new/">
+                <h2>Firefox</h2>
+                <img src="/img/firefox.jpg" alt="logo firefox">
+              </a>
+            </div>
+            <div class="span3"></div>
+          </div>  
+        </div>
 <% include footer %>
