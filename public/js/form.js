@@ -75,32 +75,26 @@ $("#collapseThree").on('hide', function () {
  * There will always be one empty input only, and in last position.
  */
 $(document).on('change', '.file-input', function () {
-  var firstExt;
   var totalSize = 0;
-  var extWarn = false;
   $('input[type=file]').each(function (index, input) {
     if ($(this).val() == '') {
       $(this).parent().remove();
     } else {
-      totalSize += input.files[0].size;
-      var thisExt = $(this).val().split('.').pop();
-      firstExt = firstExt || thisExt;
-      if (firstExt != thisExt) {
-        extWarn = true;
+      for(var i = 0; i < input.files.length; i++) {
+        totalSize += input.files[i].size;
       }
     }
   });
-  if (firstExt && firstExt == 'gz') { $('#input-log-compression').val('gzip'); }
-  else                              { $('#input-log-compression').val(''); }
-  if (extWarn)                      { $('#ext-warn').slideDown(); }
-  else                              { $('#ext-warn').slideUp(); }
-  if (totalSize > 209715200)        { $('#big-warn').slideDown(); }
-  else                              { $('#big-warn').slideUp(); }
+  if (totalSize > 209715200) {
+    $('#big-warn').slideDown();
+  } else {
+    $('#big-warn').slideUp();
+  }
 
   var newInput = '<div class="single-input">';
   newInput    += '<button class="btn btn-danger btn-mini file-remove-button" title="remove">';
   newInput    += '<i class="icon-remove icon-white"></i></button>';
-  newInput    += '<input class="file-input" type="file" name="file" />';
+  newInput    += '<input class="file-input" type="file" name="file" multiple/>';
   newInput    += '</div>';
   $('#classic-inputs').append(newInput);
 });
@@ -200,9 +194,12 @@ $('#submit').on('click', function () {
     // before send, display filenames, generate buttons' links then display the result view
     'beforeSend': function() {
       var filename;
-      $('input[type=file]').each(function () {
-        filename = $(this).val().split("\\").pop();
-        $('#submitted-files fieldset ul').append('<li>' + filename + '</li>');
+      $('input[type=file]').each(function (index, input) {
+        for(var i = 0; i < input.files.length; i++) {
+          console.log(input.files[i]);
+          filename = input.files[i].name;
+          $('#submitted-files fieldset ul').append('<li>' + filename + '</li>');
+        }
       });
       $('#get-btn').prop('href', host + '/' + jobid);
 
