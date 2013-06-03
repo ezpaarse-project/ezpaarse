@@ -128,30 +128,36 @@ module.exports = function (app, domains, ignoredDomains) {
     mkdirp.sync(logPath);
 
     var baseReport = {
-      'Job-ID': ezRID,
-      'result-file-ecs': logRoute,
-      'Job-Done': false,
-      'Job-Date': moment().format(),
-      'URL-Traces': logRoute + '/job-traces.log',
-      'nb-ecs':                   0,
-      'nb-lines-input':           0,
-      'platforms':                0,
-      'mime-PDF':                 0,
-      'mime-HTML':                0,
-      'nb-lines-ignored':         0,
-      'nb-lines-ignored-domains': 0,
-      'nb-lines-unknown-domains': 0,
-      'nb-lines-unknown-format':  0,
-      'nb-lines-unqualified-ecs': 0,
-      'nb-lines-pkb-miss-ecs':    0,
-      'url-ignored-domains':      logRoute + '/lines-ignored-domains.log',
-      'url-unknown-domains':      logRoute + '/lines-unknown-domains.log',
-      'url-unknown-formats':      logRoute + '/lines-unknown-formats.log',
-      'url-unqualified-ecs':      logRoute + '/lines-unqualified-ecs.log',
-      'url-pkb-miss-ecs':         logRoute + '/lines-pkb-miss-ecs.log',
-      'Rejection-Rate':           '0 %',
-      'Job-Duration':             '0 s',
-      'process-speed':            '0 lignes/s'
+      'general': {
+        'Job-ID': ezRID,
+        'Job-Date': moment().format(),
+        'Job-Done': false,
+        'result-file-ecs': logRoute,
+        'URL-Traces': logRoute + '/job-traces.log',
+        'nb-ecs':                   0,
+        'nb-lines-input':           0,
+        'Rejection-Rate':           '0 %',
+        'Job-Duration':             '0 s',
+        'process-speed':            '0 lignes/s'
+      },
+      'rejets': {
+        'nb-lines-ignored':         0,
+        'nb-lines-ignored-domains': 0,
+        'nb-lines-unknown-domains': 0,
+        'nb-lines-unknown-format':  0,
+        'nb-lines-unqualified-ecs': 0,
+        'nb-lines-pkb-miss-ecs':    0,
+        'url-ignored-domains':      logRoute + '/lines-ignored-domains.log',
+        'url-unknown-domains':      logRoute + '/lines-unknown-domains.log',
+        'url-unknown-formats':      logRoute + '/lines-unknown-formats.log',
+        'url-unqualified-ecs':      logRoute + '/lines-unqualified-ecs.log',
+        'url-pkb-miss-ecs':         logRoute + '/lines-pkb-miss-ecs.log'
+      },
+      'stats': {
+        'platforms':                0,
+        'mime-PDF':                 0,
+        'mime-HTML':                0
+      }
     };
     var report = new ReportManager(logPath + '/report.json', baseReport);
     report.cycle(1, socket);
@@ -203,8 +209,8 @@ module.exports = function (app, domains, ignoredDomains) {
       logger.warn("No content sent by the client");
       res.set(statusHeader, 4001);
       res.set(msgHeader, statusCodes['4001']);
-      report.set('status', 4001);
-      report.set('status-message', statusCodes['4001']);
+      report.set('general', 'status', 4001);
+      report.set('general', 'status-message', statusCodes['4001']);
       res.status(400);
       res.end();
       return;
@@ -214,8 +220,8 @@ module.exports = function (app, domains, ignoredDomains) {
       if (err) {
         res.set(statusHeader, err.ezStatus);
         res.set(msgHeader, statusCodes[err.ezStatus]);
-        report.set('status', err.ezStatus);
-        report.set('status-message', statusCodes[err.ezStatus]);
+        report.set('general', 'status', err.ezStatus);
+        report.set('general', 'status-message', statusCodes[err.ezStatus]);
         res.status(err.status);
         res.end();
         return;
@@ -226,8 +232,8 @@ module.exports = function (app, domains, ignoredDomains) {
 //           if (!res.headerSent) {
 //             res.set(statusHeader, 4002);
 //             res.set(msgHeader, statusCodes['4002']);
-//             report.set('status', 4002);
-//             report.set('status-message', statusCodes['4002']);
+//             report.set('general', 'status', 4002);
+//             report.set('general', 'status-message', statusCodes['4002']);
 //             res.status(400);
 //           }
 //           res.end();
@@ -265,28 +271,28 @@ module.exports = function (app, domains, ignoredDomains) {
               } else {
                 logger.silly('No parser found for : ' + ec.domain);
                 sh.write('unknownDomains', line + '\n');
-                report.inc('nb-lines-unknown-domains');
+                report.inc('rejets', 'nb-lines-unknown-domains');
               }
             } else {
               logger.silly('The domain is ignored');
               sh.write('ignoredDomains', line + '\n');
-              report.inc('nb-lines-ignored-domains');
+              report.inc('rejets', 'nb-lines-ignored-domains');
             }
           } else {
             logger.silly('Line was ignored');
-            report.inc('nb-lines-ignored');
+            report.inc('rejets', 'nb-lines-ignored');
           }
         } else {
           logger.silly('Line format was not recognized');
           sh.write('unknownFormats', line + '\n');
-          report.inc('nb-lines-unknown-format');
+          report.inc('rejets', 'nb-lines-unknown-format');
           if (!treatedLines) {
             badBeginning = true;
             lazy.emit('end');
             logger.warn('Couln\'t recognize first line : aborted.', {line: line});
           }
         }
-        report.inc('nb-lines-input');
+        report.inc('general', 'nb-lines-input');
       }
 
       // to handle stream spliting line by line
@@ -352,7 +358,7 @@ module.exports = function (app, domains, ignoredDomains) {
           'application/x-compress',
           'gzip/document'
         ].indexOf(contentType) != -1 ||
-        [ 'gzip' ].indexOf(contentEncoding) != -1;
+        ['gzip'].indexOf(contentEncoding) != -1;
         
         // only accepted encoding is gzip
         if (contentEncoding && contentEncoding != 'gzip') {
@@ -360,8 +366,8 @@ module.exports = function (app, domains, ignoredDomains) {
           if (!res.headerSent) {
             res.set(statusHeader, 4005);
             res.set(msgHeader, statusCodes[4005]);
-            report.set('status', 4005);
-            report.set('status-message', statusCodes[4005]);
+            report.set('general', 'status', 4005);
+            report.set('general', 'status-message', statusCodes[4005]);
             res.status(406);
           }
           res.end();
@@ -380,8 +386,8 @@ module.exports = function (app, domains, ignoredDomains) {
             if (!res.headerSent) {
               res.set(statusHeader, 4002);
               res.set(msgHeader, statusCodes['4002']);
-              report.set('status', 4002);
-              report.set('status-message', statusCodes['4002']);
+              report.set('general', 'status', 4002);
+              report.set('general', 'status-message', statusCodes['4002']);
               res.status(400);
             }
             res.end();
@@ -432,8 +438,8 @@ module.exports = function (app, domains, ignoredDomains) {
           if (!res.headerSent) {
             res.set(statusHeader, 4007);
             res.set(msgHeader, statusCodes['4007']);
-            report.set('status', 4007);
-            report.set('status-message', statusCodes['4007']);
+            report.set('general', 'status', 4007);
+            report.set('general', 'status-message', statusCodes['4007']);
             res.status(400);
           }
           res.end();
@@ -464,8 +470,8 @@ module.exports = function (app, domains, ignoredDomains) {
           try {
             res.set(statusHeader, 4003);
             res.set(msgHeader, statusCodes['4003']);
-            report.set('status', 4003);
-            report.set('status-message', statusCodes['4003']);
+            report.set('general', 'status', 4003);
+            report.set('general', 'status-message', statusCodes['4003']);
           } catch (e) {}
           res.status(400);
           res.end();
@@ -493,7 +499,7 @@ module.exports = function (app, domains, ignoredDomains) {
         }
         writer.write(ec);
         writtenECs = true;
-        report.inc('nb-ecs');
+        report.inc('general', 'nb-ecs');
       });
 
       handler.on('drain', function () {
@@ -505,8 +511,8 @@ module.exports = function (app, domains, ignoredDomains) {
 
 
           logger.info("Terminating response");
-          logger.info(report.get('nb-lines-input') + " lines were read");
-          logger.info(report.get('nb-ecs') + " ECs were created");
+          logger.info(report.get('general', 'nb-lines-input') + " lines were read");
+          logger.info(report.get('general', 'nb-ecs') + " ECs were created");
 
           var closeWinston = function (callback) {
             logger.info('Closing trace loggers');
@@ -517,7 +523,7 @@ module.exports = function (app, domains, ignoredDomains) {
           var finalizeReport = function (callback) {
             logger.info('Finalizing report file');
             
-            report.set('Job-Done', true);
+            report.set('general', 'Job-Done', true);
 
             report.finalize(function () {
               logger.info('Closing reject log streams');

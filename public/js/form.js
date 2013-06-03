@@ -13,29 +13,33 @@ socket.on('connected', function (id) {
  * display values of the report
  */
 socket.on('report', function (report) {
+  var general = report.general;
+  var stats   = report.stats;
+  var rejets  = report.rejets;
+
   if (!socketStarted) {
     socketStarted = true;
-    $('#traces-btn').prop("href", report["URL-Traces"]);
-    $('.link-lines-ignored-domains').prop("href", report["url-ignored-domains"]);
-    $('.link-lines-unknown-domains').prop("href", report["url-unknown-domains"]);
-    $('.link-lines-unknown-format').prop("href", report["url-unknown-formats"]);
-    $('.link-lines-unqualified-ecs').prop("href", report["url-unqualified-ecs"]);
-    $('.link-lines-pkb-miss-ecs').prop("href", report["url-pkb-miss-ecs"]);
+    $('#traces-btn').prop("href", general["URL-Traces"]);
+    $('.link-lines-ignored-domains').prop("href", rejets["url-ignored-domains"]);
+    $('.link-lines-unknown-domains').prop("href", rejets["url-unknown-domains"]);
+    $('.link-lines-unknown-format').prop("href", rejets["url-unknown-formats"]);
+    $('.link-lines-unqualified-ecs').prop("href", rejets["url-unqualified-ecs"]);
+    $('.link-lines-pkb-miss-ecs').prop("href", rejets["url-pkb-miss-ecs"]);
   }
-  $('#nb-lines-input').text(report["nb-lines-input"]);
-  $('#nb-ecs').text(report["nb-ecs"]);
-  $('#platforms').text(report["platforms"]);
-  $('#mime-PDF').text(report["mime-PDF"]);
-  $('#mime-HTML').text(report["mime-HTML"]);
-  $('#rejection-rate').text(report["Rejection-Rate"]);
-  $('#job-duration').text(report["Job-Duration"]);
-  $('#nb-lines-ignored').text(report["nb-lines-ignored-domains"]);
-  $('#nb-lines-ignored-domains').text(report["nb-lines-ignored-domains"]);
-  $('#nb-lines-unknown-domains').text(report["nb-lines-unknown-domains"]);
-  $('#nb-lines-unknown-format').text(report["nb-lines-unknown-format"]);
-  $('#nb-lines-unqualified-ecs').text(report["nb-lines-unqualified-ecs"]);
-  $('#nb-lines-pkb-miss-ecs').text(report["nb-lines-pkb-miss-ecs"]);
-  $('#process-speed').text(report["process-speed"]);
+  $('#nb-lines-input').text(general["nb-lines-input"]);
+  $('#nb-ecs').text(general["nb-ecs"]);
+  $('#platforms').text(stats["platforms"]);
+  $('#mime-PDF').text(stats["mime-PDF"]);
+  $('#mime-HTML').text(stats["mime-HTML"]);
+  $('#rejection-rate').text(general["Rejection-Rate"]);
+  $('#job-duration').text(general["Job-Duration"]);
+  $('#nb-lines-ignored').text(rejets["nb-lines-ignored"]);
+  $('#nb-lines-ignored-domains').text(rejets["nb-lines-ignored-domains"]);
+  $('#nb-lines-unknown-domains').text(rejets["nb-lines-unknown-domains"]);
+  $('#nb-lines-unknown-format').text(rejets["nb-lines-unknown-format"]);
+  $('#nb-lines-unqualified-ecs').text(rejets["nb-lines-unqualified-ecs"]);
+  $('#nb-lines-pkb-miss-ecs').text(rejets["nb-lines-pkb-miss-ecs"]);
+  $('#process-speed').text(general["process-speed"]);
 });
 
 $("#collapseOne").on('show', function () {

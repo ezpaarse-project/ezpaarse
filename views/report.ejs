@@ -3,15 +3,19 @@
 <% if (report) { %>
   <h1>Rapport d'exécution</h1>
   <table class="table table-bordered table-hover">
-  <% for (var key in report) { %>
+  <% for (var group in report) { %>
+    <tr><th colspan="2"><%= group[0].toUpperCase() + group.substring(1) %></th></tr>
+    
+    <% for (var key in report[group]) { %>
     <tr>
       <td><%= key %></td>
-      <% if (/^http/.test(report[key])) { %>
-        <td><a href="<%= report[key] %>"><%= report[key] %></a></td>
+      <% if (/^http/.test(report[group][key])) { %>
+        <td><a href="<%= report[key] %>"><%= report[group][key] %></a></td>
       <% } else { %>
-        <td><%= report[key] %></td>
+        <td><%= report[group][key] %></td>
       <% } %>
     </tr>
+    <% } %>
   <% } %>
   </table>
 <% } else { %>
