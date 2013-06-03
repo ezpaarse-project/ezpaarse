@@ -92,6 +92,7 @@ $(document).on('ready' ,function () {
         }
       }
     });
+    $('.btn-danger').removeClass('ninja');
     if (totalSize > 209715200) {
       $('#big-warn').slideDown();
     } else {
@@ -99,7 +100,7 @@ $(document).on('ready' ,function () {
     }
 
     var newInput = '<div class="single-input">';
-    newInput    += '<button class="btn btn-danger btn-mini file-remove-button" title="remove">';
+    newInput    += '<button class="btn btn-danger btn-mini file-remove-button ninja" title="remove">';
     newInput    += '<i class="icon-remove icon-white"></i></button>';
     newInput    += '<input class="file-input" type="file" name="file" multiple/>';
     newInput    += '</div>';
