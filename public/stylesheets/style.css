@@ -7,6 +7,10 @@ ul {
   list-style-type: none;
 }
 
+#banner {
+  width: 400px;
+}
+
 /* Custom container */
 .container-narrow {
   margin: 0 auto;
