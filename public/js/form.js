@@ -134,10 +134,6 @@ $('#submit').on('click', function () {
     headers['Log-Format-' + $('#input-log-type').val()] = $('#input-log-format').val();
   }
 
-  if ($('#input-log-compression').val()) {
-    headers['Content-Encoding'] = $('#input-log-compression').val();
-  }
-
   if ($('#input-result-format').val()) {
     headers['Accept'] = $('#input-result-format').val();
     $("#result-format").text($('#input-result-format').val().split("/")[1]);
