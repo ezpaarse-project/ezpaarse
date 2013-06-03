@@ -137,18 +137,18 @@
               <fieldset>
                 <legend>État du traitement</legend>
                 <table class="table table-bordered table-hover">
-                  <tr><td>Lignes en entrée</td><td id="nb-lines-input"></td></tr>
-                  <tr><td><abbr title="Évènements de Consultations">ECs</abbr> générés</td><td id="nb-ecs"></td></tr>
-                  <tr><td>Plateformes reconnues</td><td id="platforms"></td></tr>
-                  <tr><td>PDF</td><td id="mime-PDF"></td></tr>
-                  <tr><td>HTML</td><td id="mime-HTML"></td></tr>
+                  <tr><td>Lignes en entrée</td><td id="nb-lines-input" class="result-value"></td></tr>
+                  <tr><td><abbr title="Évènements de Consultations">ECs</abbr> générés</td><td id="nb-ecs" class="result-value"></td></tr>
+                  <tr><td>Plateformes reconnues</td><td id="platforms" class="result-value"></td></tr>
+                  <tr><td>PDF</td><td id="mime-PDF" class="result-value"></td></tr>
+                  <tr><td>HTML</td><td id="mime-HTML" class="result-value"></td></tr>
                   <tr>
                     <td>
                       <a class="notALink" data-toggle="tooltip" title="Le nombre de lignes rejetées pour cent lignes en entrée. A noter que les lignes ignorées (jpg, js, css ...) ne sont pas prise en compte lors de ce calcul.">Taux de rejet <i class="icon-question-sign"></i></a>
                     </td>
-                    <td id="rejection-rate"></td></tr>
-                  <tr><td>Durée du traitement</td><td id="job-duration"></td></tr>
-                  <tr><td>Vitesse du traitement</td><td id="process-speed"></td></tr>
+                    <td id="rejection-rate" class="result-value"></td></tr>
+                  <tr><td>Durée du traitement</td><td id="job-duration" class="result-value"></td></tr>
+                  <tr><td>Vitesse du traitement</td><td id="process-speed" class="result-value"></td></tr>
                 </table>
               </fieldset>
               <fieldset>
@@ -156,17 +156,17 @@
                 <table class="table table-bordered table-hover">
                   <tr>
                     <td>Lignes ignorées</td>
-                    <td id="nb-lines-ignored"></td></tr>
+                    <td id="nb-lines-ignored" class="result-value"></td></tr>
                   <tr>
                     <td><a class="link-lines-ignored-domains" target="_blank">Domaines ignorés</a></td>
-                    <td>
+                    <td class="result-value">
                       <a class="link-lines-ignored-domains" target="_blank">
                         <span id="nb-lines-ignored-domains"></span>
                       </a></td>
                   </tr>
                   <tr>
                     <td><a class="link-lines-unknown-domains" target="_blank">Domaines inconnus</a></td>
-                    <td>
+                    <td class="result-value">
                       <a class="link-lines-unknown-domains" target="_blank">
                         <span id="nb-lines-unknown-domains"></span>
                       </a>
@@ -174,7 +174,7 @@
                   </tr>
                   <tr>
                     <td><a class="link-lines-unknown-format" target="_blank">Formats inconnus</a></td>
-                    <td>
+                    <td class="result-value">
                       <a class="link-lines-unknown-format" target="_blank">
                         <span id="nb-lines-unknown-format"></span>
                       </a>
@@ -182,7 +182,7 @@
                   </tr>
                   <tr>
                     <td><a class="link-lines-unqualified-ecs" target="_blank">ECs non qualifiés</a></td>
-                    <td>
+                    <td class="result-value">
                       <a class="link-lines-unqualified-ecs" target="_blank">
                         <span id="nb-lines-unqualified-ecs"></span>
                       </a>
@@ -190,7 +190,7 @@
                   </tr>
                   <tr>
                     <td><a class="link-lines-pkb-miss-ecs" target="_blank">PKBs manquantes</a></td>
-                    <td>
+                    <td class="result-value">
                       <a id="link-lines-pkb-miss-ecs" target="_blank">
                         <span id="nb-lines-pkb-miss-ecs"></span>
                       </a>

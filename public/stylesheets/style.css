@@ -72,6 +72,10 @@ ul {
   overflow-y: auto;
 }
 
+.table td.result-value {
+  text-align: right;
+}
+
 #result-btns a {
   width: 150px;
   margin-right: 5px;

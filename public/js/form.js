@@ -200,7 +200,6 @@ $(document).on('ready' ,function () {
         var filename;
         $('input[type=file]').each(function (index, input) {
           for(var i = 0; i < input.files.length; i++) {
-            console.log(input.files[i]);
             filename = input.files[i].name;
             $('#submitted-files fieldset ul').append('<li>' + filename + '</li>');
           }
