@@ -80,6 +80,30 @@ $(document).on('ready' ,function () {
   });
 
   /**
+   * Drag and drop
+   */
+  function fileDragHover(e) {
+    e.stopPropagation();
+    e.preventDefault();
+    e.target.className = (e.type == "dragover" ? "hover" : "");
+    if (e.type == "dragover") {
+      $(e.target).text("Déposer les fichiers");
+    } else {
+      $(e.target).text("Glisser vos fichiers ici");
+    }
+  }
+  var filedrag = $('#dropbox');
+  filedrag.on("dragover", fileDragHover);
+  filedrag.on("dragleave", fileDragHover);
+  filedrag.on("drop", function (e) {
+    e.stopPropagation();
+    e.preventDefault();
+    e.target.className = "";
+    $(e.target).text("Glisser vos fichiers ici");
+    $('.file-input').last().prop('files', e.originalEvent.dataTransfer.files);
+  });
+
+  /**
    * On change in .file-input NOW and in the FUTUR
    * (if new .file-inputs are created it will works too),
    * delete all empty .file-inputs and create a new one.
