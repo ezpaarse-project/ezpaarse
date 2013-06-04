@@ -89,7 +89,7 @@ $(document).on('ready' ,function () {
     if (e.type == "dragover") {
       $(e.target).text("Déposer les fichiers");
     } else {
-      $(e.target).text("Glisser vos fichiers ici");
+      $(e.target).text("Glissez vos fichiers ici");
     }
   }
   var filedrag = $('#dropbox');
