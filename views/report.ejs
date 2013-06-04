@@ -10,7 +10,7 @@
     <tr>
       <td><%= key %></td>
       <% if (/^http/.test(report[group][key])) { %>
-        <td><a href="<%= report[key] %>"><%= report[group][key] %></a></td>
+        <td><a href="<%= report[group][key] %>"><%= report[group][key] %></a></td>
       <% } else { %>
         <td><%= report[group][key] %></td>
       <% } %>
