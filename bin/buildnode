@@ -3,7 +3,7 @@
 # Download (and compile if necessary) nodejs and npm
 #
 
-set -e
+#set -e
 
 EZPAARSE_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 NODEJS_VERSION=$(expr "`cat $EZPAARSE_PATH/config.json`" : '.*"EZPAARSE_NODEJS_VERSION":[ ]*"\([^"]*\)"')
