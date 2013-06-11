@@ -126,7 +126,7 @@ Les bases de connaissance éditeur sont enregistrées sous forme de fichier CSV 
 
 ## Effectuer un test en particulier ##
 
-Pour effectuer les tests d'une fonctionalité précise, il faut utiliser mocha et indiquer en paramètre le chemin du fichier de tests sans l'extension.
+Pour effectuer les tests d'une fonctionnalité précise, il faut utiliser mocha et indiquer en paramètre le chemin du fichier de tests.
 
 Par exemple pour le test de formats personnalisés :
 ```console
@@ -134,7 +134,7 @@ Par exemple pour le test de formats personnalisés :
 mocha ./test/custom-formats-test
 ```
 
-Pour effectuer un seul des tests d'une fonctionalité, il faut utiliser mocha et indiquer en paramètre le chemin du fichier de tests sans l'extension puis, via un ``-g``, préciser le numéro du test en deux chiffres sous la forme ``@xx``.
+Pour effectuer un seul des tests d'une fonctionnalité, il faut utiliser mocha et indiquer en paramètre le chemin du fichier de tests puis, via un ``-g``, préciser le numéro du test en deux chiffres sous la forme ``@xx``.
 
 Par exemple pour le deuxième test de formats personnalisés :
 ```console
