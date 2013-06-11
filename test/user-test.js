@@ -26,7 +26,7 @@ describe('The server', function () {
         'user-field0-dest-categorie' : '[0-9]{3}',
         'user-field0-sep'            : '+'
       };
-      helpers.post('/', logFile, headers, function (error, res, body) {
+      helpers.post('/', logMonoPlus, headers, function (error, res, body) {
         if (error) {
           throw error;
         }
@@ -35,9 +35,9 @@ describe('The server', function () {
         }
         res.should.have.status(200);
         
-        result = JSON.parse(body);
+        var result = JSON.parse(body);
 
-        should.ok(helpers.compareArrays(result,resultMonoPlus),
+        should.ok(helpers.compareArrays(result, resultMonoPlus),
           'ezPAARSE does not match the intended result');
         
         done();
@@ -56,7 +56,7 @@ describe('The server', function () {
         'user-field0-dest-composante' : 'Droit|Lettre|Maths',
         'user-field0-sep'             : ' '
       };
-      helpers.post('/', logFile, headers, function (error, res, body) {
+      helpers.post('/', logMonoSpace, headers, function (error, res, body) {
         if (error) {
           throw error;
         }
@@ -65,9 +65,9 @@ describe('The server', function () {
         }
         res.should.have.status(200);
         
-        result = JSON.parse(body);
+        var result = JSON.parse(body);
 
-        should.ok(helpers.compareArrays(result,resultMonoSpace),
+        should.ok(helpers.compareArrays(result, resultMonoSpace),
           'ezPAARSE does not match the intended result');
         
         done();
@@ -86,7 +86,7 @@ describe('The server', function () {
         'user-field0-dest-categorie' : '[0-9]{3}',
         'user-field0-sep'            : '+'
       };
-      helpers.post('/', logFile, headers, function (error, res, body) {
+      helpers.post('/', logMultiPlus, headers, function (error, res, body) {
         if (error) {
           throw error;
         }
@@ -95,9 +95,9 @@ describe('The server', function () {
         }
         res.should.have.status(200);
         
-        result = JSON.parse(body);
+        var result = JSON.parse(body);
 
-        should.ok(helpers.compareArrays(result,resultMultiPlus),
+        should.ok(helpers.compareArrays(result, resultMultiPlus),
           'ezPAARSE does not match the intended result');
         
         done();
