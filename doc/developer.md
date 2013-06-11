@@ -134,7 +134,7 @@ Par exemple pour le test de formats personnalisés :
 mocha ./test/custom-formats-test
 ```
 
-Pour effectuer un seul des tests d'une fonctionalité, il faut utiliser mocha et indiquer en paramètre le chemin du fichier de tests sans l'extension puis, via un -g, préciser le numéro du test en deux chiffres sous la forme @xx.
+Pour effectuer un seul des tests d'une fonctionalité, il faut utiliser mocha et indiquer en paramètre le chemin du fichier de tests sans l'extension puis, via un ``-g``, préciser le numéro du test en deux chiffres sous la forme ``@xx``.
 
 Par exemple pour le deuxième test de formats personnalisés :
 ```console
@@ -142,7 +142,7 @@ Par exemple pour le deuxième test de formats personnalisés :
 mocha ./test/custom-formats-test -g @02
 ```
 
-Pour effectuer le test d'une seule plate-forme, il faut utiliser mocha et indiquer en paramètre le chemin du fichier de tests des plate-formes puis, via un -g, préciser le nom de la plate-forme.
+Pour effectuer le test d'une seule plate-forme, il faut utiliser mocha et indiquer en paramètre le chemin du fichier de tests des plate-formes puis, via un ``-g``, préciser le nom de la plate-forme.
 
 Par exemple pour le test de Science Direct :
 ```console
