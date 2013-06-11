@@ -59,7 +59,7 @@ test:
 
 test-verbose:
 	@if test -d test; \
-	then . ./bin/env; mocha -R list; \
+	then . ./bin/env; mocha -g bear -i -R list; \
 	else echo 'No test folder found'; \
 	fi
 

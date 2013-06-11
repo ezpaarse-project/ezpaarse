@@ -77,17 +77,17 @@ function check(testSet, formatHeader, callback) {
 
 describe('The server', function () {
   describe('receives different ezproxy log files', function () {
-    it('and recognizes the format of the lines using the HTTP headers', function (done) {
+    it('and recognizes the format of the lines using the HTTP headers (@01)', function (done) {
       check(ezproxyTestSets, 'Log-Format-ezproxy', done);
     });
   });
   describe('receives different bibliopam log files', function () {
-    it('and recognizes the format of the lines using the HTTP headers', function (done) {
+    it('and recognizes the format of the lines using the HTTP headers (@02)', function (done) {
       check(bibliopamTestSets, 'Log-Format-bibliopam', done);
     });
   });
   describe('receives different squid log files', function () {
-    it('and recognizes the format of the lines using the HTTP headers', function (done) {
+    it('and recognizes the format of the lines using the HTTP headers (@03)', function (done) {
       check(squidTestSets, 'Log-Format-squid', done);
     });
   });
