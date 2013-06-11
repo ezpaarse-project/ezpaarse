@@ -16,7 +16,7 @@ var pkbmissEC              = __dirname + '/dataset/pkb-miss-ec.log';
 
 describe('The server', function () {
   describe('receives a log file', function () {
-    it('and sends a job ID in headers', function (done) {
+    it('and sends a job ID in headers (@01)', function (done) {
       var headers = {
         'Accept' : 'application/json'
       };
@@ -35,7 +35,7 @@ describe('The server', function () {
     });
   });
   describe('receives a log file', function () {
-    it('and correctly handles Job-Traces.log', function (done) {
+    it('and correctly handles Job-Traces.log (@02)', function (done) {
       var headers = {
         'Accept' : 'application/json'
       };
@@ -63,7 +63,7 @@ describe('The server', function () {
     });
   });
   describe('receives a log file with a bad line', function () {
-    it('and correctly handles Lines-Unknown-Formats.log', function (done) {
+    it('and correctly handles Lines-Unknown-Formats.log (@03)', function (done) {
       var headers = {
         'Accept' : 'text/csv'
       };
@@ -100,7 +100,7 @@ describe('The server', function () {
     });
   });
   describe('receives a log file with an ignored domain', function () {
-    it('and correctly handles Lines-Ignored-Domains.log', function (done) {
+    it('and correctly handles Lines-Ignored-Domains.log (@04)', function (done) {
       var headers = {
         'Accept' : 'text/csv'
       };
@@ -132,7 +132,7 @@ describe('The server', function () {
     });
   });
   describe('receives a log file with an unknown domain', function () {
-    it('and correctly handles Lines-Unknown-Domains.log', function (done) {
+    it('and correctly handles Lines-Unknown-Domains.log (@05)', function (done) {
       var headers = {
         'Accept' : 'text/csv'
       };
@@ -164,7 +164,7 @@ describe('The server', function () {
     });
   });
   describe('receives a log file with an unqualified log line', function () {
-    it('and correctly handles Lines-Unqualified-ECs.log', function (done) {
+    it('and correctly handles Lines-Unqualified-ECs.log (@06)', function (done) {
       var headers = {
         'Accept' : 'text/csv'
       };
@@ -196,7 +196,7 @@ describe('The server', function () {
     });
   });
   describe('receives a log file with an unknown PID', function () {
-    it('and correctly handles Lines-PKB-Miss-ECs.log', function (done) {
+    it('and correctly handles Lines-PKB-Miss-ECs.log (@07)', function (done) {
       var headers = {
         'Accept' : 'text/csv'
       };

@@ -10,7 +10,7 @@ var logFile       = __dirname + '/dataset/customformat.log';
 
 describe('The server', function () {
   describe('receives a log on the HTTP POST / route with a specific log format', function () {
-    it('and sends back a CSV containing the fields specified by the custom format',
+    it('and sends back a CSV containing the fields specified by the custom format (@01)',
         function (done) {
       var headers = {
         'Accept'            : 'text/csv',
@@ -42,7 +42,7 @@ describe('The server', function () {
     });
   });
   describe('receives a log on the HTTP POST / route with given fields', function () {
-    it('and sends back a CSV containing only the given fields',
+    it('and sends back a CSV containing only the given fields (@02)',
         function (done) {
       var headers = {
         'Accept'            : 'text/csv',
@@ -68,7 +68,7 @@ describe('The server', function () {
     });
   });
   describe('receives a log on the HTTP POST / route with additional fields', function () {
-    it('and sends back a CSV containing the default fields and the given ones',
+    it('and sends back a CSV containing the default fields and the given ones (@03)',
         function (done) {
       var headers = {
         'Accept'            : 'text/csv',

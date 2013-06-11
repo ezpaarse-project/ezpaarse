@@ -13,7 +13,7 @@ var wrongFirstLineLogFile = __dirname + '/dataset/sd.wrong-first-line.log';
 
 describe('The server', function () {
   describe('receives a log file whose first line is incorrect', function () {
-    it('and sends back an empty body with an error 4003', function (done) {
+    it('and sends back an empty body with an error 4003 (@01)', function (done) {
       var headers = {};
       helpers.post('/', wrongFirstLineLogFile, headers,
       function (error, res, body) {
@@ -34,7 +34,7 @@ describe('The server', function () {
     });
   });
   describe('receives a gzipped log file with no content-encoding', function () {
-    it('and sends back an empty body with an error 4003', function (done) {
+    it('and sends back an empty body with an error 4003 (@02)', function (done) {
       var headers = {};
       helpers.post('/', gzipLogFile, headers,
       function (error, res, body) {
@@ -55,7 +55,7 @@ describe('The server', function () {
     });
   });
   describe('receives a non-gzipped log file with a gzip content-encoding', function () {
-    it('and sends back an empty body with an error 4002', function (done) {
+    it('and sends back an empty body with an error 4002 (@03)', function (done) {
       var headers = {
         'content-encoding': 'gzip'
       };
@@ -78,7 +78,7 @@ describe('The server', function () {
     });
   });
   describe('receives a gzipped log file with an unknown content-encoding', function () {
-    it('and sends back an empty body with an error 4005', function (done) {
+    it('and sends back an empty body with an error 4005 (@04)', function (done) {
       var headers = {
         'content-encoding': 'unsupported/encoding'
       };
@@ -101,7 +101,7 @@ describe('The server', function () {
     });
   });
   describe('receives a log file with an unsupported hash for anonymization', function () {
-    it('and sends back an empty body with an error 4004', function (done) {
+    it('and sends back an empty body with an error 4004 (@05)', function (done) {
       var headers = {
         'Anonymize-Host': 'unsupported/hash'
       };
@@ -124,7 +124,7 @@ describe('The server', function () {
     });
   });
   describe('receives a log file with an unsupported output format requested', function () {
-    it('and sends back an empty body with an error 4006', function (done) {
+    it('and sends back an empty body with an error 4006 (@06)', function (done) {
       var headers = {
         'Accept': 'unsupported/format'
       };
