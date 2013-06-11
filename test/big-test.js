@@ -21,7 +21,7 @@ describe('The server', function () {
 
   this.timeout(0);
   
-  it('bear high loads', function (done) {
+  it('bear high loads (@01)', function (done) {
     
     var params = {};
     params.rate = rate;

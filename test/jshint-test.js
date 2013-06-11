@@ -8,7 +8,7 @@ var shell         = require('shelljs');
 
 describe('The "make jshint" command', function () {
   this.timeout(5000);
-  it('returns 0 if source code respects coding rules ', function (done) {
+  it('returns 0 if source code respects coding rules (@01)', function (done) {
     shell.exec('make jshint', { silent: true, async: true }, function (code, output) {
       if (code !== 0) {
         console.error(output);

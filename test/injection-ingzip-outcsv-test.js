@@ -12,7 +12,7 @@ var csvResultFile = __dirname + '/dataset/sd.2013-01-15.result.csv';
 
 describe('The server', function () {
   describe('receives a gzipped log file', function () {
-    it('and sends back a correct csv output', function (done) {
+    it('and sends back a correct csv output (@01)', function (done) {
       var headers = {
         'Accept'           : 'text/csv',
         'Content-encoding' : 'gzip',

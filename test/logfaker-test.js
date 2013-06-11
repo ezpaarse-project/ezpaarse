@@ -9,7 +9,7 @@ var byline        = require('byline');
 
 describe('The logfaker command', function () {
   describe('can be called with --nb=1', function () {
-    it('and sends back one line of log', function (done) {
+    it('and sends back one line of log (@01)', function (done) {
       var child  = shell.exec(__dirname + '/../bin/logfaker --nb=1', {async: true, silent: true});
       var stream = byline.createStream(child.stdout);
       var nbline = 0;

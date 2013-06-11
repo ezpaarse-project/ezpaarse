@@ -6,7 +6,7 @@ var should    = require('should');
 var PkbManager = require('../lib/pkbmanager.js');
 
 describe('The pkb manager', function () {
-  it('works properly', function (done) {
+  it('works properly (@01)', function (done) {
     var pkbManager = new PkbManager();
     pkbManager.get('npg', function (pkb) {
       should.exist(pkb);

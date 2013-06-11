@@ -12,7 +12,7 @@ var resultFile            = __dirname + '/dataset/sd.2012-11-30.300.result.json'
 
 describe('The server', function () {
   describe('receives a log on the HTTP POST / route', function () {
-    it('and sends back a well formatted output file', function (done) {
+    it('and sends back a well formatted output file (@01)', function (done) {
       var headers = {
         'Accept'        : 'application/json',
         'Anonymize-host': 'md5'
