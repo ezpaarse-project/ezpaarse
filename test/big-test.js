@@ -52,7 +52,9 @@ describe('The server', function () {
       
           var report = JSON.parse(body);
 
-          should.ok(report['Job-Done'] === true);
+          should.exist(report['general'], 'the "general" section of the report is missing');
+          should.ok(report['general']['Job-Done'] === true,
+            'Job-Done in the report does not equal to true');
         
           done();
         });
