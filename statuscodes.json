@@ -6,5 +6,8 @@
   "4005": "Encoding not supported",
   "4006": "Requested format(s) not supported",
   "4007": "Multipart request error",
+  "4008": "Missing header User-Field-Src",
+  "4009": "Missing header User-Field-Sep",
+  "4010": "Missing header User-Field-Dest-xxx",
   "5001": "A problem occured when trying to format the results"
 }
