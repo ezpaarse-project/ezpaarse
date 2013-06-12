@@ -1,9 +1,18 @@
 # Versions ezPAARSE #
 
+## 0.0.7  ## 
+##### 05/06/2013 - Consolidation du coeur #####
+- meilleure caractérisation des EC (rtype, MIME, unitid)
+- test de gros volume
+- ajout de nouveaux parseurs (BMC, lamyline, lextenso, lexisnexis)
+- refonte du formulaire avec métriques dynamiques
+- accès aux traces et aux fichiers des lignes filtrées (formats non reconnus, domaines non reconnus, ...)
 
 ## 0.0.6  ## 
 ##### 18/04/2013 - Consolidation des reconnaissances de plateforme #####
-
+- Passage en node V 0.10
+- ajout de nouveaux parseurs (dalloz, wiley)
+- ajout de nouvelles traces
 
 ## 0.0.5  ## 
 ##### 27/03/2013 - Utilisabilité d'ezPAARSE #####
