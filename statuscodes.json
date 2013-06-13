@@ -6,8 +6,11 @@
   "4005": "Encoding not supported",
   "4006": "Requested format(s) not supported",
   "4007": "Multipart request error",
-  "4008": "Missing header User-Field-Src",
-  "4009": "Missing header User-Field-Sep",
-  "4010": "Missing header User-Field-Dest-xxx",
+  "4008": "User-Fields: missing header User-Field-Src",
+  "4009": "User-Fields: missing header User-Field-Sep",
+  "4010": "User-Fields: missing header User-Field-Dest-xxx",
+  "4011": "User-Fields: doublons in dest fields",
+  "4012": "Output-Fields: empty field",
+  "4013": "Output-Fields: bad operator (use + or - before each field)",
   "5001": "A problem occured when trying to format the results"
 }

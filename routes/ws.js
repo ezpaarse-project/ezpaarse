@@ -486,16 +486,13 @@ module.exports = function (app, domains, ignoredDomains) {
           
           res.status(200);
 
-          // Merges asked fields with those extracted by logParser
-          // (but doesn't if the fields replace the defaults)
-          if (!init.outputFields) {
-            init.outputFields = logParser.getFields();
-          } else {
-            if (!init.fieldsUsage || init.fieldsUsage !== 'replace') {
-              init.outputFields = init.outputFields.concat(logParser.getFields());
-            }
-          }
-          writer.start(init.outputFields, init.fieldsUsage);
+          // Add or remove user fields from those extracted by logParser
+          var outputFields     = init.outputFields || {};
+          outputFields.added   = outputFields.added || [];
+          outputFields.removed = outputFields.removed || [];
+          outputFields.added   = outputFields.added.concat(logParser.getFields());
+
+          writer.start(outputFields);
         }
         writer.write(ec);
         writtenECs = true;
