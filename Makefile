@@ -50,16 +50,16 @@ docopen: doc $(DOC_HMTL)
 EZPATH = $(shell pwd)
 JSFILES=$(wildcard $(EZPATH)/*.js) $(wildcard $(EZPATH)/lib/*.js) $(wildcard $(EZPATH)/lib/*/*.js) $(wildcard $(EZPATH)/test/*.js)  $(wildcard $(EZPATH)/routes/*.js) $(wildcard $(EZPATH)/platforms/*/*.js)
 
-# Runs all tests (*-test.js) in the test folder
+# Runs all tests (*-test.js) in the test folder except big and tdd
 test:
 	@if test -d test; \
-	then . ./bin/env; mocha -g bear -i; \
+	then . ./bin/env; mocha -g '@big|@tdd' -i; \
 	else echo 'No test folder found'; \
 	fi
 
 test-verbose:
 	@if test -d test; \
-	then . ./bin/env; mocha -g bear -i -R list; \
+	then . ./bin/env; mocha -g '@big|@tdd' -i -R list; \
 	else echo 'No test folder found'; \
 	fi
 
@@ -77,13 +77,25 @@ test-platforms-verbose:
 
 test-big:
 	@if test -d test; \
-	then . ./bin/env; mocha -g bear; \
+	then . ./bin/env; mocha -g @big; \
 	else echo 'No test folder found'; \
 	fi
 
 test-big-verbose:
 	@if test -d test; \
-	then . ./bin/env; mocha -R list -g bear; \
+	then . ./bin/env; mocha -R list -g @big; \
+	else echo 'No test folder found'; \
+	fi
+
+tdd:
+	@if test -d test; \
+	then . ./bin/env; mocha -g @tdd; \
+	else echo 'No test folder found'; \
+	fi
+
+tdd-verbose:
+	@if test -d test; \
+	then . ./bin/env; mocha -R list -g @tdd; \
 	else echo 'No test folder found'; \
 	fi
 
