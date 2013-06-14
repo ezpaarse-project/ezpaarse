@@ -248,7 +248,7 @@ module.exports = function (app, domains, ignoredDomains) {
       var writer = init.writer;
       var ecFilter = new ECFilter();
       // Takes "raw" ECs and returns those which can be sent
-      var handler = new ECHandler(logger, sh, report);
+      var handler = new ECHandler(logger, sh, init.ufSplitters, report);
       
       var processLine = function (line) {
         if (badBeginning) {
@@ -487,8 +487,8 @@ module.exports = function (app, domains, ignoredDomains) {
           res.status(200);
 
           // Add or remove user fields from those extracted by logParser
-          var outputFields     = init.outputFields || {};
-          outputFields.added   = outputFields.added || [];
+          var outputFields     = init.outputFields    || {};
+          outputFields.added   = outputFields.added   || [];
           outputFields.removed = outputFields.removed || [];
           outputFields.added   = outputFields.added.concat(logParser.getFields());
 

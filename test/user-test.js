@@ -16,7 +16,7 @@ var logMultiPlus  = __dirname + '/dataset/user-multi-plus.log';
 
 describe('The server', function () {
   describe('receives a log on the HTTP POST / route with a user field', function () {
-    it('separated by "+" and returns a JSON containing the fields specified by the user(@01 @tdd)',
+    it('separated by "+" and returns a JSON containing the fields specified by the user(@01)',
       function (done) {
       var headers = {
         'Accept'                     : 'application/json',
@@ -45,7 +45,7 @@ describe('The server', function () {
     });
   });
   describe('receives a log on the HTTP POST / route with a user field', function () {
-    it('separated by " " and returns a JSON containing the fields specified by the user(@02 @tdd)',
+    it('separated by " " and returns a JSON containing the fields specified by the user(@02)',
       function (done) {
       var headers = {
         'Accept'                      : 'application/json',
@@ -54,7 +54,7 @@ describe('The server', function () {
         'user-field0-dest-groupe'     : 'Etudiant|Professeur|Secretaire',
         'user-field0-dest-categorie'  : 'FC|Y|M|C|A',
         'user-field0-dest-composante' : 'Droit|Lettre|Maths',
-        'user-field0-sep'             : ' '
+        'user-field0-sep'             : 'space'
       };
       helpers.post('/', logMonoSpace, headers, function (error, res, body) {
         if (error) {
@@ -76,7 +76,7 @@ describe('The server', function () {
   });
   describe('receives a log on the HTTP POST / route with a user field', function () {
     it('separated by "+" and containing a multivalue sub-field and returns a JSON ' +
-      'containing the fields specified by the user(@03 @tdd)',
+      'containing the fields specified by the user(@03)',
       function (done) {
       var headers = {
         'Accept'                     : 'application/json',
