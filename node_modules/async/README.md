@@ -3,7 +3,7 @@
 Async is a utility module which provides straight-forward, powerful functions
 for working with asynchronous JavaScript. Although originally designed for
 use with [node.js](http://nodejs.org), it can also be used directly in the
-browser.
+browser. Also supports [component](https://github.com/component/component).
 
 Async provides around 20 functions that include the usual 'functional'
 suspects (map, reduce, filter, each…) as well as some common patterns
@@ -19,7 +19,7 @@ async.map(['file1','file2','file3'], fs.stat, function(err, results){
     // results is now an array of stats for each file
 });
 
-async.filter(['file1','file2','file3'], path.exists, function(results){
+async.filter(['file1','file2','file3'], fs.exists, function(results){
     // results now equals an array of the existing files
 });
 
@@ -38,24 +38,55 @@ There are many more functions available so take a look at the docs below for a
 full list. This module aims to be comprehensive, so if you feel anything is
 missing please create a GitHub issue for it.
 
+## Common Pitfalls
+
+### Binding a context to an iterator
+
+This section is really about bind, not about async. If you are wondering how to
+make async execute your iterators in a given context, or are confused as to why
+a method of another library isn't working as an iterator, study this example:
+
+```js
+// Here is a simple object with an (unnecessarily roundabout) squaring method
+var AsyncSquaringLibrary = {
+  squareExponent: 2,
+  square: function(number, callback){ 
+    var result = Math.pow(number, this.squareExponent);
+    setTimeout(function(){
+      callback(null, result);
+    }, 200);
+  }
+};
+
+async.map([1, 2, 3], AsyncSquaringLibrary.square, function(err, result){
+  // result is [NaN, NaN, NaN]
+  // This fails because the `this.squareExponent` expression in the square
+  // function is not evaluated in the context of AsyncSquaringLibrary, and is
+  // therefore undefined.
+});
+
+async.map([1, 2, 3], AsyncSquaringLibrary.square.bind(AsyncSquaringLibrary), function(err, result){
+  // result is [1, 4, 9]
+  // With the help of bind we can attach a context to the iterator before
+  // passing it to async. Now the square function will be executed in its 
+  // 'home' AsyncSquaringLibrary context and the value of `this.squareExponent`
+  // will be as expected.
+});
+```
 
 ## Download
 
-Releases are available for download from
-[GitHub](http://github.com/caolan/async/downloads).
+The source is available for download from
+[GitHub](http://github.com/caolan/async).
 Alternatively, you can install using Node Package Manager (npm):
 
     npm install async
 
-
-__Development:__ [async.js](https://github.com/caolan/async/raw/master/lib/async.js) - 17.5kb Uncompressed
-
-__Production:__ [async.min.js](https://github.com/caolan/async/raw/master/dist/async.min.js) - 1.7kb Packed and Gzipped
-
+__Development:__ [async.js](https://github.com/caolan/async/raw/master/lib/async.js) - 29.6kb Uncompressed
 
 ## In the Browser
 
-So far its been tested in IE6, IE7, IE8, FF3.6 and Chrome 5. Usage:
+So far it's been tested in IE6, IE7, IE8, FF3.6 and Chrome 5. Usage:
 
 ```html
 <script type="text/javascript" src="async.js"></script>
@@ -91,6 +122,7 @@ So far its been tested in IE6, IE7, IE8, FF3.6 and Chrome 5. Usage:
 * [doWhilst](#doWhilst)
 * [until](#until)
 * [doUntil](#doUntil)
+* [forever](#forever)
 * [waterfall](#waterfall)
 * [compose](#compose)
 * [applyEach](#applyEach)
@@ -278,7 +310,7 @@ __Alias:__ select
 Returns a new array of all the values which pass an async truth test.
 _The callback for each iterator call only accepts a single argument of true or
 false, it does not accept an error argument first!_ This is in-line with the
-way node libraries work with truth tests like path.exists. This operation is
+way node libraries work with truth tests like fs.exists. This operation is
 performed in parallel, but the results array will be in the same order as the
 original.
 
@@ -294,7 +326,7 @@ __Arguments__
 __Example__
 
 ```js
-async.filter(['file1','file2','file3'], path.exists, function(results){
+async.filter(['file1','file2','file3'], fs.exists, function(results){
     // results now equals an array of the existing files
 });
 ```
@@ -339,7 +371,7 @@ function only operates in series. For performance reasons, it may make sense to
 split a call to this function into a parallel map, then use the normal
 Array.prototype.reduce on the results. This function is for situations where
 each step in the reduction needs to be async, if you can get the data before
-reducing it then its probably a good idea to do so.
+reducing it then it's probably a good idea to do so.
 
 __Arguments__
 
@@ -403,7 +435,7 @@ __Arguments__
 __Example__
 
 ```js
-async.detect(['file1','file2','file3'], path.exists, function(result){
+async.detect(['file1','file2','file3'], fs.exists, function(result){
     // result now equals the first file in the list that exists
 });
 ```
@@ -459,7 +491,7 @@ __Alias:__ any
 Returns true if at least one element in the array satisfies an async test.
 _The callback for each iterator call only accepts a single argument of true or
 false, it does not accept an error argument first!_ This is in-line with the
-way node libraries work with truth tests like path.exists. Once any iterator
+way node libraries work with truth tests like fs.exists. Once any iterator
 call returns true, the main callback is immediately called.
 
 __Arguments__
@@ -475,7 +507,7 @@ __Arguments__
 __Example__
 
 ```js
-async.some(['file1','file2','file3'], path.exists, function(result){
+async.some(['file1','file2','file3'], fs.exists, function(result){
     // if result is true then at least one of the files exists
 });
 ```
@@ -490,7 +522,7 @@ __Alias:__ all
 Returns true if every element in the array satisfies an async test.
 _The callback for each iterator call only accepts a single argument of true or
 false, it does not accept an error argument first!_ This is in-line with the
-way node libraries work with truth tests like path.exists.
+way node libraries work with truth tests like fs.exists.
 
 __Arguments__
 
@@ -505,7 +537,7 @@ __Arguments__
 __Example__
 
 ```js
-async.every(['file1','file2','file3'], path.exists, function(result){
+async.every(['file1','file2','file3'], fs.exists, function(result){
     // if result is true then every file exists
 });
 ```
@@ -754,6 +786,14 @@ The inverse of async.whilst.
 
 Like doWhilst except the test is inverted. Note the argument ordering differs from `until`.
 
+---------------------------------------
+
+<a name="forever" />
+### forever(fn, callback)
+
+Calls the asynchronous function 'fn' repeatedly, in series, indefinitely.
+If an error is passed to fn's callback then 'callback' is called with the
+error, otherwise it will never be called.
 
 ---------------------------------------
 
@@ -865,6 +905,13 @@ async.each(
 
 ---------------------------------------
 
+<a name="applyEachSeries" />
+### applyEachSeries(arr, iterator, callback)
+
+The same as applyEach only the functions are applied in series.
+
+---------------------------------------
+
 <a name="queue" />
 ### queue(worker, concurrency)
 
@@ -948,11 +995,11 @@ the worker has completed some tasks, each callback of those tasks is called.
 
 __Arguments__
 
-* worker(tasks, callback) - An asynchronous function for processing queued
-  tasks, which must call its callback(err) argument when finished, with an 
-  optional error as an argument.
+* worker(tasks, callback) - An asynchronous function for processing an array of
+  queued tasks, which must call its callback(err) argument when finished, with 
+  an optional error as an argument.
 * payload - An optional integer for determining how many tasks should be
-  process per round, default is unlimited.
+  processed per round; if omitted, the default is unlimited.
 
 __Cargo objects__
 
@@ -975,8 +1022,10 @@ __Example__
 ```js
 // create a cargo object with payload 2
 
-var cargo = async.cargo(function (task, callback) {
-    console.log('hello ' + task.name);
+var cargo = async.cargo(function (tasks, callback) {
+    for(var i=0; i<tasks.length; i++){
+      console.log('hello ' + tasks[i].name);
+    }
     callback();
 }, 2);
 
@@ -1110,7 +1159,7 @@ new tasks much easier and makes the code more readable.
 ### iterator(tasks)
 
 Creates an iterator function which calls the next function in the array,
-returning a continuation to call the next one after that. Its also possible to
+returning a continuation to call the next one after that. It's also possible to
 'peek' the next iterator by doing iterator.next().
 
 This function is used internally by the async module but can be useful when
