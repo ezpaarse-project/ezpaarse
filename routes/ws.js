@@ -19,7 +19,7 @@ var initializer   = require('../lib/requestinitializer.js');
 var ReportManager = require('../lib/reportmanager.js');
 var StreamHandler = require('../lib/streamhandler.js');
 var rgf           = require('../lib/readgrowingfile.js');
-var uuidRegExp    = /^\/([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})$/;
+var uuidRegExp    = /^\/([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})\/?$/;
 
 module.exports = function (app, domains, ignoredDomains) {
 
