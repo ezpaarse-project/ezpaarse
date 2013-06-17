@@ -26,10 +26,9 @@ if (!folderChecker.check(__dirname + '/tmp')) {
 } else if (config.EZPAARSE_TMP_CYCLE && config.EZPAARSE_TMP_LIFETIME) {
   var folderReaper = new FolderReaper({
     recursive: true,
-    lifetime: config.EZPAARSE_TMP_LIFETIME,
-    cycle: config.EZPAARSE_TMP_CYCLE
+    lifetime: config.EZPAARSE_TMP_LIFETIME
   });
-  folderReaper.watch(__dirname + '/tmp');
+  folderReaper.watch(__dirname + '/tmp', config.EZPAARSE_TMP_CYCLE);
 } else {
   var err = red;
   err += 'Warning! Temporary folder won\'t be automatically cleaned, ';
