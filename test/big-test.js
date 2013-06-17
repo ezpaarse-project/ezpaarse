@@ -6,9 +6,7 @@
 
 var helpers  = require('./helpers.js');
 var logF     = require('../lib/logfaker.js');
-var fs       = require('fs');
 var should   = require('should');
-var shell    = require('shelljs');
 var request  = require('request');
 var config   = require('../config.json');
 var duration = config.EZPAARSE_BIG_DURATION;
