@@ -1,4 +1,4 @@
-# Attributs d`une EC #
+# Attributs d'un EC #
 
 ## Identifiants de ressources ##
 
