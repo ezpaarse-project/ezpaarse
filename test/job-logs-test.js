@@ -112,7 +112,7 @@ describe('The server', function () {
           throw new Error('ezPAARSE is not running');
         }
         res.should.have.status(200);
-        should.not.exist(body);
+        should.ok(body === '', 'The body is not empty');
 
         var logURL = res.headers['lines-ignored-domains'];
         should.exist(logURL,
@@ -144,7 +144,7 @@ describe('The server', function () {
           throw new Error('ezPAARSE is not running');
         }
         res.should.have.status(200);
-        should.not.exist(body);
+        should.ok(body === '', 'The body is not empty');
 
         var logURL = res.headers['lines-unknown-domains'];
         should.exist(logURL,
@@ -176,7 +176,7 @@ describe('The server', function () {
           throw new Error('ezPAARSE is not running');
         }
         res.should.have.status(200);
-        should.not.exist(body);
+        should.ok(body === '', 'The body is not empty');
 
         var logURL = res.headers['lines-unqualified-ecs'];
         should.exist(logURL,

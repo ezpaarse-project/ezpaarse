@@ -59,7 +59,7 @@ function check(testSet, formatHeader, callback) {
 
       var resultJson = require(testCase.resultFile);
       if (resultJson.length === 0) {
-        should.not.exist(body);
+        should.ok(body === '', 'The body is not empty');
       } else {
         should.exist(body);
         var bodyJson = JSON.parse(body);

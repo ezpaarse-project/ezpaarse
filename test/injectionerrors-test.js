@@ -23,7 +23,7 @@ describe('The server', function () {
         if (!res) {
           throw new Error('The application is not running');
         }
-        should.not.exist(body);
+        should.ok(body === '', 'The body is not empty');
         res.should.have.status(400);
         res.should.have.header('ezpaarse-status');
         res.should.have.header('ezpaarse-status-message');
@@ -44,7 +44,7 @@ describe('The server', function () {
         if (!res) {
           throw new Error('The application is not running');
         }
-        should.not.exist(body);
+        should.ok(body === '', 'The body is not empty');
         res.should.have.status(400);
         res.should.have.header('ezpaarse-status');
         res.should.have.header('ezpaarse-status-message');
@@ -67,7 +67,7 @@ describe('The server', function () {
         if (!res) {
           throw new Error('The application is not running');
         }
-        should.not.exist(body);
+        should.ok(body === '', 'The body is not empty');
         res.should.have.status(400);
         res.should.have.header('ezpaarse-status');
         res.should.have.header('ezpaarse-status-message');
@@ -90,7 +90,7 @@ describe('The server', function () {
         if (!res) {
           throw new Error('The application is not running');
         }
-        should.not.exist(body);
+        should.ok(body === '', 'The body is not empty');
         res.should.have.status(406);
         res.should.have.header('ezpaarse-status');
         res.should.have.header('ezpaarse-status-message');
@@ -113,7 +113,7 @@ describe('The server', function () {
         if (!res) {
           throw new Error('The application is not running');
         }
-        should.not.exist(body);
+        should.ok(body === '', 'The body is not empty');
         res.should.have.status(400);
         res.should.have.header('ezpaarse-status');
         res.should.have.header('ezpaarse-status-message');
@@ -136,7 +136,7 @@ describe('The server', function () {
         if (!res) {
           throw new Error('The application is not running');
         }
-        should.not.exist(body);
+        should.ok(body === '', 'The body is not empty');
         res.should.have.status(406);
         res.should.have.header('ezpaarse-status');
         res.should.have.header('ezpaarse-status-message');

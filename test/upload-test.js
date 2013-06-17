@@ -30,7 +30,7 @@ describe('The server', function () {
 
         // For a deferred result, the data must be written in a file and not in the body
         res.should.have.status(200);
-        should.not.exist(body);
+        should.ok(body === '', 'The body is not empty');
     
         helpers.get('/' + jobid + '/', function (error1, response1, defBody1) {
 
