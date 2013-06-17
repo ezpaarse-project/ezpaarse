@@ -19,13 +19,9 @@ describe('The server', function () {
         'Anonymize-host'   : 'md5'
       };
       helpers.post('/', gzipLogFile, headers,
-      function (error, res, body) {
-        if (error) {
-          throw error;
-        }
-        if (!res) {
-          throw new Error('The application is not running');
-        }
+      function (err, res, body) {
+        if (!res) { throw new Error('ezPAARSE is not running'); }
+        if (err)  { throw err; }
         res.should.have.status(200);
 
         csvextractor.extract(fs.createReadStream(csvResultFile), [], function (correctRecords) {

@@ -16,13 +16,9 @@ describe('The server', function () {
         'Accept'            : 'text/csv',
         'Log-Format-ezproxy' : '%u %{col1}<[0-9]+> "%r" %{col2}<[A-Z]+>'
       };
-      helpers.post('/', logFile, headers, function (error, res, body) {
-        if (error) {
-          throw error;
-        }
-        if (!res) {
-          throw new Error('ezPAARSE is not running');
-        }
+      helpers.post('/', logFile, headers, function (err, res, body) {
+        if (!res) { throw new Error('ezPAARSE is not running'); }
+        if (err)  { throw err; }
         res.should.have.status(200);
         
         body = body.trim().split('\n');
@@ -49,13 +45,9 @@ describe('The server', function () {
         'Log-Format-ezproxy' : '%u %{col1}<[0-9]+> "%r" %{col2}<[A-Z]+>',
         'Output-Fields'     : '-url,+newCol'
       };
-      helpers.post('/', logFile, headers, function (error, res, body) {
-        if (error) {
-          throw error;
-        }
-        if (!res) {
-          throw new Error('ezPAARSE is not running');
-        }
+      helpers.post('/', logFile, headers, function (err, res, body) {
+        if (!res) { throw new Error('ezPAARSE is not running'); }
+        if (err)  { throw err; }
         res.should.have.status(200);
         
         body = body.trim().split('\n');

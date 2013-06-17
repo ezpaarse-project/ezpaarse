@@ -28,12 +28,8 @@ describe('The server', function () {
     logF.logFaker(params, function (stream) {
       helpers.postPiped('/', headers, stream, function (err, res, bod) {
       
-        if (err) {
-          throw err;
-        }
-        if (!res) {
-          throw new Error('ezPAARSE is not running');
-        }
+        if (!res) { throw new Error('ezPAARSE is not running'); }
+        if (err)  { throw err; }
         res.should.have.status(200);
     
         request({
@@ -41,12 +37,8 @@ describe('The server', function () {
           url: res.headers['job-report']
         }, function (error, response, body) {
         
-          if (error) {
-            throw error;
-          }
-          if (!response) {
-            throw new Error('ezPAARSE is not running');
-          }
+          if (!response) { throw new Error('ezPAARSE is not running'); }
+          if (error)     { throw error; }
       
           var report = JSON.parse(body);
 

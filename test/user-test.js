@@ -28,13 +28,9 @@ describe('The server', function () {
         'user-field0-dest-categorie' : '[0-9]{3}',
         'user-field0-sep'            : '+'
       };
-      helpers.post('/', logMonoPlus, headers, function (error, res, body) {
-        if (error) {
-          throw error;
-        }
-        if (!res) {
-          throw new Error('ezPAARSE is not running');
-        }
+      helpers.post('/', logMonoPlus, headers, function (err, res, body) {
+        if (!res) { throw new Error('ezPAARSE is not running'); }
+        if (err)  { throw err; }
         res.should.have.status(200);
         
         var result = JSON.parse(body);
@@ -58,13 +54,9 @@ describe('The server', function () {
         'user-field0-dest-composante' : 'Droit|Lettre|Maths',
         'user-field0-sep'             : 'space'
       };
-      helpers.post('/', logMonoSpace, headers, function (error, res, body) {
-        if (error) {
-          throw error;
-        }
-        if (!res) {
-          throw new Error('ezPAARSE is not running');
-        }
+      helpers.post('/', logMonoSpace, headers, function (err, res, body) {
+        if (!res) { throw new Error('ezPAARSE is not running'); }
+        if (err)  { throw err; }
         res.should.have.status(200);
         
         var result = JSON.parse(body);
@@ -88,13 +80,9 @@ describe('The server', function () {
         'user-field0-dest-categorie' : '[0-9]{3}',
         'user-field0-sep'            : '+'
       };
-      helpers.post('/', logMultiPlus, headers, function (error, res, body) {
-        if (error) {
-          throw error;
-        }
-        if (!res) {
-          throw new Error('ezPAARSE is not running');
-        }
+      helpers.post('/', logMultiPlus, headers, function (err, res, body) {
+        if (!res) { throw new Error('ezPAARSE is not running'); }
+        if (err)  { throw err; }
         res.should.have.status(200);
         
         var result = JSON.parse(body);
@@ -125,13 +113,9 @@ describe('The server', function () {
         'user-field1-dest-composante2' : 'Droit|Lettre|Maths',
         'user-field1-sep'              : 'space'
       };
-      helpers.post('/', logMultipleMisc, headers, function (error, res, body) {
-        if (error) {
-          throw error;
-        }
-        if (!res) {
-          throw new Error('ezPAARSE is not running');
-        }
+      helpers.post('/', logMultipleMisc, headers, function (err, res, body) {
+        if (!res) { throw new Error('ezPAARSE is not running'); }
+        if (err)  { throw err; }
         // fs.writeFileSync('gerard.result.json', body);
         res.should.have.status(200);
         

@@ -16,13 +16,9 @@ describe('The server', function () {
     it('and sends back an empty body with an error 4003 (@01)', function (done) {
       var headers = {};
       helpers.post('/', wrongFirstLineLogFile, headers,
-      function (error, res, body) {
-        if (error) {
-          throw error;
-        }
-        if (!res) {
-          throw new Error('The application is not running');
-        }
+      function (err, res, body) {
+        if (!res) { throw new Error('ezPAARSE is not running'); }
+        if (err)  { throw err; }
         should.ok(body === '', 'The body is not empty');
         res.should.have.status(400);
         res.should.have.header('ezpaarse-status');
@@ -37,13 +33,9 @@ describe('The server', function () {
     it('and sends back an empty body with an error 4003 (@02)', function (done) {
       var headers = {};
       helpers.post('/', gzipLogFile, headers,
-      function (error, res, body) {
-        if (error) {
-          throw error;
-        }
-        if (!res) {
-          throw new Error('The application is not running');
-        }
+      function (err, res, body) {
+        if (!res) { throw new Error('ezPAARSE is not running'); }
+        if (err)  { throw err; }
         should.ok(body === '', 'The body is not empty');
         res.should.have.status(400);
         res.should.have.header('ezpaarse-status');
@@ -60,13 +52,9 @@ describe('The server', function () {
         'content-encoding': 'gzip'
       };
       helpers.post('/', logFile, headers,
-      function (error, res, body) {
-        if (error) {
-          throw error;
-        }
-        if (!res) {
-          throw new Error('The application is not running');
-        }
+      function (err, res, body) {
+        if (!res) { throw new Error('ezPAARSE is not running'); }
+        if (err)  { throw err; }
         should.ok(body === '', 'The body is not empty');
         res.should.have.status(400);
         res.should.have.header('ezpaarse-status');
@@ -83,13 +71,9 @@ describe('The server', function () {
         'content-encoding': 'unsupported/encoding'
       };
       helpers.post('/', gzipLogFile, headers,
-      function (error, res, body) {
-        if (error) {
-          throw error;
-        }
-        if (!res) {
-          throw new Error('The application is not running');
-        }
+      function (err, res, body) {
+        if (!res) { throw new Error('ezPAARSE is not running'); }
+        if (err)  { throw err; }
         should.ok(body === '', 'The body is not empty');
         res.should.have.status(406);
         res.should.have.header('ezpaarse-status');
@@ -106,13 +90,9 @@ describe('The server', function () {
         'Anonymize-Host': 'unsupported/hash'
       };
       helpers.post('/', logFile, headers,
-      function (error, res, body) {
-        if (error) {
-          throw error;
-        }
-        if (!res) {
-          throw new Error('The application is not running');
-        }
+      function (err, res, body) {
+        if (!res) { throw new Error('ezPAARSE is not running'); }
+        if (err)  { throw err; }
         should.ok(body === '', 'The body is not empty');
         res.should.have.status(400);
         res.should.have.header('ezpaarse-status');
@@ -129,13 +109,9 @@ describe('The server', function () {
         'Accept': 'unsupported/format'
       };
       helpers.post('/', logFile, headers,
-      function (error, res, body) {
-        if (error) {
-          throw error;
-        }
-        if (!res) {
-          throw new Error('The application is not running');
-        }
+      function (err, res, body) {
+        if (!res) { throw new Error('ezPAARSE is not running'); }
+        if (err)  { throw err; }
         should.ok(body === '', 'The body is not empty');
         res.should.have.status(406);
         res.should.have.header('ezpaarse-status');

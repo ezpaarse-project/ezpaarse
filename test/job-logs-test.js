@@ -20,13 +20,9 @@ describe('The server', function () {
       var headers = {
         'Accept' : 'application/json'
       };
-      helpers.post('/', logFile, headers, function (error, res, body) {
-        if (error) {
-          throw error;
-        }
-        if (!res) {
-          throw new Error('ezPAARSE is not running');
-        }
+      helpers.post('/', logFile, headers, function (err, res, body) {
+        if (!res) { throw new Error('ezPAARSE is not running'); }
+        if (err)  { throw err; }
         res.should.have.status(200);
         should.exist(res.headers['job-id'],
           'The header "Job-ID" was not sent by the server');
@@ -39,23 +35,18 @@ describe('The server', function () {
       var headers = {
         'Accept' : 'application/json'
       };
-      helpers.post('/', logFile, headers, function (error, res, body) {
-        if (error) {
-          throw error;
-        }
-        if (!res) {
-          throw new Error('ezPAARSE is not running');
-        }
+      helpers.post('/', logFile, headers, function (err, res, body) {
+        if (!res) { throw new Error('ezPAARSE is not running'); }
+        if (err)  { throw err; }
         res.should.have.status(200);
 
         var logURL = res.headers['job-traces'];
         should.exist(logURL,
           'The header "Job-Traces" was not sent by the server');
 
-        request.get(logURL, function (error, res, logBody) {
-          if (error) {
-            throw error;
-          }
+        request.get(logURL, function (error, response, logBody) {
+          if (!response) { throw new Error('ezPAARSE is not running'); }
+          if (error)     { throw error; }
           res.should.have.status(200);
           done();
         });
@@ -67,13 +58,9 @@ describe('The server', function () {
       var headers = {
         'Accept' : 'text/csv'
       };
-      helpers.post('/', wrongSecondLineLogFile, headers, function (error, res, body) {
-        if (error) {
-          throw error;
-        }
-        if (!res) {
-          throw new Error('ezPAARSE is not running');
-        }
+      helpers.post('/', wrongSecondLineLogFile, headers, function (err, res, body) {
+        if (!res) { throw new Error('ezPAARSE is not running'); }
+        if (err)  { throw err; }
         res.should.have.status(200);
 
         body = body.trim().split('\n');
@@ -83,10 +70,9 @@ describe('The server', function () {
         should.exist(logURL,
           'The header "Lines-Unknown-Formats" was not sent by the server');
 
-        request.get(logURL, function (error, res, logBody) {
-          if (error) {
-            throw error;
-          }
+        request.get(logURL, function (error, response, logBody) {
+          if (!response) { throw new Error('ezPAARSE is not running'); }
+          if (error)     { throw error; }
           res.should.have.status(200);
 
           logBody = logBody.trim().split('\n');
@@ -104,13 +90,9 @@ describe('The server', function () {
       var headers = {
         'Accept' : 'text/csv'
       };
-      helpers.post('/', ignoredDomain, headers, function (error, res, body) {
-        if (error) {
-          throw error;
-        }
-        if (!res) {
-          throw new Error('ezPAARSE is not running');
-        }
+      helpers.post('/', ignoredDomain, headers, function (err, res, body) {
+        if (!res) { throw new Error('ezPAARSE is not running'); }
+        if (err)  { throw err; }
         res.should.have.status(200);
         should.ok(body === '', 'The body is not empty');
 
@@ -118,10 +100,9 @@ describe('The server', function () {
         should.exist(logURL,
           'The header "Lines-Ignored-Domains" was not sent by the server');
 
-        request.get(logURL, function (error, res, logBody) {
-          if (error) {
-            throw error;
-          }
+        request.get(logURL, function (error, response, logBody) {
+          if (!response) { throw new Error('ezPAARSE is not running'); }
+          if (error)     { throw error; }
           res.should.have.status(200);
 
           var logLine = fs.readFileSync(ignoredDomain).toString().trim();
@@ -136,13 +117,9 @@ describe('The server', function () {
       var headers = {
         'Accept' : 'text/csv'
       };
-      helpers.post('/', unknownDomain, headers, function (error, res, body) {
-        if (error) {
-          throw error;
-        }
-        if (!res) {
-          throw new Error('ezPAARSE is not running');
-        }
+      helpers.post('/', unknownDomain, headers, function (err, res, body) {
+        if (!res) { throw new Error('ezPAARSE is not running'); }
+        if (err)  { throw err; }
         res.should.have.status(200);
         should.ok(body === '', 'The body is not empty');
 
@@ -150,10 +127,9 @@ describe('The server', function () {
         should.exist(logURL,
           'The header "Lines-Unknown-Domains" was not sent by the server');
 
-        request.get(logURL, function (error, res, logBody) {
-          if (error) {
-            throw error;
-          }
+        request.get(logURL, function (error, response, logBody) {
+          if (!response) { throw new Error('ezPAARSE is not running'); }
+          if (error)     { throw error; }
           res.should.have.status(200);
 
           var logLine = fs.readFileSync(unknownDomain).toString().trim();
@@ -168,13 +144,9 @@ describe('The server', function () {
       var headers = {
         'Accept' : 'text/csv'
       };
-      helpers.post('/', unqualifiedEC, headers, function (error, res, body) {
-        if (error) {
-          throw error;
-        }
-        if (!res) {
-          throw new Error('ezPAARSE is not running');
-        }
+      helpers.post('/', unqualifiedEC, headers, function (err, res, body) {
+        if (!res) { throw new Error('ezPAARSE is not running'); }
+        if (err)  { throw err; }
         res.should.have.status(200);
         should.ok(body === '', 'The body is not empty');
 
@@ -182,10 +154,9 @@ describe('The server', function () {
         should.exist(logURL,
           'The header "Lines-Unqualified-ECs" was not sent by the server');
 
-        request.get(logURL, function (error, res, logBody) {
-          if (error) {
-            throw error;
-          }
+        request.get(logURL, function (error, response, logBody) {
+          if (!response) { throw new Error('ezPAARSE is not running'); }
+          if (error)     { throw error; }
           res.should.have.status(200);
 
           var logLine = fs.readFileSync(unqualifiedEC).toString().trim();
@@ -200,13 +171,9 @@ describe('The server', function () {
       var headers = {
         'Accept' : 'text/csv'
       };
-      helpers.post('/', pkbmissEC, headers, function (error, res, body) {
-        if (error) {
-          throw error;
-        }
-        if (!res) {
-          throw new Error('ezPAARSE is not running');
-        }
+      helpers.post('/', pkbmissEC, headers, function (err, res, body) {
+        if (!res) { throw new Error('ezPAARSE is not running'); }
+        if (err)  { throw err; }
         res.should.have.status(200);
 
         body = body.trim().split('\n');
@@ -216,10 +183,9 @@ describe('The server', function () {
         should.exist(logURL,
           'The header "Lines-PKB-Miss-ECs" was not sent by the server');
 
-        request.get(logURL, function (error, res, logBody) {
-          if (error) {
-            throw error;
-          }
+        request.get(logURL, function (error, response, logBody) {
+          if (!response) { throw new Error('ezPAARSE is not running'); }
+          if (error)     { throw error; }
           res.should.have.status(200);
 
           var logLine = fs.readFileSync(pkbmissEC).toString().trim();

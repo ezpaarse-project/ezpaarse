@@ -25,8 +25,8 @@ describe('The server', function () {
     logF.logFaker({ rate: 900, duration: 4 }, function (stream) {
       helpers.postPiped('/' + jobid + '/?_METHOD=PUT', headers, stream, function (err, res, body) {
       
-        if (err)  { throw err; }
         if (!res) { throw new Error('ezPAARSE is not running'); }
+        if (err)  { throw err; }
 
         // For a deferred result, the data must be written in a file and not in the body
         res.should.have.status(200);
@@ -34,8 +34,8 @@ describe('The server', function () {
     
         helpers.get('/' + jobid + '/', function (error1, response1, defBody1) {
 
-          if (error1) { throw error1; }
           if (!response1) { throw new Error('ezPAARSE is not running'); }
+          if (error1) { throw error1; }
       
           should.exist(defBody1);
           should.ok(defBody1.length, 'The second differed download is empty');
@@ -44,8 +44,8 @@ describe('The server', function () {
           setTimeout(function () {
             helpers.get('/' + jobid + '/', function (error2, response2, defBody2) {
 
-              if (error2) { throw error2; }
               if (!response2) { throw new Error('ezPAARSE is not running'); }
+              if (error2) { throw error2; }
               
               should.exist(defBody2);
               should.ok(defBody2.length, 'The second differed download is empty');

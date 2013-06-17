@@ -17,13 +17,9 @@ describe('The server', function () {
         'Accept'        : 'application/json',
         'Anonymize-host': 'md5'
       };
-      helpers.post('/', logFile, headers, function (error, res, body) {
-        if (error) {
-          throw error;
-        }
-        if (!res) {
-          throw new Error('ezPAARSE is not running');
-        }
+      helpers.post('/', logFile, headers, function (err, res, body) {
+        if (!res) { throw new Error('ezPAARSE is not running'); }
+        if (err)  { throw err; }
         res.should.have.status(200);
 
         var correctOutput = fs.readFileSync(resultFile, 'UTF-8');
