@@ -13,7 +13,7 @@ sudo apt-get install uuid-dev
 sudo apt-get install expect
 ```
 
-## Procédure d'installation ##
+## Procédure d’installation ##
 
 ```console
 git clone http://github.com/ezpaarse-project/ezpaarse.git
