@@ -69,4 +69,48 @@ describe('The server', function () {
       });
     });
   });
+  describe('receives a log on the HTTP POST / route with an '
+  + ' empty field in Output-Fields header', function () {
+    it('and sends back a 4012 error code (@03)', function (done) {
+      var headers = {
+        'Output-Fields' : ',+newCol'
+      };
+      helpers.post('/', logFile, headers, function (err, res, body) {
+        if (!res) { throw new Error('ezPAARSE is not running'); }
+        if (err)  { throw err; }
+        res.should.have.status(400);
+        
+        should.ok(body === '', 'The body is not empty');
+        res.should.have.header('ezpaarse-status');
+        res.should.have.header('ezpaarse-status-message');
+
+        var status = res.headers['ezpaarse-status'];
+        status.should.equal('4012', 'ezPAARSE returned a wrong status header');
+        
+        done();
+      });
+    });
+  });
+  describe('receives a log on the HTTP POST / route with an '
+  + 'operator-less field in Output-Fields header', function () {
+    it('and sends back a 4013 error code (@04)', function (done) {
+      var headers = {
+        'Output-Fields' : '-url,newCol'
+      };
+      helpers.post('/', logFile, headers, function (err, res, body) {
+        if (!res) { throw new Error('ezPAARSE is not running'); }
+        if (err)  { throw err; }
+        res.should.have.status(400);
+        
+        should.ok(body === '', 'The body is not empty');
+        res.should.have.header('ezpaarse-status');
+        res.should.have.header('ezpaarse-status-message');
+
+        var status = res.headers['ezpaarse-status'];
+        status.should.equal('4013', 'ezPAARSE returned a wrong status header');
+        
+        done();
+      });
+    });
+  });
 });
