@@ -9,12 +9,12 @@ var should  = require('should');
 var resultMonoPlus     = require('./dataset/user-mono-plus.result.json');
 var resultMonoSpace    = require('./dataset/user-mono-space.result.json');
 var resultMultiPlus    = require('./dataset/user-multi-plus.result.json');
-var resultMultipleMisc = require('./dataset/user-multiple-misc.result.json');
+var resultMultipleMisc = require('./dataset/user-multifields.result.json');
 
 var logMonoPlus     = __dirname + '/dataset/user-mono-plus.log';
 var logMonoSpace    = __dirname + '/dataset/user-mono-space.log';
 var logMultiPlus    = __dirname + '/dataset/user-multi-plus.log';
-var logMultipleMisc = __dirname + '/dataset/user-multiple-misc.log';
+var logMultipleMisc = __dirname + '/dataset/user-multifields.log';
 
 describe('The server', function () {
   describe('receives a log on the HTTP POST / route with a user field', function () {
