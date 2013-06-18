@@ -94,16 +94,17 @@ case $1 in
       echo "$EZPAARSE_NAME is already stopped."
       exit 0
     else
+      EZPAARSE_PID=`cat $EZPAARSE_PIDFILE`
       ezpaarse_stop
 
       for i in 1 2 3 4 5 6 7 8 9 10 11 12 13 14; do
-        if [ ! -d /proc/`cat $EZPAARSE_PIDFILE` ]; then
+        if [ ! -d /proc/$EZPAARSE_PID ]; then
           break
         fi
         sleep 1
       done
 
-      if [ -d /proc/`cat $EZPAARSE_PIDFILE` ]; then
+      if [ -d /proc/$EZPAARSE_PID ]; then
         echo "$EZPAARSE_NAME cannot be stopped."
         exit 1
       else
