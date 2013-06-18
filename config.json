@@ -17,14 +17,14 @@
   ],
   "EZPAARSE_BIG_RATE": 900,
   "EZPAARSE_BIG_DURATION": 60,
-  "EZPAARSE_TMP_CYCLE": 0.1,
+  "EZPAARSE_TMP_CYCLE": 60,
   "EZPAARSE_TMP_LIFETIME":
   {
     "years":   0,
     "months":  0,
-    "days":    0,
+    "days":    1,
     "hours":   0,
-    "minutes": 1
+    "minutes": 0
   },
   "EZPAARSE_IGNORED_DOMAINS":
   [
