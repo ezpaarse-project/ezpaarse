@@ -202,7 +202,8 @@ describe('The server', function () {
       });
     });
   });
-  describe('receives a log with a user-field header group containing fieldname doublons', function () {
+  describe('receives a log with a user-field header group'
+  + ' containing fieldname doublons', function () {
     it('and sends back a 4011 error code (@08)',
       function (done) {
       var headers = {
