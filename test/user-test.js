@@ -128,4 +128,104 @@ describe('The server', function () {
       });
     });
   });
+  describe('receives a log with a user-field header group missing SRC', function () {
+    it('and sends back a 4008 error code (@05)',
+      function (done) {
+      var headers = {
+        'Accept'                     : 'application/json',
+        'user-field0-dest-groupe'    : 'etu|persecr|uncas|unautre',
+        'user-field0-dest-categorie' : '[0-9]{3}',
+        'user-field0-sep'            : '+'
+      };
+      helpers.post('/', logMultiPlus, headers, function (err, res, body) {
+        if (!res) { throw new Error('ezPAARSE is not running'); }
+        if (err)  { throw err; }
+        res.should.have.status(400);
+        
+        should.ok(body === '', 'The body is not empty');
+        res.should.have.header('ezpaarse-status');
+        res.should.have.header('ezpaarse-status-message');
+
+        var status = res.headers['ezpaarse-status'];
+        status.should.equal('4008', 'ezPAARSE returned a wrong status header');
+
+        done();
+      });
+    });
+  });
+  describe('receives a log with a user-field header group missing SEP', function () {
+    it('and sends back a 4009 error code (@06)',
+      function (done) {
+      var headers = {
+        'Accept'                     : 'application/json',
+        'user-field0-src'            : 'user',
+        'user-field0-dest-groupe'    : 'etu|persecr|uncas|unautre',
+        'user-field0-dest-categorie' : '[0-9]{3}',
+      };
+      helpers.post('/', logMultiPlus, headers, function (err, res, body) {
+        if (!res) { throw new Error('ezPAARSE is not running'); }
+        if (err)  { throw err; }
+        res.should.have.status(400);
+        
+        should.ok(body === '', 'The body is not empty');
+        res.should.have.header('ezpaarse-status');
+        res.should.have.header('ezpaarse-status-message');
+
+        var status = res.headers['ezpaarse-status'];
+        status.should.equal('4009', 'ezPAARSE returned a wrong status header');
+
+        done();
+      });
+    });
+  });
+  describe('receives a log with a user-field header group missing DEST', function () {
+    it('and sends back a 4010 error code (@07)',
+      function (done) {
+      var headers = {
+        'Accept'                     : 'application/json',
+        'user-field0-src'            : 'user',
+        'user-field0-sep'            : '+'
+      };
+      helpers.post('/', logMultiPlus, headers, function (err, res, body) {
+        if (!res) { throw new Error('ezPAARSE is not running'); }
+        if (err)  { throw err; }
+        res.should.have.status(400);
+        
+        should.ok(body === '', 'The body is not empty');
+        res.should.have.header('ezpaarse-status');
+        res.should.have.header('ezpaarse-status-message');
+
+        var status = res.headers['ezpaarse-status'];
+        status.should.equal('4010', 'ezPAARSE returned a wrong status header');
+
+        done();
+      });
+    });
+  });
+  describe('receives a log with a user-field header group containing fieldname doublons', function () {
+    it('and sends back a 4011 error code (@08)',
+      function (done) {
+      var headers = {
+        'Accept'                     : 'application/json',
+        'user-field0-src'            : 'user',
+        'user-field0-dest-user'      : 'etu|persecr|uncas|unautre',
+        'user-field0-dest-categorie' : '[0-9]{3}',
+        'user-field0-sep'            : '+'
+      };
+      helpers.post('/', logMultiPlus, headers, function (err, res, body) {
+        if (!res) { throw new Error('ezPAARSE is not running'); }
+        if (err)  { throw err; }
+        res.should.have.status(400);
+        
+        should.ok(body === '', 'The body is not empty');
+        res.should.have.header('ezpaarse-status');
+        res.should.have.header('ezpaarse-status-message');
+
+        var status = res.headers['ezpaarse-status'];
+        status.should.equal('4011', 'ezPAARSE returned a wrong status header');
+
+        done();
+      });
+    });
+  });
 });
