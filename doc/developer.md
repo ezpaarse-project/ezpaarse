@@ -6,7 +6,7 @@
 * [git](http://git-scm.com/) pour gérer les bases de connaissances éditeurs et le code source.
 * [php](http://php.net), [perl](http://www.perl.org/), [python](http://www.python.org/) ou autres langages pour l'écriture des parseurs.
 
-## Guide rapide d`utilisation de git ##
+## Guide rapide d'utilisation de git ##
 
 Vous êtes développeur et souhaitez contribuer au code source d'ezPAARSE par exemple :
 
@@ -51,11 +51,11 @@ git push
 
 Remarque: à moins de disposer d'un accès privilégié (équipe ezPAARSE), vous devez tout d'abord "forker" le dépôt github d'ezPAARSE pour pouvoir ensuite travailler sur cette copie. Une fois que vous êtes satisfaits vous pouvez alors soumettre votre travail à l'équipe ezPAARSE en envoyant une ["pull request"](https://help.github.com/articles/using-pull-requests). Votre travail sera alors relu par l'équipe ezPAARSE puis intégré si aucun souci n'est repéré.
 
-## Fonctionnement du moteur d`ezPAARSE
+## Fonctionnement du moteur d'ezPAARSE
 
 ![Schema du fonctionnement du moteur ezPAARSE](images/ezPAARSE-Moteur.png "Moteur ezPAARSE")
 
-## Écriture d`un parseur ##
+## Écriture d'un parseur ##
 
 * un parseur se présente sous la forme d'un fichier executable "parser[.xx]" ([.xx] étant l'extension facultative du fichier) accompagné d'un fichier de description [manifest.json](https://github.com/ezpaarse-project/ezpaarse/blob/master/platforms/sd/manifest.json) et du nécessaire pour sa validation (contenu dans un répertoire 'test' voir ci-dessous).
 * il fonctionne sous forme d'un filtre : traite l'entrée standard et produit un flux sur la sortie standard .
@@ -151,7 +151,7 @@ mocha ./test/platforms-test -g sd
 ```
 
 
-## Générer une version d`ezPAARSE ##
+## Générer une version d'ezPAARSE ##
 
 Pour générer une nouvelle version d'ezPAARSE plusieurs étapes semi-automatiques sont nécessaires :
 
@@ -194,7 +194,7 @@ make exe
 make upload
 ```
 
-## Générer une archive snapshot d`ezPAARSE ##
+## Générer une archive snapshot d'ezPAARSE ##
 
 Le numéro de version `latest` doit être utilisé pour générer un snapshot (une archive de la version de développement).
 
