@@ -168,5 +168,24 @@ module.exports = function (app) {
     res.header('Content-Type', 'text/plain');
     res.send(uuid.v1());
   });
+
+  /**
+   * GET route on /info/form-predefined
+   */
+  app.get('/info/form-predefined', function (req, res) {
+    res.type('application/json');
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+
+    var file = __dirname + '/../form-predefined.json';
+    if (fs.existsSync(file)) {
+      var statusCodes = require(file);
+      res.status(200);
+      res.write(JSON.stringify(statusCodes, null, 2));
+    } else {
+      res.status(404);
+    }
+    res.end();
+  });
   
 };

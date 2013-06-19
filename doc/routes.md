@@ -178,4 +178,9 @@ Ces routes permettent de récupérer diverses informations, comme la liste des p
         /info/codes/{code}</td>
       <td>Retourne la signification d'un code</td>
     </tr>
+    <tr>
+      <td>
+        /info/form-predefined</td>
+      <td>Liste de valeurs prédéfinies pour les options avancées du formulaire</td>
+    </tr>
 </table>
