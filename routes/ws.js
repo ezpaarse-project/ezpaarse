@@ -431,8 +431,8 @@ module.exports = function (app, domains, ignoredDomains) {
           // tells there is no more part to handle
           partHandlingQueue.push({ part: null, lazy: lazy, logger: logger, sh: sh });
         });
-        form.on('error', function () {
-          logger.error('Request upload: form error');
+        form.on('error', function (err) {
+          logger.error('Request upload: form error [' + err + ']');
           // tells there is no more part to handle
           partHandlingQueue.push({ part: null, lazy: lazy, logger: logger, sh: sh });
           if (!res.headerSent) {
