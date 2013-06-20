@@ -5,33 +5,37 @@
 var helpers  = require('./helpers.js');
 var should   = require('should');
 var fs       = require('fs');
+var path     = require('path');
 
-var folder   = __dirname + '/dataset/multiformat';
+var folder   = path.join(__dirname, '/dataset/multiformat');
 var ezproxyTestSets =
 [
-  { logFile: folder + '/univ_limoges.ezproxy.log',
+  { logFile: path.join(folder, '/univ_limoges.ezproxy.log'),
     format: '%<[ ]?>%t %h %U' },
-  { logFile: folder + '/univ_lyon.ezproxy.log',
+  { logFile: path.join(folder, '/univ_lyon.ezproxy.log'),
     format: '%h %l %u %t "%r" %s %b' },
-  { logFile: folder + '/univ_strasbourg.ezproxy.log',
+  { logFile: path.join(folder, '/univ_strasbourg.ezproxy.log'),
     format: '%t %h %u %U %b %{session}<[a-zA-Z0-9]+>' },
-  { logFile: folder + '/ul.ezproxy.log',
+  { logFile: path.join(folder, '/ul.ezproxy.log'),
     format: '%h %u %<[0-9]> %t "%r" %s %b %<[a-zA-Z\\+]+>' },
-  { logFile: folder + '/upmc.ezproxy.log',
+  { logFile: path.join(folder, '/upmc.ezproxy.log'),
     format: '%h %{session} %u %t "%r" %s %b %<.*>' }
 ];
 var bibliopamTestSets =
 [
-  { logFile: folder + '/univ_toulouse.bibliopam.log',
+  { logFile: path.join(folder, '/univ_toulouse.bibliopam.log') },
+  { logFile: path.join(folder, '/univ_parisdescartes.bibliopam.log') }
+];
+var apacheTestSets =
+[
+  { logFile: path.join(folder, '/test.apache.log'),
     format: '%h %l %u %t "%r" %>s %b %<.*>' },
-  { logFile: folder + '/univ_parisdescartes.bibliopam.log',
-    format: '%h %l %u %t "%r" %>s %b %<.*>' }
 ];
 var squidTestSets =
 [
-  { logFile: folder + '/upmc.squid.log',
+  { logFile: path.join(folder, '/upmc.squid.log'),
     format: '%ts.%03tu %6tr %>a %Ss/%03>Hs %<st %rm %ru %[un %Sh/%<a %mt' },
-  { logFile: folder + '/inria.squid.log',
+  { logFile: path.join(folder, '/inria.squid.log'),
     format: '%<A:%lp %>a %ui %[un [%tl] "%rm %ru HTTP/%rv" %>Hs %<st %<.*>' }
 ];
 
@@ -47,7 +51,9 @@ function check(testSet, formatHeader, callback) {
       'Accept': 'application/json',
       'Anonymize-host': 'md5'
     };
-    headers[formatHeader] = testCase.format;
+    if (testCase.format) {
+      headers[formatHeader] = testCase.format;
+    }
     helpers.post('/', testCase.logFile, headers, function (err, res, body) {
       if (!res) { throw new Error('ezPAARSE is not running'); }
       if (err)  { throw err; }
@@ -55,9 +61,9 @@ function check(testSet, formatHeader, callback) {
 
       var resultJson = require(testCase.resultFile);
       if (resultJson.length === 0) {
-        should.ok(body === '', 'The body is not empty');
+        should.ok(body === '', 'The body is not empty, but the result file is.');
       } else {
-        should.exist(body);
+        should.ok(body !== '', 'The body is empty');
         var bodyJson = JSON.parse(body);
 
         bodyJson.should.be.a('object');
@@ -79,11 +85,16 @@ describe('The server', function () {
   });
   describe('receives different bibliopam log files', function () {
     it('and recognizes the format of the lines using the HTTP headers (@02)', function (done) {
-      check(bibliopamTestSets, 'Log-Format-bibliopam', done);
+      check(bibliopamTestSets, null, done);
+    });
+  });
+  describe('receives different apache log files', function () {
+    it('and recognizes the format of the lines using the HTTP headers (@03)', function (done) {
+      check(apacheTestSets, 'Log-Format-apache', done);
     });
   });
   describe('receives different squid log files', function () {
-    it('and recognizes the format of the lines using the HTTP headers (@03)', function (done) {
+    it('and recognizes the format of the lines using the HTTP headers (@04)', function (done) {
       check(squidTestSets, 'Log-Format-squid', done);
     });
   });
