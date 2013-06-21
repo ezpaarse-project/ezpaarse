@@ -6,9 +6,10 @@
   "timestamp": 1345407412,
   "url": "http://pdn.sciencedirect.com/science?_ob=MiamiImageURL&_cid=272873&_user=5262028&_pii=S0196064404001969&_check=y&_origin=article&_zone=toolbar&_coverDate=31-Jul-2004&view=c&originContentFamily=serial&wchp=dGLbVlt-zSkzV&md5=bbbfa2dba5a899dea8c4d2e3e29dd49a&pid=1-s2.0-S0196064404001969-main.pdf",
   "status": "200",
+  "user-agent": "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 6.1; WOW64; Trident/5.0)",
   "domain": "pdn.sciencedirect.com",
-  "platform": "sd",
+  "issn": "0196-0644",
   "rtype": "ARTICLE",
   "mime": "PDF",
-  "issn": "0196-0644"
+  "platform": "sd"
 }]

@@ -13,8 +13,10 @@ describe('The pkb manager', function () {
       var record = pkb.get('aps');
       should.exist(record.issn);
       should.exist(record.eissn);
+      should.exist(record.titre);
       record.issn.should.equal('1671-4083');
       record.eissn.should.equal('1745-7254');
+      record.titre.should.equal('Acta Pharmacologica Sinica');
       done();
     });
   });
