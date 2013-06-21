@@ -1,3 +1,5 @@
+// ##EZPAARSE
+
 var jobid;
 var socketID;
 var host = $(location).attr('protocol') + '//' + $(location).attr('host');
