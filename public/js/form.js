@@ -3,6 +3,7 @@ var socketID;
 var host = $(location).attr('protocol') + '//' + $(location).attr('host');
 var socket = io.connect(host);
 var socketStarted = false;
+var predefined;
 
 $(document).on('ready' ,function () {
 
@@ -10,6 +11,58 @@ $(document).on('ready' ,function () {
     $("#content-form").addClass("ninja");
     $("#navigator-alert").removeClass("ninja");
   }
+
+  /**
+   * initialize advanced options
+   */
+  $.ajax({
+    url: "/info/form-predefined",
+    dataType: 'json'
+  }).done(function(form_predefined) {
+    predefined = form_predefined['advanced-options-predefined'];
+    $.each(predefined, function (p_id) {
+      $('#advanced-options-predefined').append('<option value="' + p_id + '">' + predefined[p_id].label + '</option>');
+    });
+    $('#advanced-options-predefined').change(function updatePredefined() {
+      var id = document.getElementById('advanced-options-predefined').value;
+      if (id) {
+        if (predefined[id].hasOwnProperty('input-log-format')) {
+          $('#input-log-type').val(predefined[id]['input-log-type']);
+        } else {
+          $('#input-log-type').val("");      
+        }
+        if (predefined[id].hasOwnProperty('input-log-format')) {
+          $('#input-log-format').val(predefined[id]['input-log-format']);
+        } else {
+          $('#input-log-format').val("");      
+        }
+        if (predefined[id].hasOwnProperty('input-result-format')) {
+          $('#input-result-format').val(predefined[id]['input-result-format']);
+        } else {
+          $('#input-result-format').val("");      
+        }
+        if (predefined[id].hasOwnProperty('input-traces')) {
+          $('#input-traces').val(predefined[id]['input-traces']);
+        } else {
+          $('#input-traces').val("");      
+        }
+        if (predefined[id].hasOwnProperty('input-output-fields')) {
+          $('#input-output-fields').val(predefined[id]['input-output-fields']);
+        } else {
+          $('#input-output-fields').val("");      
+        }
+      } else {
+        $('#input-log-type').val("");      
+        $('#input-log-format').val("");      
+        $('#input-result-format').val("");
+        $('#input-traces').val("");
+        $('#input-output-fields').val("");
+      }
+    })
+  }).error(function() {
+    console.log("Erreur lors de la récupération des données prédéfinies");
+  });
+
 
   socket.on('connected', function (id) {
     socketID = id;

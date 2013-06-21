@@ -45,6 +45,16 @@
                 <div id="collapseThree" class="accordion-body collapse">
                   <div class="accordion-inner">
                     <div class="control-group">
+                      <label class="control-label" for="advanced-options-predefined">
+                        <a class="notALink" data-toggle="tooltip" title="Valeurs pré-définies">Valeurs pré-définies <i class="icon-question-sign"></i></a>
+                      </label>
+                      <div class="controls">
+                        <select id="advanced-options-predefined" name="advanced-options-predefined">
+                          <option value="" selected>Aucune</option>
+                        </select>
+                      </div>
+                    </div>
+                     <div class="control-group">
                       <label class="control-label" for="input-log-type">
                         <a class="notALink" data-toggle="tooltip" title="Plateforme d'origine des logs">Type de log <i class="icon-question-sign"></i></a>
                       </label>
@@ -92,10 +102,10 @@
                     </div>
                     <div class="control-group">
                       <label class="control-label" for="input-output-fields">
-                        <a class="notALink" data-toggle="tooltip" title="Indiquer les champs (en-têtes) désirés pour le fichier de sortie. Exemple : host, login, date, domain,rtype, mime, doi, issn, eissn, platform, unitid">Champs en sortie <i class="icon-question-sign"></i></a>
+                        <a class="notALink" data-toggle="tooltip" title="Indiquer les champs (en-têtes) désirés pour le fichier de sortie. Exemple : -host,-login,+datetime">Champs en sortie <i class="icon-question-sign"></i></a>
                       </label>
                       <div class="controls">
-                        <input id="input-output-fields" placeholder="Ex: host,login,date" type="text"  name="input-output-fields"/>
+                        <input id="input-output-fields" placeholder="Ex: -host,-login,+datetime" type="text"  name="input-output-fields"/>
                       </div>
                     </div>
                   </div>
