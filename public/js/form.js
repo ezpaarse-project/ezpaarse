@@ -28,10 +28,12 @@ $(document).on('ready' ,function () {
     $('#advanced-options-predefined').change(function updatePredefined() {
       var id = document.getElementById('advanced-options-predefined').value;
       if (id) {
-        if (predefined[id].hasOwnProperty('input-log-format')) {
+        if (predefined[id].hasOwnProperty('input-log-type')) {
           $('#input-log-type').val(predefined[id]['input-log-type']);
+          $('#input-log-format').prop("disabled", false);
         } else {
           $('#input-log-type').val("");      
+          $('#input-log-format').prop("disabled", true);
         }
         if (predefined[id].hasOwnProperty('input-log-format')) {
           $('#input-log-format').val(predefined[id]['input-log-format']);
@@ -59,6 +61,15 @@ $(document).on('ready' ,function () {
         $('#input-result-format').val("");
         $('#input-traces').val("");
         $('#input-output-fields').val("");
+      }
+    /**
+     * When #input-log-type is not Auto, enable #input-log-format
+     */
+      if ($('#input-log-type').val()) {
+        $('#input-log-format').prop("disabled", false);
+      } else {
+        $('#input-log-format').prop("disabled", true);
+        $('#input-log-format').prop("value", null);
       }
     })
   }).error(function() {
