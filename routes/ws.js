@@ -374,9 +374,7 @@ module.exports = function (app, domains, ignoredDomains) {
             handlerIsSaturated = true;
           });
           handler.on('drain', function () {
-            if (endOfRequest) {
-              terminateResponse();
-            } else {
+            if (!endOfRequest) {
               handlerIsSaturated = false;
               if (!loggersAreSaturated) {
                 var data = inputStream.read();
@@ -557,6 +555,11 @@ module.exports = function (app, domains, ignoredDomains) {
         writer.write(ec);
         writtenECs = true;
         report.inc('general', 'nb-ecs');
+      });
+      handler.on('drain', function () {
+        if (endOfRequest) {
+          terminateResponse();
+        }
       });
     });
   }
