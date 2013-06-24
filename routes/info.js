@@ -13,7 +13,7 @@ module.exports = function (app) {
    * GET route on /info/platforms
    */
   app.get('/info/platforms', function (req, res) {
-    res.type('application/json');
+    res.header('Content-Type', 'application/json; charset=utf-8');
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
     res.status(200);
@@ -66,7 +66,7 @@ module.exports = function (app) {
    * GET route on /info/rtype
    */
   app.get('/info/rtype', function (req, res) {
-    res.type('application/json');
+    res.header('Content-Type', 'application/json; charset=utf-8');
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
 
@@ -85,7 +85,7 @@ module.exports = function (app) {
    * GET route on /info/mime
    */
   app.get('/info/mime', function (req, res) {
-    res.type('application/json');
+    res.header('Content-Type', 'application/json; charset=utf-8');
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
 
@@ -104,7 +104,7 @@ module.exports = function (app) {
    * GET route on /info/rid
    */
   app.get('/info/rid', function (req, res) {
-    res.type('application/json');
+    res.header('Content-Type', 'application/json; charset=utf-8');
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
 
@@ -123,7 +123,7 @@ module.exports = function (app) {
    * GET route on /info/codes
    */
   app.get('/info/codes', function (req, res) {
-    res.type('application/json');
+    res.header('Content-Type', 'application/json; charset=utf-8');
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
 
@@ -142,7 +142,7 @@ module.exports = function (app) {
    * GET route on /info/codes/:number
    */
   app.get(/\/info\/codes\/([0-9]+)$/, function (req, res) {
-    res.type('application/json');
+    res.header('Content-Type', 'application/json; charset=utf-8');
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
 
@@ -175,7 +175,7 @@ module.exports = function (app) {
    * GET route on /info/form-predefined
    */
   app.get('/info/form-predefined', function (req, res) {
-    res.type('application/json');
+    res.header('Content-Type', 'application/json; charset=utf-8');
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
 
