@@ -102,6 +102,9 @@ tdd-verbose:
 jshint:
 	@. ./bin/env; jshint $(JSFILES) --config .jshintrc
 
+clean-tmp:
+	@rm -rf ./tmp/*
+
 # Benchmarks section
 # # # # # # # # # # # #
 
