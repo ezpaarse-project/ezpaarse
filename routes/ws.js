@@ -184,7 +184,8 @@ module.exports = function (app, domains, ignoredDomains) {
       ]
     });
 
-    var saturated = false;
+    var loggersAreSaturated = false;
+    var handlerIsSaturated  = false;
     var sh = new StreamHandler();
     sh.add('unknownFormats', logPath + '/lines-unknown-formats.log');
     sh.add('ignoredDomains', logPath + '/lines-ignored-domains.log');
@@ -250,6 +251,45 @@ module.exports = function (app, domains, ignoredDomains) {
       // Takes "raw" ECs and returns those which can be sent
       var handler = new ECHandler(logger, sh, init.ufSplitters, report);
       
+      var terminateResponse = function () {
+        // If request ended and no buffer left, terminate the response
+        if (writerWasStarted) {
+          writer.end();
+        }
+
+        logger.info("Terminating response");
+        logger.info(report.get('general', 'nb-lines-input') + " lines were read");
+        logger.info(report.get('general', 'nb-ecs') + " ECs were created");
+
+        var closeWinston = function (callback) {
+          logger.info('Closing trace loggers');
+          logger.transports.file._stream.on('close', callback);
+          logger.clear();
+        };
+
+        var finalizeReport = function (callback) {
+          logger.info('Finalizing report file');
+          
+          report.set('general', 'Job-Done', true);
+
+          report.finalize(function () {
+            logger.info('Closing reject log streams');
+            sh.closeAll(function () { closeWinston(callback); });
+          }, socket);
+        }
+
+        finalizeReport(function () {
+          res.end();
+          if (app.ezJobs[req.ezRID].ecsStream) {
+            // todo: clear the app.ezJobs[req.ezRID] from the memory
+            //       but have to think when is the best time for that
+            //       maybe we should wait as long as the folderreaper ?
+            app.ezJobs[req.ezRID].ecsStream.end();
+            app.ezJobs[req.ezRID].ecsStream = null;
+          }
+        });
+      };
+
       var processLine = function (line) {
         if (badBeginning) {
           return;
@@ -317,19 +357,39 @@ module.exports = function (app, domains, ignoredDomains) {
           var data = '';
           
           sh.on('saturated', function () {
-            saturated = true;
+            loggersAreSaturated = true;
           });
           sh.on('drain', function () {
-            saturated = false;
-            data = inputStream.read();
-            if (data) {
-              logger.silly('Request upload: reading data ' + part.filename + ' (drain)');
-              lazy.emit('data', data);
+            loggersAreSaturated = false;
+            if (!handlerIsSaturated) {
+              data = inputStream.read();
+              if (data) {
+                logger.silly('Request upload: reading data ' + part.filename + ' (drain)');
+                lazy.emit('data', data);
+              }
+            }
+          });
+
+          handler.on('saturated', function () {
+            handlerIsSaturated = true;
+          });
+          handler.on('drain', function () {
+            if (endOfRequest) {
+              terminateResponse();
+            } else {
+              handlerIsSaturated = false;
+              if (!loggersAreSaturated) {
+                var data = inputStream.read();
+                if (data) {
+                  logger.silly('Request upload: reading data ' + part.filename + ' (drain)');
+                  lazy.emit('data', data);
+                }
+              }
             }
           });
 
           inputStream.on('readable', function () {
-            if (!saturated) {
+            if (!handlerIsSaturated && !loggersAreSaturated) {
               data = inputStream.read();
               if (data) {
                 logger.silly('Request upload: reading data ' + part.filename + ' (readable)');
@@ -497,48 +557,6 @@ module.exports = function (app, domains, ignoredDomains) {
         writer.write(ec);
         writtenECs = true;
         report.inc('general', 'nb-ecs');
-      });
-
-      handler.on('drain', function () {
-        if (endOfRequest) {
-          // If request ended and no buffer left, terminate the response
-          if (writerWasStarted) {
-            writer.end();
-          }
-
-
-          logger.info("Terminating response");
-          logger.info(report.get('general', 'nb-lines-input') + " lines were read");
-          logger.info(report.get('general', 'nb-ecs') + " ECs were created");
-
-          var closeWinston = function (callback) {
-            logger.info('Closing trace loggers');
-            logger.transports.file._stream.on('close', callback);
-            logger.clear();
-          };
-
-          var finalizeReport = function (callback) {
-            logger.info('Finalizing report file');
-            
-            report.set('general', 'Job-Done', true);
-
-            report.finalize(function () {
-              logger.info('Closing reject log streams');
-              sh.closeAll(function () { closeWinston(callback); });
-            }, socket);
-          }
-
-          finalizeReport(function () {
-            res.end();
-            if (app.ezJobs[req.ezRID].ecsStream) {
-              // todo: clear the app.ezJobs[req.ezRID] from the memory
-              //       but have to think when is the best time for that
-              //       maybe we should wait as long as the folderreaper ?
-              app.ezJobs[req.ezRID].ecsStream.end();
-              app.ezJobs[req.ezRID].ecsStream = null;
-            }
-          });
-        }
       });
     });
   }
