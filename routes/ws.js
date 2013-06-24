@@ -4,6 +4,8 @@
 var fs            = require('fs');
 var Lazy          = require('lazy');
 var uuid          = require('uuid');
+var path          = require('path');
+var mime          = require('mime');
 var async         = require('async');
 var crypto        = require('crypto');
 var moment        = require('moment');
@@ -33,19 +35,14 @@ module.exports = function (app, domains, ignoredDomains) {
     var name = req.query.filename ? req.query.filename : rid;
 
     // check if this job exists
-    if (!app.ezJobs[rid] || !app.ezJobs[rid].ecsPath) {
-      res.writeHead(404, {});
-      res.end();
-      return;
-    }
+    if (app.ezJobs[rid] && app.ezJobs[rid].ecsPath && app.ezJobs[rid].ecsStream) {
+      console.log('Serving growing result file');
+      var ext = mime.extension(app.ezJobs[rid].contentType);
+      res.writeHead(200, {
+        'Content-Type': app.ezJobs[rid].contentType,
+        'Content-Disposition': 'attachment; filename="' + name + '.' + ext + '"'
+      });
 
-    var ext = app.ezJobs[rid].contentType.split('/')[1];
-    res.writeHead(200, {
-      'Content-Type': app.ezJobs[rid].contentType,
-      'Content-Disposition': 'attachment; filename="' + name + '.' + ext + '"'
-    });
-
-    if (app.ezJobs[rid].ecsStream) {
       console.log('Requesting deferred result ECs file (while response is generated)');
       // if job is still running (ECs are still writen in the temp file)
       // use the GrowingFile module to stream the result to the HTTP response
@@ -67,10 +64,37 @@ module.exports = function (app, domains, ignoredDomains) {
         }
       });
     } else {
-      console.log('Requesting deferred result ECs file');
-      // if job is finished (ECs are all writing it the temp file)
-      // use a basic pipe between the file and the http response
-      fs.createReadStream(app.ezJobs[rid].ecsPath).pipe(res);
+      console.log('Serving full result file');
+      var jobDir = path.join(__dirname, '/../tmp/jobs/', rid.charAt(0), rid.charAt(1), rid);
+      if (!fs.existsSync(jobDir)) {
+        res.status(404);
+        res.end();
+        return;
+      }
+      fs.readdir(jobDir, function (err, files) {
+        if (err) {
+          res.status(500);
+          res.end();
+        }
+        var reg = /^job-ecs\.([a-z]+)$/;
+        var filename;
+        for (var i in files) {
+          filename = files[i];
+          
+          if (reg.test(filename)) {
+            var ext = filename.split('.').pop();
+
+            res.writeHead(200, {
+              'Content-Type': mime.lookup(ext),
+              'Content-Disposition': 'attachment; filename="' + name + '.' + ext + '"'
+            });
+            fs.createReadStream(path.join(jobDir, filename)).pipe(res);
+            return;
+          }
+        }
+        res.status(404);
+        res.end();
+      });
     }
   });
 
