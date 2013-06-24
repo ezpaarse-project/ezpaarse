@@ -117,7 +117,7 @@ module.exports = function (app, domains, ignoredDomains) {
     app.ezJobs[ezRID] = { resIsDeferred: true };
     startEzpaarseJob(req, res, ezRID);
   });
-  // this route is usfule cause sometime PUT is not allowed by reverse proxies
+  // this route is useful because sometime PUT is not allowed by reverse proxies
   // PUT is replaced by a POST with a _METHOD=PUT as a query
   app.post(uuidRegExp, function (req, res) {
     var ezRID = req.params[0];
