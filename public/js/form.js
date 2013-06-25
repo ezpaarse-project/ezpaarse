@@ -115,34 +115,16 @@ $(document).on('ready' ,function () {
     $('#process-speed').text(general["process-speed"]);
   });
 
-  $("#collapseOne").on('show', function () {
-    $("#iOne").removeClass("icon-chevron-right");
-    $("#iOne").addClass("icon-chevron-down");
+  $("div[toggle-chevron]").on('show', function () {
+    $($(this).attr('toggle-chevron'))
+    .removeClass("icon-chevron-right")
+    .addClass("icon-chevron-down");
   });
 
-  $("#collapseOne").on('hide', function () {
-    $("#iOne").removeClass("icon-chevron-down");
-    $("#iOne").addClass("icon-chevron-right");
-  });
-
-  $("#collapseTwo").on('show', function () {
-    $("#iTwo").removeClass("icon-chevron-right");
-    $("#iTwo").addClass("icon-chevron-down");
-  });
-
-  $("#collapseTwo").on('hide', function () {
-    $("#iTwo").removeClass("icon-chevron-down");
-    $("#iTwo").addClass("icon-chevron-right");
-  });
-
-  $("#collapseThree").on('show', function () {
-    $("#iThree").removeClass("icon-chevron-right");
-    $("#iThree").addClass("icon-chevron-down");
-  });
-
-  $("#collapseThree").on('hide', function () {
-    $("#iThree").removeClass("icon-chevron-down");
-    $("#iThree").addClass("icon-chevron-right");
+  $("div[toggle-chevron]").on('hide', function () {
+    $($(this).attr('toggle-chevron'))
+    .removeClass("icon-chevron-down")
+    .addClass("icon-chevron-right");
   });
 
   /**
