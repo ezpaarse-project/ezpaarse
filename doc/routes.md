@@ -43,6 +43,8 @@ Niveaux disponibles :
   - **verbose** : plus précis qu'info, notifie plus finement les étapes du traitement.  
   - **silly** : tous détails du traitement (parseur non trouvé, ligne ignorée, recherche non fructueuse dans une PKB...).  
 
+-   **User-fieldN-xxxx:** extraction des informations utilisateurs d'un champ des logs en entrée [(plus de détails)](./userfields.html).  
+
 #### Body ####
 
 Lignes de log générées par un proxy.
