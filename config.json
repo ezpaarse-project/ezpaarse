@@ -12,6 +12,7 @@
     "doi",
     "issn",
     "eissn",
+    "titre",
     "platform",
     "unitid"
   ],
