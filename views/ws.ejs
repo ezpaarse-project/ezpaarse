@@ -105,9 +105,20 @@
                         <a class="notALink" data-toggle="tooltip" title="Indiquer les champs (en-têtes) désirés pour le fichier de sortie. Exemple : -host,-login,+datetime">Champs en sortie <i class="icon-question-sign"></i></a>
                       </label>
                       <div class="controls">
-                        <input id="input-output-fields" placeholder="Ex: -host,-login,+datetime" type="text"  name="input-output-fields"/>
+                        <input id="input-output-fields" placeholder="Ex: -host,-login,+datetime" type="text" name="input-output-fields"/>
                       </div>
                     </div>
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-group">
+                <div class="accordion-heading">
+                  <a class="accordion-toggle" data-toggle="collapse" data-parent="#pane-options" href="#collapseFour">
+                    <i id="iFour" class="icon-chevron-right"></i> Champ utilisateurs
+                  </a>
+                </div>
+                <div id="collapseFour" class="accordion-body collapse" toggle-chevron="#iFour">
+                  <div id="user-fields" class="accordion-inner">
                   </div>
                 </div>
               </div>
@@ -154,7 +165,7 @@
                   <tr><td>HTML</td><td id="mime-HTML" class="result-value"></td></tr>
                   <tr>
                     <td>
-                      <a class="notALink" data-toggle="tooltip" title="Le nombre de lignes rejetées pour cent lignes en entrée. A noter que les lignes ignorées (jpg, js, css ...) ne sont pas prise en compte lors de ce calcul.">Taux de filtrage<i class="icon-question-sign"></i></a>
+                      <a class="notALink" data-toggle="tooltip" title="Le nombre de lignes rejetées pour cent lignes en entrée. A noter que les lignes ignorées (jpg, js, css ...) ne sont pas prises en compte lors de ce calcul.">Taux de filtrage<i class="icon-question-sign"></i></a>
                     </td>
                     <td id="rejection-rate" class="result-value"></td></tr>
                   <tr><td>Durée du traitement</td><td id="job-duration" class="result-value"></td></tr>
@@ -241,6 +252,53 @@
               </a>
             </div>
             <div class="span3"></div>
-          </div>  
+          </div>
         </div>
+        <script type="text/html" id="user-field-template">
+        <div class="user-field">
+          <div class="control-group">
+            <label class="control-label" for="input-user-field-src">
+              <a class="notALink" data-toggle="tooltip" title="Nom du champ contenant les informations à extraire">Champ source <i class="icon-question-sign"></i></a>
+            </label>
+            <div class="controls">
+              <input class="input-user-field-src" type="text" name="input-user-field-src"/>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="input-user-field-sep">
+              <a class="notALink" data-toggle="tooltip" title="Caractère séparant les valeurs du champ source (utilisez le mot 'space' si le séparateur est un espace)">Séparateur <i class="icon-question-sign"></i></a>
+            </label>
+            <div class="controls">
+              <input class="input-user-field-sep" placeholder="Ex: space + , ;" type="text" name="input-user-field-sep"/>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="input-user-field-dest">
+              <a class="notALink" data-toggle="tooltip" title="Champs dans lesquels sont stockées les valeurs extraites. Les valeurs en adéquation avec une expression régulière sont ajoutées au champ correspondant.">Champs destination <i class="icon-question-sign"></i></a>
+            </label>
+            <div class="controls">
+              <div class="user-field-dest row-fluid">
+                <div class="dest">
+                  <input class="span4 input-user-field-dest-name" type="text" name="input-user-field-dest-name" placeholder="Nom"/>
+                  <input class="span8 input-user-field-dest-regexp" type="text" name="input-user-field-dest-regexp" placeholder="Expression régulière"/>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="control-group">
+            <label class="control-label" for="input-user-field-residual">
+              <a class="notALink" data-toggle="tooltip" title="(Optionnel) Champ recevant les valeurs ne correspondant à aucune expression régulière.">Champ restes <i class="icon-question-sign"></i></a>
+            </label>
+            <div class="controls">
+              <input class="input-user-field-residual" type="text" name="input-user-field-residual"/>
+            </div>
+          </div>
+        </div>
+        </script>
+        <script type="text/html" id="dest-template">
+        <div class="dest">
+          <input class="span4 input-user-field-dest-name" type="text" name="input-user-field-dest-name" placeholder="Nom"/>
+          <input class="span8 input-user-field-dest-regexp" type="text" name="input-user-field-dest-regexp" placeholder="Expression régulière"/>
+        </div>
+        </script>
 <% include footer %>
