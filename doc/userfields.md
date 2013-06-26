@@ -1,6 +1,6 @@
 ### User-fields ###
 
-Les header user-fields permettent d'extraire d'un champ les informations utilisateur et de les répartir dans d'autres champs à l'aide d'expressions régulières.
+Les headers user-fields permettent d'extraire d'un champ présent dans les logs les informations utilisateur et de les répartir dans d'autres champs à l'aide d'expressions régulières.
 Ils peuvent s'écrire par <span style="color: blue">bloc de header numérotés</span> *(en couleur les zones variables)* de la façon suivante :
 
 User-field<span style="color: blue">0</span>-src: <span style="color: red">nomDuChampSource</span></br>
@@ -22,9 +22,8 @@ curl -v -X POST --proxy "" --no-buffer \
   -F "file=@test/dataset/user-mono-plus.log" \
   -H 'Log-Format-ezproxy: %h - %u %t "%r" %s %b %{user}<[a-zA-Z0-9+]*>' \
   -H 'User-field0-src: user'\
+  -H 'User-field0-sep: +'\
   -H 'User-field0-dest-groupe: etu|persecr|uncas|unautre'\
   -H 'User-field0-dest-categorie: [0-9]{3}'\
-  -H 'User-field0-sep: +'\
  	http://127.0.0.1:59599
 ```
-

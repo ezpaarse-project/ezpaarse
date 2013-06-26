@@ -5,7 +5,7 @@
 		{
 			"label": "Université de Lorraine",
 			"input-log-type": "ezproxy",
-			"input-log-format": "%h %{session}<[a-zA-Z0-9\\-\\+]+> %u %t \"%r\" %s %b %<[a-zA-Z0-9\\-\\+]+>"
+			"input-log-format": "%h %{session}<[a-zA-Z0-9\\-\\+]+> %u %t \"%r\" %s %b %{user}<[a-zA-Z0-9\\-\\+]+>"
 		},
 		"UParisDApache":
 		{
@@ -23,7 +23,7 @@
 		{
 			"label": "Université de Rennes 1",
 			"input-log-type": "ezproxy",
-			"input-log-format": ""
+			"input-log-format": "%h %{session1}<[a-zA-Z0-9\\-\\+]+> %{session2}<[a-zA-Z0-9\\-\\+]+> %t \"%r\" %s %b %{user}<[a-zA-Z0-9\\-\\+]+>"
 		},
 		"ULyon":
 		{
@@ -65,7 +65,7 @@
 		{
 			"label": "Université de Montpellier 3",			
 			"input-log-type": "ezproxy",
-			"input-log-format": "%h %{session}<[a-zA-Z0-9\\-\\+]+> %{hash}<[a-zA-Z0-9]+>.%{user}<[a-zA-Z0-9]+> %t \"%r\" %s %b %<[a-zA-Z0-9\\-\\+]+>"
+			"input-log-format": "%h %{session}<[a-zA-Z0-9\\-\\+]+> %<[a-zA-Z0-9]+>.%{user}<[a-zA-Z0-9]+> %t \"%r\" %s %b %<[a-zA-Z0-9\\-\\+]+>"
 		},
 		"INRIA":
 		{
