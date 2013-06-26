@@ -15,6 +15,11 @@ $(document).on('ready' ,function () {
   }
 
   /**
+   * load first user-field using the template at the end of the page
+   */
+  $('#user-fields').append($('#user-field-template').html());
+
+  /**
    * initialize advanced options
    */
   $.ajax({
@@ -202,6 +207,51 @@ $(document).on('ready' ,function () {
     }
   });
 
+  $('#user-fields').on('blur', 'input', function () {
+
+    var lastField  = $('div#user-fields').find('div.user-field').last();
+
+    var src      = lastField.find('.input-user-field-src').val();
+    var sep      = lastField.find('.input-user-field-sep').val();
+    var residual = lastField.find('.input-user-field-residual').val();
+    var dests    = lastField.find('.user-field-dest');
+    if (src && sep) {
+      dests.each(function () {
+        var dest   = $(this);
+        var name   = dest.find('.input-user-field-dest-name').val();
+        var regexp = dest.find('.input-user-field-dest-regexp').val();
+        if (name && regexp) {
+          $('#user-fields').append('<hr/>');
+          $('#user-fields').append($('#user-field-template').html());
+          return;
+        }
+      });
+    }
+  });
+
+  $('#user-fields').on('keyup', '.user-field-dest input', function () {
+
+    var destsDiv    = $(this).parents('.user-field-dest');
+    var dests       = destsDiv.find('.dest');
+    var nbDests     = dests.length;
+    var allFilled = true;
+    dests.each(function (i) {
+      var dest   = $(this);
+      var name   = dest.find('.input-user-field-dest-name').val();
+      var regexp = dest.find('.input-user-field-dest-regexp').val();
+      if (!name && !regexp && (i + 1 < nbDests)) {
+        dest.next().find('input').first().focus();
+        dest.remove();
+      } else if (!name || !regexp) {
+        allFilled = false;
+        return;
+      }
+    });
+    if (allFilled) {
+      destsDiv.append($('#dest-template').html());
+    }
+  });
+
   /**
    * On click on the submit button, generates jobid, headers with advanced options,
    * then test if files are submitted. If not, display an error and do nothing.
@@ -226,6 +276,32 @@ $(document).on('ready' ,function () {
     if ($('#input-traces').val()) {
       headers['Traces-Level'] = $('#input-traces').val();
     }
+
+    $('div.user-field').each(function (i) {
+      var fieldGroup = $(this);
+      var src      = fieldGroup.find('.input-user-field-src').val();
+      var sep      = fieldGroup.find('.input-user-field-sep').val();
+      var residual = fieldGroup.find('.input-user-field-residual').val();
+      var dests    = fieldGroup.find('.dest');
+
+      if (src) {
+        headers['User-Field' + i + '-src'] = src;
+      }
+      if (sep) {
+        headers['User-Field' + i + '-sep'] = sep;
+      }
+      if (residual) {
+        headers['User-Field' + i + '-residual'] = residual;
+      }
+      dests.each(function () {
+        var dest   = $(this);
+        var name   = dest.find('.input-user-field-dest-name').val();
+        var regexp = dest.find('.input-user-field-dest-regexp').val();
+        if (name && regexp) {
+          headers['User-Field' + i + '-dest-' + name] = regexp;
+        }
+      });
+    });
 
     if ($('#input-output-fields').val()) {
       headers['Output-Fields'] = $('#input-output-fields').val();
