@@ -156,6 +156,67 @@ $(document).on('ready' ,function () {
     $('.file-input').last().prop('files', e.originalEvent.dataTransfer.files);
   });
 
+  function generateCurl() {
+    var curldiv = $('#curl-request');
+    var cmd = 'curl -X POST';
+    var nb = 1;
+    $('input[type=file]').each(function (index, input) {
+      var files = $(this).prop('files');
+      for (var i = 0, l = files.length; i < l; i++) {
+        var file = files[i];
+        cmd += ' -F "file' + (nb++) + '=@' + file.name + (file.type ? ';type=' + file.type : '') + '"';
+      }
+    });
+
+    if ($('#input-log-type').val() && $('#input-log-format').val()) {
+      cmd += ' -H "Log-Format-' + $('#input-log-type').val() + ': ' + $('#input-log-format').val().replace(/"/g, '\\"') + '"';
+    }
+
+    if ($('#input-result-format').val()) {
+      cmd += ' -H "Accept: ' + $('#input-result-format').val() + '"';
+    }
+
+    if ($('#input-traces').val()) {
+      cmd += ' -H "Traces-Level: ' + $('#input-traces').val() + '"';
+    }
+
+    $('div.user-field').each(function (i) {
+      var fieldGroup = $(this);
+      var src      = fieldGroup.find('.input-user-field-src').val();
+      var sep      = fieldGroup.find('.input-user-field-sep').val();
+      var residual = fieldGroup.find('.input-user-field-residual').val();
+      var dests    = fieldGroup.find('.dest');
+
+      if (src) {
+        cmd += ' -H "User-Field' + i + '-src: ' + src + '"';
+      }
+      if (sep) {
+        cmd += ' -H "User-Field' + i + '-sep: ' + sep + '"';
+      }
+      if (residual) {
+        cmd += ' -H "User-Field' + i + '-residual: ' + residual + '"';
+      }
+      dests.each(function () {
+        var dest   = $(this);
+        var name   = dest.find('.input-user-field-dest-name').val();
+        var regexp = dest.find('.input-user-field-dest-regexp').val();
+        if (name && regexp) {
+          cmd += ' -H "User-Field' + i + '-dest-' + name + ': ' + regexp.replace(/"/g, '\\"') + '"';
+        }
+      });
+    });
+
+    if ($('#input-output-fields').val()) {
+      cmd += ' -H Output-Fields: ' + $('#input-output-fields').val() + '"';
+    }
+
+    cmd += ' ' + host;
+    curldiv.val(cmd);
+  }
+  generateCurl();
+
+  $(document).on('change', 'input, select, #advanced-options textarea', generateCurl);
+
   /**
    * On change in .file-input NOW and in the FUTUR
    * (if new .file-inputs are created it will works too),

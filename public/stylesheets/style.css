@@ -53,6 +53,18 @@ ul {
   display: none;
 }
 
+textarea.code {
+  text-align: left;
+  padding: 2px 4px;
+  color: #d14;
+  width: 100%;
+  resize: vertical;
+  min-height: 50px;
+  margin: 10px auto;
+  background-color: #f7f7f9;
+  border: 1px solid #e1e1e8;
+}
+
 #process-info {
   text-align: center;
 }
