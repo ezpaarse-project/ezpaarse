@@ -1,6 +1,7 @@
 # Démarrage rapide #
 
 [![Build Status](https://secure.travis-ci.org/ezpaarse-project/ezpaarse.png?branch=master)](http://travis-ci.org/ezpaarse-project/ezpaarse)
+[![Dependencies Status](https://david-dm.org/ezpaarse-project/ezpaarse.png)](https://david-dm.org/ezpaarse-project/ezpaarse)
 
 ezPAARSE se présente sous la forme d'un Web service dans lequel vous pouvez
 injecter vos logs et récupérer les évènements de consultation correspondants.
