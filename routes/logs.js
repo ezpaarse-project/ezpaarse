@@ -27,7 +27,7 @@ module.exports = function (app) {
         // download as an attachment if file size is >500ko
         // open it in directly in the browser if file size is <500ko
         if (stats.size > 500 * 1024) {
-          res.download(logFile, requestID + '-' + req.params[1]);          
+          res.download(logFile, requestID + '-' + req.params[1]);
         } else {
           res.sendfile(logFile);
         }
