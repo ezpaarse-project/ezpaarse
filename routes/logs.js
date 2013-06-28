@@ -14,15 +14,23 @@ module.exports = function (app) {
   app.get(new RegExp(jobidPattern + '/([a-zA-Z\\-]+\\.log)$'), function (req, res) {
     var requestID = req.params[0];
     var logPath   = __dirname + '/../tmp/jobs/'
-    + requestID.charAt(0) + '/'
-    + requestID.charAt(1) + '/'
-    + requestID;
-    var logFile = logPath + '/' + req.params[1];
+      + requestID.charAt(0) + '/'
+      + requestID.charAt(1) + '/'
+      + requestID;
+    var logFile = fs.realpathSync(logPath + '/' + req.params[1]);
     if (fs.existsSync(logFile)) {
-      res.sendfile(req.params[1], {root: logPath}, function (err) {
+      fs.stat(logFile, function (err, stats) {
         if (err) {
           res.status(500);
           res.end();
+          return;
+        }
+        // download as an attachment if file size is >500ko
+        // open it in directly in the browser if file size is <500ko
+        if (stats.size > 500 * 1024) {
+          res.download(logFile, requestID + '-' + req.params[1]);
+        } else {
+          res.sendfile(logFile);
         }
       });
     } else {

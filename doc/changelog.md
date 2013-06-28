@@ -1,5 +1,12 @@
 # Versions ezPAARSE #
 
+## 0.0.8  ## 
+##### 27/06/2013 - Produit Minimum Viable des User Knowledge Base #####
+- gestion des User-Fields
+- gestion des options avancées/valeurs pré-définies dans le formulaire
+- traduction des requêtes produites par le formulaire en cURL en vue d'automatisation des traitements
+- ajout de traces, corrections de bug
+
 ## 0.0.7  ## 
 ##### 05/06/2013 - Consolidation du coeur #####
 - meilleure caractérisation des EC (rtype, MIME, unitid)
