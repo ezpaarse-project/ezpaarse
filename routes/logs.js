@@ -1,7 +1,8 @@
 /*jslint node: true, maxlen: 100, maxerr: 50, indent: 2 */
 'use strict';
 
-var fs = require('fs');
+var fs     = require('fs');
+var moment = require('moment');
 
 module.exports = function (app) {
   
@@ -54,7 +55,14 @@ module.exports = function (app) {
         break;
       case 'html':
         var report = require(reportFile);
-        res.render('report', { report: report, title: 'Rapport' });
+        var title = "Rapport d'exécution";
+        if (report.general && report.general['Job-Date']) {
+          moment.lang('fr');
+          title += " du " + moment(report.general['Job-Date']).format('DD MMMM YYYY (hh[h]mm)');
+        }
+        title += ' - ezPAARSE';
+        // Rapport d’exécution du 5 juin 2013 (11h25) - ezPAARSE
+        res.render('report', { report: report, title: title });
         break;
       }
     } else {
