@@ -107,7 +107,7 @@ app.configure(function () {
 });
 
 // log related routes
-require('./routes/ws')(app, parsers, config.EZPAARSE_IGNORED_DOMAINS);
+require('./routes/ws')(app);
 require('./routes/info')(app);
 require('./routes/logs')(app);
 

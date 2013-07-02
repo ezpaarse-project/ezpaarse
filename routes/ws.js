@@ -17,13 +17,14 @@ var config        = require('../config.json');
 var ECFilter      = require('../lib/ecfilter.js');
 var ECHandler     = require('../lib/echandler.js');
 var statusCodes   = require('../statuscodes.json');
+var parserlist    = require('../lib/parserlist.js');
 var initializer   = require('../lib/requestinitializer.js');
 var ReportManager = require('../lib/reportmanager.js');
 var StreamHandler = require('../lib/streamhandler.js');
 var rgf           = require('../lib/readgrowingfile.js');
 var uuidRegExp    = /^\/([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})\/?$/;
 
-module.exports = function (app, domains, ignoredDomains) {
+module.exports = function (app) {
 
   /**
    * Route used for deferred ECs downloads
@@ -322,14 +323,14 @@ module.exports = function (app, domains, ignoredDomains) {
         if (ec) {
           treatedLines = true;
           if (ecFilter.isValid(ec)) {
-            if (ignoredDomains.indexOf(ec.domain) === -1) {
+            if (config.EZPAARSE_IGNORED_DOMAINS.indexOf(ec.domain) === -1) {
               if (ec.host && init.anonymize.host) {
                 ec.host = crypto.createHash(init.anonymize.host).update(ec.host).digest("hex");
               }
               if (ec.login && init.anonymize.login) {
                 ec.login = crypto.createHash(init.anonymize.login).update(ec.login).digest("hex");
               }
-              var parser = domains[ec.domain];
+              var parser = parserlist.get(ec.domain);
               if (parser) {
                 handler.push(ec, line, parser);
               } else {
