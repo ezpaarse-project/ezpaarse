@@ -1,0 +1,16 @@
+247.63.228.176 - THEODORE_MCCLURE [30/Nov/2012:00:14:17 +0100] "GET http://www.sciencedirect.com:80/science/journal/00121606 HTTP/1.1" 200 224846
+247.63.228.176 - THEODORE_MCCLURE [30/Nov/2012:00:14:17 +0100] "GET http://www.sciencedirect.com:80/science/journal/00121606 HTTP/1.1" 204 224846
+247.63.228.176 - THEODORE_MCCLURE [30/Nov/2012:00:14:17 +0100] "GET http://www.sciencedirect.com:80/science/journal/00121606 HTTP/1.1" 206 224846
+247.63.228.176 - THEODORE_MCCLURE [30/Nov/2012:00:14:17 +0100] "GET http://www.sciencedirect.com:80/science/journal/00121606 HTTP/1.1" 301 224846
+247.63.228.176 - THEODORE_MCCLURE [30/Nov/2012:00:14:17 +0100] "GET http://www.sciencedirect.com:80/science/journal/00121606 HTTP/1.1" 302 224846
+247.63.228.176 - THEODORE_MCCLURE [30/Nov/2012:00:14:17 +0100] "GET http://www.sciencedirect.com:80/science/journal/00121606 HTTP/1.1" 303 224846
+247.63.228.176 - THEODORE_MCCLURE [30/Nov/2012:00:14:17 +0100] "GET http://www.sciencedirect.com:80/science/journal/00121606 HTTP/1.1" 304 224846
+247.63.228.176 - THEODORE_MCCLURE [30/Nov/2012:00:14:17 +0100] "GET http://www.sciencedirect.com:80/science/journal/00121606 HTTP/1.1" 307 224846
+247.63.228.176 - THEODORE_MCCLURE [30/Nov/2012:00:14:17 +0100] "GET http://www.sciencedirect.com:80/science/journal/00121606 HTTP/1.1" 401 224846
+247.63.228.176 - THEODORE_MCCLURE [30/Nov/2012:00:14:17 +0100] "GET http://www.sciencedirect.com:80/science/journal/00121606 HTTP/1.1" 403 224846
+247.63.228.176 - THEODORE_MCCLURE [30/Nov/2012:00:14:17 +0100] "GET http://www.sciencedirect.com:80/science/journal/00121606 HTTP/1.1" 404 224846
+247.63.228.176 - THEODORE_MCCLURE [30/Nov/2012:00:14:17 +0100] "GET http://www.sciencedirect.com:80/science/journal/00121606 HTTP/1.1" 500 224846
+247.63.228.176 - THEODORE_MCCLURE [30/Nov/2012:00:14:17 +0100] "GET http://www.sciencedirect.com:80/science/journal/00121606 HTTP/1.1" 501 224846
+247.63.228.176 - THEODORE_MCCLURE [30/Nov/2012:00:14:17 +0100] "GET http://www.sciencedirect.com:80/science/journal/00121606 HTTP/1.1" 502 224846
+247.63.228.176 - THEODORE_MCCLURE [30/Nov/2012:00:14:17 +0100] "GET http://www.sciencedirect.com:80/science/journal/00121606 HTTP/1.1" 503 224846
+247.63.228.176 - THEODORE_MCCLURE [30/Nov/2012:00:14:17 +0100] "GET http://www.sciencedirect.com:80/science/journal/00121606 HTTP/1.1" 504 224846
