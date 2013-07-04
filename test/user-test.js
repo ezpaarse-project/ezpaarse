@@ -2,19 +2,20 @@
 /*global describe, it*/
 'use strict';
 
-var helpers = require('./helpers.js');
 var fs      = require('fs');
+var path    = require('path');
 var should  = require('should');
+var helpers = require('./helpers.js');
 
 var resultMonoPlus     = require('./dataset/user-mono-plus.result.json');
 var resultMonoSpace    = require('./dataset/user-mono-space.result.json');
 var resultMultiPlus    = require('./dataset/user-multi-plus.result.json');
 var resultMultipleMisc = require('./dataset/user-multifields.result.json');
 
-var logMonoPlus     = __dirname + '/dataset/user-mono-plus.log';
-var logMonoSpace    = __dirname + '/dataset/user-mono-space.log';
-var logMultiPlus    = __dirname + '/dataset/user-multi-plus.log';
-var logMultipleMisc = __dirname + '/dataset/user-multifields.log';
+var logMonoPlus     = path.join(__dirname, 'dataset/user-mono-plus.log');
+var logMonoSpace    = path.join(__dirname, 'dataset/user-mono-space.log');
+var logMultiPlus    = path.join(__dirname, 'dataset/user-multi-plus.log');
+var logMultipleMisc = path.join(__dirname, 'dataset/user-multifields.log');
 
 describe('The server', function () {
   describe('receives a log on the HTTP POST / route with a user field', function () {
@@ -182,9 +183,9 @@ describe('The server', function () {
     it('and sends back a 4010 error code (@07)',
       function (done) {
       var headers = {
-        'Accept'                     : 'application/json',
-        'user-field0-src'            : 'user',
-        'user-field0-sep'            : '+'
+        'Accept'          : 'application/json',
+        'user-field0-src' : 'user',
+        'user-field0-sep' : '+'
       };
       helpers.post('/', logMultiPlus, headers, function (err, res, body) {
         if (!res) { throw new Error('ezPAARSE is not running'); }
