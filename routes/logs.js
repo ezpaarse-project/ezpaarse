@@ -2,6 +2,7 @@
 'use strict';
 
 var fs     = require('fs');
+var path   = require('path');
 var moment = require('moment');
 
 module.exports = function (app) {
@@ -13,11 +14,11 @@ module.exports = function (app) {
    */
   app.get(new RegExp(jobidPattern + '/([a-zA-Z\\-]+\\.log)$'), function (req, res) {
     var requestID = req.params[0];
-    var logPath   = __dirname + '/../tmp/jobs/'
-      + requestID.charAt(0) + '/'
-      + requestID.charAt(1) + '/'
-      + requestID;
-    var logFile = fs.realpathSync(logPath + '/' + req.params[1]);
+    var logFile   = path.join(__dirname, '/../tmp/jobs/',
+      requestID.charAt(0),
+      requestID.charAt(1),
+      requestID,
+      req.params[1]);
     if (fs.existsSync(logFile)) {
       fs.stat(logFile, function (err, stats) {
         if (err) {
@@ -46,11 +47,11 @@ module.exports = function (app) {
   app.get(new RegExp(jobidPattern + '/job-report\\.(html|json)$'), function (req, res) {
     var requestID  = req.params[0];
     var format     = req.params[1];
-    var logPath    = __dirname + '/../tmp/jobs/'
-    + requestID.charAt(0) + '/'
-    + requestID.charAt(1) + '/'
-    + requestID;
-    var reportFile = logPath + '/report.json';
+    var logPath    = path.join(__dirname, '/../tmp/jobs/',
+    requestID.charAt(0),
+    requestID.charAt(1),
+    requestID);
+    var reportFile = path.join(logPath, '/report.json');
     if (fs.existsSync(reportFile)) {
       switch (format) {
       case 'json':
