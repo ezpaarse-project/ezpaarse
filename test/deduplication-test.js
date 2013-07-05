@@ -7,11 +7,13 @@ var path    = require('path');
 var should  = require('should');
 var helpers = require('./helpers.js');
 
-var multipleStatus = path.join(__dirname, '/dataset/sd.multiple-status.log');
+var multipleStatus    = path.join(__dirname, '/dataset/sd.multiple-status.log');
+var sessionLogFile    = path.join(__dirname, '/dataset/sd.doublons-session.log');
+var sessionResultFile = path.join(__dirname, '/dataset/sd.doublons-session.result.json');
 
 describe('The server', function () {
-  describe('receives a log file with multiple HTTP status codes', function () {
-    it('and correctly filter them (@01 @tdd)', function (done) {
+  describe('receives a log with multiple HTTP status codes', function () {
+    it('and correctly filter them (@01)', function (done) {
       var headers = {
         'Accept' : 'application/json'
       };
@@ -32,6 +34,34 @@ describe('The server', function () {
           should.ok(['200', '304'].indexOf(ec.status) != -1, 'An EC with status "' + ec.status
                                                            + '" was not filtered');
         });
+        done();
+      });
+    });
+  });
+  describe('receives a log with redundant consultations on the HTTP POST / route', function () {
+    it('and sends back a deduplicated output file (@02 @tdd)', function (done) {
+      var headers = {
+        'Accept'              : 'application/json',
+        'Log-Format-ezproxy'  : '%{session}<[a-zA-Z0-9\\-]+> %t "%r" %s',
+        'Double-Click-HTML'   : 10,
+        'Double-Click-MISC'   : 20,
+        'Double-Click-PDF'    : 30,
+        'Double-Click-C-Field': 'session'
+      };
+      helpers.post('/', sessionLogFile, headers, function (err, res, body) {
+        if (!res) { throw new Error('ezPAARSE is not running'); }
+        if (err)  { throw err; }
+        res.should.have.status(200);
+
+        var correctOutput = fs.readFileSync(sessionResultFile, 'UTF-8');
+        var correctJson   = JSON.parse(correctOutput);
+        var bodyJson      = JSON.parse(body);
+
+        correctJson.should.be.a('object');
+        bodyJson.should.be.a('object');
+        should.ok(helpers.compareArrays(bodyJson, correctJson),
+          'Server\'s answer do not match the intended result');
+
         done();
       });
     });
