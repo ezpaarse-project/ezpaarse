@@ -1,4 +1,4 @@
-### Output-Fields ###
+### Output-Fields headers ###
 Le header Output-Fields permet d'ajouter ou retirer (quand le format de sortie le permet) des champs à ceux retournés par ezPAARSE lors de la génération des évènements de consultation (ECs).  
 
 Par défaut, les champs retournés sont ceux présents dans le paramètre EZPAARSE_OUTPUT_FIELDS du fichier de configuration (config.json), auxquels sont ajoutés ceux extraits du format de log.

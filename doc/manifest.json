@@ -13,7 +13,8 @@
         "tools.md",
         "changelog.md",
         "outputfields.md",
-        "userfields.md"
+        "userfields.md",
+        "doubleclick.md"
     ],
     "css": "/stylesheets/doc.css",
     "codeHighlightTheme": "solarized_dark"

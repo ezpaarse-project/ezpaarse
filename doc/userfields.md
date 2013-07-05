@@ -1,4 +1,4 @@
-### User-fields ###
+### User-fields headers ###
 
 Les headers user-fields permettent d'extraire d'un champ présent dans les logs les informations utilisateur et de les répartir dans d'autres champs à l'aide d'expressions régulières.
 Ils peuvent s'écrire par <span style="color: blue">bloc de header numérotés</span> *(en couleur les zones variables)* de la façon suivante :
