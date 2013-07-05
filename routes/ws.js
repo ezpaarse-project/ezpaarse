@@ -362,6 +362,7 @@ module.exports = function (app) {
 
       // to handle stream spliting line by line
       var lazy = new Lazy();
+      var nbFiles = 0;
 
       // function used to handled a log file (a part)
       var partHandlingFunction = function (data, callback) {
@@ -371,13 +372,14 @@ module.exports = function (app) {
         var sh     = data.sh;
         
         // if this is the latest part, tell it to lazy
-        if (part === null) {
+        if (!part) {
           logger.info('Request upload: finished reading all parts');
           lazy.emit('end');
           callback();
           return;
         }
-        
+        // Last part is empty and has no filename
+        if (part.byteCount) { report.set('files', ++nbFiles, part.filename || 'unknown name'); }
         var pipeInputStreamToLazy = function (inputStream, part, cbEndRead) {
           var data = '';
           
