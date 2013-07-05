@@ -52,31 +52,45 @@ module.exports = function (app) {
     requestID.charAt(1),
     requestID);
     var reportFile = path.join(logPath, '/report.json');
-    if (fs.existsSync(reportFile)) {
+    fs.exists(reportFile, function (exists) {
+      if (!exists) {
+        res.status(404);
+        res.end();
+        return;
+      }
+
       switch (format) {
       case 'json':
         res.sendfile('report.json', {root: logPath}, function (err) {
           if (err) {
             res.status(500);
             res.end();
+            return;
           }
         });
         break;
       case 'html':
-        var report = require(reportFile);
-        var title = "Rapport d'exécution";
-        if (report.general && report.general['Job-Date']) {
-          moment.lang('fr');
-          title += " du " + moment(report.general['Job-Date']).format('DD MMMM YYYY (hh[h]mm)');
-        }
-        title += ' - ezPAARSE';
-        // Rapport d’exécution du 5 juin 2013 (11h25) - ezPAARSE
-        res.render('report', { report: report, title: title });
+        fs.readFile(reportFile, function (err, data) {
+          if (err) {
+            res.status(500);
+            res.end();
+            return;
+          }
+          var report = JSON.parse(data);
+          var title = "Rapport d'exécution";
+          if (report.general && report.general['Job-Date']) {
+            moment.lang('fr');
+            title += " du " + moment(report.general['Job-Date']).format('DD MMMM YYYY (hh[h]mm)');
+          }
+          title += ' - ezPAARSE';
+          // Rapport d’exécution du 5 juin 2013 (11h25) - ezPAARSE
+          res.render('report', { report: report, title: title });
+        });
         break;
+      default:
+        res.status(406);
+        res.end();
       }
-    } else {
-      res.status(404);
-      res.end();
-    }
+    });
   });
 };
