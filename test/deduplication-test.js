@@ -8,7 +8,7 @@ var should  = require('should');
 var helpers = require('./helpers.js');
 
 var multipleStatus    = path.join(__dirname, '/dataset/sd.multiple-status.log');
-var sessionLogFile    = path.join(__dirname, '/dataset/sd.doublons-session.log');
+var sessionLogFile    = path.join(__dirname, '/dataset/sd.doublons.log');
 var sessionResultFile = path.join(__dirname, '/dataset/sd.doublons-session.result.json');
 
 describe('The server', function () {
