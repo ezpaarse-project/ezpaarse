@@ -42,7 +42,7 @@ describe('The server', function () {
     it('and sends back a deduplicated output file (@02 @tdd)', function (done) {
       var headers = {
         'Accept'              : 'application/json',
-        'Log-Format-ezproxy'  : '%{session}<[a-zA-Z0-9\\-]+> %t "%r" %s',
+        'Log-Format-ezproxy'  : '%h %u %{session}<[a-zA-Z0-9\\-]+> %t "%r" %s',
         'Double-Click-HTML'   : 10,
         'Double-Click-MISC'   : 20,
         'Double-Click-PDF'    : 30,

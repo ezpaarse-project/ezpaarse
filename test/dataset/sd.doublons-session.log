@@ -1,19 +1,19 @@
-alF9DzVa5AdSuHr [30/Nov/2012:00:00:20 +0100] "GET http://www.sciencedirect.com:80/science/article/pii/S0967064508000301 HTTP/1.1" 200
-alF9DzVa5AdSuHr [30/Nov/2012:00:00:23 +0100] "GET http://pdn.sciencedirect.com:80/science?_ob=MiamiImageURL&_pii=S0967064508000301 HTTP/1.1" 200
-leD2gAcH4gRDsAv [30/Nov/2012:00:00:27 +0100] "GET http://www.sciencedirect.com:80/science/article/pii/S1047847712001426 HTTP/1.1" 200
-alF9DzVa5AdSuHr [30/Nov/2012:00:00:28 +0100] "GET http://www.sciencedirect.com:80/science/article/pii/S0967064508000301 HTTP/1.1" 200
-leD2gAcH4gRDsAv [30/Nov/2012:00:00:30 +0100] "GET http://www.sciencedirect.com:80/science/article/pii/S0048969703000469 HTTP/1.1" 200
-leD2gAcH4gRDsAv [30/Nov/2012:00:00:31 +0100] "GET http://pdn.sciencedirect.com:80/science?_ob=MiamiImageURL&_pii=S1047847712001426 HTTP/1.1" 200
-brD4AHFj7rDheJa [30/Nov/2012:00:00:33 +0100] "GET http://www.sciencedirect.com:80/science/article/pii/S0048969703000469 HTTP/1.1" 200
-geRdFYgA6bNdYes [30/Nov/2012:00:00:35 +0100] "GET http://www.sciencedirect.com:80/science/article/pii/S0166445X02000498 HTTP/1.1" 200
-alF9DzVa5AdSuHr [30/Nov/2012:00:00:37 +0100] "GET http://www.sciencedirect.com:80/science/article/pii/S0967064508000301 HTTP/1.1" 200
-brD4AHFj7rDheJa [30/Nov/2012:00:00:38 +0100] "GET http://www.sciencedirect.com:80/science/article/pii/S1532045605000979 HTTP/1.1" 200
-leD2gAcH4gRDsAv [30/Nov/2012:00:00:39 +0100] "GET http://pdn.sciencedirect.com:80/science?_ob=MiamiImageURL&_pii=S1047847712001426 HTTP/1.1" 200
-brD4AHFj7rDheJa [30/Nov/2012:00:00:40 +0100] "GET http://www.sciencedirect.com:80/science/article/pii/S0048969703000469 HTTP/1.1" 200
-geRdFYgA6bNdYes [30/Nov/2012:00:00:43 +0100] "GET http://www.sciencedirect.com:80/science/article/pii/S0166445X02000498 HTTP/1.1" 200
-brD4AHFj7rDheJa [30/Nov/2012:00:00:47 +0100] "GET http://pdn.sciencedirect.com:80/science?_ob=MiamiImageURL&_pii=S0048969703000469 HTTP/1.1" 200
-geRdFYgA6bNdYes [30/Nov/2012:00:00:48 +0100] "GET http://www.sciencedirect.com:80/science/article/pii/S0166445X02000498 HTTP/1.1" 200
-brD4AHFj7rDheJa [30/Nov/2012:00:00:50 +0100] "GET http://www.sciencedirect.com:80/science/article/pii/S1532045605000979 HTTP/1.1" 200
-geRdFYgA6bNdYes [30/Nov/2012:00:00:55 +0100] "GET http://pdn.sciencedirect.com:80/science?_ob=MiamiImageURL&_pii=S0166445X02000498 HTTP/1.1" 200
-brD4AHFj7rDheJa [30/Nov/2012:00:01:03 +0100] "GET http://pdn.sciencedirect.com:80/science?_ob=MiamiImageURL&_pii=S1532045605000979 HTTP/1.1" 200
-brD4AHFj7rDheJa [30/Nov/2012:00:01:11 +0100] "GET http://pdn.sciencedirect.com:80/science?_ob=MiamiImageURL&_pii=S0048969703000469 HTTP/1.1" 200
+1.1.1.1 THEODORE alF9DzVa5AdSuHr [30/Nov/2012:00:00:20 +0100] "GET http://www.sciencedirect.com:80/science/article/pii/S0967064508000301 HTTP/1.1" 200
+1.1.1.1 THEODORE alF9DzVa5AdSuHr [30/Nov/2012:00:00:23 +0100] "GET http://pdn.sciencedirect.com:80/science?_ob=MiamiImageURL&_pii=S0967064508000301 HTTP/1.1" 200
+1.1.1.1 THEODORE leD2gAcH4gRDsAv [30/Nov/2012:00:00:27 +0100] "GET http://www.sciencedirect.com:80/science/article/pii/S0967064508000301 HTTP/1.1" 200
+1.1.1.1 THEODORE alF9DzVa5AdSuHr [30/Nov/2012:00:00:28 +0100] "GET http://www.sciencedirect.com:80/science/article/pii/S0967064508000301 HTTP/1.1" 200
+1.1.1.1 THEODORE leD2gAcH4gRDsAv [30/Nov/2012:00:00:30 +0100] "GET http://www.sciencedirect.com:80/science/article/pii/S0048969703000469 HTTP/1.1" 200
+1.1.1.1 THEODORE leD2gAcH4gRDsAv [30/Nov/2012:00:00:31 +0100] "GET http://pdn.sciencedirect.com:80/science?_ob=MiamiImageURL&_pii=S0967064508000301 HTTP/1.1" 200
+1.1.1.1 NICK brD4AHFj7rDheJa [30/Nov/2012:00:00:33 +0100] "GET http://www.sciencedirect.com:80/science/article/pii/S0048969703000469 HTTP/1.1" 200
+2.2.2.2 DARYL geRdFYgA6bNdYes [30/Nov/2012:00:00:35 +0100] "GET http://www.sciencedirect.com:80/science/article/pii/S1532045605000979 HTTP/1.1" 200
+1.1.1.1 THEODORE alF9DzVa5AdSuHr [30/Nov/2012:00:00:37 +0100] "GET http://www.sciencedirect.com:80/science/article/pii/S0967064508000301 HTTP/1.1" 200
+1.1.1.1 NICK brD4AHFj7rDheJa [30/Nov/2012:00:00:38 +0100] "GET http://www.sciencedirect.com:80/science/article/pii/S1532045605000979 HTTP/1.1" 200
+1.1.1.1 THEODORE leD2gAcH4gRDsAv [30/Nov/2012:00:00:39 +0100] "GET http://pdn.sciencedirect.com:80/science?_ob=MiamiImageURL&_pii=S0967064508000301 HTTP/1.1" 200
+1.1.1.1 NICK brD4AHFj7rDheJa [30/Nov/2012:00:00:40 +0100] "GET http://www.sciencedirect.com:80/science/article/pii/S0048969703000469 HTTP/1.1" 200
+2.2.2.2 DARYL geRdFYgA6bNdYes [30/Nov/2012:00:00:43 +0100] "GET http://www.sciencedirect.com:80/science/article/pii/S1532045605000979 HTTP/1.1" 200
+1.1.1.1 NICK brD4AHFj7rDheJa [30/Nov/2012:00:00:47 +0100] "GET http://pdn.sciencedirect.com:80/science?_ob=MiamiImageURL&_pii=S0048969703000469 HTTP/1.1" 200
+2.2.2.2 DARYL geRdFYgA6bNdYes [30/Nov/2012:00:00:48 +0100] "GET http://www.sciencedirect.com:80/science/article/pii/S1532045605000979 HTTP/1.1" 200
+1.1.1.1 NICK brD4AHFj7rDheJa [30/Nov/2012:00:00:50 +0100] "GET http://www.sciencedirect.com:80/science/article/pii/S1532045605000979 HTTP/1.1" 200
+2.2.2.2 DARYL geRdFYgA6bNdYes [30/Nov/2012:00:00:55 +0100] "GET http://pdn.sciencedirect.com:80/science?_ob=MiamiImageURL&_pii=S1532045605000979 HTTP/1.1" 200
+1.1.1.1 NICK brD4AHFj7rDheJa [30/Nov/2012:00:01:03 +0100] "GET http://pdn.sciencedirect.com:80/science?_ob=MiamiImageURL&_pii=S1532045605000979 HTTP/1.1" 200
+1.1.1.1 NICK brD4AHFj7rDheJa [30/Nov/2012:00:01:11 +0100] "GET http://pdn.sciencedirect.com:80/science?_ob=MiamiImageURL&_pii=S0048969703000469 HTTP/1.1" 200
