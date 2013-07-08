@@ -9,10 +9,10 @@ var helpers = require('./helpers.js');
 
 var logFormat         = '%h %u %{session}<[a-zA-Z0-9\\-]+> %t "%r" %s';
 var multipleStatus    = path.join(__dirname, '/dataset/sd.multiple-status.log');
-var redundantLogFile  = path.join(__dirname, '/dataset/sd.doublons.log');
-var sessionResultFile = path.join(__dirname, '/dataset/sd.doublons-session.result.json');
-var loginResultFile   = path.join(__dirname, '/dataset/sd.doublons-login.result.json');
-var ipResultFile      = path.join(__dirname, '/dataset/sd.doublons-ip.result.json');
+var redundantLogFile  = path.join(__dirname, '/dataset/sd.duplicates.log');
+var sessionResultFile = path.join(__dirname, '/dataset/sd.duplicates-session.result.json');
+var loginResultFile   = path.join(__dirname, '/dataset/sd.duplicates-login.result.json');
+var ipResultFile      = path.join(__dirname, '/dataset/sd.duplicates-ip.result.json');
 
 describe('The server', function () {
   describe('receives a log with multiple HTTP status codes', function () {
