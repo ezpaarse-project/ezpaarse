@@ -23,8 +23,8 @@ var ezproxyTestSets =
 ];
 var bibliopamTestSets =
 [
-  { logFile: path.join(folder, '/univ_toulouse.bibliopam.log') },
-  { logFile: path.join(folder, '/univ_parisdescartes.bibliopam.log') }
+  { logFile: path.join(folder, '/univ_toulouse.apache.log') },
+  { logFile: path.join(folder, '/univ_parisdescartes.apache.log') }
 ];
 var apacheTestSets =
 [
