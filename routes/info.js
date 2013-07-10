@@ -1,11 +1,13 @@
 // ##EZPAARSE
 
-/*jslint node: true, maxlen: 100, maxerr: 50, indent: 2 */
+/*jslint node: true, maxlen: 180, maxerr: 50, indent: 2 */
 'use strict';
 
-var fs   = require('fs');
-var uuid = require('uuid');
-var pp   = require('../lib/platform-parser.js')
+var fs            = require('fs');
+var uuid          = require('uuid');
+var pp            = require('../lib/platform-parser.js')
+var path          = require('path');
+var moment        = require('moment');
 
 module.exports = function (app) {
   
@@ -181,9 +183,63 @@ module.exports = function (app) {
 
     var file = __dirname + '/../form-predefined.json';
     if (fs.existsSync(file)) {
-      var statusCodes = require(file);
+      var predefined = require(file);
       res.status(200);
-      res.write(JSON.stringify(statusCodes, null, 2));
+      res.write(JSON.stringify(predefined, null, 2));
+    } else {
+      res.status(404);
+    }
+    res.end();
+  });
+
+  /**
+   * GET route on /info/usage
+   */
+  app.get(new RegExp('/info/usage\\.(html|json)$'), function (req, res) {
+    var format        = req.params[0];
+    var usagePath     = path.join(__dirname, '/..');
+    var usageFile     = path.join(usagePath, '/usage.json');
+    var usage = {};
+    if (fs.existsSync(usageFile)) {
+      usage = require(usageFile);
+    }
+
+    switch (format) {
+    case 'json':
+      res.send(200, usage, function (err) {
+        if (err) {
+          res.status(500);
+          res.end();
+          return;
+        }
+      });
+      break;
+    case 'html':
+      var title = "Utilisation d'ezPAARSE";
+      if (usage.general && usage.general['Job-Date-end']) {
+        moment.lang('fr');
+        title += " au " + moment(usage.general['Job-Date-end']).format('DD MMMM YYYY (hh[h]mm)');
+      }
+      title += ' - ezPAARSE';
+      // Utilisation d'ezPAARSE au 5 juin 2013 (11h25) - ezPAARSE
+      res.render('usage', { usage: usage, title: title });
+      break;
+    default:
+      res.status(406);
+      res.end();
+    }
+  });
+
+  app.get('/info/usage', function (req, res) {
+    res.header('Content-Type', 'application/json; charset=utf-8');
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+
+    var file = __dirname + '/../usage.json';
+    if (fs.existsSync(file)) {
+      var usage = require(file);
+      res.status(200);
+      res.write(JSON.stringify(usage, null, 2));
     } else {
       res.status(404);
     }
