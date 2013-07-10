@@ -315,11 +315,13 @@ module.exports = function (app) {
         });
       };
 
+      var nb = 1;
       var processLine = function (line) {
         if (badBeginning) {
           return;
         }
         var ec = logParser.parse(line);
+        
         if (ec) {
           treatedLines = true;
           if (ecFilter.isValid(ec)) {
@@ -332,7 +334,9 @@ module.exports = function (app) {
               }
               var parser = parserlist.get(ec.domain);
               if (parser) {
-                handler.push(ec, line, parser);
+                ec._meta.originalLine = line;
+                ec._meta.lineNumber   = nb++;
+                handler.push(ec, parser);
               } else {
                 logger.silly('No parser found for : ' + ec.domain);
                 sh.write('unknownDomains', line + '\n');
