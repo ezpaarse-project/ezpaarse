@@ -1,0 +1,27 @@
+<% include header %>
+
+<% if (usage.stats) { %>
+  <h1>Utilisation d'ezPAARSE</h1>
+  <table class="table table-bordered table-hover">
+    <% var elements = Object.keys(usage.general).sort();  %>
+    <tr><th colspan="2"><%= 'general'[0].toUpperCase() + 'general'.substring(1) %></th></tr>
+    <% elements.forEach(function(e) { %>
+    <tr>
+      <td><%= e %></td>
+      <td><%= usage.general[e] %></td>
+    </tr>
+    <% }); %>
+    <% var elements = Object.keys(usage.stats).sort();  %>
+    <tr><th colspan="2"><%= 'stats'[0].toUpperCase() + 'stats'.substring(1) %></th></tr>
+    <% elements.forEach(function(e) { %>
+    <tr>
+      <td><%= e %></td>
+      <td><%= usage.stats[e] %></td>
+    </tr>
+    <% }); %>
+  </table>
+<% } else { %>
+  <p>Le rapport que vous recherchez n'existe pas.</p>
+<% } %>
+
+<% include footer %>
