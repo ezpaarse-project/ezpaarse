@@ -207,7 +207,7 @@ $(document).on('ready' ,function () {
     });
 
     if ($('#input-output-fields').val()) {
-      cmd += ' -H Output-Fields: ' + $('#input-output-fields').val() + '"';
+      cmd += ' -H "Output-Fields: ' + $('#input-output-fields').val() + '"';
     }
 
     cmd += ' ' + host;
