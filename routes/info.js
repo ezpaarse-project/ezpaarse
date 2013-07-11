@@ -206,13 +206,12 @@ module.exports = function (app) {
 
     switch (format) {
     case 'json':
-      res.send(200, usage, function (err) {
-        if (err) {
-          res.status(500);
-          res.end();
-          return;
-        }
-      });
+      res.header('Content-Type', 'application/json; charset=utf-8');
+      res.header("Access-Control-Allow-Origin", "*");
+      res.header("Access-Control-Allow-Headers", "X-Requested-With");
+      res.status(200);
+      res.write(JSON.stringify(usage, null, 2));
+      res.end();
       break;
     case 'html':
       var title = "Utilisation d'ezPAARSE";
