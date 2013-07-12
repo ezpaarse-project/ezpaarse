@@ -320,6 +320,7 @@ module.exports = function (app) {
         if (badBeginning) {
           return;
         }
+        line   = line.trim();
         var ec = logParser.parse(line);
         
         if (ec) {
