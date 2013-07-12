@@ -11,7 +11,7 @@ var folder   = path.join(__dirname, '/dataset/multiformat');
 var ezproxyTestSets =
 [
   { logFile: path.join(folder, '/univ_limoges.ezproxy.log'),
-    format: '%<[ ]?>%t %h %U' },
+    format: '%t %h %U' },
   { logFile: path.join(folder, '/univ_lyon.ezproxy.log'),
     format: '%h %l %u %t "%r" %s %b' },
   { logFile: path.join(folder, '/univ_strasbourg.ezproxy.log'),

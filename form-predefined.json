@@ -59,7 +59,7 @@
 		{
 			"label": "Université de Limoges",			
 			"input-log-type": "ezproxy",
-			"input-log-format": "%<[ ]>%t %h %U"
+			"input-log-format": "%t %h %U"
 		},
 		"UMontpellier3":
 		{
