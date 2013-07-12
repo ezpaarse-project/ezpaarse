@@ -584,7 +584,7 @@ module.exports = function (app) {
 
           writer.start(outputFields);
         }
-        ec._clean();
+        
         writer.write(ec);
         writtenECs = true;
         report.inc('general', 'nb-ecs');
