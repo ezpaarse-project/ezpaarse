@@ -14,7 +14,7 @@ describe('The server', function () {
         function (done) {
       var headers = {
         'Accept'            : 'text/csv',
-        'Log-Format-ezproxy' : '%u %{col1}<[0-9]+> "%r" %{col2}<[A-Z]+>'
+        'Log-Format-ezproxy' : '%u %{col1}<[0-9]+> %t "%r" %{col2}<[A-Z]+>'
       };
       helpers.post('/', logFile, headers, function (err, res, body) {
         if (!res) { throw new Error('ezPAARSE is not running'); }
@@ -42,7 +42,7 @@ describe('The server', function () {
         function (done) {
       var headers = {
         'Accept'            : 'text/csv',
-        'Log-Format-ezproxy' : '%u %{col1}<[0-9]+> "%r" %{col2}<[A-Z]+>',
+        'Log-Format-ezproxy' : '%u %{col1}<[0-9]+> %t "%r" %{col2}<[A-Z]+>',
         'Output-Fields'     : '-url,+newCol'
       };
       helpers.post('/', logFile, headers, function (err, res, body) {

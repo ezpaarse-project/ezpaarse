@@ -1,6 +1,8 @@
 [{
-  "time": "1319061710",
+  "timestamp": "1319061710",
   "subsecond": "284",
+  "datetime": "2011-10-20T00:01:50+02:00",
+  "date": "2011-10-20",
   "responseTime": "2102",
   "host": "0b93b6b05b86ff4b50c643ddb5755874",
   "squidRequestStatus": "TCP_MISS",
