@@ -11,7 +11,8 @@
 	],
   "recognize": {
     "rid": [
-      "pid"
+      "pid",
+      "unitid"
     ],
     "rtype": [
       "ARTICLE"

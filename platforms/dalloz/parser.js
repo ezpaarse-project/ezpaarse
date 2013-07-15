@@ -17,7 +17,7 @@ function parseUrl(url) {
   if ((match = /\/Document/.exec(url)) !== null) {
     if (param['produit-id']) {
       result.pid = param['produit-id'];
-      // result.unitid = param['produit-id'];
+      result.unitid = param['produit-id'];
     }
     if (param['famille-id']) {
       switch (param['famille-id']) {

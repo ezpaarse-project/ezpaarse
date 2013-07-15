@@ -15,7 +15,8 @@
     "rid": [
       "pid",
       "doi",
-      "issn"
+      "issn",
+      "unitid"
     ],
     "rtype": [
       "TOC",

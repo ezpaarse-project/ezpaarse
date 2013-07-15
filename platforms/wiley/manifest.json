@@ -12,7 +12,8 @@
   "recognize": {
     "rid": [
       "pid",
-      "eissn"
+      "eissn",
+      "unitid"
     ],
     "rtype": [
       "TOC",

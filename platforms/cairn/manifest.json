@@ -12,7 +12,8 @@
   "recognize": {
     "rid": [
       "pid",
-      "isbn"
+      "isbn",
+      "unitid"
     ],
     "rtype": [
       "BOOKMARK",
