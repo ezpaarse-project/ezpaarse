@@ -96,10 +96,6 @@ app.configure(function () {
     next();
   });
 
-  // global object which contains
-  // temporary data about ezPAARSE jobs
-  app.ezJobs = {};
-
   // routes handling
   app.use(app.router);
   

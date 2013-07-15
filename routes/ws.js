@@ -14,6 +14,7 @@ var stream        = require('stream');
 var winston       = require('winston');
 var multiparty    = require('multiparty');
 var config        = require('../config.json');
+var ezJobs        = require('../lib/jobs.js');
 var ECFilter      = require('../lib/ecfilter.js');
 var ECHandler     = require('../lib/echandler.js');
 var statusCodes   = require('../statuscodes.json');
@@ -36,11 +37,11 @@ module.exports = function (app) {
     var name = req.query.filename ? req.query.filename : rid;
 
     // check if this job exists
-    if (app.ezJobs[rid] && app.ezJobs[rid].ecsPath && app.ezJobs[rid].ecsStream) {
+    if (ezJobs[rid] && ezJobs[rid].ecsPath && ezJobs[rid].ecsStream) {
       console.log('Serving growing result file');
-      var ext = mime.extension(app.ezJobs[rid].contentType);
+      var ext = mime.extension(ezJobs[rid].contentType);
       res.writeHead(200, {
-        'Content-Type': app.ezJobs[rid].contentType,
+        'Content-Type': ezJobs[rid].contentType,
         'Content-Disposition': 'attachment; filename="' + name + '.' + ext + '"'
       });
 
@@ -48,16 +49,16 @@ module.exports = function (app) {
       // if job is still running (ECs are still writen in the temp file)
       // use the GrowingFile module to stream the result to the HTTP response
       rgf.readGrowingFile({
-        sourceFilePath: app.ezJobs[rid].ecsPath,
+        sourceFilePath: ezJobs[rid].ecsPath,
         onData: function (data) {
           console.log('Data added to ECs temp file (' + data.length + ' bytes)');
           res.write(data);
         },
         isStillGrowing: function () {
-          return !app.ezJobs[rid].ecsStreamEnd;
+          return !ezJobs[rid].ecsStreamEnd;
         },
         lastByteOfFile: function () {
-          return app.ezJobs[rid].byteWriten;
+          return ezJobs[rid].byteWriten;
         },
         endCallback: function () {
           console.log('ECs temp file completed');
@@ -110,12 +111,12 @@ module.exports = function (app) {
    */
   app.post('/', function (req, res) {
     var ezRID = uuid.v1();
-    app.ezJobs[ezRID] = { resIsDeferred: false };
+    ezJobs[ezRID] = { resIsDeferred: false };
     startEzpaarseJob(req, res, ezRID);
   });
   app.put(uuidRegExp, function (req, res) {
     var ezRID = req.params[0];
-    app.ezJobs[ezRID] = { resIsDeferred: true };
+    ezJobs[ezRID] = { resIsDeferred: true };
     startEzpaarseJob(req, res, ezRID);
   });
   // this route is useful because sometime PUT is not allowed by reverse proxies
@@ -123,7 +124,7 @@ module.exports = function (app) {
   app.post(uuidRegExp, function (req, res) {
     var ezRID = req.params[0];
     if (req.query._METHOD == 'PUT') {
-      app.ezJobs[ezRID] = { resIsDeferred: true };
+      ezJobs[ezRID] = { resIsDeferred: true };
       startEzpaarseJob(req, res, ezRID);
     } else {
       res.send(400, 'Please add _METHOD=PUT as a query in the URL (RESTful way)');
@@ -136,9 +137,10 @@ module.exports = function (app) {
   function startEzpaarseJob(req, res, ezRID) {
 
     // job is started
-    app.ezJobs[ezRID] = app.ezJobs[ezRID] || {};
-    req.ezRID         = ezRID;
-    var socket        = app.io.sockets.socket(req.header('Socket-ID'));
+    ezJobs[ezRID] = ezJobs[ezRID] || {};
+    var job       = ezJobs[ezRID];
+    req.ezRID     = ezRID;
+    var socket    = app.io.sockets.socket(req.header('Socket-ID'));
 
     // Job traces absolute url is calculated from the client headers
     // if the client request is forwarded by a reverse proxy, the x-forwarded-host
@@ -219,7 +221,7 @@ module.exports = function (app) {
     sh.add('pkbMissECs',     logPath + '/lines-pkb-miss-ecs.log');
     
     // register the temp job directory
-    app.ezJobs[ezRID].jobPath = logPath;
+    ezJobs[ezRID].jobPath = logPath;
 
     var endOfRequest      = false;
     var writerWasStarted  = false;
@@ -242,7 +244,7 @@ module.exports = function (app) {
       return;
     }
 
-    initializer.init(app, req, res, logger, function (err, init) {
+    initializer.init(req, res, logger, function (err) {
       if (err) {
         res.set(statusHeader, err.ezStatus);
         res.set(msgHeader, statusCodes[err.ezStatus]);
@@ -266,15 +268,15 @@ module.exports = function (app) {
 //         });
 //       }
       logger.info('Starting response');
-      var request  = init.unzipReq ? init.unzipReq : req;
-      var response = init.zipRes   ? init.zipRes   : res;
+      var request  = job.unzipReq ? job.unzipReq : req;
+      var response = job.zipRes   ? job.zipRes   : res;
 
-      var logParser = init.logParser;
+      var logParser = job.logParser;
 
-      var writer = init.writer;
+      var writer   = job.writer;
       var ecFilter = new ECFilter();
       // Takes "raw" ECs and returns those which can be sent
-      var handler = new ECHandler(logger, sh, init.ufSplitters, report);
+      var handler = new ECHandler(logger, sh, job.ufSplitters, report);
       
       var terminateResponse = function () {
         // If request ended and no buffer left, terminate the response
@@ -305,12 +307,12 @@ module.exports = function (app) {
 
         finalizeReport(function () {
           res.end();
-          if (app.ezJobs[req.ezRID].ecsStream) {
-            // todo: clear the app.ezJobs[req.ezRID] from the memory
+          if (ezJobs[req.ezRID].ecsStream) {
+            // todo: clear the ezJobs[req.ezRID] from the memory
             //       but have to think when is the best time for that
             //       maybe we should wait as long as the folderreaper ?
-            app.ezJobs[req.ezRID].ecsStream.end();
-            app.ezJobs[req.ezRID].ecsStream = null;
+            ezJobs[req.ezRID].ecsStream.end();
+            ezJobs[req.ezRID].ecsStream = null;
           }
         });
       };
@@ -327,11 +329,11 @@ module.exports = function (app) {
           treatedLines = true;
           if (ecFilter.isValid(ec)) {
             if (config.EZPAARSE_IGNORED_DOMAINS.indexOf(ec.domain) === -1) {
-              if (ec.host && init.anonymize.host) {
-                ec.host = crypto.createHash(init.anonymize.host).update(ec.host).digest("hex");
+              if (ec.host && job.anonymize.host) {
+                ec.host = crypto.createHash(job.anonymize.host).update(ec.host).digest("hex");
               }
-              if (ec.login && init.anonymize.login) {
-                ec.login = crypto.createHash(init.anonymize.login).update(ec.login).digest("hex");
+              if (ec.login && job.anonymize.login) {
+                ec.login = crypto.createHash(job.anonymize.login).update(ec.login).digest("hex");
               }
               var parser = parserlist.get(ec.domain);
               if (parser) {
@@ -577,7 +579,7 @@ module.exports = function (app) {
           res.status(200);
 
           // Add or remove user fields from those extracted by logParser
-          var outputFields     = init.outputFields    || {};
+          var outputFields     = job.outputFields    || {};
           outputFields.added   = outputFields.added   || [];
           outputFields.removed = outputFields.removed || [];
           outputFields.added   = outputFields.added.concat(logParser.getFields());
