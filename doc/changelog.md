@@ -45,5 +45,5 @@ Installation du MVP produit au sprint 1 dans des environnements multiples (OS di
 
 ## 0.0.1  ## 
 ##### 06/12/2012 - Minimum Viable Product #####
-Production d’événements de consultations (EC) à partir de fichiers de log pour la plateforme Science Direct via un web service RESTful
+Production d'événements de consultations (EC) à partir de fichiers de log pour la plateforme Science Direct via un web service RESTful
 
