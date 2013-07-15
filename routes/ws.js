@@ -138,8 +138,9 @@ module.exports = function (app) {
 
     // job is started
     ezJobs[ezRID] = ezJobs[ezRID] || {};
-    req.ezRID         = ezRID;
-    var socket        = app.io.sockets.socket(req.header('Socket-ID'));
+    var job       = ezJobs[ezRID];
+    req.ezRID     = ezRID;
+    var socket    = app.io.sockets.socket(req.header('Socket-ID'));
 
     // Job traces absolute url is calculated from the client headers
     // if the client request is forwarded by a reverse proxy, the x-forwarded-host
@@ -243,7 +244,7 @@ module.exports = function (app) {
       return;
     }
 
-    initializer.init(app, req, res, logger, function (err, init) {
+    initializer.init(req, res, logger, function (err) {
       if (err) {
         res.set(statusHeader, err.ezStatus);
         res.set(msgHeader, statusCodes[err.ezStatus]);
@@ -267,15 +268,15 @@ module.exports = function (app) {
 //         });
 //       }
       logger.info('Starting response');
-      var request  = init.unzipReq ? init.unzipReq : req;
-      var response = init.zipRes   ? init.zipRes   : res;
+      var request  = job.unzipReq ? job.unzipReq : req;
+      var response = job.zipRes   ? job.zipRes   : res;
 
-      var logParser = init.logParser;
+      var logParser = job.logParser;
 
-      var writer = init.writer;
+      var writer   = job.writer;
       var ecFilter = new ECFilter();
       // Takes "raw" ECs and returns those which can be sent
-      var handler = new ECHandler(logger, sh, init.ufSplitters, report);
+      var handler = new ECHandler(logger, sh, job.ufSplitters, report);
       
       var terminateResponse = function () {
         // If request ended and no buffer left, terminate the response
@@ -328,11 +329,11 @@ module.exports = function (app) {
           treatedLines = true;
           if (ecFilter.isValid(ec)) {
             if (config.EZPAARSE_IGNORED_DOMAINS.indexOf(ec.domain) === -1) {
-              if (ec.host && init.anonymize.host) {
-                ec.host = crypto.createHash(init.anonymize.host).update(ec.host).digest("hex");
+              if (ec.host && job.anonymize.host) {
+                ec.host = crypto.createHash(job.anonymize.host).update(ec.host).digest("hex");
               }
-              if (ec.login && init.anonymize.login) {
-                ec.login = crypto.createHash(init.anonymize.login).update(ec.login).digest("hex");
+              if (ec.login && job.anonymize.login) {
+                ec.login = crypto.createHash(job.anonymize.login).update(ec.login).digest("hex");
               }
               var parser = parserlist.get(ec.domain);
               if (parser) {
@@ -578,7 +579,7 @@ module.exports = function (app) {
           res.status(200);
 
           // Add or remove user fields from those extracted by logParser
-          var outputFields     = init.outputFields    || {};
+          var outputFields     = job.outputFields    || {};
           outputFields.added   = outputFields.added   || [];
           outputFields.removed = outputFields.removed || [];
           outputFields.added   = outputFields.added.concat(logParser.getFields());
