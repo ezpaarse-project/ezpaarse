@@ -79,11 +79,10 @@ module.exports = function (app) {
           var report = JSON.parse(data);
           var title = "Rapport d'exécution";
           if (report.general && report.general['Job-Date']) {
-            moment.lang('fr');
-            title += " du " + moment(report.general['Job-Date']).format('DD MMMM YYYY (hh[h]mm)');
+            title += " (" + moment(report.general['Job-Date']).format('DD-MM-YYYY hh[h]mm') + ')';
           }
           title += ' - ezPAARSE';
-          // Rapport d’exécution du 5 juin 2013 (11h25) - ezPAARSE
+          // Rapport d’exécution (25-06-2013 11h25) - ezPAARSE
           res.render('report', { report: report, title: title });
         });
         break;
