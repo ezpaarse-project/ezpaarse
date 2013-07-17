@@ -14,9 +14,10 @@ describe('The server', function () {
   describe('receives a gzipped log file', function () {
     it('and sends back a correct csv output (@01)', function (done) {
       var headers = {
-        'Accept'           : 'text/csv',
-        'Content-encoding' : 'gzip',
-        'Anonymize-host'   : 'md5'
+        'Accept'              : 'text/csv',
+        'Content-encoding'    : 'gzip',
+        'Anonymize-host'      : 'md5',
+        'Double-Click-Removal': false
       };
       helpers.post('/', gzipLogFile, headers,
       function (err, res, body) {

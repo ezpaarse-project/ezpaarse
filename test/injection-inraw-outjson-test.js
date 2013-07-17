@@ -14,8 +14,9 @@ describe('The server', function () {
   describe('receives a log on the HTTP POST / route', function () {
     it('and sends back a well formatted output file (@01)', function (done) {
       var headers = {
-        'Accept'        : 'application/json',
-        'Anonymize-host': 'md5'
+        'Accept'              : 'application/json',
+        'Anonymize-host'      : 'md5',
+        'Double-Click-Removal': false
       };
       helpers.post('/', logFile, headers, function (err, res, body) {
         if (!res) { throw new Error('ezPAARSE is not running'); }

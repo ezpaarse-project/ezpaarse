@@ -71,7 +71,7 @@ describe('The server', function () {
     });
   });
   describe('receives a log with redundant consultations on the HTTP POST / route', function () {
-    it('and sends back a deduplicated output file using login (@02 @tdd)', function (done) {
+    it('and sends back a deduplicated output file using login (@03 @tdd)', function (done) {
       var headers = {
         'Accept'              : 'application/json',
         'Log-Format-ezproxy'  : '%h %u %{session}<[a-zA-Z0-9\\-]+> %t "%r" %s',
@@ -100,7 +100,7 @@ describe('The server', function () {
     });
   });
   describe('receives a log with redundant consultations on the HTTP POST / route', function () {
-    it('and sends back a deduplicated output file using IP (@02 @tdd)', function (done) {
+    it('and sends back a deduplicated output file using IP (@04 @tdd)', function (done) {
       var headers = {
         'Accept'              : 'application/json',
         'Log-Format-ezproxy'  : '%h %u %{session}<[a-zA-Z0-9\\-]+> %t "%r" %s',

@@ -15,8 +15,6 @@ var winston       = require('winston');
 var multiparty    = require('multiparty');
 var config        = require('../config.json');
 var ezJobs        = require('../lib/jobs.js');
-var ECFilter      = require('../lib/ecfilter.js');
-var ECHandler     = require('../lib/echandler.js');
 var statusCodes   = require('../statuscodes.json');
 var parserlist    = require('../lib/parserlist.js');
 var initializer   = require('../lib/requestinitializer.js');
@@ -24,6 +22,15 @@ var ReportManager = require('../lib/reportmanager.js');
 var StreamHandler = require('../lib/streamhandler.js');
 var rgf           = require('../lib/readgrowingfile.js');
 var uuidRegExp    = /^\/([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})\/?$/;
+
+// process chain
+var ECFilter      = require('../lib/ecfilter.js');
+var ECParser      = require('../lib/ecparser.js');
+var Deduplicator  = require('../lib/deduplicator.js');
+var Enhancer      = require('../lib/enhancer.js');
+var FieldSplitter = require('../lib/fieldsplitter.js');
+var Organizer     = require('../lib/organizer.js');
+var Qualifier     = require('../lib/qualifier.js');
 
 module.exports = function (app) {
 
@@ -169,6 +176,7 @@ module.exports = function (app) {
       },
       'rejets': {
         'nb-lines-ignored':         0,
+        'nb-lines-duplicate-ecs':   0,
         'nb-lines-ignored-domains': 0,
         'nb-lines-unknown-domains': 0,
         'nb-lines-unknown-format':  0,
@@ -212,7 +220,7 @@ module.exports = function (app) {
     });
 
     var loggersAreSaturated = false;
-    var handlerIsSaturated  = false;
+    var ecParserIsSaturated  = false;
     var sh = new StreamHandler();
     sh.add('unknownFormats', logPath + '/lines-unknown-formats.log');
     sh.add('ignoredDomains', logPath + '/lines-ignored-domains.log');
@@ -230,6 +238,7 @@ module.exports = function (app) {
     var badBeginning      = false;
     var statusHeader      = 'ezPAARSE-Status';
     var msgHeader         = 'ezPAARSE-Status-Message';
+    var ecNumber          = 0;
     
     
     if (req.get('Content-length') === 0) {
@@ -268,16 +277,38 @@ module.exports = function (app) {
 //         });
 //       }
       logger.info('Starting response');
-      var request  = job.unzipReq ? job.unzipReq : req;
-      var response = job.zipRes   ? job.zipRes   : res;
+      var request   = job.unzipReq ? job.unzipReq : req;
+      var response  = job.zipRes   ? job.zipRes   : res;
 
-      var logParser = job.logParser;
+      var logParser       = job.logParser;
+      var ecFilter        = new ECFilter();
+      var ecParser        = new ECParser(logger, sh, report);
+      var ecDeduplicator  = new Deduplicator(job.deduplication);
+      var ecEnhancer      = new Enhancer(logger, sh, report);
+      var ecFieldSplitter = new FieldSplitter(job.ufSplitters);
+      var ecOrganizer     = new Organizer();
+      var ecQualifier     = new Qualifier();
+      var writer          = job.writer;
 
-      var writer   = job.writer;
-      var ecFilter = new ECFilter();
-      // Takes "raw" ECs and returns those which can be sent
-      var handler = new ECHandler(logger, sh, job.ufSplitters, report);
-      
+      var writeEvent = function (ec) {
+        if (!writerWasStarted) {
+          writerWasStarted = true;
+          res.status(200);
+
+          // Add or remove user fields from those extracted by logParser
+          var outputFields     = job.outputFields     || {};
+          outputFields.added   = outputFields.added   || [];
+          outputFields.removed = outputFields.removed || [];
+          outputFields.added   = outputFields.added.concat(logParser.getFields());
+
+          writer.start(outputFields);
+        }
+        
+        writer.write(ec);
+        writtenECs = true;
+        report.inc('general', 'nb-ecs');
+      }
+
       var terminateResponse = function () {
         // If request ended and no buffer left, terminate the response
         if (writerWasStarted) {
@@ -317,7 +348,51 @@ module.exports = function (app) {
         });
       };
 
-      var nb = 1;
+      /**
+       * All the logic is here
+       */
+      ecParser.on('ec', function (ec) {
+        if (job.deduplication.use) {
+          ecDeduplicator.push(ec);
+        } else {
+          ecEnhancer.push(ec);
+        }
+      });
+      ecParser.on('drain', function () {
+        if (endOfRequest) {
+          ecOrganizer.setLast(ecNumber);
+          ecDeduplicator.drain();
+        }
+      });
+      ecDeduplicator.on('unique', ecEnhancer.push);
+      ecDeduplicator.on('duplicate', function (ec) {
+        report.inc('rejets', 'nb-lines-duplicate-ecs');
+        ecOrganizer.skip(ec._meta.lineNumber);
+      });
+      ecEnhancer.on('ec', function (ec) {
+        ecFieldSplitter.split(ec);
+
+        if (ecQualifier.check(ec)) {
+          ecOrganizer.push(ec);
+        } else {
+          ecOrganizer.skip(ec._meta.lineNumber);
+          logger.silly('Unqualified EC, not written');
+          sh.write('unqualifiedECs', ec._meta.originalLine + '\n');
+          report.inc('rejets', 'nb-lines-unqualified-ecs');
+        }
+      });
+      ecOrganizer.on('ec', function (ec) {
+        writeEvent(ec);
+        // count masters values for reporting
+        if (!report.get('stats', 'platform-' + ec.platform)) { report.inc('stats', 'platforms'); }
+        report.inc('stats', 'platform-' + ec.platform);
+        if (ec.rtype) { report.inc('stats', 'rtype-' + ec.rtype); }
+        if (ec.mime)  { report.inc('stats', 'mime-' + ec.mime); }
+      });
+      ecOrganizer.on('drain', function () {
+        terminateResponse();
+      });
+
       var processLine = function (line) {
         if (badBeginning) {
           return;
@@ -338,8 +413,9 @@ module.exports = function (app) {
               var parser = parserlist.get(ec.domain);
               if (parser) {
                 ec._meta.originalLine = line;
-                ec._meta.lineNumber   = nb++;
-                handler.push(ec, parser);
+                ec._meta.lineNumber   = ++ecNumber;
+                ec.platform           = parser.platform;
+                ecParser.push(ec, parser);
               } else {
                 logger.silly('No parser found for : ' + ec.domain);
                 sh.write('unknownDomains', line + '\n');
@@ -395,7 +471,7 @@ module.exports = function (app) {
           });
           sh.on('drain', function () {
             loggersAreSaturated = false;
-            if (!handlerIsSaturated) {
+            if (!ecParserIsSaturated) {
               data = inputStream.read();
               if (data) {
                 logger.silly('Request upload: reading data ' + part.filename + ' (drain)');
@@ -404,12 +480,12 @@ module.exports = function (app) {
             }
           });
 
-          handler.on('saturated', function () {
-            handlerIsSaturated = true;
+          ecParser.on('saturated', function () {
+            ecParserIsSaturated = true;
           });
-          handler.on('drain', function () {
+          ecParser.on('drain', function () {
             if (!endOfRequest) {
-              handlerIsSaturated = false;
+              ecParserIsSaturated = false;
               if (!loggersAreSaturated) {
                 var data = inputStream.read();
                 if (data) {
@@ -421,7 +497,7 @@ module.exports = function (app) {
           });
 
           inputStream.on('readable', function () {
-            if (!handlerIsSaturated && !loggersAreSaturated) {
+            if (!ecParserIsSaturated && !loggersAreSaturated) {
               data = inputStream.read();
               if (data) {
                 logger.silly('Request upload: reading data ' + part.filename + ' (readable)');
@@ -567,33 +643,8 @@ module.exports = function (app) {
           } catch (e) {}
           res.status(400);
           res.end();
-        } else if (handler.queue.length() === 0) {
-          handler.queue.drain();
-        }
-      });
-
-      handler.on('ec', function (ec) {
-        if (!writerWasStarted) {
-          writerWasStarted = true;
-          
-          res.status(200);
-
-          // Add or remove user fields from those extracted by logParser
-          var outputFields     = job.outputFields    || {};
-          outputFields.added   = outputFields.added   || [];
-          outputFields.removed = outputFields.removed || [];
-          outputFields.added   = outputFields.added.concat(logParser.getFields());
-
-          writer.start(outputFields);
-        }
-        
-        writer.write(ec);
-        writtenECs = true;
-        report.inc('general', 'nb-ecs');
-      });
-      handler.on('drain', function () {
-        if (endOfRequest) {
-          terminateResponse();
+        } else if (ecParser.queue.length() === 0) {
+          ecParser.queue.drain();
         }
       });
     });

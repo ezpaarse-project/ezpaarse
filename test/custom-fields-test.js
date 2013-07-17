@@ -13,7 +13,7 @@ describe('The server', function () {
     it('and sends back a CSV containing the fields specified by the custom format (@01)',
         function (done) {
       var headers = {
-        'Accept'            : 'text/csv',
+        'Accept'             : 'text/csv',
         'Log-Format-ezproxy' : '%u %{col1}<[0-9]+> %t "%r" %{col2}<[A-Z]+>'
       };
       helpers.post('/', logFile, headers, function (err, res, body) {
@@ -41,9 +41,9 @@ describe('The server', function () {
     it('and sends back a CSV containing the default fields altered with the given ones (@02)',
         function (done) {
       var headers = {
-        'Accept'            : 'text/csv',
+        'Accept'             : 'text/csv',
         'Log-Format-ezproxy' : '%u %{col1}<[0-9]+> %t "%r" %{col2}<[A-Z]+>',
-        'Output-Fields'     : '-url,+newCol'
+        'Output-Fields'      : '-url,+newCol'
       };
       helpers.post('/', logFile, headers, function (err, res, body) {
         if (!res) { throw new Error('ezPAARSE is not running'); }
