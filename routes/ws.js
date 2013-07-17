@@ -286,8 +286,8 @@ module.exports = function (app) {
       var ecDeduplicator  = new Deduplicator(job.deduplication);
       var ecEnhancer      = new Enhancer(logger, sh, report);
       var ecFieldSplitter = new FieldSplitter(job.ufSplitters);
-      var ecOrganizer     = new Organizer();
       var ecQualifier     = new Qualifier();
+      var ecOrganizer     = new Organizer();
       var writer          = job.writer;
 
       var writeEvent = function (ec) {
