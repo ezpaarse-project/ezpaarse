@@ -103,6 +103,7 @@ $(document).on('ready' ,function () {
       $('.link-lines-unknown-format').prop("href", rejets["url-unknown-formats"]);
       $('.link-lines-unqualified-ecs').prop("href", rejets["url-unqualified-ecs"]);
       $('.link-lines-pkb-miss-ecs').prop("href", rejets["url-pkb-miss-ecs"]);
+      $('.link-lines-duplicate-ecs').prop("href", rejets["url-duplicate-ecs"]);
     }
     $('#nb-lines-input').text(general["nb-lines-input"]);
     $('#nb-ecs').text(general["nb-ecs"]);

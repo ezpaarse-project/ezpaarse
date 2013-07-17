@@ -186,7 +186,8 @@ module.exports = function (app) {
         'url-unknown-domains':      logRoute + '/lines-unknown-domains.log',
         'url-unknown-formats':      logRoute + '/lines-unknown-formats.log',
         'url-unqualified-ecs':      logRoute + '/lines-unqualified-ecs.log',
-        'url-pkb-miss-ecs':         logRoute + '/lines-pkb-miss-ecs.log'
+        'url-pkb-miss-ecs':         logRoute + '/lines-pkb-miss-ecs.log',
+        'url-duplicate-ecs':        logRoute + '/lines-duplicate-ecs.log'
       },
       'stats': {
         'platforms':                0,
@@ -205,6 +206,7 @@ module.exports = function (app) {
     res.set('Lines-Unknown-Domains', logRoute + '/lines-unknown-domains.log');
     res.set('Lines-Unqualified-ECs', logRoute + '/lines-unqualified-ecs.log');
     res.set('Lines-PKB-Miss-ECs',    logRoute + '/lines-pkb-miss-ecs.log');
+    res.set('Lines-Duplicate-ECs',   logRoute + '/lines-duplicate-ecs.log');
 
     var logger = new (winston.Logger)({
       transports: [
@@ -227,6 +229,7 @@ module.exports = function (app) {
     sh.add('unknownDomains', logPath + '/lines-unknown-domains.log');
     sh.add('unqualifiedECs', logPath + '/lines-unqualified-ecs.log');
     sh.add('pkbMissECs',     logPath + '/lines-pkb-miss-ecs.log');
+    sh.add('duplicateECs',     logPath + '/lines-duplicate-ecs.log');
     
     // register the temp job directory
     ezJobs[ezRID].jobPath = logPath;
@@ -367,6 +370,8 @@ module.exports = function (app) {
       ecDeduplicator.on('unique', ecEnhancer.push);
       ecDeduplicator.on('duplicate', function (ec) {
         report.inc('rejets', 'nb-lines-duplicate-ecs');
+        logger.silly('Duplicate EC, not written');
+        sh.write('duplicateECs', ec._meta.originalLine + '\n');
         ecOrganizer.skip(ec._meta.lineNumber);
       });
       ecEnhancer.on('ec', function (ec) {
