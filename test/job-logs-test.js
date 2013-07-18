@@ -2,17 +2,19 @@
 /*global describe, it*/
 'use strict';
 
-var helpers = require('./helpers.js');
 var fs      = require('fs');
+var path    = require('path');
 var request = require('request');
 var should  = require('should');
+var helpers = require('./helpers.js');
 
-var logFile                = __dirname + '/dataset/sd.mini.log';
-var wrongSecondLineLogFile = __dirname + '/dataset/sd.wrong-second-line.log';
-var ignoredDomain          = __dirname + '/dataset/ignored-domain.log';
-var unknownDomain          = __dirname + '/dataset/unknown-domain.log';
-var unqualifiedEC          = __dirname + '/dataset/unqualified-ec.log';
-var pkbmissEC              = __dirname + '/dataset/pkb-miss-ec.log';
+var logFile                = path.join(__dirname, '/dataset/sd.mini.log');
+var wrongSecondLineLogFile = path.join(__dirname, '/dataset/sd.wrong-second-line.log');
+var ignoredDomain          = path.join(__dirname, '/dataset/ignored-domain.log');
+var unknownDomain          = path.join(__dirname, '/dataset/unknown-domain.log');
+var unqualifiedEC          = path.join(__dirname, '/dataset/unqualified-ec.log');
+var pkbmissEC              = path.join(__dirname, '/dataset/pkb-miss-ec.log');
+var duplicateEC            = path.join(__dirname, '/dataset/duplicate-ecs.log');
 
 describe('The server', function () {
   describe('receives a log file', function () {
@@ -190,6 +192,35 @@ describe('The server', function () {
 
           var logLine = fs.readFileSync(pkbmissEC).toString().trim();
           logBody.trim().should.equal(logLine, 'The logfile and the input should be identical');
+          done();
+        });
+      });
+    });
+  });
+  describe('receives a log file with duplicate consultations', function () {
+    it('and correctly handles Lines-Duplicate-ECs.log (@08)', function (done) {
+      var headers = {
+        'Accept' : 'text/csv'
+      };
+      helpers.post('/', duplicateEC, headers, function (err, res, body) {
+        if (!res) { throw new Error('ezPAARSE is not running'); }
+        if (err)  { throw err; }
+        res.should.have.status(200);
+
+        body = body.trim().split('\n');
+        should.ok(body.length === 2, 'One EC should be returned');
+        var logURL = res.headers['lines-duplicate-ecs'];
+        
+        should.exist(logURL,
+          'The header "Lines-Duplicate-ECs" was not sent by the server');
+
+        request.get(logURL, function (error, response, logBody) {
+          if (!response) { throw new Error('ezPAARSE is not running'); }
+          if (error)     { throw error; }
+          res.should.have.status(200);
+
+          var logLine = fs.readFileSync(duplicateEC).toString().split('\n')[0].trim();
+          logBody.trim().should.equal(logLine, 'The logfile should match the first line');
           done();
         });
       });
