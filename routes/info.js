@@ -24,7 +24,7 @@ module.exports = function (app) {
     var sort    = req.param('sort', null);
 
     var delimiter       = '';
-    var platformsFolder = __dirname + '/../platforms';
+    var platformsFolder = path.join(__dirname, '/../platforms');
     var cfgFilename     = 'manifest.json';
     var folders         = fs.readdirSync(platformsFolder);
 
@@ -38,7 +38,7 @@ module.exports = function (app) {
 
     for (var i in folders) {
       var folder      = folders[i];
-      var configFile  = platformsFolder + '/' + folder + '/' + cfgFilename;
+      var configFile  = path.join(platformsFolder, folder, cfgFilename);
       var pFile  = pp.getParser(folder);
       var parserFile = pFile.path;
 
@@ -46,14 +46,14 @@ module.exports = function (app) {
       if (configExists && parserFile !== false) {
         var config = require(configFile);
         if (!status || config.status == status) {
-          var platform      = {};
-          platform.longname = config.longname;
-          platform.version  = config.version;
-          platform.status   = config.status;
-          platform.contact  = config.contact;
-          platform.describe = config.describe;
-          platform.docurl   = config.docurl;
-          platform.recognize   = config.recognize;
+          var platform       = {};
+          platform.longname  = config.longname;
+          platform.version   = config.version;
+          platform.status    = config.status;
+          platform.contact   = config.contact;
+          platform.describe  = config.describe;
+          platform.docurl    = config.docurl;
+          platform.recognize = config.recognize;
           res.write(delimiter + JSON.stringify(platform, null, 2));
           if (delimiter === '') { delimiter = ','; }
         }
@@ -72,7 +72,7 @@ module.exports = function (app) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
 
-    var file = __dirname + '/../platforms/rtype.json';
+    var file = path.join(__dirname, '/../platforms/rtype.json');
     if (fs.existsSync(file)) {
       var types = require(file);
       res.status(200);
@@ -91,7 +91,7 @@ module.exports = function (app) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
 
-    var file = __dirname + '/../platforms/mime.json';
+    var file = path.join(__dirname, '/../platforms/mime.json');
     if (fs.existsSync(file)) {
       var types = require(file);
       res.status(200);
@@ -110,7 +110,7 @@ module.exports = function (app) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
 
-    var file = __dirname + '/../platforms/rid.json';
+    var file = path.join(__dirname, '/../platforms/rid.json');
     if (fs.existsSync(file)) {
       var types = require(file);
       res.status(200);
@@ -129,7 +129,7 @@ module.exports = function (app) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
 
-    var file = __dirname + '/../statuscodes.json';
+    var file = path.join(__dirname, '/../statuscodes.json');
     if (fs.existsSync(file)) {
       var statusCodes = require(file);
       res.status(200);
@@ -149,10 +149,10 @@ module.exports = function (app) {
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
 
     var code = req.params[0];
-    var file = __dirname + '/../statuscodes.json';
+    var file = path.join(__dirname, '/../statuscodes.json');
     if (fs.existsSync(file)) {
       var statusCodes = require(file);
-      var status = statusCodes[code];
+      var status      = statusCodes[code];
       if (status) {
         res.status(200);
         res.write(JSON.stringify(status, null, 2));
@@ -181,7 +181,7 @@ module.exports = function (app) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
 
-    var file = __dirname + '/../form-predefined.json';
+    var file = path.join(__dirname, '/../form-predefined.json');
     if (fs.existsSync(file)) {
       var predefined = require(file);
       res.status(200);
