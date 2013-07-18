@@ -4,7 +4,6 @@ var jobid;
 var socketID;
 var host = $(location).attr('protocol') + '//' + $(location).attr('host');
 var socket = io.connect(host);
-var socketStarted = false;
 var predefined;
 
 $(document).on('ready' ,function () {
@@ -87,6 +86,22 @@ $(document).on('ready' ,function () {
   });
 
   /**
+   * On headers reception.
+   * We can only get headers with XHR when the whole request is sent.
+   * As we are streaming request and response at the same time,
+   * it's not possible to get headers at start time.
+   */
+  socket.on('headers', function (headers) {
+    $('#traces-btn').prop("href", headers["Job-Traces"]);
+    $('.link-lines-ignored-domains').prop("href", headers["Lines-Ignored-Domains"]);
+    $('.link-lines-unknown-domains').prop("href", headers["Lines-Unknown-Domains"]);
+    $('.link-lines-unknown-format').prop("href", headers["Lines-Unknown-Formats"]);
+    $('.link-lines-unqualified-ecs').prop("href", headers["Lines-Unqualified-ECs"]);
+    $('.link-lines-pkb-miss-ecs').prop("href", headers["Lines-PKB-Miss-ECs"]);
+    $('.link-lines-duplicate-ecs').prop("href", headers["Lines-Duplicate-ECs"]);
+  });
+
+  /**
    * On report from the socket, generate links the first time then
    * display values of the report
    */
@@ -95,16 +110,6 @@ $(document).on('ready' ,function () {
     var stats   = report.stats;
     var rejets  = report.rejets;
 
-    if (!socketStarted) {
-      socketStarted = true;
-      $('#traces-btn').prop("href", general["URL-Traces"]);
-      $('.link-lines-ignored-domains').prop("href", rejets["url-ignored-domains"]);
-      $('.link-lines-unknown-domains').prop("href", rejets["url-unknown-domains"]);
-      $('.link-lines-unknown-format').prop("href", rejets["url-unknown-formats"]);
-      $('.link-lines-unqualified-ecs').prop("href", rejets["url-unqualified-ecs"]);
-      $('.link-lines-pkb-miss-ecs').prop("href", rejets["url-pkb-miss-ecs"]);
-      $('.link-lines-duplicate-ecs').prop("href", rejets["url-duplicate-ecs"]);
-    }
     $('#nb-lines-input').text(general["nb-lines-input"]);
     $('#nb-ecs').text(general["nb-ecs"]);
     $('#platforms').text(stats["platforms"]);
@@ -389,9 +394,9 @@ $(document).on('ready' ,function () {
     }
 
     $.ajax({
-      headers:     headers, 
-      type:        'PUT',
-      url:         '/' + jobid,
+      headers: headers, 
+      type:    'PUT',
+      url:     '/' + jobid,
       xhr: function() {
         var myXhr = $.ajaxSettings.xhr();
         if(myXhr.upload){ // check if upload property exists
