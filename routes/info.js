@@ -216,8 +216,7 @@ module.exports = function (app) {
     case 'html':
       var title = "Utilisation d'ezPAARSE";
       if (usage.general && usage.general['Job-Date-end']) {
-        moment.lang('fr');
-        title += " au " + moment(usage.general['Job-Date-end']).format('DD MMMM YYYY (hh[h]mm)');
+        title += " au " + moment(usage.general['Job-Date-end']).format('DD-MM-YYYY (hh[h]mm)');
       }
       title += ' - ezPAARSE';
       // Utilisation d'ezPAARSE au 5 juin 2013 (11h25) - ezPAARSE
