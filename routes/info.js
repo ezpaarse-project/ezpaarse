@@ -195,14 +195,15 @@ module.exports = function (app) {
   /**
    * GET route on /info/usage
    */
-  app.get(new RegExp('/info/usage\\.(html|json)$'), function (req, res) {
-    var format        = req.params[0];
-    var usagePath     = path.join(__dirname, '/..');
-    var usageFile     = path.join(usagePath, '/usage.json');
-    var usage = {};
-    if (fs.existsSync(usageFile)) {
-      usage = require(usageFile);
+  app.get(/\/info\/usage(?:\.(html|json))?$/, function (req, res) {
+    var format    = req.params[0] || 'json';
+    var usageFile = path.join(__dirname, '/../usage.json');
+    var usage;
+    if (!fs.existsSync(usageFile)) {
+      res.send(404);
+      return;
     }
+    usage = require(usageFile);
 
     switch (format) {
     case 'json':
@@ -223,25 +224,7 @@ module.exports = function (app) {
       res.render('usage', { usage: usage, title: title });
       break;
     default:
-      res.status(406);
-      res.end();
+      res.send(406);
     }
   });
-
-  app.get('/info/usage', function (req, res) {
-    res.header('Content-Type', 'application/json; charset=utf-8');
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
-
-    var file = __dirname + '/../usage.json';
-    if (fs.existsSync(file)) {
-      var usage = require(file);
-      res.status(200);
-      res.write(JSON.stringify(usage, null, 2));
-    } else {
-      res.status(404);
-    }
-    res.end();
-  });
-  
 };
