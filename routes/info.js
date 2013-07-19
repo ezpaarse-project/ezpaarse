@@ -24,7 +24,7 @@ module.exports = function (app) {
     var sort    = req.param('sort', null);
 
     var delimiter       = '';
-    var platformsFolder = __dirname + '/../platforms';
+    var platformsFolder = path.join(__dirname, '/../platforms');
     var cfgFilename     = 'manifest.json';
     var folders         = fs.readdirSync(platformsFolder);
 
@@ -38,7 +38,7 @@ module.exports = function (app) {
 
     for (var i in folders) {
       var folder      = folders[i];
-      var configFile  = platformsFolder + '/' + folder + '/' + cfgFilename;
+      var configFile  = path.join(platformsFolder, folder, cfgFilename);
       var pFile  = pp.getParser(folder);
       var parserFile = pFile.path;
 
@@ -46,14 +46,14 @@ module.exports = function (app) {
       if (configExists && parserFile !== false) {
         var config = require(configFile);
         if (!status || config.status == status) {
-          var platform      = {};
-          platform.longname = config.longname;
-          platform.version  = config.version;
-          platform.status   = config.status;
-          platform.contact  = config.contact;
-          platform.describe = config.describe;
-          platform.docurl   = config.docurl;
-          platform.recognize   = config.recognize;
+          var platform       = {};
+          platform.longname  = config.longname;
+          platform.version   = config.version;
+          platform.status    = config.status;
+          platform.contact   = config.contact;
+          platform.describe  = config.describe;
+          platform.docurl    = config.docurl;
+          platform.recognize = config.recognize;
           res.write(delimiter + JSON.stringify(platform, null, 2));
           if (delimiter === '') { delimiter = ','; }
         }
@@ -72,7 +72,7 @@ module.exports = function (app) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
 
-    var file = __dirname + '/../platforms/rtype.json';
+    var file = path.join(__dirname, '/../platforms/rtype.json');
     if (fs.existsSync(file)) {
       var types = require(file);
       res.status(200);
@@ -91,7 +91,7 @@ module.exports = function (app) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
 
-    var file = __dirname + '/../platforms/mime.json';
+    var file = path.join(__dirname, '/../platforms/mime.json');
     if (fs.existsSync(file)) {
       var types = require(file);
       res.status(200);
@@ -110,7 +110,7 @@ module.exports = function (app) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
 
-    var file = __dirname + '/../platforms/rid.json';
+    var file = path.join(__dirname, '/../platforms/rid.json');
     if (fs.existsSync(file)) {
       var types = require(file);
       res.status(200);
@@ -129,7 +129,7 @@ module.exports = function (app) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
 
-    var file = __dirname + '/../statuscodes.json';
+    var file = path.join(__dirname, '/../statuscodes.json');
     if (fs.existsSync(file)) {
       var statusCodes = require(file);
       res.status(200);
@@ -149,10 +149,10 @@ module.exports = function (app) {
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
 
     var code = req.params[0];
-    var file = __dirname + '/../statuscodes.json';
+    var file = path.join(__dirname, '/../statuscodes.json');
     if (fs.existsSync(file)) {
       var statusCodes = require(file);
-      var status = statusCodes[code];
+      var status      = statusCodes[code];
       if (status) {
         res.status(200);
         res.write(JSON.stringify(status, null, 2));
@@ -181,7 +181,7 @@ module.exports = function (app) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
 
-    var file = __dirname + '/../form-predefined.json';
+    var file = path.join(__dirname, '/../form-predefined.json');
     if (fs.existsSync(file)) {
       var predefined = require(file);
       res.status(200);
@@ -195,14 +195,15 @@ module.exports = function (app) {
   /**
    * GET route on /info/usage
    */
-  app.get(new RegExp('/info/usage\\.(html|json)$'), function (req, res) {
-    var format        = req.params[0];
-    var usagePath     = path.join(__dirname, '/..');
-    var usageFile     = path.join(usagePath, '/usage.json');
-    var usage = {};
-    if (fs.existsSync(usageFile)) {
-      usage = require(usageFile);
+  app.get(/\/info\/usage(?:\.(html|json))?$/, function (req, res) {
+    var format    = req.params[0] || 'json';
+    var usageFile = path.join(__dirname, '/../usage.json');
+    var usage;
+    if (!fs.existsSync(usageFile)) {
+      res.send(404);
+      return;
     }
+    usage = require(usageFile);
 
     switch (format) {
     case 'json':
@@ -216,33 +217,14 @@ module.exports = function (app) {
     case 'html':
       var title = "Utilisation d'ezPAARSE";
       if (usage.general && usage.general['Job-Date-end']) {
-        moment.lang('fr');
-        title += " au " + moment(usage.general['Job-Date-end']).format('DD MMMM YYYY (hh[h]mm)');
+        title += " au " + moment(usage.general['Job-Date-end']).format('DD-MM-YYYY (hh[h]mm)');
       }
       title += ' - ezPAARSE';
       // Utilisation d'ezPAARSE au 5 juin 2013 (11h25) - ezPAARSE
       res.render('usage', { usage: usage, title: title });
       break;
     default:
-      res.status(406);
-      res.end();
+      res.send(406);
     }
   });
-
-  app.get('/info/usage', function (req, res) {
-    res.header('Content-Type', 'application/json; charset=utf-8');
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
-
-    var file = __dirname + '/../usage.json';
-    if (fs.existsSync(file)) {
-      var usage = require(file);
-      res.status(200);
-      res.write(JSON.stringify(usage, null, 2));
-    } else {
-      res.status(404);
-    }
-    res.end();
-  });
-  
 };

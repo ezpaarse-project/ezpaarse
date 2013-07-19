@@ -146,6 +146,7 @@ module.exports = function (app) {
     // job is started
     ezJobs[ezRID] = ezJobs[ezRID] || {};
     var job       = ezJobs[ezRID];
+    job.headers   = {};
     req.ezRID     = ezRID;
     var socket    = app.io.sockets.socket(req.header('Socket-ID'));
 
@@ -155,10 +156,9 @@ module.exports = function (app) {
     var logRoute = req.ezBaseURL + '/' + ezRID;
     var loglevel = req.header('Traces-Level') ||
                    (app.get('env') == 'production' ? 'info' : 'verbose');
-    var logPath  = __dirname + '/../tmp/jobs/'
-                             + ezRID.charAt(0) + '/'
-                             + ezRID.charAt(1) + '/'
-                             + ezRID;
+    var logPath  = path.join(__dirname, '/../tmp/jobs/', ezRID.charAt(0), ezRID.charAt(1), ezRID);
+    // register the temp job directory
+    ezJobs[ezRID].jobPath = logPath;
     mkdirp.sync(logPath);
 
     var baseReport = {
@@ -195,18 +195,18 @@ module.exports = function (app) {
         'mime-HTML':                0
       }
     };
-    var report = new ReportManager(logPath + '/report.json', baseReport);
+    var report = new ReportManager(path.join(logPath, '/report.json'), baseReport);
     report.cycle(1, socket);
 
-    res.set('Job-ID', ezRID);
-    res.set('Job-Report', logRoute + '/job-report.json');
-    res.set('Job-Traces', logRoute + '/job-traces.log');
-    res.set('Lines-Unknown-Formats', logRoute + '/lines-unknown-formats.log');
-    res.set('Lines-Ignored-Domains', logRoute + '/lines-ignored-domains.log');
-    res.set('Lines-Unknown-Domains', logRoute + '/lines-unknown-domains.log');
-    res.set('Lines-Unqualified-ECs', logRoute + '/lines-unqualified-ecs.log');
-    res.set('Lines-PKB-Miss-ECs',    logRoute + '/lines-pkb-miss-ecs.log');
-    res.set('Lines-Duplicate-ECs',   logRoute + '/lines-duplicate-ecs.log');
+    job.headers['Job-ID']     = ezRID;
+    job.headers['Job-Report'] = logRoute + '/job-report.json';
+    job.headers['Job-Traces'] = logRoute + '/job-traces.log';
+    job.headers['Lines-Unknown-Formats'] = logRoute + '/lines-unknown-formats.log';
+    job.headers['Lines-Ignored-Domains'] = logRoute + '/lines-ignored-domains.log';
+    job.headers['Lines-Unknown-Domains'] = logRoute + '/lines-unknown-domains.log';
+    job.headers['Lines-Unqualified-ECs'] = logRoute + '/lines-unqualified-ecs.log';
+    job.headers['Lines-PKB-Miss-ECs']    = logRoute + '/lines-pkb-miss-ecs.log';
+    job.headers['Lines-Duplicate-ECs']   = logRoute + '/lines-duplicate-ecs.log';
 
     var logger = new (winston.Logger)({
       transports: [
@@ -216,7 +216,7 @@ module.exports = function (app) {
         }),
         new (winston.transports.File)({
           level: loglevel,
-          stream: fs.createWriteStream(logPath + '/job-traces.log')
+          stream: fs.createWriteStream(path.join(logPath, '/job-traces.log'))
         })
       ]
     });
@@ -229,10 +229,7 @@ module.exports = function (app) {
     sh.add('unknownDomains', logPath + '/lines-unknown-domains.log');
     sh.add('unqualifiedECs', logPath + '/lines-unqualified-ecs.log');
     sh.add('pkbMissECs',     logPath + '/lines-pkb-miss-ecs.log');
-    sh.add('duplicateECs',     logPath + '/lines-duplicate-ecs.log');
-    
-    // register the temp job directory
-    ezJobs[ezRID].jobPath = logPath;
+    sh.add('duplicateECs',   logPath + '/lines-duplicate-ecs.log');
 
     var endOfRequest      = false;
     var writerWasStarted  = false;
@@ -258,14 +255,17 @@ module.exports = function (app) {
 
     initializer.init(req, res, logger, function (err) {
       if (err) {
-        res.set(statusHeader, err.ezStatus);
-        res.set(msgHeader, statusCodes[err.ezStatus]);
+        job.headers[statusHeader] = err.ezStatus;
+        job.headers[msgHeader]    = statusCodes[err.ezStatus];
         report.set('general', 'status', err.ezStatus);
         report.set('general', 'status-message', statusCodes[err.ezStatus]);
-        res.status(err.status);
+        res.writeHead(err.status, job.headers);
         res.end();
         return;
       }
+      res.set(job.headers);
+      if (socket) { socket.emit('headers', job.headers); }
+
 //       if (init.unzipReq) {
 //         init.unzipReq.on('error', function (err) {
 //           logger.error('Error while unziping request data');
@@ -672,7 +672,7 @@ module.exports = function (app) {
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
     
     var fillTree = function (tree, rootFolder, folder) {
-      var absFolder = rootFolder + '/' + folder;
+      var absFolder = path.join(rootFolder, folder);
       var files = fs.readdirSync(absFolder);
       if (!files) {
         res.status(500);
@@ -681,8 +681,8 @@ module.exports = function (app) {
       }
 
       files.forEach(function (f) {
-        var file = folder + '/' + f;
-        var absFile = rootFolder + '/' + file;
+        var file = path.join(folder, f);
+        var absFile = path.join(rootFolder, file);
         var stats = fs.statSync(absFile);
         if (!stats) {
           return;
@@ -715,7 +715,7 @@ module.exports = function (app) {
       return tree;
     }
     if (config.EZPAARSE_LOG_FOLDER) {
-      var rootFolder = __dirname + '/../' + config.EZPAARSE_LOG_FOLDER;
+      var rootFolder = path.join(__dirname, '..', config.EZPAARSE_LOG_FOLDER);
       if (fs.existsSync(rootFolder)) {
         var tree = {};
         tree = fillTree(tree, rootFolder, '.');
