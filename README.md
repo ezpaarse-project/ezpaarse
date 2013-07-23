@@ -1,4 +1,4 @@
-# Quick start #
+# ezPAARSE #
 
 [![Build Status](https://secure.travis-ci.org/ezpaarse-project/ezpaarse.png?branch=master)](http://travis-ci.org/ezpaarse-project/ezpaarse)
 [![Dependencies Status](https://david-dm.org/ezpaarse-project/ezpaarse.png)](https://david-dm.org/ezpaarse-project/ezpaarse)
@@ -18,7 +18,7 @@ The tools you'll need to let ezPAARSE run are :
 ezPAARSE then comes with all the elements it needs to run.
 When the prerequesites are met, you can launch the **make** command (see below) that will **run all the installation steps**.
 
-## Installation ##
+## Installation quickstart ##
 
 If you are a Windows user, you can install ezPAARSE on your computer by [downloading the setup file](http://analogist.couperin.org/ezpaarse/download) and start the install like you would do for any other program.
 
