@@ -3,7 +3,7 @@
 [![Build Status](https://secure.travis-ci.org/ezpaarse-project/ezpaarse.png?branch=master)](http://travis-ci.org/ezpaarse-project/ezpaarse)
 [![Dependencies Status](https://david-dm.org/ezpaarse-project/ezpaarse.png)](https://david-dm.org/ezpaarse-project/ezpaarse)
 
-ezPAARSE is a web service that ingests your log files. It then filters, extracts and enriches the consultation events that were spotted.
+ezPAARSE is a web service that ingests your electronic documentation access log files. It then filters, extracts and enriches the consultation events that were spotted.
 This document describes how to install and run ezPAARSE on your computer.
 
 ## Prerequisites ##
