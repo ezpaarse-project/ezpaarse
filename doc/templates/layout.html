@@ -3,18 +3,18 @@
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <title><%= @manifest.title %></title>
-    <link type="text/css" rel="stylesheet" href="http://fonts.googleapis.com/css?family=Droid+Sans&subset=latin">
-    <link type="text/css" rel="stylesheet" href="/stylesheets/reset.css">
-    <link type="text/css" rel="stylesheet" href="/stylesheets/docs.css">
-    <link type="text/css" rel="stylesheet" href="/stylesheets/print.css" media="print">
-    <link type="text/css" rel="stylesheet" href="http://yandex.st/highlightjs/6.1/styles/<%= @manifest.options.codeHighlightTheme || 'sunburst' %>.min.css">
+    <link type="text/css" rel="stylesheet" href="/stylesheets/doc-font.css" />
+    <link type="text/css" rel="stylesheet" href="/stylesheets/reset.css" />
+    <link type="text/css" rel="stylesheet" href="/stylesheets/docs.css" />
+    <link type="text/css" rel="stylesheet" href="/stylesheets/print.css" media="print" />
+    <link type="text/css" rel="stylesheet" href="/stylesheets/sunburst.min.css" />
     <% if @manifest.options.css: %>
         <link type="text/css" rel="stylesheet" href="<%- @manifest.options.css %>">
     <% end %>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.3/jquery.min.js"></script>
-    <script type="text/javascript" src="http://yandex.st/highlightjs/6.1/highlight.min.js"></script>
+    <script type="text/javascript" src="/js/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="/js/highlight.min.js"></script>
     <% if @manifest.options.embedly: %>
-        <script type="text/javascript" src="http://scripts.embed.ly/jquery.embedly.min.js"></script>
+        <script type="text/javascript" src="/js/jquery.embedly.min.js"></script>
         <script type="text/javascript">
             $(function(){
                 $('#content p:not(.disable-embedly) a:only-child').parent().embedly({
