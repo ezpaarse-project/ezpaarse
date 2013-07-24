@@ -49,6 +49,7 @@ docopen: doc $(DOC_HMTL)
 
 EZPATH = $(shell pwd)
 JSFILES=$(wildcard $(EZPATH)/*.js) $(wildcard $(EZPATH)/lib/*.js) $(wildcard $(EZPATH)/lib/*/*.js) $(wildcard $(EZPATH)/test/*.js)  $(wildcard $(EZPATH)/routes/*.js) $(wildcard $(EZPATH)/platforms/*/*.js)
+PKBFILES=$(wildcard $(EZPATH)/platforms-kb/*.pkb.csv)
 
 # Runs all tests (*-test.js) in the test folder except big and tdd
 test:
@@ -72,6 +73,12 @@ test-platforms:
 test-platforms-verbose:
 	@if test -d test; \
 	then . ./bin/env; mocha -R list -g platform; \
+	else echo 'No test folder found'; \
+	fi
+
+test-pkb:
+	@if test -d platforms-kb; \
+	then . ./bin/env; ./bin/pkbvalidator -s $(PKBFILES); \
 	else echo 'No test folder found'; \
 	fi
 
