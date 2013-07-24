@@ -25,6 +25,7 @@ var uuidRegExp    = /^\/([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9
 
 // process chain
 var ECFilter      = require('../lib/ecfilter.js');
+var ECBuffer      = require('../lib/ecbuffer.js');
 var ECParser      = require('../lib/ecparser.js');
 var Deduplicator  = require('../lib/deduplicator.js');
 var Enhancer      = require('../lib/enhancer.js');
@@ -285,6 +286,7 @@ module.exports = function (app) {
 
       var logParser       = job.logParser;
       var ecFilter        = new ECFilter();
+      var ecBuffer        = new ECBuffer(100);
       var ecParser        = new ECParser(logger, sh, report);
       var ecDeduplicator  = new Deduplicator(job.deduplication);
       var ecEnhancer      = new Enhancer(logger, sh, report);
@@ -354,12 +356,13 @@ module.exports = function (app) {
       /**
        * All the logic is here
        */
+      ecBuffer.on('packet', ecParser.push);
+      ecBuffer.on('drain', function () {
+        if (endOfRequest) { ecParser.drain(); }
+      });
       ecParser.on('ec', function (ec) {
-        if (job.deduplication.use) {
-          ecDeduplicator.push(ec);
-        } else {
-          ecEnhancer.push(ec);
-        }
+        if (job.deduplication.use) { ecDeduplicator.push(ec); }
+        else                       { ecEnhancer.push(ec); }
       });
       ecParser.on('drain', function () {
         if (endOfRequest) {
@@ -420,7 +423,7 @@ module.exports = function (app) {
                 ec._meta.originalLine = line;
                 ec._meta.lineNumber   = ++ecNumber;
                 ec.platform           = parser.platform;
-                ecParser.push(ec, parser);
+                ecBuffer.push(ec, parser);
               } else {
                 logger.silly('No parser found for : ' + ec.domain);
                 sh.write('unknownDomains', line + '\n');
@@ -648,8 +651,8 @@ module.exports = function (app) {
           } catch (e) {}
           res.status(400);
           res.end();
-        } else if (ecParser.queue.length() === 0) {
-          ecParser.queue.drain();
+        } else {
+          ecBuffer.drain();
         }
       });
     });
