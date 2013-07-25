@@ -1,0 +1,2 @@
+1.1.1.1 - THEODORE [30/Nov/2012:00:00:25 +0100] "GET http://www.sciencedirect.com:80/science/article/pii/S0967064508000301 HTTP/1.1" 200 45512
+1.1.1.1 - THEODORE [30/Nov/2012:00:00:20 +0100] "GET http://pdn.sciencedirect.com:80/science?_ob=MiamiImageURL&_pii=S0967064508000301 HTTP/1.1" 200 5130
