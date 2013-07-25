@@ -225,6 +225,8 @@ module.exports = function (app) {
       ]
     });
 
+    logger.info('New job with ID: ' + ezRID);
+
     var loggersAreSaturated = false;
     var ecParserIsSaturated  = false;
     var sh = new StreamHandler();
