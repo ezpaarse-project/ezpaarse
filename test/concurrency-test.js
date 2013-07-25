@@ -16,7 +16,7 @@ describe('The server', function () {
   it('correctly handles short concurrent requests (@01)', function (done) {
     var nbRequests  = 3;
     var maxDuration = 5;
-    var minDuration = 2;
+    var minDuration = 3;
     var maxRate     = 800;
     var minRate     = 400;
     
