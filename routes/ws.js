@@ -209,6 +209,7 @@ module.exports = function (app) {
     job.headers['Lines-Unqualified-ECs'] = logRoute + '/lines-unqualified-ecs.log';
     job.headers['Lines-PKB-Miss-ECs']    = logRoute + '/lines-pkb-miss-ecs.log';
     job.headers['Lines-Duplicate-ECs']   = logRoute + '/lines-duplicate-ecs.log';
+    job.headers['Lines-Unordered-ECs']   = logRoute + '/lines-unordered-ecs.log';
 
     var logger = new (winston.Logger)({
       transports: [
