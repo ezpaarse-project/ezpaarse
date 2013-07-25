@@ -197,6 +197,7 @@ module.exports = function (app) {
         'mime-HTML':                0
       }
     };
+
     var report = new ReportManager(path.join(logPath, '/report.json'), baseReport);
     report.cycle(1, socket);
 
@@ -269,6 +270,17 @@ module.exports = function (app) {
       }
       res.set(job.headers);
       if (socket) { socket.emit('headers', job.headers); }
+
+      report.set('dedoublonnage', 'activated', job.deduplication.use);
+      if (job.deduplication.use) {
+        report.set('dedoublonnage', 'strategy', job.deduplication.strategy);
+        for (var letter in job.deduplication.fieldnames) {
+          report.set('dedoublonnage', 'fieldname-' + letter, job.deduplication.fieldnames[letter]);
+        }
+        for (var type in job.deduplication.intervals) {
+          report.set('dedoublonnage', 'window-' + type, job.deduplication.intervals[type]);
+        }
+      }
 
 //       if (init.unzipReq) {
 //         init.unzipReq.on('error', function (err) {
