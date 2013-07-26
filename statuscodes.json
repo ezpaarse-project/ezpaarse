@@ -12,5 +12,6 @@
   "4011": "User-Fields: doublons in fields names",
   "4012": "Output-Fields: empty field",
   "4013": "Output-Fields: bad operator (use + or - before each field)",
+  "4014": "Log lines are not chronologically ordered",
   "5001": "A problem occured when trying to format the results"
 }

@@ -99,6 +99,7 @@ $(document).on('ready' ,function () {
     $('.link-lines-unqualified-ecs').prop("href", headers["Lines-Unqualified-ECs"]);
     $('.link-lines-pkb-miss-ecs').prop("href", headers["Lines-PKB-Miss-ECs"]);
     $('.link-lines-duplicate-ecs').prop("href", headers["Lines-Duplicate-ECs"]);
+    $('.link-lines-unordered-ecs').prop("href", headers["Lines-Unordered-ECs"]);
   });
 
   /**
@@ -124,6 +125,7 @@ $(document).on('ready' ,function () {
     $('#nb-lines-unknown-format').text(rejets["nb-lines-unknown-format"]);
     $('#nb-lines-unqualified-ecs').text(rejets["nb-lines-unqualified-ecs"]);
     $('#nb-lines-pkb-miss-ecs').text(rejets["nb-lines-pkb-miss-ecs"]);
+    $('#nb-lines-unordered-ecs').text(rejets["nb-lines-unordered-ecs"]);
     $('#process-speed').text(general["process-speed"]);
   });
 

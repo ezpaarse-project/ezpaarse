@@ -1,4 +1,3 @@
-/*jslint node: true, maxlen: 100, maxerr: 50, indent: 2 */
 'use strict';
 
 var fs            = require('fs');
@@ -183,12 +182,14 @@ module.exports = function (app) {
         'nb-lines-unknown-format':  0,
         'nb-lines-unqualified-ecs': 0,
         'nb-lines-pkb-miss-ecs':    0,
+        'nb-lines-unordered-ecs':   0,
         'url-ignored-domains':      logRoute + '/lines-ignored-domains.log',
         'url-unknown-domains':      logRoute + '/lines-unknown-domains.log',
         'url-unknown-formats':      logRoute + '/lines-unknown-formats.log',
         'url-unqualified-ecs':      logRoute + '/lines-unqualified-ecs.log',
         'url-pkb-miss-ecs':         logRoute + '/lines-pkb-miss-ecs.log',
-        'url-duplicate-ecs':        logRoute + '/lines-duplicate-ecs.log'
+        'url-duplicate-ecs':        logRoute + '/lines-duplicate-ecs.log',
+        'url-unordered-ecs':        logRoute + '/lines-unordered-ecs.log'
       },
       'stats': {
         'platforms':                0,
@@ -196,6 +197,7 @@ module.exports = function (app) {
         'mime-HTML':                0
       }
     };
+
     var report = new ReportManager(path.join(logPath, '/report.json'), baseReport);
     report.cycle(1, socket);
 
@@ -208,6 +210,7 @@ module.exports = function (app) {
     job.headers['Lines-Unqualified-ECs'] = logRoute + '/lines-unqualified-ecs.log';
     job.headers['Lines-PKB-Miss-ECs']    = logRoute + '/lines-pkb-miss-ecs.log';
     job.headers['Lines-Duplicate-ECs']   = logRoute + '/lines-duplicate-ecs.log';
+    job.headers['Lines-Unordered-ECs']   = logRoute + '/lines-unordered-ecs.log';
 
     var logger = new (winston.Logger)({
       transports: [
@@ -222,6 +225,8 @@ module.exports = function (app) {
       ]
     });
 
+    logger.info('New job with ID: ' + ezRID);
+
     var loggersAreSaturated = false;
     var ecParserIsSaturated  = false;
     var sh = new StreamHandler();
@@ -231,6 +236,7 @@ module.exports = function (app) {
     sh.add('unqualifiedECs', logPath + '/lines-unqualified-ecs.log');
     sh.add('pkbMissECs',     logPath + '/lines-pkb-miss-ecs.log');
     sh.add('duplicateECs',   logPath + '/lines-duplicate-ecs.log');
+    sh.add('unorderedECs',   logPath + '/lines-unordered-ecs.log');
 
     var endOfRequest      = false;
     var writerWasStarted  = false;
@@ -267,6 +273,17 @@ module.exports = function (app) {
       res.set(job.headers);
       if (socket) { socket.emit('headers', job.headers); }
 
+      report.set('dedoublonnage', 'activated', job.deduplication.use);
+      if (job.deduplication.use) {
+        report.set('dedoublonnage', 'strategy', job.deduplication.strategy);
+        for (var letter in job.deduplication.fieldnames) {
+          report.set('dedoublonnage', 'fieldname-' + letter, job.deduplication.fieldnames[letter]);
+        }
+        for (var type in job.deduplication.intervals) {
+          report.set('dedoublonnage', 'window-' + type, job.deduplication.intervals[type]);
+        }
+      }
+
 //       if (init.unzipReq) {
 //         init.unzipReq.on('error', function (err) {
 //           logger.error('Error while unziping request data');
@@ -288,11 +305,12 @@ module.exports = function (app) {
       var ecFilter        = new ECFilter();
       var ecBuffer        = new ECBuffer(100);
       var ecParser        = new ECParser(logger, sh, report);
+      var ecOrganizer1    = new Organizer();
       var ecDeduplicator  = new Deduplicator(job.deduplication);
       var ecEnhancer      = new Enhancer(logger, sh, report);
       var ecFieldSplitter = new FieldSplitter(job.ufSplitters);
       var ecQualifier     = new Qualifier();
-      var ecOrganizer     = new Organizer();
+      var ecOrganizer2    = new Organizer();
       var writer          = job.writer;
 
       var writeEvent = function (ec) {
@@ -360,36 +378,45 @@ module.exports = function (app) {
       ecBuffer.on('drain', function () {
         if (endOfRequest) { ecParser.drain(); }
       });
-      ecParser.on('ec', function (ec) {
-        if (job.deduplication.use) { ecDeduplicator.push(ec); }
-        else                       { ecEnhancer.push(ec); }
-      });
+      ecParser.on('ec', ecOrganizer1.push);
       ecParser.on('drain', function () {
         if (endOfRequest) {
-          ecOrganizer.setLast(ecNumber);
+          ecOrganizer2.setLast(ecNumber);
           ecDeduplicator.drain();
         }
+      });
+      ecOrganizer1.on('ec', function (ec) {
+        if (job.deduplication.use) { ecDeduplicator.push(ec); }
+        else                       { ecEnhancer.push(ec); }
       });
       ecDeduplicator.on('unique', ecEnhancer.push);
       ecDeduplicator.on('duplicate', function (ec) {
         report.inc('rejets', 'nb-lines-duplicate-ecs');
         logger.silly('Duplicate EC, not written');
         sh.write('duplicateECs', ec._meta.originalLine + '\n');
-        ecOrganizer.skip(ec._meta.lineNumber);
+        ecOrganizer2.skip(ec._meta.lineNumber);
+      });
+      ecDeduplicator.on('error', function (err, ec) {
+        logger.verbose('A log line is not chronological : ' + ec._meta.originalLine);
+        report.set('general', 'status', 4014);
+        report.set('general', 'status-message', statusCodes['4014']);
+        report.inc('rejets', 'nb-lines-unordered-ecs');
+        sh.write('unorderedECs', ec._meta.originalLine + '\n');
+        ecOrganizer2.skip(ec._meta.lineNumber);
       });
       ecEnhancer.on('ec', function (ec) {
         ecFieldSplitter.split(ec);
 
         if (ecQualifier.check(ec)) {
-          ecOrganizer.push(ec);
+          ecOrganizer2.push(ec);
         } else {
-          ecOrganizer.skip(ec._meta.lineNumber);
+          ecOrganizer2.skip(ec._meta.lineNumber);
           logger.silly('Unqualified EC, not written');
           sh.write('unqualifiedECs', ec._meta.originalLine + '\n');
           report.inc('rejets', 'nb-lines-unqualified-ecs');
         }
       });
-      ecOrganizer.on('ec', function (ec) {
+      ecOrganizer2.on('ec', function (ec) {
         writeEvent(ec);
         // count masters values for reporting
         if (!report.get('stats', 'platform-' + ec.platform)) { report.inc('stats', 'platforms'); }
@@ -397,7 +424,7 @@ module.exports = function (app) {
         if (ec.rtype) { report.inc('stats', 'rtype-' + ec.rtype); }
         if (ec.mime)  { report.inc('stats', 'mime-' + ec.mime); }
       });
-      ecOrganizer.on('drain', function () {
+      ecOrganizer2.on('drain', function () {
         terminateResponse();
       });
 
