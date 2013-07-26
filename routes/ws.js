@@ -381,7 +381,7 @@ module.exports = function (app) {
       ecParser.on('ec', ecOrganizer1.push);
       ecParser.on('drain', function () {
         if (endOfRequest) {
-          ecOrganizer2.setLast(ecNumber);
+          if (!job.deduplication.use) { ecOrganizer2.setLast(ecNumber); }
           ecDeduplicator.drain();
         }
       });
@@ -402,7 +402,9 @@ module.exports = function (app) {
         report.set('general', 'status-message', statusCodes['4014']);
         report.inc('rejets', 'nb-lines-unordered-ecs');
         sh.write('unorderedECs', ec._meta.originalLine + '\n');
-        ecOrganizer2.skip(ec._meta.lineNumber);
+      });
+      ecDeduplicator.on('drain', function (last) {
+        if (job.deduplication.use) { ecOrganizer2.setLast(last); }
       });
       ecEnhancer.on('ec', function (ec) {
         ecFieldSplitter.split(ec);
