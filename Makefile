@@ -82,6 +82,12 @@ test-pkb:
 	else echo 'No test folder found'; \
 	fi
 
+test-pkb-verbose:
+	@if test -d platforms-kb; \
+	then . ./bin/env; ./bin/pkbvalidator $(PKBFILES); \
+	else echo 'No test folder found'; \
+	fi
+
 test-big:
 	@if test -d test; \
 	then . ./bin/env; mocha -g @big; \
