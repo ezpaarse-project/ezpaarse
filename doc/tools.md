@@ -157,3 +157,25 @@ Options:
 
 Cette commande est utile pour tester les performances d'ezPAARSE.
 
+## pkbvalidator
+
+Commande permettant de vérifier la validité des informations présentes dans un fichier de base de connaissance d'une plateforme.
+Cette commande vérifie les points suivants :
+
+- presence de l'extension du nom de fichier .pkb.csv
+- unicité du pid
+- information minimale d'identification disponible
+- contrôle syntaxique de l'écriture des identifiants normalisés (ISSN, ISBN, DOI)
+
+Usage:
+```
+Check a platform knowledge base file.
+  Usage: node ./pkbvalidator [-svc] pkb_file1.pkb.csv [pkb_file2.pkb.csv]
+
+Options:
+  --csv, -c      If provided, the error-output will be a csv.
+  --silent, -s   If provided, no output generated.           
+  --verbose, -v  show stats of checking.                     
+```
+
+

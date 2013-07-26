@@ -35,6 +35,17 @@ make test-platforms-verbose
 ```
 Propose une vérification avec la liste des parseurs testés
 
+```console
+make test-pkb
+```
+Vérifie la cohérence des fichiers base de connaissance des parseurs
+
+```console
+make test-pkb-verbose
+```
+Vérifie la cohérence des fichiers base de connaissance des parseurs et affiche les erreurs potentielles
+
+
 ## Vérification syntaxique ##
 
 ```console
