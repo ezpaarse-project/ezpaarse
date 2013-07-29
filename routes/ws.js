@@ -30,7 +30,6 @@ var Deduplicator  = require('../lib/deduplicator.js');
 var Enhancer      = require('../lib/enhancer.js');
 var FieldSplitter = require('../lib/fieldsplitter.js');
 var Organizer     = require('../lib/organizer.js');
-var Qualifier     = require('../lib/qualifier.js');
 
 module.exports = function (app) {
 
@@ -309,7 +308,6 @@ module.exports = function (app) {
       var ecDeduplicator  = new Deduplicator(job.deduplication);
       var ecEnhancer      = new Enhancer(logger, sh, report);
       var ecFieldSplitter = new FieldSplitter(job.ufSplitters);
-      var ecQualifier     = new Qualifier();
       var ecOrganizer2    = new Organizer();
       var writer          = job.writer;
 
@@ -409,7 +407,7 @@ module.exports = function (app) {
       ecEnhancer.on('ec', function (ec) {
         ecFieldSplitter.split(ec);
 
-        if (ecQualifier.check(ec)) {
+        if (ec._isQualified()) {
           ecOrganizer2.push(ec);
         } else {
           ecOrganizer2.skip(ec._meta.lineNumber);
