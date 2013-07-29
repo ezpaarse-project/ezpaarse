@@ -16,6 +16,15 @@
     "platform",
     "unitid"
   ],
+  "EZPAARSE_QUALIFYING_FIELDS": [
+    "issn",
+    "eissn",
+    "isbn",
+    "eisbn",
+    "doi",
+    "rtype",
+    "mime"
+  ],
   "EZPAARSE_BIG_RATE": 900,
   "EZPAARSE_BIG_DURATION": 60,
   "EZPAARSE_TMP_CYCLE": 60,
