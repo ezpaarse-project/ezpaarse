@@ -475,6 +475,8 @@ module.exports = function (app) {
             badBeginning = true;
             lazy.emit('end');
             logger.warn('Couln\'t recognize first line : aborted.', {line: line});
+            report.set('general', 'format-regex',
+              logParser.getRegexp() || 'not found, build or auto-recognition failed');
           }
         }
         report.inc('general', 'nb-lines-input');
