@@ -449,16 +449,22 @@ $(document).on('ready' ,function () {
       // on error, display the error alert
       'error': function(jqXHR, textStatus, errorThrown) {
         var error;
-        var status = jqXHR.getResponseHeader("ezPAARSE-Status");
-        var message = jqXHR.getResponseHeader("ezPAARSE-Status-Message");
+        var status     = jqXHR.getResponseHeader("ezPAARSE-Status");
+        var message    = jqXHR.getResponseHeader("ezPAARSE-Status-Message");
+        var reportLink = host + '/' + jobid + '/job-report.html';
+        if (status == '4003') { reportLink += '#first-line'; }
+
         if (message) {
           error = status + ", " + message;
         } else {
           error = status;
         }
 
+        error += '<br/>(more details can be found in the ' +
+                 '<a href="' + reportLink + '" target="_blank">job report</a>)';
+
         if (status) {
-          $("#error").text(error);
+          $("#error").html(error);
         } else {
           $("#error").text("500, Internal Server Error");
         }
