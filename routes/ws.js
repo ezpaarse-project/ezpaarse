@@ -239,7 +239,7 @@ module.exports = function (app) {
 
     var endOfRequest      = false;
     var writerWasStarted  = false;
-    var treatedLines      = false;
+    var parsedLines       = false;
     var writtenECs        = false;
     var badBeginning      = false;
     var statusHeader      = 'ezPAARSE-Status';
@@ -436,7 +436,7 @@ module.exports = function (app) {
         var ec = logParser.parse(line);
         
         if (ec) {
-          treatedLines = true;
+          parsedLines = true;
           if (ecFilter.isValid(ec)) {
             if (config.EZPAARSE_IGNORED_DOMAINS.indexOf(ec.domain) === -1) {
               if (ec.host && job.anonymize.host) {
@@ -469,10 +469,11 @@ module.exports = function (app) {
           logger.silly('Line format was not recognized');
           sh.write('unknownFormats', line + '\n');
           report.inc('rejets', 'nb-lines-unknown-format');
-          if (!treatedLines) {
+          if (!parsedLines) {
             badBeginning = true;
             lazy.emit('end');
-            logger.warn('Couln\'t recognize first line : aborted.', {line: line});
+            logger.warn('Couldn\'t recognize first line : aborted.', {line: line});
+            report.set('general', 'first-line', line);
             report.set('general', 'format-regex',
               logParser.getRegexp() || 'not found, build or auto-recognition failed');
           }
@@ -670,7 +671,7 @@ module.exports = function (app) {
         // tell that the response stream can be closed
         logger.info('No more data in the request');
         endOfRequest = true;
-        if (!treatedLines) {
+        if (!parsedLines) {
           logger.warn('No line treated in the request');
           try {
             res.set(statusHeader, 4003);
