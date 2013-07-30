@@ -473,13 +473,18 @@ module.exports = function (app) {
             badBeginning = true;
             lazy.emit('end');
             logger.warn('Couldn\'t recognize first line : aborted.', {line: line});
-            report.set('general', 'first-line', line);
-            report.set('general', 'format-regex',
-              logParser.getRegexp() || 'not found, build or auto-recognition failed');
           }
         }
         report.inc('general', 'nb-lines-input');
       }
+
+      var processFirstLine = function (line) {
+        processFirstLine = processLine;
+        processLine(line);
+        report.set('general', 'first-line', line);
+        report.set('general', 'format-regex',
+          logParser.getRegexp() || 'not found, build or auto-recognition failed');
+      };
 
       // to handle stream spliting line by line
       var lazy = new Lazy();
@@ -664,8 +669,8 @@ module.exports = function (app) {
       lazy.lines
           .map(String)
           .map(function (line) {
-            processLine(line);
-          })
+            processFirstLine(line);
+          });
       lazy.on('end', function () {
         // when the input stream is closed,
         // tell that the response stream can be closed
