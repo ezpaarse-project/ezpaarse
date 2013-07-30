@@ -164,14 +164,11 @@ clean-for-release:
 	test -f ./clean-for-release-flag || ( echo "Warning: do no run this command on your ezpaarse used for devlopements" ; exit 1 )	
 	rm -rf ./.git/
 	rm -f ./test/injection-*-test.js
-	rm -f ./test/customformat-test.js
-	mv ./test/dataset/sd.wrong-first-line.log /tmp/ ; echo -n ""
-	mv ./test/dataset/sd.mini.log* /tmp/            ; echo -n ""
-	rm -rf ./test/dataset/multiformat/*
-	rmdir ./test/dataset/multiformat
-	rm -f ./test/dataset/*
-	mv /tmp/sd.wrong-first-line.log ./test/dataset/ ; echo -n ""
-	mv /tmp/sd.mini.log*            ./test/dataset/ ; echo -n ""
+	rm -f ./test/custom-formats-test.js
+	rm -f ./test/deduplication-test.js
+	rm -f ./test/pkb-test.js
+	rm -rf ./test/dataset/multiformat
+	find ./test/dataset/* -size +1k -exec rm {} \;
 	rm -rf ./build/
 	rm -rf ./misc/
 	rm -rf ./ezpaarse-*/
