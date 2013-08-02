@@ -1,4 +1,3 @@
-/*jslint node: true, maxlen: 100, maxerr: 50, indent: 2 */
 'use strict';
 
 var request = require('request');
@@ -63,7 +62,7 @@ exports.objectsAreSame = function (object1, object2) {
     }
   }
   return same;
-}
+};
 
 exports.compareArrays = function (array1, array2, showIfTrue) {
   if (array1.length !== array2.length) {

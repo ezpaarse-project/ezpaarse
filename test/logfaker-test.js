@@ -1,10 +1,9 @@
-/*jslint node: true, maxlen: 100, maxerr: 50, indent: 2 */
 /*global describe, it*/
 'use strict';
 
-var should        = require('should');
-var shell         = require('shelljs');
-var byline        = require('byline');
+var should = require('should');
+var shell  = require('shelljs');
+var byline = require('byline');
 
 describe('The logfaker command', function () {
   describe('can be called with --nb=1', function () {
@@ -14,7 +13,7 @@ describe('The logfaker command', function () {
       var nbline = 0;
       stream.on('data', function () {
         nbline++;
-      })
+      });
       stream.on('end', function () {
         should.equal(nbline, 1);
         done();

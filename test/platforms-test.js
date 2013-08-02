@@ -49,7 +49,7 @@ function testFiles(files, platformName, parserFile, done) {
     });
     
     if (record) {
-      should(record.url, 'some entries in the test file have no URL')
+      should(record.url, 'some entries in the test file have no URL');
       child.stdin.write(record.url + '\n');
     } else {
       done();

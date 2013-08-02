@@ -15,7 +15,7 @@ var routes = [
   '/info/form-predefined',
   '/info/usage.json',
   '/info/usage.html',
-]
+];
 
 function testNextRoute(callback) {
   var route = routes.pop();

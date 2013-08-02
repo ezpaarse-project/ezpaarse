@@ -38,7 +38,7 @@ describe('The server', function () {
       };
 
       return launchRequest;
-    }
+    };
 
     var requests = [];
     for (var i = 0; i < nbRequests; i++) {
@@ -75,7 +75,7 @@ describe('The server', function () {
       };
 
       return launchRequest;
-    }
+    };
 
     var requests = [];
     for (var i = 0; i < nbRequests; i++) {

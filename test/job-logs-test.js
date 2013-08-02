@@ -1,4 +1,3 @@
-/*jslint node: true, maxlen: 100, maxerr: 50, indent: 2 */
 /*global describe, it*/
 'use strict';
 
@@ -81,7 +80,7 @@ describe('The server', function () {
           logBody = logBody.trim().split('\n');
           should.ok(logBody.length === 1, '1 line should be present in the log file');
 
-          var logLine = fs.readFileSync(wrongSecondLineLogFile).toString().split('\n')[1]
+          var logLine = fs.readFileSync(wrongSecondLineLogFile).toString().split('\n')[1];
           logBody[0].should.equal(logLine);
           done();
         });
