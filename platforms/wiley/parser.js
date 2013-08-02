@@ -11,11 +11,9 @@
 'use strict';
 var byline = require('byline');
 var URL = require('url');
-var querystring = require('querystring');
 
 function parseUrl(url) {
   var result = {};
-  var param  = querystring.parse(URL.parse(url).query);
   var path   = decodeURIComponent(URL.parse(url).path);
 
   //console.log(path);

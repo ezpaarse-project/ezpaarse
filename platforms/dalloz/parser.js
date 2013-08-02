@@ -11,7 +11,6 @@ var querystring = require('querystring');
 function parseUrl(url) {
   var result = {};
   var param = querystring.parse(URL.parse(url).query);
-  var path = URL.parse(url).path;
   
   var match;
   if ((match = /\/Document/.exec(url)) !== null) {

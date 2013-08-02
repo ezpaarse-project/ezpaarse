@@ -2,21 +2,18 @@
 
 // ##EZPAARSE
 
-/*jslint node: true, maxlen: 180, maxerr: 50, indent: 2 */
+/*jslint maxlen: 180*/
 'use strict';
-var byline      = require('byline');
-var URL         = require('url');
-var querystring = require('querystring');
+var byline = require('byline');
+var URL    = require('url');
 
 function parseUrl(url) {
   var result    = {};
   var parsedUrl = URL.parse(url);
-  var param     = querystring.parse(parsedUrl.query); /* a priori inutile pour bmc */
   var domain    = parsedUrl.hostname; /* Just the lowercased hostname portion of the host. Example: 'host.com' */
   var pathname  = parsedUrl.pathname; /* The path section of the URL, that comes after the host and before the query, including the initial slash if present. Example: '/p/a/t/h' */
 
   var match;
-  var split;
 
   // OK exemple http://www.biomarkerres.org/content/pdf/2050-7771-1-14.pdf
   //console.error(parsedUrl);

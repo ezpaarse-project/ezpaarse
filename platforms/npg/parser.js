@@ -2,17 +2,14 @@
 
 // ##EZPAARSE
 
-/*jslint node: true, maxlen: 180, maxerr: 50, indent: 2 */
+/*jslint maxlen: 180*/
 'use strict';
 
 var byline = require('byline');
 var URL = require('url');
-var querystring = require('querystring');
 
 function parseUrl(url) {
   var result = {};
-  var param = querystring.parse(URL.parse(url).query);
-  //console.log(URL.parse(url));
   var path = URL.parse(url).path;
   
   var match;
