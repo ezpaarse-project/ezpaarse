@@ -99,8 +99,7 @@ module.exports = function (app) {
 
     new Job(req, res, jobID, {
       resIsDeferred: false,
-      socket: app.io.sockets.socket(req.header('Socket-ID')),
-      defaultTracesLevel: (app.get('env') == 'production' ? 'info' : 'verbose')
+      socket: app.io.sockets.socket(req.header('Socket-ID'))
     })._run();
   });
   app.put(uuidRegExp, function (req, res) {
@@ -108,8 +107,7 @@ module.exports = function (app) {
 
     new Job(req, res, jobID, {
       resIsDeferred: true,
-      socket: app.io.sockets.socket(req.header('Socket-ID')),
-      defaultTracesLevel: (app.get('env') == 'production' ? 'info' : 'verbose')
+      socket: app.io.sockets.socket(req.header('Socket-ID'))
     })._run();
   });
   // this route is useful because sometime PUT is not allowed by reverse proxies
@@ -120,8 +118,7 @@ module.exports = function (app) {
 
       new Job(req, res, jobID, {
         resIsDeferred: true,
-        socket: app.io.sockets.socket(req.header('Socket-ID')),
-        defaultTracesLevel: (app.get('env') == 'production' ? 'info' : 'verbose')
+        socket: app.io.sockets.socket(req.header('Socket-ID'))
       })._run();
     } else {
       res.send(400, 'Please add _METHOD=PUT as a query in the URL (RESTful way)');
