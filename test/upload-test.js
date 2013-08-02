@@ -5,7 +5,6 @@
 'use strict';
 
 var should   = require('should');
-var request  = require('request');
 var uuid     = require('uuid');
 var helpers  = require('./helpers.js');
 var logF     = require('../lib/logfaker.js');

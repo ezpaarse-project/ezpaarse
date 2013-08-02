@@ -2,7 +2,6 @@
 /*global describe, it*/
 'use strict';
 
-var fs            = require('fs');
 var should        = require('should');
 var shell         = require('shelljs');
 var byline        = require('byline');
@@ -13,7 +12,7 @@ describe('The logfaker command', function () {
       var child  = shell.exec(__dirname + '/../bin/logfaker --nb=1', {async: true, silent: true});
       var stream = byline.createStream(child.stdout);
       var nbline = 0;
-      stream.on('data', function (line) {
+      stream.on('data', function () {
         nbline++;
       })
       stream.on('end', function () {

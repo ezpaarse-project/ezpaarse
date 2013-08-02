@@ -3,9 +3,7 @@
 'use strict';
 
 var helpers       = require('./helpers.js');
-var fs            = require('fs');
 var should        = require('should');
-var csvextractor  = require('../lib/csvextractor.js');
 
 var logFile               = __dirname + '/dataset/sd.mini.log';
 var gzipLogFile           = __dirname + '/dataset/sd.mini.log.gz';

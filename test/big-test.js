@@ -26,7 +26,7 @@ describe('The server', function () {
     params.duration = duration;
 
     logF.logFaker(params, function (stream) {
-      helpers.postPiped('/', headers, stream, function (err, res, bod) {
+      helpers.postPiped('/', headers, stream, function (err, res) {
       
         if (!res) { throw new Error('ezPAARSE is not running'); }
         if (err)  { throw err; }

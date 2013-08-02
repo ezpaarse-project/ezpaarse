@@ -23,7 +23,7 @@ describe('The server', function () {
       var headers = {
         'Accept' : 'application/json'
       };
-      helpers.post('/', logFile, headers, function (err, res, body) {
+      helpers.post('/', logFile, headers, function (err, res) {
         if (!res) { throw new Error('ezPAARSE is not running'); }
         if (err)  { throw err; }
         res.should.have.status(200);
@@ -38,7 +38,7 @@ describe('The server', function () {
       var headers = {
         'Accept' : 'application/json'
       };
-      helpers.post('/', logFile, headers, function (err, res, body) {
+      helpers.post('/', logFile, headers, function (err, res) {
         if (!res) { throw new Error('ezPAARSE is not running'); }
         if (err)  { throw err; }
         res.should.have.status(200);
@@ -47,7 +47,7 @@ describe('The server', function () {
         should.exist(logURL,
           'The header "Job-Traces" was not sent by the server');
 
-        request.get(logURL, function (error, response, logBody) {
+        request.get(logURL, function (error, response) {
           if (!response) { throw new Error('ezPAARSE is not running'); }
           if (error)     { throw error; }
           res.should.have.status(200);

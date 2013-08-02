@@ -3,11 +3,9 @@
 'use strict';
 
 var helpers   = require('./helpers.js');
-var config    = require('../config.json');
 var fs        = require('fs');
 var should    = require('should');
 var shell     = require('shelljs');
-var csv       = require('csv');
 var byline    = require('byline');
 var csvextractor = require('../lib/csvextractor.js');
 var pp        = require('../lib/platform-parser.js');

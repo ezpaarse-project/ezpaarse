@@ -3,7 +3,6 @@
 'use strict';
 
 var helpers = require('./helpers.js');
-var fs      = require('fs');
 var should  = require('should');
 
 var logFile = __dirname + '/dataset/customformat.log';

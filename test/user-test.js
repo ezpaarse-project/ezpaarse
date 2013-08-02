@@ -2,7 +2,6 @@
 /*global describe, it*/
 'use strict';
 
-var fs      = require('fs');
 var path    = require('path');
 var should  = require('should');
 var helpers = require('./helpers.js');

@@ -2,7 +2,6 @@
 /*global describe, it*/
 'use strict';
 
-var fs      = require('fs');
 var path    = require('path');
 var request = require('request');
 var should  = require('should');
@@ -16,7 +15,7 @@ describe('The server', function () {
       var headers = {
         'Accept' : 'text/csv'
       };
-      helpers.post('/', logFile, headers, function (err, res, body) {
+      helpers.post('/', logFile, headers, function (err, res) {
         if (!res) { throw new Error('ezPAARSE is not running'); }
         if (err)  { throw err; }
         res.should.have.status(200);

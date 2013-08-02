@@ -23,7 +23,7 @@ function testNextRoute(callback) {
     callback();
     return;
   }
-  helpers.get(route, function (err, res, body) {
+  helpers.get(route, function (err, res) {
     if (!res) { throw new Error('ezPAARSE is not running'); }
     if (err)  { throw err; }
     should.ok(res.statusCode == 200,

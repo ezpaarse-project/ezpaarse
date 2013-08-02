@@ -2,7 +2,6 @@
 /*global describe, it*/
 'use strict';
 
-var fs            = require('fs');
 var should        = require('should');
 var shell         = require('shelljs');
 

@@ -4,11 +4,11 @@
 
 var helpers       = require('./helpers.js');
 var fs            = require('fs');
+var path          = require('path');
 var should        = require('should');
-var csvextractor  = require('../lib/csvextractor.js');
 
-var logFile               = __dirname + '/dataset/sd.2012-11-30.300.log';
-var resultFile            = __dirname + '/dataset/sd.2012-11-30.300.result.json';
+var logFile    = path.join(__dirname, '/dataset/sd.2012-11-30.300.log');
+var resultFile = path.join(__dirname, '/dataset/sd.2012-11-30.300.result.json');
 
 describe('The server', function () {
   describe('receives a log on the HTTP POST / route', function () {
