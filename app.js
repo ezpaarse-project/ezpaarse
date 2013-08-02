@@ -7,12 +7,11 @@ var config        = require('./config.json');
 var http          = require('http');
 var path          = require('path');
 var fs            = require('fs');
-var parsers       = require('./lib/init.js');
 var folderChecker = require('./lib/folderchecker.js');
 var FolderReaper  = require('./lib/folderreaper.js');
 var winston       = require('winston');
 var socketio      = require('socket.io');
-var usagemanager  = require('./lib/usagemanager.js');
+require('./lib/init.js');
 
 winston.addColors({ verbose: 'green', info: 'green', warn: 'yellow', error: 'red' });
 
