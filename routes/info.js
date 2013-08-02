@@ -3,11 +3,11 @@
 /*jslint node: true, maxlen: 180, maxerr: 50, indent: 2 */
 'use strict';
 
-var fs            = require('fs');
-var uuid          = require('uuid');
-var pp            = require('../lib/platform-parser.js')
-var path          = require('path');
-var moment        = require('moment');
+var fs     = require('fs');
+var path   = require('path');
+var uuid   = require('uuid');
+var moment = require('moment');
+var pp     = require('../lib/platform-parser.js');
 
 module.exports = function (app) {
   

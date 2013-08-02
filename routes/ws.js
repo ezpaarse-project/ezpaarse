@@ -179,11 +179,11 @@ module.exports = function (app) {
           tree[f] = {
             location: file,
             size: size
-          }
+          };
         }
       });
       return tree;
-    }
+    };
     if (config.EZPAARSE_LOG_FOLDER) {
       var rootFolder = path.join(__dirname, '..', config.EZPAARSE_LOG_FOLDER);
       if (fs.existsSync(rootFolder)) {
