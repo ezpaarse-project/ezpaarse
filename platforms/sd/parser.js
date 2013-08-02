@@ -124,7 +124,7 @@ function parseUrl(url) {
       //result.isbn   = match[1];
       result.pid   = match[1];
       result.rtype = 'BOOK';
-      result.mime = 'HTML'
+      result.mime = 'HTML';
     }
   }
   return result;
@@ -159,7 +159,7 @@ exports.parserExecute = function (urls) {
       stdout.write(JSON.stringify(parseUrl(line)) + '\n');
     });
   }
-}
+};
 
 if (!module.parent) {
   var optimist = require('optimist')

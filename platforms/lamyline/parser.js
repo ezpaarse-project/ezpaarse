@@ -61,7 +61,7 @@ exports.parserExecute = function (urls) {
       stdout.write(JSON.stringify(parseUrl(line)) + '\n');
     });
   }
-}
+};
 
 if (!module.parent) {
   var optimist = require('optimist')

@@ -153,7 +153,7 @@ exports.parserExecute = function (urls) {
       stdout.write(JSON.stringify(parseUrl(line)) + '\n');
     });
   }
-}
+};
 
 // when the parser is called from command line
 // (standalone version)

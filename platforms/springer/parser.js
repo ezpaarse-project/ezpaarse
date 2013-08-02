@@ -11,7 +11,7 @@ var querystring = require('querystring');
 function parseUrl(url) {
   var result    = {};
   var parsedUrl = URL.parse(url);
-  var param     = querystring.parse(parsedUrl.query)
+  var param     = querystring.parse(parsedUrl.query);
   var path      = '';
   try {
     path = decodeURIComponent(parsedUrl.path);
@@ -126,7 +126,7 @@ exports.parserExecute = function (urls) {
       stdout.write(JSON.stringify(parseUrl(line)) + '\n');
     });
   }
-}
+};
 
 if (!module.parent) {
   var optimist = require('optimist')
