@@ -10,7 +10,6 @@ var fs            = require('fs');
 var folderChecker = require('./lib/folderchecker.js');
 var FolderReaper  = require('./lib/folderreaper.js');
 var winston       = require('winston');
-var socketio      = require('socket.io');
 require('./lib/init.js');
 
 winston.addColors({ verbose: 'green', info: 'green', warn: 'yellow', error: 'red' });
@@ -18,7 +17,7 @@ winston.addColors({ verbose: 'green', info: 'green', warn: 'yellow', error: 'red
 // Set up cleaning jobs for the temporary folder
 var red   = '\u001b[31m';
 var reset = '\u001b[0m';
-if (!folderChecker.check(__dirname + '/tmp')) {
+if (!folderChecker.check(path.join(__dirname, '/tmp'))) {
   var err = red;
   err += 'Warning! Temporary folder not found, files won\'t be stored on disk.';
   err += reset;
@@ -28,7 +27,7 @@ if (!folderChecker.check(__dirname + '/tmp')) {
     recursive: true,
     lifetime: config.EZPAARSE_TMP_LIFETIME
   });
-  folderReaper.watch(__dirname + '/tmp', config.EZPAARSE_TMP_CYCLE);
+  folderReaper.watch(path.join(__dirname, '/tmp'), config.EZPAARSE_TMP_CYCLE);
 } else {
   var err = red;
   err += 'Warning! Temporary folder won\'t be automatically cleaned, ';
@@ -62,7 +61,7 @@ app.configure('development', function () {
 app.configure('production', function () {
   // http://www.senchalabs.org/connect/middleware-logger.html
   app.use(express.logger({
-    stream: fs.createWriteStream(__dirname + '/logs/access.log', { flags: 'a+' })
+    stream: fs.createWriteStream(path.join(__dirname, '/logs/access.log'), { flags: 'a+' })
   }));
 });
 
@@ -71,7 +70,7 @@ app.configure(function () {
   
   // for dynamics HTML pages (ejs template engine is used)
   // https://github.com/visionmedia/ejs
-  app.set('views', __dirname + '/views');
+  app.set('views', path.join(__dirname, '/views'));
   app.set('view engine', 'ejs');
 
   // used to expose a favicon in the browser
@@ -109,20 +108,7 @@ require('./routes/logs')(app);
 
 var server = http.createServer(app);
 
-// Set socket.io
-app.io = socketio.listen(server, { log: false });
-app.io.set('transports', [
-  'websocket',
-  'flashsocket',
-  'htmlfile',
-  'xhr-polling',
-  'jsonp-polling'
-]);
-// Send the socket ID to the client on connection
-// This ID is used to identify the client on AJAX requests
-app.io.sockets.on('connection', function (socket) {
-  socket.emit('connected', socket.id);
-});
+require('./lib/socketio.js').listen(server);
 
 server.listen(app.get('port'), function () {
   console.log(pkg.name + "-" + pkg.version +

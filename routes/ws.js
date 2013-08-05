@@ -1,14 +1,14 @@
 'use strict';
 
-var fs            = require('fs');
-var uuid          = require('uuid');
-var path          = require('path');
-var mime          = require('mime');
-var config        = require('../config.json');
-var Job           = require('../lib/job.js');
-var ezJobs        = require('../lib/jobs.js');
-var rgf           = require('../lib/readgrowingfile.js');
-var uuidRegExp    = /^\/([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})\/?$/;
+var fs         = require('fs');
+var uuid       = require('uuid');
+var path       = require('path');
+var mime       = require('mime');
+var config     = require('../config.json');
+var Job        = require('../lib/job.js');
+var ezJobs     = require('../lib/jobs.js');
+var rgf        = require('../lib/readgrowingfile.js');
+var uuidRegExp = /^\/([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})\/?$/;
 
 module.exports = function (app) {
 
@@ -97,18 +97,12 @@ module.exports = function (app) {
   app.post('/', function (req, res) {
     var jobID = uuid.v1();
 
-    new Job(req, res, jobID, {
-      resIsDeferred: false,
-      socket: app.io.sockets.socket(req.header('Socket-ID'))
-    })._run();
+    new Job(req, res, jobID, { resIsDeferred: false })._run();
   });
   app.put(uuidRegExp, function (req, res) {
     var jobID = req.params[0];
 
-    new Job(req, res, jobID, {
-      resIsDeferred: true,
-      socket: app.io.sockets.socket(req.header('Socket-ID'))
-    })._run();
+    new Job(req, res, jobID, { resIsDeferred: true })._run();
   });
   // this route is useful because sometime PUT is not allowed by reverse proxies
   // PUT is replaced by a POST with a _METHOD=PUT as a query
@@ -116,10 +110,7 @@ module.exports = function (app) {
     var jobID = req.params[0];
     if (req.query._METHOD == 'PUT') {
 
-      new Job(req, res, jobID, {
-        resIsDeferred: true,
-        socket: app.io.sockets.socket(req.header('Socket-ID'))
-      })._run();
+      new Job(req, res, jobID, { resIsDeferred: true })._run();
     } else {
       res.send(400, 'Please add _METHOD=PUT as a query in the URL (RESTful way)');
     }
