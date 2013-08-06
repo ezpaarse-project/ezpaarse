@@ -106,20 +106,21 @@ make test-platforms-verbose
 Le parseur est décrit par un fichier ``manifest.json`` présent dans le répertoire du parseur.
 Ce fichier contient les informations suivantes :
 
-* name : le nom court du parseur qui est utilisé comme préfixe dans les noms de fichier. On veillera à ne pas utiliser un nom déjà utilisé,
-* version : la version en cours du parseur. Elle est utilisée dans les noms de fichier de validation des parseurs,
-* longname : le nom long du parseur, utilisé dans la documentation,
-* describe : la description du parseur, peut être un paragraphe,
-* docurl : l'URL de la documentation sur le site analogist (se termine par /),
-* domains : un tableau des domaines que le parseur est capable de prendre en charge,
-* recognize : un tableau faisant correspondre à chaque type de consultation (à true) les capacités de reconnaissance du parseur.
+* **name** : le nom court du parseur qui est utilisé comme préfixe dans les noms de fichier. On veillera à ne pas utiliser un nom déjà utilisé,
+* **version** : la version en cours du parseur. Elle est utilisée dans les noms de fichier de validation des parseurs,
+* **longname** : le nom long du parseur, utilisé dans la documentation,
+* **describe** : la description du parseur, peut être un paragraphe,
+* **docurl** : l'URL de la documentation sur le site analogist (se termine par /),
+* **domains** : un tableau de domaines que le parseur est capable de prendre en charge,
+* **pkb-domains** : si la plateforme possède une PKB et que des domaines y sont présents, ce champ correspond à la colonne qui les contient,
+* **recognize** : un tableau faisant correspondre à chaque type de consultation (à true) les capacités de reconnaissance du parseur.
 
 Le fichier manifest.json est utilisé pour afficher dynamiquement les [caractéristiques de tous les parseurs](http://analogist.couperin.org/platforms/start#capacites-des-parseurs).
 
 
-## Principe de gestion des bases de connaissances éditeur
+## Principe de gestion des bases de connaissance éditeur
 
-Les bases de connaissance éditeur sont enregistrées sous forme de fichier CSV et sont propres à chaque plateforme. Le fichier ``platform.pkb.csv`` contient les correspondances entre les identifiants de la plateforme en question appelé ``pid`` et un ISSN ou un identifiant normalisé.
+Les bases de connaissance éditeur sont enregistrées sous forme de fichier CSV et sont propres à chaque plateforme. Le fichier ``platform.pkb.csv`` contient les correspondances entre les identifiants de la plateforme en question, appelés ``PID``, et un ISSN ou autre identifiant normalisé.
 
 
 ![Schéma de gestion des bases de connaissances éditeur ezPAARSE](images/ezPAARSE-Architecture-PKB.png "PKB ezPAARSE")
