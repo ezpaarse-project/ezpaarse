@@ -49,11 +49,11 @@ Les différentes syntaxes sont calquées sur celles utilisées par les proxy, de
 
 ## Paramètres personnalisés ##
 
-Utiliser des paramètres personnalisés permet de récupérer des informations présentes dans les lignes de logs qui ne répondent pas au standard EZproxy. A l'inverse, il est possible d'ignorer certaines informations, qui ne seront pas retrouvées dans les évènements de consultation générés par ezPAARSE.  
+Utiliser des paramètres personnalisés permet de récupérer des informations présentes dans les lignes de logs qui ne répondent pas au standard EZproxy. A l'inverse, il est possible d'ignorer certaines informations, qui ne seront pas retrouvées dans les événements de consultation générés par ezPAARSE.  
 
 Un paramètre peut être formulé de trois façons :  
-- %{**proprieté**}<**regexp**> : récupère le champ correspondant à l'expression régulière entre <...> et l'ajoute à l'évènement de consultation sous le nom défini entre {...}.  
-- %{**proprieté**} : récupère une chaîne alphanumérique et l'ajoute à l'évènement de consultation sous le nom défini entre {...}.  
+- %{**propriété**}<**regexp**> : récupère le champ correspondant à l'expression régulière entre <...> et l'ajoute à l'événement de consultation sous le nom défini entre {...}.  
+- %{**propriété**} : récupère une chaîne alphanumérique et l'ajoute à l'événement de consultation sous le nom défini entre {...}.  
 - %<**regexp**> : ignore le morceau de ligne de log correspondant à l'expression régulière entre <...>.
 
 **NB:** pour les expressions régulières complexes, utilisez des parenthèses non capturantes : **(?:x)**.

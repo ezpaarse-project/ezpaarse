@@ -12,7 +12,7 @@ L'identifiant d'une ressource permet de caractériser les événements de consul
   <tr><td>isbn</td><td>reconnaissance de l'ISBN</td><td></td></tr>
   <tr><td>eissn</td><td>reconnaissance de l'EISSN</td><td></td></tr>
   <tr><td>eisbn</td><td>reconnaissance de l'EISBN</td><td></td></tr>
-  <tr><td>unitid</td><td>reconnaissance de l'unitid</td><td>unitid est l'identification la plus précise d'un événement de consultation</td></tr>
+  <tr><td>unitid</td><td>reconnaissance du unitid</td><td>unitid est l'identification la plus précise d'un événement de consultation</td></tr>
 </table>
 
 ### Description de unitid ###

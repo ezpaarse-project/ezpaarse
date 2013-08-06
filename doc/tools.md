@@ -81,7 +81,7 @@ Cette commande est utile pour constituer des fichiers de test en y retirant les 
 
 ## csvextractor
 
-Commande permettant du contennu d'un fichier CSV. Le fichier CSV doit être envoyé sur l'entrée système (stdin) de la commande.
+Commande permettant du contenu d'un fichier CSV. Le fichier CSV doit être envoyé sur l'entrée système (stdin) de la commande.
 
 Exemple d'utilisation:
 ```bash
@@ -110,7 +110,7 @@ cat ./test/npg.2013-01-16.csv | ../../bin/csvextractor --fields='url' -c | ./par
 
 ## csvtotalizer
 
-Commande permettant de produire un résumé du contennu d'un fichier CSV résultat d'un traitement d'ezPAARSE. Le fichier CSV doit être envoyé sur l'entrée système (stdin) de la commande.
+Commande permettant de produire un résumé du contenu d'un fichier CSV résultat d'un traitement d'ezPAARSE. Le fichier CSV doit être envoyé sur l'entrée système (stdin) de la commande.
 
 Exemple d'utilisation:
 ```bash
@@ -162,7 +162,7 @@ Cette commande est utile pour tester les performances d'ezPAARSE.
 Commande permettant de vérifier la validité des informations présentes dans un fichier de base de connaissance d'une plateforme.
 Cette commande vérifie les points suivants :
 
-- presence de l'extension du nom de fichier .pkb.csv
+- présence de l'extension du nom de fichier .pkb.csv
 - unicité du pid
 - information minimale d'identification disponible
 - contrôle syntaxique de l'écriture des identifiants normalisés (ISSN, ISBN, DOI)

@@ -4,7 +4,7 @@ ezPAARSE est une application RESTful.
 **REST**: Representational State Transfer
 
 ## Soumission de log ##
-La route principale d'ezPAARSE, elle correspond à la **racine** du service web. La méthode **GET** donne accès au formulaire de soumission de logs, et la méthode **POST** permet de soumettre des logs. Les fichiers soumis sont parsés et des évènements de consultation sont envoyés en retour. L'opération se fait entièrement en streaming.
+La route principale d'ezPAARSE, elle correspond à la **racine** du service web. La méthode **GET** donne accès au formulaire de soumission de logs, et la méthode **POST** permet de soumettre des logs. Les fichiers soumis sont parsés et des événements de consultation sont envoyés en retour. L'opération se fait entièrement en streaming.
 
 <table>
   <tr>
@@ -77,9 +77,9 @@ Headers contenant des URLs d'accès aux logs :
 
 #### Body ####
 
-CSV ou Json contenant l'ensemble des évènements de consultation générés.
+CSV ou JSON contenant l'ensemble des événements de consultation générés.
 
-Exemple d'évènement de consultation :
+Exemple d'événement de consultation :
 
 ```
 {
@@ -154,7 +154,7 @@ Lors du traitement d'un job (requête), ezPAARSE génère des fichiers informati
 - jobID: identifiant unique attribué au job.
 
 ## Infos générales ##
-Ces routes permettent de récupérer diverses informations, comme la liste des plateformes et les types d'évènements générés. Elles supportent uniquement la méthode *GET*.
+Ces routes permettent de récupérer diverses informations, comme la liste des plateformes et les types d'événements générés. Elles supportent uniquement la méthode *GET*.
 
 <table>
     <tr>

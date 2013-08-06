@@ -27,13 +27,13 @@ make
 make start
 ```
 
-## Arret du serveur ##
+## Arrêt du serveur ##
 
 ```bash
 make stop
 ```
 
-## Etat du serveur ##
+## État du serveur ##
 
 ```bash
 make status

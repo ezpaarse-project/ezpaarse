@@ -1,7 +1,7 @@
 # Démarrage rapide #
 
 ezPAARSE se présente sous la forme d'un Web service dans lequel vous pouvez
-injecter vos logs et récupérer les évènements de consultation correspondants.
+injecter vos logs et récupérer les événements de consultation correspondants.
 Cette procédure décrit comment installer ezPAARSE sur votre ordinateur.
 
 ## Pré-requis ##
@@ -19,7 +19,7 @@ Lorsque les pré-requis sont remplis, le lancement de la commande **make** (voir
 ## Installation ##
 
 Si vous êtes utilisateur du système d'exploitation Windows, vous pouvez
-installer ezPAARSE sur votre ordinateur en [téléchargant le setup](http://analogist.couperin.org/ezpaarse/download) et en lançant l'installation comme n'importe quel autre programme.
+installer ezPAARSE sur votre ordinateur en [téléchargeant le setup](http://analogist.couperin.org/ezpaarse/download) et en lançant l'installation comme n'importe quel autre programme.
 
 Si vous souhaitez installer ezPAARSE sur un système de type Unix,
 téléchargez une version stable au format [tar.gz](http://analogist.couperin.org/ezpaarse/download)
@@ -64,7 +64,7 @@ make start
 ```
 
 Si vous n'êtes pas informaticien, la méthode la plus simple pour utiliser ezPAARSE est de
-passer par son formulaire HTML directement accessible depuis votre navigateur Web favoris.
+passer par son formulaire HTML directement accessible depuis votre navigateur Web favori.
 Il suffit pour cela d'ouvrir cette adresse : [http://localhost:59599/](http://localhost:59599/)
 
 Si vous êtes informaticien, vous pouvez utiliser un client HTTP (ici curl) pour envoyer un
@@ -84,7 +84,7 @@ pour injecter plus simplement le fichier de log dans le Web service d'ezPAARSE :
 . ./bin/env
 cat ./test/dataset/sd.2012-11-30.300.log | ./bin/loginjector
 ```
-Vous pouvez également réaluser des comptages rapides en rajoutant
+Vous pouvez également réaliser des comptages rapides en rajoutant
 la commande ``./bin/csvtotalizer`` à la suite de la ligne de commande.
 Vous aurez entre autre un aperçu des événements de consultation reconnus
 par ezPAARSE sur vos logs :

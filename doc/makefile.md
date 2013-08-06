@@ -1,7 +1,7 @@
 # Utilisation du makefile #
 
 Le makefile situé dans le répertoire racine d'ezpaarse autorise un certain nombre d'actions, 
-dont l'éxécution des tests de comportement, la génération de la documentation 
+dont l’exécution des tests de comportement, la génération de la documentation 
 ou la vérification du respect des règles de codage.
 
 ## Installation des modules node ##
@@ -19,7 +19,7 @@ make test
 ```
 
 Lance l'intégralité des tests de non régression. Lancer cette commande est également un moyen simple
-de s'assurer qu'ezPAARSE est opérationel.
+de s'assurer qu'ezPAARSE est opérationnel.
 
 Les fichiers de test sont situés dans le dossier ``test/`` et le nom des fichiers contenant les tests se terminent par ``-test.js``.
 
