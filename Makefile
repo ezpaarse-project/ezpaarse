@@ -84,7 +84,7 @@ test-pkb:
 
 test-pkb-verbose:
 	@if test -d platforms-kb; \
-	then . ./bin/env; ./bin/pkbvalidator $(PKBFILES); \
+	then . ./bin/env; ./bin/pkbvalidator -v $(PKBFILES); \
 	else echo 'No test folder found'; \
 	fi
 
