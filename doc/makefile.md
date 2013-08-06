@@ -66,12 +66,6 @@ Génère une documentation au format html à l'aide des fichiers markdown prése
 dans le dossier ``doc/``. La documentation HTML est placée dans le dossier ``public/doc/``.
 
 ```console
-make doctest
-```
-
-Liste les fichiers présents dans le dossier ``doc/``
-
-```console
 make docclean
 ```
 
