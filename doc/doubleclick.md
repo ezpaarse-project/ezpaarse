@@ -1,18 +1,17 @@
 ### DoubleClick headers ###
 
-Les headers DoubleClick permettent de préciser comment réaliser le dédoublonnage COUNTER appliqué aux ECs.
-Ils sont tous facultatifs.</br>
-L'objectif de ce dédoublonnage est de se rapprocher au maximum des recommandations des bonnes pratiques COUNTER.</br>
+Les headers Double-Click sont facultatifs, et permettent d'influer sur le dédoublonnage appliqué aux ECs. En l'absence de modifications, le dédoublonnage est réalisé en suivant l'algorithme du code de bonnes pratiques COUNTER. (consultable à la page 4 de l'annexe D disponible à [cette adresse](http://couperin.org/images/stories/documents/Statistiques/COUNTER/V4_FR/appd_fr.pdf))  
+
 Ils peuvent s'écrire *(en couleur les zones variables)* de la façon suivante :
 
-Double-Click-Removal: <span style="color: red">true</span></br>
-Double-Click-HTML: <span style="color: red">10</span></br>
-Double-Click-PDF: <span style="color: red">30</span></br>
-Double-Click-MISC: <span style="color: red">20</span></br>
-Double-Click-Strategy: <span style="color: red">CLI</span></br>
-Double-Click-C-field: <span style="color: red">NomDuChampCookie</span></br>
-Double-Click-L-field: <span style="color: red">NomDuChampLogin</span></br>
-Double-Click-I-field: <span style="color: red">NomDuChampHost</span></br>
+Double-Click-Removal: <span style="color: red">true</span>  
+Double-Click-HTML: <span style="color: red">10</span>  
+Double-Click-PDF: <span style="color: red">30</span>  
+Double-Click-MISC: <span style="color: red">20</span>  
+Double-Click-Strategy: <span style="color: red">CLI</span>  
+Double-Click-C-field: <span style="color: red">NomDuChampCookie</span>  
+Double-Click-L-field: <span style="color: red">NomDuChampLogin</span>  
+Double-Click-I-field: <span style="color: red">NomDuChampHost</span>  
 
 
 #### Paramètres (headers) ####
