@@ -62,7 +62,10 @@ Lignes de log générées par un proxy.
 -   **406 Not Acceptable:** encodage ou format de sortie non supporté.
 
 #### Headers ####
--   **Job-ID:** contient l'identifiant unique associé au traitement.  
+-   **Job-ID:** identifiant unique associé au traitement.  
+-   **Job-Report:** URL du rapport détaillé sur le traitement. Ce rapport inclut tous les headers envoyés par ezPAARSE.  
+-   **ezPAARSE-Status:** code de retour d'ezPAARSE en cas d'erreur. ([liste des codes](/info/codes))  
+-   **ezPAARSE-Status-Message:** message explicatif sur le code retour.  
 
 Headers contenant des URLs d'accès aux logs :  
 
