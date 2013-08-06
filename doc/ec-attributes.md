@@ -2,7 +2,7 @@
 
 ## Identifiants de ressources ##
 
-L'identifiant d'une ressource permet de caractériser les événements de consultations associés à cette ressource, il peut prendre les valeurs définies dans le tableau ci-dessous (chargées depuis [le paramétrage d'ezPAARSE](https://github.com/ezpaarse-project/ezpaarse/blob/master/platforms/rid.json)). Il est possible qu'une ressource soit caractérisée par plusieurs identifiants (par exemple un identifiant interne de l'éditeur et un ISBN).
+L'identifiant d'une ressource permet de caractériser les événements de consultations qui lui sont associés, il peut prendre les valeurs définies dans le tableau ci-dessous (chargées depuis [le paramétrage d'ezPAARSE](https://github.com/ezpaarse-project/ezpaarse/blob/master/platforms/rid.json)). Il est possible qu'une ressource soit caractérisée par plusieurs identifiants (par exemple un identifiant interne de l'éditeur et un ISBN).
 
 <table>
   <tr><th>Code</th><th>Description</th><th>Commentaires</th></tr>
