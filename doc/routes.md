@@ -165,38 +165,35 @@ Ces routes permettent de récupérer diverses informations, comme la liste des p
         <th>Information retournée</th>
     </tr>
     <tr>
-      <td>
-        /info/platforms</td>
+      <td>/info/platforms</td>
       <td>Liste les plateformes disponibles</td>
     </tr>
     <tr>
-      <td>
-        /info/rid</td>
+      <td>/info/rid</td>
       <td>Liste les identifiants de ressources</td>
     </tr>
     <tr>
-      <td>
-        /info/rtype</td>
+      <td>/info/rtype</td>
       <td>Liste les types de ressources</td>
     </tr>
     <tr>
-      <td>
-        /info/mime</td>
+      <td>/info/mime</td>
       <td>Liste les formats de ressources</td>
     </tr>
     <tr>
-      <td>
-        /info/codes</td>
+      <td>/info/codes</td>
       <td>Liste les codes de retour de l'application et leur signification</td>
     </tr>
     <tr>
-      <td>
-        /info/codes/{code}</td>
+      <td>/info/codes/{code}</td>
       <td>Retourne la signification d'un code</td>
     </tr>
     <tr>
-      <td>
-        /info/form-predefined</td>
+      <td>/info/form-predefined</td>
       <td>Liste de valeurs prédéfinies pour les options avancées du formulaire</td>
+    </tr>
+    <tr>
+      <td>/info/usage(.html|.json)</td>
+      <td>Statistiques d'usage général</td>
     </tr>
 </table>
