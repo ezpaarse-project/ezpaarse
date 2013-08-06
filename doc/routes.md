@@ -193,7 +193,7 @@ Ces routes permettent de récupérer diverses informations, comme la liste des p
       <td>Liste de valeurs prédéfinies pour les options avancées du formulaire</td>
     </tr>
     <tr>
-      <td>/info/usage(.html|.json)</td>
+      <td>/info/usage</td>
       <td>Statistiques d'usage général</td>
     </tr>
 </table>
