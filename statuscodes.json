@@ -1,6 +1,6 @@
 {
   "4001": "Got no content from the client",
-  "4002": "Error while unziping request data",
+  "4002": "Error while decompressing the file (was it properly compressed?)",
   "4003": "Line format was not recognized",
   "4004": "Hash not supported",
   "4005": "Encoding not supported",

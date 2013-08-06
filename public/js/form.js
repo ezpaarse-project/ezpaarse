@@ -322,6 +322,30 @@ $(document).on('ready' ,function () {
     }
   });
 
+  function handleError(status, message) {
+    var reportLink = host + '/' + jobid + '/job-report.html';
+    if (status == '4003') { reportLink += '#first-line'; }
+
+    if (message) {
+      error = status + ", " + message;
+    } else {
+      error = status;
+    }
+
+    error += '<br/>(more details can be found in the ' +
+             '<a href="' + reportLink + '" target="_blank">job report</a>)';
+
+    if (status) {
+      $("#error").html(error);
+    } else {
+      $("#error").text("500, Internal Server Error");
+    }
+
+    $('#process-info').slideUp(function () {
+      $('.alert-error').slideDown();
+    });
+  }
+
   /**
    * On click on the submit button, generates jobid, headers with advanced options,
    * then test if files are submitted. If not, display an error and do nothing.
@@ -395,7 +419,7 @@ $(document).on('ready' ,function () {
       return false;
     }
 
-    $.ajax({
+    var xhr = $.ajax({
       headers: headers, 
       type:    'PUT',
       url:     '/' + jobid,
@@ -448,30 +472,11 @@ $(document).on('ready' ,function () {
       },
       // on error, display the error alert
       'error': function(jqXHR, textStatus, errorThrown) {
-        var error;
-        var status     = jqXHR.getResponseHeader("ezPAARSE-Status");
-        var message    = jqXHR.getResponseHeader("ezPAARSE-Status-Message");
-        var reportLink = host + '/' + jobid + '/job-report.html';
-        if (status == '4003') { reportLink += '#first-line'; }
-
-        if (message) {
-          error = status + ", " + message;
-        } else {
-          error = status;
+        if (textStatus != 'abort') {
+          var status  = jqXHR.getResponseHeader("ezPAARSE-Status");
+          var message = jqXHR.getResponseHeader("ezPAARSE-Status-Message");
+          handleError(status, message);
         }
-
-        error += '<br/>(more details can be found in the ' +
-                 '<a href="' + reportLink + '" target="_blank">job report</a>)';
-
-        if (status) {
-          $("#error").html(error);
-        } else {
-          $("#error").text("500, Internal Server Error");
-        }
-
-        $('#process-info').slideUp(function () {
-          $('.alert-error').slideDown();
-        });
 
         $.getJSON(logroute + 'job-report.json', function (data) {
           if (data['nb-ecs'] == 0) {
@@ -486,6 +491,11 @@ $(document).on('ready' ,function () {
         $('#report-btn').removeClass('ninja');
         $('#reset-btn').removeClass('ninja');
       }
+    });
+    
+    socket.on('joberror', function (status, message) {
+      xhr.abort();
+      handleError(status, message);
     });
   });
 
