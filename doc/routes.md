@@ -72,6 +72,8 @@ Headers contenant des URLs d'accès aux logs :
 -   **Lines-Unknown-Domains:** lignes dont le domaine n'est pas associé à un parseur.  
 -   **Lines-Unqualified-ECs:** lignes ayant généré des ECs trop pauvres en information.  
 -   **Lines-PKB-Miss-ECs:** lignes ayant généré des identifiants introuvables dans la PKB de la plateforme associée.  
+-   **Lines-Duplicate-ECs:** lignes filtrées par l'algorithme de détection des doubles-clics.  
+-   **Lines-Unordered-ECs:** lignes rejetées pour cause de rupture de l'ordre chronologique.  
 
 #### Body ####
 
@@ -136,6 +138,14 @@ Lors du traitement d'un job (requête), ezPAARSE génère des fichiers informati
     <tr>
       <td>/{jobID}/lines-pkb-miss-ecs.log</td>
       <td>Lignes ayant généré des identifiants introuvables dans la PKB de la plateforme associée.</td>
+    </tr>
+    <tr>
+      <td>/{jobID}/lines-duplicate-ecs.log</td>
+      <td>Lignes filtrées par l'algorithme de détection des doubles-clics.</td>
+    </tr>
+    <tr>
+      <td>/{jobID}/lines-unordered-ecs.log</td>
+      <td>Lignes rejetées pour cause de rupture de l'ordre chronologique.</td>
     </tr>
 </table>
 
