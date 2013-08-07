@@ -16,15 +16,20 @@
     "platform",
     "unitid"
   ],
-  "EZPAARSE_QUALIFYING_FIELDS": [
-    "issn",
-    "eissn",
-    "isbn",
-    "eisbn",
-    "doi",
-    "rtype",
-    "mime"
-  ],
+  "EZPAARSE_QUALIFYING_LEVEL": 1,
+  "EZPAARSE_QUALIFYING_FACTORS": {
+    "internal": {
+      "rtype": 0.5,
+      "mime": 0.5
+    },
+    "external": [
+      {
+        "file": "platforms/rid.json",
+        "attribute": "code",
+        "weight": 1
+      }
+    ]
+  },
   "EZPAARSE_BIG_RATE": 900,
   "EZPAARSE_BIG_DURATION": 60,
   "EZPAARSE_TMP_CYCLE": 60,
