@@ -14,7 +14,8 @@
         "changelog.md",
         "outputfields.md",
         "userfields.md",
-        "doubleclick.md"
+        "doubleclick.md",
+        "qualification.md"
     ],
     "css": "/stylesheets/doc.css",
     "codeHighlightTheme": "solarized_dark"

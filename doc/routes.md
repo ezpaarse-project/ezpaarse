@@ -73,7 +73,7 @@ Headers contenant des URLs d'accès aux logs :
 -   **Lines-Unknown-Formats:** lignes dont le format n'a pas été reconnu.  
 -   **Lines-Ignored-Domains:** lignes dont le domaine est ignoré.  
 -   **Lines-Unknown-Domains:** lignes dont le domaine n'est pas associé à un parseur.  
--   **Lines-Unqualified-ECs:** lignes ayant généré des ECs trop pauvres en information.  
+-   **Lines-Unqualified-ECs:** lignes ayant généré des ECs trop pauvres en information. [(Plus de détails)](./qualification.html)  
 -   **Lines-PKB-Miss-ECs:** lignes ayant généré des identifiants introuvables dans la PKB de la plateforme associée.  
 -   **Lines-Duplicate-ECs:** lignes filtrées par l'algorithme de détection des doubles-clics.  
 -   **Lines-Unordered-ECs:** lignes rejetées pour cause de rupture de l'ordre chronologique.  
