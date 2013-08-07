@@ -136,7 +136,7 @@ Lors du traitement d'un job (requête), ezPAARSE génère des fichiers informati
     </tr>
     <tr>
       <td>/{jobID}/lines-unqualified-ecs.log</td>
-      <td>Lignes ayant généré des ECs trop pauvres en information.</td>
+      <td>Lignes ayant généré des ECs trop pauvres en information. [(Plus de détails)](./qualification.html)</td>
     </tr>
     <tr>
       <td>/{jobID}/lines-pkb-miss-ecs.log</td>
