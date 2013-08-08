@@ -1,0 +1,17 @@
+title;pid;isbn;eisbn;issn;eissn;doi;result
+Test no pid;;978-1-4302-1998-9;;;;; 
+Test EISBN 10 with special tiret;PID2;;1–931836–59–0;;;;
+Test no rid;;;;;;;Error : record has no identifier
+Test ISBN 10;PID3;1593270127;;;;;
+Test ISBN 10 with spaces;PID4;0 321 15420 7;;;;;
+Test ISBN 13;PID5;978-0-07-162612-5;;;;;
+Test ISBN 13 missing a bloc;PID6;978-0-07-1626125;;;;;Warning : Field isbn is not valid = 978-0-07-1626125 (controled value is undefined)
+ISBN not valid, containing X at wrong place;PID7;15932701X7;;;;;Warning : Field isbn is not valid = 15932701X7 (controled value is undefined)
+ISBN not valid, containing wrong 970 prefix;PID8;970-0-596-52678-8;;;;;Warning : Field isbn is not valid = 970-0-596-52678-8 (controled value is 6)
+Test ISBN 10 no 2;PID9;2-266-11156-6;;;;;
+Test ISBN 13 No 2;PID10;978-2-86889-006-1;;;;;
+Test wrong ISSN and wrong EISSN;;;;1630-2205;1760-7522;;Warning : Field issn is not valid = 1630-2205 (controled value is 6), Warning : Field eissn is not valid = 1760-7522 (controled value is 3)
+Test ISSN and EISSN;AJFAM;;;1630-2206;1760-7523;;
+Test duplicate PID;PID2;;1–931836–59–0;;;;Warning : Field pid appair more than once = PID2
+Test wrong DOI;ACFJ;;;;;9.1111/(ISSN)1467-629X;Warning : Field doi is not a valid DOI = 9.1111/(ISSN)1467-629X, check the syntax
+Test DOI : ACCOUNTING & FINANCE;ACFI;;;1467-629X;0810-5391;10.1111/(ISSN)1467-629X;
