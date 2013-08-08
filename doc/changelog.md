@@ -1,5 +1,11 @@
 # Versions ezPAARSE #
 
+## 0.0.9  ## 
+##### 08/08/2013 - Dédoublonnage COUNTER des événements de consultation - candidate version 1 #####
+- automatisation pkb/outil ezPAARSE
+- amélioration de la qualité du code
+- dédoublonnage COUNTER des événements de consultation
+
 ## 0.0.8  ## 
 ##### 27/06/2013 - Produit Minimum Viable des User Knowledge Base #####
 - gestion des User-Fields
