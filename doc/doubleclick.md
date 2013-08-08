@@ -28,11 +28,11 @@ Double-Click-I-field: <span style="color: red">NomDuChampHost</span>
 
 Exemple d'usage :
 ```shell
-curl -v -X POST --proxy "" --no-buffer \
-  -F "file=@test/dataset/sd.multiple-status.log" \
+curl -v -X POST --proxy "" --no-buffer\
+  -F "file=@test/dataset/sd.duplicates.log"\
+  -H 'Log-Format-ezproxy: %h %u %{session}<[a-zA-Z0-9\\-]+> %t "%r" %s'\
   -H 'Double-Click-HTML: 15'\
   -H 'Double-Click-PDF: 30'\
   -H 'Double-Click-MISC: 40'\
- 	http://127.0.0.1:59599
-
+     http://127.0.0.1:59599
 ```
