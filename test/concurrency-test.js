@@ -16,8 +16,8 @@ describe('The server', function () {
     var nbRequests  = 3;
     var maxDuration = 5;
     var minDuration = 3;
-    var maxRate     = 800;
-    var minRate     = 400;
+    var maxRate     = 2000;
+    var minRate     = 800;
     
     var getLaunchFunction = function () {
       var launchRequest = function (callback) {
@@ -53,8 +53,8 @@ describe('The server', function () {
     var nbRequests  = 15;
     var maxDuration = 30;
     var minDuration = 20;
-    var maxRate     = 800;
-    var minRate     = 400;
+    var maxRate     = 2000;
+    var minRate     = 800;
 
     var getLaunchFunction = function () {
       var launchRequest = function (callback) {
