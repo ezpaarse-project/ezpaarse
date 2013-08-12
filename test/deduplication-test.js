@@ -7,12 +7,14 @@ var path    = require('path');
 var should  = require('should');
 var helpers = require('./helpers.js');
 
-var logFormat         = '%h %u %{session}<[a-zA-Z0-9\\-]+> %t "%r" %s';
-var multipleStatus    = path.join(__dirname, '/dataset/sd.multiple-status.log');
-var redundantLogFile  = path.join(__dirname, '/dataset/sd.duplicates.log');
-var sessionResultFile = path.join(__dirname, '/dataset/sd.duplicates-session.result.json');
-var loginResultFile   = path.join(__dirname, '/dataset/sd.duplicates-login.result.json');
-var ipResultFile      = path.join(__dirname, '/dataset/sd.duplicates-ip.result.json');
+var logFormat           = '%h %u %{session}<[a-zA-Z0-9\\-]+> %t "%r" %s';
+var multipleStatus      = path.join(__dirname, '/dataset/sd.multiple-status.log');
+var redundantLogFile    = path.join(__dirname, '/dataset/sd.duplicates.log');
+var manyclickLogFile    = path.join(__dirname, '/dataset/sd.duplicates-manyclick.log');
+var manyclickResultFile = path.join(__dirname, '/dataset/sd.duplicates-manyclick.result.json');
+var sessionResultFile   = path.join(__dirname, '/dataset/sd.duplicates-session.result.json');
+var loginResultFile     = path.join(__dirname, '/dataset/sd.duplicates-login.result.json');
+var ipResultFile        = path.join(__dirname, '/dataset/sd.duplicates-ip.result.json');
 
 describe('The server', function () {
   describe('receives a log with multiple HTTP status codes', function () {
@@ -128,4 +130,35 @@ describe('The server', function () {
       });
     });
   });
+
+  describe('receives a log with many redundant consultations on the HTTP POST / route', function () {
+    it('and sends back a deduplicated output file (@05)', function (done) {
+      var headers = {
+        'Accept'               : 'application/json',
+        'Log-Format-ezproxy'   : logFormat,
+        'Double-Click-HTML'    : 10,
+        'Double-Click-MISC'    : 20,
+        'Double-Click-PDF'     : 30,
+        'Double-Click-C-Field' : 'session',
+        'Double-Click-Strategy': 'CLI'
+      };
+      helpers.post('/', manyclickLogFile, headers, function (err, res, body) {
+        if (!res) { throw new Error('ezPAARSE is not running'); }
+        if (err)  { throw err; }
+        res.should.have.status(200);
+
+        var correctOutput = fs.readFileSync(manyclickResultFile, 'UTF-8');
+        var correctJson   = JSON.parse(correctOutput);
+        var bodyJson      = JSON.parse(body);
+
+        correctJson.should.be.a('object');
+        bodyJson.should.be.a('object');
+        should.ok(helpers.compareArrays(bodyJson, correctJson),
+          'Server\'s answer does not match the intended result');
+
+        done();
+      });
+    });
+  });
+
 });
