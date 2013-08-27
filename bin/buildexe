@@ -9,6 +9,7 @@ MY_PATH=$(cd ${0%/*} && echo $PWD/${0##*/})
 BIN_PATH=`dirname "$MY_PATH"`
 EZPAARSE_PATH=$BIN_PATH/..
 EZPAARSE_NODEJS_VERSION="`$BIN_PATH/readconfig -k EZPAARSE_NODEJS_VERSION`"
+EZPAARSE_EXCEL_RENDER="ezPAARSERenderV1.1.xlsm"
 
 
 # check version exists
@@ -50,16 +51,26 @@ make pkb-update
 # pkb git cleanup
 rm -rf ./platforms-kb/.git/
 
+# test cleanup
+rm -rf $TMP_DIR/$EZPAARSE_NAME/test/dataset/*.*
+
 # download node version for windows
 # http://nodejs.org/dist/v0.8.22/node.exe
 curl -L http://nodejs.org/dist/v$EZPAARSE_NODEJS_VERSION/node.exe > node.exe
 
+# download sample log
+curl -L http://analogist.couperin.org/ezpaarse/dataset/small-sample.log.gz > $TMP_DIR/$EZPAARSE_NAME/test/dataset/small-sample.log.gz
+curl -L http://analogist.couperin.org/ezpaarse/dataset/medium-sample.log.gz > $TMP_DIR/$EZPAARSE_NAME/test/dataset/medium-sample.log.gz
+curl -L http://analogist.couperin.org/ezpaarse/dataset/big-sample.log.gz > $TMP_DIR/$EZPAARSE_NAME/test/dataset/big-sample.log.gz
+
 cd $TMP_DIR
 # compile with ezpaarse nsis script file
-sed -e "s/APP_VERSION \"[0-9]\+.[0-9]\+.[0-9a-z]\+\"/APP_VERSION \"$VERSION_PREFIX$VERSION\"/g" $EZPAARSE_PATH/misc/windows/ezPAARSE-MUI.nsi > ezPAARSE-MUI.nsi
+sed -e "s/APP_VERSION \"[0-9]\+.[0-9]\+.[0-9a-z]\+\"/APP_VERSION \"$VERSION_PREFIX$VERSION\"/g" $EZPAARSE_PATH/misc/windows/ezPAARSE-MUI.nsi \
+	| sed -e "s/APP_EXCEL_RENDER \"\"/APP_EXCEL_RENDER \"$EZPAARSE_EXCEL_RENDER\"/g" > ezPAARSE-MUI.nsi
 #cp $EZPAARSE_PATH/misc/windows/ezPAARSE-MUI.nsi .
 cp $EZPAARSE_PATH/misc/windows/Licence_CeCILL_V2-fr.txt .
 cp $EZPAARSE_PATH/misc/windows/ezPAARSE-HeaderPageNSIS.bmp .
+cp $EZPAARSE_PATH/misc/windows/$EZPAARSE_EXCEL_RENDER $EZPAARSE_NAME/$EZPAARSE_EXCEL_RENDER
 makensis ezPAARSE-MUI.nsi 
 
 
