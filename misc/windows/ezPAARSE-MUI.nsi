@@ -128,6 +128,7 @@ Section "Menu ezPAARSE" SecMenuEZPAARSE
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\3-Tester avec des echantillons de log.lnk" "$WINDIR\explorer.exe" "$INSTDIR\test\dataset" 
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\4-Visualiser les resultats avec Excel.lnk" "$DefaultExcel" "${APP_EXCEL_RENDER}" 0 
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Documentation ezPAARSE.lnk" "$DefaultBrowser" "http://localhost:59599/doc" 0 
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Explications usage ezPAARSE.lnk" "$DefaultBrowser" "http://analogist.couperin.org/ezpaarse/doc/usage" 0 
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Site AnalogIST.lnk" "$DefaultBrowser" "http://analogist.couperin.org" 0 
   !insertmacro MUI_STARTMENU_WRITE_END
 
@@ -167,6 +168,7 @@ Function LaunchEZPAARSE
                    Cliquer sur la croix pour fermer le Web Service$\r$\n \
                    Le Web Service a besoin des autorisations de votre pare-feu windows"
   ExecShell "" "$SMPROGRAMS\$StartMenuFolder\1-Lancer le serveur ezPAARSE.lnk"
+  ExecShell "open" "http://analogist.couperin.org/ezpaarse/doc/usage"
   Sleep 5000 ; wait for node startup
   ExecShell "open" "http://localhost:59599"
 FunctionEnd
