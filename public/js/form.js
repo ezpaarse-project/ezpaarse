@@ -7,7 +7,6 @@ var socket = io.connect(host);
 var predefined;
 
 $(document).on('ready' ,function () {
-
   if (typeof FormData === "undefined") {
     $("#content-form").addClass("ninja");
     $("#navigator-alert").removeClass("ninja");
@@ -147,8 +146,8 @@ $(document).on('ready' ,function () {
   function fileDragHover(e) {
     e.stopPropagation();
     e.preventDefault();
-    e.target.className = (e.type == "dragover" ? "hover" : "");
-    if (e.type == "dragover") {
+    e.target.className = (e.type === "dragover" ? "hover" : "");
+    if (e.type === "dragover") {
       $(e.target).text("Déposer les fichiers");
     } else {
       $(e.target).text("Glissez vos fichiers ici");
@@ -162,6 +161,8 @@ $(document).on('ready' ,function () {
     e.preventDefault();
     e.target.className = "";
     $(e.target).text("Glisser vos fichiers ici");
+    // alert(e.originalEvent.dataTransfer.files.item(0).name);
+    // doesn't work on FF !
     $('.file-input').last().prop('files', e.originalEvent.dataTransfer.files);
   });
 
@@ -323,7 +324,7 @@ $(document).on('ready' ,function () {
   });
 
   function handleError(status, message) {
-    var reportLink = host + '/' + jobid + '/job-report.html';
+    var reportLink = '/' + jobid + '/job-report.html';
     if (status == '4003') { reportLink += '#first-line'; }
 
     if (message) {
@@ -354,7 +355,7 @@ $(document).on('ready' ,function () {
   $('#submit').on('click', function () {
 
     jobid = uuid.v1();
-    logroute = host + '/' + jobid + '/';
+    logroute = '/' + jobid + '/';
 
     var headers = {};
     
@@ -450,7 +451,7 @@ $(document).on('ready' ,function () {
             $('#submitted-files fieldset ul').append('<li>' + filename + '</li>');
           }
         });
-        $('#get-btn').prop('href', host + '/' + jobid);
+        $('#get-btn').prop('href', '/' + jobid);
 
         $('#report-btn').prop("href", logroute + 'job-report.html');
 
