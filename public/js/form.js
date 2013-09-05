@@ -461,6 +461,8 @@ $(document).on('ready' ,function () {
       },
       // on success, display the success alert
       'success': function(data) {
+        $('.bar').width("100%");
+        $('.bar').text("100%");
         $('#cancel-btn').text('Réinitialiser');
         $('.progress').addClass('progress-success');
         $('.progress').removeClass('active');
