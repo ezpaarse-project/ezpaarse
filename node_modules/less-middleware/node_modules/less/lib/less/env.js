@@ -10,6 +10,7 @@
         'dumpLineNumbers',  // option - whether to dump line numbers
         'compress',         // option - whether to compress
         'processImports',   // option - whether to process imports. if false then imports will not be imported
+        'syncImport',       // option - whether to import synchronously
         'mime',             // browser only - mime type for sheet import
         'currentFileInfo'   // information about the current file - for error reporting and importing and making urls relative etc.
     ];
@@ -29,13 +30,15 @@
         if (!this.files) { this.files = {}; }
 
         if (!this.currentFileInfo) {
-            var filename = options.filename || "input";
-            options.filename = null;
+            var filename = (options && options.filename) || "input";
             var entryPath = filename.replace(/[^\/\\]*$/, "");
+            if (options) {
+                options.filename = null;
+            }
             this.currentFileInfo = {
                 filename: filename,
                 relativeUrls: this.relativeUrls,
-                rootpath: options.rootpath || "",
+                rootpath: (options && options.rootpath) || "",
                 currentDirectory: entryPath,
                 entryPath: entryPath,
                 rootFilename: filename
@@ -55,6 +58,7 @@
         'silent',      // whether to swallow errors and warnings
         'verbose',     // whether to log more activity
         'compress',    // whether to compress
+        'yuicompress', // whether to compress with the outside tool yui compressor
         'ieCompat',    // whether to enforce IE compatibility (IE8 data-uri)
         'strictMath',  // whether math has to be within parenthesis
         'strictUnits'  // whether units need to evaluate correctly

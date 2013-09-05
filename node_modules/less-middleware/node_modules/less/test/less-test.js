@@ -5,6 +5,8 @@ var path = require('path'),
 var less = require('../lib/less');
 var stylize = require('../lib/less/lessc_helper').stylize;
 
+var globals = Object.keys(global);
+
 var oneTestOnly = process.argv[2];
 
 var totalTests = 0,
@@ -61,7 +63,8 @@ runTestSet({strictMath: true, dumpLineNumbers: 'all'}, "debug/", null,
            function(name) { return name + '-all'; });
 runTestSet({strictMath: true, relativeUrls: false, rootpath: "folder (1)/"}, "static-urls/");
 runTestSet({strictMath: true, compress: true}, "compression/");
-runTestSet({strictMath: false}, "legacy/");
+runTestSet({ }, "legacy/");
+testNoOptions();
 
 function globalReplacements(input, directory) {
     var p = path.join(process.cwd(), directory),
@@ -74,6 +77,12 @@ function globalReplacements(input, directory) {
             .replace(/\{pathimport\}/g, pathimport)
             .replace(/\{pathimportesc\}/g, pathimportesc)
             .replace(/\r\n/g, '\n');
+}
+
+function checkGlobalLeaks() {
+    return Object.keys(global).filter(function(v) {
+        return globals.indexOf(v) < 0;
+    });
 }
 
 function runTestSet(options, foldername, verifyFunction, nameModifier, doReplacements) {
@@ -146,6 +155,7 @@ function ok(msg) {
 }
 
 function endTest() {
+    var leaked = checkGlobalLeaks();
     if (failedTests + passedTests === totalTests) {
         sys.puts("");
         sys.puts("");
@@ -156,6 +166,12 @@ function endTest() {
         } else {
             sys.print(stylize("All Passed ", "green"));
             sys.print(passedTests + " run");
+        }
+        if (leaked.length > 0) {
+            sys.puts("");
+            sys.puts("");
+            sys.print(stylize("Global leak detected: ", "red") + leaked.join(', '));
+            sys.print("\n");
         }
     }
 }
@@ -183,4 +199,16 @@ function toCSS(options, path, callback) {
             }
         });
     });
+}
+
+function testNoOptions() {
+    totalTests++;
+    try {
+        sys.print("- Integration - creating parser without options: ");
+        new(less.Parser);
+    } catch(e) {
+        fail(stylize("FAIL\n", "red"));
+        return;
+    }
+    ok(stylize("OK\n", "green"));
 }

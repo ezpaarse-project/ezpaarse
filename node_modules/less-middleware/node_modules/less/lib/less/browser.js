@@ -101,7 +101,7 @@ for (var i = 0; i < links.length; i++) {
 var session_cache = '';
 less.modifyVars = function(record) {
     var str = session_cache;
-    for (name in record) {
+    for (var name in record) {
         str += ((name.slice(0,1) === '@')? '' : '@') + name +': '+ 
                 ((record[name].slice(-1) === ';')? record[name] : record[name] +';');
     }
@@ -200,7 +200,7 @@ function extractUrlParts(url, baseUrl) {
     // urlParts[4] = filename
     // urlParts[5] = parameters
 
-    var urlPartsRegex = /^((?:[a-z-]+:)?\/+?(?:[^\/\?#]*\/)|([\/\\]))?((?:[^\/\\\?#]*[\/\\])*)([^\/\\\?#]*)([#\?].*)?$/,
+    var urlPartsRegex = /^((?:[a-z-]+:)?\/+?(?:[^\/\?#]*\/)|([\/\\]))?((?:[^\/\\\?#]*[\/\\])*)([^\/\\\?#]*)([#\?].*)?$/i,
         urlParts = url.match(urlPartsRegex),
         returner = {}, directories = [], i, baseUrlParts;
 
@@ -221,7 +221,7 @@ function extractUrlParts(url, baseUrl) {
     }
     
     if (urlParts[3]) {
-        directories = urlParts[3].replace("\\", "/").split("/");
+        directories = urlParts[3].replace(/\\/g, "/").split("/");
 
         // extract out . before .. so .. doesn't absorb a non-directory
         for(i = 0; i < directories.length; i++) {
