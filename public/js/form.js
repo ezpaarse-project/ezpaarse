@@ -426,13 +426,17 @@ $(document).on('ready' ,function () {
       url:     '/' + jobid,
       xhr: function() {
         var myXhr = $.ajaxSettings.xhr();
-        if(myXhr.upload){ // check if upload property exists
-          myXhr.upload.addEventListener("progress", function (e) {
+        if(myXhr.upload) { // check if upload property exists
+          myXhr.upload.addEventListener('progress', function (e) {
             if(e.lengthComputable){
               var percentComplete = ( e.loaded * 100 ) / e.total;
               $('.bar').width(percentComplete + "%");
               $('.bar').text(percentComplete.toFixed(0) + "%");
             }
+          });
+          myXhr.upload.addEventListener('load', function (e) {
+            $('.bar').width("100%");
+            $('.bar').text("100%");
           });
         }
         return myXhr;
@@ -461,8 +465,6 @@ $(document).on('ready' ,function () {
       },
       // on success, display the success alert
       'success': function(data) {
-        $('.bar').width("100%");
-        $('.bar').text("100%");
         $('#cancel-btn').text('Réinitialiser');
         $('.progress').addClass('progress-success');
         $('.progress').removeClass('active');
