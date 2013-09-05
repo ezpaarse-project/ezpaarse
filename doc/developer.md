@@ -24,6 +24,10 @@ Vous avez ensuite besoin de maîtriser quelques commandes [git](http://git-scm.c
 # récupérer une version du dépôt github en local
 git clone https://github.com/ezpaarse-project/ezpaarse.git
 
+# si vous aviez déjà récupéré le projet, le mettre à jour
+cd ezpaarse/
+git pull
+
 # modifier un fichier
 cd ezpaarse/
 echo "// ma modification" >> ./app.js
