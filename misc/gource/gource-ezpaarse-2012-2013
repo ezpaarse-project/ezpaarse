@@ -1,0 +1,9 @@
+#!/bin/bash
+
+gource --seconds-per-day 0.5 \
+       --file-filter ".*node_modules.*" \
+       --output-framerate 60 \
+       --user-scale 1.5 \
+       --user-image-dir ./avatars/ \
+       .
+
