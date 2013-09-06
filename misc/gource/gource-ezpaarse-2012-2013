@@ -1,0 +1,16 @@
+#!/bin/bash
+
+#gource --seconds-per-day 0.5 \
+#       --file-filter ".*node_modules.*" \
+#       --output-framerate 60 \
+#       --user-scale 1.5 \
+#       --user-image-dir ./avatars/ \
+#       .
+
+gource --seconds-per-day 0.5 \
+       --file-filter ".*node_modules.*" \
+       --output-framerate 60 \
+       --user-scale 1.5 \
+       --user-image-dir ./avatars/ \
+       -1280x720 -o - \
+       | ffmpeg -y -r 60 -f image2pipe -vcodec ppm -i - -vcodec libvpx -b 10000K gource-ezpaarse-2012-2013.webm
