@@ -117,7 +117,7 @@ exports.parserExecute = function (urls) {
     });
 
     stream.on('data', function (line) {
-      stdout.write(JSON.stringify(parseUrl(line)) + '\n');
+      stdout.write(JSON.stringify(parseUrl(line.toString())) + '\n');
     });
   }
 };
