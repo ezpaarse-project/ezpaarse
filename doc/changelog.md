@@ -1,5 +1,10 @@
 # Versions ezPAARSE #
 
+## 1.0.0  ## 
+##### 03/09/2013 - Version 1 #####
+- amélioration du package windows : objectif de démonstration d'usage du fichier de log jusqu'au rendu tableur
+- correction de bug lié au navigateur
+
 ## 0.0.9  ## 
 ##### 08/08/2013 - Dédoublonnage COUNTER des événements de consultation - candidate version 1 #####
 - automatisation pkb/outil ezPAARSE

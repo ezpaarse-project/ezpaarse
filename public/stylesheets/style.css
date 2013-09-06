@@ -104,6 +104,15 @@ textarea.code {
   Dropbox
 --------------------------*/
 
+/*-------------------------
+  tricks for FF (drag and drop pb)
+  to be removed after file upload integration
+--------------------------*/
+@-moz-document url-prefix() {
+  #dropbox { visibility: hidden; }
+}
+
+
 #dropbox {
   font-weight: bold;
   padding: 1em 0;

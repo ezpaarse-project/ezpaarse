@@ -12,6 +12,7 @@
 
 !define APP_NAME "ezpaarse"
 !define APP_VERSION "0.0.4"
+!define APP_EXCEL_RENDER ""
 
 
 ;Name and file
@@ -34,9 +35,10 @@ RequestExecutionLevel user
 
   Var StartMenuFolder
   Var DefaultBrowser
+  Var DefaultExcel
 
 ;--------------------------------
-;Detecting default browser for shortcut
+;Detecting default browser and excel for shortcuts
 
 Section
 
@@ -46,6 +48,13 @@ Section
   DetailPrint "Your Default Browser is:"
   DetailPrint $1
   StrCpy $DefaultBrowser $1
+
+  FileOpen $0 "$PLUGINSDIR\dummy.xlsm" "w"
+  FileClose $0
+  System::Call "Shell32::FindExecutable(t '$PLUGINSDIR\dummy.xlsm', i 0, t .r1)"
+  DetailPrint "Your Default Excel is:"
+  DetailPrint $1
+  StrCpy $DefaultExcel $1
 
 SectionEnd
 
@@ -114,9 +123,12 @@ Section "Menu ezPAARSE" SecMenuEZPAARSE
     ;Create shortcuts
     CreateDirectory "$SMPROGRAMS\$StartMenuFolder"
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Uninstall.lnk" "$INSTDIR\Uninstall.exe"
-    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\1-Lancer ezPAARSE.lnk" "$INSTDIR\node.exe" "app.js" 0
-    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\2-Utiliser ezPAARSE.lnk" "$DefaultBrowser" "http://localhost:59599" 0 
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\1-Lancer le serveur ezPAARSE.lnk" "$INSTDIR\node.exe" "app.js" 0
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\2-Utiliser le formulaire ezPAARSE.lnk" "$DefaultBrowser" "http://localhost:59599" 0 
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\3-Tester avec des echantillons de log.lnk" "$WINDIR\explorer.exe" "$INSTDIR\test\dataset" 
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\4-Visualiser les resultats avec Excel.lnk" "$DefaultExcel" "${APP_EXCEL_RENDER}" 0 
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Documentation ezPAARSE.lnk" "$DefaultBrowser" "http://localhost:59599/doc" 0 
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Explications usage ezPAARSE.lnk" "$DefaultBrowser" "http://analogist.couperin.org/ezpaarse/doc/usage" 0 
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Site AnalogIST.lnk" "$DefaultBrowser" "http://analogist.couperin.org" 0 
   !insertmacro MUI_STARTMENU_WRITE_END
 
@@ -155,7 +167,8 @@ Function LaunchEZPAARSE
                    et la Home Page ezPAARSE sera ouverte dans votre navigateur$\r$\n \
                    Cliquer sur la croix pour fermer le Web Service$\r$\n \
                    Le Web Service a besoin des autorisations de votre pare-feu windows"
-  ExecShell "" "$SMPROGRAMS\$StartMenuFolder\1-Lancer ezPAARSE.lnk"
+  ExecShell "" "$SMPROGRAMS\$StartMenuFolder\1-Lancer le serveur ezPAARSE.lnk"
+  ExecShell "open" "http://analogist.couperin.org/ezpaarse/doc/usage"
   Sleep 5000 ; wait for node startup
   ExecShell "open" "http://localhost:59599"
 FunctionEnd
