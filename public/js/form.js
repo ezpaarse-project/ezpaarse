@@ -402,6 +402,14 @@ $(document).on('ready' ,function () {
       headers['Output-Fields'] = $('#input-output-fields').val();
     }
 
+    if ($('#input-request-charset').val()) {
+      headers['Request-Charset'] = $('#input-request-charset').val();
+    }
+
+    if ($('#input-response-charset').val()) {
+      headers['Response-Charset'] = $('#input-response-charset').val();
+    }
+
     if (socketID) {
       headers['Socket-ID'] = socketID;
     }
