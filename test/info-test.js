@@ -27,7 +27,7 @@ function testNextRoute(callback) {
     if (!res) { throw new Error('ezPAARSE is not running'); }
     if (err)  { throw err; }
     should.ok(res.statusCode == 200,
-      'la route ' + route + ' a retourné un code ' + res.statusCode);
+      'The route ' + route + ' returned a code ' + res.statusCode);
     testNextRoute(callback);
   });
 }
