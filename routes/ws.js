@@ -42,9 +42,6 @@ module.exports = function (app) {
         isStillGrowing: function () {
           return !ezJobs[rid].ecsStreamEnd;
         },
-        lastByteOfFile: function () {
-          return ezJobs[rid].byteWriten;
-        },
         endCallback: function () {
           console.log('ECs temp file completed');
           res.end();
