@@ -40,7 +40,7 @@ module.exports = function (app) {
           res.write(data);
         },
         isStillGrowing: function () {
-          return !ezJobs[rid].ecsStreamEnd;
+          return !ezJobs[rid].ecsStream;
         },
         endCallback: function () {
           console.log('ECs temp file completed');
