@@ -45,6 +45,8 @@ Niveaux disponibles :
 
 -   **User-fieldN-xxxx:** extraction des informations utilisateurs d'un champ des logs en entrée [(plus de détails)](./userfields.html).  
 -   **Double-Click-xxxx:** précision des paramètres utilisés pour réaliser le dédoublonnage [(plus de détails)](./doubleclick.html).  
+-   **Request-Charset:** jeu de caractères utilisé dans les données en entrée [(voir les encodages supportés)](https://github.com/ashtuchkin/iconv-lite#supported-encodings).  
+-   **Response-Charset:** jeu de caractères utilisé pour le résultat. [(voir les encodages supportés)](https://github.com/ashtuchkin/iconv-lite#supported-encodings).  
 
 #### Body ####
 
