@@ -20,13 +20,14 @@ module.exports = function (app) {
   app.get(uuidRegExp, function (req, res) {
     var rid  = req.params[0];
     var name = req.query.filename ? req.query.filename : rid;
+    var job  = ezJobs[rid];
 
     // check if this job exists
-    if (ezJobs[rid] && ezJobs[rid].ecsPath && ezJobs[rid].ecsStream) {
+    if (job && job.ecsPath && job.ecsStream) {
       console.log('Serving growing result file');
-      var ext = mime.extension(ezJobs[rid].contentType);
+      var ext = mime.extension(job.contentType);
       res.writeHead(200, {
-        'Content-Type': ezJobs[rid].contentType,
+        'Content-Type': job.contentType,
         'Content-Disposition': 'attachment; filename="' + name + '.' + ext + '"'
       });
 
@@ -34,13 +35,13 @@ module.exports = function (app) {
       // if job is still running (ECs are still writen in the temp file)
       // use the GrowingFile module to stream the result to the HTTP response
       rgf.readGrowingFile({
-        sourceFilePath: ezJobs[rid].ecsPath,
+        sourceFilePath: job.ecsPath,
         onData: function (data) {
           console.log('Data added to ECs temp file (' + data.length + ' bytes)');
           res.write(data);
         },
         isStillGrowing: function () {
-          return !ezJobs[rid].ecsStream;
+          return (job.ecsStream != null);
         },
         endCallback: function () {
           console.log('ECs temp file completed');
