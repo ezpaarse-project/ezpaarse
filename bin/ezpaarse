@@ -60,7 +60,7 @@ ezpaarse_restart() {
 case $1 in
 
   start)
-    if [[ -f $EZPAARSE_PIDFILE && -d /proc/`cat $EZPAARSE_PIDFILE` ]]; then
+    if kill -0 `cat $EZPAARSE_PIDFILE 2>/dev/null` >/dev/null 2>&1; then
       echo "$EZPAARSE_NAME is already running, listening on http://localhost:$EZPAARSE_PORT/"
       exit 0
     else
@@ -75,7 +75,7 @@ case $1 in
           sleep 1
         done
 
-        if [ -d /proc/`cat $EZPAARSE_PIDFILE` ]; then
+        if kill -0 `cat $EZPAARSE_PIDFILE 2>/dev/null` >/dev/null 2>&1; then
           echo "$EZPAARSE_NAME started, listening on http://localhost:$EZPAARSE_PORT/"
           exit 0
         else
@@ -90,7 +90,7 @@ case $1 in
   ;;
 
   stop)
-    if [[ ! -f $EZPAARSE_PIDFILE || ! -d /proc/`cat $EZPAARSE_PIDFILE` ]]; then
+    if ! kill -0 `cat $EZPAARSE_PIDFILE 2>/dev/null` >/dev/null 2>&1; then
       echo "$EZPAARSE_NAME is already stopped."
       exit 0
     else
@@ -98,13 +98,13 @@ case $1 in
       ezpaarse_stop
 
       for i in 1 2 3 4 5 6 7 8 9 10 11 12 13 14; do
-        if [ ! -d /proc/$EZPAARSE_PID ]; then
+        if ! kill -0 `cat $EZPAARSE_PIDFILE 2>/dev/null` >/dev/null 2>&1; then
           break
         fi
         sleep 1
       done
 
-      if [ -d /proc/$EZPAARSE_PID ]; then
+      if kill -0 `cat $EZPAARSE_PIDFILE 2>/dev/null` >/dev/null 2>&1; then
         echo "$EZPAARSE_NAME cannot be stopped."
         exit 1
       else
@@ -116,7 +116,7 @@ case $1 in
   ;;
 
   restart | reload | force-reload)
-    if [[ ! -f $EZPAARSE_PIDFILE || ! -d /proc/`cat $EZPAARSE_PIDFILE` ]]; then
+    if ! kill -0 `cat $EZPAARSE_PIDFILE 2>/dev/null` >/dev/null 2>&1; then
       PID=0
       ezpaarse_start
     else
@@ -131,7 +131,7 @@ case $1 in
       sleep 1
     done
 
-    if [ -d /proc/`cat $EZPAARSE_PIDFILE` ]; then
+    if kill -0 `cat $EZPAARSE_PIDFILE 2>/dev/null` >/dev/null 2>&1; then
       echo "$EZPAARSE_NAME has been restarted, listening on http://localhost:$EZPAARSE_PORT/"
       exit 0
     else
@@ -141,7 +141,7 @@ case $1 in
   ;;
 
   status)
-    if [[ -f $EZPAARSE_PIDFILE && -d /proc/`cat $EZPAARSE_PIDFILE` ]]; then
+    if kill -0 `cat $EZPAARSE_PIDFILE 2>/dev/null` >/dev/null 2>&1; then
       echo "$EZPAARSE_NAME is running, listening on http://localhost:$EZPAARSE_PORT/"
       exit 0
     else
