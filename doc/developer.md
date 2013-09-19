@@ -213,3 +213,7 @@ make upload v=latest
 
 Le numéro de version aura cette forme : `AAAAMMJJ<commitid>`
 Exemple: `201303240bc258f` (24 mars 2013 commit id = 0bc258f)
+
+## Contributions à ezPAARSE-arborescence ezPAARSE ##
+
+Lors d'une contribution, se référer à [l'arborescence ezPAARSE](/doc/tree.html) pour savoir où déposer vos fichiers

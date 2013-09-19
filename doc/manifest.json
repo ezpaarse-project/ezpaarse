@@ -16,7 +16,8 @@
         "outputfields.md",
         "userfields.md",
         "doubleclick.md",
-        "qualification.md"
+        "qualification.md",
+        "tree.md"
     ],
     "css": "/stylesheets/doc.css",
     "codeHighlightTheme": "solarized_dark"
