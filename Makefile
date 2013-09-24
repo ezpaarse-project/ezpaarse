@@ -12,7 +12,7 @@ DOC_OUTPUT=$(shell pwd)/public/doc
 DOC_HTML=$(DOC_OUTPUT)/index.html
 
 # Run every steps needed to start ezpaarse
-all: nodejs doc pkb-update checkconfig
+all: nodejs doc pkb-update parsers-update checkconfig
 
 # Application section
 # # # # # # # # # # # #
@@ -201,6 +201,13 @@ pkb-update:
 	@if test -d platforms-kb; \
 	then cd platforms-kb; git pull; \
 	else git clone https://github.com/ezpaarse-project/ezpaarse-pkb.git platforms-kb; \
+	fi
+
+# Clone or update parsers folder
+parsers-update:
+	@if test -d platforms; \
+	then cd platforms; git pull; \
+	else git clone https://github.com/ezpaarse-project/parsers.git platforms; \
 	fi
 
 # alias for git pull
