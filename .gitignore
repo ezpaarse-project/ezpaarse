@@ -9,6 +9,7 @@ bench-*.csv
 bench-*.png*
 build/
 platforms-kb/
+platforms/
 tmp/
 ezpaarse.pid
 
