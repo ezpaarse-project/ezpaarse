@@ -50,25 +50,25 @@ function parseUrl(url) {
     result.mime = 'MISC';
   } else if ((match = /^\/doi\/ipdf\/([0-9]{2}\.[0-9]{4})\/([^.]+)$/.exec(path)) !== null) {
     // /doi/ipdf/10.1021/ar400025e
-    result.unitid = match[1] + "/" + match[2] ;
+    result.unitid = match[1] + "/" + match[2];
     result.pid = match[1];
     result.rtype = 'ARTICLE';
     result.mime = 'MISC';
   } else if ((match = /^\/doi\/pdf\/([0-9]{2}\.[0-9]{4})\/([^.]+)$/.exec(path)) !== null) {
     // /doi/pdf/10.1021/ar400025e
-    result.unitid = match[1] + "/" + match[2] ;
+    result.unitid = match[1] + "/" + match[2];
     result.pid = match[1];
     result.rtype = 'ARTICLE';
     result.mime = 'PDF';
   } else if ((match = /^\/doi\/pdfplus\/([0-9]{2}\.[0-9]{4})\/([^.]+)$/.exec(path)) !== null) {
     // /doi/pdfplus/10.1021/ar400025e
-    result.unitid = match[1] + "/" + match[2] ;
+    result.unitid = match[1] + "/" + match[2];
     result.pid = match[1];
     result.rtype = 'ARTICLE';
     result.mime = 'PDF';
   } else if ((match = /^\/doi\/full\/([0-9]{2}\.[0-9]{4})\/([^.]+)$/.exec(path)) !== null) {
     // /doi/full/10.1021/ar400025e
-    result.unitid = match[1] + "/" + match[2] ;
+    result.unitid = match[1] + "/" + match[2];
     result.pid = match[1];
     result.rtype = 'ARTICLE';
     result.mime = 'HTML';
