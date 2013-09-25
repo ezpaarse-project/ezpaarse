@@ -207,7 +207,7 @@ pkb-update:
 parsers-update:
 	@if test -d platforms; \
 	then cd platforms; git pull; \
-	else git clone https://github.com/ezpaarse-project/parsers.git platforms; \
+	else git clone https://github.com/ezpaarse-project/ezpaarse-parsers.git platforms; \
 	fi
 
 # alias for git pull
