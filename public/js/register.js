@@ -11,7 +11,9 @@ $(document).on('ready' ,function () {
       url:      '/?auth=local',
       dataType: 'html',
       'complete': function(data) {
-        window.location.href = '/';
+        setTimeout(function () {
+          window.location.href = '/';
+        }, 1000);
       }
     });
   }
