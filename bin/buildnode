@@ -11,7 +11,7 @@ NODEJS_VERSION=$(expr "`cat $EZPAARSE_PATH/config.json`" : '.*"EZPAARSE_NODEJS_V
 # download nvm from github
 mkdir -p $EZPAARSE_PATH/build/
 if [ ! -f $EZPAARSE_PATH/build/nvm/nvm.sh ]; then
-  git clone http://github.com/creationix/nvm.git $EZPAARSE_PATH/build/nvm
+  git clone https://github.com/creationix/nvm.git $EZPAARSE_PATH/build/nvm
   chmod +x $EZPAARSE_PATH/build/nvm/nvm.sh
 else
   cd $EZPAARSE_PATH/build/nvm/
