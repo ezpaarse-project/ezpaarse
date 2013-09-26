@@ -4,6 +4,7 @@
   "EZPAARSE_NODEJS_PORT": "59599",
   "EZPAARSE_NODEJS_VERSION": "0.10.18",
   "EZPAARSE_LOG_FOLDER": "test/dataset",
+  "EZPAARSE_REQUIRE_AUTH": false,
   "EZPAARSE_OUTPUT_FIELDS":
   [
     "domain",

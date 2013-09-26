@@ -427,7 +427,7 @@ $(document).on('ready' ,function () {
       $('#nofile-warn').slideDown();
       return false;
     }
-
+    
     var xhr = $.ajax({
       headers: headers, 
       type:    'PUT',
@@ -490,7 +490,7 @@ $(document).on('ready' ,function () {
           var message = jqXHR.getResponseHeader("ezPAARSE-Status-Message");
           handleError(status, message);
         }
-
+        
         $.getJSON(logroute + 'job-report.json', function (data) {
           if (data['nb-ecs'] == 0) {
             $('#get-btn').addClass('ninja');

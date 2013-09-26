@@ -10,6 +10,8 @@ var fs            = require('fs');
 var folderChecker = require('./lib/folderchecker.js');
 var FolderReaper  = require('./lib/folderreaper.js');
 var winston       = require('winston');
+var passport       = require('passport');
+var BasicStrategy  = require('passport-http').BasicStrategy;
 require('./lib/init.js');
 
 winston.addColors({ verbose: 'green', info: 'green', warn: 'yellow', error: 'red' });
@@ -46,6 +48,30 @@ if (optimist.argv.pidFile) {
   fs.writeFileSync(optimist.argv.pidFile, process.pid);
 }
 
+passport.serializeUser(function (user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function (obj, done) {
+  done(null, obj);
+});
+
+passport.use(new BasicStrategy(function (userid, password, done) {
+    var credentialsFile = path.join(__dirname, 'credentials.json');
+    if (fs.existsSync(credentialsFile)) {
+      var users = JSON.parse(fs.readFileSync(credentialsFile));
+
+      if (users && users[userid] && users[userid] == password) {
+        return done(null, { username: userid });
+      } else {
+        return done(null, false);
+      }
+    } else {
+      done(null, false);
+    }
+  }
+));
+
 var app = express();
 
 // connect ezpaarse env to expressjs env
@@ -80,6 +106,10 @@ app.configure(function () {
 
   app.use(express.methodOverride());
   app.use(express.cookieParser());
+  app.use(express.session({ secret: 'AppOfTheYearEzpaarse' }));
+
+  app.use(passport.initialize());
+  app.use(passport.session());
   
   // Set the ezPAARSE-Version header in all responses
   app.use(function (req, res, next) {
@@ -89,9 +119,24 @@ app.configure(function () {
 
   // calculate the baseurl depending on reverse proxy variables
   app.use(function (req, res, next) {
-    req.ezBaseURL = 'http://' +
-      (req.headers['x-forwarded-host'] || req.headers.host);
+    req.ezBaseURL = 'http://' + (req.headers['x-forwarded-host'] || req.headers.host);
     next();
+  });
+
+  // Ask for basic authentification if ?auth=local
+  // Render admin creation form if credentials.json does not exist
+  app.use(function (req, res, next) {
+    if (req.query.auth && req.query.auth == 'local') {
+      var credentialsFile = path.join(__dirname, 'credentials.json');
+
+      if (fs.existsSync(credentialsFile)) {
+        (passport.authenticate('basic', { session: true }))(req, res, next);
+      } else {
+        res.render('register', { title: 'ezPAARSE - Register', user: false });
+      }
+    } else {
+      next();
+    }
   });
 
   // routes handling
@@ -105,6 +150,7 @@ app.configure(function () {
 require('./routes/ws')(app);
 require('./routes/info')(app);
 require('./routes/logs')(app);
+require('./routes/admin')(app);
 
 var server = http.createServer(app);
 

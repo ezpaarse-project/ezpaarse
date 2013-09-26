@@ -221,7 +221,7 @@ module.exports = function (app) {
       }
       title += ' - ezPAARSE';
       // Utilisation d'ezPAARSE au 5 juin 2013 (11h25) - ezPAARSE
-      res.render('usage', { usage: usage, title: title });
+      res.render('usage', { usage: usage, title: title, user: req.user });
       break;
     default:
       res.send(406);

@@ -11,6 +11,11 @@ ul {
   width: 400px;
 }
 
+#auth-status {
+  font-size: 0.9em;
+  margin: 0 0 -15px 0;
+}
+
 /* Custom container */
 .container-narrow {
   margin: 0 auto;

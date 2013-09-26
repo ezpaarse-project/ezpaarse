@@ -83,7 +83,7 @@ module.exports = function (app) {
           }
           title += ' - ezPAARSE';
           // Rapport d’exécution (25-06-2013 11h25) - ezPAARSE
-          res.render('report', { report: report, title: title });
+          res.render('report', { report: report, title: title, user: req.user });
         });
         break;
       default:

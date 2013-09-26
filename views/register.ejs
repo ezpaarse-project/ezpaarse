@@ -1,0 +1,16 @@
+<% include header %>
+  <form id="register-form" class="form-inline" method="POST" action="/register">
+    <fieldset>
+      <legend>Création du compte administrateur</legend>
+      <p>Aucun compte administrateur n'est actuellement configuré.
+        <br/>Créez-en un en utilisant le formulaire ci-dessous.</p>
+      <input type="text" id="username" name="username" placeholder="Identifiant">
+      <input type="password" id="password" name="password" placeholder="Mot de passe">
+      <button type="submit" id="submit" class="btn">Créer</button>
+      <img src="/img/loader.gif" class="loader ninja" width="32" />
+      <img src="/img/success-big.png" class="success ninja" width="32" />
+      <div id="register-form-error" class="ninja" style="color: red"></div>
+      <div class="success ninja" style="color: #0046AF">Le compte a été créé. Vous allez être redirigé...</div>
+    </fieldset>
+  </form>
+<% include footer %>

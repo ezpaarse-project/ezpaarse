@@ -4,6 +4,7 @@ var fs         = require('fs');
 var uuid       = require('uuid');
 var path       = require('path');
 var mime       = require('mime');
+var passport   = require('passport');
 var config     = require('../config.json');
 var Job        = require('../lib/job.js');
 var ezJobs     = require('../lib/jobs.js');
@@ -83,6 +84,17 @@ module.exports = function (app) {
     }
   });
 
+  function startJob(req, res) {
+    var jobID = req.params[0] || uuid.v1();
+    if (config.EZPAARSE_REQUIRE_AUTH) {
+      (passport.authenticate('basic', { session: true }))(req, res, function () {
+        new Job(req, res, jobID, { resIsDeferred: req.params[0] ? true : false })._run();
+      });
+    } else {
+      new Job(req, res, jobID, { resIsDeferred: req.params[0] ? true : false })._run();
+    }
+  }
+
   /**
    * POST data to ezPAARSE
    * two way to start a job:
@@ -92,33 +104,14 @@ module.exports = function (app) {
    * Notice: resIsDeferred = true means that the result will be stored in a
    * tmp file to make possible a deferred download
    */
-  app.post('/', function (req, res) {
-    var jobID = uuid.v1();
-
-    new Job(req, res, jobID, { resIsDeferred: false })._run();
-  });
-  app.put(uuidRegExp, function (req, res) {
-    var jobID = req.params[0];
-
-    new Job(req, res, jobID, { resIsDeferred: true })._run();
-  });
-  // this route is useful because sometime PUT is not allowed by reverse proxies
-  // PUT is replaced by a POST with a _METHOD=PUT as a query
-  app.post(uuidRegExp, function (req, res) {
-    var jobID = req.params[0];
-    if (req.query._METHOD == 'PUT') {
-
-      new Job(req, res, jobID, { resIsDeferred: true })._run();
-    } else {
-      res.send(400, 'Please add _METHOD=PUT as a query in the URL (RESTful way)');
-    }
-  });
+  app.post('/', startJob);
+  app.put(uuidRegExp, startJob);
 
   /**
    * GET route on /
    */
   app.get('/', function (req, res) {
-    res.render('ws', { title: 'ezPAARSE - Web service' });
+    res.render('ws', { title: 'ezPAARSE - Web service', user: req.user });
   });
 
   /**
