@@ -2,6 +2,7 @@
 
 var fs          = require('fs');
 var path        = require('path');
+var crypto      = require('crypto');
 var passport    = require('passport');
 var querystring = require('querystring');
 
@@ -50,7 +51,12 @@ module.exports = function (app) {
         return;
       }
       users = {};
-      users[username] = password;
+
+      var cryptedPassword = crypto.createHmac('sha1', 'ezgreatpwd0968')
+      .update(username + password)
+      .digest('hex');
+      
+      users[username] = cryptedPassword;
 
       fs.writeFile(credentialsFile, JSON.stringify(users), function (err) {
         if (err) {
@@ -117,7 +123,11 @@ module.exports = function (app) {
         return;
       }
 
-      users[username] = password;
+      var cryptedPassword = crypto.createHmac('sha1', 'ezgreatpwd0968')
+      .update(username + password)
+      .digest('hex');
+
+      users[username] = cryptedPassword;
       fs.writeFile(credentialsFile, JSON.stringify(users), function (err) {
         if (err) {
           res.send(500);

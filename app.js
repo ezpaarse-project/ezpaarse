@@ -6,6 +6,7 @@ var pkg           = require('./package.json');
 var config        = require('./config.json');
 var http          = require('http');
 var path          = require('path');
+var crypto        = require('crypto');
 var fs            = require('fs');
 var folderChecker = require('./lib/folderchecker.js');
 var FolderReaper  = require('./lib/folderreaper.js');
@@ -60,8 +61,11 @@ passport.use(new BasicStrategy(function (userid, password, done) {
     var credentialsFile = path.join(__dirname, 'credentials.json');
     if (fs.existsSync(credentialsFile)) {
       var users = JSON.parse(fs.readFileSync(credentialsFile));
+      var cryptedPassword = crypto.createHmac('sha1', 'ezgreatpwd0968')
+      .update(userid + password)
+      .digest('hex');
 
-      if (users && users[userid] && users[userid] == password) {
+      if (users && users[userid] && users[userid] == cryptedPassword) {
         return done(null, { username: userid });
       } else {
         return done(null, false);
