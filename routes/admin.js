@@ -61,4 +61,52 @@ module.exports = function (app) {
       });
     });
   });
+
+  /**
+   * POST route on /users
+   * To add a user
+   */
+  app.post('/users/', passport.authenticate('basic', { session: true }), function (req, res) {
+    var bodyString = '';
+
+    req.on('readable', function () {
+      bodyString += req.read() || '';
+    });
+
+    req.on('end', function () {
+      var body     = querystring.parse(bodyString);
+      var username = body.username;
+      var password = body.password;
+
+      if (!username || !password) {
+        res.writeHead(400, {
+          'ezPAARSE-Status-Message': 'vous devez soumettre un login et un mot de passe'
+        });
+        res.end();
+        return;
+      }
+      var credentialsFile = path.join(__dirname, '../credentials.json');
+      var users;
+      if (fs.existsSync(credentialsFile)) {
+        users = JSON.parse(fs.readFileSync(credentialsFile));
+      }
+      users = users || {};
+      if (users[username]) {
+        res.writeHead(409, {
+          'ezPAARSE-Status-Message': 'cet utilisateur existe'
+        });
+        res.end();
+        return;
+      }
+
+      users[username] = password;
+      fs.writeFile(credentialsFile, JSON.stringify(users), function (err) {
+        if (err) {
+          res.send(500);
+          return;
+        }
+        res.send(204);
+      });
+    });
+  });
 };
