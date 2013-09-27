@@ -145,7 +145,7 @@ module.exports = function (app) {
    */
   app.get('/pkb/status', passport.authenticate('basic', { session: true }), function (req, res) {
     var pkbFolder = path.join(__dirname, '../platforms-kb');
-    var gitscript = path.join(__dirname, '../bin/check-incoming-commits');
+    var gitscript = path.join(__dirname, '../bin/check-git-uptodate');
 
     execFile(gitscript, {cwd: pkbFolder}, function (error, stdout) {
       if (error || !stdout) {
