@@ -3,7 +3,8 @@
 $(document).on('ready', function () {
 
   function updatePkbStatus() {
-    var pkbStatus = $('#pkb-status');
+    var pkbStatus  = $('#pkb-status');
+    var pkbRefresh = $('#pkb-status-refresh');
 
     $.ajax({
       type:     'GET',
@@ -13,7 +14,8 @@ $(document).on('ready', function () {
         pkbStatus.attr('class', 'btn');
         pkbStatus.find('span').text('rafraichissement...');
         pkbStatus.find('i').attr('class', 'icon-refresh');
-        pkbStatus.find('.loader').show();
+        pkbRefresh.find('.loader').show();
+        pkbRefresh.find('i').hide();
       },
       'success': function(data) {
         if (data.trim() == 'uptodate') {
@@ -32,10 +34,13 @@ $(document).on('ready', function () {
         pkbStatus.find('i').attr('class', 'icon-warning-sign icon-white');
       },
       'complete': function () {
-        pkbStatus.find('.loader').hide();
+        pkbRefresh.find('i').show();
+        pkbRefresh.find('.loader').hide();
       }
     });
   }
+  
+  $('#pkb-status-refresh').on('click', updatePkbStatus);
   updatePkbStatus();
 
   /**
