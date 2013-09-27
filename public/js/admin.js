@@ -1,6 +1,6 @@
 // ##EZPAARSE
 
-$(document).on('ready', function () {
+window.onload = function () {
 
   function updatePkbStatus() {
     var pkbStatus  = $('#pkb-status');
@@ -39,7 +39,7 @@ $(document).on('ready', function () {
       }
     });
   }
-  
+
   $('#pkb-status-refresh').on('click', updatePkbStatus);
   updatePkbStatus();
 
@@ -76,4 +76,4 @@ $(document).on('ready', function () {
   $('#user-form').on('submit', function () {
     return false;
   });
-});
+};
