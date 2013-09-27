@@ -1,4 +1,15 @@
 <% include header %>
   <h2>Administration</h2>
-  <p>ezPAARSE ne propose aucune option d'administration... pour le moment !</p>
+  <form id="user-form" class="form-inline" method="POST" action="/users/">
+    <fieldset>
+      <legend>Ajouter un utilisateur</legend>
+      <input type="text" id="username" name="username" placeholder="Identifiant">
+      <input type="password" id="password" name="password" placeholder="Mot de passe">
+      <button type="submit" id="submit" class="btn">Créer</button>
+      <img src="/img/loader.gif" class="loader ninja" width="32" />
+      <img src="/img/success-big.png" class="success-img ninja" width="32" />
+      <div class="form-error" class="ninja" style="color: red"></div>
+      <div class="form-success ninja" style="color: #0046AF">l'utilisateur a bien été ajouté</div>
+    </fieldset>
+  </form>
 <% include footer %>
