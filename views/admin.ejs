@@ -1,5 +1,15 @@
 <% include header %>
   <h2>Administration</h2>
+  <p>Etat de la base de connaissances<br/>
+    <button class="btn" id="pkb-status">
+      <i class="icon-refresh"></i> <span>inconnu</span>
+    </button>
+    <button class="btn" id="pkb-status-refresh">
+      <i class="icon-refresh"></i>
+      <img src="/img/loader.gif" class="loader ninja" width="18" />
+    </button>
+  </p>
+
   <form id="user-form" class="form-inline" method="POST" action="/users/">
     <fieldset>
       <legend>Ajouter un utilisateur</legend>
@@ -12,4 +22,5 @@
       <div class="form-success ninja" style="color: #0046AF">l'utilisateur a bien été ajouté</div>
     </fieldset>
   </form>
+  <script src="/js/admin.js"></script>
 <% include footer %>

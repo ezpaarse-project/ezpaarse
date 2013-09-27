@@ -1,6 +1,47 @@
 // ##EZPAARSE
 
-$(document).on('ready' ,function () {
+window.onload = function () {
+
+  function updatePkbStatus() {
+    var pkbStatus  = $('#pkb-status');
+    var pkbRefresh = $('#pkb-status-refresh');
+
+    $.ajax({
+      type:     'GET',
+      url:      '/pkb/status',
+      dataType: 'html',
+      'beforeSend': function () {
+        pkbStatus.attr('class', 'btn');
+        pkbStatus.find('span').text('rafraichissement...');
+        pkbStatus.find('i').attr('class', 'icon-refresh');
+        pkbRefresh.find('.loader').show();
+        pkbRefresh.find('i').hide();
+      },
+      'success': function(data) {
+        if (data.trim() == 'uptodate') {
+          pkbStatus.attr('class', 'btn btn-success');
+          pkbStatus.find('span').text('la base est à jour');
+          pkbStatus.find('i').attr('class', 'icon-ok icon-white');
+        } else {
+          pkbStatus.attr('class', 'btn btn-warning');
+          pkbStatus.find('span').text('des mises à jour sont disponibles');
+          pkbStatus.find('i').attr('class', 'icon-warning-sign icon-white');
+        }
+      },
+      'error': function(jqXHR, textStatus, errorThrown) {
+        pkbStatus.attr('class', 'btn btn-danger');
+        pkbStatus.find('span').text('une erreur s\'est produite');
+        pkbStatus.find('i').attr('class', 'icon-warning-sign icon-white');
+      },
+      'complete': function () {
+        pkbRefresh.find('i').show();
+        pkbRefresh.find('.loader').hide();
+      }
+    });
+  }
+
+  $('#pkb-status-refresh').on('click', updatePkbStatus);
+  updatePkbStatus();
 
   /**
    * On click on the submit button, serialize and send form
@@ -35,4 +76,4 @@ $(document).on('ready' ,function () {
   $('#user-form').on('submit', function () {
     return false;
   });
-});
+};

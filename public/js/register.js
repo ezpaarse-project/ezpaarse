@@ -2,22 +2,6 @@
 
 $(document).on('ready' ,function () {
 
-  function sendAuthRequest(username, password) {
-    $.ajax({
-      headers: {
-        Authorization: 'Basic ' + Base64.encode(username + ':' + password)
-      },
-      type:     'GET',
-      url:      '/?auth=local',
-      dataType: 'html',
-      'complete': function(data) {
-        setTimeout(function () {
-          window.location.href = '/';
-        }, 1000);
-      }
-    });
-  }
-
   /**
    * On click on the submit button, serialize and send form
    */
@@ -38,7 +22,9 @@ $(document).on('ready' ,function () {
       'success': function(data) {
         $('#register-form .loader').hide();
         $('#register-form .success').show();
-        sendAuthRequest($('#username').val(), $('#password').val());
+        setTimeout(function () {
+          window.location.href = '/';
+        }, 1000);
       },
       'error': function(jqXHR, textStatus, errorThrown) {
         var message = jqXHR.getResponseHeader("ezPAARSE-Status-Message");
