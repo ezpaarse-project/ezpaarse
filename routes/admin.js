@@ -63,6 +63,24 @@ module.exports = function (app) {
   });
 
   /**
+   * GET route on /users
+   * To get the user list
+   */
+  app.get('/users', passport.authenticate('basic', { session: true }), function (req, res) {
+    var credentialsFile = path.join(__dirname, '../credentials.json');
+    var credentials;
+    if (fs.existsSync(credentialsFile)) {
+      credentials = JSON.parse(fs.readFileSync(credentialsFile));
+    }
+    credentials = credentials || {};
+    var users = [];
+    for (var id in credentials) {
+      users.push(id);
+    }
+    res.send(200, JSON.stringify(users));
+  });
+
+  /**
    * POST route on /users
    * To add a user
    */
