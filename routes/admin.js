@@ -3,6 +3,7 @@
 var fs          = require('fs');
 var path        = require('path');
 var crypto      = require('crypto');
+var execFile    = require('child_process').execFile;
 var passport    = require('passport');
 var querystring = require('querystring');
 
@@ -135,6 +136,23 @@ module.exports = function (app) {
         }
         res.send(204);
       });
+    });
+  });
+
+  /**
+   * GET route on /pkb/status
+   * To know if there are incoming changes in the PKB folder
+   */
+  app.get('/pkb/status', passport.authenticate('basic', { session: true }), function (req, res) {
+    var pkbFolder = path.join(__dirname, '../platforms-kb');
+    var gitscript = path.join(__dirname, '../bin/check-incoming-commits');
+
+    execFile(gitscript, {cwd: pkbFolder}, function (error, stdout) {
+      if (error || !stdout) {
+        res.send(500);
+        return;
+      }
+      res.send(200, stdout);
     });
   });
 };
