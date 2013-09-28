@@ -20,6 +20,7 @@ getNbPages(function (err, nbPages) {
   var i = 1;
   async.until(
     function () {
+      console.error('Browsing page ' + i + '/' + nbPages);
       return i >= nbPages;
     },
     function (callbackPage) {
