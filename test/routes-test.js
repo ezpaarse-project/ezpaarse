@@ -4,7 +4,7 @@
 var should  = require('should');
 var helpers = require('./helpers.js');
 
-var routes = [
+var infoRoutes = [
   '/info/platforms',
   '/info/rtype',
   '/info/mime',
@@ -14,10 +14,16 @@ var routes = [
   '/info/uuid',
   '/info/form-predefined',
   '/info/usage.json',
-  '/info/usage.html',
+  '/info/usage.html'
 ];
 
-function testNextRoute(callback) {
+var adminRoutes = [
+  '/pkb/status',
+  '/users',
+  '/admin'
+];
+
+function testNextRoute(routes, status, callback) {
   var route = routes.pop();
   if (!route) {
     callback();
@@ -26,14 +32,17 @@ function testNextRoute(callback) {
   helpers.get(route, function (err, res) {
     if (!res) { throw new Error('ezPAARSE is not running'); }
     if (err)  { throw err; }
-    should.ok(res.statusCode == 200,
-      'The route ' + route + ' returned a code ' + res.statusCode);
-    testNextRoute(callback);
+    should.ok(res.statusCode == status, 'The route ' + route
+      + ' returned a code ' + res.statusCode + ' (should return ' + status + ')');
+    testNextRoute(routes, status, callback);
   });
 }
 
 describe('The server', function () {
   it('correctly handle all info routes (@01)', function (done) {
-    testNextRoute(done);
+    testNextRoute(infoRoutes, 200, done);
+  });
+  it('correctly handle all admin routes (@02)', function (done) {
+    testNextRoute(adminRoutes, 401, done);
   });
 });
