@@ -98,6 +98,10 @@ module.exports = function (app) {
       bodyString += req.read() || '';
     });
 
+    req.on('error', function () {
+      res.send(500);
+    });
+
     req.on('end', function () {
       var body     = querystring.parse(bodyString);
       var username = body.username;
@@ -153,6 +157,39 @@ module.exports = function (app) {
         return;
       }
       res.send(200, stdout);
+    });
+  });
+
+  /**
+   * PUT route on /pkb/status
+   * To update the PKB folder
+   */
+  app.put('/pkb/status', passport.authenticate('basic', { session: true }), function (req, res) {
+    var bodyString = '';
+
+    req.on('readable', function () {
+      bodyString += req.read() || '';
+    });
+
+    req.on('error', function () {
+      res.send(500);
+    });
+
+    req.on('end', function () {
+      if (bodyString == 'uptodate') {
+        var pkbFolder = path.join(__dirname, '../platforms-kb');
+        var gitscript = path.join(__dirname, '../bin/git-update');
+
+        execFile(gitscript, {cwd: pkbFolder}, function (error) {
+          if (error) {
+            res.send(500);
+            return;
+          }
+          res.send(200);
+        });
+      } else {
+        res.send(400);
+      }
     });
   });
 };
