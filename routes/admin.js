@@ -206,7 +206,8 @@ module.exports = function (app) {
    * GET route on /parsers/status
    * To know if there are incoming changes in the parsers folder
    */
-  app.get('/parsers/status', passport.authenticate('basic', { session: true }), function (req, res) {
+  app.get('/parsers/status', passport.authenticate('basic', { session: true }),
+    function (req, res) {
     var parsersFolder = path.join(__dirname, '../platforms');
     var gitscript = path.join(__dirname, '../bin/check-git-uptodate');
 
@@ -253,7 +254,8 @@ module.exports = function (app) {
    * To update the parsers folder
    */
   app.put('/parsers/status', passport.authenticate('basic', { session: true }), updateParsers);
-  app.post('/parsers/status', passport.authenticate('basic', { session: true }), function (req, res) {
+  app.post('/parsers/status', passport.authenticate('basic', { session: true }),
+    function (req, res) {
     if (req.query._METHOD == 'PUT') {
       updateParsers(req, res);
     } else {
