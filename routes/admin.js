@@ -160,11 +160,7 @@ module.exports = function (app) {
     });
   });
 
-  /**
-   * PUT route on /pkb/status
-   * To update the PKB folder
-   */
-  app.put('/pkb/status', passport.authenticate('basic', { session: true }), function (req, res) {
+  function updatePkb(req, res) {
     var bodyString = '';
 
     req.on('readable', function () {
@@ -191,5 +187,18 @@ module.exports = function (app) {
         res.send(400);
       }
     });
+  }
+
+  /**
+   * PUT route on /pkb/status
+   * To update the PKB folder
+   */
+  app.put('/pkb/status', passport.authenticate('basic', { session: true }), updatePkb);
+  app.post('/pkb/status', passport.authenticate('basic', { session: true }), function (req, res) {
+    if (req.query._METHOD == 'PUT') {
+      updatePkb(req, res);
+    } else {
+      res.send(400, 'Please add _METHOD=PUT as a query in the URL (RESTful way)');
+    }
   });
 };
