@@ -201,4 +201,63 @@ module.exports = function (app) {
       res.send(400, 'Please add _METHOD=PUT as a query in the URL (RESTful way)');
     }
   });
+
+  /**
+   * GET route on /parsers/status
+   * To know if there are incoming changes in the parsers folder
+   */
+  app.get('/parsers/status', passport.authenticate('basic', { session: true }), function (req, res) {
+    var parsersFolder = path.join(__dirname, '../platforms');
+    var gitscript = path.join(__dirname, '../bin/check-git-uptodate');
+
+    execFile(gitscript, {cwd: parsersFolder}, function (error, stdout) {
+      if (error || !stdout) {
+        res.send(500);
+        return;
+      }
+      res.send(200, stdout);
+    });
+  });
+
+  function updateParsers(req, res) {
+    var bodyString = '';
+
+    req.on('readable', function () {
+      bodyString += req.read() || '';
+    });
+
+    req.on('error', function () {
+      res.send(500);
+    });
+
+    req.on('end', function () {
+      if (bodyString.trim() == 'uptodate') {
+        var parsersFolder = path.join(__dirname, '../platforms');
+        var gitscript = path.join(__dirname, '../bin/git-update');
+
+        execFile(gitscript, {cwd: parsersFolder}, function (error) {
+          if (error) {
+            res.send(500);
+            return;
+          }
+          res.send(200);
+        });
+      } else {
+        res.send(400);
+      }
+    });
+  }
+
+  /**
+   * PUT route on /parsers/status
+   * To update the parsers folder
+   */
+  app.put('/parsers/status', passport.authenticate('basic', { session: true }), updateParsers);
+  app.post('/parsers/status', passport.authenticate('basic', { session: true }), function (req, res) {
+    if (req.query._METHOD == 'PUT') {
+      updateParsers(req, res);
+    } else {
+      res.send(400, 'Please add _METHOD=PUT as a query in the URL (RESTful way)');
+    }
+  });
 };
