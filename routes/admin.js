@@ -176,7 +176,7 @@ module.exports = function (app) {
     });
 
     req.on('end', function () {
-      if (bodyString == 'uptodate') {
+      if (bodyString.trim() == 'uptodate') {
         var pkbFolder = path.join(__dirname, '../platforms-kb');
         var gitscript = path.join(__dirname, '../bin/git-update');
 
