@@ -52,13 +52,13 @@ JSFILES=$(wildcard $(EZPATH)/*.js) $(wildcard $(EZPATH)/lib/*.js) $(wildcard $(E
 PKBFILES=$(wildcard $(EZPATH)/platforms-kb/*.pkb.csv)
 
 # Runs all tests (*-test.js) in the test folder except big and tdd
-test:
+test: test-pkb
 	@if test -d test; \
 	then . ./bin/env; mocha -g '@big|@tdd' -i; \
 	else echo 'No test folder found'; \
 	fi
 
-test-verbose:
+test-verbose: test-pkb-verbose
 	@if test -d test; \
 	then . ./bin/env; mocha -g '@big|@tdd' -i -R list; \
 	else echo 'No test folder found'; \
