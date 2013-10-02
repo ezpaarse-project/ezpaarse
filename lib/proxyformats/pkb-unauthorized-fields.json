@@ -1,0 +1,21 @@
+[
+  "host",
+  "date",
+  "domain", 
+  "login", 
+  "identd", 
+  "size", 
+  "url", 
+  "method", 
+  "datetime", 
+  "status",
+  "timestamp",
+  "subsecond",
+  "responseTime",
+  "lastConnection",
+  "squidRequestStatus",
+  "port",
+  "protocolVersion",
+  "squidHierarchyStatus",
+  "mime"
+]
