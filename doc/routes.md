@@ -8,7 +8,7 @@ La route principale d'ezPAARSE, elle correspond à la **racine** du service web.
 
 <table>
   <tr>
-      <th style="text-align:left;width:140px;">URL</th>
+      <th style="text-align:left;width:140px;">PATH</th>
       <th> GET </th>
       <th> POST </th>
   </tr>
@@ -113,7 +113,7 @@ Lors du traitement d'un job (requête), ezPAARSE génère des fichiers informati
 
 <table>
     <tr>
-        <th style="text-align:left;width:240px;">URL</th>
+        <th style="text-align:left;width:240px;">PATH</th>
         <th>Information retournée</th>
     </tr>
     <tr>
@@ -197,5 +197,57 @@ Ces routes permettent de récupérer diverses informations, comme la liste des p
     <tr>
       <td>/info/usage</td>
       <td>Statistiques d'usage général</td>
+    </tr>
+</table>
+
+## Administration ##
+Ces routes servent à administrer ezPAARSE, et sont pour la plupart utilisables via la page admin de l'appplication. Elles requièrent toutes une authentification, à l'exception de /register.
+
+<table>
+    <tr>
+        <th style="text-align:left;width:140px;">PATH</th>
+        <th style="text-align:left;width:80px;">Méthode</th>
+        <th>Utilisation</th>
+    </tr>
+    <tr>
+      <td>/register</td>
+      <td>POST</td>
+      <td>Permet de créer le premier administrateur. Ne fonctionne pas si un ou plusieurs utilisateurs sont déjà enregistrés.
+        <br/>Paramètres: <strong>username</strong>, <strong>password</strong></td>
+    </tr>
+    <tr>
+      <td>/pkb/status</td>
+      <td>GET</td>
+      <td>Donne l'état des bases de connaissance
+        <br/>Retourne: <strong>uptodate</strong> ou <strong>outdated</strong></td>
+    </tr>
+    <tr>
+      <td>/pkb/status</td>
+      <td>PUT</td>
+      <td>Met à jour les bases de connaissance
+        <br/>Le body doit contenir <strong>uptodate</strong></td>
+    </tr>
+    <tr>
+      <td>/parsers/status</td>
+      <td>GET</td>
+      <td>Donne l'état des parseurs
+        <br/>Retourne: <strong>uptodate</strong> ou <strong>outdated</strong></td>
+    </tr>
+    <tr>
+      <td>/parsers/status</td>
+      <td>PUT</td>
+      <td>Met à jour les parseurs
+        <br/>Le body doit contenir <strong>uptodate</strong></td>
+    </tr>
+    <tr>
+      <td>/users</td>
+      <td>GET</td>
+      <td>Retourne la liste des utilisateurs locaux</td>
+    </tr>
+    <tr>
+      <td>/users/</td>
+      <td>POST</td>
+      <td>Crée un utilisateur local
+        <br/>Paramètres: <strong>username</strong>, <strong>password</strong></td>
     </tr>
 </table>
