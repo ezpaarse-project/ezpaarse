@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 
 // Write on stdout the springer journals PKB
+// Write on stderr the progression
 // Usage : ./scrape_springer_journals.js > springer.pkb.csv
 
 var async       = require('async');
