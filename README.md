@@ -94,6 +94,12 @@ from your logs by ezPAARSE:
 cat ./test/dataset/sd.2012-11-30.300.log | ./bin/loginjector | ./bin/csvtotalizer
 ```
 
+To stop ezPAARSE, you have to type the following command:
+
+```console
+make stop
+```
+
 ## Advanced parameters ##
 
 * The listening port for the web service can be set with the ``EZPAARSE_NODEJS_PORT`` variable, found in the file ``config.json`` (thedefault value is 59599)
