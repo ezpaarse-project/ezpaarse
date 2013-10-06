@@ -27,7 +27,7 @@ If you want to install ezPAARSE on a Unix-type system,
 download the latest stable version in the [tar.gz](http://analogist.couperin.org/ezpaarse/download) format
 open a terminal and type:
 ```console
-unzip ezpaarse-X.X.X.zip
+tar xzfv ezpaarse-X.X.X.tar.gz
 cd ezpaarse-X.X.X
 make
 ```
