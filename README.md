@@ -4,7 +4,7 @@
 [![Dependencies Status](https://david-dm.org/ezpaarse-project/ezpaarse.png)](https://david-dm.org/ezpaarse-project/ezpaarse)
 
 ezPAARSE is an open-source software that can ingest your log files and show how users access suscribed electronic ressources.
-It filters, extracts and enriches the consultation events that were spotted.
+It filters, extracts and enriches the consultation events that were spotted and produces a CSV file following [COUNTER](http://www.projectcounter.org/) codes of practice.
 This document describes how to install and run ezPAARSE on your computer.
 
 ## Prerequisites ##
