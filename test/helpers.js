@@ -2,7 +2,7 @@
 
 var request = require('request');
 var fs      = require('fs');
-var config  = require('../config.json');
+var config  = require('../lib/config.js');
 
 var host    = '127.0.0.1';
 var port    =  config.EZPAARSE_NODEJS_PORT;

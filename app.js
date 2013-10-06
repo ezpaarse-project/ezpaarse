@@ -3,7 +3,7 @@
 
 var express       = require('express');
 var pkg           = require('./package.json');
-var config        = require('./config.json');
+var config        = require('./lib/config.js');
 var http          = require('http');
 var path          = require('path');
 var crypto        = require('crypto');

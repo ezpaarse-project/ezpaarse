@@ -8,7 +8,7 @@ var helpers  = require('./helpers.js');
 var logF     = require('../lib/logfaker.js');
 var should   = require('should');
 var request  = require('request');
-var config   = require('../config.json');
+var config   = require('../lib/config.js');
 var duration = config.EZPAARSE_BIG_DURATION;
 var rate     = config.EZPAARSE_BIG_RATE;
 
