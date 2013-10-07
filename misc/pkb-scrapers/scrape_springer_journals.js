@@ -5,8 +5,8 @@
 // Usage : ./scrape_springer_journals.js > springer.pkb.csv
 
 var async       = require('async');
-//var request     = require('request').defaults({'proxy':'http://proxyout.inist.fr:8080'});
-var request     = require('request');
+var request     = require('request').defaults({'proxy':'http://proxyout.inist.fr:8080'});
+//var request     = require('request');
 var cheerio     = require('cheerio');
 
 // entry point: a big search on all springer journals
@@ -23,7 +23,7 @@ getNbPages(function (err, nbPages) {
   async.until(
     function () {
       console.error('Browsing page ' + i + '/' + nbPages);
-      return i >= nbPages;
+      return i > nbPages;
     },
     function (callbackPage) {
       // extracte the journals url from the current page
