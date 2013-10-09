@@ -47,6 +47,7 @@ cd $TMP_DIR/$EZPAARSE_NAME
 
 make doc
 make pkb-update
+make parsers-update
 
 # pkb git cleanup
 rm -rf ./platforms-kb/.git/
