@@ -16,7 +16,7 @@ var pageUrl     = 'http://link.springer.com/search/page/%pageIdx%?facet-content-
 
 // extract number of pages to browse for springer journals
 getNbPages(function (err, nbPages) {
-  if (err) throw err;
+  if (err) return console.error(err);
 
   // loop on pages
   var i = 1;
@@ -32,7 +32,7 @@ getNbPages(function (err, nbPages) {
         // loop on the journals url and extract information about journals
         async.mapLimit(
           journalsInPage,
-          5, // number of download in parallel
+          1, // number of download in parallel
           function (journalUrl, callbackJournal) {
             // extract info about the journal (title, eissn, pissn, pid, url)
             getJournalInfo(journalUrl, callbackJournal);
@@ -44,11 +44,13 @@ getNbPages(function (err, nbPages) {
     },
     // called when a page is finished
     function (err) {
-      if (err) throw err;
+      if (err) return console.error(err);
     }
   );
 
 });
+
+
 
 function getJournalInfo(journalUrl, cb) {
   var journalInfo = {};
@@ -59,7 +61,7 @@ function getJournalInfo(journalUrl, cb) {
     journalInfo.pissn = $('.pissn').first().text().replace(' (Print)', '');
     journalInfo.eissn = $('.eissn').first().text().replace(' (Online)', '');
     journalInfo.pid   = journalUrl.split('/').pop();
-    journalInfo.url   = journalUrl;
+    journalInfo.pidurl   = journalUrl;
     writeCSV(journalInfo);
     //console.log(journalInfo)
     cb(err, journalInfo);
