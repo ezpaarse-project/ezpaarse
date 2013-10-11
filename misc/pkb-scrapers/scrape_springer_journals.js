@@ -58,7 +58,7 @@ function getJournalInfo(journalUrl, cb) {
     if (err) return cb(err, journalInfo);
     $ = cheerio.load(body);
     journalInfo.title = $('#title').text();
-    journalInfo.pissn = $('.pissn').first().text().replace(' (Print)', '');
+    journalInfo.issn = $('.pissn').first().text().replace(' (Print)', '');
     journalInfo.eissn = $('.eissn').first().text().replace(' (Online)', '');
     journalInfo.pid   = journalUrl.split('/').pop();
     journalInfo.pidurl   = journalUrl;
