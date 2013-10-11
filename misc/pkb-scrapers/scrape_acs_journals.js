@@ -5,26 +5,42 @@
 // Usage : ./scrape_acs_journals.js > acs.pkb.csv
 
 var async       = require('async');
-var request     = require('request').defaults({'proxy':'http://proxyout.inist.fr:8080', 'jar': true});
-//var request     = require('request');
+var request     = require('request').defaults({ 'jar': true });
+//request.defaults({ 'proxy':'http://proxyout.inist.fr:8080' });
 var cheerio     = require('cheerio');
 
+// to check issn is valid
+var ridchecker  = require('../../lib/rid-syntax-checker.js');
+var issnRegExp  = new RegExp('([0-9]{4}-[0-9X]{4})');
+
+var PkbRows     = require('./pkbrows.js');
+var pkb         = new PkbRows();
+
 // entry point: a big search on all springer journals
-var journalsUrl = 'http://pubs.acs.org/';
+var journalsUrl = 'http://pubs.acs.org';
 // browse springer journals page by page
-var pageUrl     = 'http://pubs.acs.org/';
+var pageUrl     = 'http://pubs.acs.org';
 
 // extract number of pages to browse for springer journals
+var resultRows = [];
 getNbPages(function (err, nbPages) {
   if (err) throw err;
 
   // loop on pages
   var i = 1;
   async.until(
+
+    // loop until this condition
     function () {
-      console.error('Browsing page ' + i + '/' + nbPages);
-      return i > nbPages;
+      if (i > nbPages) {
+        console.error('Browsing page ' + i + '/' + nbPages);
+        return true;
+      } else {
+        return false;
+      }
     },
+
+    // one loop then call the callback for the next
     function (callbackPage) {
       // extracte the journals url from the current page
       getPage(i++, function (err, journalsInPage) {
@@ -32,56 +48,103 @@ getNbPages(function (err, nbPages) {
         // loop on the journals url and extract information about journals
         async.mapLimit(
           journalsInPage,
-          5, // number of download in parallel
-          function (journalUrl, callbackJournal) {
-            // extract info about the journal (title, eissn, pissn, pid, url)
-            getJournalInfo(journalUrl, callbackJournal);
+          1, // number of download in parallel
+          function (journalData, callbackJournal) {
+            // extract info about the journal (title, eissn, issn, pid, pidurl)
+            getJournalInfo(journalData, callbackJournal);
           },
           callbackPage
         );
       });
 
     },
-    // called when a page is finished
+    // called when all pages are handled (loops finished)
     function (err) {
       if (err) throw err;
+      pkb.writeCSV(process.stdout);
+      console.error('Scraping finished.');
     }
   );
 
 });
 
-function getJournalInfo(journalUrl, cb) {
-  var journalInfo = { pid: '', pissn: '', eissn: '', title: '' };
-  request(journalUrl, function (err, resp, body) {
-    if (err) return cb(err, journalInfo);
-    $ = cheerio.load(body);
-    journalInfo.title  = $('#journalLogo img').attr('alt');
+function getJournalInfo(journalData, cb) {
+  // ex: http://pubs.acs.org/page/aamick/about.html
+  getJournalInfoFromAbout(journalData.about, function (err, aboutInfo) {
+    if (err) return cb(err);
+    resultRows.push(aboutInfo);
+    pkb.addRow(aboutInfo);
 
+    // ex: http://pubs.acs.org/journal/aamick
+    getJournalInfoFromIndex(journalData.index, aboutInfo, function (err, indexInfo) {
+      if (err) return cb(err);
+      if (indexInfo.pid) {
+        resultRows.push(indexInfo);
+        pkb.addRow(indexInfo);
+      }
+      cb(err);
+    });
+  });
+}
+
+function getJournalInfoFromAbout(aboutUrl, cb) {
+  var info = { pid: '', issn: '', eissn: '', title: '' };
+  request(aboutUrl, { followRedirect: false }, function (err, resp, body) {
+    if (err) return cb(err, info);
+    $ = cheerio.load(body);
+    info.title  = $('#journalLogo img').attr('alt');
     $('.fullBox div').each(function () {
       var divText = $(this).text().trim();
       if (divText.indexOf('Print Edition ISSN:') != -1) {
-        journalInfo.pissn = divText.slice(-9);
+        var tmp = divText.match(issnRegExp);
+        // check that the issn is valid
+        if (tmp && tmp[0] && ridchecker.checkISSN(tmp[0])) {
+          info.issn = tmp[0];
+        }
       }
       if (divText.indexOf('Web Edition ISSN:') != -1) {
-        journalInfo.eissn = divText.slice(-9);
+        var tmp = divText.match(issnRegExp);
+        // check that the issn is valid
+        if (tmp && tmp[0] && ridchecker.checkISSN(tmp[0])) {
+          info.eissn = tmp[0];
+        }
       }
-//      console.log($(this).text());
     });
-    journalInfo.pid    = journalUrl.split('/').slice(-2, -1).pop();
-    journalInfo.pidurl = journalUrl;
-    writeCSV(journalInfo);
-    //console.log(journalInfo)
-    cb(err, journalInfo);
+    info.pid    = aboutUrl.split('/').slice(-2, -1).pop();
+    info.pidurl = aboutUrl;
+    cb(err, info);
+  });
+}
+
+function getJournalInfoFromIndex(indexUrl, aboutInfo, cb) {
+  // clone aboutInfo
+  var extend = require('util')._extend;
+  var info = extend({}, aboutInfo);
+
+  request(indexUrl, { followRedirect: false }, function (err, resp, body) {
+    if (err) return cb(err, info);
+    $ = cheerio.load(body);
+
+    // ex: <a href="/doi/abs/10.1021/am402635p">Liquid-Infused Slippery Surfaces ...</a>
+    var hrefOrig = $('.articleBoxMeta .titleAndAuthor h2 > a').first().attr('href');
+    try {
+      var hrefDump = hrefOrig.split('/');
+      if (hrefDump[1] == 'doi') {
+        info.pid    = hrefDump.slice(-1)[0].slice(0,2);
+        info.pidurl = journalsUrl + hrefOrig;
+      } else {
+        throw new Error();
+      }
+    } catch (err) {
+      console.error('Skiping ' + indexUrl + ' (no articles with DOI found in the page)');
+      return cb(null, {});
+    }
+    cb(err, info);
   });
 }
 
 function getNbPages(cb) {
-  cb(null, 1);
-/*  request(journalsUrl, function (err, resp, body) {
-    if (err) return cb(err);
-    $ = cheerio.load(body);
-    cb(err, $('.number-of-pages').first().text());
-  });*/
+  cb(null, 1); // only one page for ACS
 }
 
 function getPage(pageIdx, cb) {
@@ -97,12 +160,15 @@ function getPage(pageIdx, cb) {
         // skip http://pubs.acs.org/journal/jpchax.1 http://pubs.acs.org/journal/jpchax.2 ...
         if (!new RegExp('\\.[0-9]$').test(href)) {
           var pid = href.split('/').pop();
-          journalsInPage.push('http://pubs.acs.org/page/' + pid + '/about.html');        
+          journalsInPage.push({
+            index: journalsUrl + '/journal/' + pid,
+            about: journalsUrl + '/page/' + pid + '/about.html'
+          });
         } else {
-          console.error('Skiping (archives) ' + href);
+          console.error('Skiping (archives) ' + journalsUrl + href);
         }
       } else {
-        console.error('Skiping (not a journal) ' + href);
+        console.error('Skiping (not a journal) ' + journalsUrl + href);
       }
     });
     // deduplicate array content
