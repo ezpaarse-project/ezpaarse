@@ -26,8 +26,6 @@ PkbRows.prototype.addRow = function (row) {
 
   // skip if no issn and no eissn
   if (row.issn == '' && row.eissn == '') {
-    delete row.issn;
-    delete row.eissn;
     console.error('Skiping because issn and eissn are empty: ' + JSON.stringify(row));
     return;
   }

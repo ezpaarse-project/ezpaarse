@@ -22,7 +22,6 @@ var journalsUrl = 'http://pubs.acs.org';
 var pageUrl     = 'http://pubs.acs.org';
 
 // extract number of pages to browse for springer journals
-var resultRows = [];
 getNbPages(function (err, nbPages) {
   if (err) throw err;
 
@@ -72,14 +71,12 @@ function getJournalInfo(journalData, cb) {
   // ex: http://pubs.acs.org/page/aamick/about.html
   getJournalInfoFromAbout(journalData.about, function (err, aboutInfo) {
     if (err) return cb(err);
-    resultRows.push(aboutInfo);
     pkb.addRow(aboutInfo);
 
     // ex: http://pubs.acs.org/journal/aamick
     getJournalInfoFromIndex(journalData.index, aboutInfo, function (err, indexInfo) {
       if (err) return cb(err);
       if (indexInfo.pid) {
-        resultRows.push(indexInfo);
         pkb.addRow(indexInfo);
       }
       cb(err);
