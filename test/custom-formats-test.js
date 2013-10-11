@@ -72,7 +72,8 @@ function check(testSet, formatHeader, callback) {
 
         bodyJson.should.be.a('object');
         should.ok(helpers.compareArrays(bodyJson, resultJson),
-          'Server\'s answer do not match the intended result');
+          'Server\'s answer do not match the intended result at ' + testCase.logFile);
+
       }
       check(testSet, formatHeader, callback);
     });
