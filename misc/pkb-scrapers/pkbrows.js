@@ -23,10 +23,16 @@ PkbRows.prototype = Object.create(EventEmitter.prototype);
 
 PkbRows.prototype.addRow = function (row) {
   var self = this;
+  
+  // skip if no pid
+  if (row.pid == '') {
+    console.error('Skipping row because pid is empty: ' + JSON.stringify(row));
+    return;
+  }
 
   // skip if no issn and no eissn
   if (row.issn == '' && row.eissn == '') {
-    console.error('Skiping because issn and eissn are empty: ' + JSON.stringify(row));
+    console.error('Skipping row because issn and eissn are empty: ' + JSON.stringify(row));
     return;
   }
 
@@ -35,10 +41,12 @@ PkbRows.prototype.addRow = function (row) {
     self.pids[row.pid] = true;
     self.rows.push(row);
     self.sorted = false;
-    console.error('Keeping pid: ' + row.pid + ' - ' + row.pidurl);
+    console.error('Keeping row:  issn = "' + row.issn +
+                  '"\t eissn = "' + row.eissn +
+                  '"\t pid = "' + row.pid + '"');
     //console.error(JSON.stringify(row));
   } else {
-    console.error('Skiping because this "pid" has a duplicate: ' + JSON.stringify(row));
+    console.error('Skipping because this "pid" has a duplicate: ' + JSON.stringify(row));
     return;
   }
 

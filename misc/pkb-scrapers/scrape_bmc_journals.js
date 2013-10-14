@@ -12,6 +12,9 @@ var request     = require('request').defaults({'proxy':'http://proxyout.inist.fr
 //var request     = require('request');
 var cheerio     = require('cheerio');
 
+var PkbRows     = require('./pkbrows.js');
+var pkb         = new PkbRows();
+
 // entry point: a big search on all springer journals
 var journalsUrl = 'http://www.biomedcentral.com/journals';
 // browse springer journals page by page
@@ -26,8 +29,12 @@ getNbPages(function (err, nbPages) {
   var i = 1;
   async.until(
     function () {
-      console.error('Browsing page ' + i + '/' + nbPages);
-      return i > nbPages;
+      if (i > nbPages) {
+        console.error('Browsing page ' + i + '/' + nbPages);
+        return true;
+      } else {
+        return false;
+      }
     },
     function (callbackPage) {
       // extracte the journals url from the current page
@@ -46,9 +53,11 @@ getNbPages(function (err, nbPages) {
       });
 
     },
-    // called when a page is finished
+    // called when all pages are browsed
     function (err) {
       if (err) throw err;
+      pkb.writeCSV(process.stdout);
+      console.error('BMC journals scraping finished.');
     }
   );
 });
@@ -65,7 +74,7 @@ function getJournalInfo(journalUrl, cb) {
     journalInfo.eissn = $('span#issn').text().replace('ISSN: ', '');
     journalInfo.piddomain   = journalInfo.pid;
 //    journalInfo.url   = journalUrl;
-    writeCSV(journalInfo);
+    pkb.addRow(journalInfo);
 //    console.log(journalInfo);
     cb(err, journalInfo);
   });
