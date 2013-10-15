@@ -1,7 +1,7 @@
-/*global describe, it*/
+/* jshint maxlen: 260 */
+/* global describe, it */
 'use strict';
 
-var should = require('should');
 var spawn  = require('child_process').spawn;
 var Lazy   = require('lazy');
 
@@ -16,7 +16,7 @@ describe('The loganonymizer command', function () {
 
     // parse loganonymizer stdout line by line
     var lines = [];
-    Lazy(child.stdout)
+    new Lazy(child.stdout)
         .lines
         .map(String)
         .forEach(function (line) {
