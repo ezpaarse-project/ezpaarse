@@ -51,8 +51,10 @@ make parsers-update
 make scrapers-update
 make node-modules
 
-# pkb git cleanup
+# git cleanup
 rm -rf ./platforms-kb/.git/
+rm -rf ./platforms-parsers/.git/
+rm -rf ./platforms-scrapers/.git/
 
 # test cleanup
 rm -rf $TMP_DIR/$EZPAARSE_NAME/test/dataset/*.*
