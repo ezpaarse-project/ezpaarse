@@ -32,7 +32,7 @@ describe('The server', function () {
         should.exist(body);
         should.ok(body.length, 'The server returned an empty response');
         var json = JSON.parse(body);
-        json.should.be.a('object');
+        json.should.be.an.instanceOf(Array);
         should.ok(json.length == 2, 'The server should return 2 ECs, but it returned '
                                   + json.length);
 
@@ -65,8 +65,8 @@ describe('The server', function () {
         var correctJson   = JSON.parse(correctOutput);
         var bodyJson      = JSON.parse(body);
 
-        correctJson.should.be.a('object');
-        bodyJson.should.be.a('object');
+        correctJson.should.be.an.instanceOf(Array);
+        bodyJson.should.be.an.instanceOf(Array);
         should.ok(helpers.compareArrays(bodyJson, correctJson),
           'Server\'s answer do not match the intended result');
 
@@ -94,8 +94,8 @@ describe('The server', function () {
         var correctJson   = JSON.parse(correctOutput);
         var bodyJson      = JSON.parse(body);
 
-        correctJson.should.be.a('object');
-        bodyJson.should.be.a('object');
+        correctJson.should.be.an.instanceOf(Array);
+        bodyJson.should.be.an.instanceOf(Array);
         should.ok(helpers.compareArrays(bodyJson, correctJson),
           'Server\'s answer do not match the intended result');
 
@@ -123,8 +123,8 @@ describe('The server', function () {
         var correctJson   = JSON.parse(correctOutput);
         var bodyJson      = JSON.parse(body);
 
-        correctJson.should.be.a('object');
-        bodyJson.should.be.a('object');
+        correctJson.should.be.an.instanceOf(Array);
+        bodyJson.should.be.an.instanceOf(Array);
         should.ok(helpers.compareArrays(bodyJson, correctJson),
           'Server\'s answer do not match the intended result');
 
@@ -153,8 +153,8 @@ describe('The server', function () {
         var correctJson   = JSON.parse(correctOutput);
         var bodyJson      = JSON.parse(body);
 
-        correctJson.should.be.a('object');
-        bodyJson.should.be.a('object');
+        correctJson.should.be.an.instanceOf(Array);
+        bodyJson.should.be.an.instanceOf(Array);
         should.ok(helpers.compareArrays(bodyJson, correctJson),
           'Server\'s answer does not match the intended result');
 
@@ -183,8 +183,8 @@ describe('The server', function () {
         var correctJson   = JSON.parse(correctOutput);
         var bodyJson      = JSON.parse(body);
 
-        correctJson.should.be.a('object');
-        bodyJson.should.be.a('object');
+        correctJson.should.be.an.instanceOf(Array);
+        bodyJson.should.be.an.instanceOf(Array);
         should.ok(helpers.compareArrays(bodyJson, correctJson),
           'Server\'s answer does not match the intended result');
 

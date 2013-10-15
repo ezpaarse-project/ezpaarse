@@ -70,7 +70,7 @@ function check(testSet, formatHeader, callback) {
         should.ok(body !== '', 'The body is empty');
         var bodyJson = JSON.parse(body);
 
-        bodyJson.should.be.a('object');
+        bodyJson.should.be.an.instanceOf(Array);
         should.ok(helpers.compareArrays(bodyJson, resultJson),
           'Server\'s answer do not match the intended result at ' + testCase.logFile);
 
