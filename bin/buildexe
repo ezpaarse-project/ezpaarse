@@ -49,6 +49,7 @@ make doc
 make pkb-update
 make parsers-update
 make scrapers-update
+make node-modules
 
 # pkb git cleanup
 rm -rf ./platforms-kb/.git/
