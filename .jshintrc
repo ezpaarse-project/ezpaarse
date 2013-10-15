@@ -31,7 +31,6 @@
 
 
     // ECMAScript 5.
-    "es5"           : true,   // Allow ECMAScript 5 syntax.
     "strict"        : true,   // Require `use strict` pragma  in every file.
     "globalstrict"  : true,   // Allow global "use strict" (also enables 'strict').
 
@@ -71,7 +70,7 @@
     "trailing"      : true,   // Prohibit trailing whitespaces.
     "white"         : true,   // Check against strict whitespace and indentation rules.
     //"funscope"      : false,  // This option suppresses warnings about declaring variables inside of control structures while accessing them later from the outside
-    "iterator"      : false,  // This option suppresses warnings about the __iterator__ property. This property is not supported by all browsers so use it carefully    
+    "iterator"      : false,  // This option suppresses warnings about the __iterator__ property. This property is not supported by all browsers so use it carefully
     "laxbreak"      : true,  // This option suppresses most of the warnings about possibly unsafe line breakings in your code
     "laxcomma"      : true,  // This option suppresses warnings about comma-first coding style
     "lastsemic"     : false,  // This option suppresses warnings about missing semicolons but only when the semicolon is omited for the last statement in a one-line block
