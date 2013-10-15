@@ -10,7 +10,7 @@ var moment = require('moment');
 var pp     = require('../lib/platform-parser.js');
 
 module.exports = function (app) {
-  
+
   /**
    * GET route on /info/platforms
    */
@@ -24,7 +24,7 @@ module.exports = function (app) {
     var sort    = req.param('sort', null);
 
     var delimiter       = '';
-    var platformsFolder = path.join(__dirname, '/../platforms');
+    var platformsFolder = path.join(__dirname, '/../platforms-parsers');
     var cfgFilename     = 'manifest.json';
     var folders         = fs.readdirSync(platformsFolder);
 
@@ -72,7 +72,7 @@ module.exports = function (app) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
 
-    var file = path.join(__dirname, '/../platforms/rtype.json');
+    var file = path.join(__dirname, '/../platforms-parsers/rtype.json');
     if (fs.existsSync(file)) {
       var types = require(file);
       res.status(200);
@@ -91,7 +91,7 @@ module.exports = function (app) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
 
-    var file = path.join(__dirname, '/../platforms/mime.json');
+    var file = path.join(__dirname, '/../platforms-parsers/mime.json');
     if (fs.existsSync(file)) {
       var types = require(file);
       res.status(200);
@@ -110,7 +110,7 @@ module.exports = function (app) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
 
-    var file = path.join(__dirname, '/../platforms/rid.json');
+    var file = path.join(__dirname, '/../platforms-parsers/rid.json');
     if (fs.existsSync(file)) {
       var types = require(file);
       res.status(200);

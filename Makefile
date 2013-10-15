@@ -12,7 +12,7 @@ DOC_OUTPUT=$(shell pwd)/public/doc
 DOC_HTML=$(DOC_OUTPUT)/index.html
 
 # Run every steps needed to start ezpaarse
-all: nodejs doc pkb-update parsers-update checkconfig
+all: nodejs doc pkb-update parsers-update scrapers-update node-modules checkconfig
 
 # Application section
 # # # # # # # # # # # #
@@ -48,7 +48,7 @@ docopen: doc $(DOC_HMTL)
 # # # # # # # # #
 
 EZPATH = $(shell pwd)
-JSFILES=$(wildcard $(EZPATH)/*.js) $(wildcard $(EZPATH)/lib/*.js) $(wildcard $(EZPATH)/lib/*/*.js) $(wildcard $(EZPATH)/test/*.js)  $(wildcard $(EZPATH)/routes/*.js) $(wildcard $(EZPATH)/platforms/*/*.js)
+JSFILES=$(wildcard $(EZPATH)/*.js) $(wildcard $(EZPATH)/lib/*.js) $(wildcard $(EZPATH)/lib/*/*.js) $(wildcard $(EZPATH)/test/*.js)  $(wildcard $(EZPATH)/routes/*.js) $(wildcard $(EZPATH)/platforms-parsers/*/*.js)
 PKBFILES=$(wildcard $(EZPATH)/platforms-kb/*.pkb.csv)
 
 # Runs all tests (*-test.js) in the test folder except big and tdd
@@ -136,6 +136,9 @@ nodejs:
 	@./bin/buildnode
 	@./build/nvm/bin/latest/npm rebuild >/dev/null
 
+node-modules:
+	@. ./bin/env; npm install; cd platforms-scrapers && npm install
+
 # make deb v=0.0.3
 deb:
 	@test -f /usr/bin/dpkg-deb || sudo apt-get install --yes dpkg
@@ -161,7 +164,7 @@ exe:
 release: tar deb rpm exe
 
 clean-for-release:
-	test -f ./clean-for-release-flag || ( echo "Warning: do no run this command on your ezpaarse used for devlopements" ; exit 1 )	
+	test -f ./clean-for-release-flag || ( echo "Warning: do no run this command on your ezpaarse used for devlopements" ; exit 1 )
 	rm -rf ./.git/
 	rm -f ./test/injection-*-test.js
 	rm -f ./test/custom-formats-test.js
@@ -205,9 +208,16 @@ pkb-update:
 
 # Clone or update parsers folder
 parsers-update:
-	@if test -d platforms; \
-	then cd platforms; git pull; \
-	else git clone https://github.com/ezpaarse-project/ezpaarse-parsers.git platforms; \
+	@if test -d platforms-parsers; \
+	then cd platforms-parsers; git pull; \
+	else git clone https://github.com/ezpaarse-project/ezpaarse-parsers.git platforms-parsers; \
+	fi
+
+# Clone or update scrapers folder
+scrapers-update:
+	@if test -d platforms-scrapers; \
+	then cd platforms-scrapers; git pull; \
+	else git clone https://github.com/ezpaarse-project/ezpaarse-scrapers.git platforms-scrapers; \
 	fi
 
 # alias for git pull

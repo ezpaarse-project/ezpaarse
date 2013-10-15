@@ -27,8 +27,8 @@ describe('The server', function () {
         var correctJson   = JSON.parse(correctOutput);
         var bodyJson      = JSON.parse(body);
 
-        correctJson.should.be.a('object');
-        bodyJson.should.be.a('object');
+        correctJson.should.be.an.instanceOf(Array);
+        bodyJson.should.be.an.instanceOf(Array);
         should.ok(helpers.compareArrays(bodyJson, correctJson),
           'Server\'s answer do not match the intended result');
 

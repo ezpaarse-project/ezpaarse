@@ -48,9 +48,13 @@ cd $TMP_DIR/$EZPAARSE_NAME
 make doc
 make pkb-update
 make parsers-update
+make scrapers-update
+make node-modules
 
-# pkb git cleanup
+# git cleanup
 rm -rf ./platforms-kb/.git/
+rm -rf ./platforms-parsers/.git/
+rm -rf ./platforms-scrapers/.git/
 
 # test cleanup
 rm -rf $TMP_DIR/$EZPAARSE_NAME/test/dataset/*.*
@@ -72,7 +76,7 @@ sed -e "s/APP_VERSION \"[0-9]\+.[0-9]\+.[0-9a-z]\+\"/APP_VERSION \"$VERSION_PREF
 cp $EZPAARSE_PATH/misc/windows/Licence_CeCILL_V2-fr.txt .
 cp $EZPAARSE_PATH/misc/windows/ezPAARSE-HeaderPageNSIS.bmp .
 cp $EZPAARSE_PATH/misc/windows/$EZPAARSE_EXCEL_RENDER $EZPAARSE_NAME/$EZPAARSE_EXCEL_RENDER
-makensis ezPAARSE-MUI.nsi 
+makensis ezPAARSE-MUI.nsi
 
 
 INSTALLER="`ls *-Setup.exe`"
@@ -84,7 +88,7 @@ mv $INSTALLER $EZPAARSE_PATH/$EZPAARSE_NAME/
 
 echo "$EZPAARSE_PATH/$EZPAARSE_NAME/$INSTALLER generated"
 
-# cleanup 
+# cleanup
 rm -rf $TMP_DIR
 cd $EZPAARSE_PATH
 exit 0
