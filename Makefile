@@ -12,7 +12,7 @@ DOC_OUTPUT=$(shell pwd)/public/doc
 DOC_HTML=$(DOC_OUTPUT)/index.html
 
 # Run every steps needed to start ezpaarse
-all: nodejs doc pkb-update parsers-update scrapers-update node-modules checkconfig
+all: nodejs pkb-update parsers-update scrapers-update node-modules doc checkconfig
 
 # Application section
 # # # # # # # # # # # #
