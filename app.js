@@ -104,7 +104,20 @@ app.configure(function () {
   // todo: favico should be created
   app.use(express.favicon());
 
-  app.use(express.methodOverride());
+  /**
+   * Middleware to allow method override
+   * either using _method in query
+   * or the header X-HTTP-Method-Override
+   */
+  app.use(function (req, res, next) {
+    var key = '_method';
+    if (req.query && key in req.query) {
+      req.method = req.query[key].toUpperCase();
+    } else if (req.headers['x-http-method-override']) {
+      req.method = req.headers['x-http-method-override'].toUpperCase();
+    }
+    next();
+  });
   app.use(express.cookieParser());
   app.use(express.session({ secret: 'AppOfTheYearEzpaarse' }));
 
