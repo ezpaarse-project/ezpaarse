@@ -12,9 +12,13 @@ module.exports = function (app) {
   /**
    * GET route on /
    */
-  app.get('/admin', passport.authenticate('basic', { session: true }), function (req, res) {
-    res.render('admin', { title: 'ezPAARSE - Web service', user: req.user });
-  });
+  app.get('/admin', passport.authenticate('basic', { session: true }),
+    userlist.authorizeMembersOf('admin'), function (req, res) {
+      res.render('admin', {
+        title: 'ezPAARSE - Web service',
+        user: req.user
+      });
+    });
 
   /**
    * POST route on /register
@@ -71,64 +75,67 @@ module.exports = function (app) {
    * To get the user list
    */
   app.get('/users', passport.authenticate('basic', { session: true }), function (req, res) {
-    var users = userlist.getAll();
-    res.send(200, JSON.stringify(users));
-  });
+      var users = userlist.getAll();
+      res.send(200, JSON.stringify(users));
+    }
+  );
 
   /**
    * POST route on /users
    * To add a user
    */
-  app.post('/users/', passport.authenticate('basic', { session: true }), function (req, res) {
-    var bodyString = '';
+  app.post('/users/', passport.authenticate('basic', { session: true }),
+    userlist.authorizeMembersOf('admin'), function (req, res) {
+      var bodyString = '';
 
-    req.on('readable', function () {
-      bodyString += req.read() || '';
-    });
-
-    req.on('error', function () {
-      res.send(500);
-    });
-
-    req.on('end', function () {
-      var body     = querystring.parse(bodyString);
-      var username = body.username;
-      var password = body.password;
-
-      if (!username || !password) {
-        res.writeHead(400, {
-          'ezPAARSE-Status-Message': 'vous devez soumettre un login et un mot de passe'
-        });
-        res.end();
-        return;
-      }
-
-      if (userlist.get(username)) {
-        res.writeHead(409, {
-          'ezPAARSE-Status-Message': 'cet utilisateur existe'
-        });
-        res.end();
-        return;
-      }
-
-      var cryptedPassword = crypto.createHmac('sha1', 'ezgreatpwd0968')
-      .update(username + password)
-      .digest('hex');
-
-
-      var added = userlist.add({
-        username: username,
-        password: cryptedPassword,
-        group: 'user'
+      req.on('readable', function () {
+        bodyString += req.read() || '';
       });
 
-      if (added) {
-        res.send(201);
-      } else {
+      req.on('error', function () {
         res.send(500);
-      }
-    });
-  });
+      });
+
+      req.on('end', function () {
+        var body     = querystring.parse(bodyString);
+        var username = body.username;
+        var password = body.password;
+
+        if (!username || !password) {
+          res.writeHead(400, {
+            'ezPAARSE-Status-Message': 'vous devez soumettre un login et un mot de passe'
+          });
+          res.end();
+          return;
+        }
+
+        if (userlist.get(username)) {
+          res.writeHead(409, {
+            'ezPAARSE-Status-Message': 'cet utilisateur existe'
+          });
+          res.end();
+          return;
+        }
+
+        var cryptedPassword = crypto.createHmac('sha1', 'ezgreatpwd0968')
+        .update(username + password)
+        .digest('hex');
+
+
+        var added = userlist.add({
+          username: username,
+          password: cryptedPassword,
+          group: 'user'
+        });
+
+        if (added) {
+          res.send(201);
+        } else {
+          res.send(500);
+        }
+      });
+    }
+  );
 
   /**
    * GET route on /pkb/status
@@ -180,14 +187,17 @@ module.exports = function (app) {
    * PUT route on /pkb/status
    * To update the PKB folder
    */
-  app.put('/pkb/status', passport.authenticate('basic', { session: true }), updatePkb);
-  app.post('/pkb/status', passport.authenticate('basic', { session: true }), function (req, res) {
-    if (req.query._METHOD == 'PUT') {
-      updatePkb(req, res);
-    } else {
-      res.send(400, 'Please add _METHOD=PUT as a query in the URL (RESTful way)');
+  app.put('/pkb/status', passport.authenticate('basic', { session: true }),
+    userlist.authorizeMembersOf('admin'), updatePkb);
+  app.post('/pkb/status', passport.authenticate('basic', { session: true }),
+    userlist.authorizeMembersOf('admin'), function (req, res) {
+      if (req.query._METHOD == 'PUT') {
+        updatePkb(req, res);
+      } else {
+        res.send(400, 'Please add _METHOD=PUT as a query in the URL (RESTful way)');
+      }
     }
-  });
+  );
 
   /**
    * GET route on /parsers/status
@@ -240,13 +250,16 @@ module.exports = function (app) {
    * PUT route on /parsers/status
    * To update the parsers folder
    */
-  app.put('/parsers/status', passport.authenticate('basic', { session: true }), updateParsers);
+  app.put('/parsers/status', passport.authenticate('basic', { session: true }),
+    userlist.authorizeMembersOf('admin'), updateParsers);
   app.post('/parsers/status', passport.authenticate('basic', { session: true }),
-    function (req, res) {
-    if (req.query._METHOD == 'PUT') {
-      updateParsers(req, res);
-    } else {
-      res.send(400, 'Please add _METHOD=PUT as a query in the URL (RESTful way)');
+    userlist.authorizeMembersOf('admin'),
+      function (req, res) {
+      if (req.query._METHOD == 'PUT') {
+        updateParsers(req, res);
+      } else {
+        res.send(400, 'Please add _METHOD=PUT as a query in the URL (RESTful way)');
+      }
     }
-  });
+  );
 };
