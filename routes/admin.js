@@ -144,14 +144,9 @@ module.exports = function (app) {
   app.delete(/^\/users\/([a-zA-Z0-9\-_]+)$/, passport.authenticate('basic', { session: true }),
     userlist.authorizeMembersOf('admin'), function (req, res) {
       var username = req.params[0];
-
-      if (userlist.get(username)) {
-        var user = userlist.remove(username);
-        if (user) {
-          res.send(204);
-        } else {
-          res.send(500);
-        }
+      var user = userlist.remove(username);
+      if (user) {
+        res.send(204);
       } else {
         res.send(404);
       }
