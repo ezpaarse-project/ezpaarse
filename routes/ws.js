@@ -66,7 +66,7 @@ module.exports = function (app) {
         var filename;
         for (var i in files) {
           filename = files[i];
-          
+
           if (reg.test(filename)) {
             var ext = filename.split('.').pop();
 
@@ -120,6 +120,17 @@ module.exports = function (app) {
    * GET route on /
    */
   app.get('/', function (req, res) {
+    res.render('home', {
+      title: 'ezPAARSE - Web service',
+      user: req.user,
+      requireAuth: config.EZPAARSE_REQUIRE_AUTH
+    });
+  });
+
+  /**
+   * GET route on /form
+   */
+  app.get('/form', function (req, res) {
     res.render('ws', { title: 'ezPAARSE - Web service', user: req.user });
   });
 
@@ -131,7 +142,7 @@ module.exports = function (app) {
     res.type('application/json');
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
-    
+
     var fillTree = function (tree, rootFolder, folder) {
       var absFolder = path.join(rootFolder, folder);
       var files = fs.readdirSync(absFolder);

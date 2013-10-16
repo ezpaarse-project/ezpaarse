@@ -1,0 +1,22 @@
+<% include header %>
+      <% if (!requireAuth || user) { %>
+      <p>
+        <a href="/form" class="btn btn-primary">
+          <i class="icon-file icon-white"></i>
+          <span><strong>Formulaire</strong></span>
+        </a>
+
+        <% if (user && user.group == 'admin') { %>
+        <a href="/admin" class="btn btn-primary">
+          <i class="icon-wrench icon-white"></i>
+          <span><strong>Administration</strong></span>
+        </a>
+        <% } %>
+      </p>
+      <% } else { %>
+        <div class="alert">L'accès au service nécessite une authentification. Veuillez vous connecter.</div>
+      <% } %>
+      <p class="well">
+        <strong>ezPAARSE</strong> est un service permettant d'analyser les logs d'accès aux ressources électroniques proposées par les plate-formes Web des éditeurs.
+      </p>
+<% include footer %>
