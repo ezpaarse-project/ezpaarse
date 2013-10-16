@@ -189,15 +189,6 @@ module.exports = function (app) {
    */
   app.put('/pkb/status', passport.authenticate('basic', { session: true }),
     userlist.authorizeMembersOf('admin'), updatePkb);
-  app.post('/pkb/status', passport.authenticate('basic', { session: true }),
-    userlist.authorizeMembersOf('admin'), function (req, res) {
-      if (req.query._METHOD == 'PUT') {
-        updatePkb(req, res);
-      } else {
-        res.send(400, 'Please add _METHOD=PUT as a query in the URL (RESTful way)');
-      }
-    }
-  );
 
   /**
    * GET route on /parsers/status
@@ -252,14 +243,4 @@ module.exports = function (app) {
    */
   app.put('/parsers/status', passport.authenticate('basic', { session: true }),
     userlist.authorizeMembersOf('admin'), updateParsers);
-  app.post('/parsers/status', passport.authenticate('basic', { session: true }),
-    userlist.authorizeMembersOf('admin'),
-      function (req, res) {
-      if (req.query._METHOD == 'PUT') {
-        updateParsers(req, res);
-      } else {
-        res.send(400, 'Please add _METHOD=PUT as a query in the URL (RESTful way)');
-      }
-    }
-  );
 };
