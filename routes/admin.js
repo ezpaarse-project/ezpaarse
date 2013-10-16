@@ -8,7 +8,7 @@ var passport    = require('passport');
 var querystring = require('querystring');
 
 module.exports = function (app) {
-  
+
   /**
    * GET route on /
    */
@@ -56,7 +56,7 @@ module.exports = function (app) {
       var cryptedPassword = crypto.createHmac('sha1', 'ezgreatpwd0968')
       .update(username + password)
       .digest('hex');
-      
+
       users[username] = cryptedPassword;
 
       fs.writeFile(credentialsFile, JSON.stringify(users), function (err) {
@@ -208,7 +208,7 @@ module.exports = function (app) {
    */
   app.get('/parsers/status', passport.authenticate('basic', { session: true }),
     function (req, res) {
-    var parsersFolder = path.join(__dirname, '../platforms');
+    var parsersFolder = path.join(__dirname, '../platforms-parsers');
     var gitscript = path.join(__dirname, '../bin/check-git-uptodate');
 
     execFile(gitscript, {cwd: parsersFolder}, function (error, stdout) {
@@ -233,7 +233,7 @@ module.exports = function (app) {
 
     req.on('end', function () {
       if (bodyString.trim() == 'uptodate') {
-        var parsersFolder = path.join(__dirname, '../platforms');
+        var parsersFolder = path.join(__dirname, '../platforms-parsers');
         var gitscript = path.join(__dirname, '../bin/git-update');
 
         execFile(gitscript, {cwd: parsersFolder}, function (error) {
