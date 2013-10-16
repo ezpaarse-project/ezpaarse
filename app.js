@@ -10,9 +10,10 @@ var crypto        = require('crypto');
 var fs            = require('fs');
 var folderChecker = require('./lib/folderchecker.js');
 var FolderReaper  = require('./lib/folderreaper.js');
+var userlist      = require('./lib/userlist.js');
 var winston       = require('winston');
-var passport       = require('passport');
-var BasicStrategy  = require('passport-http').BasicStrategy;
+var passport      = require('passport');
+var BasicStrategy = require('passport-http').BasicStrategy;
 require('./lib/init.js');
 
 winston.addColors({ verbose: 'green', info: 'green', warn: 'yellow', error: 'red' });
@@ -58,23 +59,18 @@ passport.deserializeUser(function (obj, done) {
 });
 
 passport.use(new BasicStrategy(function (userid, password, done) {
-    var credentialsFile = path.join(__dirname, 'credentials.json');
-    if (fs.existsSync(credentialsFile)) {
-      var users = JSON.parse(fs.readFileSync(credentialsFile));
-      var cryptedPassword = crypto.createHmac('sha1', 'ezgreatpwd0968')
-      .update(userid + password)
-      .digest('hex');
 
-      if (users && users[userid] && users[userid] == cryptedPassword) {
-        return done(null, { username: userid });
-      } else {
-        return done(null, false);
-      }
-    } else {
-      done(null, false);
-    }
+  var user = userlist.get(userid);
+  var cryptedPassword = crypto.createHmac('sha1', 'ezgreatpwd0968')
+  .update(userid + password)
+  .digest('hex');
+
+  if (user && user.password == cryptedPassword) {
+    return done(null, user);
+  } else {
+    return done(null, false);
   }
-));
+}));
 
 var app = express();
 
@@ -85,7 +81,7 @@ app.set('env', config.EZPAARSE_ENV);
 app.configure('development', function () {
   // http://www.senchalabs.org/connect/middleware-logger.html
   app.use(express.logger('dev'));
-  
+
   app.use(express.errorHandler());
 });
 app.configure('production', function () {
@@ -97,7 +93,7 @@ app.configure('production', function () {
 
 app.configure(function () {
   app.set('port', config.EZPAARSE_NODEJS_PORT || 3000);
-  
+
   // for dynamics HTML pages (ejs template engine is used)
   // https://github.com/visionmedia/ejs
   app.set('views', path.join(__dirname, '/views'));
@@ -114,7 +110,7 @@ app.configure(function () {
 
   app.use(passport.initialize());
   app.use(passport.session());
-  
+
   // Set the ezPAARSE-Version header in all responses
   app.use(function (req, res, next) {
     res.header('ezPAARSE-Version', pkg.version || 'N/A');
@@ -131,9 +127,7 @@ app.configure(function () {
   // Render admin creation form if credentials.json does not exist
   app.use(function (req, res, next) {
     if (req.query.auth && req.query.auth == 'local') {
-      var credentialsFile = path.join(__dirname, 'credentials.json');
-
-      if (fs.existsSync(credentialsFile)) {
+      if (userlist.length() !== 0) {
         (passport.authenticate('basic', { session: true }))(req, res, next);
       } else {
         res.render('register', { title: 'ezPAARSE - Register', user: false });
@@ -145,7 +139,7 @@ app.configure(function () {
 
   // routes handling
   app.use(app.router);
-  
+
   // used to expose static files from the public folder
   app.use(express.static(path.join(__dirname, 'public')));
 });

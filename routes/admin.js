@@ -6,6 +6,7 @@ var crypto      = require('crypto');
 var execFile    = require('child_process').execFile;
 var passport    = require('passport');
 var querystring = require('querystring');
+var userlist    = require('../lib/userlist.js');
 
 module.exports = function (app) {
 
@@ -39,33 +40,30 @@ module.exports = function (app) {
         res.end();
         return;
       }
-      var credentialsFile = path.join(__dirname, '../credentials.json');
-      var users;
-      if (fs.existsSync(credentialsFile)) {
-        users = JSON.parse(fs.readFileSync(credentialsFile));
-      }
-      if (users && Object.keys(users).length) {
+
+      if (userlist.length() !== 0) {
         res.writeHead(400, {
           'ezPAARSE-Status-Message': 'un compte administrateur existe'
         });
         res.end();
         return;
       }
-      users = {};
 
       var cryptedPassword = crypto.createHmac('sha1', 'ezgreatpwd0968')
       .update(username + password)
       .digest('hex');
 
-      users[username] = cryptedPassword;
-
-      fs.writeFile(credentialsFile, JSON.stringify(users), function (err) {
-        if (err) {
-          res.send(500);
-          return;
-        }
-        res.send(204);
+      var added = userlist.add({
+        username: username,
+        password: cryptedPassword,
+        group: 'admin'
       });
+
+      if (added) {
+        res.send(201);
+      } else {
+        res.send(500);
+      }
     });
   });
 
@@ -74,16 +72,7 @@ module.exports = function (app) {
    * To get the user list
    */
   app.get('/users', passport.authenticate('basic', { session: true }), function (req, res) {
-    var credentialsFile = path.join(__dirname, '../credentials.json');
-    var credentials;
-    if (fs.existsSync(credentialsFile)) {
-      credentials = JSON.parse(fs.readFileSync(credentialsFile));
-    }
-    credentials = credentials || {};
-    var users = [];
-    for (var id in credentials) {
-      users.push(id);
-    }
+    var users = userlist.getAll();
     res.send(200, JSON.stringify(users));
   });
 
@@ -114,13 +103,8 @@ module.exports = function (app) {
         res.end();
         return;
       }
-      var credentialsFile = path.join(__dirname, '../credentials.json');
-      var users;
-      if (fs.existsSync(credentialsFile)) {
-        users = JSON.parse(fs.readFileSync(credentialsFile));
-      }
-      users = users || {};
-      if (users[username]) {
+
+      if (userlist.get(username)) {
         res.writeHead(409, {
           'ezPAARSE-Status-Message': 'cet utilisateur existe'
         });
@@ -132,14 +116,18 @@ module.exports = function (app) {
       .update(username + password)
       .digest('hex');
 
-      users[username] = cryptedPassword;
-      fs.writeFile(credentialsFile, JSON.stringify(users), function (err) {
-        if (err) {
-          res.send(500);
-          return;
-        }
-        res.send(204);
+
+      var added = userlist.add({
+        username: username,
+        password: cryptedPassword,
+        group: 'user'
       });
+
+      if (added) {
+        res.send(201);
+      } else {
+        res.send(500);
+      }
     });
   });
 
