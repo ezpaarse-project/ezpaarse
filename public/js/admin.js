@@ -136,6 +136,35 @@ window.onload = function () {
   updatePkbStatus();
   updateParsersStatus();
 
+  var usersDiv   = $('#users-list');
+  var usersTable = usersDiv.find('#users-table');
+  function refreshUsers() {
+    $.ajax({
+      type:     'GET',
+      url:      '/users',
+      dataType: 'json',
+      'beforeSend': function () {
+        usersDiv.find('.refresh-loader').show();
+      },
+      'success': function(users) {
+        usersTable.find('tr:not(:first)').remove();
+        users.forEach(function (user) {
+          var row = $('<tr>');
+          $('<td>', { text: user.username }).appendTo(row);
+          $('<td>', { text: user.group }).appendTo(row);
+          usersTable.append(row);
+        });
+      },
+      'error': function(jqXHR, textStatus, errorThrown) {
+        usersDiv.find('.refresh-error').show();
+      },
+      'complete': function () {
+        usersDiv.find('.refresh-loader').hide();
+      }
+    });
+  }
+  refreshUsers();
+
   /**
    * On click on the submit button, serialize and send form
    */
@@ -153,6 +182,7 @@ window.onload = function () {
       },
       'success': function(data) {
         form.find('.success-img, .form-success').show();
+        refreshUsers();
       },
       'error': function(jqXHR, textStatus, errorThrown) {
         var message = jqXHR.getResponseHeader("ezPAARSE-Status-Message");
