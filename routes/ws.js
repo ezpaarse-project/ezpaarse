@@ -8,6 +8,7 @@ var passport   = require('passport');
 var config     = require('../lib/config.js');
 var Job        = require('../lib/job.js');
 var ezJobs     = require('../lib/jobs.js');
+var userlist   = require('../lib/userlist.js');
 var rgf        = require('../lib/readgrowingfile.js');
 var uuidRegExp = /^\/([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})\/?$/;
 
@@ -86,13 +87,7 @@ module.exports = function (app) {
 
   function startJob(req, res) {
     var jobID = req.params[0] || uuid.v1();
-    if (config.EZPAARSE_REQUIRE_AUTH) {
-      (passport.authenticate('basic', { session: true }))(req, res, function () {
-        new Job(req, res, jobID, { resIsDeferred: req.params[0] ? true : false })._run();
-      });
-    } else {
-      new Job(req, res, jobID, { resIsDeferred: req.params[0] ? true : false })._run();
-    }
+    new Job(req, res, jobID, { resIsDeferred: req.params[0] ? true : false })._run();
   }
 
   /**
@@ -104,17 +99,15 @@ module.exports = function (app) {
    * Notice: resIsDeferred = true means that the result will be stored in a
    * tmp file to make possible a deferred download
    */
-  app.post('/', startJob);
-  app.put(uuidRegExp, startJob);
-  // this route is useful because sometime PUT is not allowed by reverse proxies
-  // PUT is replaced by a POST with a _METHOD=PUT as a query
-  app.post(uuidRegExp, function (req, res) {
-    if (req.query._METHOD == 'PUT') {
-      startJob(req, res);
-    } else {
-      res.send(400, 'Please add _METHOD=PUT as a query in the URL (RESTful way)');
-    }
-  });
+  if (config.EZPAARSE_REQUIRE_AUTH) {
+    app.post('/', passport.authenticate('basic', { session: true }),
+      userlist.authorizeMembersOf(['admin', 'user']), startJob);
+    app.put(uuidRegExp, passport.authenticate('basic', { session: true }),
+      userlist.authorizeMembersOf(['admin', 'user']), startJob);
+  } else {
+    app.post('/', startJob);
+    app.put(uuidRegExp, startJob);
+  }
 
   /**
    * GET route on /
