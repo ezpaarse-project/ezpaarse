@@ -76,6 +76,7 @@ module.exports = function (app) {
    */
   app.get('/users', passport.authenticate('basic', { session: true }), function (req, res) {
       var users = userlist.getAll();
+      res.set("Content-Type", "application/json");
       res.send(200, JSON.stringify(users));
     }
   );
@@ -133,6 +134,7 @@ module.exports = function (app) {
           for (var prop in user) {
             if (prop != 'password') { copyUser[prop] = user[prop]; }
           }
+          res.set("Content-Type", "application/json");
           res.send(201, JSON.stringify(copyUser, null, 2));
         } else {
           res.send(500);
