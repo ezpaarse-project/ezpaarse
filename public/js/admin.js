@@ -144,6 +144,7 @@ window.onload = function () {
       url:      '/users',
       dataType: 'json',
       'beforeSend': function () {
+        usersDiv.find('.refresh-error').hide();
         usersDiv.find('.refresh-loader').show();
       },
       'success': function(users) {
@@ -152,11 +153,47 @@ window.onload = function () {
           var row = $('<tr>');
           $('<td>', { text: user.username }).appendTo(row);
           $('<td>', { text: user.group }).appendTo(row);
+
+          var deleteButton = $('<button>', {
+            class: 'btn btn-danger btn-mini',
+            title: 'supprimer',
+            text: ' Supprimer'
+          });
+          $('<i>', { class: 'icon icon-white icon-trash' }).prependTo(deleteButton);
+          $('<img>', {
+            class: 'loader ninja',
+            src: '/img/loader.gif',
+            width: 14
+          }).prependTo(deleteButton);
+
+          deleteButton.on('click', function () {
+            var self = $(this);
+            $.ajax({
+              type:     'DELETE',
+              url:      '/users/' + user.username || '',
+              dataType: 'html',
+              'beforeSend': function () {
+                usersDiv.find('.refresh-error').hide();
+                setLoading(self, true);
+              },
+              'success': function(data) {
+                row.fadeOut(function () { row.remove(); });
+              },
+              'error': function(jqXHR, textStatus, errorThrown) {
+                usersDiv.find('.refresh-error').text("la suppression a échoué").show();
+              },
+              'complete': function () {
+                setLoading(self, false);
+              }
+            });
+          });
+
+          $('<td>').append(deleteButton).appendTo(row);
           usersTable.append(row);
         });
       },
       'error': function(jqXHR, textStatus, errorThrown) {
-        usersDiv.find('.refresh-error').show();
+        usersDiv.find('.refresh-error').text("la liste n'a pas pu être actualisée").show();
       },
       'complete': function () {
         usersDiv.find('.refresh-loader').hide();
