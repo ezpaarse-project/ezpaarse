@@ -138,6 +138,51 @@ window.onload = function () {
 
   var usersDiv   = $('#users-list');
   var usersTable = usersDiv.find('#users-table');
+
+  function addUser(user) {
+    var row = $('<tr>', { class: 'ninja' });
+    $('<td>', { text: user.username }).appendTo(row);
+    $('<td>', { text: user.group }).appendTo(row);
+
+    var deleteButton = $('<button>', {
+      class: 'btn btn-danger btn-mini',
+      title: 'supprimer',
+      text: ' Supprimer'
+    });
+    $('<i>', { class: 'icon icon-white icon-trash' }).prependTo(deleteButton);
+    $('<img>', {
+      class: 'loader ninja',
+      src: '/img/loader.gif',
+      width: 14
+    }).prependTo(deleteButton);
+
+    deleteButton.on('click', function () {
+      var self = $(this);
+      $.ajax({
+        type:     'DELETE',
+        url:      '/users/' + user.username || '',
+        dataType: 'html',
+        'beforeSend': function () {
+          usersDiv.find('.refresh-error').hide();
+          setLoading(self, true);
+        },
+        'success': function(data) {
+          row.fadeOut(function () { row.remove(); });
+        },
+        'error': function(jqXHR, textStatus, errorThrown) {
+          usersDiv.find('.refresh-error').text("la suppression a échoué").show();
+        },
+        'complete': function () {
+          setLoading(self, false);
+        }
+      });
+    });
+
+    $('<td>').append(deleteButton).appendTo(row);
+    usersTable.append(row);
+    row.fadeIn();
+  }
+
   function refreshUsers() {
     $.ajax({
       type:     'GET',
@@ -150,46 +195,7 @@ window.onload = function () {
       'success': function(users) {
         usersTable.find('tr:not(:first)').remove();
         users.forEach(function (user) {
-          var row = $('<tr>');
-          $('<td>', { text: user.username }).appendTo(row);
-          $('<td>', { text: user.group }).appendTo(row);
-
-          var deleteButton = $('<button>', {
-            class: 'btn btn-danger btn-mini',
-            title: 'supprimer',
-            text: ' Supprimer'
-          });
-          $('<i>', { class: 'icon icon-white icon-trash' }).prependTo(deleteButton);
-          $('<img>', {
-            class: 'loader ninja',
-            src: '/img/loader.gif',
-            width: 14
-          }).prependTo(deleteButton);
-
-          deleteButton.on('click', function () {
-            var self = $(this);
-            $.ajax({
-              type:     'DELETE',
-              url:      '/users/' + user.username || '',
-              dataType: 'html',
-              'beforeSend': function () {
-                usersDiv.find('.refresh-error').hide();
-                setLoading(self, true);
-              },
-              'success': function(data) {
-                row.fadeOut(function () { row.remove(); });
-              },
-              'error': function(jqXHR, textStatus, errorThrown) {
-                usersDiv.find('.refresh-error').text("la suppression a échoué").show();
-              },
-              'complete': function () {
-                setLoading(self, false);
-              }
-            });
-          });
-
-          $('<td>').append(deleteButton).appendTo(row);
-          usersTable.append(row);
+          addUser(user);
         });
       },
       'error': function(jqXHR, textStatus, errorThrown) {
@@ -211,15 +217,15 @@ window.onload = function () {
     $.ajax({
       type:     form.attr('method'),
       url:      form.attr('action'),
-      dataType: 'html',
+      dataType: 'json',
       data:     form.serialize(),
       'beforeSend': function () {
         form.find('.loader').show();
         form.find('.success-img, .form-success, .form-error, #submit').hide();
       },
-      'success': function(data) {
+      'success': function(user) {
         form.find('.success-img, .form-success').show();
-        refreshUsers();
+        addUser(user);
       },
       'error': function(jqXHR, textStatus, errorThrown) {
         var message = jqXHR.getResponseHeader("ezPAARSE-Status-Message");
