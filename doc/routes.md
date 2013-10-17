@@ -250,4 +250,9 @@ Ces routes servent à administrer ezPAARSE, et sont pour la plupart utilisables 
       <td>Crée un utilisateur local
         <br/>Paramètres: <strong>username</strong>, <strong>password</strong></td>
     </tr>
+    <tr>
+      <td>/users/{username}</td>
+      <td>DELETE</td>
+      <td>Supprime un utilisateur local</td>
+    </tr>
 </table>
