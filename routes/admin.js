@@ -122,14 +122,18 @@ module.exports = function (app) {
         .digest('hex');
 
 
-        var added = userlist.add({
+        var user = userlist.add({
           username: username,
           password: cryptedPassword,
           group: 'user'
         });
 
-        if (added) {
-          res.send(201);
+        if (user) {
+          var copyUser = {};
+          for (var prop in user) {
+            if (prop != 'password') { copyUser[prop] = user[prop]; }
+          }
+          res.send(201, JSON.stringify(copyUser, null, 2));
         } else {
           res.send(500);
         }
