@@ -14,7 +14,8 @@ var infoRoutes = [
   '/info/uuid',
   '/info/form-predefined',
   '/info/usage.json',
-  '/info/usage.html'
+  '/info/usage.html',
+  '/info/config'
 ];
 
 var adminRoutes = [
