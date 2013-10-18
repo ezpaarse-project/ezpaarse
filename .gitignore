@@ -17,4 +17,4 @@ ezpaarse.pid
 .DS_Store
 
 *.csv#
-node_modules/socket.io/node_modules/socket.io-client/node_modules/ws/builderror.log
+node_modules/
