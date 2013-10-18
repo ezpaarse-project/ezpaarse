@@ -10,6 +10,9 @@
                   </div>
                   <div id="collapseFive" class="accordion-body collapse" toggle-chevron="#iFive">
                     <div class="accordion-inner">
+                      <% if (user && user.group == 'admin') { %>
+                      <div class="alert"><strong>Attention</strong> : il est déconseillé d'utiliser votre compte administrateur dans vos scripts de traitement automatique.</div>
+                      <% } %>
                       <p>Copiez/collez le code suivant pour exécuter la requête avec cURL.</p>
                       <p>Modifiez le chemin des fichiers s'ils ne se trouvent pas dans le répertoire courant.
                       <br/>Vous devrez peut-être ajouter des options telles que <code>--proxy</code> ou <code>--no-buffer</code> en fonction de votre environnement.</p>
