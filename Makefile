@@ -196,8 +196,6 @@ tag:
 upload:
 	./bin/uploadversion
 
-# make git pulls easier and do not forget to restart ezpaarse
-update: pkb-update pull restart
 
 # Clone or update pkb folder
 pkb-update:
@@ -220,8 +218,11 @@ scrapers-update:
 	else git clone https://github.com/ezpaarse-project/ezpaarse-scrapers.git platforms-scrapers; \
 	fi
 
-# alias for git pull
-pull:
-	git pull
+# git pull on every git repositories
+pull: pkb-update parsers-update scrapers-update
+	@git pull
+	@make restart
+
+update: pull
 
 .PHONY: test checkconfig nodejs pkb-update deb rpm tar exe clean-for-release version tag update pull start restart status stop
