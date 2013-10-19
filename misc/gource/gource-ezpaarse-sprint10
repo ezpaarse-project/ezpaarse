@@ -6,15 +6,50 @@ SPRINT_START="2013-09-09"
 SPRINT_END="2013-10-10"
 GENERATE_VIDEO="0"
 
-git log --pretty=format:user:%aN%n%at --reverse --raw --encoding=UTF-8 --no-renames --after $SPRINT_START --before $SPRINT_END > ./gource-git.log
+# ezpaarse code source commit logs
+gource --output-custom-log "./ezpaarse.log" ../../ 
+sed -i -E "s#(.+)\|#\1|/ezpaarse#" ./ezpaarse.log
+# ezpaarse/platforms-kb code source commit logs
+gource --output-custom-log "./platforms-kb.log" ../../platforms-kb/
+sed -i -E "s#(.+)\|#\1|/ezpaarse/platforms-kb#" ./platforms-kb.log
+# ezpaarse/platforms-parsers code source commit logs
+gource --output-custom-log "./platforms-parsers.log" ../../platforms-parsers/
+sed -i -E "s#(.+)\|#\1|/ezpaarse/platforms-parsers#" ./platforms-parsers.log
+# ezpaarse/platforms-scrapers code source commit logs
+gource --output-custom-log "./platforms-scrapers.log" ../../platforms-scrapers/
+sed -i -E "s#(.+)\|#\1|/ezpaarse/platforms-scrapers#" ./platforms-scrapers.log
 
+# sort by date
+cat ./ezpaarse.log \
+    ./platforms-kb.log \
+    ./platforms-parsers.log \
+    ./platforms-scrapers.log | sort -n > ./gource-all.log
+
+# date range
+TIMESTAMP1=`date --date="$SPRINT_START" +%s`
+TIMESTAMP2=`date --date="$SPRINT_END" +%s`
+
+# filter logs out of the date range
+rm -f ./gource-range.log
+touch ./gource-range.log
+while read line
+do
+  TIMESTAMP=`echo $line | awk -F'|' '{ print $1 }'`
+  if [ "${TIMESTAMP:-0}" -ge $TIMESTAMP1 ] ; then
+    if [ "${TIMESTAMP:-0}" -le $TIMESTAMP2 ] ; then
+      echo $line >> ./gource-range.log
+    fi
+  fi
+done < ./gource-all.log
+
+# generate the video
 if [ "$GENERATE_VIDEO" == "1" ]; then
   gource --seconds-per-day 2 \
          --file-filter ".*node_modules.*" \
          --output-framerate 60 \
          --user-scale 1.5 \
          --user-image-dir ./avatars/ \
-         --path ./gource-git.log \
+         --path ./gource-range.log \
          -1280x720 -o - \
         | ffmpeg -y -r 60 -f image2pipe -vcodec ppm -i - -vcodec libvpx -b 10000K gource-$PROJECT_NAME-$SPRINT_NAME.webm
 else
@@ -23,5 +58,5 @@ else
          --output-framerate 60 \
          --user-scale 1.5 \
          --user-image-dir ./avatars/ \
-         --path ./gource-git.log
+         --path ./gource-range.log
 fi
