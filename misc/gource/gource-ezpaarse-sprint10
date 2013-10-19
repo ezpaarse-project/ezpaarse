@@ -4,7 +4,7 @@ PROJECT_NAME="ezpaarse"
 SPRINT_NAME="sprint10"
 SPRINT_START="2013-09-09"
 SPRINT_END="2013-10-10"
-GENERATE_VIDEO="0"
+GENERATE_VIDEO="1"
 
 # ezpaarse code source commit logs
 gource --output-custom-log "./ezpaarse.log" ../../ 
@@ -50,7 +50,7 @@ if [ "$GENERATE_VIDEO" == "1" ]; then
          --user-scale 1.5 \
          --user-image-dir ./avatars/ \
          --path ./gource-range.log \
-         -1280x720 -o - \
+         -1024x576 -o - \
         | ffmpeg -y -r 60 -f image2pipe -vcodec ppm -i - -vcodec libvpx -b 10000K gource-$PROJECT_NAME-$SPRINT_NAME.webm
 else
   gource --seconds-per-day 2 \
