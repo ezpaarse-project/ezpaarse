@@ -77,6 +77,7 @@ module.exports = function (app) {
   app.get('/users', passport.authenticate('basic', { session: true }), function (req, res) {
       var users = userlist.getAll();
       res.set("Content-Type", "application/json; charset=utf-8");
+      res.set("ezPAARSE-Logged-User", req.user.username);
       res.send(200, JSON.stringify(users));
     }
   );
