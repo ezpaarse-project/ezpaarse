@@ -170,7 +170,8 @@ window.onload = function () {
           row.fadeOut(function () { row.remove(); });
         },
         'error': function(jqXHR, textStatus, errorThrown) {
-          usersDiv.find('.refresh-error').text("la suppression a échoué").show();
+          var message = jqXHR.getResponseHeader("ezPAARSE-Status-Message");
+          usersDiv.find('.refresh-error').text(message || "la suppression a échoué").show();
         },
         'complete': function () {
           setLoading(self, false);
