@@ -4,17 +4,21 @@ test/beta/
 logs/
 bench.csv
 bench.png
-platforms-pkb/
 bench-*.csv
 bench-*.png*
 build/
 platforms-kb/
 platforms-parsers/
+platforms-scrapers/
 tmp/
 ezpaarse.pid
 
 
 .DS_Store
+.directory
 
 *.csv#
-node_modules/socket.io/node_modules/socket.io-client/node_modules/ws/builderror.log
+node_modules/
+
+credentials.json
+usage.json
