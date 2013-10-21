@@ -5,14 +5,11 @@ Une **PKB** (traduisez _Publisher Knowledge Base_) est une liste de correspondan
 
 Une **PKB** se présente sous la forme d'un ou plusieurs fichiers [CSV](http://fr.wikipedia.org/wiki/Comma-separated_values). Elle contient au minimum une colonne **PID** (pour _Publisher Identifier_) correspondant à l'identifiant éditeur des ressources, et peut avoir un nombre indéfini de colonnes supplémentaires en fonction de la richesse des métadonnées disponibles.
 
-Pour être reconnaissables par ezPAARSE, les fichiers d'une PKB doivent suivre la nomenclature suivante :  
-- commencer par le nom court de la plateforme (ex: **sd** pour Science Direct),  
-- finir par l'extension **.pkb.csv**,  
-- si autre chose est placé au milieu, un point doit être ajouté après le nom de la plateforme.  
+Pour être reconnaissables par ezPAARSE, les fichiers d'une PKB doivent avoir comme extension **.pkb.csv**, et se trouver dans un dossier dont le nom correspond à la plateforme (ex: **sd** pour Science Direct).  
 
 Exemples :  
-sd.pkb.csv  
-cairn.journaux.pkb.csv  
+sd/sd.pkb.csv  
+cairn/cairn.journaux.pkb.csv  
 
 **Attention** : les identifiants d'une PKB **doivent être uniques**. Si un identifiant est présent à plusieurs endroits, dans un ou plusieurs fichiers de la base de connaissance, **une seule occurrence** sera utilisée.
 
