@@ -5,6 +5,7 @@ window.onload = function () {
   var pkbRefresh     = $('#pkb-status-refresh');
   var parsersStatus  = $('#parsers-status');
   var parsersRefresh = $('#parsers-status-refresh');
+  var loggedUser;
 
   function setButtonStatus(button, status, message) {
     button.find('span').text(message);
@@ -144,41 +145,47 @@ window.onload = function () {
     $('<td>', { text: user.username }).appendTo(row);
     $('<td>', { text: user.group }).appendTo(row);
 
-    var deleteButton = $('<button>', {
-      class: 'btn btn-danger btn-mini',
-      title: 'supprimer',
-      text: ' Supprimer'
-    });
-    $('<i>', { class: 'icon icon-white icon-trash' }).prependTo(deleteButton);
-    $('<img>', {
-      class: 'loader ninja',
-      src: '/img/loader.gif',
-      width: 14
-    }).prependTo(deleteButton);
-
-    deleteButton.on('click', function () {
-      var self = $(this);
-      $.ajax({
-        type:     'DELETE',
-        url:      '/users/' + user.username || '',
-        dataType: 'html',
-        'beforeSend': function () {
-          usersDiv.find('.refresh-error').hide();
-          setLoading(self, true);
-        },
-        'success': function(data) {
-          row.fadeOut(function () { row.remove(); });
-        },
-        'error': function(jqXHR, textStatus, errorThrown) {
-          usersDiv.find('.refresh-error').text("la suppression a échoué").show();
-        },
-        'complete': function () {
-          setLoading(self, false);
-        }
+    if (user.username == loggedUser) {
+      $('<td>').appendTo(row);
+    } else {
+      var deleteButton = $('<button>', {
+        class: 'btn btn-danger btn-mini',
+        title: 'supprimer',
+        text: ' Supprimer'
       });
-    });
+      $('<i>', { class: 'icon icon-white icon-trash' }).prependTo(deleteButton);
+      $('<img>', {
+        class: 'loader ninja',
+        src: '/img/loader.gif',
+        width: 14
+      }).prependTo(deleteButton);
 
-    $('<td>').append(deleteButton).appendTo(row);
+      deleteButton.on('click', function () {
+        var self = $(this);
+        $.ajax({
+          type:     'DELETE',
+          url:      '/users/' + user.username || '',
+          dataType: 'html',
+          'beforeSend': function () {
+            usersDiv.find('.refresh-error').hide();
+            setLoading(self, true);
+          },
+          'success': function(data) {
+            row.fadeOut(function () { row.remove(); });
+          },
+          'error': function(jqXHR, textStatus, errorThrown) {
+            var message = jqXHR.getResponseHeader("ezPAARSE-Status-Message");
+            usersDiv.find('.refresh-error').text(message || "la suppression a échoué").show();
+          },
+          'complete': function () {
+            setLoading(self, false);
+          }
+        });
+      });
+
+      $('<td>').append(deleteButton).appendTo(row);
+    }
+
     usersTable.append(row);
     row.fadeIn();
   }
@@ -192,7 +199,8 @@ window.onload = function () {
         usersDiv.find('.refresh-error').hide();
         usersDiv.find('.refresh-loader').show();
       },
-      'success': function(users) {
+      'success': function(users, textStatus, jqXHR) {
+        loggedUser = jqXHR.getResponseHeader('ezPAARSE-Logged-User');
         usersTable.find('tr:not(:first)').remove();
         users.forEach(function (user) {
           addUser(user);

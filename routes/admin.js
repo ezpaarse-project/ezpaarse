@@ -77,6 +77,7 @@ module.exports = function (app) {
   app.get('/users', passport.authenticate('basic', { session: true }), function (req, res) {
       var users = userlist.getAll();
       res.set("Content-Type", "application/json; charset=utf-8");
+      res.set("ezPAARSE-Logged-User", req.user.username);
       res.send(200, JSON.stringify(users));
     }
   );
@@ -150,11 +151,16 @@ module.exports = function (app) {
   app.delete(/^\/users\/([a-zA-Z0-9\-_]+)$/, passport.authenticate('basic', { session: true }),
     userlist.authorizeMembersOf('admin'), function (req, res) {
       var username = req.params[0];
-      var user = userlist.remove(username);
-      if (user) {
-        res.send(204);
+      if (username == req.user.username) {
+        res.set('ezPAARSE-Status-Message', 'vous ne pouvez pas vous supprimer vous-même');
+        res.send(403);
       } else {
-        res.send(404);
+        var user = userlist.remove(username);
+        if (user) {
+          res.send(204);
+        } else {
+          res.send(404);
+        }
       }
     }
   );
