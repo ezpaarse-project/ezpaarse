@@ -5,12 +5,17 @@ var socketID;
 var host = $(location).attr('protocol') + '//' + $(location).attr('host');
 var socket = io.connect(host);
 var predefined;
+var config;
 
 $(document).on('ready' ,function () {
   if (typeof FormData === "undefined") {
     $("#content-form").addClass("ninja");
     $("#navigator-alert").removeClass("ninja");
   }
+
+  $.getJSON('/info/config', function (cfg) {
+    config = cfg;
+  });
 
   /**
    * load first user-field using the template at the end of the page
@@ -35,32 +40,32 @@ $(document).on('ready' ,function () {
           $('#input-log-type').val(predefined[id]['input-log-type']);
           $('#input-log-format').prop("disabled", false);
         } else {
-          $('#input-log-type').val("");      
+          $('#input-log-type').val("");
           $('#input-log-format').prop("disabled", true);
         }
         if (predefined[id].hasOwnProperty('input-log-format')) {
           $('#input-log-format').val(predefined[id]['input-log-format']);
         } else {
-          $('#input-log-format').val("");      
+          $('#input-log-format').val("");
         }
         if (predefined[id].hasOwnProperty('input-result-format')) {
           $('#input-result-format').val(predefined[id]['input-result-format']);
         } else {
-          $('#input-result-format').val("");      
+          $('#input-result-format').val("");
         }
         if (predefined[id].hasOwnProperty('input-traces')) {
           $('#input-traces').val(predefined[id]['input-traces']);
         } else {
-          $('#input-traces').val("");      
+          $('#input-traces').val("");
         }
         if (predefined[id].hasOwnProperty('input-output-fields')) {
           $('#input-output-fields').val(predefined[id]['input-output-fields']);
         } else {
-          $('#input-output-fields').val("");      
+          $('#input-output-fields').val("");
         }
       } else {
-        $('#input-log-type').val("");      
-        $('#input-log-format').val("");      
+        $('#input-log-type').val("");
+        $('#input-log-format').val("");
         $('#input-result-format').val("");
         $('#input-traces').val("");
         $('#input-output-fields').val("");
@@ -169,6 +174,9 @@ $(document).on('ready' ,function () {
   function generateCurl() {
     var curldiv = $('#curl-request');
     var cmd = 'curl -X POST';
+    if (config && config.EZPAARSE_REQUIRE_AUTH) {
+      cmd += ' -u "username:password"'
+    }
     var nb = 1;
     $('input[type=file]').each(function (index, input) {
       var files = $(this).prop('files');
@@ -358,7 +366,7 @@ $(document).on('ready' ,function () {
     logroute = '/' + jobid + '/';
 
     var headers = {};
-    
+
     if ($('#input-log-type').val() && $('#input-log-format').val()) {
       headers['Log-Format-' + $('#input-log-type').val()] = $('#input-log-format').val();
     }
@@ -427,9 +435,9 @@ $(document).on('ready' ,function () {
       $('#nofile-warn').slideDown();
       return false;
     }
-    
+
     var xhr = $.ajax({
-      headers: headers, 
+      headers: headers,
       type:    'PUT',
       url:     '/' + jobid,
       xhr: function() {
@@ -490,7 +498,7 @@ $(document).on('ready' ,function () {
           var message = jqXHR.getResponseHeader("ezPAARSE-Status-Message");
           handleError(status, message);
         }
-        
+
         $.getJSON(logroute + 'job-report.json', function (data) {
           if (data['nb-ecs'] == 0) {
             $('#get-btn').addClass('ninja');
@@ -505,7 +513,7 @@ $(document).on('ready' ,function () {
         $('#reset-btn').removeClass('ninja');
       }
     });
-    
+
     socket.on('joberror', function (status, message) {
       xhr.abort();
       handleError(status, message);

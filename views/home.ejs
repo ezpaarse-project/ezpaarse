@@ -1,0 +1,22 @@
+<% include header %>
+      <% if (!requireAuth || user) { %>
+      <p>
+        <a href="/form" class="btn btn-primary">
+          <i class="icon-upload icon-white"></i>
+          <span><strong>Formulaire</strong></span>
+        </a>
+
+        <% if (user && user.group == 'admin') { %>
+        <a href="/admin" class="btn btn-primary">
+          <i class="icon-wrench icon-white"></i>
+          <span><strong>Administration</strong></span>
+        </a>
+        <% } %>
+      </p>
+      <% } else { %>
+        <div class="alert">L'accès au service nécessite une authentification. Veuillez vous connecter.</div>
+      <% } %>
+      <p class="well">
+        <strong>ezPAARSE</strong> est un logiciel libre qui permet l’analyse, l’enrichissement et l’exploitation des logs d’accès aux ressources électroniques proposées par les plate-formes Web des éditeurs de littérature scientifique. Il se présente sous la forme d'une application Web disposant d'un <a href="/form">formulaire</a> et d'une <a href="/doc/routes.html">API</a> permettant l'ingestion manuelle et automatique des logs générées par les proxy des établissements.
+      </p>
+<% include footer %>

@@ -52,7 +52,7 @@
         </ul>
       </div>
       <% if (user) { %>
-        <p id="auth-status">Connecté en tant que <strong><%= user.username %></strong> | <a href="/admin">Administration</a></p>
+        <p id="auth-status">Connecté en tant que <strong><%= user.username %></strong>
       <% } else { %>
         <p id="auth-status">Vous n'êtes pas connecté | <a href="/?auth=local">Connexion</a></p>
       <% } %>

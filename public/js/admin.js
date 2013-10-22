@@ -5,6 +5,7 @@ window.onload = function () {
   var pkbRefresh     = $('#pkb-status-refresh');
   var parsersStatus  = $('#parsers-status');
   var parsersRefresh = $('#parsers-status-refresh');
+  var loggedUser;
 
   function setButtonStatus(button, status, message) {
     button.find('span').text(message);
@@ -136,6 +137,85 @@ window.onload = function () {
   updatePkbStatus();
   updateParsersStatus();
 
+  var usersDiv   = $('#users-list');
+  var usersTable = usersDiv.find('#users-table');
+
+  function addUser(user) {
+    var row = $('<tr>', { class: 'ninja' });
+    $('<td>', { text: user.username }).appendTo(row);
+    $('<td>', { text: user.group }).appendTo(row);
+
+    if (user.username == loggedUser) {
+      $('<td>').appendTo(row);
+    } else {
+      var deleteButton = $('<button>', {
+        class: 'btn btn-danger btn-mini',
+        title: 'supprimer',
+        text: ' Supprimer'
+      });
+      $('<i>', { class: 'icon icon-white icon-trash' }).prependTo(deleteButton);
+      $('<img>', {
+        class: 'loader ninja',
+        src: '/img/loader.gif',
+        width: 14
+      }).prependTo(deleteButton);
+
+      deleteButton.on('click', function () {
+        var self = $(this);
+        $.ajax({
+          type:     'DELETE',
+          url:      '/users/' + user.username || '',
+          dataType: 'html',
+          'beforeSend': function () {
+            usersDiv.find('.refresh-error').hide();
+            setLoading(self, true);
+          },
+          'success': function(data) {
+            row.fadeOut(function () { row.remove(); });
+          },
+          'error': function(jqXHR, textStatus, errorThrown) {
+            var message = jqXHR.getResponseHeader("ezPAARSE-Status-Message");
+            usersDiv.find('.refresh-error').text(message || "la suppression a échoué").show();
+          },
+          'complete': function () {
+            setLoading(self, false);
+          }
+        });
+      });
+
+      $('<td>').append(deleteButton).appendTo(row);
+    }
+
+    usersTable.append(row);
+    row.fadeIn();
+  }
+
+  function refreshUsers() {
+    $.ajax({
+      type:     'GET',
+      url:      '/users',
+      dataType: 'json',
+      'beforeSend': function () {
+        usersDiv.find('.refresh-error').hide();
+        usersDiv.find('.refresh-loader').show();
+      },
+      'success': function(users, textStatus, jqXHR) {
+        loggedUser = jqXHR.getResponseHeader('ezPAARSE-Logged-User');
+        usersTable.find('tr:not(:first)').remove();
+        users.forEach(function (user) {
+          addUser(user);
+        });
+      },
+      'error': function(jqXHR, textStatus, errorThrown) {
+        usersDiv.find('.refresh-error').text("la liste n'a pas pu être actualisée").show();
+      },
+      'complete': function () {
+        usersDiv.find('.refresh-loader').hide();
+      }
+    });
+  }
+  refreshUsers();
+
   /**
    * On click on the submit button, serialize and send form
    */
@@ -145,14 +225,15 @@ window.onload = function () {
     $.ajax({
       type:     form.attr('method'),
       url:      form.attr('action'),
-      dataType: 'html',
+      dataType: 'json',
       data:     form.serialize(),
       'beforeSend': function () {
         form.find('.loader').show();
         form.find('.success-img, .form-success, .form-error, #submit').hide();
       },
-      'success': function(data) {
+      'success': function(user) {
         form.find('.success-img, .form-success').show();
+        addUser(user);
       },
       'error': function(jqXHR, textStatus, errorThrown) {
         var message = jqXHR.getResponseHeader("ezPAARSE-Status-Message");

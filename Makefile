@@ -12,7 +12,7 @@ DOC_OUTPUT=$(shell pwd)/public/doc
 DOC_HTML=$(DOC_OUTPUT)/index.html
 
 # Run every steps needed to start ezpaarse
-all: nodejs doc pkb-update parsers-update scrapers-update node-modules checkconfig
+all: nodejs pkb-update parsers-update scrapers-update node-modules doc checkconfig
 
 # Application section
 # # # # # # # # # # # #
@@ -49,7 +49,7 @@ docopen: doc $(DOC_HMTL)
 
 EZPATH = $(shell pwd)
 JSFILES=$(wildcard $(EZPATH)/*.js) $(wildcard $(EZPATH)/lib/*.js) $(wildcard $(EZPATH)/lib/*/*.js) $(wildcard $(EZPATH)/test/*.js)  $(wildcard $(EZPATH)/routes/*.js) $(wildcard $(EZPATH)/platforms-parsers/*/*.js)
-PKBFILES=$(wildcard $(EZPATH)/platforms-kb/*.pkb.csv)
+PKBFILES=$(wildcard $(EZPATH)/platforms-kb/*/*.pkb.csv)
 
 # Runs all tests (*-test.js) in the test folder except big and tdd
 test: test-pkb
@@ -196,8 +196,6 @@ tag:
 upload:
 	./bin/uploadversion
 
-# make git pulls easier and do not forget to restart ezpaarse
-update: pkb-update pull restart
 
 # Clone or update pkb folder
 pkb-update:
@@ -220,8 +218,11 @@ scrapers-update:
 	else git clone https://github.com/ezpaarse-project/ezpaarse-scrapers.git platforms-scrapers; \
 	fi
 
-# alias for git pull
-pull:
-	git pull
+# git pull on every git repositories
+pull: pkb-update parsers-update scrapers-update
+	@git pull
+	@make restart
+
+update: pull
 
 .PHONY: test checkconfig nodejs pkb-update deb rpm tar exe clean-for-release version tag update pull start restart status stop

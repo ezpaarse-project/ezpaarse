@@ -8,6 +8,7 @@ var path   = require('path');
 var uuid   = require('uuid');
 var moment = require('moment');
 var pp     = require('../lib/platform-parser.js');
+var config = require('../lib/config.js');
 
 module.exports = function (app) {
 
@@ -81,6 +82,25 @@ module.exports = function (app) {
       res.status(404);
     }
     res.end();
+  });
+
+  /**
+   * GET route on /info/config
+   */
+  app.get('/info/config', function (req, res) {
+    res.header('Content-Type', 'application/json; charset=utf-8');
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+
+    var cfg = {};
+    var fieldsToReturn = [
+      'EZPAARSE_REQUIRE_AUTH',
+      'EZPAARSE_IGNORED_DOMAINS'
+    ];
+    fieldsToReturn.forEach(function (field) {
+      cfg[field] = config[field];
+    });
+    res.send(200, JSON.stringify(cfg, null, 2));
   });
 
   /**

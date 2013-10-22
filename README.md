@@ -3,9 +3,15 @@
 [![Build Status](https://secure.travis-ci.org/ezpaarse-project/ezpaarse.png?branch=master)](http://travis-ci.org/ezpaarse-project/ezpaarse)
 [![Dependencies Status](https://david-dm.org/ezpaarse-project/ezpaarse.png)](https://david-dm.org/ezpaarse-project/ezpaarse)
 
-ezPAARSE is an open-source software that can ingest your log files and show how users access suscribed electronic ressources.
+ezPAARSE is an open-source software that can ingest your log files (from your proxy) and show how users access suscribed electronic ressources.
 It filters, extracts and enriches the consultation events that were spotted and produces a CSV file following [COUNTER](http://www.projectcounter.org/) codes of practice.
 This document describes how to install and run ezPAARSE on your computer.
+
+Built-in proxies supported log formats are:
+
+* [ezproxy](http://www.oclc.org/ezproxy.en.html)
+* [bibliopam](http://mioga.alixen.fr/Mioga2/bibliopam/public/club/)
+* [squid](http://www.squid-cache.org/)
 
 ## Prerequisites ##
 
@@ -27,7 +33,7 @@ If you want to install ezPAARSE on a Unix-type system,
 download the latest stable version in the [tar.gz](http://analogist.couperin.org/ezpaarse/download) format
 open a terminal and type:
 ```console
-tar xzfv ezpaarse-X.X.X.tar.gz
+tar -xzfv ezpaarse-X.X.X.tar.gz
 cd ezpaarse-X.X.X
 make
 ```

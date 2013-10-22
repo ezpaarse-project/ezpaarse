@@ -10,6 +10,9 @@
                   </div>
                   <div id="collapseFive" class="accordion-body collapse" toggle-chevron="#iFive">
                     <div class="accordion-inner">
+                      <% if (user && user.group == 'admin') { %>
+                      <div class="alert"><strong>Attention</strong> : il est déconseillé d'utiliser votre compte administrateur dans vos scripts de traitement automatique.</div>
+                      <% } %>
                       <p>Copiez/collez le code suivant pour exécuter la requête avec cURL.</p>
                       <p>Modifiez le chemin des fichiers s'ils ne se trouvent pas dans le répertoire courant.
                       <br/>Vous devrez peut-être ajouter des options telles que <code>--proxy</code> ou <code>--no-buffer</code> en fonction de votre environnement.</p>
@@ -30,7 +33,7 @@
                   </div>
                   <div id="collapseOne" class="accordion-body collapse" toggle-chevron="#iOne">
                     <div id="local-files" class="accordion-inner">
-                      
+
                     </div>
                   </div>
                 </div>
@@ -186,7 +189,7 @@
           </div>
           <div id="process-btns" class="text-center">
             <a href="" target="_blank" id="get-btn" class="btn btn-primary btn-large">Télécharger le résultat en <span id='result-format'></span></a>
-            <a href="" id="cancel-btn" class="btn">Annuler</a>
+            <a href="/form" id="cancel-btn" class="btn">Annuler</a>
           </div>
           <div class="row-fluid">
             <div class="span6">
@@ -287,7 +290,7 @@
           <div id="result-btns" class="text-center">
             <a target="_blank" id="report-btn" class="btn">Rapport détaillé</a>
             <a target="_blank" id="traces-btn" class="btn">Traces système</a>
-            <a href="/" id="reset-btn" class="btn ninja">Nouveau traitement</a>
+            <a href="/form" id="reset-btn" class="btn ninja">Nouveau traitement</a>
           </div>
         </div><!-- result-content -->
         <div id="navigator-alert" class="text-center ninja">
