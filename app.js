@@ -6,9 +6,9 @@ var pkg           = require('./package.json');
 var config        = require('./lib/config.js');
 var http          = require('http');
 var path          = require('path');
+var mkdirp        = require('mkdirp');
 var crypto        = require('crypto');
 var fs            = require('fs');
-var folderChecker = require('./lib/folderchecker.js');
 var Reaper        = require('./lib/tmp-reaper.js');
 var userlist      = require('./lib/userlist.js');
 var winston       = require('winston');
@@ -18,15 +18,10 @@ require('./lib/init.js');
 
 winston.addColors({ verbose: 'green', info: 'green', warn: 'yellow', error: 'red' });
 
-// Set up cleaning jobs for the temporary folder
-var red   = '\u001b[31m';
-var reset = '\u001b[0m';
-if (!folderChecker.check(path.join(__dirname, '/tmp'))) {
-  var err = red;
-  err += 'Warning! Temporary folder not found, files won\'t be stored on disk.';
-  err += reset;
-  console.error(err);
-} else if (config.EZPAARSE_TMP_CYCLE && config.EZPAARSE_TMP_LIFETIME) {
+mkdirp.sync(path.join(__dirname, '/tmp'));
+
+// Setup cleaning jobs for the temporary folder
+if (config.EZPAARSE_TMP_CYCLE && config.EZPAARSE_TMP_LIFETIME) {
   new Reaper({
     recursive: true,
     threshold: config.EZPAARSE_TMP_LIFETIME,
@@ -34,7 +29,9 @@ if (!folderChecker.check(path.join(__dirname, '/tmp'))) {
   }).watch(path.join(__dirname, '/tmp'))
     .start();
 } else {
-  var err = red;
+  var red   = '\u001b[31m';
+  var reset = '\u001b[0m';
+  var err   = red;
   err += 'Warning! Temporary folder won\'t be automatically cleaned, ';
   err += 'fill TMP_CYCLE and TMP_LIFETIME in the configuration file.';
   err += reset;
