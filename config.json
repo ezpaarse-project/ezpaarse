@@ -33,15 +33,8 @@
   },
   "EZPAARSE_BIG_RATE": 10000,
   "EZPAARSE_BIG_DURATION": 60,
-  "EZPAARSE_TMP_CYCLE": 60,
-  "EZPAARSE_TMP_LIFETIME":
-  {
-    "years":   0,
-    "months":  0,
-    "days":    1,
-    "hours":   0,
-    "minutes": 0
-  },
+  "EZPAARSE_TMP_CYCLE": "60min",
+  "EZPAARSE_TMP_LIFETIME": "1day",
   "EZPAARSE_IGNORED_DOMAINS":
   [
     "www.google.fr",

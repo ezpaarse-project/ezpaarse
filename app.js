@@ -9,7 +9,7 @@ var path          = require('path');
 var crypto        = require('crypto');
 var fs            = require('fs');
 var folderChecker = require('./lib/folderchecker.js');
-var FolderReaper  = require('./lib/folderreaper.js');
+var Reaper        = require('./lib/tmp-reaper.js');
 var userlist      = require('./lib/userlist.js');
 var winston       = require('winston');
 var passport      = require('passport');
@@ -27,11 +27,12 @@ if (!folderChecker.check(path.join(__dirname, '/tmp'))) {
   err += reset;
   console.error(err);
 } else if (config.EZPAARSE_TMP_CYCLE && config.EZPAARSE_TMP_LIFETIME) {
-  var folderReaper = new FolderReaper({
+  new Reaper({
     recursive: true,
-    lifetime: config.EZPAARSE_TMP_LIFETIME
-  });
-  folderReaper.watch(path.join(__dirname, '/tmp'), config.EZPAARSE_TMP_CYCLE);
+    threshold: config.EZPAARSE_TMP_LIFETIME,
+    every: config.EZPAARSE_TMP_CYCLE
+  }).watch(path.join(__dirname, '/tmp'))
+    .start();
 } else {
   var err = red;
   err += 'Warning! Temporary folder won\'t be automatically cleaned, ';
