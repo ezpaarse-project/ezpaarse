@@ -32,21 +32,21 @@ If you are a Windows user, you can install ezPAARSE on your computer by [downloa
 If you want to install ezPAARSE on a Unix-type system, 
 download the latest stable version in the [tar.gz](http://analogist.couperin.org/ezpaarse/download) format
 open a terminal and type:
-```console
+```shell
 tar -xzfv ezpaarse-X.X.X.tar.gz
 cd ezpaarse-X.X.X
 make
 ```
 If you want to install the version in development (unstable), 
 open a terminal and type:
-```console
+```shell
 git clone http://github.com/ezpaarse-project/ezpaarse.git
 cd ezpaarse
 make
 ```
 
 You can also [download a deb archive](http://analogist.couperin.org/ezpaarse/download) and install it on your system this way:
-```console
+```shell
 sudo -E dpkg -i ezpaarse-X.X.X.deb
 sudo /etc/init.d/ezpaarse start
 ```
@@ -55,7 +55,7 @@ sudo /etc/init.d/ezpaarse start
 
 This step allows you to validate that your install is working.
 
-```console
+```shell
 make start
 make test
 ```
@@ -67,7 +67,7 @@ are made available in the repositories of ezPAARSE.
 
 You need to make sure that ezPAARSE is started. To do so, type the following command:
 
-```console
+```shell
 make start
 ```
 
@@ -77,7 +77,7 @@ If you are computer-savvy, you can use an HTTP client (like curl) to send a logf
 (for this example, we will use ./test/dataset/sd.2012-11-30.300.log) to ezPAARSE's Web service
 and get a CSV stream of consultation events as a response.
 
-```console
+```shell
 curl -X POST http://127.0.0.1:59599 \
              -v --proxy "" --no-buffer \
              --data-binary @./test/dataset/sd.2012-11-30.300.log
@@ -86,7 +86,7 @@ curl -X POST http://127.0.0.1:59599 \
 Or you can use the command ``./bin/loginjector`` ezPAARSE provides you with
 to send the logfile to the web service in a simpler way:
 
-```console
+```shell
 . ./bin/env
 cat ./test/dataset/sd.2012-11-30.300.log | ./bin/loginjector
 ```
@@ -95,14 +95,14 @@ You can also see quick countings on your data if you add the command
 Doing so, you will get an overview of the consultation events extracted
 from your logs by ezPAARSE:
 
-```console
+```shell
 . ./bin/env
 cat ./test/dataset/sd.2012-11-30.300.log | ./bin/loginjector | ./bin/csvtotalizer
 ```
 
 To stop ezPAARSE, you have to type the following command:
 
-```console
+```shell
 make stop
 ```
 
@@ -112,7 +112,7 @@ The default ezPAARSE parameters can be found in the ``config.json`` file. All th
 
 For example, to change the ezPAARSE listening port (59599 by default), you can override the ``EZPAARSE_NODEJS_PORT`` by defining a new ``config.local.json`` file this way:
 
-```
+```json
 {
   "EZPAARSE_NODEJS_PORT": 45000
 }
