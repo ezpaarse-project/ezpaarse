@@ -27,7 +27,7 @@ describe('logfaker', function () {
       });
     });
   });
-  describe('called with nb=1', function () {
+  describe('called using javascript with nb=1', function () {
     it('sends one line of log (@01)', function (done) {
       var nblines = 0;
 
