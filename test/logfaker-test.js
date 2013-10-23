@@ -2,21 +2,26 @@
 'use strict';
 
 var should = require('should');
-var shell  = require('shelljs');
-var byline = require('byline');
+var Lazy   = require('lazy');
+var logF   = require('../lib/logfaker.js');
 
-describe('The logfaker command', function () {
-  describe('can be called with --nb=1', function () {
-    it('and sends back one line of log (@01)', function (done) {
-      var child  = shell.exec(__dirname + '/../bin/logfaker --nb=1', {async: true, silent: true});
-      var stream = byline.createStream(child.stdout);
-      var nbline = 0;
-      stream.on('data', function () {
-        nbline++;
-      });
-      stream.on('end', function () {
-        should.equal(nbline, 1);
-        done();
+describe('logfaker', function () {
+  describe('called with nb=1', function () {
+    it('sends one line of log (@01)', function (done) {
+      var nblines = 0;
+
+      logF.logFaker({ nb: 1 }, function (s) {
+        var lazy = new Lazy(s);
+
+        lazy.lines
+          .map(String)
+          .map(function () {
+            nblines++;
+          });
+        lazy.on('end', function () {
+          should.equal(nblines, 1);
+          done();
+        });
       });
     });
   });
