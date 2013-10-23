@@ -734,10 +734,6 @@
         }
       }
     },
-    "byline": {
-      "version": "3.1.2",
-      "from": "byline@3.1.2"
-    },
     "lazy": {
       "version": "1.0.11",
       "from": "lazy@1.0.11"
@@ -964,6 +960,10 @@
       "version": "0.3.5",
       "from": "mkdirp@0.3.5",
       "resolved": "http://registry.npmjs.org/mkdirp/-/mkdirp-0.3.5.tgz"
+    },
+    "tmp-reaper": {
+      "version": "0.0.1",
+      "from": "tmp-reaper@"
     },
     "mime": {
       "version": "1.2.9",
