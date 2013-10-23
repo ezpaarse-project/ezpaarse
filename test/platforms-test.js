@@ -7,7 +7,8 @@ var fs           = require('fs');
 var path         = require('path');
 var should       = require('should');
 var shell        = require('shelljs');
-var byline       = require('byline');
+var Lazy         = require('lazy');
+var PassThrough  = require('stream').PassThrough;
 var csvextractor = require('../lib/csvextractor.js');
 var pp           = require('../lib/platform-parser.js');
 var assert       = require('assert');
@@ -24,31 +25,29 @@ function testFiles(files, platformName, parserFile, done) {
 
   csvextractor.extract(files, [], function (records) {
     var child = shell.exec(parserFile, {async: true, silent: true});
+    var pt    = new PassThrough();
+    var lazy  = new Lazy(pt);
+    child.stdout.pipe(pt);
 
-    var stream = byline.createStream(child.stdout);
-    var record = records.pop();
-
-    stream.on('data', function (line) {
-      var parsedLine = JSON.parse(line);
-      delete record.url;
-      should.ok(helpers.objectsAreSame(parsedLine, record),
-        'result does not match\nresult: ' + line + '\nexpected: ' + JSON.stringify(record));
-      record = records.pop();
-      if (record) {
-        child.stdin.write(record.url + '\n');
-      } else {
-        child.stdin.end();
-      }
-    });
-
-    stream.on('end', function () {
+    lazy.lines
+      .map(String)
+      .map(function (line) {
+        var parsedLine = JSON.parse(line);
+        delete record.url;
+        should.ok(helpers.objectsAreSame(parsedLine, record),
+          'result does not match\nresult: ' + line + '\nexpected: ' + JSON.stringify(record));
+        record = records.pop();
+        if (record) {
+          child.stdin.write(record.url + '\n');
+        } else {
+          child.stdin.end();
+        }
+      });
+    lazy.on('end', function () {
       done();
     });
 
-    stream.on('error', function (err) {
-      throw err;
-    });
-
+    var record = records.pop();
     if (record) {
       should(record.url, 'some entries in the test file have no URL');
       child.stdin.write(record.url + '\n');
