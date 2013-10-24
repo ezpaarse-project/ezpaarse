@@ -911,23 +911,6 @@
       "from": "http://registry.npmjs.org/iconv-lite/-/iconv-lite-0.2.11.tgz",
       "resolved": "http://registry.npmjs.org/iconv-lite/-/iconv-lite-0.2.11.tgz"
     },
-    "match-stream": {
-      "version": "0.0.1",
-      "from": "http://registry.npmjs.org/match-stream/-/match-stream-0.0.1.tgz",
-      "resolved": "http://registry.npmjs.org/match-stream/-/match-stream-0.0.1.tgz",
-      "dependencies": {
-        "buffers": {
-          "version": "0.1.1",
-          "from": "http://registry.npmjs.org/buffers/-/buffers-0.1.1.tgz",
-          "resolved": "http://registry.npmjs.org/buffers/-/buffers-0.1.1.tgz"
-        },
-        "readable-stream": {
-          "version": "1.0.2",
-          "from": "http://registry.npmjs.org/readable-stream/-/readable-stream-1.0.2.tgz",
-          "resolved": "http://registry.npmjs.org/readable-stream/-/readable-stream-1.0.2.tgz"
-        }
-      }
-    },
     "glob": {
       "version": "3.1.20",
       "from": "glob@3.1.20",
