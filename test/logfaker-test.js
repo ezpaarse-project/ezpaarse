@@ -3,18 +3,16 @@
 
 var should      = require('should');
 var Lazy        = require('lazy');
-var shell       = require('shelljs');
-var PassThrough = require('stream').PassThrough;
+var spawn       = require('child_process').spawn;
 var logF        = require('../lib/logfaker.js');
+var path        = require('path');
 
 describe('logfaker', function () {
   describe('called using command line with --nb=1', function () {
     it('sends one line of log (@01)', function (done) {
       var nblines = 0;
-      var child   = shell.exec(__dirname + '/../bin/logfaker --nb=1', {async: true, silent: true});
-      var pt      = new PassThrough();
-      var lazy    = new Lazy(pt);
-      child.stdout.pipe(pt);
+      var child   = spawn('logfaker', ['--nb=1'], { cwd: path.join(__dirname, '/../bin/') });
+      var lazy    = new Lazy(child.stdout);
 
       lazy.lines
         .map(String)
@@ -28,7 +26,7 @@ describe('logfaker', function () {
     });
   });
   describe('called using javascript with nb=1', function () {
-    it('sends one line of log (@01)', function (done) {
+    it('sends one line of log (@02)', function (done) {
       var nblines = 0;
 
       logF.logFaker({ nb: 1 }, function (s) {
