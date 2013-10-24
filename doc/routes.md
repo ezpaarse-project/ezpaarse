@@ -47,6 +47,7 @@ Niveaux disponibles :
 -   **Double-Click-xxxx:** précision des paramètres utilisés pour réaliser le dédoublonnage [(plus de détails)](./doubleclick.html).  
 -   **Request-Charset:** jeu de caractères utilisé dans les données en entrée [(voir les encodages supportés)](https://github.com/ashtuchkin/iconv-lite#supported-encodings).  
 -   **Response-Charset:** jeu de caractères utilisé pour le résultat. [(voir les encodages supportés)](https://github.com/ashtuchkin/iconv-lite#supported-encodings).  
+-   **Clean-Only:** si placé à `true`, ezPAARSE se contentera de filtrer les lignes de log inutiles, et retournera les lignes pertinentes.  
 
 #### Body ####
 
