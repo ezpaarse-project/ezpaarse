@@ -6,8 +6,9 @@ var helpers      = require('./helpers.js');
 var fs           = require('fs');
 var path         = require('path');
 var should       = require('should');
-var shell        = require('shelljs');
-var byline       = require('byline');
+var spawn        = require('child_process').spawn;
+var exec         = require('child_process').exec;
+var Lazy         = require('lazy');
 var csvextractor = require('../lib/csvextractor.js');
 var pp           = require('../lib/platform-parser.js');
 var assert       = require('assert');
@@ -19,43 +20,44 @@ var platforms       = fs.readdirSync(platformsFolder);
 
 function testFiles(files, platformName, parserFile, done) {
 
-  var test = shell.exec("echo '[]' | " + parserFile, {async: false, silent: true});
-  assert.ok(test.code !== 126, "Platform " + platformName + " : the parser is not executable");
+  var test = exec(parserFile);
+  test.on('exit', function (code) {
+    assert.ok(code !== 126, "Platform " + platformName + " : the parser is not executable");
+    assert.ok(code === 0, "Platform " + platformName + " : the parser does not work properly");
 
-  csvextractor.extract(files, [], function (records) {
-    var child = shell.exec(parserFile, {async: true, silent: true});
+    csvextractor.extract(files, [], function (records) {
+      var child = spawn(parserFile);
+      var lazy  = new Lazy(child.stdout);
 
-    var stream = byline.createStream(child.stdout);
-    var record = records.pop();
+      lazy.lines
+        .map(String)
+        .map(function (line) {
+          var parsedLine = JSON.parse(line);
+          delete record.url;
+          should.ok(helpers.objectsAreSame(parsedLine, record),
+            'result does not match\nresult: ' + line + '\nexpected: ' + JSON.stringify(record));
+          record = records.pop();
+          if (record) {
+            child.stdin.write(record.url + '\n');
+          } else {
+            child.stdin.end();
+          }
+        });
+      lazy.on('end', function () {
+        done();
+      });
 
-    stream.on('data', function (line) {
-      var parsedLine = JSON.parse(line);
-      delete record.url;
-      should.ok(helpers.objectsAreSame(parsedLine, record),
-        'result does not match\nresult: ' + line + '\nexpected: ' + JSON.stringify(record));
-      record = records.pop();
+      var record = records.pop();
       if (record) {
+        should(record.url, 'some entries in the test file have no URL');
         child.stdin.write(record.url + '\n');
       } else {
-        child.stdin.end();
+        done();
       }
-    });
+    }, {silent: true, type: 'files'});
+  });
 
-    stream.on('end', function () {
-      done();
-    });
-
-    stream.on('error', function (err) {
-      throw err;
-    });
-
-    if (record) {
-      should(record.url, 'some entries in the test file have no URL');
-      child.stdin.write(record.url + '\n');
-    } else {
-      done();
-    }
-  }, {silent: true, type: 'files'});
+  test.stdin.end('[]');
 }
 
 function fetchPlatform(platform) {

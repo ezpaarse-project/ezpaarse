@@ -2,17 +2,17 @@
 /*global describe, it*/
 'use strict';
 
-var should        = require('should');
-var shell         = require('shelljs');
+var should = require('should');
+var path   = require('path');
+var spawn  = require('child_process').spawn;
 
 describe('The "make jshint" command', function () {
   this.timeout(5000);
   it('returns 0 if source code respects coding rules (@01)', function (done) {
-    shell.exec('make jshint', { silent: true, async: true }, function (code, output) {
-      if (code !== 0) {
-        console.error(output);
-      }
-      should.equal(code, 0);
+    var child = spawn('make', ['jshint'], { cwd: path.join(__dirname, '..') });
+
+    child.on('exit', function (code) {
+      should.equal(code, 0, 'code was not validated by jsHint');
       done();
     });
   });
