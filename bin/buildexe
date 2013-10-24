@@ -40,7 +40,7 @@ cd $TMP_DIR/$EZPAARSE_NAME
 git checkout $VERSION
 cp -f $EZPAARSE_PATH/Makefile $TMP_DIR/$EZPAARSE_NAME/
 touch $TMP_DIR/$EZPAARSE_NAME/clean-for-release-flag
-make version v=$VERSION_PREFIX$VERSION
+#make version v=$VERSION_PREFIX$VERSION
 make clean-for-release
 
 cd $TMP_DIR/$EZPAARSE_NAME
@@ -50,6 +50,7 @@ make pkb-update
 make parsers-update
 make scrapers-update
 make node-modules
+npm install
 
 # git cleanup
 rm -rf ./platforms-kb/.git/
