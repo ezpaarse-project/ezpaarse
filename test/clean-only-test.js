@@ -6,7 +6,6 @@ var path    = require('path');
 var should  = require('should');
 var helpers = require('./helpers.js');
 
-// var logFormat      = '%h %u %{session}<[a-zA-Z0-9\\-]+> %t "%r" %s';
 var multipleStatus = path.join(__dirname, '/dataset/sd.multiple-status.log');
 
 describe('The server', function () {
@@ -30,6 +29,8 @@ describe('The server', function () {
         var logContent = fs.readFileSync(multipleStatus, 'utf-8');
         logContent.should.contain(body[0]);
         logContent.should.contain(body[1]);
+        should.ok(/(200|304) [0-9]+$/.test(body[0]), 'a line was not filtered');
+        should.ok(/(200|304) [0-9]+$/.test(body[1]), 'a line was not filtered');
         done();
       });
     });
