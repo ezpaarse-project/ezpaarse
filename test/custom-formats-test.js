@@ -15,7 +15,7 @@ var ezproxyTestSets =
   { logFile: path.join(folder, '/univ_lyon.ezproxy.log'),
     format: '%h %l %u %t "%r" %s %b' },
   { logFile: path.join(folder, '/univ_strasbourg.ezproxy.log'),
-    format: '%t %h %h %u %U %b %{session}<[a-zA-Z0-9]+>' },
+    format: '%t %h %h %u %U %b %{session}<[a-zA-Z0-9]+|\\->' },
   { logFile: path.join(folder, '/ul.ezproxy.log'),
     format: '%h %u %<[0-9]> %t "%r" %s %b %<[a-zA-Z\\+]+>' },
   { logFile: path.join(folder, '/upmc.ezproxy.log'),
