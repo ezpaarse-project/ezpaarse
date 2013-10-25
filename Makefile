@@ -8,6 +8,7 @@ SHELL:=/bin/bash
 DOC_DIR:=$(shell pwd)/doc
 DOC_MD=$(DOC_DIR)
 DOC=$(wildcard $(DOC_MD)/*.md)
+DOC_TPL=$(wildcard $(DOC_MD)/templates/*.html)
 DOC_OUTPUT=$(shell pwd)/public/doc
 DOC_HTML=$(DOC_OUTPUT)/index.html
 
@@ -33,7 +34,7 @@ status:
 # # # # # # # # # # # #
 
 # Generate doc with beautiful-docs
-$(DOC_HTML): $(DOC)
+$(DOC_HTML): $(DOC) $(DOC_TPL)
 	@. ./bin/env; bfdocs --base-url='.' --templates-dir=$(DOC_MD)/templates $(DOC_MD)/manifest.json $(DOC_OUTPUT)
 
 doc: $(DOC_HTML)
