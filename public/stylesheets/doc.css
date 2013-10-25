@@ -1,6 +1,7 @@
 #sidebar {
-  width: 200px;
-  font-size: 0.5em;
+  text-align: left;
+  padding-left: 0;
+  padding-right: 10px;
 }
     
 h2 {

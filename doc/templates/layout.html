@@ -3,6 +3,17 @@
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <title><%= @manifest.title %></title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Le styles -->
+    <link href="/stylesheets/bootstrap.css" rel="stylesheet" />
+    <link href="/stylesheets/bootstrap-responsive.css" rel="stylesheet" />
+    <link href="/stylesheets/style.css" rel="stylesheet" />
+
+    <!-- Fav and touch icons -->
+    <link rel="shortcut icon" href="/img/favicon.png" />
+
     <link type="text/css" rel="stylesheet" href="/stylesheets/doc-font.css" />
     <link type="text/css" rel="stylesheet" href="/stylesheets/reset.css" />
     <link type="text/css" rel="stylesheet" href="/stylesheets/docs.css" />
@@ -11,6 +22,7 @@
     <% if @manifest.options.css: %>
         <link type="text/css" rel="stylesheet" href="<%- @manifest.options.css %>">
     <% end %>
+
     <script type="text/javascript" src="/js/jquery-1.9.1.min.js"></script>
     <script type="text/javascript" src="/js/highlight.min.js"></script>
     <% if @manifest.options.embedly: %>
@@ -27,23 +39,57 @@
     <script type="text/javascript" src="/js/viewer.js"></script>
 </head>
 <body>
-    <div id="page">
-        <a name="top" />
-        <% if not @noHeader: %>
-            <header id="header">
-                <h1><a href="<%= @baseUrl %>"><%= @manifest.title %></a></h1>
-            </header>
-        <% end %>
-        <%- @content %>
-        <footer id="footer">
-	    ezPAARSE - Version: 1.1.0 (<a href="/">Web service</a>) - 
-            Powered by <a href="http://github.com/maximebf/beautiful-docs">beautiful-docs</a> -
-            <a href="#top">Back to top</a> - <a href="<%= @baseUrl %>all.html">Everything on a single page</a>
-            - <a href="?print=1">Print current page</a> - <a href="<%= @baseUrl %>all.html?print=1">Print all pages</a>
-            <% if @manifest.options.github: %>
-                <a href="https://github.com/<%= @manifest.options.github %>" id="fork-me-on-github">Fork me on Github</a>
-            <% end %>
-        </footer>
+    <a href="https://github.com/ezpaarse-project/ezpaarse"><img style="position: absolute; top: 0; right: 0; border: 0;" src="/img/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a>
+
+    <div class="container-narrow">
+      <div class="header row-fluid">
+        <div id="masthead" class="span8">
+          <a href="/"><img id="banner" src="/img/banner.jpg" alt="ezPAARSE" /></a>
+        </div>
+        <ul id="link-list" class="span4">
+          <li class="link-container">
+            <a href="mailto:ezpaarse@gmail.com" class="link-icon" title="Vontactez-nous par e-mail"><img src="/img/icon-mail.png" alt="icone mail"></a>
+            <div class="link-text">Contactez-nous par <a href="mailto:ezpaarse@gmail.com" title="Contactez-nous par e-mail">e-mail</a></div>
+          </li>
+          <li class="link-container">
+            <a href="http://analogist.couperin.org" class="link-icon" title="Visitez notre plateforme AnalogIST"><img src="/img/icon-analogist.png" alt="icone analogist"></a>
+            <div class="link-text">Visitez notre plateforme <a href="http://analogist.couperin.org" title="Visitez notre plateforme AnalogIST">AnalogIST</a></div>
+          </li>
+          <li class="link-container">
+            <a href="/doc" class="link-icon" title="Consultez la documentation d'ezPAARSE"><img src="/img/icon-ezpaarse-doc.png" alt="icone ezpaarse"></a>
+            <div class="link-text">Consultez la <a href="/doc" title="Consultez la documentation d'ezPAARSE">documentation d'ezPAARSE</a></div>
+          </li>
+          <li class="link-container">
+            <a href="https://www.facebook.com/Ezpaarse" class="link-icon" title="Suivez-nous sur Facebook"><img src="/img/icon-facebook.png" alt="icone facebook"></a>
+            <div class="link-text">Suivez-nous sur <a href="https://www.facebook.com/Ezpaarse" title="Suivez-nous sur Facebook">Facebook</a></div>
+          </li>
+          <li class="link-container">
+            <a href="https://twitter.com/ezpaarse" class="link-icon" title="Suivez-nous sur Twitter"><img src="/img/icon-twitter.png" alt="icone Twitter"></a>
+            <div class="link-text">Suivez-nous sur <a href="https://twitter.com/ezpaarse" title="Suivez-nous sur Twitter">Twitter</a></div>
+          </li>
+          <li class="link-container">
+            <a href="https://plus.google.com/113684662646843807159" class="link-icon" title="Suivez-nous sur Google+"><img src="/img/icon-googleplus.png" alt="icone google+"></a>
+            <div class="link-text">Suivez-nous sur <a href="https://plus.google.com/113684662646843807159" title="Suivez-nous sur Google+">Google+</a></div>
+          </li>
+        </ul>
+      </div>
+    
+      <hr id="top" />
+
+    <div class="content row-fluid">
+
+      <%- @content %>
+
+      <footer id="footer">
+          ezPAARSE - Version: 1.1.0 - 
+          Powered by <a href="http://github.com/maximebf/beautiful-docs">beautiful-docs</a> -
+          <a href="#top">Back to top</a> - <a href="<%= @baseUrl %>all.html">Everything on a single page</a>
+          - <a href="?print=1">Print current page</a> - <a href="<%= @baseUrl %>all.html?print=1">Print all pages</a>
+          <% if @manifest.options.github: %>
+              <a href="https://github.com/<%= @manifest.options.github %>" id="fork-me-on-github">Fork me on Github</a>
+          <% end %>
+      </footer>
+
     </div>
 </body>
 </html>
