@@ -79,60 +79,47 @@ module.exports = function (app) {
    * To add a user
    */
   app.post('/users/', passport.authenticate('basic', { session: true }),
-    userlist.authorizeMembersOf('admin'), function (req, res) {
-      var bodyString = '';
+    userlist.authorizeMembersOf('admin'), express.bodyParser(), function (req, res) {
+      var username = req.body.username;
+      var password = req.body.password;
 
-      req.on('readable', function () {
-        bodyString += req.read() || '';
-      });
-
-      req.on('error', function () {
-        res.send(500);
-      });
-
-      req.on('end', function () {
-        var body     = querystring.parse(bodyString);
-        var username = body.username;
-        var password = body.password;
-
-        if (!username || !password) {
-          res.writeHead(400, {
-            'ezPAARSE-Status-Message': 'vous devez soumettre un login et un mot de passe'
-          });
-          res.end();
-          return;
-        }
-
-        if (userlist.get(username)) {
-          res.writeHead(409, {
-            'ezPAARSE-Status-Message': 'cet utilisateur existe'
-          });
-          res.end();
-          return;
-        }
-
-        var cryptedPassword = crypto.createHmac('sha1', 'ezgreatpwd0968')
-        .update(username + password)
-        .digest('hex');
-
-
-        var user = userlist.add({
-          username: username,
-          password: cryptedPassword,
-          group: 'user'
+      if (!username || !password) {
+        res.writeHead(400, {
+          'ezPAARSE-Status-Message': 'vous devez soumettre un login et un mot de passe'
         });
+        res.end();
+        return;
+      }
 
-        if (user) {
-          var copyUser = {};
-          for (var prop in user) {
-            if (prop != 'password') { copyUser[prop] = user[prop]; }
-          }
-          res.set("Content-Type", "application/json; charset=utf-8");
-          res.send(201, JSON.stringify(copyUser, null, 2));
-        } else {
-          res.send(500);
-        }
+      if (userlist.get(username)) {
+        res.writeHead(409, {
+          'ezPAARSE-Status-Message': 'cet utilisateur existe'
+        });
+        res.end();
+        return;
+      }
+
+      var cryptedPassword = crypto.createHmac('sha1', 'ezgreatpwd0968')
+      .update(username + password)
+      .digest('hex');
+
+
+      var user = userlist.add({
+        username: username,
+        password: cryptedPassword,
+        group: 'user'
       });
+
+      if (user) {
+        var copyUser = {};
+        for (var prop in user) {
+          if (prop != 'password') { copyUser[prop] = user[prop]; }
+        }
+        res.set("Content-Type", "application/json; charset=utf-8");
+        res.send(201, JSON.stringify(copyUser, null, 2));
+      } else {
+        res.send(500);
+      }
     }
   );
 
