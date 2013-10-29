@@ -5,7 +5,6 @@ var crypto      = require('crypto');
 var express     = require('express');
 var execFile    = require('child_process').execFile;
 var passport    = require('passport');
-var querystring = require('querystring');
 var userlist    = require('../lib/userlist.js');
 
 module.exports = function (app) {
