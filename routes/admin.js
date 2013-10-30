@@ -2,9 +2,9 @@
 
 var path        = require('path');
 var crypto      = require('crypto');
+var express     = require('express');
 var execFile    = require('child_process').execFile;
 var passport    = require('passport');
-var querystring = require('querystring');
 var userlist    = require('../lib/userlist.js');
 
 module.exports = function (app) {
@@ -24,50 +24,41 @@ module.exports = function (app) {
    * POST route on /register
    * To create an admin if there is none
    */
-  app.post('/register', function (req, res) {
-    var bodyString = '';
+  app.post('/register', express.bodyParser(), function (req, res) {
+    var username = req.body.username;
+    var password = req.body.password;
 
-    req.on('readable', function () {
-      bodyString += req.read() || '';
-    });
-
-    req.on('end', function () {
-      var body     = querystring.parse(bodyString);
-      var username = body.username;
-      var password = body.password;
-
-      if (!username || !password) {
-        res.writeHead(400, {
-          'ezPAARSE-Status-Message': 'vous devez soumettre un login et un mot de passe'
-        });
-        res.end();
-        return;
-      }
-
-      if (userlist.length() !== 0) {
-        res.writeHead(400, {
-          'ezPAARSE-Status-Message': 'un compte administrateur existe'
-        });
-        res.end();
-        return;
-      }
-
-      var cryptedPassword = crypto.createHmac('sha1', 'ezgreatpwd0968')
-      .update(username + password)
-      .digest('hex');
-
-      var added = userlist.add({
-        username: username,
-        password: cryptedPassword,
-        group: 'admin'
+    if (!username || !password) {
+      res.writeHead(400, {
+        'ezPAARSE-Status-Message': 'vous devez soumettre un login et un mot de passe'
       });
+      res.end();
+      return;
+    }
 
-      if (added) {
-        res.send(201);
-      } else {
-        res.send(500);
-      }
+    if (userlist.length() !== 0) {
+      res.writeHead(400, {
+        'ezPAARSE-Status-Message': 'un compte administrateur existe'
+      });
+      res.end();
+      return;
+    }
+
+    var cryptedPassword = crypto.createHmac('sha1', 'ezgreatpwd0968')
+    .update(username + password)
+    .digest('hex');
+
+    var added = userlist.add({
+      username: username,
+      password: cryptedPassword,
+      group: 'admin'
     });
+
+    if (added) {
+      res.send(201);
+    } else {
+      res.send(500);
+    }
   });
 
   /**
@@ -87,60 +78,47 @@ module.exports = function (app) {
    * To add a user
    */
   app.post('/users/', passport.authenticate('basic', { session: true }),
-    userlist.authorizeMembersOf('admin'), function (req, res) {
-      var bodyString = '';
+    userlist.authorizeMembersOf('admin'), express.bodyParser(), function (req, res) {
+      var username = req.body.username;
+      var password = req.body.password;
 
-      req.on('readable', function () {
-        bodyString += req.read() || '';
-      });
-
-      req.on('error', function () {
-        res.send(500);
-      });
-
-      req.on('end', function () {
-        var body     = querystring.parse(bodyString);
-        var username = body.username;
-        var password = body.password;
-
-        if (!username || !password) {
-          res.writeHead(400, {
-            'ezPAARSE-Status-Message': 'vous devez soumettre un login et un mot de passe'
-          });
-          res.end();
-          return;
-        }
-
-        if (userlist.get(username)) {
-          res.writeHead(409, {
-            'ezPAARSE-Status-Message': 'cet utilisateur existe'
-          });
-          res.end();
-          return;
-        }
-
-        var cryptedPassword = crypto.createHmac('sha1', 'ezgreatpwd0968')
-        .update(username + password)
-        .digest('hex');
-
-
-        var user = userlist.add({
-          username: username,
-          password: cryptedPassword,
-          group: 'user'
+      if (!username || !password) {
+        res.writeHead(400, {
+          'ezPAARSE-Status-Message': 'vous devez soumettre un login et un mot de passe'
         });
+        res.end();
+        return;
+      }
 
-        if (user) {
-          var copyUser = {};
-          for (var prop in user) {
-            if (prop != 'password') { copyUser[prop] = user[prop]; }
-          }
-          res.set("Content-Type", "application/json; charset=utf-8");
-          res.send(201, JSON.stringify(copyUser, null, 2));
-        } else {
-          res.send(500);
-        }
+      if (userlist.get(username)) {
+        res.writeHead(409, {
+          'ezPAARSE-Status-Message': 'cet utilisateur existe'
+        });
+        res.end();
+        return;
+      }
+
+      var cryptedPassword = crypto.createHmac('sha1', 'ezgreatpwd0968')
+      .update(username + password)
+      .digest('hex');
+
+
+      var user = userlist.add({
+        username: username,
+        password: cryptedPassword,
+        group: 'user'
       });
+
+      if (user) {
+        var copyUser = {};
+        for (var prop in user) {
+          if (prop != 'password') { copyUser[prop] = user[prop]; }
+        }
+        res.set("Content-Type", "application/json; charset=utf-8");
+        res.send(201, JSON.stringify(copyUser, null, 2));
+      } else {
+        res.send(500);
+      }
     }
   );
 

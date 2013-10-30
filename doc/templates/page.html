@@ -12,12 +12,12 @@
 <% end %>
 
 <% if not @noToc: %>
-    <div id="sidebar">
+    <div id="sidebar" class="span3">
         <nav id="toc">
             <%= toc_level(@manifest.tableOfContent, @manifest.maxTocLevel) %>
         </nav>
     </div>
 <% end %>
-<article id="content">
+<article id="content" class="span9">
     <%- @content %>
 </article>
