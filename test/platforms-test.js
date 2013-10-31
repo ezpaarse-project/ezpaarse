@@ -25,7 +25,9 @@ function testFiles(files, platformName, parserFile, done) {
     assert.ok(code !== 126, "Platform " + platformName + " : the parser is not executable");
     assert.ok(code === 0, "Platform " + platformName + " : the parser does not work properly");
 
-    csvextractor.extract(files, [], function (records) {
+    csvextractor.extract(files, [], function (err, records) {
+      assert.ok(err === null);
+
       var child = spawn(parserFile);
       var lazy  = new Lazy(child.stdout);
 

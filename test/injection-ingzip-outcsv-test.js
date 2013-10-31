@@ -1,4 +1,4 @@
-/*jslint node: true, maxlen: 100, maxerr: 50, indent: 2 */
+/*jslint node: true, maxlen: 110, maxerr: 50, indent: 2 */
 /*global describe, it*/
 'use strict';
 
@@ -25,8 +25,10 @@ describe('The server', function () {
         if (err)  { throw err; }
         res.should.have.status(200);
 
-        csvextractor.extract(fs.createReadStream(csvResultFile), [], function (correctRecords) {
-          csvextractor.extract([body], [], function (bodyRecords) {
+        csvextractor.extract(fs.createReadStream(csvResultFile), [], function (err, correctRecords) {
+          should.ok(err === null);
+          csvextractor.extract([body], [], function (err, bodyRecords) {
+            should.ok(err === null);
             should.ok(helpers.compareArrays(bodyRecords, correctRecords),
               'The response of the server does not match the expected one');
             done();
