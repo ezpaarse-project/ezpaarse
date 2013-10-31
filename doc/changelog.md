@@ -1,24 +1,30 @@
 # Versions ezPAARSE #
 
+## 1.1.0  ## 
+##### 10/10/2013 - Produit Minimum Viable de synchronisation des Platform Knowledge Bases #####
+- réorganisation des modules de dépôt
+- apport des scrapers (génération automatique de PKB)
+- gestion de la synchronisation automatique des PKB
+
 ## 1.0.0  ## 
-##### 03/09/2013 - Version 1 #####
+##### 09/09/2013 - Version 1 #####
 - amélioration du package windows : objectif de démonstration d'usage du fichier de log jusqu'au rendu tableur
 - correction de bug lié au navigateur
 
-## 0.0.9  ## 
+## 0.9.0  ## 
 ##### 08/08/2013 - Dédoublonnage COUNTER des événements de consultation - candidate version 1 #####
 - automatisation pkb/outil ezPAARSE
 - amélioration de la qualité du code
 - dédoublonnage COUNTER des événements de consultation
 
-## 0.0.8  ## 
+## 0.8.0  ## 
 ##### 27/06/2013 - Produit Minimum Viable des User Knowledge Base #####
 - gestion des User-Fields
 - gestion des options avancées/valeurs pré-définies dans le formulaire
 - traduction des requêtes produites par le formulaire en cURL en vue d'automatisation des traitements
 - ajout de traces, corrections de bug
 
-## 0.0.7  ## 
+## 0.7.0  ## 
 ##### 05/06/2013 - Consolidation du coeur #####
 - meilleure caractérisation des EC (rtype, MIME, unitid)
 - test de gros volume
@@ -26,22 +32,22 @@
 - refonte du formulaire avec métriques dynamiques
 - accès aux traces et aux fichiers des lignes filtrées (formats non reconnus, domaines non reconnus, ...)
 
-## 0.0.6  ## 
+## 0.6.0  ## 
 ##### 18/04/2013 - Consolidation des reconnaissances de plateforme #####
 - Passage en node V 0.10
 - ajout de nouveaux parseurs (dalloz, wiley)
 - ajout de nouvelles traces
 
-## 0.0.5  ## 
+## 0.5.0  ## 
 ##### 27/03/2013 - Utilisabilité d'ezPAARSE #####
 - Mise à disposition d'un installeur Windows
 - Mise en place d'un formulaire d'envoi des log
 
-## 0.0.4  ## 
+## 0.4.0  ## 
 ##### 21/02/2013 - Extension des cas d'usage #####
 Extension de la reconnaissance des formats de log des fichiers de journalisations des serveurs mandataires (de type EZproxy, Bibliopam, Squid)
 
-## 0.0.3  ## 
+## 0.3.0  ## 
 ##### 31/01/2013 - Extension du domaine des parseurs #####
 
 - Documentation précise de comment faire pour reconnaître des EC
@@ -50,11 +56,11 @@ Extension de la reconnaissance des formats de log des fichiers de journalisation
   - npg (Nature Publishing Group) : parseur pour plateforme avec base de connaissance, un identifiant interne est utilisé
   - edp (EDP Sciences) : parseur pour plateforme mono-revue (une plateforme correspond à une revue, mais les plateformes utilisent le même logiciel de mise en ligne)
 
-## 0.0.2  ## 
+## 0.2.0  ## 
 ##### 20/12/2012 - Installation générique #####
 Installation du MVP produit au sprint 1 dans des environnements multiples (OS différents : Ubuntu, fedora, RedHat, Suse)
 
-## 0.0.1  ## 
+## 0.1.0  ## 
 ##### 06/12/2012 - Minimum Viable Product #####
 Production d'événements de consultations (EC) à partir de fichiers de log pour la plateforme Science Direct via un web service RESTful
 

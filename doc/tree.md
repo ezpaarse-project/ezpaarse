@@ -27,11 +27,20 @@
 │   └── windows [windows stuff]
 ├── node_modules [modules for nodejs]
 │   ├── ...
-├── platforms [parsers directory]
+├── platforms-parsers [parsers directory]
+│   ├── .lib [common parser stuff]
 │   ├── <.platform.>
 │   │   └── test
 │   ├── <...>
 ├── platforms-kb [platform knoledge base directory]
+│   ├── <.platform.>
+│   │   └── <.platform.>_<.file.>.pkb.csv>
+│   ├── <...>
+├── platforms-scrapers [scrapers directory (to generate pkb files)]
+│   ├── .lib [common scraper stuff]
+│   ├── <.platform.>
+│   │   └── scrape_<.platform.>_<.file.>.js
+│   ├── <...>
 ├── public [static web pages]
 │   ├── doc
 │   │   └── images
