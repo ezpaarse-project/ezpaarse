@@ -94,15 +94,19 @@ module.exports = function (app) {
    * Forward feedback request to the main ezpaarse instance
    */
   function forwardFeedback(req, res) {
-    if (req.user) {
-      req.body.username = req.user.username;
-    }
+    if (config.EZPAARSE_MAIN_INSTANCE) {
+      if (req.user) {
+        req.body.username = req.user.username;
+      }
 
-    request({
-      uri: 'http://ezpaarse-preprod.couperin.org/feedback',
-      method: 'POST',
-      json: req.body
-    }).pipe(res);
+      request({
+        uri: config.EZPAARSE_MAIN_INSTANCE + '/feedback',
+        method: 'POST',
+        json: req.body
+      }).pipe(res);
+    } else {
+      res.send(500);
+    }
   }
 
   /**
