@@ -22,7 +22,6 @@ module.exports = function (app) {
                     mailConfig.SMTP_SERVER.HOST;
   var smtpTransport;
   if (canSendMail) {
-    console.dir(mailConfig);
     smtpTransport = nodemailer.createTransport('SMTP', {
       host: mailConfig.SMTP_SERVER.HOST,
       port: mailConfig.SMTP_SERVER.PORT
