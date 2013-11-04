@@ -14,7 +14,7 @@ module.exports = function (app) {
               process.env.http_proxy;
   if (proxy) { request.defaults({ proxy: proxy }); }
 
-  var mailConfig  = config.EZPAARSE_FEEDBACK_MAIL;
+  var mailConfig  = config.EZPAARSE_FEEDBACK_MAIL || {};
   var canSendMail = mailConfig.FROM &&
                     mailConfig.TO &&
                     mailConfig.SMTP_SERVER &&
