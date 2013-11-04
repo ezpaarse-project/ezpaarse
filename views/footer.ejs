@@ -17,8 +17,17 @@
     <script src="/js/uuid.js"></script>
     <script src="/js/form.js"></script>
     <script src="/js/register.js"></script>
+    <script src="/feedback/feedback.js"></script>
+    <link rel="stylesheet" href="/feedback/feedback.min.css" />
     <script>
       (function () {
+        $.feedback({
+            ajaxURL: '/feedback',
+            html2canvasURL: '/feedback/html2canvas.min.js',
+            initialBox: true,
+            postHTML: false
+        });
+
         $.ajax({
           url: "/datasets/",
           dataType: 'json'
