@@ -45,7 +45,12 @@ module.exports = function (app) {
       return;
     }
 
-    var username = req.user ? req.user.username : '';
+    var username;
+    if (feedback.username) {
+      username = feedback.username;
+    } else if (req.user) {
+      username = req.user.username;
+    }
 
     var subject = '[ezPAARSE] Feedback ';
     subject += username ? 'de ' + username : 'anonyme';
@@ -90,8 +95,15 @@ module.exports = function (app) {
    * Forward feedback request to the main ezpaarse instance
    */
   function forwardFeedback(req, res) {
-    var r = request.post('http://ezpaarse-preprod.couperin.org');
-    req.pipe(r).pipe(res);
+    if (req.user) {
+      req.body.username = req.user.username;
+    }
+
+    request({
+      uri: 'http://ezpaarse-preprod.couperin.org/feedback',
+      method: 'POST',
+      body: req.body
+    }).pipe(res);
   }
 
   /**
