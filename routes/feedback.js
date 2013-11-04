@@ -101,7 +101,7 @@ module.exports = function (app) {
     request({
       uri: 'http://ezpaarse-preprod.couperin.org/feedback',
       method: 'POST',
-      body: req.body
+      json: req.body
     }).pipe(res);
   }
 
