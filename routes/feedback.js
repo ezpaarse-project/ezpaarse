@@ -102,6 +102,8 @@ module.exports = function (app) {
         uri: config.EZPAARSE_PARENT_URL + '/feedback',
         method: 'POST',
         json: req.body
+      }).on('error', function () {
+        res.send(500);
       }).pipe(res);
     } else {
       res.send(500);
