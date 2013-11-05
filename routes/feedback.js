@@ -15,7 +15,7 @@ module.exports = function (app) {
   if (proxy) { request.defaults({ proxy: proxy }); }
 
   var mailConfig  = config.EZPAARSE_FEEDBACK_MAIL || {};
-  var canSendMail = mailConfig.FROM &&
+  var canSendMail = config.EZPAARSE_ADMIN_MAIL &&
                     mailConfig.TO &&
                     mailConfig.SMTP_SERVER &&
                     mailConfig.SMTP_SERVER.PORT &&
@@ -63,7 +63,7 @@ module.exports = function (app) {
 
 
     var mailOptions = {
-      from: mailConfig.FROM,
+      from: config.EZPAARSE_ADMIN_MAIL,
       to: mailConfig.TO,
       subject: subject,
       text: text
