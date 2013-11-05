@@ -1,6 +1,6 @@
 {
   "EZPAARSE_ADMIN_MAIL": "ezpaarse@couperin.org",
-  "EZPAARSE_MAIN_INSTANCE": "http://ezpaarse.couperin.org",
+  "EZPAARSE_PARENT_URL": "http://ezpaarse.couperin.org",
   "EZPAARSE_ENV": "production",
   "EZPAARSE_NODEJS_PORT": "59599",
   "EZPAARSE_NODEJS_VERSION": "0.10.18",

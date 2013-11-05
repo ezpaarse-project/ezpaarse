@@ -94,13 +94,13 @@ module.exports = function (app) {
    * Forward feedback request to the main ezpaarse instance
    */
   function forwardFeedback(req, res) {
-    if (config.EZPAARSE_MAIN_INSTANCE) {
+    if (config.EZPAARSE_PARENT_URL) {
       if (req.user) {
         req.body.username = req.user.username;
       }
 
       request({
-        uri: config.EZPAARSE_MAIN_INSTANCE + '/feedback',
+        uri: config.EZPAARSE_PARENT_URL + '/feedback',
         method: 'POST',
         json: req.body
       }).pipe(res);
