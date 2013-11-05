@@ -14,17 +14,16 @@ module.exports = function (app) {
               process.env.http_proxy;
   if (proxy) { request.defaults({ proxy: proxy }); }
 
-  var mailConfig  = config.EZPAARSE_FEEDBACK_MAIL || {};
   var canSendMail = config.EZPAARSE_ADMIN_MAIL &&
-                    mailConfig.TO &&
-                    mailConfig.SMTP_SERVER &&
-                    mailConfig.SMTP_SERVER.PORT &&
-                    mailConfig.SMTP_SERVER.HOST;
+                    config.EZPAARSE_FEEDBACK_RECIPIENTS &&
+                    config.EZPAARSE_SMTP_SERVER &&
+                    config.EZPAARSE_SMTP_SERVER.port &&
+                    config.EZPAARSE_SMTP_SERVER.host;
   var smtpTransport;
   if (canSendMail) {
     smtpTransport = nodemailer.createTransport('SMTP', {
-      host: mailConfig.SMTP_SERVER.HOST,
-      port: mailConfig.SMTP_SERVER.PORT
+      host: config.EZPAARSE_SMTP_SERVER.host,
+      port: config.EZPAARSE_SMTP_SERVER.port
     });
   }
 
@@ -64,7 +63,7 @@ module.exports = function (app) {
 
     var mailOptions = {
       from: config.EZPAARSE_ADMIN_MAIL,
-      to: mailConfig.TO,
+      to: config.EZPAARSE_FEEDBACK_RECIPIENTS,
       subject: subject,
       text: text
     };
