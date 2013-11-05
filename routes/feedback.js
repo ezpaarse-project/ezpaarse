@@ -9,10 +9,9 @@ var config     = require('../lib/config.js');
 
 module.exports = function (app) {
 
-  var proxy = config.EZPAARSE_HTTP_PROXY ||
-              process.env.HTTP_PROXY ||
-              process.env.http_proxy;
-  if (proxy) { request.defaults({ proxy: proxy }); }
+  if (config.EZPAARSE_HTTP_PROXY) {
+    request.defaults({ proxy: config.EZPAARSE_HTTP_PROXY });
+  }
 
   var canSendMail = config.EZPAARSE_ADMIN_MAIL &&
                     config.EZPAARSE_FEEDBACK_RECIPIENTS &&
