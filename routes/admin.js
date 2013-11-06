@@ -37,7 +37,7 @@ module.exports = function (app) {
     }
 
     if (userlist.length() !== 0) {
-      res.writeHead(400, {
+      res.writeHead(409, {
         'ezPAARSE-Status-Message': 'un compte administrateur existe'
       });
       res.end();
