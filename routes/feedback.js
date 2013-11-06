@@ -1,7 +1,5 @@
 'use strict';
 
-var fs         = require('fs');
-var path       = require('path');
 var express    = require('express');
 var nodemailer = require('nodemailer');
 var request    = require('request');
@@ -56,7 +54,7 @@ module.exports = function (app) {
       if (feedback.browser.userAgent) { text += '\nNavigateur : ' + feedback.browser.userAgent; }
       if (feedback.browser.platform)  { text += '\nPlateforme : ' + feedback.browser.platform; }
     }
-    text += "\n===============================\n\n"
+    text += "\n===============================\n\n";
     text += feedback.note;
 
 
