@@ -52,7 +52,7 @@ EZPATH = $(shell pwd)
 JSFILES=$(wildcard $(EZPATH)/*.js) $(wildcard $(EZPATH)/lib/*.js) $(wildcard $(EZPATH)/lib/*/*.js) $(wildcard $(EZPATH)/test/*.js)  $(wildcard $(EZPATH)/routes/*.js) $(wildcard $(EZPATH)/platforms-parsers/*/*.js)
 PKBFILES=$(wildcard $(EZPATH)/platforms-kb/*/*.pkb.csv)
 
-# Runs all tests (*-test.js) in the test folder except big and tdd
+## Runs all tests (*-test.js) in the test folder except big and tdd
 test: test-pkb
 	@if test -d test; \
 	then . ./bin/env; mocha -g '@big|@tdd' -i; \
@@ -79,7 +79,7 @@ test-platforms-verbose:
 
 test-pkb:
 	@if test -d platforms-kb; \
-	then . ./bin/env; ./bin/pkbvalidator -s $(PKBFILES); \
+	then . ./bin/env; ./bin/pkbvalidator $(PKBFILES); \
 	else echo 'No test folder found'; \
 	fi
 
