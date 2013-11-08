@@ -1,4 +1,4 @@
-domain;rtype;mime;doi;issn;eissn;titre;platform;unitid;host;login;date;url;status;size
+domain;rtype;mime;doi;pissn;eissn;titre;platform;unitid;host;login;date;url;status;size
 www.sciencedirect.com;ARTICLE;HTML;;0896-6273;;;sd;S0896627311009202;90be10e8f552a0b8523235f8e150adf0;TERENCE;2013-01-15;http://www.sciencedirect.com:80/science/article/pii/S0896627311009202;200;200927
 www.sciencedirect.com;ARTICLE;HTML;;0145-305X;;;sd;S0145305X12001553;5259146e5d108b814c73472a030016a3;IDELLA;2013-01-15;http://www.sciencedirect.com:80/science/article/pii/S0145305X12001553;200;175933
 www.sciencedirect.com;TOC;MISC;;1534-5807;;;sd;15345807;a7b73fb4bf001e36292a8d94cf164418;PIETRO;2013-01-15;http://www.sciencedirect.com:80/science/journal/15345807;200;93896

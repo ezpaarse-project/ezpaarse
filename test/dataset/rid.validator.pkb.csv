@@ -1,5 +1,5 @@
-title;pid;isbn;eisbn;issn;eissn;doi;result
-Test no pid;;978-1-4302-1998-9;;;;; 
+title;pid;isbn;eisbn;pissn;eissn;doi;result
+Test no pid;;978-1-4302-1998-9;;;;;
 Test EISBN 10 with special tiret;PID2;;1–931836–59–0;;;;
 Test no rid;;;;;;;Error : record has no identifier
 Test ISBN 10;PID3;1593270127;;;;;
