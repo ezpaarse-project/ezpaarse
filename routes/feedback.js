@@ -1,9 +1,10 @@
 'use strict';
 
-var express    = require('express');
-var nodemailer = require('nodemailer');
-var request    = require('request');
-var config     = require('../lib/config.js');
+var express     = require('express');
+var nodemailer  = require('nodemailer');
+var portscanner = require('portscanner');
+var request     = require('request');
+var config      = require('../lib/config.js');
 
 module.exports = function (app) {
 
@@ -119,7 +120,12 @@ module.exports = function (app) {
    */
   app.get('/feedback/status', function (req, res) {
     if (canSendMail) {
-      res.send(200);
+      var port = config.EZPAARSE_SMTP_SERVER.port;
+      var host = config.EZPAARSE_SMTP_SERVER.host;
+
+      portscanner.checkPortStatus(port, host, function(err, status) {
+        res.send((!err && status == 'open') ? 200 : 501);
+      });
     } else if (config.EZPAARSE_PARENT_URL) {
       request.get(config.EZPAARSE_PARENT_URL + '/feedback/status', function (err, response) {
         if (err || !response || response.statusCode != 200) {
