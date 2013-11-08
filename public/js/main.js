@@ -1,12 +1,14 @@
 // ##EZPAARSE
 
 $(document).on('ready', function () {
-  $.feedback({
-    ajaxURL: '/feedback',
-    html2canvasURL: '/feedback/html2canvas.min.js',
-    initialBox: true,
-    postHTML: false,
-    initButtonText: 'Feedback'
+  $.get('/feedback/status', function () {
+    $.feedback({
+      ajaxURL: '/feedback',
+      html2canvasURL: '/feedback/html2canvas.min.js',
+      initialBox: true,
+      postHTML: false,
+      initButtonText: 'Feedback'
+    });
   });
 
   // $.ajax({
