@@ -25,9 +25,11 @@ exports.post = function (path, filePath, headers, callback) {
     opt.headers = headers;
   }
 
-  if (filePath) {
+  if (fs.existsSync(filePath)) {
     var fileContent = fs.readFileSync(filePath);
     if (fileContent) { opt.body = fileContent; }
+  } else {
+    opt.body = filePath;
   }
   
   request(opt, callback);

@@ -73,6 +73,12 @@
 			"input-log-type": "squid",
 			"input-log-format": "%<A:%lp %>a %ui %[un [%tl] \"%rm %ru HTTP/%rv\" %>Hs %<st %<.*>"
 		},
+		"UParis1":
+		{
+			"label": "Université Paris 1",
+      "input-log-type": "ezproxy",
+      "input-log-format": "%h %{session} %u %t \"%r\" %s %b"
+		},
 		"ExempleOutput":
 		{
 			"label": "Exemple selection sortie",
