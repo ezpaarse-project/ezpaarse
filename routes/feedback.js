@@ -120,7 +120,7 @@ module.exports = function (app) {
         jobID,
         'report.json');
       if (fs.existsSync(reportFile)) {
-        req.body.report = fs.readFileSync(reportFile).toString();;
+        req.body.report = fs.readFileSync(reportFile).toString();
       }
     }
 
