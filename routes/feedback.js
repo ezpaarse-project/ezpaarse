@@ -1,5 +1,7 @@
 'use strict';
 
+var fs          = require('fs');
+var path        = require('path');
 var express     = require('express');
 var nodemailer  = require('nodemailer');
 var portscanner = require('portscanner');
@@ -63,16 +65,35 @@ module.exports = function (app) {
       from: config.EZPAARSE_ADMIN_MAIL,
       to: config.EZPAARSE_FEEDBACK_RECIPIENTS,
       subject: subject,
-      text: text
+      text: text,
+      attachments: []
     };
 
     if (feedback.img) {
-      mailOptions.attachments = [
-        {
-          fileName: "screenshot.png",
-          contents: new Buffer(feedback.img.replace(/^data:image\/png;base64,/, ""), "Base64")
-        }
-      ];
+      mailOptions.attachments.push({
+        fileName: "screenshot.png",
+        contents: new Buffer(feedback.img.replace(/^data:image\/png;base64,/, ""), "Base64")
+      });
+    }
+
+    if (feedback.report) {
+      mailOptions.attachments.push({
+        fileName: "report.json",
+        contents: feedback.report
+      });
+    } else if (req.session && req.session.lastJob) {
+      var jobID      = req.session.lastJob;
+      var reportFile = path.join(__dirname, '/../tmp/jobs/',
+        jobID.charAt(0),
+        jobID.charAt(1),
+        jobID,
+        'report.json');
+      if (fs.existsSync(reportFile)) {
+        mailOptions.attachments.push({
+          fileName: "report.json",
+          contents: fs.readFileSync(reportFile)
+        });
+      }
     }
 
     // send mail with defined transport object
@@ -91,6 +112,18 @@ module.exports = function (app) {
    * Forward feedback request to the main ezpaarse instance
    */
   function forwardFeedback(req, res) {
+    if (req.session && req.session.lastJob) {
+      var jobID      = req.session.lastJob;
+      var reportFile = path.join(__dirname, '/../tmp/jobs/',
+        jobID.charAt(0),
+        jobID.charAt(1),
+        jobID,
+        'report.json');
+      if (fs.existsSync(reportFile)) {
+        req.body.report = fs.readFileSync(reportFile);
+      }
+    }
+
     if (config.EZPAARSE_PARENT_URL) {
       if (req.user) {
         req.body.username = req.user.username;
