@@ -9,7 +9,7 @@
   "timestamp": 1354231435,
   "date": "2012-11-30",
   "unitid": "S1046202310000411",
-  "issn": "1046-2023",
+  "pissn": "1046-2023",
   "rtype": "ARTICLE",
   "mime": "HTML",
   "platform": "sd"
@@ -24,7 +24,7 @@
   "timestamp": 1354232190,
   "date": "2012-11-30",
   "unitid": "S1360138512001719",
-  "issn": "1360-1385",
+  "pissn": "1360-1385",
   "rtype": "ARTICLE",
   "mime": "HTML",
   "platform": "sd"
@@ -39,7 +39,7 @@
   "timestamp": 1354232218,
   "date": "2012-11-30",
   "unitid": "S1360138512001513",
-  "issn": "1360-1385",
+  "pissn": "1360-1385",
   "rtype": "ARTICLE",
   "mime": "HTML",
   "platform": "sd"
@@ -54,7 +54,7 @@
   "timestamp": 1354232222,
   "date": "2012-11-30",
   "unitid": "S1360138512001689",
-  "issn": "1360-1385",
+  "pissn": "1360-1385",
   "rtype": "ARTICLE",
   "mime": "HTML",
   "platform": "sd"
@@ -69,7 +69,7 @@
   "timestamp": 1354232329,
   "date": "2012-11-30",
   "unitid": "S0166445X08000027",
-  "issn": "0166-445X",
+  "pissn": "0166-445X",
   "rtype": "ARTICLE",
   "mime": "HTML",
   "platform": "sd"
@@ -84,7 +84,7 @@
   "timestamp": 1354232398,
   "date": "2012-11-30",
   "unitid": "S0166445X03001772",
-  "issn": "0166-445X",
+  "pissn": "0166-445X",
   "rtype": "ARTICLE",
   "mime": "HTML",
   "platform": "sd"
@@ -99,7 +99,7 @@
   "timestamp": 1354232772,
   "date": "2012-11-30",
   "unitid": "S0006291X0202003X",
-  "issn": "0006-291X",
+  "pissn": "0006-291X",
   "rtype": "ARTICLE",
   "mime": "HTML",
   "platform": "sd"
@@ -114,7 +114,7 @@
   "timestamp": 1354232883,
   "date": "2012-11-30",
   "unitid": "S0166445X11000154",
-  "issn": "0166-445X",
+  "pissn": "0166-445X",
   "rtype": "ARTICLE",
   "mime": "HTML",
   "platform": "sd"
@@ -129,7 +129,7 @@
   "timestamp": 1354232990,
   "date": "2012-11-30",
   "unitid": "10870792",
-  "issn": "1087-0792",
+  "pissn": "1087-0792",
   "rtype": "TOC",
   "mime": "MISC",
   "platform": "sd"
@@ -144,7 +144,7 @@
   "timestamp": 1354233083,
   "date": "2012-11-30",
   "unitid": "S0166445X03001772",
-  "issn": "0166-445X",
+  "pissn": "0166-445X",
   "rtype": "ARTICLE",
   "mime": "HTML",
   "platform": "sd"
@@ -159,7 +159,7 @@
   "timestamp": 1354233083,
   "date": "2012-11-30",
   "unitid": "S0166445X03001772",
-  "issn": "0166-445X",
+  "pissn": "0166-445X",
   "rtype": "ARTICLE",
   "mime": "HTML",
   "platform": "sd"
@@ -174,7 +174,7 @@
   "timestamp": 1354233130,
   "date": "2012-11-30",
   "unitid": "S0048969703000469",
-  "issn": "0048-9697",
+  "pissn": "0048-9697",
   "rtype": "ARTICLE",
   "mime": "HTML",
   "platform": "sd"
@@ -189,7 +189,7 @@
   "timestamp": 1354233156,
   "date": "2012-11-30",
   "unitid": "S1532045605000979",
-  "issn": "1532-0456",
+  "pissn": "1532-0456",
   "rtype": "ARTICLE",
   "mime": "HTML",
   "platform": "sd"
@@ -204,7 +204,7 @@
   "timestamp": 1354233165,
   "date": "2012-11-30",
   "unitid": "10870792",
-  "issn": "1087-0792",
+  "pissn": "1087-0792",
   "rtype": "TOC",
   "mime": "MISC",
   "platform": "sd"
@@ -219,7 +219,7 @@
   "timestamp": 1354233252,
   "date": "2012-11-30",
   "unitid": "S0166445X02000498",
-  "issn": "0166-445X",
+  "pissn": "0166-445X",
   "rtype": "ARTICLE",
   "mime": "HTML",
   "platform": "sd"
@@ -234,7 +234,7 @@
   "timestamp": 1354233516,
   "date": "2012-11-30",
   "unitid": "13899457",
-  "issn": "1389-9457",
+  "pissn": "1389-9457",
   "rtype": "TOC",
   "mime": "MISC",
   "platform": "sd"
@@ -249,7 +249,7 @@
   "timestamp": 1354233538,
   "date": "2012-11-30",
   "unitid": "13899457",
-  "issn": "1389-9457",
+  "pissn": "1389-9457",
   "rtype": "TOC",
   "mime": "MISC",
   "platform": "sd"
@@ -264,7 +264,7 @@
   "timestamp": 1354233544,
   "date": "2012-11-30",
   "unitid": "13899457",
-  "issn": "1389-9457",
+  "pissn": "1389-9457",
   "rtype": "TOC",
   "mime": "MISC",
   "platform": "sd"
@@ -279,7 +279,7 @@
   "timestamp": 1354233612,
   "date": "2012-11-30",
   "unitid": "S1047847712001426",
-  "issn": "1047-8477",
+  "pissn": "1047-8477",
   "rtype": "ARTICLE",
   "mime": "HTML",
   "platform": "sd"
@@ -294,7 +294,7 @@
   "timestamp": 1354233697,
   "date": "2012-11-30",
   "unitid": "S0304420310000952",
-  "issn": "0304-4203",
+  "pissn": "0304-4203",
   "rtype": "ARTICLE",
   "mime": "HTML",
   "platform": "sd"
@@ -309,7 +309,7 @@
   "timestamp": 1354233796,
   "date": "2012-11-30",
   "unitid": "S0967064508000301",
-  "issn": "0967-0645",
+  "pissn": "0967-0645",
   "rtype": "ARTICLE",
   "mime": "HTML",
   "platform": "sd"
@@ -324,7 +324,7 @@
   "timestamp": 1354233798,
   "date": "2012-11-30",
   "unitid": "S0165614712001800",
-  "issn": "0165-6147",
+  "pissn": "0165-6147",
   "rtype": "ARTICLE",
   "mime": "HTML",
   "platform": "sd"
