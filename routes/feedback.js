@@ -108,8 +108,28 @@ module.exports = function (app) {
   }
 
   /**
-   * POST route on /feedbacks/
+   * POST route on /feedback
    * To submit a feedback
    */
   app.post('/feedback', express.bodyParser(), canSendMail ? sendFeedback : forwardFeedback);
+
+  /**
+   * GET route on /feedback/status
+   * To know if sending a feedback is possible
+   */
+  app.get('/feedback/status', function (req, res) {
+    if (canSendMail) {
+      res.send(200);
+    } else if (config.EZPAARSE_PARENT_URL) {
+      request.get(config.EZPAARSE_PARENT_URL + '/feedback/status', function (err, response) {
+        if (err || !response || response.statusCode != 200) {
+          res.send(501);
+        } else {
+          res.send(200);
+        }
+      });
+    } else {
+      res.send(501);
+    }
+  });
 };
