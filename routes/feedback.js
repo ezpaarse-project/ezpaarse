@@ -123,7 +123,7 @@ module.exports = function (app) {
       var port = config.EZPAARSE_SMTP_SERVER.port;
       var host = config.EZPAARSE_SMTP_SERVER.host;
 
-      portscanner.checkPortStatus(port, host, function(err, status) {
+      portscanner.checkPortStatus(port, host, function (err, status) {
         res.send((!err && status == 'open') ? 200 : 501);
       });
     } else if (config.EZPAARSE_PARENT_URL) {
