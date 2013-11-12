@@ -32,12 +32,12 @@ describe('The server', function () {
         if (!res) { throw new Error('ezPAARSE is not running'); }
         if (err)  { throw err; }
         res.should.have.status(200);
-        
+
         var result = JSON.parse(body);
 
         should.ok(helpers.compareArrays(result, resultMonoPlus),
           'ezPAARSE does not match the intended result');
-        
+
         done();
       });
     });
@@ -58,12 +58,12 @@ describe('The server', function () {
         if (!res) { throw new Error('ezPAARSE is not running'); }
         if (err)  { throw err; }
         res.should.have.status(200);
-        
+
         var result = JSON.parse(body);
 
         should.ok(helpers.compareArrays(result, resultMonoSpace),
           'ezPAARSE does not match the intended result');
-        
+
         done();
       });
     });
@@ -84,12 +84,12 @@ describe('The server', function () {
         if (!res) { throw new Error('ezPAARSE is not running'); }
         if (err)  { throw err; }
         res.should.have.status(200);
-        
+
         var result = JSON.parse(body);
 
         should.ok(helpers.compareArrays(result, resultMultiPlus),
           'ezPAARSE does not match the intended result');
-        
+
         done();
       });
     });
@@ -118,12 +118,12 @@ describe('The server', function () {
         if (err)  { throw err; }
         // fs.writeFileSync('gerard.result.json', body);
         res.should.have.status(200);
-        
+
         var result = JSON.parse(body);
 
         should.ok(helpers.compareArrays(result, resultMultipleMisc),
           'ezPAARSE does not match the intended result');
-        
+
         done();
       });
     });
@@ -141,7 +141,7 @@ describe('The server', function () {
         if (!res) { throw new Error('ezPAARSE is not running'); }
         if (err)  { throw err; }
         res.should.have.status(400);
-        
+
         should.ok(body === '', 'The body is not empty');
         res.should.have.header('ezpaarse-status');
         res.should.have.header('ezpaarse-status-message');
@@ -166,7 +166,7 @@ describe('The server', function () {
         if (!res) { throw new Error('ezPAARSE is not running'); }
         if (err)  { throw err; }
         res.should.have.status(400);
-        
+
         should.ok(body === '', 'The body is not empty');
         res.should.have.header('ezpaarse-status');
         res.should.have.header('ezpaarse-status-message');
@@ -190,7 +190,7 @@ describe('The server', function () {
         if (!res) { throw new Error('ezPAARSE is not running'); }
         if (err)  { throw err; }
         res.should.have.status(400);
-        
+
         should.ok(body === '', 'The body is not empty');
         res.should.have.header('ezpaarse-status');
         res.should.have.header('ezpaarse-status-message');
@@ -217,7 +217,7 @@ describe('The server', function () {
         if (!res) { throw new Error('ezPAARSE is not running'); }
         if (err)  { throw err; }
         res.should.have.status(400);
-        
+
         should.ok(body === '', 'The body is not empty');
         res.should.have.header('ezpaarse-status');
         res.should.have.header('ezpaarse-status-message');
