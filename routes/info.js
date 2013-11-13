@@ -1,6 +1,6 @@
 // ##EZPAARSE
 
-/*jslint node: true, maxlen: 180, maxerr: 50, indent: 2 */
+/*jshint maxlen: 180*/
 'use strict';
 
 var fs     = require('fs');

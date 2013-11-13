@@ -1,4 +1,3 @@
-/*jslint node: true, maxlen: 100, maxerr: 50, indent: 2 */
 'use strict';
 
 var fs     = require('fs');
@@ -6,7 +5,7 @@ var path   = require('path');
 var moment = require('moment');
 
 module.exports = function (app) {
-  
+
   var jobidPattern = '^/([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})';
   /**
    * GET route on /:rid/:logfile
