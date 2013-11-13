@@ -8,6 +8,8 @@ var predefined;
 var config;
 
 $(document).on('ready' ,function () {
+
+  // do not show the Form if using an obsolete browser (ex: Internet Explorer)
   if (typeof FormData === "undefined") {
     $("#content-form").addClass("ninja");
     $("#navigator-alert").removeClass("ninja");
