@@ -179,7 +179,7 @@ $(document).on('ready' ,function () {
     }
     var nb = 1;
     $('input[type=file]').each(function (index, input) {
-      var files = $(this).prop('files');
+      var files = $(this).prop('files') || [];
       for (var i = 0, l = files.length; i < l; i++) {
         var file = files[i];
         cmd += ' -F "file' + (nb++) + '=@' + file.name + (file.type ? ';type=' + file.type : '') + '"';
