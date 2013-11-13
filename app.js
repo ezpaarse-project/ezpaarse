@@ -78,8 +78,6 @@ app.set('env', config.EZPAARSE_ENV);
 app.configure('development', function () {
   // http://www.senchalabs.org/connect/middleware-logger.html
   app.use(express.logger('dev'));
-
-  app.use(express.errorHandler());
 });
 app.configure('production', function () {
   // http://www.senchalabs.org/connect/middleware-logger.html
@@ -152,6 +150,10 @@ app.configure(function () {
 
   // used to expose static files from the public folder
   app.use(express.static(path.join(__dirname, 'public')));
+});
+
+app.configure('development', function () {
+  app.use(express.errorHandler());
 });
 
 app.all('*', function (req, res, next) {
