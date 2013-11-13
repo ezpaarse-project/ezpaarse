@@ -1,4 +1,3 @@
-/*jslint node: true, maxlen: 100, maxerr: 50, indent: 2 */
 /*global describe, it*/
 'use strict';
 
@@ -19,19 +18,19 @@ describe('The server', function () {
         if (!res) { throw new Error('ezPAARSE is not running'); }
         if (err)  { throw err; }
         res.should.have.status(200);
-        
+
         body = body.trim().split('\n');
         should.ok(body.length == 2, 'One EC should be returned');
-        
+
         var csvheader = body[0].split(';');
         csvheader.should.include('col1');
         csvheader.should.include('col2');
-        
+
         var ec        = body[1].split(';');
         ec.should.include('chucknorris');
         ec.should.include('012');
         ec.should.include('ABC');
-        
+
         done();
       });
     });
@@ -48,22 +47,22 @@ describe('The server', function () {
         if (!res) { throw new Error('ezPAARSE is not running'); }
         if (err)  { throw err; }
         res.should.have.status(200);
-        
+
         body = body.trim().split('\n');
         should.ok(body.length == 2, 'One EC should be returned');
-        
+
         var csvheader = body[0].split(';');
         csvheader.should.include('col1');
         csvheader.should.include('col2');
         csvheader.should.include('newCol');
         csvheader.should.not.include('url');
-        
+
         var ec = body[1].split(';');
         ec.should.not.include('fulltext.pdf');
         ec.should.include('chucknorris');
         ec.should.include('012');
         ec.should.include('ABC');
-        
+
         done();
       });
     });
@@ -78,14 +77,14 @@ describe('The server', function () {
         if (!res) { throw new Error('ezPAARSE is not running'); }
         if (err)  { throw err; }
         res.should.have.status(400);
-        
+
         should.ok(body === '', 'The body is not empty');
         res.should.have.header('ezpaarse-status');
         res.should.have.header('ezpaarse-status-message');
 
         var status = res.headers['ezpaarse-status'];
         status.should.equal('4012', 'ezPAARSE returned a wrong status header');
-        
+
         done();
       });
     });
@@ -100,14 +99,14 @@ describe('The server', function () {
         if (!res) { throw new Error('ezPAARSE is not running'); }
         if (err)  { throw err; }
         res.should.have.status(400);
-        
+
         should.ok(body === '', 'The body is not empty');
         res.should.have.header('ezpaarse-status');
         res.should.have.header('ezpaarse-status-message');
 
         var status = res.headers['ezpaarse-status'];
         status.should.equal('4013', 'ezPAARSE returned a wrong status header');
-        
+
         done();
       });
     });

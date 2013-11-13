@@ -1,4 +1,3 @@
-/*jslint node: true, maxlen: 100, maxerr: 50, indent: 2 */
 /*global describe, it*/
 'use strict';
 
@@ -33,7 +32,7 @@ describe('The server', function () {
           res.should.have.status(200);
 
           var report = JSON.parse(reportBody);
-          
+
           should.exist(report.general,
             'the section "general" was not found in the report');
           should.exist(report.general['Job-ID'],
