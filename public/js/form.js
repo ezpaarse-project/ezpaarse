@@ -8,6 +8,8 @@ var predefined;
 var config;
 
 $(document).on('ready' ,function () {
+
+  // do not show the Form if using an obsolete browser (ex: Internet Explorer)
   if (typeof FormData === "undefined") {
     $("#content-form").addClass("ninja");
     $("#navigator-alert").removeClass("ninja");
@@ -179,7 +181,7 @@ $(document).on('ready' ,function () {
     }
     var nb = 1;
     $('input[type=file]').each(function (index, input) {
-      var files = $(this).prop('files');
+      var files = $(this).prop('files') || [];
       for (var i = 0, l = files.length; i < l; i++) {
         var file = files[i];
         cmd += ' -F "file' + (nb++) + '=@' + file.name + (file.type ? ';type=' + file.type : '') + '"';

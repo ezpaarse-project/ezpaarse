@@ -1,4 +1,4 @@
-/*jslint node: true, maxlen: 110, maxerr: 50, indent: 2 */
+/*jshint maxlen: 110*/
 /*global describe, it*/
 'use strict';
 
