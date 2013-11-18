@@ -78,7 +78,7 @@ $(document).on('ready' ,function () {
     fillWithCookie('#input-traces', 'Traces-Level');
     fillWithCookie('#input-output-fields', 'Output-Fields');
     fillWithCookie('#input-request-charset', 'Request-Charset');
-    fillWithCookie('#input-response-charset-charset', 'Response-Charset');
+    fillWithCookie('#input-response-charset', 'Response-Charset');
 
     if ($('#input-log-type').val()) {
       $('#input-log-format').prop('disabled', false);
