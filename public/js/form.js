@@ -7,6 +7,45 @@ var socket = io.connect(host);
 var predefined;
 var config;
 
+function setCookie(sName, sValue) {
+  var today   = new Date();
+  var expires = new Date();
+  expires.setTime(today.getTime() + (365 * 24 * 60 * 60 * 1000));
+  document.cookie = sName + "=" + encodeURIComponent(sValue) + ";expires=" + expires.toGMTString();
+}
+
+function getCookie(sName) {
+  var oRegex = new RegExp("(?:; )?" + sName + "=([^;]*);?");
+
+  if (oRegex.test(document.cookie)) {
+    return decodeURIComponent(RegExp["$1"]);
+  } else {
+    return null;
+  }
+}
+
+function clearCookie(sName) {
+  var today   = new Date();
+  var expires = new Date();
+  expires.setTime(today.getTime() - 60000);
+  document.cookie = sName + "=;expires=" + expires.toGMTString();
+}
+
+function clearCookies() {
+  [
+    'Log-Type',
+    'Log-Format',
+    'Accept',
+    'Traces-Level',
+    'Output-Fields',
+    'Request-Charset',
+    'Response-Charset',
+    'User-Fields',
+  ].forEach(function (cookieName) {
+    clearCookie(cookieName);
+  });
+}
+
 $(document).on('ready' ,function () {
 
   // do not show the Form if using an obsolete browser (ex: Internet Explorer)
@@ -19,10 +58,58 @@ $(document).on('ready' ,function () {
     config = cfg;
   });
 
+  $('#clearCookies').on('click', clearCookies);
+
   /**
    * load first user-field using the template at the end of the page
    */
   $('#user-fields').append($('#user-field-template').html());
+
+  (function readCookies () {
+    function fillWithCookie(element, cookieName) {
+      var cookie = getCookie(cookieName);
+      if (cookie)
+        $(element).val(cookie);
+    }
+
+    fillWithCookie('#input-log-type', 'Log-Type');
+    fillWithCookie('#input-log-format', 'Log-Format');
+    fillWithCookie('#input-result-format', 'Accept');
+    fillWithCookie('#input-traces', 'Traces-Level');
+    fillWithCookie('#input-output-fields', 'Output-Fields');
+    fillWithCookie('#input-request-charset', 'Request-Charset');
+    fillWithCookie('#input-response-charset-charset', 'Response-Charset');
+
+    if ($('#input-log-type').val()) {
+      $('#input-log-format').prop('disabled', false);
+    }
+
+    var userFields;
+    try {
+      userFields = JSON.parse(getCookie('User-Fields') || '[]');
+    } catch (e) {
+      userFields = [];
+    }
+    userFields.forEach(function (userField) {
+      if (!userField.src && !userField.sep && !userField.residual && (!userField.dests || !userField.dests.length)) {
+        return;
+      }
+      var lastField = $('div#user-fields').find('div.user-field').last();
+      lastField.find('.input-user-field-src').val(userField.src);
+      lastField.find('.input-user-field-sep').val(userField.sep);
+      lastField.find('.input-user-field-residual').val(userField.residual);
+
+      var destsDiv = lastField.find('.user-field-dest');
+      userField.dests.forEach(function (dest) {
+        destsDiv.find('.dest:last .input-user-field-dest-name').val(dest.name);
+        destsDiv.find('.dest:last .input-user-field-dest-regexp').val(dest.regexp);
+        destsDiv.append($('#dest-template').html());
+      });
+
+      $('#user-fields').append('<hr/>');
+      $('#user-fields').append($('#user-field-template').html());
+    });
+  })();
 
   /**
    * initialize advanced options
@@ -202,10 +289,10 @@ $(document).on('ready' ,function () {
 
     $('div.user-field').each(function (i) {
       var fieldGroup = $(this);
-      var src      = fieldGroup.find('.input-user-field-src').val();
-      var sep      = fieldGroup.find('.input-user-field-sep').val();
-      var residual = fieldGroup.find('.input-user-field-residual').val();
-      var dests    = fieldGroup.find('.dest');
+      var src        = fieldGroup.find('.input-user-field-src').val();
+      var sep        = fieldGroup.find('.input-user-field-sep').val();
+      var residual   = fieldGroup.find('.input-user-field-residual').val();
+      var dests      = fieldGroup.find('.dest');
 
       if (src) {
         cmd += ' -H "User-Field' + i + '-src: ' + src + '"';
@@ -371,32 +458,40 @@ $(document).on('ready' ,function () {
 
     if ($('#input-log-type').val() && $('#input-log-format').val()) {
       headers['Log-Format-' + $('#input-log-type').val()] = $('#input-log-format').val();
+      setCookie('Log-Format', $('#input-log-format').val());
+      setCookie('Log-Type', $('#input-log-type').val());
     }
 
     if ($('#input-result-format').val()) {
       headers['Accept'] = $('#input-result-format').val();
+      setCookie('Accept', $('#input-result-format').val());
       $("#result-format").text($('#input-result-format').val().split("/")[1]);
     }
 
     if ($('#input-traces').val()) {
       headers['Traces-Level'] = $('#input-traces').val();
+      setCookie('Traces-Level', $('#input-traces').val());
     }
 
+    var userFields = [];
     $('div.user-field').each(function (i) {
-      var fieldGroup = $(this);
-      var src      = fieldGroup.find('.input-user-field-src').val();
-      var sep      = fieldGroup.find('.input-user-field-sep').val();
-      var residual = fieldGroup.find('.input-user-field-residual').val();
-      var dests    = fieldGroup.find('.dest');
+      var fieldGroup = { dests: [] };
+      var src      = $(this).find('.input-user-field-src').val();
+      var sep      = $(this).find('.input-user-field-sep').val();
+      var residual = $(this).find('.input-user-field-residual').val();
+      var dests    = $(this).find('.dest');
 
       if (src) {
         headers['User-Field' + i + '-src'] = src;
+        fieldGroup.src = src;
       }
       if (sep) {
         headers['User-Field' + i + '-sep'] = sep;
+        fieldGroup.sep = sep;
       }
       if (residual) {
         headers['User-Field' + i + '-residual'] = residual;
+        fieldGroup.residual = residual;
       }
       dests.each(function () {
         var dest   = $(this);
@@ -405,19 +500,27 @@ $(document).on('ready' ,function () {
         if (name && regexp) {
           headers['User-Field' + i + '-dest-' + name] = regexp;
         }
+        if (name || regexp) {
+          fieldGroup.dests.push({ name: name, regexp: regexp});
+        }
       });
+      userFields.push(fieldGroup);
     });
+    setCookie('User-Fields', JSON.stringify(userFields));
 
     if ($('#input-output-fields').val()) {
       headers['Output-Fields'] = $('#input-output-fields').val();
+      setCookie('Output-Fields', $('#input-output-fields').val());
     }
 
     if ($('#input-request-charset').val()) {
       headers['Request-Charset'] = $('#input-request-charset').val();
+      setCookie('Request-Charset', $('#input-request-charset').val());
     }
 
     if ($('#input-response-charset').val()) {
       headers['Response-Charset'] = $('#input-response-charset').val();
+      setCookie('Response-Charset', $('#input-response-charset').val());
     }
 
     if (socketID) {
@@ -465,7 +568,7 @@ $(document).on('ready' ,function () {
       contentType: false,
       processData: false,
       // before send, display filenames, generate buttons' links then display the result view
-      'beforeSend': function() {
+      beforeSend: function() {
         var filename;
         $('input[type=file]').each(function (index, input) {
           for(var i = 0; i < input.files.length; i++) {
@@ -482,7 +585,7 @@ $(document).on('ready' ,function () {
         });
       },
       // on success, display the success alert
-      'success': function(data) {
+      success: function(data) {
         $('#cancel-btn').text('Réinitialiser');
         $('.progress').addClass('progress-success');
         $('.progress').removeClass('active');
@@ -494,7 +597,7 @@ $(document).on('ready' ,function () {
         });
       },
       // on error, display the error alert
-      'error': function(jqXHR, textStatus, errorThrown) {
+      error: function(jqXHR, textStatus, errorThrown) {
         if (textStatus != 'abort') {
           var status  = jqXHR.getResponseHeader("ezPAARSE-Status");
           var message = jqXHR.getResponseHeader("ezPAARSE-Status-Message");
@@ -510,7 +613,7 @@ $(document).on('ready' ,function () {
         //jqHXR.abort();
       },
       // always display the report button at the end
-      'complete': function(data) {
+      complete: function(data) {
         $('#report-btn').removeClass('ninja');
         $('#reset-btn').removeClass('ninja');
       }
