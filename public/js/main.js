@@ -11,6 +11,14 @@ $(document).on('ready', function () {
     });
   });
 
+  $('#cookieWarned').on('click', function () {
+    $('#cookie-bar').slideUp();
+    setCookie('cookieWarned', 'warned');
+  });
+  if (!getCookie('cookieWarned')) {
+    $('#cookie-bar').show();
+  }
+
   // $.ajax({
   //   url: "/datasets/",
   //   dataType: 'json'
