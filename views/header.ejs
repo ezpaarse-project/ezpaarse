@@ -20,9 +20,9 @@
   <body>
     <div id="cookie-bar" class="ninja">
       <div class="inner">
-        <button id="cookieWarned" class="btn">Merci de m'avoir prévenu</button>
-        <p>Nous utilisons des cookies afin d'améliorer votre confort d'utilisation.</p>
-        <a href="http://fr.wikipedia.org/wiki/Cookie_(informatique)" target="_blank">En savoir plus sur les cookies</a>
+        <button id="cookieWarned" class="btn"><%= __('Thanks for letting me know') %></button>
+        <p><%= __('We use cookies to improve your usage comfort') %></p>
+        <a href="http://fr.wikipedia.org/wiki/Cookie_(informatique)" target="_blank"><%= __('Know more about cookies') %></a>
       </div>
     </div>
 
@@ -34,35 +34,35 @@
         </div>
         <ul id="link-list" class="span4">
           <li class="link-container">
-            <a href="mailto:ezpaarse@gmail.com" class="link-icon" title="Vontactez-nous par e-mail"><img src="/img/icon-mail.png" alt="icone mail"></a>
-            <div class="link-text">Contactez-nous par <a href="mailto:ezpaarse@gmail.com" title="Contactez-nous par e-mail">e-mail</a></div>
+            <a href="mailto:ezpaarse@gmail.com" class="link-icon" title="Contactez-nous par e-mail"><img src="/img/icon-mail.png" alt="icone mail"></a>
+            <div class="link-text"><%- __("Contact us by %se-mail%s", '<a href="mailto:ezpaarse@gmail.com" title="Contactez-nous par e-mail">', '</a>') %></div>
           </li>
           <li class="link-container">
             <a href="http://analogist.couperin.org" class="link-icon" title="Visitez notre plateforme AnalogIST"><img src="/img/icon-analogist.png" alt="icone analogist"></a>
-            <div class="link-text">Visitez notre plateforme <a href="http://analogist.couperin.org" title="Visitez notre plateforme AnalogIST">AnalogIST</a></div>
+            <div class="link-text"><%- __("Visit our platform %sAnalogIST%s", '<a href="http://analogist.couperin.org" title="Visitez notre plateforme AnalogIST">', '</a>') %></div>
           </li>
           <li class="link-container">
             <a href="/doc" class="link-icon" title="Consultez la documentation d'ezPAARSE"><img src="/img/icon-ezpaarse-doc.png" alt="icone ezpaarse"></a>
-            <div class="link-text">Consultez la <a href="/doc" title="Consultez la documentation d'ezPAARSE">documentation d'ezPAARSE</a></div>
+            <div class="link-text"><%- __("Consult ezPAARSE <a href=\"%s\">documentation</a>", '/doc') %></div>
           </li>
           <li class="link-container">
             <a href="https://www.facebook.com/Ezpaarse" class="link-icon" title="Suivez-nous sur Facebook"><img src="/img/icon-facebook.png" alt="icone facebook"></a>
-            <div class="link-text">Suivez-nous sur <a href="https://www.facebook.com/Ezpaarse" title="Suivez-nous sur Facebook">Facebook</a></div>
+            <div class="link-text"><%- __("Follow us on %s", '<a href="https://www.facebook.com/Ezpaarse" title="Suivez-nous sur Facebook">Facebook</a>') %></div>
           </li>
           <li class="link-container">
             <a href="https://twitter.com/ezpaarse" class="link-icon" title="Suivez-nous sur Twitter"><img src="/img/icon-twitter.png" alt="icone Twitter"></a>
-            <div class="link-text">Suivez-nous sur <a href="https://twitter.com/ezpaarse" title="Suivez-nous sur Twitter">Twitter</a></div>
+            <div class="link-text"><%- __("Follow us on %s", '<a href="https://twitter.com/ezpaarse" title="Suivez-nous sur Twitter">Twitter</a>') %></div>
           </li>
           <li class="link-container">
             <a href="https://plus.google.com/113684662646843807159" class="link-icon" title="Suivez-nous sur Google+"><img src="/img/icon-googleplus.png" alt="icone google+"></a>
-            <div class="link-text">Suivez-nous sur <a href="https://plus.google.com/113684662646843807159" title="Suivez-nous sur Google+">Google+</a></div>
+            <div class="link-text"><%- __("Follow us on %s", '<a href="https://plus.google.com/113684662646843807159" title="Suivez-nous sur Google+">Google+</a>') %></div>
           </li>
         </ul>
       </div>
       <% if (user) { %>
-        <p id="auth-status">Connecté en tant que <strong><%= user.username %></strong>
+        <p id="auth-status"><%- __("Connected as %s", "<strong>" + user.username + "</strong>") %> </p>
       <% } else { %>
-        <p id="auth-status">Vous n'êtes pas connecté | <a href="/?auth=local">Connexion</a></p>
+        <p id="auth-status"><%= __("You are not connected") %> | <a href="/?auth=local"><%= __('Connection') %></a></p>
       <% } %>
       <hr>
       <div class="content">

@@ -1,21 +1,21 @@
 <% include header %>
-  <h2>Administration</h2>
+  <h2><%= __("Administration") %></h2>
   <fieldset name="depots">
-    <legend>Dépôts</legend>
-    <p>État de la base de connaissances<br/>
-      <button class="btn" id="pkb-status" title="mettre à jour la base">
-        <i class="icon-refresh"></i> <span>inconnu</span>
+    <legend><%= __("Repositories") %></legend>
+    <p><%= __("Knowledge base status") %><br/>
+      <button class="btn" id="pkb-status" title="<%= __("click to update") %>">
+        <i class="icon-refresh"></i> <span><%= __("unknown") %></span>
       </button>
-      <button class="btn" id="pkb-status-refresh" title="actualiser le statut de la base">
+      <button class="btn" id="pkb-status-refresh" title="<%= __("refresh status") %>">
         <i class="icon-refresh"></i>
         <img src="/img/loader.gif" class="loader ninja" width="18" />
       </button>
     </p>
-    <p>État des parseurs<br/>
-      <button class="btn" id="parsers-status" title="mettre à jour les parseurs">
-        <i class="icon-refresh"></i> <span>inconnu</span>
+    <p><%= __("Parsers status") %><br/>
+      <button class="btn" id="parsers-status" title="<%= __("click to update") %>">
+        <i class="icon-refresh"></i> <span><%= __("unknown") %></span>
       </button>
-      <button class="btn" id="parsers-status-refresh" title="actualiser le statut des parseurs">
+      <button class="btn" id="parsers-status-refresh" title="<%= __("refresh status") %>">
         <i class="icon-refresh"></i>
         <img src="/img/loader.gif" class="loader ninja" width="18" />
       </button>
@@ -23,24 +23,24 @@
   </fieldset>
 
   <fieldset name="utilisateurs">
-    <legend>Utilisateurs</legend>
+    <legend><%= __("Users") %></legend>
     <form id="user-form" class="form-inline" method="POST" action="/users/">
-        <input type="text" id="username" name="username" placeholder="Identifiant">
-        <input type="password" id="password" name="password" placeholder="Mot de passe">
-        <button type="submit" id="submit" class="btn">Créer</button>
+        <input type="text" id="username" name="username" placeholder="<%= __("Login") %>">
+        <input type="password" id="password" name="password" placeholder="<%= __("Password") %>">
+        <button type="submit" id="submit" class="btn"><%= __("Create") %></button>
         <img src="/img/loader.gif" class="loader ninja" width="32" />
         <img src="/img/success-big.png" class="success-img ninja" width="32" />
         <div class="form-error" class="ninja" style="color: red"></div>
-        <div class="form-success ninja" style="color: #0046AF">l'utilisateur a bien été ajouté</div>
+        <div class="form-success ninja" style="color: #0046AF"><%= __("the user has been successfully added") %></div>
     </form>
     <div id="users-list">
-      <p class="refresh-loader ninja"><img src="/img/loader.gif" class="loader" width="18" /> <em>actualisation...</em></p>
-      <p class="refresh-error ninja" style="color: red;">la liste n'a pas pu être actualisée</p>
+      <p class="refresh-loader ninja"><img src="/img/loader.gif" class="loader" width="18" /> <em><%= __("refreshing...") %></em></p>
+      <p class="refresh-error ninja" style="color: red;"><%= __("the list could not be refreshed") %></p>
       <table id="users-table" class="table table-hover">
         <tr>
-          <th>Identifiant</th>
-          <th>Groupe</th>
-          <th>Action</th>
+          <th><%= __("login") %></th>
+          <th><%= __("Group") %></th>
+          <th><%= __("Action") %></th>
         <tr>
       </table>
     </div>

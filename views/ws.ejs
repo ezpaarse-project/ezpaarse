@@ -5,17 +5,17 @@
                 <div class="accordion-group">
                   <div class="accordion-heading">
                     <a class="accordion-toggle" data-toggle="collapse" data-parent="#pane-file-select" href="#collapseFive">
-                      <i id="iFive" class="icon-chevron-right"></i> Requête traduite en cURL
+                      <i id="iFive" class="icon-chevron-right"></i> <%= __("cURL translated request") %>
                     </a>
                   </div>
                   <div id="collapseFive" class="accordion-body collapse" toggle-chevron="#iFive">
                     <div class="accordion-inner">
                       <% if (user && user.group == 'admin') { %>
-                      <div class="alert"><strong>Attention</strong> : il est déconseillé d'utiliser votre compte administrateur dans vos scripts de traitement automatique.</div>
+                      <div class="alert"><strong><%= __("Warning") %></strong> : <%= __("it's not advisable to use your administrator account in your automation scripts.") %></div>
                       <% } %>
-                      <p>Copiez/collez le code suivant pour exécuter la requête avec cURL.</p>
-                      <p>Modifiez le chemin des fichiers s'ils ne se trouvent pas dans le répertoire courant.
-                      <br/>Vous devrez peut-être ajouter des options telles que <code>--proxy</code> ou <code>--no-buffer</code> en fonction de votre environnement.</p>
+                      <p><%= __("Copy/paste the following code to send the request with cURL.") %></p>
+                      <p><%= __("Change the files path if they are not in the current directory.") %>
+                      <br/><%- __("You might need to add options such as %s or %s depending to your environment.", '<code>--proxy</code>', '<code>--no-buffer</code>') %></p>
                       <textarea class="code" id="curl-request"></textarea>
                     </div>
                   </div>
@@ -28,7 +28,7 @@
                 <div class="accordion-group ninja">
                   <div class="accordion-heading">
                     <a class="accordion-toggle" data-toggle="collapse" data-parent="#pane-file-select" href="#collapseOne">
-                      <i id="iOne" class="icon-chevron-right"></i> Traiter des fichiers du serveur
+                      <i id="iOne" class="icon-chevron-right"></i>
                     </a>
                   </div>
                   <div id="collapseOne" class="accordion-body collapse" toggle-chevron="#iOne">
@@ -40,7 +40,7 @@
                 <div class="accordion-group">
                   <div class="accordion-heading">
                     <a class="accordion-toggle" data-toggle="collapse" data-parent="#pane-file-select" href="#collapseTwo">
-                      <i id="iTwo" class="icon-chevron-down"></i> Traiter vos fichiers de log
+                      <i id="iTwo" class="icon-chevron-down"></i> <%= __("Process server side files") %>
                     </a>
                   </div>
                   <div id="collapseTwo" class="accordion-body collapse in" toggle-chevron="#iTwo">
@@ -51,7 +51,7 @@
                           <input class='file-input' type="file" name="file" multiple/>
                         </div>
                       </div>
-                      <div id="dropbox">Glissez vos fichiers ici</div>
+                      <div id="dropbox"><%= __("Drop your files here") %></div>
                     </div>
                   </div>
                 </div>
@@ -61,28 +61,28 @@
               <div class="accordion-group">
                 <div class="accordion-heading">
                   <a class="accordion-toggle" data-toggle="collapse" href="#collapseThree">
-                    <i id="iThree" class="icon-chevron-right"></i> Paramètres
+                    <i id="iThree" class="icon-chevron-right"></i> <%= __("Settings") %>
                   </a>
                 </div>
                 <div id="collapseThree" class="accordion-body collapse in" toggle-chevron="#iThree">
                   <div id="advanced-options" class="accordion-inner">
                     <div class="control-group">
                       <label class="control-label" for="advanced-options-predefined">
-                        <a class="notALink" data-toggle="tooltip" title="Valeurs pré-définies">Valeurs pré-définies <i class="icon-question-sign"></i></a>
+                        <a class="notALink" data-toggle="tooltip" title="Valeurs pré-définies"><%= __("Predefined settings") %> <i class="icon-question-sign"></i></a>
                       </label>
                       <div class="controls">
                         <select id="advanced-options-predefined" name="advanced-options-predefined">
-                          <option value="" selected>Aucune</option>
+                          <option value="" selected><%= __("None") %></option>
                         </select>
                       </div>
                     </div>
                      <div class="control-group">
                       <label class="control-label" for="input-log-type">
-                        <a class="notALink" data-toggle="tooltip" title="Plateforme d'origine des logs">Type de log <i class="icon-question-sign"></i></a>
+                        <a class="notALink" data-toggle="tooltip" title="Plateforme d'origine des logs"><%= __("Log type") %> <i class="icon-question-sign"></i></a>
                       </label>
                       <div class="controls">
                         <select id="input-log-type" name="input-log-type">
-                          <option value="" selected>Auto</option>
+                          <option value="" selected><%= __("Auto") %></option>
                           <option value="ezproxy">EZproxy</option>
                           <option value="apache">Apache</option>
                           <option value="squid">Squid</option>
@@ -91,7 +91,7 @@
                     </div>
                     <div class="control-group">
                       <label class="control-label" for="input-log-format">
-                        <a class="notALink" data-toggle="tooltip" title="Format des lignes de log, du style '%h %l %u %t %s %b'. Pour plus d'infos, consulter Formats de logs dans la documentation">Format de log <i class="icon-question-sign"></i></a>
+                        <a class="notALink" data-toggle="tooltip" title="Format des lignes de log, du style '%h %l %u %t %s %b'. Pour plus d'infos, consulter Formats de logs dans la documentation"><%= __("Log format") %> <i class="icon-question-sign"></i></a>
                       </label>
                       <div class="controls">
                         <textarea id="input-log-format" name="input-log-format" row="1" disabled></textarea>
@@ -99,7 +99,7 @@
                     </div>
                     <div class="control-group">
                       <label class="control-label" for="input-result-format">
-                        <a class="notALink" data-toggle="tooltip" title="Format du fichier en résultat">Format du résultat <i class="icon-question-sign"></i></a>
+                        <a class="notALink" data-toggle="tooltip" title="Format du fichier en résultat"><%= __("Result format") %> <i class="icon-question-sign"></i></a>
                       </label>
                       <div class="controls">
                         <select id="input-result-format" name="input-result-format">
@@ -111,7 +111,7 @@
                     </div>
                     <div class="control-group">
                       <label class="control-label" for="input-traces">
-                        <a class="notALink" data-toggle="tooltip" title="Niveau de verbosité des traces, du moins verbeux Error au plus verbeux Silly.">Traces système <i class="icon-question-sign"></i></a>
+                        <a class="notALink" data-toggle="tooltip" title="Niveau de verbosité des traces, du moins verbeux Error au plus verbeux Silly."><%= __("System traces") %> <i class="icon-question-sign"></i></a>
                       </label>
                       <div class="controls">
                         <select id="input-traces" name="input-traces">
@@ -125,7 +125,7 @@
                     </div>
                     <div class="control-group">
                       <label class="control-label" for="input-output-fields">
-                        <a class="notALink" data-toggle="tooltip" title="Indiquer les champs (en-têtes) désirés pour le fichier de sortie. Exemple : -host,-login,+datetime">Champs en sortie <i class="icon-question-sign"></i></a>
+                        <a class="notALink" data-toggle="tooltip" title="Indiquer les champs (en-têtes) désirés pour le fichier de sortie. Exemple : -host,-login,+datetime"><%= __("Output fields") %> <i class="icon-question-sign"></i></a>
                       </label>
                       <div class="controls">
                         <input id="input-output-fields" placeholder="Ex: -host,-login,+datetime" type="text" name="input-output-fields"/>
@@ -133,7 +133,7 @@
                     </div>
                     <div class="control-group">
                       <label class="control-label" for="input-request-charset">
-                        <a class="notALink" data-toggle="tooltip" title="Jeu de caractères (charset) utilisé dans les fichiers à traiter.">Encodage en entrée <i class="icon-question-sign"></i></a>
+                        <a class="notALink" data-toggle="tooltip" title="Jeu de caractères (charset) utilisé dans les fichiers à traiter."><%= __("Input encoding") %> <i class="icon-question-sign"></i></a>
                       </label>
                       <div class="controls">
                         <select id="input-request-charset" name="input-request-charset">
@@ -144,7 +144,7 @@
                     </div>
                     <div class="control-group">
                       <label class="control-label" for="input-response-charset">
-                        <a class="notALink" data-toggle="tooltip" title="Jeu de caractères (charset) utilisé pour les données en sortie.">Encodage en sortie <i class="icon-question-sign"></i></a>
+                        <a class="notALink" data-toggle="tooltip" title="Jeu de caractères (charset) utilisé pour les données en sortie."><%= __("Output encoding") %> <i class="icon-question-sign"></i></a>
                       </label>
                       <div class="controls">
                         <select id="input-response-charset" name="input-response-charset">
@@ -159,7 +159,7 @@
               <div class="accordion-group">
                 <div class="accordion-heading">
                   <a class="accordion-toggle" data-toggle="collapse" href="#collapseFour">
-                    <i id="iFour" class="icon-chevron-right"></i> Champ utilisateurs
+                    <i id="iFour" class="icon-chevron-right"></i> <%= __("Users field") %>
                   </a>
                 </div>
                 <div id="collapseFour" class="accordion-body collapse" toggle-chevron="#iFour">
@@ -169,92 +169,92 @@
               </div>
             </div>
           </div>
-          <div id="nofile-warn" class="alert alert-warning ninja">Vous devez sélectionner au moins un fichier.</div>
-          <div id="big-warn" class="alert alert-warning ninja">Les fichiers sélectionnés sont volumineux, le traitement peut être long.</div>
+          <div id="nofile-warn" class="alert alert-warning ninja"><%= __("You must select one file at least") %></div>
+          <div id="big-warn" class="alert alert-warning ninja"><%= __("Selected files are large, the process could be long.") %></div>
           <div class="text-center">
             <input type="submit" class="btn" value="Traiter" id="submit" />
-            <button class="btn" id="clearCookies">Effacer les cookies</button>
+            <button class="btn" id="clearCookies"><%= __("Clear cookies") %></button>
           </div>
         </div><!-- form-content -->
         <div id="content-result" class="ninja">
           <div id="process-info" class="texte-center alert alert-info">
-            Vos logs sont en cours de traitement mais vous pouvez déjà commencer à télécharger le résultat.
+            <%= __("Your logs are being processed") %> <%= __("You can already start downloading result.") %>
           </div>
           <div id="process-success" class="texte-center alert alert-success ninja">
-            Le traitement de vos logs s'est terminé avec succès.
+            <%= __("Your logs was successfully processed") %>
           </div>
           <div class="alert alert-error text-center ninja">
-            Erreur : <span id="error"></span>
+            <%= __("Error") %> : <span id="error"></span>
           </div>
           <div class="progress progress-striped active">
             <div class="bar" style="width: 0%;">0%</div>
           </div>
           <div id="process-btns" class="text-center">
-            <a href="" target="_blank" id="get-btn" class="btn btn-primary btn-large">Télécharger le résultat en <span id='result-format'></span></a>
-            <a href="/form" id="cancel-btn" class="btn">Annuler</a>
+            <a href="" target="_blank" id="get-btn" class="btn btn-primary btn-large"><%- __("Download result as %s", '<span id="result-format"></span>') %></a>
+            <a href="/form" id="cancel-btn" class="btn"><%= __("Cancel") %></a>
           </div>
           <div class="row-fluid">
             <div class="span6">
               <div id="submitted-files">
                 <fieldset>
-                  <legend>Fichiers traités</legend>
+                  <legend><%= __("Processed files") %></legend>
                   <ul></ul>
                 </fieldset>
               </div>
               <div id="post-trait-comment">
                 <fieldset>
-                  <legend>Exploitation des résultats</legend>
+                  <legend><%= __("Exploitation of results") %></legend>
                   <ul><a href="https://github.com/ezpaarse-project/ezpaarse/blob/master/misc/windows/ezPAARSERenderV1.1.xlsm?raw=true" target="_blank">
-                    Utiliser un fichier de rendu Excel</a>
+                    <%= __("Use an Excel rendering file") %></a>
                   </ul>
                   <ul><a href="http://analogist.couperin.org/ezpaarse/doc/usage#visualiser-les-resultats-avec-excel" target="_blank">
-                    Aide sur l'exploitation des résultats avec excel</a>
+                    <%= __("Help for result exploitation using Excel") %></a>
                   </ul>
                 </fieldset>
               </div>
             </div>
             <div id="report" class="span6">
               <fieldset>
-                <legend>État du traitement</legend>
+                <legend><%= __("Process status") %></legend>
                 <table class="table table-bordered table-hover">
-                  <tr><td>Lignes en entrée</td><td id="nb-lines-input" class="result-value"></td></tr>
-                  <tr><td><abbr title="Évènements de Consultations">ECs</abbr> générés</td><td id="nb-ecs" class="result-value"></td></tr>
-                  <tr><td>Plateformes reconnues</td><td id="platforms" class="result-value"></td></tr>
+                  <tr><td><%= __("Input lines") %></td><td id="nb-lines-input" class="result-value"></td></tr>
+                  <tr><td><%= __("Generated ECs") %></td><td id="nb-ecs" class="result-value"></td></tr>
+                  <tr><td><%= __("Recognized platforms") %></td><td id="platforms" class="result-value"></td></tr>
                   <tr><td>PDF</td><td id="mime-PDF" class="result-value"></td></tr>
                   <tr><td>HTML</td><td id="mime-HTML" class="result-value"></td></tr>
                   <tr>
                     <td>
-                      <a class="notALink" data-toggle="tooltip" title="Le nombre de lignes rejetées pour cent lignes en entrée. A noter que les lignes ignorées (jpg, js, css ...) ne sont pas prises en compte lors de ce calcul.">Taux de filtrage <i class="icon-question-sign"></i></a>
+                      <a class="notALink" data-toggle="tooltip" title="Le nombre de lignes rejetées pour cent lignes en entrée. A noter que les lignes ignorées (jpg, js, css ...) ne sont pas prises en compte lors de ce calcul."><%= __("Filtering rate") %> <i class="icon-question-sign"></i></a>
                     </td>
                     <td id="rejection-rate" class="result-value"></td></tr>
-                  <tr><td>Durée du traitement</td><td id="job-duration" class="result-value"></td></tr>
-                  <tr><td>Vitesse du traitement</td><td id="process-speed" class="result-value"></td></tr>
+                  <tr><td><%= __("Process time") %></td><td id="job-duration" class="result-value"></td></tr>
+                  <tr><td><%= __("Process speed") %></td><td id="process-speed" class="result-value"></td></tr>
                 </table>
               </fieldset>
               <fieldset>
-                <legend>Lignes de log ignorées</legend>
+                <legend><%= __("Ignored log lines") %></legend>
                 <table class="table table-bordered table-hover">
                   <tr>
                     <td>
-                      <a class="notALink" data-toggle="tooltip" title="Nombre de requêtes non pertinentes. Il s'agit principalement de téléchargements d'images, css ou scripts web sans rapport direct avec une ressource. Dans un log brut, ce chiffre est souvent élevé.">Lignes ignorées <i class="icon-question-sign"></i></a>
+                      <a class="notALink" data-toggle="tooltip" title="Nombre de requêtes non pertinentes. Il s'agit principalement de téléchargements d'images, css ou scripts web sans rapport direct avec une ressource. Dans un log brut, ce chiffre est souvent élevé."><%= __("Ignored lines") %> <i class="icon-question-sign"></i></a>
                     </td>
                     <td id="nb-lines-ignored" class="result-value"></td>
                   </tr>
                   <tr>
-                    <td><a class="link-lines-duplicate-ecs" target="_blank" data-toggle="tooltip" title="Nombre de consultations ignorées car détectées comme des double-clics.">Doublons filtrés <i class="icon-question-sign"></i></a></td><td id="nb-lines-duplicate-ecs" class="result-value"></td>
+                    <td><a class="link-lines-duplicate-ecs" target="_blank" data-toggle="tooltip" title="Nombre de consultations ignorées car détectées comme des double-clics."><%= __("Filtered duplicates") %> <i class="icon-question-sign"></i></a></td><td id="nb-lines-duplicate-ecs" class="result-value"></td>
                   </tr>
                   <tr>
-                    <td><a class="link-lines-unordered-ecs" target="_blank" data-toggle="tooltip" title="Lignes ignorées en raison d'un mauvais ordre chronologique.">Anomalies chronologiques <i class="icon-question-sign"></i></a></td><td id="nb-lines-unordered-ecs" class="result-value"></td>
+                    <td><a class="link-lines-unordered-ecs" target="_blank" data-toggle="tooltip" title="Lignes ignorées en raison d'un mauvais ordre chronologique."><%= __("Time anomalies") %> <i class="icon-question-sign"></i></a></td><td id="nb-lines-unordered-ecs" class="result-value"></td>
                   </tr>
                   <tr>
-                    <td><a class="link-lines-ignored-domains" target="_blank">Domaines ignorés</a></td>
+                    <td><a class="link-lines-ignored-domains" target="_blank"><%= __("Ignored domains") %></a></td>
                     <td class="result-value">
                       <a class="link-lines-ignored-domains" target="_blank">
                         <span id="nb-lines-ignored-domains"></span>
                       </a></td>
                   </tr>
                   <tr>
-                    <td><a class="link-lines-unknown-domains" target="_blank">Domaines inconnus</a></td>
+                    <td><a class="link-lines-unknown-domains" target="_blank"><%= __("Unknown domains") %></a></td>
                     <td class="result-value">
                       <a class="link-lines-unknown-domains" target="_blank">
                         <span id="nb-lines-unknown-domains"></span>
@@ -262,7 +262,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <td><a class="link-lines-unknown-format" target="_blank">Formats inconnus</a></td>
+                    <td><a class="link-lines-unknown-format" target="_blank">Unknown formats</a></td>
                     <td class="result-value">
                       <a class="link-lines-unknown-format" target="_blank">
                         <span id="nb-lines-unknown-format"></span>
@@ -270,7 +270,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <td><a class="link-lines-unqualified-ecs" target="_blank">ECs non qualifiés</a></td>
+                    <td><a class="link-lines-unqualified-ecs" target="_blank"><%= __("Unqualified ECs") %></a></td>
                     <td class="result-value">
                       <a class="link-lines-unqualified-ecs" target="_blank">
                         <span id="nb-lines-unqualified-ecs"></span>
@@ -278,7 +278,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <td><a class="link-lines-pkb-miss-ecs" target="_blank">PKBs manquantes</a></td>
+                    <td><a class="link-lines-pkb-miss-ecs" target="_blank"><%= __("Missing PKBs") %></a></td>
                     <td class="result-value">
                       <a class="link-lines-pkb-miss-ecs" target="_blank">
                         <span id="nb-lines-pkb-miss-ecs"></span>
@@ -290,9 +290,9 @@
             </div>
 
           <div id="result-btns" class="text-center">
-            <a target="_blank" id="report-btn" class="btn">Rapport détaillé</a>
-            <a target="_blank" id="traces-btn" class="btn">Traces système</a>
-            <a href="/form" id="reset-btn" class="btn ninja">Nouveau traitement</a>
+            <a target="_blank" id="report-btn" class="btn"><%= __("Detailed report") %></a>
+            <a target="_blank" id="traces-btn" class="btn"><%= __("System traces") %></a>
+            <a href="/form" id="reset-btn" class="btn ninja"><%= __("New process") %></a>
           </div>
         </div><!-- content-result -->
         </div><!-- content-form (todo: bad indentation ...) -->
@@ -301,7 +301,7 @@
         <div class="user-field">
           <div class="control-group">
             <label class="control-label" for="input-user-field-src">
-              <a class="notALink" data-toggle="tooltip" title="Nom du champ contenant les informations à extraire">Champ source <i class="icon-question-sign"></i></a>
+              <a class="notALink" data-toggle="tooltip" title="Nom du champ contenant les informations à extraire"><%= __("Source field") %> <i class="icon-question-sign"></i></a>
             </label>
             <div class="controls">
               <input class="input-user-field-src" type="text" name="input-user-field-src"/>
@@ -309,7 +309,7 @@
           </div>
           <div class="control-group">
             <label class="control-label" for="input-user-field-sep">
-              <a class="notALink" data-toggle="tooltip" title="Caractère séparant les valeurs du champ source (utilisez le mot 'space' si le séparateur est un espace)">Séparateur <i class="icon-question-sign"></i></a>
+              <a class="notALink" data-toggle="tooltip" title="Caractère séparant les valeurs du champ source (utilisez le mot 'space' si le séparateur est un espace)"><%= __("Separator") %> <i class="icon-question-sign"></i></a>
             </label>
             <div class="controls">
               <input class="input-user-field-sep" placeholder="Ex: space + , ;" type="text" name="input-user-field-sep"/>
@@ -317,20 +317,20 @@
           </div>
           <div class="control-group">
             <label class="control-label" for="input-user-field-dest">
-              <a class="notALink" data-toggle="tooltip" title="Champs dans lesquels sont stockées les valeurs extraites. Les valeurs en adéquation avec une expression régulière sont ajoutées au champ correspondant.">Champs destination <i class="icon-question-sign"></i></a>
+              <a class="notALink" data-toggle="tooltip" title="Champs dans lesquels sont stockées les valeurs extraites. Les valeurs en adéquation avec une expression régulière sont ajoutées au champ correspondant."><%= __("Destination fields") %> <i class="icon-question-sign"></i></a>
             </label>
             <div class="controls">
               <div class="user-field-dest row-fluid">
                 <div class="dest">
-                  <input class="span4 input-user-field-dest-name" type="text" name="input-user-field-dest-name" placeholder="Nom"/>
-                  <input class="span8 input-user-field-dest-regexp" type="text" name="input-user-field-dest-regexp" placeholder="Expression régulière"/>
+                  <input class="span4 input-user-field-dest-name" type="text" name="input-user-field-dest-name" placeholder="<%= __("Name") %>"/>
+                  <input class="span8 input-user-field-dest-regexp" type="text" name="input-user-field-dest-regexp" placeholder="<%= __("Regular expression") %>"/>
                 </div>
               </div>
             </div>
           </div>
           <div class="control-group">
             <label class="control-label" for="input-user-field-residual">
-              <a class="notALink" data-toggle="tooltip" title="(Optionnel) Champ recevant les valeurs ne correspondant à aucune expression régulière.">Champ restes <i class="icon-question-sign"></i></a>
+              <a class="notALink" data-toggle="tooltip" title="(Optionnel) Champ recevant les valeurs ne correspondant à aucune expression régulière."><%= __("Residuals field") %> <i class="icon-question-sign"></i></a>
             </label>
             <div class="controls">
               <input class="input-user-field-residual" type="text" name="input-user-field-residual"/>
@@ -340,17 +340,17 @@
         </script>
         <script type="text/html" id="dest-template">
         <div class="dest">
-          <input class="span4 input-user-field-dest-name" type="text" name="input-user-field-dest-name" placeholder="Nom"/>
-          <input class="span8 input-user-field-dest-regexp" type="text" name="input-user-field-dest-regexp" placeholder="Expression régulière"/>
+          <input class="span4 input-user-field-dest-name" type="text" name="input-user-field-dest-name" placeholder="<%= __("Name") %>"/>
+          <input class="span8 input-user-field-dest-regexp" type="text" name="input-user-field-dest-regexp" placeholder="<%= __("Regular expression") %>"/>
         </div>
         </script>
 
         <div id="navigator-alert" class="text-center ninja">
           <h2>
-            Votre navigateur n'est pas compatible avec ezPAARSE.
+            <%= __("Your browser is too old to work with ezPAARSE.") %>
           </h2>
           <h2>
-            Nous vous conseillons d'utiliser :
+            <%= __("We recommend that you use :") %>
           </h2>
           <div class="span2"></div>
           <div class="row-fluid">
@@ -361,7 +361,7 @@
               </a>
             </div>
             <div class="span1">
-              <h2>ou</h2>
+              <h2><%= __("or") %></h2>
             </div>
             <div class="span3">
               <a href="http://www.mozilla.org/fr/firefox/new/">
