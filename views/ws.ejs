@@ -28,7 +28,7 @@
                 <div class="accordion-group ninja">
                   <div class="accordion-heading">
                     <a class="accordion-toggle" data-toggle="collapse" data-parent="#pane-file-select" href="#collapseOne">
-                      <i id="iOne" class="icon-chevron-right"></i>
+                      <i id="iOne" class="icon-chevron-right"> <%= __("Process server side files") %></i>
                     </a>
                   </div>
                   <div id="collapseOne" class="accordion-body collapse" toggle-chevron="#iOne">
@@ -40,7 +40,7 @@
                 <div class="accordion-group">
                   <div class="accordion-heading">
                     <a class="accordion-toggle" data-toggle="collapse" data-parent="#pane-file-select" href="#collapseTwo">
-                      <i id="iTwo" class="icon-chevron-down"></i> <%= __("Process server side files") %>
+                      <i id="iTwo" class="icon-chevron-down"></i> <%= __("Process your log files") %>
                     </a>
                   </div>
                   <div id="collapseTwo" class="accordion-body collapse in" toggle-chevron="#iTwo">
@@ -172,7 +172,7 @@
           <div id="nofile-warn" class="alert alert-warning ninja"><%= __("You must select one file at least") %></div>
           <div id="big-warn" class="alert alert-warning ninja"><%= __("Selected files are large, the process could be long.") %></div>
           <div class="text-center">
-            <input type="submit" class="btn" value="Traiter" id="submit" />
+            <input type="submit" class="btn" value="<%= __("Process") %>" id="submit" />
             <button class="btn" id="clearCookies"><%= __("Clear cookies") %></button>
           </div>
         </div><!-- form-content -->
