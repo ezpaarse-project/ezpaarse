@@ -68,7 +68,7 @@
                   <div id="advanced-options" class="accordion-inner">
                     <div class="control-group">
                       <label class="control-label" for="advanced-options-predefined">
-                        <a class="notALink" data-toggle="tooltip" title="Valeurs pré-définies"><%= __("Predefined settings") %> <i class="icon-question-sign"></i></a>
+                        <a class="notALink" data-toggle="tooltip" title="<%= __("Predefined settings") %>"><%= __("Predefined settings") %> <i class="icon-question-sign"></i></a>
                       </label>
                       <div class="controls">
                         <select id="advanced-options-predefined" name="advanced-options-predefined">
@@ -78,7 +78,7 @@
                     </div>
                      <div class="control-group">
                       <label class="control-label" for="input-log-type">
-                        <a class="notALink" data-toggle="tooltip" title="Plateforme d'origine des logs"><%= __("Log type") %> <i class="icon-question-sign"></i></a>
+                        <a class="notALink" data-toggle="tooltip" title="<%= __("The platform that generated the logs.") %>"><%= __("Log type") %> <i class="icon-question-sign"></i></a>
                       </label>
                       <div class="controls">
                         <select id="input-log-type" name="input-log-type">
@@ -91,7 +91,7 @@
                     </div>
                     <div class="control-group">
                       <label class="control-label" for="input-log-format">
-                        <a class="notALink" data-toggle="tooltip" title="Format des lignes de log, du style '%h %l %u %t %s %b'. Pour plus d'infos, consulter Formats de logs dans la documentation"><%= __("Log format") %> <i class="icon-question-sign"></i></a>
+                        <a class="notALink" data-toggle="tooltip" title="<%= __("Format of log lines.") %> <%= __("For more information, consult 'Formats de logs' in the documentation.") %>"><%= __("Log format") %> <i class="icon-question-sign"></i></a>
                       </label>
                       <div class="controls">
                         <textarea id="input-log-format" name="input-log-format" row="1" disabled></textarea>
@@ -99,7 +99,7 @@
                     </div>
                     <div class="control-group">
                       <label class="control-label" for="input-result-format">
-                        <a class="notALink" data-toggle="tooltip" title="Format du fichier en résultat"><%= __("Result format") %> <i class="icon-question-sign"></i></a>
+                        <a class="notALink" data-toggle="tooltip" title="<%= __("Result file format.") %>"><%= __("Result format") %> <i class="icon-question-sign"></i></a>
                       </label>
                       <div class="controls">
                         <select id="input-result-format" name="input-result-format">
@@ -111,7 +111,7 @@
                     </div>
                     <div class="control-group">
                       <label class="control-label" for="input-traces">
-                        <a class="notALink" data-toggle="tooltip" title="Niveau de verbosité des traces, du moins verbeux Error au plus verbeux Silly."><%= __("System traces") %> <i class="icon-question-sign"></i></a>
+                        <a class="notALink" data-toggle="tooltip" title="<%= __("Verbosity of traces, from the less verbose Error to the more verbose Silly.") %>"><%= __("System traces") %> <i class="icon-question-sign"></i></a>
                       </label>
                       <div class="controls">
                         <select id="input-traces" name="input-traces">
@@ -125,7 +125,7 @@
                     </div>
                     <div class="control-group">
                       <label class="control-label" for="input-output-fields">
-                        <a class="notALink" data-toggle="tooltip" title="Indiquer les champs (en-têtes) désirés pour le fichier de sortie. Exemple : -host,-login,+datetime"><%= __("Output fields") %> <i class="icon-question-sign"></i></a>
+                        <a class="notALink" data-toggle="tooltip" title="<%= __("Fields (headers) to add/remove in the result file.") %>"><%= __("Output fields") %> <i class="icon-question-sign"></i></a>
                       </label>
                       <div class="controls">
                         <input id="input-output-fields" placeholder="Ex: -host,-login,+datetime" type="text" name="input-output-fields"/>
@@ -133,7 +133,7 @@
                     </div>
                     <div class="control-group">
                       <label class="control-label" for="input-request-charset">
-                        <a class="notALink" data-toggle="tooltip" title="Jeu de caractères (charset) utilisé dans les fichiers à traiter."><%= __("Input encoding") %> <i class="icon-question-sign"></i></a>
+                        <a class="notALink" data-toggle="tooltip" title="<%= __("Character set used in the files to be processed.") %>"><%= __("Input encoding") %> <i class="icon-question-sign"></i></a>
                       </label>
                       <div class="controls">
                         <select id="input-request-charset" name="input-request-charset">
@@ -144,7 +144,7 @@
                     </div>
                     <div class="control-group">
                       <label class="control-label" for="input-response-charset">
-                        <a class="notALink" data-toggle="tooltip" title="Jeu de caractères (charset) utilisé pour les données en sortie."><%= __("Output encoding") %> <i class="icon-question-sign"></i></a>
+                        <a class="notALink" data-toggle="tooltip" title="<%= __("Character set used for output data.") %>"><%= __("Output encoding") %> <i class="icon-question-sign"></i></a>
                       </label>
                       <div class="controls">
                         <select id="input-response-charset" name="input-response-charset">
@@ -224,7 +224,7 @@
                   <tr><td>HTML</td><td id="mime-HTML" class="result-value"></td></tr>
                   <tr>
                     <td>
-                      <a class="notALink" data-toggle="tooltip" title="Le nombre de lignes rejetées pour cent lignes en entrée. A noter que les lignes ignorées (jpg, js, css ...) ne sont pas prises en compte lors de ce calcul."><%= __("Filtering rate") %> <i class="icon-question-sign"></i></a>
+                      <a class="notALink" data-toggle="tooltip" title="<%= __("The number of rejected lines for one hundred input lines.") %> <%= __("Ignored lines (jpg, js, css...) are not taken into account in this calculation.") %>"><%= __("Filtering rate") %> <i class="icon-question-sign"></i></a>
                     </td>
                     <td id="rejection-rate" class="result-value"></td></tr>
                   <tr><td><%= __("Process time") %></td><td id="job-duration" class="result-value"></td></tr>
@@ -236,15 +236,15 @@
                 <table class="table table-bordered table-hover">
                   <tr>
                     <td>
-                      <a class="notALink" data-toggle="tooltip" title="Nombre de requêtes non pertinentes. Il s'agit principalement de téléchargements d'images, css ou scripts web sans rapport direct avec une ressource. Dans un log brut, ce chiffre est souvent élevé."><%= __("Ignored lines") %> <i class="icon-question-sign"></i></a>
+                      <a class="notALink" data-toggle="tooltip" title="<%= __("Number of irrelevant requests.") %> <%= __("It's mainly downloads of images, css or web script not directly related to a ressource.") %> <%= __("In a raw log file, this number is often high.") %>"><%= __("Ignored lines") %> <i class="icon-question-sign"></i></a>
                     </td>
                     <td id="nb-lines-ignored" class="result-value"></td>
                   </tr>
                   <tr>
-                    <td><a class="link-lines-duplicate-ecs" target="_blank" data-toggle="tooltip" title="Nombre de consultations ignorées car détectées comme des double-clics."><%= __("Filtered duplicates") %> <i class="icon-question-sign"></i></a></td><td id="nb-lines-duplicate-ecs" class="result-value"></td>
+                    <td><a class="link-lines-duplicate-ecs" target="_blank" data-toggle="tooltip" title="<%= __("Number of consutations ignored because they were detected as double clicks.") %>"><%= __("Filtered duplicates") %> <i class="icon-question-sign"></i></a></td><td id="nb-lines-duplicate-ecs" class="result-value"></td>
                   </tr>
                   <tr>
-                    <td><a class="link-lines-unordered-ecs" target="_blank" data-toggle="tooltip" title="Lignes ignorées en raison d'un mauvais ordre chronologique."><%= __("Time anomalies") %> <i class="icon-question-sign"></i></a></td><td id="nb-lines-unordered-ecs" class="result-value"></td>
+                    <td><a class="link-lines-unordered-ecs" target="_blank" data-toggle="tooltip" title="<%= __("Lines ignored due to bad chronological order.") %>"><%= __("Time anomalies") %> <i class="icon-question-sign"></i></a></td><td id="nb-lines-unordered-ecs" class="result-value"></td>
                   </tr>
                   <tr>
                     <td><a class="link-lines-ignored-domains" target="_blank"><%= __("Ignored domains") %></a></td>
@@ -262,7 +262,7 @@
                     </td>
                   </tr>
                   <tr>
-                    <td><a class="link-lines-unknown-format" target="_blank">Unknown formats</a></td>
+                    <td><a class="link-lines-unknown-format" target="_blank"><%= __("Unknown formats") %></a></td>
                     <td class="result-value">
                       <a class="link-lines-unknown-format" target="_blank">
                         <span id="nb-lines-unknown-format"></span>
@@ -301,7 +301,7 @@
         <div class="user-field">
           <div class="control-group">
             <label class="control-label" for="input-user-field-src">
-              <a class="notALink" data-toggle="tooltip" title="Nom du champ contenant les informations à extraire"><%= __("Source field") %> <i class="icon-question-sign"></i></a>
+              <a class="notALink" data-toggle="tooltip" title="<%= __("Name of the field containing the information to be extracted.") %>"><%= __("Source field") %> <i class="icon-question-sign"></i></a>
             </label>
             <div class="controls">
               <input class="input-user-field-src" type="text" name="input-user-field-src"/>
@@ -309,7 +309,7 @@
           </div>
           <div class="control-group">
             <label class="control-label" for="input-user-field-sep">
-              <a class="notALink" data-toggle="tooltip" title="Caractère séparant les valeurs du champ source (utilisez le mot 'space' si le séparateur est un espace)"><%= __("Separator") %> <i class="icon-question-sign"></i></a>
+              <a class="notALink" data-toggle="tooltip" title="<%= __("Character between the values ​​of the source field (use the word 'space' if the separator is a space)") %>"><%= __("Separator") %> <i class="icon-question-sign"></i></a>
             </label>
             <div class="controls">
               <input class="input-user-field-sep" placeholder="Ex: space + , ;" type="text" name="input-user-field-sep"/>
@@ -317,7 +317,7 @@
           </div>
           <div class="control-group">
             <label class="control-label" for="input-user-field-dest">
-              <a class="notALink" data-toggle="tooltip" title="Champs dans lesquels sont stockées les valeurs extraites. Les valeurs en adéquation avec une expression régulière sont ajoutées au champ correspondant."><%= __("Destination fields") %> <i class="icon-question-sign"></i></a>
+              <a class="notALink" data-toggle="tooltip" title="<%= __("Fields where extracted values will be stored.") %> <%= __("Values in line with a regular expression are added to field.") %>"><%= __("Destination fields") %> <i class="icon-question-sign"></i></a>
             </label>
             <div class="controls">
               <div class="user-field-dest row-fluid">
@@ -330,7 +330,7 @@
           </div>
           <div class="control-group">
             <label class="control-label" for="input-user-field-residual">
-              <a class="notALink" data-toggle="tooltip" title="(Optionnel) Champ recevant les valeurs ne correspondant à aucune expression régulière."><%= __("Residuals field") %> <i class="icon-question-sign"></i></a>
+              <a class="notALink" data-toggle="tooltip" title="<%= __("(Optional) Field which will receive values that don't match any regular expression.") %>"><%= __("Residuals field") %> <i class="icon-question-sign"></i></a>
             </label>
             <div class="controls">
               <input class="input-user-field-residual" type="text" name="input-user-field-residual"/>
