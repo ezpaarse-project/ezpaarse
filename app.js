@@ -8,20 +8,13 @@ var path          = require('path');
 var mkdirp        = require('mkdirp');
 var crypto        = require('crypto');
 var fs            = require('fs');
-var i18n          = require('i18n');
+var I18n          = require('i18n-2');
 var Reaper        = require('tmp-reaper');
 var userlist      = require('./lib/userlist.js');
 var winston       = require('winston');
 var passport      = require('passport');
 var BasicStrategy = require('passport-http').BasicStrategy;
 require('./lib/init.js');
-
-i18n.configure({
-  locales: ['fr', 'en'],
-  defaultLocale: 'en',
-  directory: path.join(__dirname, 'locales'),
-  updateFiles: false
-});
 
 winston.addColors({ verbose: 'green', info: 'green', warn: 'yellow', error: 'red' });
 
@@ -127,7 +120,17 @@ app.configure(function () {
   app.use(passport.initialize());
   app.use(passport.session());
 
-  app.use(i18n.init);
+  I18n.expressBind(app, {
+    locales: ['en', 'fr'],
+    defaultLocale: 'en',
+    extension: '.json',
+    directory: path.join(__dirname, 'locales')
+  });
+
+  app.use(function (req, res, next) {
+    req.i18n.setLocale(req.i18n.preferredLocale(req));
+    next();
+  });
 
   // Set the ezPAARSE-Version header in all responses
   app.use(function (req, res, next) {
