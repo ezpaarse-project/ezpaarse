@@ -124,11 +124,16 @@ app.configure(function () {
     locales: ['en', 'fr'],
     defaultLocale: 'en',
     extension: '.json',
-    directory: path.join(__dirname, 'locales')
+    directory: path.join(__dirname, 'locales'),
+    cookieName: 'lang'
   });
 
   app.use(function (req, res, next) {
-    req.i18n.setLocale(req.i18n.preferredLocale(req));
+    if (req.cookies.lang) {
+      req.i18n.setLocaleFromCookie(req);
+    } else {
+      req.i18n.setLocale(req.i18n.preferredLocale(req));
+    }
     next();
   });
 
@@ -173,6 +178,11 @@ app.all('*', function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "X-Requested-With");
   next();
+});
+
+app.get(/^\/lang\/([a-z]+)$/, function (req, res) {
+  res.cookie('lang', req.params[0]);
+  res.redirect('back');
 });
 
 // log related routes
