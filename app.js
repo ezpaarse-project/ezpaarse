@@ -8,6 +8,7 @@ var path          = require('path');
 var mkdirp        = require('mkdirp');
 var crypto        = require('crypto');
 var fs            = require('fs');
+var I18n          = require('i18n-2');
 var Reaper        = require('tmp-reaper');
 var userlist      = require('./lib/userlist.js');
 var winston       = require('winston');
@@ -119,6 +120,23 @@ app.configure(function () {
   app.use(passport.initialize());
   app.use(passport.session());
 
+  I18n.expressBind(app, {
+    locales: ['en', 'fr'],
+    defaultLocale: 'en',
+    extension: '.json',
+    directory: path.join(__dirname, 'locales'),
+    cookieName: 'lang'
+  });
+
+  app.use(function (req, res, next) {
+    if (req.cookies.lang) {
+      req.i18n.setLocaleFromCookie(req);
+    } else {
+      req.i18n.setLocale(req.i18n.preferredLocale(req));
+    }
+    next();
+  });
+
   // Set the ezPAARSE-Version header in all responses
   app.use(function (req, res, next) {
     res.header('ezPAARSE-Version', pkg.version || 'N/A');
@@ -160,6 +178,11 @@ app.all('*', function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "X-Requested-With");
   next();
+});
+
+app.get(/^\/lang\/([a-z]+)$/, function (req, res) {
+  res.cookie('lang', req.params[0]);
+  res.redirect('back');
 });
 
 // log related routes

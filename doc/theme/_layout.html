@@ -2,11 +2,9 @@
 <html>
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title><%= @manifest.title %></title>
+    <title><%= @manifest.title or @title %></title>
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-    <!-- Le styles -->
+     <!-- Le styles -->
     <link href="/stylesheets/bootstrap.css" rel="stylesheet" />
     <link href="/stylesheets/bootstrap-responsive.css" rel="stylesheet" />
     <link href="/stylesheets/style.css" rel="stylesheet" />
@@ -19,14 +17,14 @@
     <link type="text/css" rel="stylesheet" href="/stylesheets/docs.css" />
     <link type="text/css" rel="stylesheet" href="/stylesheets/print.css" media="print" />
     <link type="text/css" rel="stylesheet" href="/stylesheets/sunburst.min.css" />
-    <% if @manifest.options.css: %>
-        <link type="text/css" rel="stylesheet" href="<%- @manifest.options.css %>">
-    <% end %>
+    <% if @manifest.options.css: %><link type="text/css" rel="stylesheet" href="<%- @manifest.options.css %>"><% end %>
 
-    <script type="text/javascript" src="/js/jquery-1.9.1.min.js"></script>
-    <script type="text/javascript" src="/js/highlight.min.js"></script>
+    <script type="text/javascript" src="<%= @baseUrl %>assets/js/jquery-1.10.1.min.js"></script>
+    <script type="text/javascript" src="http://yandex.st/highlightjs/6.1/highlight.min.js"></script>
+    <script type="text/javascript" src="<%= @baseUrl %>assets/js/lunr.min.js"></script>
+
     <% if @manifest.options.embedly: %>
-        <script type="text/javascript" src="/js/jquery.embedly.min.js"></script>
+        <script type="text/javascript" src="http://scripts.embed.ly/jquery.embedly.min.js"></script>
         <script type="text/javascript">
             $(function(){
                 $('#content p:not(.disable-embedly) a:only-child').parent().embedly({
@@ -36,7 +34,9 @@
             });
         </script>
     <% end %>
-    <script type="text/javascript" src="/js/viewer.js"></script>
+
+    <script type="text/javascript">var BASE_URL = "<%= @baseUrl %>";</script>
+    <script type="text/javascript" src="<%= @baseUrl %>assets/js/viewer.js"></script>
 </head>
 <body>
     <a href="https://github.com/ezpaarse-project/ezpaarse"><img style="position: absolute; top: 0; right: 0; border: 0;" src="/img/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a>
@@ -73,23 +73,26 @@
           </li>
         </ul>
       </div>
-    
+
       <hr id="top" />
 
-    <div class="content row-fluid">
+      <div class="content row-fluid">
 
-      <%- @content %>
+        <%- @include "_sidebar.html" %>
+        <div id="content">
+            <%- @content %>
+        </div>
 
-      <footer id="footer">
-          ezPAARSE - Version: 1.2.0 - 
-          Powered by <a href="http://github.com/maximebf/beautiful-docs">beautiful-docs</a> -
-          <a href="#top">Back to top</a> - <a href="<%= @baseUrl %>all.html">Everything on a single page</a>
-          - <a href="?print=1">Print current page</a> - <a href="<%= @baseUrl %>all.html?print=1">Print all pages</a>
-          <% if @manifest.options.github: %>
-              <a href="https://github.com/<%= @manifest.options.github %>" id="fork-me-on-github">Fork me on Github</a>
-          <% end %>
-      </footer>
-
-    </div>
+        <footer id="footer">
+            ezPAARSE - Version: 1.2.0 -
+            Powered by <a href="http://github.com/maximebf/beautiful-docs">beautiful-docs</a> -
+            <a href="#top">Back to top</a> - <a href="<%= @baseUrl %>all.html">Everything on a single page</a>
+            - <a href="?print=1">Print current page</a> - <a href="<%= @baseUrl %>all.html?print=1">Print all pages</a>
+            <% if @manifest.options.github: %>
+                <a href="https://github.com/<%= @manifest.options.github %>" id="fork-me-on-github">Fork me on Github</a>
+            <% end %>
+        </footer>
+      </div> <!-- content -->
+    </div> <!-- container -->
 </body>
 </html>

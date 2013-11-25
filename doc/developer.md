@@ -21,35 +21,35 @@ Tout d'abord, veuillez vous enregistrer sur [Github](https://github.com/).
 Vous avez ensuite besoin de maîtriser quelques commandes [git](http://git-scm.com/) :
 
 ```bash
-# récupérer une version du dépôt github en local
+#récupérer une version du dépôt github en local
 git clone https://github.com/ezpaarse-project/ezpaarse.git
 
-# si vous aviez déjà récupéré le projet, le mettre à jour
+#si vous aviez déjà récupéré le projet, le mettre à jour
 cd ezpaarse/
 git pull
 
-# modifier un fichier
+#modifier un fichier
 cd ezpaarse/
 echo "// ma modification" >> ./app.js
 
-# regarder quels sont les fichiers qui on été modifiés/ajoutés/supprimés (avant commit)
+#regarder quels sont les fichiers qui on été modifiés/ajoutés/supprimés (avant commit)
 git status
 
-# comparer ligne par ligne les modifications locales avec la version du dépôt locale avant modification
+#comparer ligne par ligne les modifications locales avec la version du dépôt locale avant modification
 git diff
 
-# envoyer la modification dans son dépôt local
+#envoyer la modification dans son dépôt local
 git commit ./app.js -m "mon commentaire expliquant ma modification"
 
-# afficher la liste des commits
+#afficher la liste des commits
 git log
 
-# ajouter un fichier
+#ajouter un fichier
 touch ./monfichiertest
 git add ./monfichiertest
 git commit ./monfichiertest -m "ajout d'un fichier test"
 
-# envoyer les modifications (commit) sur le dépôt distant (nécessite une autorisation sur le dépôt distant)
+#envoyer les modifications (commit) sur le dépôt distant (nécessite une autorisation sur le dépôt distant)
 git push
 ```
 
