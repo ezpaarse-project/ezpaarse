@@ -14,7 +14,7 @@
     "forever": "~0.10.8",
     "express": "~3.3.8",
     "ejs": "~0.8.4",
-    "beautiful-docs": "*",
+    "beautiful-docs": "~1.0.3",
     "debug": "~0.7.2",
     "request": "~2.27.0",
     "underscore": "~1.5.1",
