@@ -73,8 +73,8 @@ passport.use(new BasicStrategy(function (userid, password, done) {
 var app = express();
 
 // connect ezpaarse env to expressjs env
-config.EZPAARSE_ENV = process.env.NODE_ENV || config.EZPAARSE_ENV;
-app.set('env', config.EZPAARSE_ENV);
+process.env.NODE_ENV = process.env.NODE_ENV || config.EZPAARSE_ENV;
+app.set('env', process.env.NODE_ENV);
 
 app.configure('development', function () {
   // http://www.senchalabs.org/connect/middleware-logger.html
