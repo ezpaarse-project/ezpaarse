@@ -28,7 +28,7 @@ if (config.EZPAARSE_TMP_CYCLE && config.EZPAARSE_TMP_LIFETIME) {
     recursive: true,
     threshold: config.EZPAARSE_TMP_LIFETIME,
     every: config.EZPAARSE_TMP_CYCLE
-  }).watch(path.join(__dirname, '/tmp/jobs'))
+  }).watch(path.join(__dirname, '/tmp'))
     .start();
 } else {
   var red   = '\u001b[31m';
