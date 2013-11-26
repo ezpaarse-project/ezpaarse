@@ -14,11 +14,13 @@ var userlist      = require('./lib/userlist.js');
 var winston       = require('winston');
 var passport      = require('passport');
 var BasicStrategy = require('passport-http').BasicStrategy;
+var FileStore     = require('connect-session-file');
 require('./lib/init.js');
 
 winston.addColors({ verbose: 'green', info: 'green', warn: 'yellow', error: 'red' });
 
 mkdirp.sync(path.join(__dirname, '/tmp'));
+mkdirp.sync(path.join(__dirname, '/sessions'));
 
 // Setup cleaning jobs for the temporary folder
 if (config.EZPAARSE_TMP_CYCLE && config.EZPAARSE_TMP_LIFETIME) {
@@ -26,7 +28,7 @@ if (config.EZPAARSE_TMP_CYCLE && config.EZPAARSE_TMP_LIFETIME) {
     recursive: true,
     threshold: config.EZPAARSE_TMP_LIFETIME,
     every: config.EZPAARSE_TMP_CYCLE
-  }).watch(path.join(__dirname, '/tmp'))
+  }).watch(path.join(__dirname, '/tmp/jobs'))
     .start();
 } else {
   var red   = '\u001b[31m';
@@ -115,7 +117,13 @@ app.configure(function () {
     next();
   });
   app.use(express.cookieParser());
-  app.use(express.session({ secret: 'AppOfTheYearEzpaarse' }));
+  app.use(express.session({
+    secret: 'AppOfTheYearEzpaarse',
+    store: new FileStore({
+      path: path.join(__dirname, 'sessions'),
+      maxAge: 3600000 //1h
+    })
+  }));
 
   app.use(passport.initialize());
   app.use(passport.session());
