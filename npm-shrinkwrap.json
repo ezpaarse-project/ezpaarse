@@ -1006,6 +1006,99 @@
         }
       }
     },
+    "connect-session-file": {
+      "version": "1.0.4",
+      "from": "connect-session-file@",
+      "resolved": "http://registry.npmjs.org/connect-session-file/-/connect-session-file-1.0.4.tgz",
+      "dependencies": {
+        "connect": {
+          "version": "2.11.0",
+          "from": "connect@>=2.7.3",
+          "dependencies": {
+            "qs": {
+              "version": "0.6.5",
+              "from": "qs@0.6.5"
+            },
+            "cookie-signature": {
+              "version": "1.0.1",
+              "from": "cookie-signature@1.0.1"
+            },
+            "buffer-crc32": {
+              "version": "0.2.1",
+              "from": "buffer-crc32@0.2.1"
+            },
+            "cookie": {
+              "version": "0.1.0",
+              "from": "cookie@0.1.0"
+            },
+            "send": {
+              "version": "0.1.4",
+              "from": "send@0.1.4",
+              "resolved": "http://registry.npmjs.org/send/-/send-0.1.4.tgz",
+              "dependencies": {
+                "range-parser": {
+                  "version": "0.0.4",
+                  "from": "range-parser@0.0.4"
+                }
+              }
+            },
+            "bytes": {
+              "version": "0.2.1",
+              "from": "bytes@0.2.1"
+            },
+            "fresh": {
+              "version": "0.2.0",
+              "from": "fresh@0.2.0"
+            },
+            "pause": {
+              "version": "0.0.1",
+              "from": "pause@0.0.1"
+            },
+            "uid2": {
+              "version": "0.0.3",
+              "from": "uid2@0.0.3"
+            },
+            "methods": {
+              "version": "0.0.1",
+              "from": "methods@0.0.1"
+            },
+            "raw-body": {
+              "version": "0.0.3",
+              "from": "raw-body@0.0.3",
+              "resolved": "http://registry.npmjs.org/raw-body/-/raw-body-0.0.3.tgz"
+            },
+            "negotiator": {
+              "version": "0.3.0",
+              "from": "negotiator@0.3.0"
+            },
+            "multiparty": {
+              "version": "2.2.0",
+              "from": "multiparty@2.2.0",
+              "dependencies": {
+                "readable-stream": {
+                  "version": "1.1.9",
+                  "from": "readable-stream@~1.1.9",
+                  "dependencies": {
+                    "core-util-is": {
+                      "version": "1.0.0",
+                      "from": "core-util-is@~1.0.0"
+                    },
+                    "debuglog": {
+                      "version": "0.0.2",
+                      "from": "debuglog@0.0.2"
+                    }
+                  }
+                },
+                "stream-counter": {
+                  "version": "0.2.0",
+                  "from": "stream-counter@~0.2.0"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "mime": {
       "version": "1.2.9",
       "from": "http://registry.npmjs.org/mime/-/mime-1.2.9.tgz",
