@@ -14,11 +14,13 @@ var userlist      = require('./lib/userlist.js');
 var winston       = require('winston');
 var passport      = require('passport');
 var BasicStrategy = require('passport-http').BasicStrategy;
+var FileStore     = require('connect-session-file');
 require('./lib/init.js');
 
 winston.addColors({ verbose: 'green', info: 'green', warn: 'yellow', error: 'red' });
 
 mkdirp.sync(path.join(__dirname, '/tmp'));
+mkdirp.sync(path.join(__dirname, '/sessions'));
 
 // Setup cleaning jobs for the temporary folder
 if (config.EZPAARSE_TMP_CYCLE && config.EZPAARSE_TMP_LIFETIME) {
@@ -73,8 +75,8 @@ passport.use(new BasicStrategy(function (userid, password, done) {
 var app = express();
 
 // connect ezpaarse env to expressjs env
-config.EZPAARSE_ENV = process.env.NODE_ENV || config.EZPAARSE_ENV;
-app.set('env', config.EZPAARSE_ENV);
+process.env.NODE_ENV = process.env.NODE_ENV || config.EZPAARSE_ENV;
+app.set('env', process.env.NODE_ENV);
 
 app.configure('development', function () {
   // http://www.senchalabs.org/connect/middleware-logger.html
@@ -115,7 +117,13 @@ app.configure(function () {
     next();
   });
   app.use(express.cookieParser());
-  app.use(express.session({ secret: 'AppOfTheYearEzpaarse' }));
+  app.use(express.session({
+    secret: 'AppOfTheYearEzpaarse',
+    store: new FileStore({
+      path: path.join(__dirname, 'sessions'),
+      maxAge: 3600000 //1h
+    })
+  }));
 
   app.use(passport.initialize());
   app.use(passport.session());
