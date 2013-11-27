@@ -120,22 +120,26 @@ app.configure(function () {
   app.use(express.session({
     secret: 'AppOfTheYearEzpaarse',
     store: new FileStore({
-      path: path.join(__dirname, 'sessions'),
-      maxAge: 3600000 //1h
+      path: path.join(__dirname, 'sessions'), //where to store sessions files
+      maxAge: 3600000 //max session lifetime (1h)
     })
   }));
 
   app.use(passport.initialize());
   app.use(passport.session());
 
+  // bind i18n to express so that it's available using req.i18n
   I18n.expressBind(app, {
     locales: ['en', 'fr'],
     defaultLocale: 'en',
-    extension: '.json',
+    extension: '.json', //locales extensions (ex: en.json)
     directory: path.join(__dirname, 'locales'),
     cookieName: 'lang'
   });
 
+  /**
+   * Set locale using either 'lang' cookie or browser language
+   */
   app.use(function (req, res, next) {
     if (req.cookies.lang) {
       req.i18n.setLocaleFromCookie(req);
@@ -188,6 +192,9 @@ app.all('*', function (req, res, next) {
   next();
 });
 
+/**
+ * Set the cookie 'lang' with the given locale and redirect back to the previous page
+ */
 app.get(/^\/lang\/([a-z]+)$/, function (req, res) {
   res.cookie('lang', req.params[0]);
   res.redirect('back');
