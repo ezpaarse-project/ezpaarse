@@ -12,6 +12,9 @@ platforms-parsers/
 platforms-scrapers/
 tmp/
 ezpaarse.pid
+sessions
+config.local.json
+domains.miss.csv
 
 
 .DS_Store
