@@ -8,11 +8,64 @@
   !include "MUI2.nsh"
 
 ;--------------------------------
+;Variables
+
+  Var StartMenuFolder
+  Var DefaultBrowser
+  Var DefaultExcel
+
+
+;--------------------------------
+;Pages
+
+!insertmacro MUI_PAGE_LICENSE $(license)
+!insertmacro MUI_PAGE_COMPONENTS
+!insertmacro MUI_PAGE_DIRECTORY
+
+
+;Start Menu Folder Page Configuration
+!define MUI_STARTMENUPAGE_REGISTRY_ROOT "HKCU" 
+!define MUI_STARTMENUPAGE_REGISTRY_KEY "Software\ezPAARSE-Project" 
+!define MUI_STARTMENUPAGE_REGISTRY_VALUENAME "Start Menu Folder"
+
+; ending image
+!define MUI_WELCOMEFINISHPAGE_BITMAP "ezPAARSE-HeaderPageNSIS.bmp"
+
+!insertmacro MUI_PAGE_STARTMENU Application $StartMenuFolder
+
+!insertmacro MUI_PAGE_INSTFILES
+
+!define MUI_FINISHPAGE_RUN
+!define MUI_FINISHPAGE_RUN_TEXT $(finish_page_text)
+!define MUI_FINISHPAGE_RUN_FUNCTION "RunEZPAARSE"
+
+!insertmacro MUI_PAGE_FINISH
+
+!insertmacro MUI_UNPAGE_CONFIRM
+!insertmacro MUI_UNPAGE_INSTFILES
+  
+
+;--------------------------------
+;Languages
+ 
+  !insertmacro MUI_LANGUAGE "French" ;first language is the default language
+  !insertmacro MUI_LANGUAGE "English"
+
+;custom translations 
+
+  !insertmacro LANGFILE_INCLUDE "French.nsh"
+  !insertmacro LANGFILE_INCLUDE "English.nsh"
+
+LicenseLangString license ${LANG_FRENCH} "Licence-CeCILL-V2-fr.txt"
+LicenseLangString license ${LANG_ENGLISH} "License-CeCILL-V2-en.txt"
+
+
+;--------------------------------
 ;General
 
-!define APP_NAME "ezpaarse"
-!define APP_VERSION "0.0.4"
-!define APP_EXCEL_RENDER ""
+!define APP_NAME "ezPAARSE"
+!define APP_VERSION "0.0.0"
+!define APP_INST ""
 
 
 ;Name and file
@@ -23,19 +76,10 @@ OutFile "${APP_NAME}-${APP_VERSION}-Setup.exe"
 InstallDir "$LOCALAPPDATA\${APP_NAME}-${APP_VERSION}"
 
 ;Get installation folder from registry if available
-InstallDirRegKey HKCU "Software\ezPAARSE-Project" ""
+InstallDirRegKey HKCU "Software\ezPAARSE-Project" "InstallDir"
 
 ;Request application privileges for Windows
 RequestExecutionLevel user
-
-
-
-;--------------------------------
-;Variables
-
-  Var StartMenuFolder
-  Var DefaultBrowser
-  Var DefaultExcel
 
 ;--------------------------------
 ;Detecting default browser and excel for shortcuts
@@ -63,52 +107,20 @@ SectionEnd
 
   !define MUI_ABORTWARNING
 
-;--------------------------------
-;Pages
-
-!insertmacro MUI_PAGE_LICENSE "Licence_CeCILL_V2-fr.txt"
-!insertmacro MUI_PAGE_COMPONENTS
-!insertmacro MUI_PAGE_DIRECTORY
-
-;Start Menu Folder Page Configuration
-!define MUI_STARTMENUPAGE_REGISTRY_ROOT "HKCU" 
-!define MUI_STARTMENUPAGE_REGISTRY_KEY "Software\ezPAARSE-Project" 
-!define MUI_STARTMENUPAGE_REGISTRY_VALUENAME "Start Menu Folder"
-
-; ending image
-!define MUI_WELCOMEFINISHPAGE_BITMAP "ezPAARSE-HeaderPageNSIS.bmp"
-
-!insertmacro MUI_PAGE_STARTMENU Application $StartMenuFolder
-
-!insertmacro MUI_PAGE_INSTFILES
-
-!define MUI_FINISHPAGE_RUN
-!define MUI_FINISHPAGE_RUN_TEXT "Lancer ezPAARSE"
-!define MUI_FINISHPAGE_RUN_FUNCTION "LaunchEZPAARSE"
-
-!insertmacro MUI_PAGE_FINISH
-
-!insertmacro MUI_UNPAGE_CONFIRM
-!insertmacro MUI_UNPAGE_INSTFILES
-  
-;--------------------------------
-;Languages
- 
-  !insertmacro MUI_LANGUAGE "French"
 
 ;--------------------------------
 ;Installer Sections
 
-Section "ezPAARSE (required)" SecEZPAARSE
+Section $(ezPAARSErequired) SecEZPAARSE
 
   SetOutPath "$INSTDIR"
   SectionIn RO
   
   ;ADD YOUR OWN FILES HERE...
-  File /r "${APP_NAME}-${APP_VERSION}\*.*"
+  File /r "ezpaarse-${APP_VERSION}\*.*"
 
   ;Store installation folder
-  WriteRegStr HKCU "Software\ezPAARSE-Project" "" $INSTDIR
+  WriteRegStr HKCU "Software\ezPAARSE-Project" "InstallDir" $INSTDIR
   
   ;Create uninstaller
   WriteUninstaller "$INSTDIR\Uninstall.exe"
@@ -116,29 +128,26 @@ Section "ezPAARSE (required)" SecEZPAARSE
 SectionEnd
 
 
-Section "Menu ezPAARSE" SecMenuEZPAARSE
+Section $(ezPAARSEmenu) SecMenuEZPAARSE
 
   !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
     
     ;Create shortcuts
     CreateDirectory "$SMPROGRAMS\$StartMenuFolder"
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Uninstall.lnk" "$INSTDIR\Uninstall.exe"
-    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\1-Lancer le serveur ezPAARSE.lnk" "$INSTDIR\node.exe" "app.js" 0
-    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\2-Utiliser le formulaire ezPAARSE.lnk" "$DefaultBrowser" "http://localhost:59599" 0 
-    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\3-Tester avec des echantillons de log.lnk" "$WINDIR\explorer.exe" "$INSTDIR\test\dataset" 
-    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\4-Visualiser les resultats avec Excel.lnk" "$DefaultExcel" "${APP_EXCEL_RENDER}" 0 
-    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Documentation ezPAARSE.lnk" "$DefaultBrowser" "http://localhost:59599/doc" 0 
-    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Explications usage ezPAARSE.lnk" "$DefaultBrowser" "http://analogist.couperin.org/ezpaarse/doc/usage" 0 
-    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Site AnalogIST.lnk" "$DefaultBrowser" "http://analogist.couperin.org" 0 
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(msg_1_lancer)" "$INSTDIR\node.exe" "app.js" 0
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(msg_2_utiliser)" "$DefaultBrowser" $(url_start) 0 
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(msg_3_tester)" "$WINDIR\explorer.exe" "$INSTDIR\test\dataset" 
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(msg_4_visualiser)" "$DefaultExcel" "$INSTDIR\excel\$(excel_render)" 0 
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(msg_5_documenter)" "$DefaultBrowser" $(url_doc) 0 
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(msg_6_doc_usage)" "$DefaultBrowser" $(url_usage) 0 
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(msg_7_analogist)" "$DefaultBrowser" "http://analogist.couperin.org" 0 
   !insertmacro MUI_STARTMENU_WRITE_END
 
 SectionEnd
 
 ;--------------------------------
 ;Descriptions
-
-  ;Language strings
-  LangString DESC_SecEZPAARSE ${LANG_FRENCH} "Section ezPAARSE."
 
   ;Assign language strings to sections
   !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
@@ -162,14 +171,37 @@ Section "Uninstall"
 
 SectionEnd
 
-Function LaunchEZPAARSE
-  MessageBox MB_OK "Le Web Service ezPAARSE va etre lance $\r$\n \
-                   et la Home Page ezPAARSE sera ouverte dans votre navigateur$\r$\n \
-                   Cliquer sur la croix pour fermer le Web Service$\r$\n \
-                   Le Web Service a besoin des autorisations de votre pare-feu windows"
-  ExecShell "" "$SMPROGRAMS\$StartMenuFolder\1-Lancer le serveur ezPAARSE.lnk"
-  ExecShell "open" "http://analogist.couperin.org/ezpaarse/doc/usage"
+Function runEZPAARSE
+  MessageBox MB_OK $(runMessage)
+  ExecShell "" "$SMPROGRAMS\$StartMenuFolder\$(msg_1_lancer)"
+  ExecShell "open" $(url_usage)
   Sleep 5000 ; wait for node startup
-  ExecShell "open" "http://localhost:59599"
+  ExecShell "open" $(url_start)
 FunctionEnd
 
+Function .onInit
+  !insertmacro MUI_LANGDLL_DISPLAY
+  ReadRegStr $R0 HKCU \
+  "Software\ezPAARSE-Project" "InstallDir"
+  StrCmp $R0 "" done
+
+  MessageBox MB_OKCANCEL|MB_ICONEXCLAMATION \
+  $(msg_already_installed) \
+  IDOK uninst
+  Abort
+ 
+;Run the uninstaller
+uninst:
+  ClearErrors
+  Exec "$INSTDIR\Uninstall.exe"
+ 
+  IfErrors no_remove_uninstaller done
+    ;You can either use Delete /REBOOTOK in the uninstaller or add some code
+    ;here to remove the uninstaller. Use a registry key to check
+    ;whether the user has chosen to uninstall. If you are using an uninstaller
+    ;components page, make sure all sections are uninstalled.
+  no_remove_uninstaller:
+ 
+done:
+ 
+FunctionEnd
