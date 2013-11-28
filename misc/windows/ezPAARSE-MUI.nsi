@@ -114,7 +114,7 @@ Section $(ezPAARSErequired) SecEZPAARSE
   SetOutPath "$INSTDIR"
   SectionIn RO
   
-  ;ADD YOUR OWN FILES HERE...
+  ;All ezPAARSE files...
   File /r "ezpaarse-${APP_VERSION}\*.*"
 
   ;Store installation folder
