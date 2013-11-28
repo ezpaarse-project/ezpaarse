@@ -111,5 +111,7 @@
 	"Values in line with a regular expression are added to field.": "Values in line with a regular expression are added to field.",
 	"(Optional) Field which will receive values that don't match any regular expression.": "(Optional) Field which will receive values that don't match any regular expression.",
 	"Execution report": "Execution report",
-	"ezPAARSE usage": "ezPAARSE usage"
+	"ezPAARSE usage": "ezPAARSE usage",
+	"ExcelRenderingFileURL": "https://github.com/ezpaarse-project/ezpaarse/blob/master/misc/windows/ezPAARSE-Render-en.xltm",
+	"ExcelRenderingUsageURL": "http://analogist.couperin.org/ezpaarse/doc/usage_en#see-the-results-with-excel"
 }

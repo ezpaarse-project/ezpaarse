@@ -14,14 +14,12 @@
   Var DefaultBrowser
   Var DefaultExcel
 
-
 ;--------------------------------
 ;Pages
 
 !insertmacro MUI_PAGE_LICENSE $(license)
 !insertmacro MUI_PAGE_COMPONENTS
 !insertmacro MUI_PAGE_DIRECTORY
-
 
 ;Start Menu Folder Page Configuration
 !define MUI_STARTMENUPAGE_REGISTRY_ROOT "HKCU" 

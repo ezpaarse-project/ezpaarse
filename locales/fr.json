@@ -120,5 +120,7 @@
 	"Verbosity of traces, from the less verbose Error to the more verbose Silly.": "Niveau de verbosité des traces, du moins verbeux Error au plus verbeux Silly.",
 	"Character set used in the files to be processed.": "Jeu de caractères (charset) utilisé dans les fichiers à traiter.",
 	"Character set used for output data.": "Jeu de caractères (charset) utilisé pour les données en sortie.",
-	"Fields (headers) to add/remove in the result file.": "Champs (en-têtes) à ajouter/enlever dans le fichier de sortie."
+	"Fields (headers) to add/remove in the result file.": "Champs (en-têtes) à ajouter/enlever dans le fichier de sortie.",
+	"ExcelRenderingFileURL" : "https://github.com/ezpaarse-project/ezpaarse/blob/master/misc/windows/ezPAARSE-Rendu-fr.xltm",
+	"ExcelRenderingUsageURL": "http://analogist.couperin.org/ezpaarse/doc/usage#visualiser-les-resultats-avec-excel"
 }
