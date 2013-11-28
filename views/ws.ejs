@@ -153,6 +153,14 @@
                         </select>
                       </div>
                     </div>
+                    <div class="control-group">
+                      <label class="control-label" for="remember-settings">
+                        <%= __("Remember my settings") %>
+                      </label>
+                      <div class="controls">
+                        <input type="checkbox" id="remember-settings" name="remember-settings">
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -173,7 +181,6 @@
           <div id="big-warn" class="alert alert-warning ninja"><%= __("Selected files are large, the process could be long.") %></div>
           <div class="text-center">
             <input type="submit" class="btn" value="<%= __("Process") %>" id="submit" />
-            <button class="btn" id="clearCookies"><%= __("Clear cookies") %></button>
           </div>
         </div><!-- form-content -->
         <div id="content-result" class="ninja">

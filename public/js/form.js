@@ -63,6 +63,9 @@ $(document).on('ready' ,function () {
       form = {};
     }
 
+    if (form.remember !== true) return;
+
+    $('#remember-settings').attr('checked', true);
     $('#input-log-type').val(form['Log-Type']);
     $('#input-log-format').val(form['Log-Format']);
     $('#input-result-format').val(form['Accept']);
@@ -515,7 +518,12 @@ $(document).on('ready' ,function () {
       headers['Socket-ID'] = socketID;
     }
 
-    setCookie('form', JSON.stringify(formCookie));
+    if ($('#remember-settings').is(':checked')) {
+      formCookie.remember = true;
+      setCookie('form', JSON.stringify(formCookie));
+    } else {
+      clearCookie('form');
+    }
 
     var data = new FormData(document.getElementById('form'));
     var test = false;
