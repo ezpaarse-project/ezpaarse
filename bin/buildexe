@@ -9,21 +9,26 @@ MY_PATH=$(cd ${0%/*} && echo $PWD/${0##*/})
 BIN_PATH=`dirname "$MY_PATH"`
 EZPAARSE_PATH=$BIN_PATH/..
 EZPAARSE_NODEJS_VERSION="`$BIN_PATH/readconfig -k EZPAARSE_NODEJS_VERSION`"
-EZPAARSE_EXCEL_RENDER="ezPAARSERenderV1.1.xlsm"
+EZPAARSE_EXCEL_RENDER_FR="ezPAARSERendu-fr.xltm"
+EZPAARSE_EXCEL_RENDER_EN="ezPAARSERender-en.xltm"
 
 
 # check version exists
 VERSION=$v
-[ -z "$VERSION" ] && VERSION="`$BIN_PATH/readconfig -k version`"
+CURRENT_VERSION="`$BIN_PATH/readconfig -k version`"
+
+[ -z "$VERSION" ] && VERSION="$CURRENT_VERSION"
 if [ "`git tag -l | grep $VERSION`" == "" ]; then
   VERSION="latest"
 fi
 
 # get the latest commit id as the latest version number
 VERSION_PREFIX=""
+VERSION_NAME=""
 if [ "$VERSION" == "latest" ]; then
   VERSION="`git log --pretty=format:'%h' -n 1`"
-  VERSION_PREFIX="`date +"%Y%m%d"`"
+  VERSION_PREFIX="$CURRENT_VERSION+`date +"%j"`"
+  VERSION_NAME="$CURRENT_VERSION-`date +"%j"`"
 fi
 
 # a temp folder to clone the git
@@ -31,7 +36,7 @@ TMP_DIR=$EZPAARSE_PATH/tmp
 mkdir -p $TMP_DIR
 
 EZPAARSE_SUFFIX=""
-EZPAARSE_NAME="ezpaarse-$VERSION_PREFIX$VERSION"
+EZPAARSE_NAME="ezpaarse-$VERSION_NAME$VERSION"
 
 # clone the git with the correct name
 rm -rf $TMP_DIR/$EZPAARSE_NAME
@@ -40,7 +45,7 @@ cd $TMP_DIR/$EZPAARSE_NAME
 git checkout $VERSION
 cp -f $EZPAARSE_PATH/Makefile $TMP_DIR/$EZPAARSE_NAME/
 touch $TMP_DIR/$EZPAARSE_NAME/clean-for-release-flag
-#make version v=$VERSION_PREFIX$VERSION
+make version v=$VERSION_PREFIX$VERSION
 make clean-for-release
 
 cd $TMP_DIR/$EZPAARSE_NAME
@@ -71,14 +76,18 @@ curl -L http://analogist.couperin.org/ezpaarse/dataset/big-sample.log.gz > $TMP_
 
 cd $TMP_DIR
 # compile with ezpaarse nsis script file
-sed -e "s/APP_VERSION \"[0-9]\+.[0-9]\+.[0-9a-z]\+\"/APP_VERSION \"$VERSION_PREFIX$VERSION\"/g" $EZPAARSE_PATH/misc/windows/ezPAARSE-MUI.nsi \
+sed -e "s/APP_VERSION \"[0-9]\+.[0-9]\+.[0-9a-z]\+\"/APP_VERSION \"$VERSION_NAME$VERSION\"/g" $EZPAARSE_PATH/misc/windows/ezPAARSE-MUI.nsi \
 	| sed -e "s/APP_EXCEL_RENDER \"\"/APP_EXCEL_RENDER \"$EZPAARSE_EXCEL_RENDER\"/g" > ezPAARSE-MUI.nsi
 #cp $EZPAARSE_PATH/misc/windows/ezPAARSE-MUI.nsi .
-cp $EZPAARSE_PATH/misc/windows/Licence_CeCILL_V2-fr.txt .
+cp $EZPAARSE_PATH/misc/windows/French.nsh .
+cp $EZPAARSE_PATH/misc/windows/English.nsh .
+cp $EZPAARSE_PATH/misc/windows/Licence-CeCILL-V2-fr.txt .
+cp $EZPAARSE_PATH/misc/windows/License-CeCILL-V2-en.txt .
 cp $EZPAARSE_PATH/misc/windows/ezPAARSE-HeaderPageNSIS.bmp .
-cp $EZPAARSE_PATH/misc/windows/$EZPAARSE_EXCEL_RENDER $EZPAARSE_NAME/$EZPAARSE_EXCEL_RENDER
+mkdir $TMP_DIR/$EZPAARSE_NAME/excel
+cp $EZPAARSE_PATH/misc/windows/ezPAARSE-Render-en.xltm $TMP_DIR/$EZPAARSE_NAME/excel/.
+cp $EZPAARSE_PATH/misc/windows/ezPAARSE-Rendu-fr.xltm $TMP_DIR/$EZPAARSE_NAME/excel/.
 makensis ezPAARSE-MUI.nsi
-
 
 INSTALLER="`ls *-Setup.exe`"
 
