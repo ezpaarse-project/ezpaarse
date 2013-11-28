@@ -222,7 +222,7 @@ scrapers-update:
 # git pull on every git repositories
 pull: pkb-update parsers-update scrapers-update
 	@git pull
-	@make restart
+	@echo "ezPAARSE has been updated, changes will take effect at next reboot."
 
 update: pull
 
