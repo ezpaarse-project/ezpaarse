@@ -101,6 +101,15 @@ $(document).on('ready' ,function () {
   }
   loadFormFromCookies();
 
+  $('#reset-settings').on('click', function resetSettings() {
+    var optionsDiv = $('#pane-options');
+    optionsDiv.find('input').val('');
+    optionsDiv.find('textarea#input-log-format').val('').attr('disabled', true);
+    optionsDiv.find('select').prop('selectedIndex', 0);
+    optionsDiv.find('select#input-traces').val('info');
+    $('#user-fields').empty().append($('#user-field-template').html());
+  });
+
   /**
    * initialize advanced options
    */
