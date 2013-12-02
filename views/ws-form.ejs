@@ -1,0 +1,203 @@
+        <div id="content-form">
+          <div class="row-fluid">
+              <div class="accordion span12" id="pane-file-select">
+                <div class="accordion-group">
+                  <div class="accordion-heading">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#pane-file-select" href="#collapseFive">
+                      <i id="iFive" class="icon-chevron-right"></i> <%= __("cURL translated request") %>
+                    </a>
+                  </div>
+                  <div id="collapseFive" class="accordion-body collapse" toggle-chevron="#iFive">
+                    <div class="accordion-inner">
+                      <% if (user && user.group == 'admin') { %>
+                      <div class="alert"><strong><%= __("Warning") %></strong> : <%= __("it's not advisable to use your administrator account in your automation scripts.") %></div>
+                      <% } %>
+                      <p><%= __("Copy/paste the following code to send the request with cURL.") %></p>
+                      <p><%= __("Change the files path if they are not in the current directory.") %>
+                      <br/><%- __("You might need to add options such as %s or %s depending to your environment.", '<code>--proxy</code>', '<code>--no-buffer</code>') %></p>
+                      <textarea class="code" id="curl-request"></textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+          <div class="row-fluid">
+            <form id="form" class="form-horizontal span6" enctype="multipart/form-data">
+              <div class="accordion" id="pane-file-select">
+                <div class="accordion-group ninja">
+                  <div class="accordion-heading">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#pane-file-select" href="#collapseOne">
+                      <i id="iOne" class="icon-chevron-right"> <%= __("Process server side files") %></i>
+                    </a>
+                  </div>
+                  <div id="collapseOne" class="accordion-body collapse" toggle-chevron="#iOne">
+                    <div id="local-files" class="accordion-inner">
+
+                    </div>
+                  </div>
+                </div>
+                <div class="accordion-group">
+                  <div class="accordion-heading">
+                    <a class="accordion-toggle" data-toggle="collapse" data-parent="#pane-file-select" href="#collapseTwo">
+                      <i id="iTwo" class="icon-chevron-down"></i> <%= __("Process your log files") %>
+                    </a>
+                  </div>
+                  <div id="collapseTwo" class="accordion-body collapse in" toggle-chevron="#iTwo">
+                    <div class="accordion-inner">
+                      <div id="classic-inputs">
+                        <div class="single-input">
+                          <button class="btn btn-danger btn-mini file-remove-button ninja" title="remove"><i class="icon-remove icon-white"></i></button>
+                          <input class='file-input' type="file" name="file" multiple/>
+                        </div>
+                      </div>
+                      <div id="dropbox"><%= __("Drop your files here") %></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </form> <!-- form -->
+            <div class="accordion form-horizontal span6" id="pane-options">
+              <div class="accordion-group"> <!-- Import / export accordion -->
+                <div class="accordion-heading">
+                  <a class="accordion-toggle" data-toggle="collapse" href="#collapseSix">
+                    <i id="iSix" class="icon-chevron-right"></i> <%= __("Import / export settings") %>
+                  </a>
+                </div>
+                <div id="collapseSix" class="accordion-body collapse" toggle-chevron="#iSix">
+                  <div id="import-export" class="accordion-inner text-left">
+                    <p><%= __("To export your current settings, click the export button and copy the content of the box below.") %></p>
+                    <p><%= __("To import previously exported settings, paste it in the box below and click the import button.") %></p>
+                    <button id="export-settings" class="btn"><%= __("Export") %></button>
+                    <button id="import-settings" class="btn"><%= __("Import") %></button>
+                    <textarea id="textarea-settings" class="span12" placeholder="<%= __("The settings go in this box.") %>"></textarea>
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-group">
+                <div class="accordion-heading">
+                  <a class="accordion-toggle" data-toggle="collapse" href="#collapseThree">
+                    <i id="iThree" class="icon-chevron-right"></i> <%= __("Settings") %>
+                  </a>
+                </div>
+                <div id="collapseThree" class="accordion-body collapse in" toggle-chevron="#iThree">
+                  <div id="advanced-options" class="accordion-inner">
+                    <div class="control-group">
+                      <label class="control-label" for="advanced-options-predefined">
+                        <a class="notALink" data-toggle="tooltip" title="<%= __("Predefined settings") %>"><%= __("Predefined settings") %> <i class="icon-question-sign"></i></a>
+                      </label>
+                      <div class="controls">
+                        <select id="advanced-options-predefined" name="advanced-options-predefined">
+                          <option value="" selected><%= __("None") %></option>
+                        </select>
+                      </div>
+                    </div>
+                     <div class="control-group">
+                      <label class="control-label" for="input-log-type">
+                        <a class="notALink" data-toggle="tooltip" title="<%= __("The platform that generated the logs.") %>"><%= __("Log type") %> <i class="icon-question-sign"></i></a>
+                      </label>
+                      <div class="controls">
+                        <select id="input-log-type" name="input-log-type">
+                          <option value="" selected><%= __("Auto") %></option>
+                          <option value="ezproxy">EZproxy</option>
+                          <option value="apache">Apache</option>
+                          <option value="squid">Squid</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label" for="input-log-format">
+                        <a class="notALink" data-toggle="tooltip" title="<%= __("Format of log lines.") %> <%= __("For more information, consult 'Formats de logs' in the documentation.") %>"><%= __("Log format") %> <i class="icon-question-sign"></i></a>
+                      </label>
+                      <div class="controls">
+                        <textarea id="input-log-format" name="input-log-format" row="1" disabled></textarea>
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label" for="input-result-format">
+                        <a class="notALink" data-toggle="tooltip" title="<%= __("Result file format.") %>"><%= __("Result format") %> <i class="icon-question-sign"></i></a>
+                      </label>
+                      <div class="controls">
+                        <select id="input-result-format" name="input-result-format">
+                          <option value="text/csv" selected>CSV</option>
+                          <option value="text/tab-separated-values">TSV</option>
+                          <option value="application/json">JSON</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label" for="input-traces">
+                        <a class="notALink" data-toggle="tooltip" title="<%= __("Verbosity of traces, from the less verbose Error to the more verbose Silly.") %>"><%= __("System traces") %> <i class="icon-question-sign"></i></a>
+                      </label>
+                      <div class="controls">
+                        <select id="input-traces" name="input-traces">
+                          <option value="error">Error</option>
+                          <option value="warn">Warn</option>
+                          <option value="info" selected>Info</option>
+                          <option value="verbose">Verbose</option>
+                          <option value="silly">Silly</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label" for="input-output-fields">
+                        <a class="notALink" data-toggle="tooltip" title="<%= __("Fields (headers) to add/remove in the result file.") %>"><%= __("Output fields") %> <i class="icon-question-sign"></i></a>
+                      </label>
+                      <div class="controls">
+                        <input id="input-output-fields" placeholder="Ex: -host,-login,+datetime" type="text" name="input-output-fields"/>
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label" for="input-request-charset">
+                        <a class="notALink" data-toggle="tooltip" title="<%= __("Character set used in the files to be processed.") %>"><%= __("Input encoding") %> <i class="icon-question-sign"></i></a>
+                      </label>
+                      <div class="controls">
+                        <select id="input-request-charset" name="input-request-charset">
+                          <option value="utf-8">UTF-8</option>
+                          <option value="iso-8859-1">ISO-8859-1</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label" for="input-response-charset">
+                        <a class="notALink" data-toggle="tooltip" title="<%= __("Character set used for output data.") %>"><%= __("Output encoding") %> <i class="icon-question-sign"></i></a>
+                      </label>
+                      <div class="controls">
+                        <select id="input-response-charset" name="input-response-charset">
+                          <option value="utf-8">UTF-8</option>
+                          <option value="iso-8859-1">ISO-8859-1</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="control-group">
+                      <label class="control-label" for="remember-settings">
+                        <%= __("Remember my settings") %>
+                      </label>
+                      <div class="controls">
+                        <input type="checkbox" id="remember-settings" name="remember-settings">
+                      </div>
+                    </div>
+                    <div class="control-group text-right">
+                      <button id="reset-settings" class="btn"><%= __("Default settings") %></button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="accordion-group">
+                <div class="accordion-heading">
+                  <a class="accordion-toggle" data-toggle="collapse" href="#collapseFour">
+                    <i id="iFour" class="icon-chevron-right"></i> <%= __("Users field") %>
+                  </a>
+                </div>
+                <div id="collapseFour" class="accordion-body collapse" toggle-chevron="#iFour">
+                  <div id="user-fields" class="accordion-inner">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="nofile-warn" class="alert alert-warning ninja"><%= __("You must select one file at least") %></div>
+          <div id="big-warn" class="alert alert-warning ninja"><%= __("Selected files are large, the process could be long.") %></div>
+          <div class="text-center">
+            <input type="submit" class="btn" value="<%= __("Process") %>" id="submit" />
+          </div>
+        </div><!-- form-content -->

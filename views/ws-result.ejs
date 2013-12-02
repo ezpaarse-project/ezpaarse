@@ -1,0 +1,120 @@
+        <div id="content-result" class="ninja">
+          <div id="process-info" class="texte-center alert alert-info">
+            <%= __("Your logs are being processed") %> <%= __("You can already start downloading result.") %>
+          </div>
+          <div id="process-success" class="texte-center alert alert-success ninja">
+            <%= __("Your logs was successfully processed") %>
+          </div>
+          <div class="alert alert-error text-center ninja">
+            <%= __("Error") %> : <span id="error"></span>
+          </div>
+          <div class="progress progress-striped active">
+            <div class="bar" style="width: 0%;">0%</div>
+          </div>
+          <div id="process-btns" class="text-center">
+            <a href="" target="_blank" id="get-btn" class="btn btn-primary btn-large"><%- __("Download result as %s", '<span id="result-format"></span>') %></a>
+            <a href="/form" id="cancel-btn" class="btn"><%= __("Cancel") %></a>
+          </div>
+          <div class="row-fluid">
+            <div class="span6">
+              <div id="submitted-files">
+                <fieldset>
+                  <legend><%= __("Processed files") %></legend>
+                  <ul></ul>
+                </fieldset>
+              </div>
+              <div id="post-trait-comment">
+                <fieldset>
+                  <legend><%= __("Exploitation of results") %></legend>
+                  <ul><a href="<%= __("ExcelRenderingFileURL") %>" target="_blank">
+                    <%= __("Use an Excel rendering file") %></a>
+                  </ul>
+                  <ul><a href="<%= __("ExcelRenderingUsageURL") %>" target="_blank">
+                    <%= __("Help for result exploitation using Excel") %></a>
+                  </ul>
+                </fieldset>
+              </div>
+            </div>
+            <div id="report" class="span6">
+              <fieldset>
+                <legend><%= __("Process status") %></legend>
+                <table class="table table-bordered table-hover">
+                  <tr><td><%= __("Input lines") %></td><td id="nb-lines-input" class="result-value"></td></tr>
+                  <tr><td><%= __("Generated ECs") %></td><td id="nb-ecs" class="result-value"></td></tr>
+                  <tr><td><%= __("Recognized platforms") %></td><td id="platforms" class="result-value"></td></tr>
+                  <tr><td>PDF</td><td id="mime-PDF" class="result-value"></td></tr>
+                  <tr><td>HTML</td><td id="mime-HTML" class="result-value"></td></tr>
+                  <tr>
+                    <td>
+                      <a class="notALink" data-toggle="tooltip" title="<%= __("The number of rejected lines for one hundred input lines.") %> <%= __("Ignored lines (jpg, js, css...) are not taken into account in this calculation.") %>"><%= __("Filtering rate") %> <i class="icon-question-sign"></i></a>
+                    </td>
+                    <td id="rejection-rate" class="result-value"></td></tr>
+                  <tr><td><%= __("Process time") %></td><td id="job-duration" class="result-value"></td></tr>
+                  <tr><td><%= __("Process speed") %></td><td id="process-speed" class="result-value"></td></tr>
+                </table>
+              </fieldset>
+              <fieldset>
+                <legend><%= __("Ignored log lines") %></legend>
+                <table class="table table-bordered table-hover">
+                  <tr>
+                    <td>
+                      <a class="notALink" data-toggle="tooltip" title="<%= __("Number of irrelevant requests.") %> <%= __("It's mainly downloads of images, css or web script not directly related to a ressource.") %> <%= __("In a raw log file, this number is often high.") %>"><%= __("Ignored lines") %> <i class="icon-question-sign"></i></a>
+                    </td>
+                    <td id="nb-lines-ignored" class="result-value"></td>
+                  </tr>
+                  <tr>
+                    <td><a class="link-lines-duplicate-ecs" target="_blank" data-toggle="tooltip" title="<%= __("Number of consutations ignored because they were detected as double clicks.") %>"><%= __("Filtered duplicates") %> <i class="icon-question-sign"></i></a></td><td id="nb-lines-duplicate-ecs" class="result-value"></td>
+                  </tr>
+                  <tr>
+                    <td><a class="link-lines-unordered-ecs" target="_blank" data-toggle="tooltip" title="<%= __("Lines ignored due to bad chronological order.") %>"><%= __("Time anomalies") %> <i class="icon-question-sign"></i></a></td><td id="nb-lines-unordered-ecs" class="result-value"></td>
+                  </tr>
+                  <tr>
+                    <td><a class="link-lines-ignored-domains" target="_blank"><%= __("Ignored domains") %></a></td>
+                    <td class="result-value">
+                      <a class="link-lines-ignored-domains" target="_blank">
+                        <span id="nb-lines-ignored-domains"></span>
+                      </a></td>
+                  </tr>
+                  <tr>
+                    <td><a class="link-lines-unknown-domains" target="_blank"><%= __("Unknown domains") %></a></td>
+                    <td class="result-value">
+                      <a class="link-lines-unknown-domains" target="_blank">
+                        <span id="nb-lines-unknown-domains"></span>
+                      </a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><a class="link-lines-unknown-format" target="_blank"><%= __("Unknown formats") %></a></td>
+                    <td class="result-value">
+                      <a class="link-lines-unknown-format" target="_blank">
+                        <span id="nb-lines-unknown-format"></span>
+                      </a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><a class="link-lines-unqualified-ecs" target="_blank"><%= __("Unqualified ECs") %></a></td>
+                    <td class="result-value">
+                      <a class="link-lines-unqualified-ecs" target="_blank">
+                        <span id="nb-lines-unqualified-ecs"></span>
+                      </a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td><a class="link-lines-pkb-miss-ecs" target="_blank"><%= __("Missing PKBs") %></a></td>
+                    <td class="result-value">
+                      <a class="link-lines-pkb-miss-ecs" target="_blank">
+                        <span id="nb-lines-pkb-miss-ecs"></span>
+                      </a>
+                    </td>
+                  </tr>
+                </table>
+              </fieldset>
+            </div>
+
+            <div id="result-btns" class="text-center">
+              <a target="_blank" id="report-btn" class="btn"><%= __("Detailed report") %></a>
+              <a target="_blank" id="traces-btn" class="btn"><%= __("System traces") %></a>
+              <a href="/form" id="reset-btn" class="btn ninja"><%= __("New process") %></a>
+            </div>
+          </div><!-- content-result -->
+        </div><!-- content-result -->

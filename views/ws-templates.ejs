@@ -1,0 +1,48 @@
+        <script type="text/html" id="user-field-template">
+          <div class="user-field">
+            <div class="control-group">
+              <label class="control-label" for="input-user-field-src">
+                <a class="notALink" data-toggle="tooltip" title="<%= __("Name of the field containing the information to be extracted.") %>"><%= __("Source field") %> <i class="icon-question-sign"></i></a>
+              </label>
+              <div class="controls">
+                <input class="input-user-field-src" type="text" name="input-user-field-src"/>
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label" for="input-user-field-sep">
+                <a class="notALink" data-toggle="tooltip" title="<%= __("Character between the values ​​of the source field (use the word 'space' if the separator is a space)") %>"><%= __("Separator") %> <i class="icon-question-sign"></i></a>
+              </label>
+              <div class="controls">
+                <input class="input-user-field-sep" placeholder="Ex: space + , ;" type="text" name="input-user-field-sep"/>
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label" for="input-user-field-dest">
+                <a class="notALink" data-toggle="tooltip" title="<%= __("Fields where extracted values will be stored.") %> <%= __("Values in line with a regular expression are added to field.") %>"><%= __("Destination fields") %> <i class="icon-question-sign"></i></a>
+              </label>
+              <div class="controls">
+                <div class="user-field-dest row-fluid">
+                  <div class="dest">
+                    <input class="span4 input-user-field-dest-name" type="text" name="input-user-field-dest-name" placeholder="<%= __("Name") %>"/>
+                    <input class="span8 input-user-field-dest-regexp" type="text" name="input-user-field-dest-regexp" placeholder="<%= __("Regular expression") %>"/>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="control-group">
+              <label class="control-label" for="input-user-field-residual">
+                <a class="notALink" data-toggle="tooltip" title="<%= __("(Optional) Field which will receive values that don't match any regular expression.") %>"><%= __("Residuals field") %> <i class="icon-question-sign"></i></a>
+              </label>
+              <div class="controls">
+                <input class="input-user-field-residual" type="text" name="input-user-field-residual"/>
+              </div>
+            </div>
+          </div>
+        </script>
+
+        <script type="text/html" id="dest-template">
+          <div class="dest">
+            <input class="span4 input-user-field-dest-name" type="text" name="input-user-field-dest-name" placeholder="<%= __("Name") %>"/>
+            <input class="span8 input-user-field-dest-regexp" type="text" name="input-user-field-dest-regexp" placeholder="<%= __("Regular expression") %>"/>
+          </div>
+        </script>
