@@ -12,13 +12,20 @@ EZPAARSE_PATH=$BIN_PATH/..
 # read version number from the command line
 VERSION=$v
 VERSION_PREFIX=""
-[ -z "$VERSION" ] && VERSION="`$BIN_PATH/readconfig -k version`"
+VERSION_NAME=""
+CURRENT_VERSION="`$BIN_PATH/readconfig -k version`"
+
+[ -z "$VERSION" ] && VERSION="$CURRENT_VERSION"
 if [ "$VERSION" == "latest" ]; then
   VERSION="`git log --pretty=format:'%h' -n 1`"
-  VERSION_PREFIX="`date +"%Y%m%d"`"
+  VERSION_PREFIX="$CURRENT_VERSION+`date +"%j"`"
+  VERSION_NAME="$CURRENT_VERSION-`date +"%j"`"
 fi
-if [ ! -d $EZPAARSE_PATH/ezpaarse-$VERSION_PREFIX$VERSION/ ]; then
-  echo "Error: $EZPAARSE_PATH/ezpaarse-$VERSION_PREFIX$VERSION/ folder does not exist. Please run 'make zip' before."
+
+EZPAARSE_NAME="ezpaarse-$VERSION_NAME$VERSION"
+
+if [ ! -d $EZPAARSE_PATH/$EZPAARSE_NAME/ ]; then
+  echo "Error: $EZPAARSE_PATH/$EZPAARSE_NAME/ folder does not exist. Please run 'make zip' before."
   exit 1
 fi
 
@@ -36,13 +43,13 @@ if [[ "$UPLOAD_EXISTS" != "" && $FORCE_UPLOAD == "" ]]; then
 else
   echo "Uploading to analogist:var/www/ezpaarse/versions/$VERSION_PREFIX$VERSION/"
   ssh    analogist@stats.intra.inist.fr " rm -rf var/www/ezpaarse/versions/$VERSION_PREFIX$VERSION/ 2>/dev/null"
-  scp -r $EZPAARSE_PATH/ezpaarse-$VERSION_PREFIX$VERSION/ analogist@stats.intra.inist.fr:var/www/ezpaarse/versions/$VERSION_PREFIX$VERSION/
+  scp -r $EZPAARSE_PATH/$EZPAARSE_NAME/ analogist@stats.intra.inist.fr:var/www/ezpaarse/versions/$VERSION_PREFIX$VERSION/
   echo "Updating versions/index.txt file."
   ssh analogist@stats.intra.inist.fr "touch var/www/ezpaarse/versions/index.txt"
   # cleanup double
   ssh analogist@stats.intra.inist.fr "sed -i '/^$VERSION_PREFIX$VERSION.*$/d' var/www/ezpaarse/versions/index.txt"
   # append new version archives to the list
-  for vfile in `ls $EZPAARSE_PATH/ezpaarse-$VERSION_PREFIX$VERSION/`
+  for vfile in `ls $EZPAARSE_PATH/$EZPAARSE_NAME/`
   do
     ssh analogist@stats.intra.inist.fr "echo $VERSION_PREFIX$VERSION/$vfile >> var/www/ezpaarse/versions/index.txt"
   done
