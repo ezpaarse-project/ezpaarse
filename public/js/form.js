@@ -77,7 +77,7 @@ $(document).on('ready' ,function () {
     $('#user-fields').empty().append($('#user-field-template').html());
     var userFields = form['User-Fields'] || [];
     userFields.forEach(function (userField) {
-      if (!userField.src && !userField.sep && !userField.residual && (!userField.dests || !userField.dests.length)) {
+      if (!userField.src && !userField.sep && !userField.residual && (!userField.destinations || !userField.destinations.length)) {
         return;
       }
       var lastField = $('div#user-fields').find('div.user-field').last();
@@ -86,7 +86,7 @@ $(document).on('ready' ,function () {
       lastField.find('.input-user-field-residual').val(userField.residual);
 
       var destsDiv = lastField.find('.user-field-dest');
-      userField.dests.forEach(function (dest) {
+      userField.destinations.forEach(function (dest) {
         destsDiv.find('.dest:last .input-user-field-dest-name').val(dest.name);
         destsDiv.find('.dest:last .input-user-field-dest-regexp').val(dest.regexp);
         destsDiv.append($('#dest-template').html());
@@ -150,26 +150,26 @@ $(document).on('ready' ,function () {
       form._headers['Socket-ID'] = socketID;
     }
     if ($('#input-log-type').val()) {
-      form._headers['Log-Format-' + $('#input-log-type').val()] = $('#input-log-format').val();
+      form._headers['Log-Format-' + $('#input-log-type').val()] = $('#input-log-format').val() || undefined;
     }
-    form['Log-Format']       = form._headers['Log-Format']       = $('#input-log-format').val();
-    form['Log-Type']         = form._headers['Log-Type']         = $('#input-log-type').val();
-    form['Accept']           = form._headers['Accept']           = $('#input-result-format').val();
-    form['Traces-Level']     = form._headers['Traces-Level']     = $('#input-traces').val();
-    form['Output-Fields']    = form._headers['Output-Fields']    = $('#input-output-fields').val();
-    form['Request-Charset']  = form._headers['Request-Charset']  = $('#input-request-charset').val();
-    form['Response-Charset'] = form._headers['Response-Charset'] = $('#input-response-charset').val();
+    form['Log-Format']       = form._headers['Log-Format']       = $('#input-log-format').val()       || undefined;
+    form['Log-Type']         = form._headers['Log-Type']         = $('#input-log-type').val()         || undefined;
+    form['Accept']           = form._headers['Accept']           = $('#input-result-format').val()    || undefined;
+    form['Traces-Level']     = form._headers['Traces-Level']     = $('#input-traces').val()           || undefined;
+    form['Output-Fields']    = form._headers['Output-Fields']    = $('#input-output-fields').val()    || undefined;
+    form['Request-Charset']  = form._headers['Request-Charset']  = $('#input-request-charset').val()  || undefined;
+    form['Response-Charset'] = form._headers['Response-Charset'] = $('#input-response-charset').val() || undefined;
 
     var userFields = [];
     $('div.user-field').each(function (i) {
-      var fieldGroup = { dests: [] };
+      var fieldGroup = { destinations: [] };
       var src      = $(this).find('.input-user-field-src').val();
       var sep      = $(this).find('.input-user-field-sep').val();
       var residual = $(this).find('.input-user-field-residual').val();
       var dests    = $(this).find('.dest');
 
       if (src) {
-        form._headers['User-Field' + i + '-residual'] = residual;
+        form._headers['User-Field' + i + '-src'] = src;
         fieldGroup.src = src;
       }
       if (sep) {
@@ -177,7 +177,7 @@ $(document).on('ready' ,function () {
         fieldGroup.sep = sep;
       }
       if (residual) {
-        form._headers['User-Field' + i + '-src'] = src;
+        form._headers['User-Field' + i + '-residual'] = residual;
         fieldGroup.residual = residual;
       }
       dests.each(function () {
@@ -185,13 +185,16 @@ $(document).on('ready' ,function () {
         var name   = dest.find('.input-user-field-dest-name').val();
         var regexp = dest.find('.input-user-field-dest-regexp').val();
         if (name && regexp) { form._headers['User-Field' + i + '-dest-' + name] = regexp; }
-        if (name || regexp) { fieldGroup.dests.push({ name: name, regexp: regexp}); }
+        if (name || regexp) { fieldGroup.destinations.push({ name: name, regexp: regexp}); }
       });
-      userFields.push(fieldGroup);
+
+      if (fieldGroup.src || fieldGroup.sep || fieldGroup.residual || fieldGroup.destinations.length) {
+        userFields.push(fieldGroup);
+      }
     });
 
-    form['User-Fields'] = userFields;
-    form.remember       = $('#remember-settings').is(':checked');
+    if (userFields.length) { form['User-Fields'] = userFields; }
+    form.remember = $('#remember-settings').is(':checked');
     return form;
   }
 
