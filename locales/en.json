@@ -114,5 +114,11 @@
 	"Execution report": "Execution report",
 	"ezPAARSE usage": "ezPAARSE usage",
 	"ExcelRenderingFileURL": "https://github.com/ezpaarse-project/ezpaarse/blob/master/misc/windows/ezPAARSE-Render-en.xltm",
-	"ExcelRenderingUsageURL": "http://analogist.couperin.org/ezpaarse/doc/usage_en#see-the-results-with-excel"
+	"ExcelRenderingUsageURL": "http://analogist.couperin.org/ezpaarse/doc/usage_en#see-the-results-with-excel",
+	"Import / export settings":"Import / export settings",
+	"Export":"Export",
+	"Import":"Import",
+	"To export your current settings, click the export button and copy the content of the box below.":"To export your current settings, click the export button and copy the content of the box below.",
+	"To import previously exported settings, paste it in the box below and click the import button.":"To import previously exported settings, paste it in the box below and click the import button.",
+	"The settings go in this box.":"The settings go in this box."
 }

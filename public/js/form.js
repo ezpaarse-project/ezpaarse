@@ -52,23 +52,16 @@ $(document).on('ready' ,function () {
    */
   $('#user-fields').append($('#user-field-template').html());
 
-  function loadFormFromCookies () {
-    var formCookie = getCookie('form');
-    if (!formCookie) return;
-
-    var form;
-    try {
-      form = JSON.parse(formCookie);
-    } catch (e) {
-      form = {};
-    }
-
-    if (form.remember !== true) return;
-
+  function loadForm(form) {
     $('#remember-settings').attr('checked', true);
     $('#input-log-type').val(form['Log-Type']);
     $('#input-log-format').val(form['Log-Format']);
     $('#input-result-format').val(form['Accept']);
+
+    if (!/^(?:error|warn|info|verbose|silly)$/i.test(form['Traces-Level'])) {
+      form['Traces-Level'] = 'info';
+    }
+
     $('#input-traces').val(form['Traces-Level']);
     $('#input-output-fields').val(form['Output-Fields']);
     $('#input-request-charset').val(form['Request-Charset']);
@@ -76,8 +69,11 @@ $(document).on('ready' ,function () {
 
     if ($('#input-log-type').val()) {
       $('#input-log-format').prop('disabled', false);
+    } else {
+      $('#input-log-format').prop('disabled', true);
     }
 
+    $('#user-fields').empty().append($('#user-field-template').html());
     var userFields = form['User-Fields'] || [];
     userFields.forEach(function (userField) {
       if (!userField.src && !userField.sep && !userField.residual && (!userField.dests || !userField.dests.length)) {
@@ -99,6 +95,21 @@ $(document).on('ready' ,function () {
       $('#user-fields').append($('#user-field-template').html());
     });
   }
+
+  function loadFormFromCookies () {
+    var formCookie = getCookie('form');
+    if (!formCookie) return;
+
+    var form;
+    try {
+      form = JSON.parse(formCookie);
+    } catch (e) {
+      form = {};
+    }
+
+    if (form.remember !== true) return;
+    loadForm(form);
+  }
   loadFormFromCookies();
 
   $('#reset-settings').on('click', function resetSettings() {
@@ -111,7 +122,18 @@ $(document).on('ready' ,function () {
   });
 
   $('#export-settings').on('click', function exportSettings() {
+    var form = getFormSettings();
+    $('#textarea-settings').val(JSON.stringify(form, null, 2));
+  });
 
+  $('#import-settings').on('click', function exportSettings() {
+    var form;
+    try {
+      form = JSON.parse($('#textarea-settings').val());
+    } catch (e) {
+      form = {};
+    }
+    loadForm(form);
   });
 
   function getFormSettings() {

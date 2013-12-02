@@ -58,6 +58,22 @@
               </div>
             </form> <!-- form -->
             <div class="accordion form-horizontal span6" id="pane-options">
+              <div class="accordion-group"> <!-- Import / export accordion -->
+                <div class="accordion-heading">
+                  <a class="accordion-toggle" data-toggle="collapse" href="#collapseSix">
+                    <i id="iSix" class="icon-chevron-right"></i> <%= __("Import / export settings") %>
+                  </a>
+                </div>
+                <div id="collapseSix" class="accordion-body collapse" toggle-chevron="#iSix">
+                  <div id="import-export" class="accordion-inner text-left">
+                    <p><%= __("To export your current settings, click the export button and copy the content of the box below.") %></p>
+                    <p><%= __("To import previously exported settings, paste it in the box below and click the import button.") %></p>
+                    <button id="export-settings" class="btn"><%= __("Export") %></button>
+                    <button id="import-settings" class="btn"><%= __("Import") %></button>
+                    <textarea id="textarea-settings" class="span12" placeholder="<%= __("The settings go in this box.") %>"></textarea>
+                  </div>
+                </div>
+              </div>
               <div class="accordion-group">
                 <div class="accordion-heading">
                   <a class="accordion-toggle" data-toggle="collapse" href="#collapseThree">

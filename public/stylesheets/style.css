@@ -49,6 +49,7 @@ ul {
 #cookie-bar .inner p {
   margin: 0;
 }
+
 #cookie-bar .inner button {
   /*position: absolute;
   top: 0;
@@ -99,6 +100,16 @@ textarea.code {
   margin: 10px auto;
   background-color: #f7f7f9;
   border: 1px solid #e1e1e8;
+}
+
+#import-export #textarea-settings {
+  resize: vertical;
+  height: 200px;
+  margin-top: 10px;
+}
+
+#import-export p {
+  margin: 10px 0;
 }
 
 #process-info {
