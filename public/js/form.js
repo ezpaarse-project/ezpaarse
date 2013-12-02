@@ -110,6 +110,66 @@ $(document).on('ready' ,function () {
     $('#user-fields').empty().append($('#user-field-template').html());
   });
 
+  $('#export-settings').on('click', function exportSettings() {
+
+  });
+
+  function getFormSettings() {
+    var form = {};
+    Object.defineProperty(form, '_headers', {
+      value: {},
+      enumerable: false
+    });
+
+    if (socketID) {
+      form._headers['Socket-ID'] = socketID;
+    }
+    if ($('#input-log-type').val()) {
+      form._headers['Log-Format-' + $('#input-log-type').val()] = $('#input-log-format').val();
+    }
+    form['Log-Format']       = form._headers['Log-Format']       = $('#input-log-format').val();
+    form['Log-Type']         = form._headers['Log-Type']         = $('#input-log-type').val();
+    form['Accept']           = form._headers['Accept']           = $('#input-result-format').val();
+    form['Traces-Level']     = form._headers['Traces-Level']     = $('#input-traces').val();
+    form['Output-Fields']    = form._headers['Output-Fields']    = $('#input-output-fields').val();
+    form['Request-Charset']  = form._headers['Request-Charset']  = $('#input-request-charset').val();
+    form['Response-Charset'] = form._headers['Response-Charset'] = $('#input-response-charset').val();
+
+    var userFields = [];
+    $('div.user-field').each(function (i) {
+      var fieldGroup = { dests: [] };
+      var src      = $(this).find('.input-user-field-src').val();
+      var sep      = $(this).find('.input-user-field-sep').val();
+      var residual = $(this).find('.input-user-field-residual').val();
+      var dests    = $(this).find('.dest');
+
+      if (src) {
+        form._headers['User-Field' + i + '-residual'] = residual;
+        fieldGroup.src = src;
+      }
+      if (sep) {
+        form._headers['User-Field' + i + '-sep'] = sep;
+        fieldGroup.sep = sep;
+      }
+      if (residual) {
+        form._headers['User-Field' + i + '-src'] = src;
+        fieldGroup.residual = residual;
+      }
+      dests.each(function () {
+        var dest   = $(this);
+        var name   = dest.find('.input-user-field-dest-name').val();
+        var regexp = dest.find('.input-user-field-dest-regexp').val();
+        if (name && regexp) { form._headers['User-Field' + i + '-dest-' + name] = regexp; }
+        if (name || regexp) { fieldGroup.dests.push({ name: name, regexp: regexp}); }
+      });
+      userFields.push(fieldGroup);
+    });
+
+    form['User-Fields'] = userFields;
+    form.remember       = $('#remember-settings').is(':checked');
+    return form;
+  }
+
   /**
    * initialize advanced options
    */
@@ -450,89 +510,18 @@ $(document).on('ready' ,function () {
    */
   $('#submit').on('click', function () {
 
-    jobid = uuid.v1();
+    jobid    = uuid.v1();
     logroute = '/' + jobid + '/';
 
-    var headers    = {};
-    var formCookie = {};
+    var form    = getFormSettings();
+    var headers = form._headers;
 
-    if ($('#input-log-type').val() && $('#input-log-format').val()) {
-      headers['Log-Format-' + $('#input-log-type').val()] = $('#input-log-format').val();
-      formCookie['Log-Format'] = $('#input-log-format').val();
-      formCookie['Log-Type']   = $('#input-log-type').val();
+    if (headers['Accept']) {
+      $("#result-format").text(headers['Accept'].split("/")[1]);
     }
 
-    if ($('#input-result-format').val()) {
-      headers['Accept']    = $('#input-result-format').val();
-      formCookie['Accept'] = $('#input-result-format').val();
-      $("#result-format").text($('#input-result-format').val().split("/")[1]);
-    }
-
-    if ($('#input-traces').val()) {
-      headers['Traces-Level']    = $('#input-traces').val();
-      formCookie['Traces-Level'] = $('#input-traces').val();
-    }
-
-    var userFields = [];
-    $('div.user-field').each(function (i) {
-      var fieldGroup = { dests: [] };
-      var src      = $(this).find('.input-user-field-src').val();
-      var sep      = $(this).find('.input-user-field-sep').val();
-      var residual = $(this).find('.input-user-field-residual').val();
-      var dests    = $(this).find('.dest');
-
-      if (src) {
-        headers['User-Field' + i + '-src'] = src;
-        fieldGroup.src = src;
-      }
-      if (sep) {
-        headers['User-Field' + i + '-sep'] = sep;
-        fieldGroup.sep = sep;
-      }
-      if (residual) {
-        headers['User-Field' + i + '-residual'] = residual;
-        fieldGroup.residual = residual;
-      }
-      dests.each(function () {
-        var dest   = $(this);
-        var name   = dest.find('.input-user-field-dest-name').val();
-        var regexp = dest.find('.input-user-field-dest-regexp').val();
-        if (name && regexp) {
-          headers['User-Field' + i + '-dest-' + name] = regexp;
-        }
-        if (name || regexp) {
-          fieldGroup.dests.push({ name: name, regexp: regexp});
-        }
-      });
-      userFields.push(fieldGroup);
-    });
-    formCookie['User-Fields'] = userFields;
-
-    if ($('#input-output-fields').val()) {
-      headers['Output-Fields']    = $('#input-output-fields').val();
-      formCookie['Output-Fields'] = $('#input-output-fields').val();
-    }
-
-    if ($('#input-request-charset').val()) {
-      headers['Request-Charset']    = $('#input-request-charset').val();
-      formCookie['Request-Charset'] = $('#input-request-charset').val();
-    }
-
-    if ($('#input-response-charset').val()) {
-      headers['Response-Charset']    = $('#input-response-charset').val();
-      formCookie['Response-Charset'] = $('#input-response-charset').val();
-    }
-
-    if (socketID) {
-      headers['Socket-ID'] = socketID;
-    }
-
-    if ($('#remember-settings').is(':checked')) {
-      formCookie.remember = true;
-      setCookie('form', JSON.stringify(formCookie));
-    } else {
-      clearCookie('form');
-    }
+    if (form.remember) { setCookie('form', JSON.stringify(form)); }
+    else               { clearCookie('form'); }
 
     var data = new FormData(document.getElementById('form'));
     var test = false;
