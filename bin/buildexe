@@ -82,8 +82,7 @@ cp $EZPAARSE_PATH/misc/windows/Licence-CeCILL-V2-fr.txt .
 cp $EZPAARSE_PATH/misc/windows/License-CeCILL-V2-en.txt .
 cp $EZPAARSE_PATH/misc/windows/ezPAARSE-HeaderPageNSIS.bmp .
 mkdir $TMP_DIR/$EZPAARSE_NAME/excel
-cp $EZPAARSE_PATH/misc/windows/ezPAARSE-Render-en.xltm $TMP_DIR/$EZPAARSE_NAME/excel/.
-cp $EZPAARSE_PATH/misc/windows/ezPAARSE-Rendu-fr.xltm $TMP_DIR/$EZPAARSE_NAME/excel/.
+cp $EZPAARSE_PATH/misc/windows/ezPAARSE-Render.xltm $TMP_DIR/$EZPAARSE_NAME/excel/.
 makensis ezPAARSE-MUI.nsi
 
 INSTALLER="`ls *-Setup.exe`"

@@ -20,5 +20,5 @@ ${LangFileString} msg_already_installed "ezPAARSE est deja installe. $\n$\nClick
 ${LangFileString} url_start "http://localhost:59599/lang/fr"
 ${LangFileString} url_usage "http://analogist.couperin.org/ezpaarse/doc/usage"
 ${LangFileString} url_doc "http://localhost:59599/doc"
-${LangFileString} excel_render "ezPAARSE-Rendu-fr.xltm"
+${LangFileString} excel_render "ezPAARSE-Render.xltm"
 
