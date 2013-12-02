@@ -53,7 +53,8 @@ $(document).on('ready' ,function () {
   $('#user-fields').append($('#user-field-template').html());
 
   function loadForm(form) {
-    $('#remember-settings').attr('checked', true);
+    form = form || {};
+    $('#remember-settings').attr('checked', form.remember === true);
     $('#input-log-type').val(form['Log-Type']);
     $('#input-log-format').val(form['Log-Format']);
     $('#input-result-format').val(form['Accept']);
@@ -112,14 +113,16 @@ $(document).on('ready' ,function () {
   }
   loadFormFromCookies();
 
-  $('#reset-settings').on('click', function resetSettings() {
+  function resetSettings() {
     var optionsDiv = $('#pane-options');
     optionsDiv.find('input').val('');
     optionsDiv.find('textarea#input-log-format').val('').attr('disabled', true);
     optionsDiv.find('select').prop('selectedIndex', 0);
     optionsDiv.find('select#input-traces').val('info');
     $('#user-fields').empty().append($('#user-field-template').html());
-  });
+  }
+
+  $('#reset-settings').on('click', resetSettings);
 
   $('#export-settings').on('click', function exportSettings() {
     var form = getFormSettings();
@@ -204,52 +207,10 @@ $(document).on('ready' ,function () {
       $('#advanced-options-predefined').append('<option value="' + p_id + '">' + predefined[p_id].label + '</option>');
     });
     $('#advanced-options-predefined').change(function updatePredefined() {
-      var id = document.getElementById('advanced-options-predefined').value;
-      if (id) {
-        if (predefined[id].hasOwnProperty('input-log-type')) {
-          $('#input-log-type').val(predefined[id]['input-log-type']);
-          $('#input-log-format').prop("disabled", false);
-        } else {
-          $('#input-log-type').val("");
-          $('#input-log-format').prop("disabled", true);
-        }
-        if (predefined[id].hasOwnProperty('input-log-format')) {
-          $('#input-log-format').val(predefined[id]['input-log-format']);
-        } else {
-          $('#input-log-format').val("");
-        }
-        if (predefined[id].hasOwnProperty('input-result-format')) {
-          $('#input-result-format').val(predefined[id]['input-result-format']);
-        } else {
-          $('#input-result-format').val("");
-        }
-        if (predefined[id].hasOwnProperty('input-traces')) {
-          $('#input-traces').val(predefined[id]['input-traces']);
-        } else {
-          $('#input-traces').val("");
-        }
-        if (predefined[id].hasOwnProperty('input-output-fields')) {
-          $('#input-output-fields').val(predefined[id]['input-output-fields']);
-        } else {
-          $('#input-output-fields').val("");
-        }
-      } else {
-        $('#input-log-type').val("");
-        $('#input-log-format').val("");
-        $('#input-result-format').val("");
-        $('#input-traces').val("");
-        $('#input-output-fields').val("");
-      }
-    /**
-     * When #input-log-type is not Auto, enable #input-log-format
-     */
-      if ($('#input-log-type').val()) {
-        $('#input-log-format').prop("disabled", false);
-      } else {
-        $('#input-log-format').prop("disabled", true);
-        $('#input-log-format').prop("value", null);
-      }
-    })
+      var id = $('#advanced-options-predefined').val();
+      if (id) { loadForm(predefined[id]); }
+      else { resetSettings(); }
+    });
   }).error(function() {
     console.log("Erreur lors de la récupération des données prédéfinies");
   });
