@@ -282,14 +282,16 @@ $(document).on('ready' ,function () {
   /**
    * Drag and drop
    */
+  var dragText = $("#drag-text").text();
+  var dropText = $("#drop-text").text();
   function fileDragHover(e) {
     e.stopPropagation();
     e.preventDefault();
     e.target.className = (e.type === "dragover" ? "hover" : "");
     if (e.type === "dragover") {
-      $(e.target).text("Déposer les fichiers");
+      $(e.target).text(dropText);
     } else {
-      $(e.target).text("Glissez vos fichiers ici");
+      $(e.target).text(dragText);
     }
   }
   var filedrag = $('#dropbox');
@@ -299,7 +301,7 @@ $(document).on('ready' ,function () {
     e.stopPropagation();
     e.preventDefault();
     e.target.className = "";
-    $(e.target).text("Glisser vos fichiers ici");
+    $(e.target).text(dragText);
     // alert(e.originalEvent.dataTransfer.files.item(0).name);
     // doesn't work on FF !
     $('.file-input').last().prop('files', e.originalEvent.dataTransfer.files);

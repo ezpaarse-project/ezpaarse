@@ -58,6 +58,7 @@
 	"ws-form+Traiter_des_fichiers_du_serveur": "Process server side files",
 	"ws-form+Traiter_vos_fichiers_de_log": "Process your log files",
 	"ws-form+Glissez_vos_fichiers_ici": "Drag your files here",
+	"ws-form+Déposer_les_fichiers": "Drop files",
 	"ws-form+Importer_/_exporter_les_paramètres": "Import / export settings",
 	"ws-form+Exporter": "Export",
 	"ws-form+Importer": "Import",
