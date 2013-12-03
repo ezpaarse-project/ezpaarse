@@ -1,7 +1,7 @@
 <% include header %>
 
 <% if (usage.stats) { %>
-  <h1><%= __("ezPAARSE usage") %></h1>
+  <h1><%= __("usage+Utilisation_d'ezPAARSE") %></h1>
   <table class="table table-bordered table-hover">
     <% var elements = Object.keys(usage.general).sort();  %>
     <tr><th colspan="2"><%= 'general'[0].toUpperCase() + 'general'.substring(1) %></th></tr>
@@ -21,7 +21,7 @@
     <% }); %>
   </table>
 <% } else { %>
-  <p><%= __("The report you are looking for does not exist") %></p>
+  <p><%= __("usage+Le_rapport_que_vous_recherchez_n'existe_pas.") %></p>
 <% } %>
 
 <% include footer %>

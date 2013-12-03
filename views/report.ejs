@@ -1,7 +1,7 @@
 <% include header %>
 
 <% if (report) { %>
-  <h1><%= __("Execution report") %></h1>
+  <h1><%= __("report+Rapport_d'exécution") %></h1>
   <table class="table table-bordered table-hover">
   <% for (var group in report) { %>
     <tr><th colspan="2"><%= group[0].toUpperCase() + group.substring(1) %></th></tr>
@@ -19,7 +19,7 @@
   <% } %>
   </table>
 <% } else { %>
-  <p><%= __("The report you are looking for does not exist") %></p>
+  <p><%= __("report+Le_rapport_que_vous_recherchez_n'existe_pas.") %></p>
 <% } %>
 
 <% include footer %>
