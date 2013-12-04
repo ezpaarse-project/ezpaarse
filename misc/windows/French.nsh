@@ -1,7 +1,7 @@
 !insertmacro LANGFILE_EXT "French"
 
 ${LangFileString} finish_page+text "Lancer ezPAARSE"
-${LangFileString} DESC_SecEZPAARSE "Section ezPAARSE"
+${LangFileString} sec+EZPAARSE "Section ezPAARSE"
 ${LangFileString} menu+ezPAARSEmenu "Menu ezPAARSE"
 ${LangFileString} end+runMessage "Le Web Service ezPAARSE va etre lance $\r$\n \
                    et la Home Page ezPAARSE sera ouverte dans votre navigateur$\r$\n \

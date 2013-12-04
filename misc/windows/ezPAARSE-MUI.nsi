@@ -109,7 +109,7 @@ SectionEnd
 ;--------------------------------
 ;Installer Sections
 
-Section $(ezPAARSErequired) SecEZPAARSE
+Section $(install+ezPAARSErequired) secEZPAARSE
 
   SetOutPath "$INSTDIR"
   SectionIn RO
@@ -126,7 +126,7 @@ Section $(ezPAARSErequired) SecEZPAARSE
 SectionEnd
 
 
-Section $(ezPAARSEmenu) SecMenuEZPAARSE
+Section $(menu+ezPAARSEmenu) SecMenuEZPAARSE
 
   !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
     
@@ -149,7 +149,7 @@ SectionEnd
 
   ;Assign language strings to sections
   !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
-    !insertmacro MUI_DESCRIPTION_TEXT ${SecEZPAARSE} $(DESC_SecEZPAARSE)
+    !insertmacro MUI_DESCRIPTION_TEXT ${secEZPAARSE} $(sec+EZPAARSE)
   !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
 ;--------------------------------
