@@ -570,12 +570,11 @@ $(document).on('ready' ,function () {
       },
       // on success, display the success alert
       success: function(data) {
-        $('#cancel-btn').text('Réinitialiser');
         $('.progress').addClass('progress-success');
         $('.progress').removeClass('active');
         $('#process-btns a').removeClass('btn-primary');
         $('#get-btn').addClass('btn-success');
-        $('#cancel-btn').addClass('ninja');
+        $('#cancel-btn').hide();
         $('#process-info').slideUp(function () {
           $('#process-success').slideDown();
         });
