@@ -13,6 +13,9 @@
 │   ├── logformats
 │   ├── outputformats
 │   └── proxyformats
+├── locales [multilinguisme]
+│   ├── en.json
+│   └── fr.json
 ├── logs
 ├── misc 
 │   ├── deb [debian stuff]
@@ -53,5 +56,5 @@
 │       └── multiformat
 ├── tmp
 │   └── jobs
-└── views [ejs templates directory]
+└── views [express/ejs templates directory]
 </pre>
