@@ -1,5 +1,9 @@
 # Versions ezPAARSE #
 
+## 1.2.0  ## 
+##### 14/11/2013 - Sécurisation #####
+- sécurisation des accès aux pages (possiblité de protection par mot de passe)
+
 ## 1.1.0  ## 
 ##### 10/10/2013 - Produit Minimum Viable de synchronisation des Platform Knowledge Bases #####
 - réorganisation des modules de dépôt
