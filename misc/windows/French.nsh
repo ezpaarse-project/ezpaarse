@@ -8,8 +8,8 @@ ${LangFileString} runMessage "Le Web Service ezPAARSE va etre lance $\r$\n \
                    Cliquer sur la croix pour fermer le Web Service$\r$\n \
                    Le Web Service a besoin des autorisations de votre pare-feu windows"
 ${LangFileString} ezPAARSErequired "ezPAARSE (necessaire)"
-${LangFileString} msg_1_lancer "1-Lancer le serveur ezPAARSE.lnk"
-${LangFileString} msg_2_utiliser "2-Utiliser le formulaire ezPAARSE.lnk"
+${LangFileString} msg_1+lancer "1-Lancer le serveur ezPAARSE.lnk"
+${LangFileString} msg_2+utiliser "2-Utiliser le formulaire ezPAARSE.lnk"
 ${LangFileString} msg_3_tester "3-Tester avec des echantillons de log.lnk"
 ${LangFileString} msg_4_visualiser "4-Visualiser les resultats avec Excel.lnk"
 ${LangFileString} msg_5_documenter "Documentation ezPAARSE.lnk"
