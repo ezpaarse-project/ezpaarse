@@ -1,4 +1,4 @@
-#Gestion du multilinguisme
+# Gestion du multilinguisme
 
 ezPAARSE est diponible en français et en anglais.
 
@@ -25,5 +25,4 @@ Le contenu des fichiers de langues est constitué d'une macro, une clé et de sa
 La clé est consituée d'un contexte et du libellé dans la langue française : *contexte+libellé_dans_la_langue_française*.
 
 Le contexte correspond au nom de la page dans laquelle se trouve le libellé.
-
 
