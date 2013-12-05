@@ -34,7 +34,7 @@
 !insertmacro MUI_PAGE_INSTFILES
 
 !define MUI_FINISHPAGE_RUN
-!define MUI_FINISHPAGE_RUN_TEXT $(finish_page_text)
+!define MUI_FINISHPAGE_RUN_TEXT $(finish_page+text)
 !define MUI_FINISHPAGE_RUN_FUNCTION "RunEZPAARSE"
 
 !insertmacro MUI_PAGE_FINISH
@@ -109,7 +109,7 @@ SectionEnd
 ;--------------------------------
 ;Installer Sections
 
-Section $(ezPAARSErequired) SecEZPAARSE
+Section $(install+ezPAARSErequired) secEZPAARSE
 
   SetOutPath "$INSTDIR"
   SectionIn RO
@@ -126,20 +126,20 @@ Section $(ezPAARSErequired) SecEZPAARSE
 SectionEnd
 
 
-Section $(ezPAARSEmenu) SecMenuEZPAARSE
+Section $(menu+ezPAARSEmenu) SecMenuEZPAARSE
 
   !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
     
     ;Create shortcuts
     CreateDirectory "$SMPROGRAMS\$StartMenuFolder"
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Uninstall.lnk" "$INSTDIR\Uninstall.exe"
-    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(msg_1_lancer)" "$INSTDIR\node.exe" "app.js" 0
-    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(msg_2_utiliser)" "$DefaultBrowser" $(url_start) 0 
-    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(msg_3_tester)" "$WINDIR\explorer.exe" "$INSTDIR\test\dataset" 
-    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(msg_4_visualiser)" "$DefaultExcel" "$INSTDIR\excel\$(excel_render)" 0 
-    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(msg_5_documenter)" "$DefaultBrowser" $(url_doc) 0 
-    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(msg_6_doc_usage)" "$DefaultBrowser" $(url_usage) 0 
-    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(msg_7_analogist)" "$DefaultBrowser" "http://analogist.couperin.org" 0 
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+1_lancer)" "$INSTDIR\node.exe" "app.js" 0
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+2_utiliser)" "$DefaultBrowser" $(url_start) 0 
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+3_tester)" "$WINDIR\explorer.exe" "$INSTDIR\test\dataset" 
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+4_visualiser)" "$DefaultExcel" "$INSTDIR\excel\$(excel_render)" 0 
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+5_documenter)" "$DefaultBrowser" $(url_doc) 0 
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+6_doc_usage)" "$DefaultBrowser" $(url_usage) 0 
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+7_analogist)" "$DefaultBrowser" "http://analogist.couperin.org" 0 
   !insertmacro MUI_STARTMENU_WRITE_END
 
 SectionEnd
@@ -149,7 +149,7 @@ SectionEnd
 
   ;Assign language strings to sections
   !insertmacro MUI_FUNCTION_DESCRIPTION_BEGIN
-    !insertmacro MUI_DESCRIPTION_TEXT ${SecEZPAARSE} $(DESC_SecEZPAARSE)
+    !insertmacro MUI_DESCRIPTION_TEXT ${secEZPAARSE} $(sec+EZPAARSE)
   !insertmacro MUI_FUNCTION_DESCRIPTION_END
 
 ;--------------------------------
@@ -170,8 +170,8 @@ Section "Uninstall"
 SectionEnd
 
 Function runEZPAARSE
-  MessageBox MB_OK $(runMessage)
-  ExecShell "" "$SMPROGRAMS\$StartMenuFolder\$(msg_1_lancer)"
+  MessageBox MB_OK $(end+runMessage)
+  ExecShell "" "$SMPROGRAMS\$StartMenuFolder\$(menu+1_lancer)"
   ExecShell "open" $(url_usage)
   Sleep 5000 ; wait for node startup
   ExecShell "open" $(url_start)
@@ -184,7 +184,7 @@ Function .onInit
   StrCmp $R0 "" done
 
   MessageBox MB_OKCANCEL|MB_ICONEXCLAMATION \
-  $(msg_already_installed) \
+  $(preinstall+already_installed) \
   IDOK uninst
   Abort
  
