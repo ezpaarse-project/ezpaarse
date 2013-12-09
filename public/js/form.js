@@ -67,6 +67,7 @@ $(document).on('ready' ,function () {
     $('#input-output-fields').val(form['Output-Fields']);
     $('#input-request-charset').val(form['Request-Charset']);
     $('#input-response-charset').val(form['Response-Charset']);
+    $('#input-relative-domain').val(form['Relative-Domain']);
 
     if ($('#input-log-type').val()) {
       $('#input-log-format').prop('disabled', false);
@@ -159,6 +160,7 @@ $(document).on('ready' ,function () {
     form['Output-Fields']    = form._headers['Output-Fields']    = $('#input-output-fields').val()    || undefined;
     form['Request-Charset']  = form._headers['Request-Charset']  = $('#input-request-charset').val()  || undefined;
     form['Response-Charset'] = form._headers['Response-Charset'] = $('#input-response-charset').val() || undefined;
+    form['Relative-Domain']  = form._headers['Relative-Domain']  = $('#input-relative-domain').val()  || undefined;
 
     var userFields = [];
     $('div.user-field').each(function (i) {

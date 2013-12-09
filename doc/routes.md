@@ -48,6 +48,7 @@ Niveaux disponibles :
 -   **Request-Charset:** jeu de caractères utilisé dans les données en entrée [(voir les encodages supportés)](https://github.com/ashtuchkin/iconv-lite#supported-encodings).  
 -   **Response-Charset:** jeu de caractères utilisé pour le résultat. [(voir les encodages supportés)](https://github.com/ashtuchkin/iconv-lite#supported-encodings).  
 -   **Clean-Only:** si placé à `true`, ezPAARSE se contentera de filtrer les lignes de log inutiles, et retournera les lignes pertinentes.  
+-   **Relative-Domain:** si des URLs relatives sont rencontrées, elle seront considérées comme appartenant à ce domaine (et seront donc traitées par le parseur correspondant).  
 
 #### Body ####
 
