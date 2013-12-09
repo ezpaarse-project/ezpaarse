@@ -159,6 +159,7 @@ $(document).on('ready' ,function () {
     form['Output-Fields']    = form._headers['Output-Fields']    = $('#input-output-fields').val()    || undefined;
     form['Request-Charset']  = form._headers['Request-Charset']  = $('#input-request-charset').val()  || undefined;
     form['Response-Charset'] = form._headers['Response-Charset'] = $('#input-response-charset').val() || undefined;
+    form['Relative-Domain']  = form._headers['Relative-Domain']  = $('#input-relative-domain').val()  || undefined;
 
     var userFields = [];
     $('div.user-field').each(function (i) {
