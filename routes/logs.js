@@ -11,7 +11,7 @@ module.exports = function (app) {
    * GET route on /:rid/:logfile
    * Used to get a logfile
    */
-  app.get(new RegExp(jobidPattern + '/([a-zA-Z\\-]+\\.log)$'), function (req, res) {
+  app.get(new RegExp(jobidPattern + '/([a-zA-Z0-9\\-]+\\.(?:log|xml|csv))$'), function (req, res) {
     var requestID = req.params[0];
     var logFile   = path.join(__dirname, '/../tmp/jobs/',
       requestID.charAt(0),
