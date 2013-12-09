@@ -40,7 +40,8 @@
     "portscanner": "~0.1.3",
     "jschardet": "~1.1.0",
     "i18n-2": "~0.4.5",
-    "connect-session-file": "~1.0.4"
+    "connect-session-file": "~1.0.4",
+    "xml-writer": "~1.4.1"
   },
   "devDependencies": {
     "should": "*",
