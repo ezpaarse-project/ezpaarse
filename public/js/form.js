@@ -67,6 +67,7 @@ $(document).on('ready' ,function () {
     $('#input-output-fields').val(form['Output-Fields']);
     $('#input-request-charset').val(form['Request-Charset']);
     $('#input-response-charset').val(form['Response-Charset']);
+    $('#input-relative-domain').val(form['Relative-Domain']);
 
     if ($('#input-log-type').val()) {
       $('#input-log-format').prop('disabled', false);
