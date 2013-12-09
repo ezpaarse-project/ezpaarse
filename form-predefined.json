@@ -9,7 +9,7 @@
     {
       "label": "Université de Lorraine",
       "Log-Type": "ezproxy",
-      "Log-Format": "%h %{session}<[a-zA-Z0-9\\-\\+]+> %u %t \"%r\" %s %b %{user}<[a-zA-Z0-9\\-\\+]+>"
+      "Log-Format": "%h %{session}<[a-zA-Z0-9\\-\\+]+> %u %t \"%r\" %s %b %{user}<[a-zA-Z0-9\\-\\+,]+>"
     },
     "UParisDApache":
     {
