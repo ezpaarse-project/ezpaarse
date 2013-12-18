@@ -336,6 +336,10 @@ $(document).on('ready' ,function () {
       cmd += ' -H "Traces-Level: ' + $('#input-traces').val() + '"';
     }
 
+    if ($('#input-relative-domain').val()) {
+      cmd += ' -H "Relative-Domain: ' + $('#input-relative-domain').val() + '"';
+    }
+
     $('div.user-field').each(function (i) {
       var fieldGroup = $(this);
       var src        = fieldGroup.find('.input-user-field-src').val();
