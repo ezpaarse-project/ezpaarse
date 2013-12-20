@@ -86,6 +86,13 @@
       "label": "Exemple selection sortie",
       "Log-Type": "ezproxy",
       "Output-Fields": "-host,-login,+datetime"
+    },
+    "Lara":
+    {
+      "label": "Lara",
+      "Log-Type": "apache",
+      "Log-Format": "%h %l %u %t %r %>s %b",
+      "Relative-domain" : "lara.inist.fr"
     }
   }
 }
