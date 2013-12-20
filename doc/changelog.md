@@ -1,5 +1,10 @@
 # Versions ezPAARSE #
 
+## 1.3.0  ## 
+##### 19/12/2013 - Multilinguisme #####
+- multilinguisme (interface, version windows)
+- MVP export COUNTER
+
 ## 1.2.0  ## 
 ##### 14/11/2013 - Sécurisation #####
 - sécurisation des accès aux pages (possiblité de protection par mot de passe)
