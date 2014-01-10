@@ -27,19 +27,32 @@ function testFiles(files, platformName, parserFile, done) {
     csvextractor.extract(files, [], function (err, records) {
       assert.ok(err === null);
 
-      var child = spawn(parserFile);
+      records = records.map(function (record) {
+        var set = {
+          in: {},
+          out: {}
+        };
+        for (var prop in record) {
+          if (/^in-/.test(prop))       { set.in[prop.substr(3)]  = record[prop]; }
+          else if (/^out-/.test(prop)) { set.out[prop.substr(4)] = record[prop]; }
+        }
+        return set;
+      });
+
+      var child = spawn(parserFile, ['--json']);
       var lazy  = new Lazy(child.stdout);
+      var record;
 
       lazy.lines
         .map(String)
         .map(function (line) {
           var parsedLine = JSON.parse(line);
-          delete record.url;
-          should.ok(helpers.objectsAreSame(parsedLine, record),
-            'result does not match\nresult: ' + line + '\nexpected: ' + JSON.stringify(record));
+          should.ok(helpers.objectsAreSame(parsedLine, record.out),
+            'result does not match\nresult: ' + line + '\nexpected: ' + JSON.stringify(record.out));
           record = records.pop();
           if (record) {
-            child.stdin.write(record.url + '\n');
+            assert(record.in.url, 'some entries in the test file have no URL');
+            child.stdin.write(JSON.stringify(record.in) + '\n');
           } else {
             child.stdin.end();
           }
@@ -48,10 +61,10 @@ function testFiles(files, platformName, parserFile, done) {
         done();
       });
 
-      var record = records.pop();
+      record = records.pop();
       if (record) {
-        should(record.url, 'some entries in the test file have no URL');
-        child.stdin.write(record.url + '\n');
+        assert(record.in.url, 'some entries in the test file have no URL');
+        child.stdin.write(JSON.stringify(record.in) + '\n');
       } else {
         done();
       }
