@@ -71,7 +71,7 @@ module.exports = function (app) {
    */
   app.get(new RegExp(jobidPattern + '/([a-zA-Z0-9\\-]+\\.(?:[a-z]{3,4}))$'), function (req, res) {
     var requestID = req.params[0];
-    var filename  = req.params[1]
+    var filename  = req.params[1];
     var logFile   = path.join(__dirname, '/../tmp/jobs/',
       requestID.charAt(0),
       requestID.charAt(1),
