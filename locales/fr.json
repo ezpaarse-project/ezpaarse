@@ -115,6 +115,7 @@
 	"ws-result+Lignes_de_log_ignorées": "Lignes de log ignorées",
 	"ws-result+Lignes_ignorées": "Lignes ignorées",
 	"ws-result+Nombre_de_requêtes_non_pertinentes.": "Nombre de requêtes non pertinentes.",
+	"ws-result+Accès_refusés": "Accès refusés",
 	"ws-result+Il_s'agit_principalement_de_téléchargements_d'images,_css_ou_scripts_web_sans_rapport_direct_avec_une_ressource.": "Il s'agit principalement de téléchargements d'images, css ou scripts web sans rapport direct avec une ressource.",
 	"ws-result+Dans_un_log_brut,_ce_chiffre_est_souvent_élevé.": "Dans un log brut, ce chiffre est souvent élevé.",
 	"ws-result+Doublons_filtrés": "Doublons filtrés",
