@@ -27,6 +27,12 @@
       "Log-Type": "ezproxy",
       "Log-Format": "%h %{session1}<[a-zA-Z0-9\\-\\+]+> %{session2}<[a-zA-Z0-9\\-\\+]+> %t \"%r\" %s %b %{user}<[a-zA-Z0-9\\-\\+]+>"
     },
+    "URennes2":
+    {
+      "label": "Université de Rennes 2",
+      "Log-Type": "ezproxy",
+      "Log-Format": "%h %l %u %t \"%r\" %s %b \"%<.*>\""
+    },
     "ULyon":
     {
       "label": "Université Lyon 3",
