@@ -27,10 +27,9 @@ module.exports = function (app) {
     // check if this job exists
     if (job && job.ecsPath && job.ecsStream) {
       console.log('Serving growing result file');
-      var ext = mime.extension(job.contentType);
       res.writeHead(200, {
         'Content-Type': job.contentType,
-        'Content-Disposition': 'attachment; filename="' + name + '.' + ext + '"'
+        'Content-Disposition': 'attachment; filename="' + name + '.' + job.fileExtension + '"'
       });
 
       console.log('Requesting deferred result ECs file (while response is generated)');
