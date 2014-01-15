@@ -16,7 +16,7 @@ sudo apt-get install expect
 ## Procédure d'installation ##
 
 ```console
-git clone http://github.com/ezpaarse-project/ezpaarse.git
+git clone https://github.com/ezpaarse-project/ezpaarse.git
 cd ezpaarse
 make
 ```
