@@ -233,6 +233,7 @@ $(document).on('ready' ,function () {
    */
   socket.on('headers', function (headers) {
     $('#traces-btn').prop("href", headers["Job-Traces"]);
+    $('.link-denied-ecs').prop("href", headers["Denied-ECs"]);
     $('.link-lines-ignored-domains').prop("href", headers["Lines-Ignored-Domains"]);
     $('.link-lines-unknown-domains').prop("href", headers["Lines-Unknown-Domains"]);
     $('.link-lines-unknown-format').prop("href", headers["Lines-Unknown-Formats"]);
@@ -259,6 +260,7 @@ $(document).on('ready' ,function () {
     $('#rejection-rate').text(general["Rejection-Rate"]);
     $('#job-duration').text(general["Job-Duration"]);
     $('#nb-lines-ignored').text(rejets["nb-lines-ignored"]);
+    $('#nb-denied-ecs').text(rejets["nb-denied-ecs"]);
     $('#nb-lines-duplicate-ecs').text(rejets["nb-lines-duplicate-ecs"]);
     $('#nb-lines-ignored-domains').text(rejets["nb-lines-ignored-domains"]);
     $('#nb-lines-unknown-domains').text(rejets["nb-lines-unknown-domains"]);

@@ -7,37 +7,6 @@ var moment = require('moment');
 module.exports = function (app) {
 
   var jobidPattern = '^/([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})';
-  /**
-   * GET route on /:rid/:logfile
-   * Used to get a logfile
-   */
-  app.get(new RegExp(jobidPattern + '/([a-zA-Z0-9\\-]+\\.(?:log|xml|csv))$'), function (req, res) {
-    var requestID = req.params[0];
-    var logFile   = path.join(__dirname, '/../tmp/jobs/',
-      requestID.charAt(0),
-      requestID.charAt(1),
-      requestID,
-      req.params[1]);
-    if (fs.existsSync(logFile)) {
-      fs.stat(logFile, function (err, stats) {
-        if (err) {
-          res.status(500);
-          res.end();
-          return;
-        }
-        // download as an attachment if file size is >500ko
-        // open it in directly in the browser if file size is <500ko
-        if (stats.size > 500 * 1024) {
-          res.download(logFile, requestID + '-' + req.params[1]);
-        } else {
-          res.sendfile(logFile);
-        }
-      });
-    } else {
-      res.status(404);
-      res.end();
-    }
-  });
 
   /**
    * GET route on /:rid/job-report.{html|json}
@@ -75,7 +44,12 @@ module.exports = function (app) {
             res.end();
             return;
           }
-          var report = JSON.parse(data);
+          var report = {};
+          try {
+            report = JSON.parse(data);
+          } catch (e) {
+            res.send(500);
+          }
           var title = "Rapport d'exécution";
           if (report.general && report.general['Job-Date']) {
             title += " (" + moment(report.general['Job-Date']).format('DD-MM-YYYY hh[h]mm') + ')';
@@ -94,5 +68,38 @@ module.exports = function (app) {
         res.end();
       }
     });
+  });
+
+  /**
+   * GET route on /:rid/:logfile
+   * Used to get a logfile
+   */
+  app.get(new RegExp(jobidPattern + '/([a-zA-Z0-9\\-]+\\.(?:[a-z]{3,4}))$'), function (req, res) {
+    var requestID = req.params[0];
+    var filename  = req.params[1];
+    var logFile   = path.join(__dirname, '/../tmp/jobs/',
+      requestID.charAt(0),
+      requestID.charAt(1),
+      requestID,
+      filename);
+    if (fs.existsSync(logFile)) {
+      fs.stat(logFile, function (err, stats) {
+        if (err) {
+          res.status(500);
+          res.end();
+          return;
+        }
+        // download as an attachment if file size is >500ko
+        // open it in directly in the browser if file size is <500ko
+        if (stats.size > 500 * 1024) {
+          res.download(logFile, requestID + '-' + filename);
+        } else {
+          res.sendfile(logFile);
+        }
+      });
+    } else {
+      res.status(404);
+      res.end();
+    }
   });
 };
