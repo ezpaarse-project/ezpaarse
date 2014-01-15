@@ -44,7 +44,12 @@ module.exports = function (app) {
             res.end();
             return;
           }
-          var report = JSON.parse(data);
+          var report = {};
+          try {
+            report = JSON.parse(data);
+          } catch (e) {
+            res.send(500);
+          }
           var title = "Rapport d'exécution";
           if (report.general && report.general['Job-Date']) {
             title += " (" + moment(report.general['Job-Date']).format('DD-MM-YYYY hh[h]mm') + ')';
