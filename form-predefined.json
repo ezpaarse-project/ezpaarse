@@ -31,7 +31,11 @@
     {
       "label": "Université de Rennes 2",
       "Log-Type": "ezproxy",
-      "Log-Format": "%h %l %u %t \"%r\" %s %b \"%<.*>\""
+      "Log-Format": "%h %l %u %t \"%r\" %s %b \"%<.*>\"",
+      "Accept": "text/csv",
+      "Traces-Level": "info",
+      "Request-Charset": "utf-8",
+      "Response-Charset": "utf-8"
     },
     "ULyon":
     {
