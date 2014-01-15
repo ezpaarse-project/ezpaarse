@@ -15,6 +15,7 @@ var unqualifiedEC          = path.join(__dirname, '/dataset/unqualified-ec.log')
 var pkbmissEC              = path.join(__dirname, '/dataset/pkb-miss-ec.log');
 var duplicateEC            = path.join(__dirname, '/dataset/duplicate-ecs.log');
 var unorderedEC            = path.join(__dirname, '/dataset/unordered-ecs.log');
+var deniedEC               = path.join(__dirname, '/dataset/sd.denied.log');
 
 describe('The server', function () {
   describe('receives a log file', function () {
@@ -286,6 +287,36 @@ describe('The server', function () {
           if (!response) { throw new Error('ezPAARSE is not running'); }
           if (error)     { throw error; }
           response.should.have.status(404);
+          done();
+        });
+      });
+    });
+  });
+  describe('receives a log file with denied access', function () {
+    it('and correctly handles denied-ecs.csv (@11)', function (done) {
+      var headers = {
+        'Accept' : 'text/csv',
+        'Reject-Files': 'none'
+      };
+      helpers.post('/', deniedEC, headers, function (err, res, body) {
+        if (!res) { throw new Error('ezPAARSE is not running'); }
+        if (err)  { throw err; }
+        res.should.have.status(200);
+
+        should.ok(body.length === 0, 'the response should be empty');
+
+        var logURL = res.headers['denied-ecs'];
+        should.exist(logURL,
+          'The header "Denied-ECs" was not sent by the server');
+
+        request.get(logURL, function (error, response, logBody) {
+          if (!response) { throw new Error('ezPAARSE is not running'); }
+          if (error)     { throw error; }
+          response.should.have.status(200);
+
+          logBody = logBody.trim().split('\n');
+          should.ok(logBody.length === 3, '3 lines should be present in the log file,'
+            + ' got ' + logBody.length);
           done();
         });
       });
