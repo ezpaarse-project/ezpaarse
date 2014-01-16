@@ -135,7 +135,6 @@ bench:
 nodejs:
 	@test -f /usr/bin/git || sudo apt-get install --yes git
 	@./bin/buildnode
-	@./build/nvm/bin/latest/npm rebuild >/dev/null
 
 node-modules:
 	@. ./bin/env; npm install; cd platforms-scrapers && npm install
