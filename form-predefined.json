@@ -95,6 +95,10 @@
       "Log-Type": "ezproxy",
       "Log-Format": "%h %{session} %u %t \"%r\" %s %b"
     },
+    "UParis11":
+    {
+      "label": "Université Paris 11"
+    },
     "ExempleOutput":
     {
       "label": "Exemple selection sortie",
