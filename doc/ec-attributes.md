@@ -6,13 +6,13 @@ L'identifiant d'une ressource permet de caractériser les événements de consul
 
 <table>
   <tr><th>Code</th><th>Description</th><th>Commentaires</th></tr>
-  <tr><td>pid</td><td>reconnaissance de l'identifiant éditeur</td><td>L'identifiant éditeur est ensuite utilisé avec la pkb (base de connaissance éditeur associée)</td></tr>
-  <tr><td>issn</td><td>reconnaissance de l'ISSN</td><td></td></tr>
-  <tr><td>doi</td><td>reconnaissance du DOI</td><td>Le DOI est ensuite utilisé pour retrouver un ISSN</td></tr>
-  <tr><td>isbn</td><td>reconnaissance de l'ISBN</td><td></td></tr>
-  <tr><td>eissn</td><td>reconnaissance de l'EISSN</td><td></td></tr>
-  <tr><td>eisbn</td><td>reconnaissance de l'EISBN</td><td></td></tr>
-  <tr><td>unitid</td><td>reconnaissance du unitid</td><td>unitid est l'identification la plus précise d'un événement de consultation</td></tr>
+  <tr><td>pid</td><td>identifiant éditeur</td><td>L'identifiant éditeur est ensuite utilisé avec la pkb (base de connaissance éditeur associée)</td></tr>
+  <tr><td>pissn</td><td>ISSN papier</td><td></td></tr>
+  <tr><td>doi</td><td>DOI</td><td>Le DOI est ensuite utilisé pour retrouver un ISSN</td></tr>
+  <tr><td>pisbn</td><td>ISBN papier</td><td></td></tr>
+  <tr><td>eissn</td><td>ISSN électronique</td><td></td></tr>
+  <tr><td>eisbn</td><td>ISBN électronique</td><td></td></tr>
+  <tr><td>unitid</td><td>unitid</td><td>unitid est l'identification la plus précise d'un événement de consultation</td></tr>
 </table>
 
 ### Description de unitid ###
@@ -21,7 +21,7 @@ Unitid contient l'identifiant complet d'un événement de consultation sur une p
 
 Il peut s'agir du DOI ou d'un identifiant plus complexe permettant de savoir le plus précisément possible ce qui a été consulté (par exemple un paragraphe d'un article d'une page d'un livre).
 
-## Types de ressources ##
+## Types de ressources (rtype) ##
 
 Le type d'une ressource permet de connaître la forme de la ressource et de caractériser les EC associés, il peut prendre les valeurs définies dans le tableau ci-dessous (chargées depuis [le paramétrage d'ezPAARSE](https://github.com/ezpaarse-project/ezpaarse/blob/master/platforms/rtype.json)).
 
@@ -43,7 +43,7 @@ Le type d'une ressource permet de connaître la forme de la ressource et de cara
   <tr><td>BROCHES</td><td>consultation d'un livre broché</td><td>Cas des bases de données juridiques</td></tr>
 </table>
 
-## Formats de ressources ##
+## Formats de ressources (mime) ##
 
 Le format d'une ressource permet de caractériser les EC associés, il peut prendre les valeurs définies dans le tableau ci-dessous (chargées depuis [le paramétrage d'ezPAARSE](https://github.com/ezpaarse-project/ezpaarse/blob/master/platforms/mime.json)).
 

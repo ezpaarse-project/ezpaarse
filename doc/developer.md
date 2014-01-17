@@ -61,45 +61,37 @@ Remarque: à moins de disposer d'un accès privilégié (équipe ezPAARSE), vous
 
 ## Écriture d'un parseur ##
 
-* un parseur se présente sous la forme d'un fichier exécutable "parser[.xx]" ([.xx] étant l'extension facultative du fichier) accompagné d'un fichier de description [manifest.json](https://github.com/ezpaarse-project/ezpaarse/blob/master/platforms/sd/manifest.json) et du nécessaire pour sa validation (contenu dans un répertoire 'test' voir ci-dessous).
+* un parseur se présente sous la forme d'un fichier exécutable "parser[.xx]" ([.xx] étant l'extension facultative du fichier) accompagné d'un fichier de description [manifest.json](https://github.com/ezpaarse-project/ezpaarse-parsers/blob/master/sd/manifest.json) et du nécessaire pour sa validation (contenu dans un répertoire 'test' voir ci-dessous).
 * il fonctionne sous forme d'un filtre : traite l'entrée standard et produit un flux sur la sortie standard .
 * il accepte en entrée : des URLs de la plateforme qu'il sait analyser (une par ligne).
 * il retourne en sortie : les éléments de consultation reconnus sous forme d'un flux json.
 * il produit un affichage de son usage en retour à la commande --help.
 * le code retour est 0 si tout s'est bien passé et 1 en cas d'erreur.
-* [exemple en Javascript](https://github.com/ezpaarse-project/ezpaarse/blob/master/platforms/sd/parser.js)
-* [exemple en PHP](https://github.com/ezpaarse-project/ezpaarse/blob/master/platforms/sd/parser.php)
-* [exemple en Perl](https://github.com/ezpaarse-project/ezpaarse/blob/master/platforms/sd/parser.pl)
+* [exemple en Javascript](https://github.com/ezpaarse-project/ezpaarse-parsers/blob/master/sd/parser.js)
+* [exemple en PHP](https://github.com/ezpaarse-project/ezpaarse-parsers/blob/master/sd/parser.php)
 
 A noter que l'écriture d'un parseur se base principalement sur l'écriture d'expressions régulières (regexp).
 Pour aider l'écriture des regexp, voici un [outil qui pourra aider à visualiser l'écriture d'une regexp](http://www.regexper.com/).
 
 ## Tests de validation du parseur
 
-Le parseur est accompagné du nécessaire pour être testé.
-Les tests consistent en un ou plusieurs fichiers présents dans le sous-repertoire test du package du parseur.
+Chaque parseur est accompagné du nécessaire pour être testé. Il s'agit d'un ou plusieurs fichiers présents dans le sous-repertoire `test` du package du parseur. Ces fichiers sont au format CSV et suivent la nomenclature ``platform.version.csv``.  
 
-Les noms des fichiers de tests seront de la forme ``platform.version.csv``. Ils sont au format CSV et contiennent les colonnes suivantes : issn;pid;unitid;rtype;mime;url.
-
-Le principe de test du parseur est représenté par le schéma suivant :
+Le principe du test est représenté par le schéma suivant :  
 ![Schéma de test des parseurs](images/ezPAARSE-Test-des-Parseurs.png "Test des parseurs")
 
-La procédure de test des parseurs utilise les données de la colonne URL et les envoie au parseur. Celui-ci doit renvoyer des données conformes au contenu des autres colonnes. 
-L'ISSN est prioritaire sur le PID (identifiant éditeur). Si l'ISSN est présent, le PID est inutile.
+Pour chaque ligne, les données des colonnes préfixées par `in-` sont envoyées au parseur, et le résultat est comparé avec les colonnes préfixées par `out-`. Ces derniers doivent être strictement identiques.  
 
-La colonne rtype représente [le type de ressource](http://analogist.couperin.org/ezpaarse/doc/glossaire#types-de-ressources).
+Plus de détails concernant les identifiants retournés par les parseurs sont disponibles sur [cette page](./ec-attributes.html).
 
-La colonne mime représente [le format de la ressource](http://analogist.couperin.org/ezpaarse/doc/glossaire#formats-de-ressources).
+Dans le cas où le parseur prend uniquement une URL en entrée (i.e. pas d'autres champs préfixés par `in-`), il est possible de l'exécuter manuellement sur le fichier de test avec la commande suivante (à partir du répertoire de la plateforme):
 
-L'élément unitid contient l'identifiant complet d'un événement de consultation sur une plateforme. Il sert à dédoublonner les objets identiques.
-
-Les tests peuvent être utilisés au début du développement du parseur par une commande du type (dans le répertoire de la plateforme en question):
-
-```
-cat test/platform.version.csv | ../../bin/csvextractor --fields="url" -c --noheader | ./parser.js
+```bash
+#platform.version.csv correspond au fichier de test
+cat test/platform.version.csv | ../../bin/csvextractor --fields="in-url" -c --noheader | ./parser.js
 ```
 
-Puis ensuite utilisés automatiquement intégré dans ezPAARSE par la commande (à la racine d'ezPAARSE) qui lance les tests sur toutes les plateformes :
+Le test est automatiquement intégré à ezPAARSE, la commande suivante permettant de tester l'intégralité des parseurs :
 
 ```
 make test-platforms-verbose
@@ -211,7 +203,7 @@ make exe v=latest
 make upload v=latest
 ```
 
-Le numéro de version aura cette forme : `AAAAMMJJ<commitid>`
+Le numéro de version aura cette forme : `AAAAMMJJ<commitid>`  
 Exemple: `201303240bc258f` (24 mars 2013 commit id = 0bc258f)
 
 ## Contributions à ezPAARSE-arborescence ezPAARSE ##
