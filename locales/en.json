@@ -126,6 +126,7 @@
 	"ws-result+Domaines_inconnus": "Unknown domains",
 	"ws-result+Formats_inconnus": "Unknown formats",
 	"ws-result+ECs_non_qualifiés": "Unqualified ECs",
+  "ws-result+Les_parseurs_n_ont_pas_reconnu_d_information_documentaire_...": "Parsers have not recognized documentary information in the log URLs. These lines of logs are thus ignored by ezPAARSE.",
 	"ws-result+PKBs_manquantes": "Missing PKBs",
 	"ws-result+Rapport_détaillé": "Detailed report",
 	"ws-result+Traces_système": "System traces",
