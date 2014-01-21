@@ -35,11 +35,12 @@
     {
       "label": "Université de Rennes 2",
       "Log-Type": "ezproxy",
-      "Log-Format": "%h %l %u %t \"%r\" %s %b \"%<.*>\"",
-      "Accept": "text/csv",
-      "Traces-Level": "info",
-      "Request-Charset": "utf-8",
-      "Response-Charset": "utf-8"
+      "Log-Format": "%h %l %u %t \"%r\" %s %b \"%<.*>\""
+    },
+    "ULyon1":
+    {
+      "label": "Université Lyon 1",
+      "Log-Type": "ezproxy"
     },
     "ULyon":
     {
@@ -98,6 +99,11 @@
     "UParis11":
     {
       "label": "Université Paris 11"
+    },
+    "UPEC": {
+      "label": "Université Paris-Est Créteil (UPEC)",
+      "Log-Format": "%h %l %u %t \"%r\" %s %b - -  %{revue}<[a-zA-Z0-9\\-\\+,]+> %{discipline}<[a-zA-Z0-9\\-\\+,]+> %<.*>",
+      "Log-Type": "ezproxy"
     },
     "ExempleOutput":
     {
