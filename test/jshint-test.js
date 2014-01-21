@@ -6,7 +6,7 @@ var path   = require('path');
 var spawn  = require('child_process').spawn;
 
 describe('The "make jshint" command', function () {
-  this.timeout(5000);
+  this.timeout(10000);
   it('returns 0 if source code respects coding rules (@01)', function (done) {
     var child = spawn('make', ['jshint'], { cwd: path.join(__dirname, '..') });
 

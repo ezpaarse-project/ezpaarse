@@ -142,8 +142,8 @@ describe('The server', function () {
         res.should.have.status(400);
 
         should.ok(body === '', 'The body is not empty');
-        res.should.have.header('ezpaarse-status');
-        res.should.have.header('ezpaarse-status-message');
+        res.headers.should.have.property('ezpaarse-status');
+        res.headers.should.have.property('ezpaarse-status-message');
 
         var status = res.headers['ezpaarse-status'];
         status.should.equal('4008', 'ezPAARSE returned a wrong status header');
@@ -167,8 +167,8 @@ describe('The server', function () {
         res.should.have.status(400);
 
         should.ok(body === '', 'The body is not empty');
-        res.should.have.header('ezpaarse-status');
-        res.should.have.header('ezpaarse-status-message');
+        res.headers.should.have.property('ezpaarse-status');
+        res.headers.should.have.property('ezpaarse-status-message');
 
         var status = res.headers['ezpaarse-status'];
         status.should.equal('4009', 'ezPAARSE returned a wrong status header');
@@ -191,8 +191,8 @@ describe('The server', function () {
         res.should.have.status(400);
 
         should.ok(body === '', 'The body is not empty');
-        res.should.have.header('ezpaarse-status');
-        res.should.have.header('ezpaarse-status-message');
+        res.headers.should.have.property('ezpaarse-status');
+        res.headers.should.have.property('ezpaarse-status-message');
 
         var status = res.headers['ezpaarse-status'];
         status.should.equal('4010', 'ezPAARSE returned a wrong status header');
@@ -218,8 +218,8 @@ describe('The server', function () {
         res.should.have.status(400);
 
         should.ok(body === '', 'The body is not empty');
-        res.should.have.header('ezpaarse-status');
-        res.should.have.header('ezpaarse-status-message');
+        res.headers.should.have.property('ezpaarse-status');
+        res.headers.should.have.property('ezpaarse-status-message');
 
         var status = res.headers['ezpaarse-status'];
         status.should.equal('4011', 'ezPAARSE returned a wrong status header');

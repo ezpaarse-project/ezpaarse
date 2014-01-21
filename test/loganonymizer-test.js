@@ -27,7 +27,7 @@ describe('The loganonymizer command', function () {
     child.on('close', function (code) {
       code.should.be.equal(0);
       lines.length.should.be.equal(1);
-      lines[0].should.contain('webofknowledge');
+      lines[0].should.containEql('webofknowledge');
       lines[0].length.should.be.above(0);
       done();
     });

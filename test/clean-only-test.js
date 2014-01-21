@@ -27,8 +27,8 @@ describe('The server', function () {
           body.length);
 
         var logContent = fs.readFileSync(multipleStatus, 'utf-8');
-        logContent.should.contain(body[0]);
-        logContent.should.contain(body[1]);
+        logContent.should.containEql(body[0]);
+        logContent.should.containEql(body[1]);
         should.ok(/(200|304|401|403) [0-9]+$/.test(body[0]), 'a line was not filtered');
         should.ok(/(200|304|401|403) [0-9]+$/.test(body[1]), 'a line was not filtered');
         done();

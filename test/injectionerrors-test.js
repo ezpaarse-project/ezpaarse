@@ -18,8 +18,8 @@ describe('The server', function () {
         if (err)  { throw err; }
         should.ok(body === '', 'The body is not empty');
         res.should.have.status(400);
-        res.should.have.header('ezpaarse-status');
-        res.should.have.header('ezpaarse-status-message');
+        res.headers.should.have.property('ezpaarse-status');
+        res.headers.should.have.property('ezpaarse-status-message');
         var status = res.headers['ezpaarse-status'];
         status.should.equal('4003', 'ezPAARSE returned a wrong status header');
         done();
@@ -35,8 +35,8 @@ describe('The server', function () {
         if (err)  { throw err; }
         should.ok(body === '', 'The body is not empty');
         res.should.have.status(400);
-        res.should.have.header('ezpaarse-status');
-        res.should.have.header('ezpaarse-status-message');
+        res.headers.should.have.property('ezpaarse-status');
+        res.headers.should.have.property('ezpaarse-status-message');
         var status = res.headers['ezpaarse-status'];
         status.should.equal('4003', 'ezPAARSE returned a wrong status header');
         done();
@@ -54,8 +54,8 @@ describe('The server', function () {
         if (err)  { throw err; }
         should.ok(body === '', 'The body is not empty');
         res.should.have.status(400);
-        res.should.have.header('ezpaarse-status');
-        res.should.have.header('ezpaarse-status-message');
+        res.headers.should.have.property('ezpaarse-status');
+        res.headers.should.have.property('ezpaarse-status-message');
         var status = res.headers['ezpaarse-status'];
         status.should.equal('4002', 'ezPAARSE returned a wrong status header');
         done();
@@ -73,8 +73,8 @@ describe('The server', function () {
         if (err)  { throw err; }
         should.ok(body === '', 'The body is not empty');
         res.should.have.status(406);
-        res.should.have.header('ezpaarse-status');
-        res.should.have.header('ezpaarse-status-message');
+        res.headers.should.have.property('ezpaarse-status');
+        res.headers.should.have.property('ezpaarse-status-message');
         var status = res.headers['ezpaarse-status'];
         status.should.equal('4005', 'ezPAARSE returned a wrong status header');
         done();
@@ -92,8 +92,8 @@ describe('The server', function () {
         if (err)  { throw err; }
         should.ok(body === '', 'The body is not empty');
         res.should.have.status(400);
-        res.should.have.header('ezpaarse-status');
-        res.should.have.header('ezpaarse-status-message');
+        res.headers.should.have.property('ezpaarse-status');
+        res.headers.should.have.property('ezpaarse-status-message');
         var status = res.headers['ezpaarse-status'];
         status.should.equal('4004', 'ezPAARSE returned a wrong status header');
         done();
@@ -111,8 +111,8 @@ describe('The server', function () {
         if (err)  { throw err; }
         should.ok(body === '', 'The body is not empty');
         res.should.have.status(406);
-        res.should.have.header('ezpaarse-status');
-        res.should.have.header('ezpaarse-status-message');
+        res.headers.should.have.property('ezpaarse-status');
+        res.headers.should.have.property('ezpaarse-status-message');
         var status = res.headers['ezpaarse-status'];
         status.should.equal('4006', 'ezPAARSE returned a wrong status header');
         done();
