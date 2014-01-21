@@ -41,6 +41,16 @@
       "Request-Charset": "utf-8",
       "Response-Charset": "utf-8"
     },
+    "ULyon1":
+    {
+      "label": "Université Lyon 1",
+      "Log-Type": "ezproxy",
+      "Accept": "text/csv",
+      "Traces-Level": "info",
+      "Request-Charset": "utf-8",
+      "Response-Charset": "utf-8",
+      "remember": true
+    },
     "ULyon":
     {
       "label": "Université Lyon 3",
