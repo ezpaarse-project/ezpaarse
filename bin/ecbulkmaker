@@ -1,0 +1,3 @@
+#!/usr/bin/env ezpaarse-node
+
+require('../lib/bin/ecbulkmaker.js').EcBulkMaker();
