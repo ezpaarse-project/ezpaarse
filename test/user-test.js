@@ -34,7 +34,7 @@ describe('The server', function () {
 
         var result = JSON.parse(body);
 
-        should.ok(helpers.compareArrays(result, resultMonoPlus),
+        should.ok(helpers.equals(result, resultMonoPlus, true),
           'ezPAARSE does not match the intended result');
 
         done();
@@ -60,7 +60,7 @@ describe('The server', function () {
 
         var result = JSON.parse(body);
 
-        should.ok(helpers.compareArrays(result, resultMonoSpace),
+        should.ok(helpers.equals(result, resultMonoSpace, true),
           'ezPAARSE does not match the intended result');
 
         done();
@@ -86,7 +86,7 @@ describe('The server', function () {
 
         var result = JSON.parse(body);
 
-        should.ok(helpers.compareArrays(result, resultMultiPlus),
+        should.ok(helpers.equals(result, resultMultiPlus, true),
           'ezPAARSE does not match the intended result');
 
         done();
@@ -120,7 +120,7 @@ describe('The server', function () {
 
         var result = JSON.parse(body);
 
-        should.ok(helpers.compareArrays(result, resultMultipleMisc),
+        should.ok(helpers.equals(result, resultMultipleMisc, true),
           'ezPAARSE does not match the intended result');
 
         done();

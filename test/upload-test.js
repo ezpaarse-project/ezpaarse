@@ -49,7 +49,7 @@ describe('The server', function () {
               should.ok(defBody2.length, 'The second differed download is empty');
               var body2 = JSON.parse(defBody2);
 
-              should.ok(helpers.compareArrays(body1, body2),
+              should.ok(helpers.equals(body1, body2, true),
                 'The server sent two different deferred results for the same upload');
               done();
             });
