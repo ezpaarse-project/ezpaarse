@@ -42,7 +42,8 @@
     "i18n-2": "~0.4.5",
     "connect-session-file": "~1.0.4",
     "xml-writer": "~1.4.1",
-    "mime": "~1.2.11"
+    "mime": "~1.2.11",
+    "xml2js": "~0.4.1"
   },
   "devDependencies": {
     "should": "*",
