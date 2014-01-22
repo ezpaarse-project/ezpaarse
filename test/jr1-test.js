@@ -41,9 +41,21 @@ describe('The server', function () {
           parser.parseString(xmlModel, function (err, expected) {
             if (err) { throw err; }
 
-            // Current date can't equal the one of the model
+            // Remove all dates, because they can differ depending on locale
             delete expected.Report.$.Created;
             delete result.Report.$.Created;
+            result.Report.Customer.ReportItems.map(function (item) {
+              return item.ItemPerformance.map(function (subitem) {
+                delete subitem.Period;
+                return subitem;
+              });
+            });
+            expected.Report.Customer.ReportItems.map(function (item) {
+              return item.ItemPerformance.map(function (subitem) {
+                delete subitem.Period;
+                return subitem;
+              });
+            });
 
             // Admin mail in the model could have been changed
             expected.Report.Customer.Contact['E-mail'] = cfg.EZPAARSE_ADMIN_MAIL;
@@ -80,8 +92,11 @@ describe('The server', function () {
         var expected = fs.readFileSync(csvFile).toString().split('\n');
         body = (body || '').split('\n');
 
+        // Remove all dates, because they can differ depending on locale
         expected.splice(6, 1);
         body.splice(6, 1);
+        expected.splice(4, 1);
+        body.splice(4, 1);
 
         should.ok(helpers.equals(body, expected), 'The result does not match the model');
         done();
