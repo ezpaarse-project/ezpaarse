@@ -70,7 +70,7 @@ function check(testSet, formatHeader, callback) {
         var bodyJson = JSON.parse(body);
 
         bodyJson.should.be.an.instanceOf(Array);
-        should.ok(helpers.compareArrays(bodyJson, resultJson),
+        should.ok(helpers.equals(bodyJson, resultJson, true),
           'Server\'s answer do not match the intended result at ' + testCase.logFile);
 
       }

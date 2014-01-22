@@ -47,7 +47,7 @@ function testFiles(files, platformName, parserFile, done) {
         .map(String)
         .map(function (line) {
           var parsedLine = JSON.parse(line);
-          should.ok(helpers.objectsAreSame(parsedLine, record.out),
+          should.ok(helpers.equals(parsedLine, record.out, true),
             'result does not match\nresult: ' + line + '\nexpected: ' + JSON.stringify(record.out));
           record = records.pop();
           if (record) {
