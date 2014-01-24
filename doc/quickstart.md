@@ -32,7 +32,7 @@ make
 
 Si vous souhaitez installer la version de développement, ouvrez un terminal et tapez :
 ```console
-git clone http://github.com/ezpaarse-project/ezpaarse.git
+git clone https://github.com/ezpaarse-project/ezpaarse.git
 cd ezpaarse
 make
 ```
