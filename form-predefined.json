@@ -105,6 +105,12 @@
       "Log-Format": "%h %l %u %t \"%r\" %s %b - -  %{revue}<[a-zA-Z0-9\\-\\+,]+> %{discipline}<[a-zA-Z0-9\\-\\+,]+> %<.*>",
       "Log-Type": "ezproxy"
     },
+    "UVHC": {
+      "label": "Université de Valenciennes et du Hainaut-Cambrésis",
+      "Log-Type": "ezproxy",
+      "Log-Format": "%{datetime}<[^|]+>|%{session}<[^ ]+>|%h|%U|%{profil}<[a-zA-Z0-9+]+>|%{domain}<[^ ]+>|",
+      "Date-Format": "YYYY/MM/DD:HH:mm:ss"
+    },
     "ExempleOutput":
     {
       "label": "Exemple selection sortie",
