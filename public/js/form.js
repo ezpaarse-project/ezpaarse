@@ -260,7 +260,7 @@ $(document).on('ready' ,function () {
     $('#rejection-rate').text(general["Rejection-Rate"]);
     $('#job-duration').text(general["Job-Duration"]);
     $('#nb-lines-ignored').text(rejets["nb-lines-ignored"]);
-    $('#nb-denied-ecs').text(rejets["nb-denied-ecs"]);
+    $('#nb-denied-ecs').text(general["nb-denied-ecs"]);
     $('#nb-lines-duplicate-ecs').text(rejets["nb-lines-duplicate-ecs"]);
     $('#nb-lines-ignored-domains').text(rejets["nb-lines-ignored-domains"]);
     $('#nb-lines-unknown-domains').text(rejets["nb-lines-unknown-domains"]);
