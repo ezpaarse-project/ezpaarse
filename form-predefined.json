@@ -116,7 +116,8 @@
       "label": "Lara",
       "Log-Type": "apache",
       "Log-Format": "%h %l %u %t %r %>s %b",
-      "Relative-domain" : "lara.inist.fr"
+      "Relative-Domain": "lara.inist.fr",
+      "Output-Fields": "+pid,-domain"
     }
   }
 }
