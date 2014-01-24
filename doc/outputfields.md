@@ -3,7 +3,7 @@ Le header Output-Fields permet d'ajouter ou retirer (quand le format de sortie l
 
 Par défaut, les champs retournés sont ceux présents dans le paramètre EZPAARSE_OUTPUT_FIELDS du fichier de configuration ([config.json](https://github.com/ezpaarse-project/ezpaarse/blob/master/config.json#L9)), auxquels sont ajoutés ceux extraits du format de log.
 
-Ce paramètre peut permettre de rajouter des champs personnalisés que certains parseurs seraient suceptibles de retourner. Par exemple, les champs "pisbn" et "eisbn" ne sont pas ajoutés par défaut mais peuvent vous intéresser si vous avez de nombreux ebooks dans vos plateformes.
+Ce paramètre peut permettre de rajouter des champs personnalisés que certains parseurs seraient suceptibles de retourner. Par exemple, le champ "btype" n'est pas ajouté par défaut par ezpaarse et permet de remonter des informations avancées sur les consultations de base de données.
 Il peut également permettre de rajouter des champs interne à ezPAARSE comme :
 - datetime : pour avoir la date complète (heure, minute et seconde comprises) de l'évènement de consultation
 - timestamp : pour avoir la date au format informatique de l'évènement de consultation

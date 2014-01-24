@@ -60,13 +60,22 @@ make test
 
 ## Usage ##
 
-Des [fichiers de logs exemple et anonymisés](https://raw.github.com/ezpaarse-project/ezpaarse/master/test/dataset/sd.2012-11-30.300.log)
+Des [fichiers de logs d'exemple anonymisés](https://raw.github.com/ezpaarse-project/ezpaarse/master/test/dataset/sd.2012-11-30.300.log)
 sont disponibles dans les répertoires d'ezPAARSE.
 
-Vous devez tout d'abord vous assurer qu'ezPAARSE est démarré en lançant la commande suivante :
-
+Vous devez tout d'abord démarrer ezPAARSE en lançant la commande suivante :
 ```console
 make start
+```
+
+Vous pouvez vérifier à tout moment l'état du programme en lançant la commande :
+```console
+make status
+```
+
+Pour arrêter ezPAARSE, utilisez la commande :
+```console
+make stop
 ```
 
 Si vous n'êtes pas informaticien, la méthode la plus simple pour utiliser ezPAARSE est de

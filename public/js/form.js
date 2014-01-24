@@ -68,6 +68,7 @@ $(document).on('ready' ,function () {
     $('#input-request-charset').val(form['Request-Charset']);
     $('#input-response-charset').val(form['Response-Charset']);
     $('#input-relative-domain').val(form['Relative-Domain']);
+    $('#input-date-format').val(form['Date-Format']);
 
     if ($('#input-log-type').val()) {
       $('#input-log-format').prop('disabled', false);
@@ -161,6 +162,7 @@ $(document).on('ready' ,function () {
     form['Request-Charset']  = form._headers['Request-Charset']  = $('#input-request-charset').val()  || undefined;
     form['Response-Charset'] = form._headers['Response-Charset'] = $('#input-response-charset').val() || undefined;
     form['Relative-Domain']  = form._headers['Relative-Domain']  = $('#input-relative-domain').val()  || undefined;
+    form['Date-Format']      = form._headers['Date-Format']      = $('#input-date-format').val()      || undefined;
 
     var userFields = [];
     $('div.user-field').each(function (i) {
@@ -340,6 +342,10 @@ $(document).on('ready' ,function () {
 
     if ($('#input-relative-domain').val()) {
       cmd += ' -H "Relative-Domain: ' + $('#input-relative-domain').val() + '"';
+    }
+
+    if ($('#input-date-format').val()) {
+      cmd += ' -H "Date-Format: ' + $('#input-date-format').val() + '"';
     }
 
     $('div.user-field').each(function (i) {

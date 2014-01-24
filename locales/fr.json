@@ -83,6 +83,8 @@
 	"ws-form+Jeu_de_caractères_(charset)_utilisé_dans_les_fichiers_à_traiter.": "Jeu de caractères (charset) utilisé dans les fichiers à traiter.",
 	"ws-form+Encodage_en_sortie": "Encodage en sortie",
 	"ws-form+Jeu_de_caractères_(charset)_utilisé_pour_les_données_en_sortie.": "Jeu de caractères (charset) utilisé pour les données en sortie.",
+	"ws-form+Format_de_date_utilisé_dans_les_lignes_de_log": "Format de date utilisé dans les lignes de log",
+	"ws-form+Format_de_date": "Format de date",
 	"ws-form+Domaine_relatif": "Domaine relatif",
 	"ws-form+Domaine_à_utiliser_pour_les_URLs_relatives.": "Domaine à utiliser pour les URLs relatives.",
 	"ws-form+Mémoriser_mes_paramètres": "Mémoriser mes paramètres",
