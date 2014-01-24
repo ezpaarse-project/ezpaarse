@@ -29,9 +29,14 @@ When the prerequesites are met, you can launch the **make** command (see below) 
 
 If you are a Windows user, you can install ezPAARSE on your computer by [downloading the setup file](http://analogist.couperin.org/ezpaarse/download) and start the install like you would do for any other program.
 
-If you want to install ezPAARSE on a Unix-type system, 
-download the latest stable version in the [tar.gz](http://analogist.couperin.org/ezpaarse/download) format
-open a terminal and type:
+To install the latest stable version of ezPAARSE on a Unix-type system, open a terminal and type:
+```console
+git clone https://github.com/ezpaarse-project/ezpaarse.git
+cd ezpaarse
+git checkout `git describe --tags --abbrev=0`
+make
+```
+You can also download a stable version in the [tar.gz](http://analogist.couperin.org/ezpaarse/download) format and type in a terminal:
 ```shell
 tar -xzfv ezpaarse-X.X.X.tar.gz
 cd ezpaarse-X.X.X
