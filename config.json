@@ -27,7 +27,7 @@
     },
     "external": [
       {
-        "file": "platforms/rid.json",
+        "file": "platforms-parsers/rid.json",
         "attribute": "code",
         "weight": 1
       }
