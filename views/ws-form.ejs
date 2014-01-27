@@ -59,6 +59,11 @@
                   </div>
                 </div>
               </div>
+              <div id="nofile-warn" class="alert alert-warning ninja"><%= __("ws-form+Vous_devez_sélectionner_au_moins_un_fichier.") %></div>
+              <div id="big-warn" class="alert alert-warning ninja"><%= __("ws-form+Les_fichiers_sélectionnés_sont_volumineux,_le_traitement_peut_être_long.") %></div>
+              <div class="text-center">
+                <input type="submit" class="btn" value="<%= __("ws-form+Traiter") %>" id="submit" />
+              </div>
             </form> <!-- form -->
             <div class="accordion form-horizontal span6" id="pane-options">
               <div class="accordion-group"> <!-- Import / export accordion -->
@@ -214,10 +219,5 @@
                 </div>
               </div>
             </div>
-          </div>
-          <div id="nofile-warn" class="alert alert-warning ninja"><%= __("ws-form+Vous_devez_sélectionner_au_moins_un_fichier.") %></div>
-          <div id="big-warn" class="alert alert-warning ninja"><%= __("ws-form+Les_fichiers_sélectionnés_sont_volumineux,_le_traitement_peut_être_long.") %></div>
-          <div class="text-center">
-            <input type="submit" class="btn" value="<%= __("ws-form+Traiter") %>" id="submit" />
           </div>
         </div><!-- form-content -->
