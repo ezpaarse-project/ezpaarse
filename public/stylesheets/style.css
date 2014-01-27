@@ -164,9 +164,9 @@ textarea.code {
   font-weight: bold;
   padding: 1em 0;
   margin: 1em 0;
-  height: 200px;
+  height: 100px;
   color: #555;
-  line-height: 200px;
+  line-height: 100px;
   text-align: center;
   border: 2px dashed #555;
   border-radius: 7px;
