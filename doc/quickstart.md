@@ -36,14 +36,14 @@ cd ezpaarse-X.X.X
 make
 ```
 
-Si vous souhaitez installer la version de développement, ouvrez un terminal et tapez :
+Si vous souhaitez installer la version de développement, tapez :
 ```console
 git clone https://github.com/ezpaarse-project/ezpaarse.git
 cd ezpaarse
 make
 ```
 
-Vous avez également la possibilité de [télécharger une archives pour deb](http://analogist.couperin.org/ezpaarse/download) et de l'installer sur votre système Debian/Ubuntu de cette façon :
+Vous avez également la possibilité de [télécharger une archive .deb](http://analogist.couperin.org/ezpaarse/download) et de l'installer sur votre système Debian/Ubuntu de cette façon :
 ```console
 sudo -E dpkg -i ezpaarse-X.X.X.deb
 sudo /etc/init.d/ezpaarse start
