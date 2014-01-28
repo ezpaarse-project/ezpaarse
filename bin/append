@@ -1,0 +1,113 @@
+#!/usr/bin/env node
+'use strict';
+
+var fs   = require('fs');
+var path = require('path');
+var util = require('util');
+
+var optimist = require('optimist')
+  .usage('Usage: $0 [OPTION] ... [FILES / DIRECTORIES]')
+  .describe('skip', 'skip a given number of lines for each file')
+  .describe('filter', 'a regexp for filtering files to append')
+  .describe('sort', 'sort files by name before appending them (DESC or ASC)')
+  .alias('skip', 'k')
+  .alias('filter', 'f')
+  .alias('sort', 's')
+  .default('skip', 0).check(function (argv) {
+    if (!argv._.length) { throw new Error('no file or directory supplied'); }
+  });
+
+var argv    = optimist.argv;
+var nbSkip  = argv.skip;
+var files   = [];
+var lastChar;
+var filter;
+
+if (argv.filter) {
+  try {
+    filter = new RegExp(argv.filter);
+  } catch (e) {
+    console.error(util.format('[Error: %s]', e));
+    process.exit(1);
+  }
+}
+
+argv._.forEach(function (source) {
+  if (!fs.existsSync(source)) {
+    console.error(util.format('[Error: "%s" does not exist]', source));
+    process.exit(1);
+  }
+
+  var stat = fs.statSync(source);
+  if (stat.isDirectory()) {
+    fs.readdirSync(source).forEach(function (file) {
+      var filepath = path.join(source, file);
+      if (fs.statSync(filepath).isFile()) {
+        if (filter && !filter.test(file)) { return; }
+        files.push(filepath);
+      }
+    });
+  } else {
+    if (filter && !filter.test(source)) { return; }
+    files.push(source);
+  }
+});
+
+if (files.length == 0) {
+  console.error('No file to append');
+  process.exit(0);
+}
+
+if (argv.sort) {
+  switch (argv.sort.toLowerCase()) {
+    case 'asc':
+      // Sort files by names from Z to A (then we pop them from A to Z)
+      files.sort(function (a, b) { return path.basename(a) < path.basename(b); });
+      break;
+    case 'desc':
+      // Sort files by names from A to Z (then we pop them from Z to A)
+      files.sort(function (a, b) { return path.basename(a) > path.basename(b); });
+      break;
+    default:
+      console.error('[Error: Bad parameter - sort can be either ASC or DESC]');
+      process.exit(1);
+  }
+} else {
+  files.reverse(); // to pop files in the order they were typed
+}
+
+var skippedLines = 0;
+// Overwrite the write method to skip the first line
+var _write = process.stdout.write;
+process.stdout.write = function (data) {
+  lastChar = data.toString().slice(-1);
+
+  if (skippedLines >= nbSkip) {
+    return _write.call(this, data);
+  } else {
+    data = data.toString();
+    var index = data.indexOf('\n');
+    if (index != -1) {
+      if (++skippedLines >= nbSkip) {
+        _write.call(this, data.substr(++index));
+      }
+    }
+  }
+};
+
+function appendNextFile(file) {
+  if (!file) { return; }
+  console.error('Appending: ' + file);
+
+  var stream = fs.createReadStream(file);
+
+  stream.on('end', function () {
+    skippedLines = 0;
+    if (lastChar !== '\n') { process.stdout.write('\n'); }
+    appendNextFile(files.pop());
+  });
+
+  stream.pipe(process.stdout);
+}
+
+appendNextFile(files.pop());
