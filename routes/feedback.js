@@ -81,8 +81,8 @@ module.exports = function (app) {
         fileName: "report.json",
         contents: feedback.report
       });
-    } else if (req.session && req.session.lastJob) {
-      var jobID      = req.session.lastJob;
+    } else if (req.cookies && req.cookies.lastJob) {
+      var jobID      = req.cookies.lastJob;
       var reportFile = path.join(__dirname, '/../tmp/jobs/',
         jobID.charAt(0),
         jobID.charAt(1),
@@ -112,8 +112,8 @@ module.exports = function (app) {
    * Forward feedback request to the main ezpaarse instance
    */
   function forwardFeedback(req, res) {
-    if (req.session && req.session.lastJob) {
-      var jobID      = req.session.lastJob;
+    if (req.cookies && req.cookies.lastJob) {
+      var jobID      = req.cookies.lastJob;
       var reportFile = path.join(__dirname, '/../tmp/jobs/',
         jobID.charAt(0),
         jobID.charAt(1),

@@ -7,11 +7,15 @@ var socket = io.connect(host);
 var predefined;
 var config;
 
-function setCookie(sName, sValue) {
-  var today   = new Date();
-  var expires = new Date();
-  expires.setTime(today.getTime() + (365 * 24 * 60 * 60 * 1000));
-  document.cookie = sName + "=" + encodeURIComponent(sValue) + ";expires=" + expires.toGMTString();
+function setCookie(sName, sValue, isVolatile) {
+  var cookie = sName + "=" + encodeURIComponent(sValue)
+  if (!isVolatile) {
+    var today   = new Date();
+    var expires = new Date();
+    expires.setTime(today.getTime() + (365 * 24 * 60 * 60 * 1000));
+    cookie += ";expires=" + expires.toGMTString();
+  }
+  document.cookie = cookie;
 }
 
 function getCookie(sName) {
@@ -514,6 +518,7 @@ $(document).on('ready' ,function () {
 
     jobid    = uuid.v1();
     logroute = '/' + jobid + '/';
+    setCookie('lastJob', jobid, true);
 
     var form    = getFormSettings();
     var headers = form._headers;
