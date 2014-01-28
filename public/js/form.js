@@ -514,6 +514,7 @@ $(document).on('ready' ,function () {
 
     jobid    = uuid.v1();
     logroute = '/' + jobid + '/';
+    setCookie('lastJob', jobid);
 
     var form    = getFormSettings();
     var headers = form._headers;
