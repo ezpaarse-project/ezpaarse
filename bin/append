@@ -13,13 +13,22 @@ var optimist = require('optimist')
   .alias('skip', 'k')
   .alias('filter', 'f')
   .alias('sort', 's')
-  .default('skip', 0).check(function (argv) {
-    if (!argv._.length) { throw new Error('no file or directory supplied'); }
-  });
+  .alias('help', 'h')
+  .default('skip', 0);
 
-var argv    = optimist.argv;
-var nbSkip  = argv.skip;
-var files   = [];
+var argv = optimist.argv;
+if (argv.help) {
+  optimist.showHelp();
+  process.exit(0);
+}
+
+if (!argv._.length) {
+  console.error('[Error: no file or directory supplied]');
+  process.exit(1);
+}
+
+var nbSkip = argv.skip;
+var files  = [];
 var lastChar;
 var filter;
 
@@ -97,7 +106,7 @@ process.stdout.write = function (data) {
 
 function appendNextFile(file) {
   if (!file) { return; }
-  console.error('Appending: ' + file);
+  console.error(util.format('Appending: %s', file));
 
   var stream = fs.createReadStream(file);
 
