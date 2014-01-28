@@ -27,8 +27,9 @@ if (!argv._.length) {
   process.exit(1);
 }
 
-var nbSkip = argv.skip;
-var files  = [];
+var nbSkip       = argv.skip;
+var files        = [];
+var skippedLines = 0;
 var lastChar;
 var filter;
 
@@ -85,22 +86,33 @@ if (argv.sort) {
   files.reverse(); // to pop files in the order they were typed
 }
 
-var skippedLines = 0;
+/**
+ * Remove line breaks in a string until we reach the asked number of skipped lines
+ * Returns the resulting string
+ */
+function checkLineBreaks(data) {
+  var index = data.indexOf('\n');
+  if (index != -1) {
+    data = data.substr(++index);
+    if (++skippedLines >= nbSkip) {
+      return data;
+    } else {
+      return checkLineBreaks(data);
+    }
+  }
+  return data;
+}
+
 // Overwrite the write method to skip the first line
 var _write = process.stdout.write;
 process.stdout.write = function (data) {
-  lastChar = data.toString().slice(-1);
+  data     = data.toString();
+  lastChar = data.slice(-1);
 
   if (skippedLines >= nbSkip) {
     return _write.call(this, data);
   } else {
-    data = data.toString();
-    var index = data.indexOf('\n');
-    if (index != -1) {
-      if (++skippedLines >= nbSkip) {
-        _write.call(this, data.substr(++index));
-      }
-    }
+    return _write.call(this, checkLineBreaks(data));
   }
 };
 
@@ -112,7 +124,7 @@ function appendNextFile(file) {
 
   stream.on('end', function () {
     skippedLines = 0;
-    if (lastChar !== '\n') { process.stdout.write('\n'); }
+    if (lastChar !== '\n') { _write.call(process.stdout, '\n'); }
     appendNextFile(files.pop());
   });
 
