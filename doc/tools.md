@@ -217,26 +217,36 @@ Options:
 ## ecbulkmaker
 
 Commande permettant de lancer un traitement batch de fichiers de log contenu dans un répertoire sur l'instance ezPAARSE locale.
+La commande reproduit l'éventuelle arborescence du repertoire source dans le répertoire des résultats.
 
-
-Exemple d'utilisation réelle avec un fichier de log :
+Exemple d'utilisation :
 ```bash
-./ecmaker --input=/home/ubuntu/ezpaarse/test/dataset/sd.2012-11-30.300.log --outpath=tmp/test
+./ecbulkmaker --source=/applis/stats/home/archives --dest=/applis/stats/home/ezresults --logsdir=fede/bibliovie/2013
 
-ll tmp/test
-sd.2012-11-30.300.ec.csv
-sd.2012-11-30.300.report.html
 ```
-Par defaut un fichier résultat (extension ec.csv) et un fichier rapport statique (extension report.html) sont générés dans le repertoire destination.
+Par defaut un fichier résultat (extension ec.csv) et un fichier rapport statique (extension report.html) sont générés dans le repertoire destination par fichier de log.
+Les fichiers de log en rejets ne sont pas conservés.
 
 ```
 Usage:
-Inject a file to ezPAARSE (for batch purpose)
-  Usage: node ./bin/ecmaker [-hiofv]
+Inject files to ezPAARSE (for batch purpose)
+  Usage: node ./ecbulkmaker [-hov] 
+  --source=sources_directory 
+  --dest=results_directory 
+  --logsdir=relative_path_to_log_form_sources
 
 Options:
-  --input, -i    Input log file (if omited, wait for standard input)
-  --outpath, -o  If provided, output directory (default tmp).       
-  --force, -f    override existing result (default false).          
-  --verbose, -v  Shows detailed operations.                                             
+  --source, -S   Archives sources base directory.
+   (like --source=/applis/stats/home/archives)
+  --dest, -D     Results base directory.
+   (like --dest=/applis/stats/home/ezresults)          
+  --logsdir, -L  Relative log directory.
+   (like --logsdir=fede/bibliovie/2013)                
+  --list, -l     If provided, only list files.                                                 
+  --force, -f    override existing result (default false).                                     
+  --verbose, -v  Shows detailed operations.                                                    
+  -S [required]
+  -D [required]
+  -L [required]
+
 ```
