@@ -178,4 +178,65 @@ Options:
   --verbose, -v  show stats of checking.                     
 ```
 
+## ecmaker
 
+Commande permettant de lancer un traitement batch d'un fichier de log sur l'instance ezPAARSE locale.
+
+Exemple d'utilisation test via logfaker avec l'entrée standard :
+```bash
+./logfaker -d 5 | ./ecmaker
+
+ll tmp
+ecmake-2014-01-29_11-08-15.ec.csv
+ecmake-2014-01-29_11-08-15.report.html
+```
+Par defaut un fichier résultat et un fichier rapport statique sont générés dans le repertoire destination.
+
+Exemple d'utilisation réelle avec un fichier de log :
+```bash
+./ecmaker --input=/home/ubuntu/ezpaarse/test/dataset/sd.2012-11-30.300.log --outpath=tmp/test
+
+ll tmp/test
+sd.2012-11-30.300.ec.csv
+sd.2012-11-30.300.report.html
+```
+Par defaut un fichier résultat (extension ec.csv) et un fichier rapport statique (extension report.html) sont générés dans le repertoire destination.
+
+```
+Usage:
+Inject a file to ezPAARSE (for batch purpose)
+  Usage: node ./bin/ecmaker [-hiofv]
+
+Options:
+  --input, -i    Input log file (if omited, wait for standard input)
+  --outpath, -o  If provided, output directory (default tmp).       
+  --force, -f    override existing result (default false).          
+  --verbose, -v  Shows detailed operations.                                             
+```
+
+## ecbulkmaker
+
+Commande permettant de lancer un traitement batch de fichiers de log contenu dans un répertoire sur l'instance ezPAARSE locale.
+
+
+Exemple d'utilisation réelle avec un fichier de log :
+```bash
+./ecmaker --input=/home/ubuntu/ezpaarse/test/dataset/sd.2012-11-30.300.log --outpath=tmp/test
+
+ll tmp/test
+sd.2012-11-30.300.ec.csv
+sd.2012-11-30.300.report.html
+```
+Par defaut un fichier résultat (extension ec.csv) et un fichier rapport statique (extension report.html) sont générés dans le repertoire destination.
+
+```
+Usage:
+Inject a file to ezPAARSE (for batch purpose)
+  Usage: node ./bin/ecmaker [-hiofv]
+
+Options:
+  --input, -i    Input log file (if omited, wait for standard input)
+  --outpath, -o  If provided, output directory (default tmp).       
+  --force, -f    override existing result (default false).          
+  --verbose, -v  Shows detailed operations.                                             
+```
