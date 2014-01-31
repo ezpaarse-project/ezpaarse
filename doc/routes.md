@@ -130,7 +130,7 @@ Lors du traitement d'un job (requête), ezPAARSE génère des fichiers informati
     </tr>
     <tr>
       <td>/{jobID}/job-report.(json|html)</td>
-      <td>Rapport regroupant diverses informations sur le traitement : nombre de lignes rejetées, taux de rejet, date et longueur du traitement...</td>
+      <td>Rapport regroupant diverses informations sur le traitement : nombre de lignes rejetées, taux de rejet, date et longueur du traitement...L'usage sous la forme /{jobID}/job-report.html?standalone=1 permet de générer un rapport html indépendant</td>
     </tr>
     <tr>
       <td>/{jobID}/lines-unknown-formats.log</td>
