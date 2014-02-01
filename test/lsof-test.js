@@ -10,6 +10,13 @@ var lsof        = require('lsof');
 // we need to know the pid of the process
 var ezpaarsePid = fs.readFileSync(__dirname + '/../ezpaarse.pid', 'utf8');
 
+describe('ezPAARSE processes a basic log file', function () {
+  it('should have closed all the used file descriptors (@00)', function (done) {
+    var log = __dirname + '/dataset/sd.mini.log';
+    processLogAndTestLsof(log, { }, done);
+  });
+});
+
 describe('ezPAARSE processes a log file with an unsupported hash for anonymization', function () {
   it('should have closed all the used file descriptors (@01)', function (done) {
     var log = __dirname + '/dataset/sd.mini.log';
