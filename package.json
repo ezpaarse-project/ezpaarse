@@ -43,7 +43,8 @@
     "connect-session-file": "~1.0.4",
     "xml-writer": "~1.4.1",
     "mime": "~1.2.11",
-    "xml2js": "~0.4.1"
+    "xml2js": "~0.4.1",
+    "stackware": "0.0.2"
   },
   "devDependencies": {
     "should": "*",

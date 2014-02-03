@@ -1,6 +1,6 @@
 {
   "name": "ezPAARSE",
-  "version": "1.3.1",
+  "version": "1.4.0",
   "dependencies": {
     "forever": {
       "version": "0.10.11",
@@ -1168,6 +1168,10 @@
           "resolved": "http://registry.npmjs.org/xmlbuilder/-/xmlbuilder-2.1.0.tgz"
         }
       }
+    },
+    "stackware": {
+      "version": "0.0.2",
+      "from": "stackware@"
     }
   }
 }
