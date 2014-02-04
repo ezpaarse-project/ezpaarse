@@ -114,6 +114,12 @@ describe('ezPAARSE processes', function () {
           // to the number of open file after the log processing
           lsofAfter.should.be.instanceof(Array);
           lsofBefore.should.be.instanceof(Array);
+          
+          // add a trace to help to understand which file descriptor is still open
+          if (lsofAfter.length != lsofBefore.length) {
+            console.error(lsofAfter);
+          }
+
           should.equal(lsofAfter.length, lsofBefore.length);
 
           done();
