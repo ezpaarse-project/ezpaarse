@@ -1,0 +1,25 @@
+#!/bin/bash
+#
+# ezPAARSE build common varialbles 
+#
+
+# check version exists
+VERSION=$v
+CURRENT_VERSION="`$BIN_PATH/readconfig -k version`"
+
+[ -z "$VERSION" ] && VERSION="$CURRENT_VERSION"
+if [ "`git tag -l | grep $VERSION`" == "" ]; then
+  VERSION="latest"
+fi
+
+# get the latest commit id as the latest version number
+VERSION_PREFIX="" # to match version check
+VERSION_NAME=""   # exe path doesn't accept + in path
+if [ "$VERSION" == "latest" ]; then
+  VERSION="`git log --pretty=format:'%h' -n 1`"
+  VERSION_PREFIX="$CURRENT_VERSION+`date +"%j"`"
+  VERSION_NAME="$CURRENT_VERSION-`date +"%j"`"
+fi
+
+EZPAARSE_SUFFIX=""
+EZPAARSE_NAME="ezpaarse-$VERSION_NAME$VERSION"
