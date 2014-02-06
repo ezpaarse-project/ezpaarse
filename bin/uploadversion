@@ -38,7 +38,7 @@ fi
 # check the destination folder does not exist yet
 UPLOAD_EXISTS=`ssh analogist@stats.intra.inist.fr "ls var/www/ezpaarse/versions/$VERSION_PREFIX$VERSION/ 2>/dev/null"`
 if [[ "$UPLOAD_EXISTS" != "" && $FORCE_UPLOAD == "" ]]; then
-  echo "Uploaded folder already exists on analogist Web site. Use --force option  if you need to upload again."
+  echo "Uploaded folder $VERSION_PREFIX$VERSION already exists on analogist Web site. Use --force option  if you need to upload again."
   exit 1
 else
   echo "Uploading to analogist:var/www/ezpaarse/versions/$VERSION_PREFIX$VERSION/"

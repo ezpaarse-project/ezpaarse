@@ -11,17 +11,10 @@ BIN_PATH=`dirname "$MY_PATH"`
 EZPAARSE_PATH=$BIN_PATH/..
 TMP_PATH=$EZPAARSE_PATH/tmp
 
-. $BIN_PATH/env
+source $BIN_PATH/env
+# get common variables to all build scripts
+source $BIN_PATH/buildcommon
 
-# get the wanted version number
-VERSION=$v
-VERSION_PREFIX=""
-[ -z "$VERSION" ] && VERSION="`$BIN_PATH/readconfig -k version`"
-# get the latest commit id as the latest version number
-if [ "$VERSION" == "latest" ]; then
-  VERSION="`git log --pretty=format:'%h' -n 1`"
-  VERSION_PREFIX="`date +"%Y%m%d"`"
-fi
 
 rm -rf $TMP_PATH/ezpaarse/
 mkdir -p $TMP_PATH/ezpaarse/usr/share/

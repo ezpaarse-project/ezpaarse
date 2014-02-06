@@ -10,30 +10,14 @@ BIN_PATH=`dirname "$MY_PATH"`
 EZPAARSE_PATH=$BIN_PATH/..
 EZPAARSE_NODEJS_VERSION="`$BIN_PATH/readconfig -k EZPAARSE_NODEJS_VERSION`"
 
-# check version exists
-VERSION=$v
-CURRENT_VERSION="`$BIN_PATH/readconfig -k version`"
+# get common variables to all build scripts
+source $BIN_PATH/buildcommon
 
-[ -z "$VERSION" ] && VERSION="$CURRENT_VERSION"
-if [ "`git tag -l | grep $VERSION`" == "" ]; then
-  VERSION="latest"
-fi
-
-# get the latest commit id as the latest version number
-VERSION_PREFIX=""
-VERSION_NAME=""
-if [ "$VERSION" == "latest" ]; then
-  VERSION="`git log --pretty=format:'%h' -n 1`"
-  VERSION_PREFIX="$CURRENT_VERSION+`date +"%j"`"
-  VERSION_NAME="$CURRENT_VERSION-`date +"%j"`"
-fi
 
 # a temp folder to clone the git
 TMP_DIR=$EZPAARSE_PATH/tmp
 mkdir -p $TMP_DIR
 
-EZPAARSE_SUFFIX=""
-EZPAARSE_NAME="ezpaarse-$VERSION_NAME$VERSION"
 
 # clone the git with the correct name
 rm -rf $TMP_DIR/$EZPAARSE_NAME

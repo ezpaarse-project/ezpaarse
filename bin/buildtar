@@ -9,26 +9,12 @@ MY_PATH=$(cd ${0%/*} && echo $PWD/${0##*/})
 BIN_PATH=`dirname "$MY_PATH"`
 EZPAARSE_PATH=$BIN_PATH/..
 
-# check version exists
-VERSION=$v
-[ -z "$VERSION" ] && VERSION="`$BIN_PATH/readconfig -k version`"
-if [ "`git tag -l | grep $VERSION`" == "" ]; then
-  VERSION="latest"
-fi
-
-# get the latest commit id as the latest version number
-VERSION_PREFIX=""
-if [ "$VERSION" == "latest" ]; then
-  VERSION="`git log --pretty=format:'%h' -n 1`"
-  VERSION_PREFIX="`date +"%Y%m%d"`"
-fi
+# get common variables to all build scripts
+source $BIN_PATH/buildcommon
 
 # a temp folder to clone the git
 TMP_DIR=$EZPAARSE_PATH/tmp
 mkdir -p $TMP_DIR
-
-EZPAARSE_SUFFIX=""
-EZPAARSE_NAME="ezpaarse-$VERSION_PREFIX$VERSION"
 
 # clone the git with the correct name
 rm -rf $TMP_DIR/$EZPAARSE_NAME
