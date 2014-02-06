@@ -44,7 +44,8 @@
     "xml-writer": "~1.4.1",
     "mime": "~1.2.11",
     "xml2js": "~0.4.1",
-    "stackware": "0.0.2"
+    "stackware": "0.0.2",
+    "graceful-fs": "~2.0.1"
   },
   "devDependencies": {
     "should": "*",
