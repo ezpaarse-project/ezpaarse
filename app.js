@@ -52,11 +52,14 @@ if (optimist.argv.pidFile) {
   fs.writeFileSync(optimist.argv.pidFile, process.pid);
 }
 if (optimist.argv.lsof) {
-  setInterval(function () {
+  var checklsof = function () {
     lsof.raw(process.pid, function (data) {
       console.log('[%s] %d file descriptors', new Date().toLocaleTimeString(), data.length);
+      setTimeout(checklsof, 5000);
     });
-  }, 1000);
+  };
+
+  checklsof();
 }
 
 passport.serializeUser(function (user, done) {
