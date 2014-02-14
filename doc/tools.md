@@ -209,12 +209,13 @@ Par defaut un fichier résultat (extension ec.csv) et un fichier rapport statiqu
 ```
 Usage:
 Inject a file to ezPAARSE (for batch purpose)
-  Usage: node ./bin/ecmaker [-hiofv]
+  Usage: node ./bin/ecmaker [-hiofvH]
 
 Options:
   --input, -i    Input log file (if omited, wait for standard input)
   --outpath, -o  If provided, output directory (default tmp).       
   --force, -f    override existing result (default false).          
+  --headers, -H  headers parameters to use.                         
   --verbose, -v  Shows detailed operations.                                             
 ```
 
@@ -234,7 +235,7 @@ Les fichiers de log en rejets ne sont pas conservés.
 ```
 Usage:
 Inject files to ezPAARSE (for batch purpose)
-  Usage: node ./ecbulkmaker [-hov] 
+  Usage: node ./ecbulkmaker [-fhlvDHLS] 
   --source=sources_directory 
   --dest=results_directory 
   --logsdir=relative_path_to_log_form_sources
@@ -248,6 +249,7 @@ Options:
    (like --logsdir=fede/bibliovie/2013)                
   --list, -l     If provided, only list files.                                                 
   --force, -f    override existing result (default false).                                     
+  --headers, -H  headers parameters to use.                                                    
   --verbose, -v  Shows detailed operations.                                                    
   -S [required]
   -D [required]
