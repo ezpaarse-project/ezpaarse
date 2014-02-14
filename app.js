@@ -15,6 +15,7 @@ var winston       = require('winston');
 var passport      = require('passport');
 var BasicStrategy = require('passport-http').BasicStrategy;
 var FileStore     = require('connect-session-file');
+var lsof          = require('lsof');
 require('./lib/init.js');
 
 winston.addColors({ verbose: 'green', info: 'green', warn: 'yellow', error: 'red' });
@@ -49,6 +50,13 @@ var optimist = require('optimist')
   .default('pidFile', __dirname + '/ezpaarse.pid');
 if (optimist.argv.pidFile) {
   fs.writeFileSync(optimist.argv.pidFile, process.pid);
+}
+if (optimist.argv.lsof) {
+  setInterval(function () {
+    lsof.raw(process.pid, function (data) {
+      console.log('[%s] %d file descriptors', new Date().toLocaleTimeString(), data.length);
+    });
+  }, 1000);
 }
 
 passport.serializeUser(function (user, done) {
