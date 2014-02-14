@@ -166,17 +166,21 @@ Cette commande vérifie les points suivants :
 - unicité du pid
 - information minimale d'identification disponible
 - contrôle syntaxique de l'écriture des identifiants normalisés (ISSN, ISBN, DOI)
+- possiblité de transformer une pkb en fichier kbart
 
 Usage:
 ```
 Check a platform knowledge base file.
-  Usage: node ./pkbvalidator [-svc] pkb_file1.pkb.csv [pkb_file2.pkb.csv]
+  Usage: node ./bin/pkbvalidator [-cfsv] pkb_file1.pkb.csv [pkb_file2.pkb.csv]
 
 Options:
-  --csv, -c      If provided, the error-output will be a csv.
-  --silent, -s   If provided, no output generated.           
-  --verbose, -v  show stats of checking.                     
+  --silent, -s       If provided, no output generated.              
+  --kbartOutput, -k  If provided, output kbart file from pkb.       
+  --force, -f        If provided, force overwriting of kbart output.
+  --csv, -c          If provided, the error-output will be a csv.   
+  --verbose, -v      show stats of checking.                        
 ```
+
 
 ## ecmaker
 
