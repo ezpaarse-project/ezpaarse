@@ -14,31 +14,8 @@ var userlist      = require('./lib/userlist.js');
 var winston       = require('winston');
 var passport      = require('passport');
 var BasicStrategy = require('passport-http').BasicStrategy;
-var MemoryStore   = express.session.MemoryStore;
-var sessionStore  = new MemoryStore();
 var lsof          = require('lsof');
 require('./lib/init.js');
-
-/**
- * Periodically cleans expired sessions to prevent memory leak
- */
-var cleanSessions = function () {
-  var now       = new Date().getTime();
-  var limitDate = now - 1800000; //30 minutes after last use
-
-  var checkSession = function (sessionID) {
-    setImmediate(function () {
-      sessionStore.get(sessionID, function (err, sessionObj) {
-        if (!sessionObj.lastUse || (sessionObj.lastUse < limitDate)) {
-          sessionStore.destroy(sessionID);
-        }
-      });
-    });
-  };
-
-  for (var i in sessionStore.sessions) { checkSession(i); }
-};
-setInterval(cleanSessions, 60000); //check every 10 minutes
 
 winston.addColors({ verbose: 'green', info: 'green', warn: 'yellow', error: 'red' });
 
@@ -154,22 +131,8 @@ app.configure(function () {
     next();
   });
   app.use(express.cookieParser());
-  app.use(express.session({
-    secret: 'AppOfTheYearEzpaarse',
-    store: sessionStore
-  }));
-
   app.use(passport.initialize());
   app.use(passport.session());
-
-  /**
-   * Add lastUse timestamp to the session
-   * so that we can clean it when it expires
-   */
-  app.use(function (req, res, next) {
-    req.session.lastUse = new Date().getTime();
-    next();
-  });
 
   // bind i18n to express so that it's available using req.i18n
   I18n.expressBind(app, {
