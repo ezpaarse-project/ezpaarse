@@ -14,9 +14,31 @@ var userlist      = require('./lib/userlist.js');
 var winston       = require('winston');
 var passport      = require('passport');
 var BasicStrategy = require('passport-http').BasicStrategy;
-var FileStore     = require('connect-session-file');
+var MemoryStore   = express.session.MemoryStore;
+var sessionStore  = new MemoryStore();
 var lsof          = require('lsof');
 require('./lib/init.js');
+
+/**
+ * Periodically cleans expired sessions to prevent memory leak
+ */
+var cleanSessions = function () {
+  var now       = new Date().getTime();
+  var limitDate = now - 1800000; //30 minutes after last use
+
+  var checkSession = function (sessionID) {
+    setImmediate(function () {
+      sessionStore.get(sessionID, function (err, sessionObj) {
+        if (!sessionObj.lastUse || (sessionObj.lastUse < limitDate)) {
+          sessionStore.destroy(sessionID);
+        }
+      });
+    });
+  };
+
+  for (var i in sessionStore.sessions) { checkSession(i); }
+};
+setInterval(cleanSessions, 60000); //check every 10 minutes
 
 winston.addColors({ verbose: 'green', info: 'green', warn: 'yellow', error: 'red' });
 
@@ -47,7 +69,9 @@ process.title = pkg.name.toLowerCase();
 // write pid to ezpaarse.pid file
 var optimist = require('optimist')
   .describe('pidFile', 'the pid file where ezpaarse pid is stored')
-  .default('pidFile', __dirname + '/ezpaarse.pid');
+  .default('pidFile', __dirname + '/ezpaarse.pid')
+  .boolean('lsof')
+  .describe('lsof', 'if provided, periodically prints the number of opened file descriptors');
 if (optimist.argv.pidFile) {
   fs.writeFileSync(optimist.argv.pidFile, process.pid);
 }
@@ -114,6 +138,7 @@ app.configure(function () {
   // todo: favico should be created
   app.use(express.favicon());
 
+
   /**
    * Middleware to allow method override
    * either using _method in query
@@ -131,14 +156,20 @@ app.configure(function () {
   app.use(express.cookieParser());
   app.use(express.session({
     secret: 'AppOfTheYearEzpaarse',
-    store: new FileStore({
-      path: path.join(__dirname, 'sessions'), //where to store sessions files
-      maxAge: 3600000 //max session lifetime (1h)
-    })
+    store: sessionStore
   }));
 
   app.use(passport.initialize());
   app.use(passport.session());
+
+  /**
+   * Add lastUse timestamp to the session
+   * so that we can clean it when it expires
+   */
+  app.use(function (req, res, next) {
+    req.session.lastUse = new Date().getTime();
+    next();
+  });
 
   // bind i18n to express so that it's available using req.i18n
   I18n.expressBind(app, {
