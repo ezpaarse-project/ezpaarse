@@ -7,14 +7,13 @@ var http          = require('http');
 var path          = require('path');
 var mkdirp        = require('mkdirp');
 var crypto        = require('crypto');
-var fs            = require('fs');
+var fs            = require('graceful-fs');
 var I18n          = require('i18n-2');
 var Reaper        = require('tmp-reaper');
 var userlist      = require('./lib/userlist.js');
 var winston       = require('winston');
 var passport      = require('passport');
 var BasicStrategy = require('passport-http').BasicStrategy;
-var FileStore     = require('connect-session-file');
 var lsof          = require('lsof');
 require('./lib/init.js');
 
@@ -47,7 +46,9 @@ process.title = pkg.name.toLowerCase();
 // write pid to ezpaarse.pid file
 var optimist = require('optimist')
   .describe('pidFile', 'the pid file where ezpaarse pid is stored')
-  .default('pidFile', __dirname + '/ezpaarse.pid');
+  .default('pidFile', __dirname + '/ezpaarse.pid')
+  .boolean('lsof')
+  .describe('lsof', 'if provided, periodically prints the number of opened file descriptors');
 if (optimist.argv.pidFile) {
   fs.writeFileSync(optimist.argv.pidFile, process.pid);
 }
@@ -114,6 +115,7 @@ app.configure(function () {
   // todo: favico should be created
   app.use(express.favicon());
 
+
   /**
    * Middleware to allow method override
    * either using _method in query
@@ -129,14 +131,6 @@ app.configure(function () {
     next();
   });
   app.use(express.cookieParser());
-  app.use(express.session({
-    secret: 'AppOfTheYearEzpaarse',
-    store: new FileStore({
-      path: path.join(__dirname, 'sessions'), //where to store sessions files
-      maxAge: 3600000 //max session lifetime (1h)
-    })
-  }));
-
   app.use(passport.initialize());
   app.use(passport.session());
 

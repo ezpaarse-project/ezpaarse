@@ -3,7 +3,7 @@
 /*jshint maxlen: 180*/
 'use strict';
 
-var fs     = require('fs');
+var fs     = require('graceful-fs');
 var path   = require('path');
 var uuid   = require('uuid');
 var moment = require('moment');
