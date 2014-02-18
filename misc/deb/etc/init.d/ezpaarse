@@ -16,6 +16,7 @@ export EZPAARSE_LOGDIR=/var/log/ezpaarse
 
 # only root can write into /var/run
 export EZPAARSE_PIDFILE=/var/run/ezpaarse.pid
+touch $EZPAARSE_PIDFILE
 chown ezpaarse:ezpaarse $EZPAARSE_PIDFILE
 
 export HOME=/usr/share/ezpaarse
