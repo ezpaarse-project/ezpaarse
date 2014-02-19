@@ -26,6 +26,8 @@ git checkout $VERSION
 cp -f $EZPAARSE_PATH/Makefile $TMP_PATH/ezpaarse/usr/share/ezpaarse
 touch $TMP_PATH/ezpaarse/usr/share/ezpaarse/clean-for-release-flag
 make version v=$VERSION_PREFIX$VERSION
+cp -r $EZPAARSE_PATH/node_modules/ $TMP_PATH/ezpaarse/usr/share/ezpaarse/
+cp -r $EZPAARSE_PATH/platforms-*/  $TMP_PATH/ezpaarse/usr/share/ezpaarse/
 cp -r $TMP_PATH/ezpaarse/usr/share/ezpaarse/misc/deb/* $TMP_PATH/ezpaarse/
 make clean-for-release
 cd $TMP_PATH/ezpaarse/
