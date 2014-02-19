@@ -34,7 +34,7 @@ status:
 # # # # # # # # # # # #
 
 # Generate doc with beautiful-docs
-$(DOC_HTML): $(DOC) $(DOC_TPL)
+$(DOC_HTML): $(DOC) $(DOC_TPL) $(DOC_MD)/theme/_layout.html
 	@. ./bin/env; bfdocs --base-url='.' --theme=$(DOC_MD)/theme $(DOC_MD)/manifest.json $(DOC_OUTPUT) 1> /dev/null
 
 doc: $(DOC_HTML)
@@ -231,4 +231,4 @@ pull: pkb-update parsers-update scrapers-update
 
 update: pull
 
-.PHONY: test checkconfig nodejs pkb-update deb rpm tar exe clean-for-release version tag update pull start restart status stop
+.PHONY: test checkconfig nodejs pkb-update deb rpm tar exe clean-for-release version tag update pull start restart status stop doc
