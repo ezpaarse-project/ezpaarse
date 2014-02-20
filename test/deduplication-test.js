@@ -64,9 +64,12 @@ describe('The server', function () {
         var correctOutput = fs.readFileSync(sessionResultFile, 'UTF-8');
         var correctJson   = JSON.parse(correctOutput);
         var bodyJson      = JSON.parse(body);
-        
-        // deduplicate should have been done correctly (just have to test number of ECs)
+
+        correctJson.should.be.an.instanceOf(Array);
+        bodyJson.should.be.an.instanceOf(Array);
         should.equal(correctJson.length, bodyJson.length);
+        should.ok(helpers.equalJSONList(bodyJson, correctJson, true, ['date', 'rtype', 'mime']),
+          'Server\'s answer do not match the intended result');
 
         done();
       });
@@ -92,8 +95,11 @@ describe('The server', function () {
         var correctJson   = JSON.parse(correctOutput);
         var bodyJson      = JSON.parse(body);
 
-        // deduplicate should have been done correctly (just have to test number of ECs)
+        correctJson.should.be.an.instanceOf(Array);
+        bodyJson.should.be.an.instanceOf(Array);
         should.equal(correctJson.length, bodyJson.length);
+        should.ok(helpers.equalJSONList(bodyJson, correctJson, true, ['date', 'rtype', 'mime']),
+          'Server\'s answer do not match the intended result');
 
         done();
       });
@@ -119,8 +125,11 @@ describe('The server', function () {
         var correctJson   = JSON.parse(correctOutput);
         var bodyJson      = JSON.parse(body);
 
-        // deduplicate should have been done correctly (just have to test number of ECs)
+        correctJson.should.be.an.instanceOf(Array);
+        bodyJson.should.be.an.instanceOf(Array);
         should.equal(correctJson.length, bodyJson.length);
+        should.ok(helpers.equalJSONList(bodyJson, correctJson, true, ['date', 'rtype', 'mime']),
+          'Server\'s answer do not match the intended result');
 
         done();
       });
@@ -147,8 +156,11 @@ describe('The server', function () {
         var correctJson   = JSON.parse(correctOutput);
         var bodyJson      = JSON.parse(body);
 
-        // deduplicate should have been done correctly (just have to test number of ECs)
+        correctJson.should.be.an.instanceOf(Array);
+        bodyJson.should.be.an.instanceOf(Array);
         should.equal(correctJson.length, bodyJson.length);
+        should.ok(helpers.equalJSONList(bodyJson, correctJson, true, ['date', 'rtype', 'mime']),
+          'Server\'s answer do not match the intended result');
 
         done();
       });
@@ -175,8 +187,11 @@ describe('The server', function () {
         var correctJson   = JSON.parse(correctOutput);
         var bodyJson      = JSON.parse(body);
 
-        // deduplicate should have been done correctly (just have to test number of ECs)
+        correctJson.should.be.an.instanceOf(Array);
+        bodyJson.should.be.an.instanceOf(Array);
         should.equal(correctJson.length, bodyJson.length);
+        should.ok(helpers.equalJSONList(bodyJson, correctJson, true, ['date', 'rtype', 'mime']),
+          'Server\'s answer do not match the intended result');
 
         done();
       });
