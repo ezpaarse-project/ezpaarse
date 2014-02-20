@@ -127,7 +127,7 @@
     },
     "SAM":
     {
-      "label": "SAM",
+      "label": "Archive ouverte Art et Metier ParisTech",
       "Log-Type": "apache",
       "Relative-Domain": "sam.ensam.eu",
       "Output-Fields": "+pid,-domain,-pissn,-doi,-eissn,-pisbn,-title,-identid"
