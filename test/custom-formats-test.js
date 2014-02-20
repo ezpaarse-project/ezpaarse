@@ -62,18 +62,6 @@ function check(testSet, formatHeader, callback) {
       if (err)  { throw err; }
       res.should.have.status(200);
 
-      var resultJson = require(testCase.resultFile);
-      if (resultJson.length === 0) {
-        should.ok(body === '', 'The body is not empty, but the result file is.');
-      } else {
-        should.ok(body !== '', 'The body is empty');
-        var bodyJson = JSON.parse(body);
-
-        bodyJson.should.be.an.instanceOf(Array);
-        should.ok(helpers.equals(bodyJson, resultJson, true),
-          'Server\'s answer do not match the intended result at ' + testCase.logFile);
-
-      }
       check(testSet, formatHeader, callback);
     });
   } else {
