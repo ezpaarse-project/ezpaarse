@@ -124,6 +124,13 @@
       "Log-Format": "%h %l %u %t %r %>s %b",
       "Relative-Domain": "lara.inist.fr",
       "Output-Fields": "+pid,-domain"
+    },
+    "SAM":
+    {
+      "label": "SAM",
+      "Log-Type": "apache",
+      "Relative-Domain": "sam.ensam.eu",
+      "Output-Fields": "+pid,-domain,-pissn,-doi,-eissn,-pisbn,-title,-identid"
     }
   }
 }
