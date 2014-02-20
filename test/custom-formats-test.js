@@ -61,8 +61,6 @@ function check(testSet, formatHeader, callback) {
       if (err)  { throw err; }
       res.should.have.status(200);
       
-      should.ok(1); // for jshint
-
       check(testSet, formatHeader, callback);
     });
   } else {
