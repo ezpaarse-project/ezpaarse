@@ -29,7 +29,7 @@ describe('The server', function () {
           should.ok(err === null);
           csvextractor.extract([body], [], function (err, bodyRecords) {
             should.ok(err === null);
-            should.ok(helpers.equals(bodyRecords, correctRecords, true),
+            should.ok(helpers.equalJSONList(bodyRecords, correctRecords, true, ['status', 'size']),
               'The response of the server does not match the expected one');
             done();
           }, {silent: true});

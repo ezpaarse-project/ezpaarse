@@ -61,6 +61,8 @@ function check(testSet, formatHeader, callback) {
       if (!res) { throw new Error('ezPAARSE is not running'); }
       if (err)  { throw err; }
       res.should.have.status(200);
+      
+      should.ok(1); // for jshint
 
       check(testSet, formatHeader, callback);
     });
