@@ -35,7 +35,12 @@ if [ ${#} -lt 2 ] ; then
 else
   PLATFORM_NAME=$1
   PLATFORM_YEAR=$2
-  PLATFORM_PATH=fede/${PLATFORM_NAME}
+  if [ "${PLATFORM_NAME}" = "lara" ] ; then
+    PLATFORM_HOST="hippo"
+  else
+    PLATFORM_HOST="fede"
+  fi
+  PLATFORM_PATH=${PLATFORM_HOST}/${PLATFORM_NAME}
   if [ ${#} -eq 3 ] ; then
     PLATFORM_MONTH=$3
     RESULTS_PATH=${EZRESULT_PATH}/${PLATFORM_PATH}/${PLATFORM_YEAR}/${PLATFORM_YEAR}-${PLATFORM_MONTH}/
@@ -44,6 +49,8 @@ else
     RESULTS_PATH=${EZRESULT_PATH}/${PLATFORM_PATH}/${PLATFORM_YEAR}
     RESULTS_FILE=${EZRESULT_PATH}/${PLATFORM_PATH}/${PLATFORM_NAME}.${PLATFORM_YEAR}.ec.csv
   fi
+  FIRST_FILE=`ls -1 ${RESULTS_PATH} | grep '.ec.' | head -1`
+  HEADER_LINE=`head -1 ${RESULTS_PATH}/${FIRST_FILE}`
 fi
 
 echo "Platform : $PLATFORM_NAME"

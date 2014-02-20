@@ -1,5 +1,10 @@
 # Versions ezPAARSE #
 
+## 1.4.0  ## 
+##### 30/01/2014 - Export COUNTER #####
+- export COUNTER JR1
+- gestion des informations de non-usage
+
 ## 1.3.0  ## 
 ##### 19/12/2013 - Multilinguisme #####
 - multilinguisme (interface, version windows)

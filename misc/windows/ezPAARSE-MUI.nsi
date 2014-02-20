@@ -13,6 +13,7 @@
   Var StartMenuFolder
   Var DefaultBrowser
   Var DefaultExcel
+  Var DefaultLibreOffice
 
 ;--------------------------------
 ;Pages
@@ -62,7 +63,7 @@ LicenseLangString license ${LANG_ENGLISH} "License-CeCILL-V2-en.txt"
 ;General
 
 !define APP_NAME "ezPAARSE"
-!define APP_VERSION "1.4.1"
+!define APP_VERSION "1.4.2"
 !define APP_INST ""
 
 
@@ -97,6 +98,13 @@ Section
   DetailPrint "Your Default Excel is:"
   DetailPrint $1
   StrCpy $DefaultExcel $1
+
+  FileOpen $0 "$PLUGINSDIR\dummy.ots" "w"
+  FileClose $0
+  System::Call "Shell32::FindExecutable(t '$PLUGINSDIR\dummy.ots', i 0, t .r1)"
+  DetailPrint "Your Default libreOffice is:"
+  DetailPrint $1
+  StrCpy $DefaultLibreOffice $1
 
 SectionEnd
 
@@ -136,7 +144,8 @@ Section $(menu+ezPAARSEmenu) SecMenuEZPAARSE
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+1_lancer)" "$INSTDIR\node.exe" "app.js" 0
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+2_utiliser)" "$DefaultBrowser" $(url_start) 0 
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+3_tester)" "$WINDIR\explorer.exe" "$INSTDIR\test\dataset" 
-    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+4_visualiser)" "$DefaultExcel" "$INSTDIR\excel\$(excel_render)" 0 
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+4a_visualiser)" "$DefaultExcel" "$INSTDIR\excel\$(excel_render)" 0 
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+4b_visualiser)" "$DefaultLibreOffice" "$INSTDIR\libreoffice\$(libreoffice_render)" 0 
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+5_documenter)" "$DefaultBrowser" $(url_doc) 0 
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+6_doc_usage)" "$DefaultBrowser" $(url_usage) 0 
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+7_analogist)" "$DefaultBrowser" "http://analogist.couperin.org" 0 
