@@ -131,6 +131,14 @@
       "Log-Type": "apache",
       "Relative-Domain": "sam.ensam.eu",
       "Output-Fields": "+pid,-domain,-pissn,-doi,-eissn,-pisbn,-title,-identid"
+    },
+    "AOUnivAngers":
+    {
+      "label": "Archive ouverte Université Angers",
+      "Log-Type": "apache",
+      "Log-Format": "%<[a-zA-Z0-9\\+\\-.:]+> %h %l %u %t \"%r\" %>s %b \"%<[^\"]+>\" \"%<.*>\"",
+      "Relative-Domain": "ao.univ-angers.fr",
+      "Output-Fields": "+pid,-domain,-pissn,-doi,-eissn,-pisbn,-title,-identid"
     }
   }
 }
