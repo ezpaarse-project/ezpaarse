@@ -3,7 +3,6 @@
 
 var helpers       = require('./helpers.js');
 var fs            = require('fs');
-var path          = require('path');
 var should        = require('should');
 var logF          = require('../lib/logfaker.js');
 var lsof          = require('lsof');
@@ -54,7 +53,7 @@ describe('The server receives a log but network is cut during the transfer', fun
               should.equal(lsofAfter.length, lsofBefore.length);
 
               done();
-            });          
+            });
           });
         });
       });
