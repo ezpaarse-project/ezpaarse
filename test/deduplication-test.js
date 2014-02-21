@@ -67,7 +67,8 @@ describe('The server', function () {
 
         correctJson.should.be.an.instanceOf(Array);
         bodyJson.should.be.an.instanceOf(Array);
-        should.ok(helpers.equals(bodyJson, correctJson, true),
+        should.equal(correctJson.length, bodyJson.length);
+        should.ok(helpers.equalJSONList(bodyJson, correctJson, true, ['date', 'rtype', 'mime']),
           'Server\'s answer do not match the intended result');
 
         done();
@@ -96,7 +97,8 @@ describe('The server', function () {
 
         correctJson.should.be.an.instanceOf(Array);
         bodyJson.should.be.an.instanceOf(Array);
-        should.ok(helpers.equals(bodyJson, correctJson, true),
+        should.equal(correctJson.length, bodyJson.length);
+        should.ok(helpers.equalJSONList(bodyJson, correctJson, true, ['date', 'rtype', 'mime']),
           'Server\'s answer do not match the intended result');
 
         done();
@@ -125,7 +127,8 @@ describe('The server', function () {
 
         correctJson.should.be.an.instanceOf(Array);
         bodyJson.should.be.an.instanceOf(Array);
-        should.ok(helpers.equals(bodyJson, correctJson, true),
+        should.equal(correctJson.length, bodyJson.length);
+        should.ok(helpers.equalJSONList(bodyJson, correctJson, true, ['date', 'rtype', 'mime']),
           'Server\'s answer do not match the intended result');
 
         done();
@@ -155,8 +158,9 @@ describe('The server', function () {
 
         correctJson.should.be.an.instanceOf(Array);
         bodyJson.should.be.an.instanceOf(Array);
-        should.ok(helpers.equals(bodyJson, correctJson, true),
-          'Server\'s answer does not match the intended result');
+        should.equal(correctJson.length, bodyJson.length);
+        should.ok(helpers.equalJSONList(bodyJson, correctJson, true, ['date', 'rtype', 'mime']),
+          'Server\'s answer do not match the intended result');
 
         done();
       });
@@ -185,8 +189,9 @@ describe('The server', function () {
 
         correctJson.should.be.an.instanceOf(Array);
         bodyJson.should.be.an.instanceOf(Array);
-        should.ok(helpers.equals(bodyJson, correctJson, true),
-          'Server\'s answer does not match the intended result');
+        should.equal(correctJson.length, bodyJson.length);
+        should.ok(helpers.equalJSONList(bodyJson, correctJson, true, ['date', 'rtype', 'mime']),
+          'Server\'s answer do not match the intended result');
 
         done();
       });

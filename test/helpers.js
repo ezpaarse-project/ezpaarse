@@ -83,7 +83,7 @@ exports.equals = function (x, y, datify) {
 
   for (var p in x) {
     if (!x.hasOwnProperty(p)) { continue; }
-      // other properties were tested using x.constructor === y.constructor
+    // other properties were tested using x.constructor === y.constructor
     if (!y.hasOwnProperty(p)) { return false; }
       // allows to compare x[p] and y[p] when set to undefined
     if (x[p] === y[p]) { continue; }
@@ -99,4 +99,46 @@ exports.equals = function (x, y, datify) {
       // allows x[p] to be set to undefined
   }
   return true;
+};
+
+
+/**
+ * Deep comparison between two list of ECs
+ * @param  {Object} ECS1
+ * @param  {Object} ECS2
+ * @param  {Boolean} datify  if true, both ECs will be datified (see function above)
+ * @param  {Boolean} fileds list for checking equality
+ * @return {Boolean}
+ */
+exports.equalJSONList = function (ECS1, ECS2, datify, fieldsToCheck) {
+  
+  // by default check all the fields
+  fieldsToCheck = fieldsToCheck || [];
+
+  if (ECS1.length != ECS2.length) {
+    return false;
+  }
+
+  var isEqual = true;
+  [ [ ECS1, ECS2 ], [ECS2, ECS1] ].forEach(function (eltsToCheck) {
+    eltsToCheck[0].forEach(function (ec1, idx1) {
+      var ec2 = eltsToCheck[1][idx1];
+      if (datify) {
+        ec1 = exports.datify(ec1);
+        ec2 = exports.datify(ec2);
+      }
+      Object.keys(ec1).forEach(function (ec1Field) {
+        // do not check unwanted fields
+        if (fieldsToCheck.length > 0 && fieldsToCheck.indexOf(ec1Field) == -1) {
+          return;
+        }
+        // test field value equality
+        if (ec2[ec1Field] != ec1[ec1Field]) {
+          isEqual = false;
+        }
+      });
+    });
+  });
+  
+  return isEqual;
 };

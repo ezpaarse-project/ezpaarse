@@ -17,7 +17,7 @@ var logMultipleMisc = path.join(__dirname, 'dataset/user-multifields.log');
 
 describe('The server', function () {
   describe('receives a log on the HTTP POST / route with a user field', function () {
-    it('separated by "+" and returns a JSON containing the fields specified by the user(@01)',
+    it('separated by "+" and returns a JSON containing the fields specified by the user (@01)',
       function (done) {
       var headers = {
         'Accept'                     : 'application/json',
@@ -33,8 +33,8 @@ describe('The server', function () {
         res.should.have.status(200);
 
         var result = JSON.parse(body);
-
-        should.ok(helpers.equals(result, resultMonoPlus, true),
+        result[0].should.have.property('user');
+        should.ok(helpers.equalJSONList(result, resultMonoPlus, true, ['user']),
           'ezPAARSE does not match the intended result');
 
         done();
@@ -42,7 +42,7 @@ describe('The server', function () {
     });
   });
   describe('receives a log on the HTTP POST / route with a user field', function () {
-    it('separated by " " and returns a JSON containing the fields specified by the user(@02)',
+    it('separated by " " and returns a JSON containing the fields specified by the user (@02)',
       function (done) {
       var headers = {
         'Accept'                      : 'application/json',
@@ -59,8 +59,8 @@ describe('The server', function () {
         res.should.have.status(200);
 
         var result = JSON.parse(body);
-
-        should.ok(helpers.equals(result, resultMonoSpace, true),
+        result[0].should.have.property('user');
+        should.ok(helpers.equalJSONList(result, resultMonoSpace, true, ['user']),
           'ezPAARSE does not match the intended result');
 
         done();
@@ -69,7 +69,7 @@ describe('The server', function () {
   });
   describe('receives a log on the HTTP POST / route with a user field', function () {
     it('separated by "+" and containing a multivalue sub-field and returns a JSON ' +
-      'containing the fields specified by the user(@03)',
+      'containing the fields specified by the user (@03)',
       function (done) {
       var headers = {
         'Accept'                     : 'application/json',
@@ -85,8 +85,8 @@ describe('The server', function () {
         res.should.have.status(200);
 
         var result = JSON.parse(body);
-
-        should.ok(helpers.equals(result, resultMultiPlus, true),
+        result[0].should.have.property('user');
+        should.ok(helpers.equalJSONList(result, resultMultiPlus, true, [ 'user' ]),
           'ezPAARSE does not match the intended result');
 
         done();
@@ -95,7 +95,7 @@ describe('The server', function () {
   });
   describe('receives a log on the HTTP POST / route with multiple user fields', function () {
     it('containing multivalue sub-fields and returns a JSON ' +
-      'containing the fields specified by the user(@04)',
+      'containing the fields specified by the user (@04)',
       function (done) {
       var headers = {
         'Accept'                       : 'application/json',
@@ -119,8 +119,11 @@ describe('The server', function () {
         res.should.have.status(200);
 
         var result = JSON.parse(body);
-
-        should.ok(helpers.equals(result, resultMultipleMisc, true),
+        result[0].should.have.property('user1');
+        result[0].should.have.property('user2');
+        result[0].should.have.property('rest1');
+        should.ok(helpers.equalJSONList(result, resultMultipleMisc, true,
+          [ 'user1', 'user2', 'rest1' ]),
           'ezPAARSE does not match the intended result');
 
         done();

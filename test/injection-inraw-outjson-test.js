@@ -28,7 +28,7 @@ describe('The server', function () {
 
         correctJson.should.be.an.instanceOf(Array);
         bodyJson.should.be.an.instanceOf(Array);
-        should.ok(helpers.equals(bodyJson, correctJson, true),
+        should.ok(helpers.equalJSONList(bodyJson, correctJson, true, ['datetime']),
           'Server\'s answer do not match the intended result');
 
         done();

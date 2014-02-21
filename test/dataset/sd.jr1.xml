@@ -13,6 +13,10 @@
                 <Type>Print_ISSN</Type>
                 <Value>0896-6273</Value>
             </ItemIdentifier>
+            <ItemIdentifier>
+                <Type>Proprietary</Type>
+                <Value>08966273</Value>
+            </ItemIdentifier>
             <ItemPerformance>
                 <Period>
                     <Begin>2013-10-25</Begin>
@@ -57,6 +61,12 @@
                 <Type>Print_ISSN</Type>
                 <Value>0012-1606</Value>
             </ItemIdentifier>
+            <ItemIdentifier>
+                <Type>Proprietary</Type>
+                <Value>00121606</Value>
+            </ItemIdentifier>
+            <ItemName>Developmental Biology</ItemName>
+            <ItemDataType>Journal</ItemDataType>
             <ItemPerformance>
                 <Period>
                     <Begin>2013-10-25</Begin>

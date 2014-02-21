@@ -8,16 +8,18 @@
   "EZPAARSE_REQUIRE_AUTH": false,
   "EZPAARSE_OUTPUT_FIELDS":
   [
-    "domain",
+    "date",
+    "login",
+    "platform",
     "rtype",
     "mime",
-    "doi",
     "pissn",
     "eissn",
     "pisbn",
+    "doi",
     "title",
-    "platform",
-    "unitid"
+    "unitid",
+    "domain"
   ],
   "EZPAARSE_QUALIFYING_LEVEL": 1,
   "EZPAARSE_QUALIFYING_FACTORS": {
