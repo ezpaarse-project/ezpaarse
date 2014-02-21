@@ -46,7 +46,9 @@ exports.postPiped = function (path, headers, stream, callback) {
     opt.headers = headers;
   }
 
-  stream.pipe(request(opt, callback));
+  var reqStream = request(opt, callback);
+  stream.pipe(reqStream);
+  return reqStream;
 };
 
 /**
