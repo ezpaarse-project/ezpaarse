@@ -8,8 +8,8 @@ var logF     = require('../lib/logfaker.js');
 var should   = require('should');
 var request  = require('request');
 var config   = require('../lib/config.js');
-var duration = config.EZPAARSE_BIG_DURATION;
-var rate     = config.EZPAARSE_BIG_RATE;
+var duration = 60;
+var rate     = 10000;
 
 
 var headers = {};
