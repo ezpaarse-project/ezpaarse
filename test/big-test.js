@@ -7,7 +7,6 @@ var helpers  = require('./helpers.js');
 var logF     = require('../lib/logfaker.js');
 var should   = require('should');
 var request  = require('request');
-var config   = require('../lib/config.js');
 var duration = 60;
 var rate     = 10000;
 
