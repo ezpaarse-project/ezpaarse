@@ -99,22 +99,26 @@ describe('ezPAARSE processes', function () {
     });
   });
 
+  function filterTypes(element) {
+    return /^(?:DIR|REG)$/i.test(element.type);
+  }
+
   function processLogAndTestLsof(log, headers, done) {
     var lsofBefore  = [];
     var lsofAfter   = [];
     lsof.raw(ezpaarsePid, function (data) {
-      lsofBefore = data;
+      lsofBefore = data.filter(filterTypes);
       helpers.post('/', log, headers, function (err, res) {
         if (!res) { throw new Error('ezPAARSE is not running'); }
         if (err)  { throw err; }
-      
+
         lsof.raw(ezpaarsePid, function (data) {
-          lsofAfter = data;
+          lsofAfter = data.filter(filterTypes);
           // test the number of open files before the log processing is equal
           // to the number of open file after the log processing
           lsofAfter.should.be.instanceof(Array);
           lsofBefore.should.be.instanceof(Array);
-          
+
           // add a trace to help to understand which file descriptor is still open
           if (lsofAfter.length != lsofBefore.length) {
             console.error(lsofAfter);

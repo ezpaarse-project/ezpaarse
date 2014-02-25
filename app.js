@@ -55,6 +55,9 @@ if (optimist.argv.pidFile) {
 if (optimist.argv.lsof) {
   var checklsof = function () {
     lsof.raw(process.pid, function (data) {
+      data = data.filter(function (element) {
+        return /^(?:DIR|REG)$/i.test(element.type);
+      });
       console.log('[%s] %d file descriptors', new Date().toLocaleTimeString(), data.length);
       setTimeout(checklsof, 5000);
     });
