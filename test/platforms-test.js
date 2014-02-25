@@ -22,7 +22,8 @@ function testFiles(files, platformName, parserFile, done) {
   var test = exec(parserFile);
   test.on('exit', function (code) {
     assert.ok(code !== 126, "Platform " + platformName + " : the parser is not executable");
-    assert.ok(code === 0, "Platform " + platformName + " : the parser does not work properly");
+    assert.ok(code === 0, "Platform " + platformName
+      + " : the parser exited with code " + code);
 
     csvextractor.extract(files, [], function (err, records) {
       assert.ok(err === null);

@@ -9,12 +9,12 @@ describe('The pkb manager', function () {
     pkbManager.get('npg', function (pkb) {
       should.exist(pkb);
       var record = pkb.get('aps');
-      should.exist(record.pissn);
-      should.exist(record.eissn);
-      should.exist(record.title);
-      record.pissn.should.equal('1671-4083');
-      record.eissn.should.equal('1745-7254');
-      record.title.should.equal('Acta Pharmacologica Sinica');
+      should.exist(record.print_identifier);
+      should.exist(record.online_identifier);
+      should.exist(record.publication_title);
+      record.print_identifier.should.equal('1671-4083');
+      record.online_identifier.should.equal('1745-7254');
+      record.publication_title.should.equal('Acta Pharmacologica Sinica');
       done();
     });
   });
