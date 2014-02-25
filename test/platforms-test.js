@@ -25,7 +25,7 @@ function testFiles(files, platformName, parserFile, done) {
     assert.ok(code === 0, "Platform " + platformName
       + " : the parser exited with code " + code);
 
-    csvextractor.extract(files, [], function (err, records) {
+    csvextractor.extract(files, { silent: true }, function (err, records) {
       assert.ok(err === null);
 
       records = records.map(function (record) {
@@ -69,7 +69,7 @@ function testFiles(files, platformName, parserFile, done) {
       } else {
         done();
       }
-    }, {silent: true, type: 'files'});
+    });
   });
 
   test.stdin.end('[]');

@@ -1,4 +1,3 @@
-/*jshint maxlen: 110*/
 /*global describe, it*/
 'use strict';
 
@@ -25,15 +24,16 @@ describe('The server', function () {
         if (err)  { throw err; }
         res.should.have.status(200);
 
-        csvextractor.extract(fs.createReadStream(csvResultFile), [], function (err, correctRecords) {
+        var stream = fs.createReadStream(csvResultFile);
+        csvextractor.extract(stream, { silent: true }, function (err, correctRecords) {
           should.ok(err === null);
-          csvextractor.extract([body], [], function (err, bodyRecords) {
+          csvextractor.extract([body], { silent: true }, function (err, bodyRecords) {
             should.ok(err === null);
             should.ok(helpers.equalJSONList(bodyRecords, correctRecords, true, ['status', 'size']),
               'The response of the server does not match the expected one');
             done();
-          }, {silent: true});
-        }, {silent: true});
+          });
+        });
       });
     });
   });

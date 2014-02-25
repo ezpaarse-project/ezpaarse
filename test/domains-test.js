@@ -70,7 +70,8 @@ function testPlatform(platform, done) {
       });
 
       should.ok(pkbFiles.length > 0, 'No PKB file found in the directory of ' + platform);
-      csvextractor.extract(pkbFiles, [domainsPkbField], function (err, records) {
+      var opts = { silent: true, fields: [domainsPkbField] };
+      csvextractor.extract(pkbFiles, opts, function (err, records) {
 
         should.not.exist(err, 'Syntax error into a pkb file of ' + platform + ' - ' + err);
         should.ok(records.length > 0, 'The PKB of ' + platform + ' has no domain in field "'
@@ -89,7 +90,7 @@ function testPlatform(platform, done) {
         });
 
         testPlatform(platforms.pop(), done);
-      }, {silent: true});
+      });
     });
   } else {
     testPlatform(platforms.pop(), done);
