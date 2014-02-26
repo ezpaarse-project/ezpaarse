@@ -19,6 +19,7 @@
     "angular": "~1.2.13",
     "semantic-ui": "~0.13.0",
     "jquery": "~1.11.0",
-    "ElementTransitions.js": "*"
+    "ElementTransitions.js": "*",
+    "angular-ui-router": "~0.2.8"
   }
 }
