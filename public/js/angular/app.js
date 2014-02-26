@@ -6,8 +6,9 @@ angular.module('ezPAARSE', [
   // 'ezPAARSE.filters',
   // 'ezPAARSE.services',
   // 'ezPAARSE.directives'
-]).config(function ($stateProvider, $locationProvider) {
+]).config(function ($stateProvider, $locationProvider, $urlRouterProvider) {
   $locationProvider.html5Mode(true);
+  $urlRouterProvider.otherwise('/process');
 
   var login = {
     name: 'login',
