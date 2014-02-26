@@ -20,6 +20,6 @@
     "semantic-ui": "~0.13.0",
     "jquery": "~1.11.0",
     "ElementTransitions.js": "*",
-    "angular-ui-router": "~0.2.8"
+    "angular-ui-router": "0.2.8-bowratic-tedium"
   }
 }
