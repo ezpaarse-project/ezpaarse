@@ -6,8 +6,8 @@ var path        = require('path');
 var spawn       = require('child_process').spawn;
 
 
-var noHeaderLineFile = "no-header-line.validator.pkb.csv";
-var ridFile = "rid.validator.pkb.csv";
+var noHeaderLineFile = "no-header-line.validator.pkb.txt";
+var ridFile = "rid.validator.pkb.txt";
 
 
 describe('The pkbvalidator command', function () {
@@ -28,7 +28,7 @@ describe('The pkbvalidator command', function () {
     var child   = spawn('pkbvalidator', [testValidatorFile], { cwd: path.join(__dirname, '/../bin/') });
 
     child.on('close', function (code) {
-      code.should.be.equal(7);
+      code.should.be.equal(9);
       done();
     });
   });
