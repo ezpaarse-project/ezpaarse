@@ -1,0 +1,24 @@
+{
+  "name": "ezpaarse-mockup",
+  "version": "0.0.0",
+  "homepage": "https://github.com/ezpaarse-project/ezpaarse-mockup",
+  "authors": [
+    "Yannick Schurter",
+    "Stéphane Gully"
+  ],
+  "license": "CeCILL",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.2.13",
+    "semantic-ui": "~0.13.0",
+    "jquery": "~1.11.0",
+    "ElementTransitions.js": "~0.1.0"
+  }
+}
