@@ -109,17 +109,6 @@ module.exports = function (app) {
   }
 
   /**
-   * GET route on /
-   */
-  app.get('/', function (req, res) {
-    res.render('home', {
-      title: 'ezPAARSE - Web service',
-      user: req.user,
-      requireAuth: config.EZPAARSE_REQUIRE_AUTH
-    });
-  });
-
-  /**
    * GET route on /form
    */
   if (config.EZPAARSE_REQUIRE_AUTH) {

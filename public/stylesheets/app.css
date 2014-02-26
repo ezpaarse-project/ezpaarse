@@ -1,0 +1,196 @@
+/* app stylesheet */
+
+* {
+  position: relative;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  font-size: 15px;
+  width: 100%;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  margin: 0px;
+  padding: 0px;
+  color: #555555;
+  background-image: url('/assets/img/geometry.png');
+}
+
+.wrapper {
+  width: 100%;
+  height: 100%;
+  min-width: 960px;
+  margin: 0px;
+  padding: 0px;
+}
+
+.display-table {
+  display: table;
+  table-layout: fixed;
+}
+
+.display-row {
+  display: table-row;
+}
+
+.no-min-width {
+  min-width: 0;
+}
+
+a {
+  text-decoration: none;
+  color: #5FAACE;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+
+#container {
+  position: relative;
+  height: 100%;
+}
+
+#header {
+  position: relative;
+  width: 100%;
+  margin: 0px;
+  padding: 0px;
+  background: #A1CF64;
+}
+
+#header .inner {
+  position: relative;
+  width: 960px;
+  margin: 0 auto;
+  padding-top: 80px;
+  background-image: url('/assets/img/logo-white.png');
+  background-repeat: no-repeat;
+  background-position: 0px 5px;
+}
+
+#header .inner > .menu {
+  margin-left: 140px;
+}
+
+#container .content {
+  width: 960px;
+  margin: 10px auto;
+  margin-top: 10px;
+  border-radius: 5px;
+}
+
+#footer {
+  position: relative;
+  margin: 10px 0 0 0;
+  width: 100%;
+  padding: 0;
+  clear: both;
+}
+
+#footer .grid {
+  width: 960px;
+  margin: 0 auto;
+  height: 100%;
+  background-image: url('/assets/img/logo-transparent.png');
+  background-repeat: no-repeat;
+  background-position: left top -40px;
+}
+
+#footer .grid .column {
+  font-size: 0.7rem;
+  margin: 0.5rem 0;
+}
+
+#footer p {
+  margin: 0;
+}
+
+.dropzone {
+  border: 3px dashed #CCC;
+  box-shadow: none;
+  border-radius: 5px;
+  margin: 20px auto;
+  height: 100px;
+}
+
+.dropzone p {
+  color: #999;
+  text-align: center;
+}
+
+.bottom-spaced {
+  margin-bottom: 10px;
+}
+
+.ui.segment.no-radius {
+  border-radius: 0;
+}
+
+.ui.modal {
+  max-height: 90%;
+  overflow: auto;
+}
+
+.inverted.popup a {
+  color: inherit;
+}
+
+.progress > .bar {
+  text-align: center;
+  line-height: 23px;
+  color: #FFF;
+}
+
+#settings-modal .actions .button {
+  min-width: 200px;
+}
+
+.bottom-padded-group > div {
+  padding-bottom: 10px;
+}
+
+/**
+ * Feedback sidebar
+ */
+.feedback.button {
+  position: absolute;
+  top: 150px;
+}
+.feedback.sidebar .close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  margin: 0;
+  z-index: 500;
+}
+
+/**
+ * Progressbar and download/cancel buttons
+ */
+.progress-header {
+  display: table;
+}
+.progress-header > div {
+  display: table-cell;
+  width: 100%;
+  white-space: nowrap;
+  padding: 5px;
+  vertical-align: middle;
+}
+.progress-header > div:first-child {
+  padding-left: 0;
+}
+.progress-header > div:last-child {
+  padding-right: 0;
+}
+
+/**
+ * Fix PageTransition scrolling
+ */
+.et-page {
+  overflow: auto;
+}

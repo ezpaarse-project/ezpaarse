@@ -183,12 +183,12 @@ app.configure(function () {
       next();
     }
   });
+  // used to expose static files from the public folder
+  app.use('/assets', express.static(path.join(__dirname, 'public')));
 
   // routes handling
   app.use(app.router);
 
-  // used to expose static files from the public folder
-  app.use(express.static(path.join(__dirname, 'public')));
 });
 
 app.configure('development', function () {
@@ -210,11 +210,17 @@ app.get(/^\/lang\/([a-z]+)$/, function (req, res) {
 });
 
 // log related routes
+require('./routes/views')(app);
 require('./routes/ws')(app);
 require('./routes/info')(app);
 require('./routes/logs')(app);
 require('./routes/admin')(app);
 require('./routes/feedback')(app);
+
+// For angular HTML5 mode
+app.get('*', function (req, res) {
+  res.render('main');
+});
 
 var server = http.createServer(app);
 
