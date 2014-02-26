@@ -1,7 +1,7 @@
 {
-  "name": "ezpaarse-mockup",
-  "version": "0.0.0",
-  "homepage": "https://github.com/ezpaarse-project/ezpaarse-mockup",
+  "name": "ezPAARSE",
+  "version": "1.4.3",
+  "homepage": "https://github.com/ezpaarse-project/ezpaarse",
   "authors": [
     "Yannick Schurter",
     "Stéphane Gully"
