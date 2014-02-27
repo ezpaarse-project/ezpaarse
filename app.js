@@ -217,6 +217,9 @@ require('./routes/logs')(app);
 require('./routes/admin')(app);
 require('./routes/feedback')(app);
 
+// app.get('/someURL', function (req, res) {
+//   res.send(401);
+// });
 // For angular HTML5 mode
 app.get('*', function (req, res) {
   res.render('main');

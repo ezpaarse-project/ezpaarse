@@ -1,10 +1,10 @@
 'use strict';
 
 angular.module('ezPAARSE', [
-  'ezPAARSE.controllers',
-  'ui.router'
+  'ui.router',
+  'ezPAARSE.services',
+  'ezPAARSE.controllers'
   // 'ezPAARSE.filters',
-  // 'ezPAARSE.services',
   // 'ezPAARSE.directives'
 ]).config(function ($stateProvider, $locationProvider, $urlRouterProvider) {
   $locationProvider.html5Mode(true);
@@ -31,4 +31,24 @@ angular.module('ezPAARSE', [
   $stateProvider.state(login);
   $stateProvider.state(home);
   $stateProvider.state(process);
+
+}).factory('loginInterceptor', function ($q, $injector) {
+  // Redirect to login page if a request gets a 401
+  return {
+    responseError: function(rejection) {
+      if (rejection.status === 401) {
+        $injector.get('$state').transitionTo('login');
+      }
+      return $q.reject(rejection);
+     }
+   };
+}).config(function ($httpProvider) {
+  $httpProvider.interceptors.push('loginInterceptor');
+}).run(function ($rootScope, $location, userService) {
+  // Redirect to login if not connected on state change
+  $rootScope.$on('$stateChangeStart', function (next, current) {
+    if (next != '/login' && !userService.isAuthenticated()) {
+      $location.path( "/login" );
+    }
+  });
 });

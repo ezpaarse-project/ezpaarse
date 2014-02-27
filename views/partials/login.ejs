@@ -6,6 +6,23 @@
         <div class="ui two column relaxed grid" style="margin: 0 5%;">
           <div class="column">
             <div class="ui inverted teal segment" >
+
+              <div class="ui form segment">
+                <div class="two fields">
+                  <div class="field">
+                    <input type="text" placeholder="Nom" ng-model="login.name">
+                  </div>
+                  <div class="field">
+                    <select ng-model="login.group" ng-options="g.value as g.label for g in groups"></select>
+                  </div>
+                </div>
+                <button class="ui small blue button" ng-click="fakeConnect()">Connecter un utilisateur factice</button>
+              </div>
+
+
+
+
+
               <div class="ui form segment">
                 <div class="ui header">
                   Connectez-vous
