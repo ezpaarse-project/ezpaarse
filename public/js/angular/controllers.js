@@ -2,10 +2,17 @@
 
 /* Controllers */
 
-angular.module('ezPAARSE.controllers', []).
-  controller('AppCtrl', function ($scope, $state, userService) {
+angular.module('ezPAARSE.controllers', [])
+  .controller('AppCtrl', function ($scope, $state, userService) {
 
-    $scope.login = { group: 'user' };
+    userService.onLogin(function (user) {
+      $scope.user = user;
+    });
+    userService.onLogout(function () {
+      $scope.user = null;
+    });
+
+    $scope.login  = { group: 'user' };
     $scope.groups = [
       { value: 'user', label: "Utilisateur" },
       { value: 'admin', label: "Administrateur" }
@@ -26,4 +33,19 @@ angular.module('ezPAARSE.controllers', []).
       $scope.user = null;
       $state.transitionTo('login');
     }
+
+  }).controller('LoginCtrl', function ($scope, $state, $http, userService) {
+    $scope.credentials = {};
+
+    $scope.login = function () {
+      $http.post('/login', $scope.credentials)
+      .success(function (user) {
+        userService.login(user.username, user.group);
+        $scope.user = userService.user;
+        $state.transitionTo('process');
+      })
+      .error(function () {
+        alert('Mauvais identifiants');
+      });
+    };
   });

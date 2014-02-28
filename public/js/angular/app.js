@@ -4,8 +4,8 @@ angular.module('ezPAARSE', [
   'ui.router',
   'ezPAARSE.services',
   'ezPAARSE.controllers'
-  // 'ezPAARSE.filters',
   // 'ezPAARSE.directives'
+  // 'ezPAARSE.filters'
 ]).config(function ($stateProvider, $locationProvider, $urlRouterProvider) {
   $locationProvider.html5Mode(true);
   $urlRouterProvider.otherwise('/process');
@@ -32,23 +32,27 @@ angular.module('ezPAARSE', [
   $stateProvider.state(home);
   $stateProvider.state(process);
 
-}).factory('loginInterceptor', function ($q, $injector) {
-  // Redirect to login page if a request gets a 401
-  return {
-    responseError: function(rejection) {
-      if (rejection.status === 401) {
-        $injector.get('$state').transitionTo('login');
-      }
-      return $q.reject(rejection);
-     }
-   };
-}).config(function ($httpProvider) {
-  $httpProvider.interceptors.push('loginInterceptor');
-}).run(function ($rootScope, $location, userService) {
+})
+// .factory('loginInterceptor', function ($q, $injector) {
+//   // Redirect to login page if a request gets a 401
+//   return {
+//     responseError: function(rejection) {
+//       if (rejection.status === 401) {
+//         $injector.get('$state').transitionTo('login');
+//       }
+//       return $q.reject(rejection);
+//      }
+//    };
+// }).config(function ($httpProvider) {
+//   $httpProvider.interceptors.push('loginInterceptor');
+// })
+.run(function ($rootScope, $state, userService) {
+
   // Redirect to login if not connected on state change
-  $rootScope.$on('$stateChangeStart', function (next, current) {
-    if (next != '/login' && !userService.isAuthenticated()) {
-      $location.path( "/login" );
+  $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+    if (toState.name != 'login' && !userService.isAuthenticated()) {
+      event.preventDefault();
+      $state.transitionTo('login');
     }
   });
 });

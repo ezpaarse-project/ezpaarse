@@ -1,19 +1,19 @@
 'use strict';
 
-var path        = require('path');
-var crypto      = require('crypto');
-var express     = require('express');
-var execFile    = require('child_process').execFile;
-var passport    = require('passport');
-var userlist    = require('../lib/userlist.js');
+var path     = require('path');
+var crypto   = require('crypto');
+var express  = require('express');
+var execFile = require('child_process').execFile;
+var userlist = require('../lib/userlist.js');
+var auth     = require('../lib/auth-middlewares.js');
 
 module.exports = function (app) {
 
   /**
    * GET route on /
    */
-  app.get('/admin', passport.authenticate('basic', { session: true }),
-    userlist.authorizeMembersOf('admin'), function (req, res) {
+  app.get('/admin', auth.ensureAuthenticated(true),
+    auth.authorizeMembersOf('admin'), function (req, res) {
       res.render('admin', {
         title: 'ezPAARSE - Web service',
         user: req.user
@@ -65,7 +65,7 @@ module.exports = function (app) {
    * GET route on /users
    * To get the user list
    */
-  app.get('/users', passport.authenticate('basic', { session: true }), function (req, res) {
+  app.get('/users', auth.ensureAuthenticated(true), function (req, res) {
       var users = userlist.getAll();
       res.set("Content-Type", "application/json; charset=utf-8");
       res.set("ezPAARSE-Logged-User", req.user.username);
@@ -77,8 +77,8 @@ module.exports = function (app) {
    * POST route on /users
    * To add a user
    */
-  app.post('/users/', passport.authenticate('basic', { session: true }),
-    userlist.authorizeMembersOf('admin'), express.bodyParser(), function (req, res) {
+  app.post('/users/', auth.ensureAuthenticated(true),
+    auth.authorizeMembersOf('admin'), express.bodyParser(), function (req, res) {
       var username = req.body.username;
       var password = req.body.password;
 
@@ -126,8 +126,8 @@ module.exports = function (app) {
    * DELETE route on /users/{username}
    * To remove a user
    */
-  app.delete(/^\/users\/([a-zA-Z0-9\-_]+)$/, passport.authenticate('basic', { session: true }),
-    userlist.authorizeMembersOf('admin'), function (req, res) {
+  app.delete(/^\/users\/([a-zA-Z0-9\-_]+)$/, auth.ensureAuthenticated(true),
+    auth.authorizeMembersOf('admin'), function (req, res) {
       var username = req.params[0];
       if (username == req.user.username) {
         res.set('ezPAARSE-Status-Message', 'vous ne pouvez pas vous supprimer vous-même');
@@ -147,7 +147,7 @@ module.exports = function (app) {
    * GET route on /pkb/status
    * To know if there are incoming changes in the PKB folder
    */
-  app.get('/pkb/status', passport.authenticate('basic', { session: true }), function (req, res) {
+  app.get('/pkb/status', auth.ensureAuthenticated(true), function (req, res) {
     var pkbFolder = path.join(__dirname, '../platforms-kb');
     var gitscript = path.join(__dirname, '../bin/check-git-uptodate');
 
@@ -193,14 +193,14 @@ module.exports = function (app) {
    * PUT route on /pkb/status
    * To update the PKB folder
    */
-  app.put('/pkb/status', passport.authenticate('basic', { session: true }),
-    userlist.authorizeMembersOf('admin'), updatePkb);
+  app.put('/pkb/status', auth.ensureAuthenticated(true),
+    auth.authorizeMembersOf('admin'), updatePkb);
 
   /**
    * GET route on /parsers/status
    * To know if there are incoming changes in the parsers folder
    */
-  app.get('/parsers/status', passport.authenticate('basic', { session: true }),
+  app.get('/parsers/status', auth.ensureAuthenticated(true),
     function (req, res) {
     var parsersFolder = path.join(__dirname, '../platforms-parsers');
     var gitscript = path.join(__dirname, '../bin/check-git-uptodate');
@@ -247,6 +247,6 @@ module.exports = function (app) {
    * PUT route on /parsers/status
    * To update the parsers folder
    */
-  app.put('/parsers/status', passport.authenticate('basic', { session: true }),
-    userlist.authorizeMembersOf('admin'), updateParsers);
+  app.put('/parsers/status', auth.ensureAuthenticated(true),
+    auth.authorizeMembersOf('admin'), updateParsers);
 };

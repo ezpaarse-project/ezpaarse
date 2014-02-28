@@ -17,20 +17,19 @@
                   </div>
                 </div>
                 <button class="ui small blue button" ng-click="fakeConnect()">Connecter un utilisateur factice</button>
+                <a href="/process">to process</a>
               </div>
 
 
 
-
-
-              <div class="ui form segment">
+              <form class="ui form segment" ng-submit="login()" ng-controller="LoginCtrl">
                 <div class="ui header">
                   Connectez-vous
                 </div>
                 <div class="field">
-                  <label>Identifiant</label>
+                  <label>Nom d'utilisateur ou adresse e-mail</label>
                   <div class="ui left labeled icon input">
-                    <input type="text" placeholder="Adresse email">
+                    <input type="text" name="userid" ng-model="credentials.userid" placeholder="Identifiant">
                     <i class="user icon"></i>
                     <div class="ui corner label">
                       <i class="icon asterisk"></i>
@@ -40,7 +39,7 @@
                 <div class="field">
                   <label>Mot de passe</label>
                   <div class="ui left labeled icon input">
-                    <input type="password">
+                    <input type="password" name="password" ng-model="credentials.password">
                     <i class="lock icon"></i>
                     <div class="ui corner label">
                       <i class="icon asterisk"></i>
@@ -49,15 +48,15 @@
                 </div>
                 <div class="field">
                   <div class="ui checkbox">
-                    <input type="checkbox" name="remember">
+                    <input type="checkbox" name="remember" ng-model="credentials.remember">
                     <label>Se souvenir de moi</label>
                   </div>
                 </div>
                 <div class="ui error message">
                   <div class="header">Une erreur est survenue</div>
                 </div>
-                <div class="ui right floated submit button">Se connecter</div>
-              </div>
+                <button type="submit" class="ui right floated submit button">Se connecter</button>
+              </form>
             </div>
           </div>
 

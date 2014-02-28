@@ -6,14 +6,14 @@ var config        = require('./lib/config.js');
 var http          = require('http');
 var path          = require('path');
 var mkdirp        = require('mkdirp');
-var crypto        = require('crypto');
 var fs            = require('graceful-fs');
 var I18n          = require('i18n-2');
 var Reaper        = require('tmp-reaper');
-var userlist      = require('./lib/userlist.js');
+var auth          = require('./lib/auth-middlewares.js');
 var winston       = require('winston');
 var passport      = require('passport');
 var BasicStrategy = require('passport-http').BasicStrategy;
+var LocalStrategy = require('passport-local').Strategy;
 var lsof          = require('lsof');
 require('./lib/init.js');
 
@@ -74,19 +74,8 @@ passport.deserializeUser(function (obj, done) {
   done(null, obj);
 });
 
-passport.use(new BasicStrategy(function (userid, password, done) {
-
-  var user = userlist.get(userid);
-  var cryptedPassword = crypto.createHmac('sha1', 'ezgreatpwd0968')
-  .update(userid + password)
-  .digest('hex');
-
-  if (user && user.password == cryptedPassword) {
-    return done(null, user);
-  } else {
-    return done(null, false);
-  }
-}));
+passport.use(new BasicStrategy(auth.login));
+passport.use(new LocalStrategy({ usernameField: 'userid' }, auth.login));
 
 var app = express();
 
@@ -134,6 +123,10 @@ app.configure(function () {
     next();
   });
   app.use(express.cookieParser());
+  app.use(express.cookieSession({ //should not be used in PROD
+    key: 'ezpaarse',
+    secret: 'ezpaarseappoftheYEAR'
+  }));
   app.use(passport.initialize());
   app.use(passport.session());
 
@@ -170,19 +163,20 @@ app.configure(function () {
     next();
   });
 
-  // Ask for basic authentification if ?auth=local
-  // Render admin creation form if credentials.json does not exist
-  app.use(function (req, res, next) {
-    if (req.query.auth && req.query.auth == 'local') {
-      if (userlist.length() !== 0) {
-        (passport.authenticate('basic', { session: true }))(req, res, next);
-      } else {
-        res.render('register', { title: 'ezPAARSE - Register', user: false });
-      }
-    } else {
-      next();
-    }
-  });
+  // // Ask for basic authentification if ?auth=local
+  // // Render admin creation form if credentials.json does not exist
+  // app.use(function (req, res, next) {
+  //   if (req.query.auth && req.query.auth == 'local') {
+  //     if (userlist.length() !== 0) {
+  //       (passport.authenticate('basic', { session: true }))(req, res, next);
+  //     } else {
+  //       res.render('register', { title: 'ezPAARSE - Register', user: false });
+  //     }
+  //   } else {
+  //     next();
+  //   }
+  // });
+
   // used to expose static files from the public folder
   app.use('/assets', express.static(path.join(__dirname, 'public')));
 
@@ -217,9 +211,19 @@ require('./routes/logs')(app);
 require('./routes/admin')(app);
 require('./routes/feedback')(app);
 
-// app.get('/someURL', function (req, res) {
-//   res.send(401);
-// });
+app.get('/session', auth.ensureAuthenticated(false), function (req, res) {
+  res.json(200, req.user);
+});
+
+app.post('/login', express.bodyParser(), passport.authenticate('local'), function (req, res) {
+  res.json(200, req.user);
+});
+
+app.get('/logout', function (req, res) {
+  req.logout();
+  res.send(204);
+});
+
 // For angular HTML5 mode
 app.get('*', function (req, res) {
   res.render('main');
