@@ -1,13 +1,13 @@
 #!/bin/bash
 
 # https://wiki.inist.fr/applis/ezpaarse/versions_de_ezpaarse/v1.x/1.3/start
-PROJECT_NAME="istex"
+PROJECT_NAME="ezpaarse"
 SPRINT_NAME="sprint13"
 SPRINT_START="2013-11-18"
 SPRINT_END="2013-12-19"
 GENERATE_VIDEO="1"
 
-# get all the istex github repositories name
+# get all the ezpaarse github repositories name
 # and generate a commit log for each repository
 npm install
 MODULES=`./get-repository-list.js`
