@@ -1,26 +1,31 @@
 #!/bin/bash
 
-# https://wiki.inist.fr/applis/ezpaarse/versions_de_ezpaarse/v1.x/1.1/start
+# https://wiki.inist.fr/applis/ezpaarse/versions_de_ezpaarse/v1.x/1.2/start
 PROJECT_NAME="ezpaarse"
-SPRINT_NAME="sprint11"
-SPRINT_START="2013-09-09"
-SPRINT_END="2013-10-10"
+SPRINT_NAME="sprint12"
+SPRINT_START="2013-10-14"
+SPRINT_END="2013-11-14"
 GENERATE_VIDEO="1"
 
 # ezpaarse code source commit logs
+echo "-> Generating ezpaarse.log"
 gource --output-custom-log "./ezpaarse.log" ../../ 
 sed -i -E "s#(.+)\|#\1|/ezpaarse#" ./ezpaarse.log
 # ezpaarse/platforms-kb code source commit logs
+echo "-> Generating platforms-kb.log"
 gource --output-custom-log "./platforms-kb.log" ../../platforms-kb/
 sed -i -E "s#(.+)\|#\1|/ezpaarse/platforms-kb#" ./platforms-kb.log
 # ezpaarse/platforms-parsers code source commit logs
+echo "-> Generating platforms-parsers.log"
 gource --output-custom-log "./platforms-parsers.log" ../../platforms-parsers/
 sed -i -E "s#(.+)\|#\1|/ezpaarse/platforms-parsers#" ./platforms-parsers.log
 # ezpaarse/platforms-scrapers code source commit logs
+echo "-> Generating platforms-scrapers.log"
 gource --output-custom-log "./platforms-scrapers.log" ../../platforms-scrapers/
 sed -i -E "s#(.+)\|#\1|/ezpaarse/platforms-scrapers#" ./platforms-scrapers.log
 
 # sort by date
+echo "-> Sorting *.log"
 cat ./ezpaarse.log \
     ./platforms-kb.log \
     ./platforms-parsers.log \
@@ -31,6 +36,7 @@ TIMESTAMP1=`date --date="$SPRINT_START" +%s`
 TIMESTAMP2=`date --date="$SPRINT_END" +%s`
 
 # filter logs out of the date range
+echo "-> Filtering date range"
 rm -f ./gource-range.log
 touch ./gource-range.log
 while read line
@@ -43,6 +49,7 @@ do
   fi
 done < ./gource-all.log
 
+echo "-> Generating the gource"
 # generate the video
 if [ "$GENERATE_VIDEO" == "1" ]; then
   gource --seconds-per-day 2 \
@@ -61,3 +68,4 @@ else
          --user-image-dir ./avatars/ \
          --path ./gource-range.log
 fi
+echo "-> Gource generated"
