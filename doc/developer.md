@@ -62,13 +62,31 @@ Remarque: à moins de disposer d'un accès privilégié (équipe ezPAARSE), vous
 ## Écriture d'un parseur ##
 
 * un parseur se présente sous la forme d'un fichier exécutable "parser[.xx]" ([.xx] étant l'extension facultative du fichier) accompagné d'un fichier de description [manifest.json](https://github.com/ezpaarse-project/ezpaarse-parsers/blob/master/sd/manifest.json) et du nécessaire pour sa validation (contenu dans un répertoire 'test' voir ci-dessous).
-* il fonctionne sous forme d'un filtre : traite l'entrée standard et produit un flux sur la sortie standard .
-* il accepte en entrée : des URLs de la plateforme qu'il sait analyser (une par ligne).
+* il peut fonctionner sous forme d'un filtre : traite l'entrée standard et produit un flux sur la sortie standard .
+* il accepte en entrée 
+    * des URLs de la plateforme qu'il sait analyser (une par ligne),
+    * ou un flux json (avec l'option --json) contenant 
+        * des URLs de la plateforme qu'il sait analyser (une par ligne),
+        * d'autres informations destinées à qualifier l'EC (comme par exemple la taille du téléchargement)
 * il retourne en sortie : les éléments de consultation reconnus sous forme d'un flux json.
 * il produit un affichage de son usage en retour à la commande --help.
 * le code retour est 0 si tout s'est bien passé et 1 en cas d'erreur.
-* [exemple en Javascript](https://github.com/ezpaarse-project/ezpaarse-parsers/blob/master/sd/parser.js)
+* [exemple en Javascript](https://github.com/ezpaarse-project/ezpaarse-parsers/blob/master/js-parser-template/parser.js)
 * [exemple en PHP](https://github.com/ezpaarse-project/ezpaarse-parsers/blob/master/sd/parser.php)
+
+## Écriture d'un parseur Javascript ##
+
+Le langage javascript n'est pas obligatoire pour écrire un parseur, cependant la majorité des parseurs étant écrits en javscript, une partie des fonctionnalités a été factorisée de façon à rendre plus simple cette écriture. La factorisation prend tout en charge, sauf l'analyse de l'URL écrite dans une fonction **analyseEC** à adapter.
+Un [template de parseur javascript peut servir de base](https://github.com/ezpaarse-project/ezpaarse-parsers/blob/master/js-parser-template).
+Ecrire un nouveau parseur en javascript consistera donc à :
+
+* copier le répertoire template
+* adapter le fichier manifest.json (voir plus bas)
+* adapter et enrichir le fichier test conformément à la page d'analyse de la plateforme
+* adapter et enrichir le parseur pour que sa sortie soit conforme au fichier test (voir ci-dessous)
+* lancer les tests de validation (voir ci-dessous)
+
+Une fois les tests valides, le parseur peut être intégré a github.
 
 A noter que l'écriture d'un parseur se base principalement sur l'écriture d'expressions régulières (regexp).
 Pour aider l'écriture des regexp, voici un [outil qui pourra aider à visualiser l'écriture d'une regexp](http://www.regexper.com/).
@@ -116,10 +134,8 @@ Le fichier manifest.json est utilisé pour afficher dynamiquement les [caractér
 
 ## Principe de gestion des bases de connaissance éditeur
 
-Les bases de connaissance éditeur sont enregistrées sous forme de fichier CSV et sont propres à chaque plateforme. Le fichier ``platform.pkb.csv`` contient les correspondances entre les identifiants de la plateforme en question, appelés ``PID``, et un ISSN ou autre identifiant normalisé.
+Les bases de connaissance éditeur sont enregistrées sous forme de fichier texte au [format KBART](http://www.uksg.org/kbart/s1/summary) et sont propres à chaque plateforme. Le fichier ``platform_AllTitles.txt`` contient les correspondances entre les identifiants de la plateforme en question et un ISSN ou autre identifiant normalisé. Le champ KBART appelé ``title_id`` est utilisé pour faire cette correspondance avec le champ ``print_identifier`` (cas du papier) ou ``online_identifier`` (cas électronique). La [liste des champs KBART](http://www.uksg.org/kbart/s5/guidelines/data_field_labels) et leur signification est consultable.
 
-
-![Schéma de gestion des bases de connaissances éditeur ezPAARSE](images/ezPAARSE-Architecture-PKB.png "PKB ezPAARSE")
 
 ## Effectuer un test en particulier ##
 
