@@ -8,7 +8,7 @@ Ce fichier respecte le [format KBART](http://www.couperin.org/groupes-de-travail
 
 Le champ KBART **title_id** correspondant à l'identifiant éditeur des ressources permet d'établir la correspondance avec un identifiant normalisé **print_identifier** (la plupart du temps l'ISSN papier) ou **online_identifier** (dans le cas d'une version numérique), et peut avoir un nombre indéfini de colonnes supplémentaires placées après les champs KBART en fonction de la richesse des métadonnées disponibles (les champs supplémentaires sont préfixés par pkb- par exemple pkb-domain) .
 
-Pour être reconnaissables par ezPAARSE, les fichiers d'une PKB doivent avoir respecter la nomenclature KBART **[ProviderName]_[Region/Consortium]_[PackageName]_[YYYY-MM-DD].txt**, et se trouver dans un dossier dont le nom correspond à la plateforme (ex: **sd** pour Science Direct).  
+Pour être reconnaissables par ezPAARSE, les fichiers d'une PKB doivent avoir respecter la nomenclature KBART **[ProviderName]\_*[Region/Consortium]*\_[PackageName]\_[YYYY-MM-DD].txt**, et se trouver dans un dossier dont le nom correspond à la plateforme (ex: **sd** pour Science Direct).  
 
 Exemples :  
 cairn/cairn_ebooks_2014-02-13.txt
