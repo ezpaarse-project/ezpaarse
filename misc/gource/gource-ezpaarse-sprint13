@@ -1,36 +1,46 @@
 #!/bin/bash
 
-# https://wiki.inist.fr/applis/ezpaarse/versions_de_ezpaarse/v1.x/1.1/start
+# https://wiki.inist.fr/applis/ezpaarse/versions_de_ezpaarse/v1.x/1.3/start
 PROJECT_NAME="ezpaarse"
-SPRINT_NAME="sprint11"
-SPRINT_START="2013-09-09"
-SPRINT_END="2013-10-10"
+SPRINT_NAME="sprint13"
+SPRINT_START="2013-11-18"
+SPRINT_END="2013-12-19"
 GENERATE_VIDEO="1"
 
-# ezpaarse code source commit logs
-gource --output-custom-log "./ezpaarse.log" ../../ 
-sed -i -E "s#(.+)\|#\1|/ezpaarse#" ./ezpaarse.log
-# ezpaarse/platforms-kb code source commit logs
-gource --output-custom-log "./platforms-kb.log" ../../platforms-kb/
-sed -i -E "s#(.+)\|#\1|/ezpaarse/platforms-kb#" ./platforms-kb.log
-# ezpaarse/platforms-parsers code source commit logs
-gource --output-custom-log "./platforms-parsers.log" ../../platforms-parsers/
-sed -i -E "s#(.+)\|#\1|/ezpaarse/platforms-parsers#" ./platforms-parsers.log
-# ezpaarse/platforms-scrapers code source commit logs
-gource --output-custom-log "./platforms-scrapers.log" ../../platforms-scrapers/
-sed -i -E "s#(.+)\|#\1|/ezpaarse/platforms-scrapers#" ./platforms-scrapers.log
+# get all the ezpaarse github repositories name
+# and generate a commit log for each repository
+npm install
+MODULES=`./get-repository-list.js`
+for M in $MODULES
+do
+  # clone source code
+  echo "-> Getting source code"
+  mkdir -p ./sources/
+  if [ -d ./sources/$M/ ]; then
+    cd ./sources/$M/
+    git pull
+    cd ../..
+  else
+    cd ./sources/
+    git clone https://github.com/ezpaarse-project/$M.git
+    cd ..
+  fi
+  # code source commit logs
+  echo "-> Generating $M.log"
+  gource --output-custom-log "./logs_$M.log" ./sources/$M/
+  sed -i -E "s#(.+)\|#\1|/$PROJECT_NAME/$M#" ./logs_$M.log
+done
 
 # sort by date
-cat ./ezpaarse.log \
-    ./platforms-kb.log \
-    ./platforms-parsers.log \
-    ./platforms-scrapers.log | sort -n > ./gource-all.log
+echo "-> Sorting *.log"
+cat ./logs_*.log | sort -n > ./gource-all.log
 
 # date range
 TIMESTAMP1=`date --date="$SPRINT_START" +%s`
 TIMESTAMP2=`date --date="$SPRINT_END" +%s`
 
 # filter logs out of the date range
+echo "-> Filtering date range"
 rm -f ./gource-range.log
 touch ./gource-range.log
 while read line
@@ -43,6 +53,7 @@ do
   fi
 done < ./gource-all.log
 
+echo "-> Generating the gource"
 # generate the video
 if [ "$GENERATE_VIDEO" == "1" ]; then
   gource --seconds-per-day 2 \
@@ -61,3 +72,4 @@ else
          --user-image-dir ./avatars/ \
          --path ./gource-range.log
 fi
+echo "-> Gource generated"
