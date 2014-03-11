@@ -71,16 +71,16 @@ Remarque: à moins de disposer d'un accès privilégié (équipe ezPAARSE), vous
 * il retourne en sortie : les éléments de consultation reconnus sous forme d'un flux json.
 * il produit un affichage de son usage en retour à la commande --help.
 * le code retour est 0 si tout s'est bien passé et 1 en cas d'erreur.
-* [exemple en Javascript](https://github.com/ezpaarse-project/ezpaarse-parsers/blob/master/js-parser-template/parser.js)
+* [exemple en Javascript](https://github.com/ezpaarse-project/ezpaarse-parsers/blob/master/js-parser-skeleton/parser.js)
 * [exemple en PHP](https://github.com/ezpaarse-project/ezpaarse-parsers/blob/master/sd/parser.php)
 
 ## Écriture d'un parseur Javascript ##
 
 Le langage javascript n'est pas obligatoire pour écrire un parseur, cependant la majorité des parseurs étant écrits en javscript, une partie des fonctionnalités a été factorisée de façon à rendre plus simple cette écriture. La factorisation prend tout en charge, sauf l'analyse de l'URL écrite dans une fonction **analyseEC** à adapter.
-Un [template de parseur javascript peut servir de base](https://github.com/ezpaarse-project/ezpaarse-parsers/blob/master/js-parser-template).
+Un [squelettte de parseur javascript peut servir de base](https://github.com/ezpaarse-project/ezpaarse-parsers/blob/master/js-parser-skeleton).
 Ecrire un nouveau parseur en javascript consistera donc à :
 
-* copier le répertoire template
+* copier le répertoire squelette
 * adapter le fichier manifest.json (voir plus bas)
 * adapter et enrichir le fichier test conformément à la page d'analyse de la plateforme
 * adapter et enrichir le parseur pour que sa sortie soit conforme au fichier test (voir ci-dessous)
