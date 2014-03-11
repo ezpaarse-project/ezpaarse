@@ -19,7 +19,29 @@ angular.module('ezPAARSE', [
     name: 'home',
     url: '/',
     templateUrl: 'partials/index',
-    abstract: true
+    abstract: true,
+    resolve: {
+      /**
+       * When accessing any page, check that a user is authenticated.
+       * If not, request the session from the server.
+       * Redirect to login in case of failure.
+       */
+      userSession: function (userService, $state, $http) {
+        if (userService.isAuthenticated()) { return; }
+
+        return $http.get('/session').success(function (user) {
+          if (!user) {
+            $state.go('login');
+            return;
+          }
+
+          userService.login(user.username, user.group);
+          return;
+        }).error(function () {
+          $state.go('login');
+        });
+      }
+    }
   };
   var process = {
     name: 'process',
@@ -32,7 +54,7 @@ angular.module('ezPAARSE', [
   $stateProvider.state(home);
   $stateProvider.state(process);
 
-})
+});
 // .factory('loginInterceptor', function ($q, $injector) {
 //   // Redirect to login page if a request gets a 401
 //   return {
@@ -46,13 +68,3 @@ angular.module('ezPAARSE', [
 // }).config(function ($httpProvider) {
 //   $httpProvider.interceptors.push('loginInterceptor');
 // })
-.run(function ($rootScope, $state, userService) {
-
-  // Redirect to login if not connected on state change
-  $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
-    if (toState.name != 'login' && !userService.isAuthenticated()) {
-      event.preventDefault();
-      $state.transitionTo('login');
-    }
-  });
-});

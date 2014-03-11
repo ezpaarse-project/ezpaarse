@@ -3,7 +3,7 @@
 /* Controllers */
 
 angular.module('ezPAARSE.controllers', [])
-  .controller('AppCtrl', function ($scope, $state, userService) {
+  .controller('AppCtrl', function ($scope, $state, userService, $http) {
 
     userService.onLogin(function (user) {
       $scope.user = user;
@@ -29,9 +29,13 @@ angular.module('ezPAARSE.controllers', [])
     }
 
     $scope.logout = function () {
-      userService.logout();
-      $scope.user = null;
-      $state.transitionTo('login');
+      var cb = function () {
+        userService.logout();
+        $scope.user = null;
+        $state.transitionTo('login');
+      };
+
+      $http.get('/logout').then(cb, cb);
     }
 
   }).controller('LoginCtrl', function ($scope, $state, $http, userService) {
