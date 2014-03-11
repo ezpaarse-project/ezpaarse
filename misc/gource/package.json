@@ -1,0 +1,14 @@
+{
+  "name": "ezpaarse-gource",
+  "version": "0.0.0",
+  "description": "Script node utilisés pour générer le gource",
+  "main": "get-repository-list.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "request": "~2.34.0"
+  }
+}

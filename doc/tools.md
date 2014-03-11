@@ -160,25 +160,24 @@ Cette commande est utile pour tester les performances d'ezPAARSE.
 ## pkbvalidator
 
 Commande permettant de vérifier la validité des informations présentes dans un fichier de base de connaissance d'une plateforme.
+Ce fichier doit être conforme au format KBART.
+
 Cette commande vérifie les points suivants :
 
-- présence de l'extension du nom de fichier .pkb.csv
-- unicité du pid
+- présence de l'extension du nom de fichier .txt
+- unicité du title_id
 - information minimale d'identification disponible
 - contrôle syntaxique de l'écriture des identifiants normalisés (ISSN, ISBN, DOI)
-- possiblité de transformer une pkb en fichier kbart
 
 Usage:
 ```
 Check a platform knowledge base file.
-  Usage: node ./bin/pkbvalidator [-cfsv] pkb_file1.pkb.csv [pkb_file2.pkb.csv]
+  Usage: node ./bin/pkbvalidator [-cfsv] pkb_file1.txt [pkb_file2.txt]
 
 Options:
-  --silent, -s       If provided, no output generated.              
-  --kbartOutput, -k  If provided, output kbart file from pkb.       
-  --force, -f        If provided, force overwriting of kbart output.
-  --csv, -c          If provided, the error-output will be a csv.   
-  --verbose, -v      show stats of checking.                        
+  --silent, -s   If provided, no output generated.           
+  --csv, -c      If provided, the error-output will be a csv.
+  --verbose, -v  show stats of checking.                     
 ```
 
 

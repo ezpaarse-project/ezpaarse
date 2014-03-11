@@ -64,13 +64,14 @@ function testPlatform(platform, done) {
       var pkbFiles = [];
       files.forEach(function (pkbFile) {
         var file = path.join(pkbFolder, pkbFile);
-        if (fs.existsSync(file) && fs.statSync(file).isFile() && /\.pkb\.csv$/.test(file)) {
+        if (fs.existsSync(file) && fs.statSync(file).isFile() &&
+          /_[0-9]{4}-[0-9]{2}-[0-9]{2}\.txt$/.test(file)) {
           pkbFiles.push(file);
         }
       });
 
       should.ok(pkbFiles.length > 0, 'No PKB file found in the directory of ' + platform);
-      var opts = { silent: true, fields: [domainsPkbField] };
+      var opts = { silent: true, fields: [domainsPkbField], delimiter: '\t' };
       csvextractor.extract(pkbFiles, opts, function (err, records) {
 
         should.not.exist(err, 'Syntax error into a pkb file of ' + platform + ' - ' + err);
