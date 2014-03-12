@@ -34,4 +34,11 @@ angular.module('ezPAARSE.directives', [])
         });
       }
     };
+  }).directive('ezCheckbox', function () {
+    return {
+      restrict: 'E',
+      link: function (scope, element, attributes) {
+        element.checkbox();
+      }
+    };
   });
