@@ -15,6 +15,7 @@
     "mime",
     "print_identifier",
     "online_identifier",
+    "title_id",
     "doi",
     "publication_title",
     "unitid",
