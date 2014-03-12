@@ -1,4 +1,4 @@
-  <form id="login-form" class="ui form segment small modal" attached-to="#login-button" ng-controller="LoginCtrl" ng-submit="login()">
+  <form id="login-form" class="ui form segment small modal" ng-class="{error: error}" attached-to="#login-button" ng-controller="LoginCtrl" ng-submit="login()">
     <div class="ui inverted dimmer" ng-class="{true: 'active', false: 'disabled'}[loading]">
       <div class="ui text loader">Connexion...</div>
     </div>
@@ -24,8 +24,11 @@
         <label>Se souvenir de moi</label>
       </ez-checkbox>
     </div>
-    <div class="ui error message">
+    <div class="ui error message" ng-show="error == 'unknown'">
       <div class="header">Une erreur est survenue</div>
+    </div>
+    <div class="ui error message" ng-show="error == 'bad credentials'">
+      <div class="header">Identifiant ou mot de passe incorrect</div>
     </div>
 
     <div class="ui two fluid buttons" mp-semantic>

@@ -40,9 +40,9 @@ angular.module('ezPAARSE.controllers', [])
 
   }).controller('LoginCtrl', function ($scope, $state, $http, userService, $element) {
     $scope.credentials = {};
+    $scope.error       = null;
 
-    $scope.login = function (form) {
-      console.dir(form);
+    $scope.login = function () {
       $scope.loading = true;
 
       $http.post('/login', $scope.credentials)
@@ -54,9 +54,9 @@ angular.module('ezPAARSE.controllers', [])
         $element.modal('hide');
         $state.transitionTo('process');
       })
-      .error(function () {
+      .error(function (data, status) {
         $scope.loading = false;
-        alert('Mauvais identifiants');
+        $scope.error = status == 401 ? 'bad credentials' : 'unknown';
       });
     };
   });
