@@ -3,8 +3,8 @@
 angular.module('ezPAARSE', [
   'ui.router',
   'ezPAARSE.services',
-  'ezPAARSE.controllers'
-  // 'ezPAARSE.directives'
+  'ezPAARSE.controllers',
+  'ezPAARSE.directives'
   // 'ezPAARSE.filters'
 ]).config(function ($stateProvider, $locationProvider, $urlRouterProvider) {
   $locationProvider.html5Mode(true);

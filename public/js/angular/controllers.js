@@ -38,17 +38,24 @@ angular.module('ezPAARSE.controllers', [])
       $http.get('/logout').then(cb, cb);
     }
 
-  }).controller('LoginCtrl', function ($scope, $state, $http, userService) {
+  }).controller('LoginCtrl', function ($scope, $state, $http, userService, $element) {
     $scope.credentials = {};
 
-    $scope.login = function () {
+    $scope.login = function (form) {
+      console.dir(form);
+      $scope.loading = true;
+
       $http.post('/login', $scope.credentials)
       .success(function (user) {
         userService.login(user.username, user.group);
-        $scope.user = userService.user;
+        $scope.user    = userService.user;
+        $scope.loading = false;
+
+        $element.modal('hide');
         $state.transitionTo('process');
       })
       .error(function () {
+        $scope.loading = false;
         alert('Mauvais identifiants');
       });
     };

@@ -1,127 +1,42 @@
-    <div class="wrapper et-wrapper no-min-width">
-      <div class="et-page">
-        <div class="ui center aligned segment no-radius">
-          <img src="/assets/img/logo.png"/>
+ <div id="container">
+    <div class="ui center aligned segment">
+      <p><img src="/assets/img/logo.png"/></p>
+      <div class="ui small buttons">
+        <div id="login-button" class="ui teal button">Connectez-vous</div>
+        <div class="or" data-text="ou"></div>
+        <div id="register-button" class="ui button">Enregistrez-vous</div>
+      </div>
+      <p>Enregistrez-vous avant de pouvoir traiter vos logs, c'est simple et rapide.<br/>Vous pourrez ensuite suivre vos traitements et communiquer plus facilement avec l'équipe ezPAARSE.</p>
+    </div>
+
+    <div class="ui two column page grid">
+      <div class="column">
+        <div class="ui huge purple center aligned header">
+          ezPAARSE, c'est...
         </div>
-        <div class="ui two column relaxed grid" style="margin: 0 5%;">
-          <div class="column">
-            <div class="ui inverted teal segment" >
-
-              <div class="ui form segment">
-                <div class="two fields">
-                  <div class="field">
-                    <input type="text" placeholder="Nom" ng-model="login.name">
-                  </div>
-                  <div class="field">
-                    <select ng-model="login.group" ng-options="g.value as g.label for g in groups"></select>
-                  </div>
-                </div>
-                <button class="ui small blue button" ng-click="fakeConnect()">Connecter un utilisateur factice</button>
-                <a href="/process">to process</a>
-              </div>
-
-
-
-              <form class="ui form segment" ng-submit="login()" ng-controller="LoginCtrl">
-                <div class="ui header">
-                  Connectez-vous
-                </div>
-                <div class="field">
-                  <label>Nom d'utilisateur ou adresse e-mail</label>
-                  <div class="ui left labeled icon input">
-                    <input type="text" name="userid" ng-model="credentials.userid" placeholder="Identifiant">
-                    <i class="user icon"></i>
-                    <div class="ui corner label">
-                      <i class="icon asterisk"></i>
-                    </div>
-                  </div>
-                </div>
-                <div class="field">
-                  <label>Mot de passe</label>
-                  <div class="ui left labeled icon input">
-                    <input type="password" name="password" ng-model="credentials.password">
-                    <i class="lock icon"></i>
-                    <div class="ui corner label">
-                      <i class="icon asterisk"></i>
-                    </div>
-                  </div>
-                </div>
-                <div class="field">
-                  <div class="ui checkbox">
-                    <input type="checkbox" name="remember" ng-model="credentials.remember">
-                    <label>Se souvenir de moi</label>
-                  </div>
-                </div>
-                <div class="ui error message">
-                  <div class="header">Une erreur est survenue</div>
-                </div>
-                <button type="submit" class="ui right floated submit button">Se connecter</button>
-              </form>
-            </div>
-          </div>
-
-          <div class="ui vertical divider">ou</div>
-
-          <div class="column">
-            <div class="ui inverted black segment" >
-              <div class="ui form segment">
-                <div class="ui header">
-                  Enregistrez-vous
-                </div>
-                <div class="field">
-                  <label>Adresse email</label>
-                  <div class="ui left labeled icon input">
-                    <input type="text" placeholder="Adresse email">
-                    <i class="user icon"></i>
-                    <div class="ui corner label">
-                      <i class="icon asterisk"></i>
-                    </div>
-                  </div>
-                </div>
-                <div class="field">
-                  <label>Mot de passe</label>
-                  <div class="ui left labeled icon input">
-                    <input type="password">
-                    <i class="lock icon"></i>
-                    <div class="ui corner label">
-                      <i class="icon asterisk"></i>
-                    </div>
-                  </div>
-                </div>
-                <div class="field">
-                  <label>Confirmer le mot de passe</label>
-                  <div class="ui left labeled icon input">
-                    <input type="password">
-                    <i class="lock icon"></i>
-                    <div class="ui corner label">
-                      <i class="icon asterisk"></i>
-                    </div>
-                  </div>
-                </div>
-                <div class="ui error message">
-                  <div class="header">Une erreur est survenue</div>
-                </div>
-                <div class="ui right floated submit button">S'enregistrer</div>
-              </div>
-            </div>
-          </div>
+        <div class="ui segment">
+          <div class="ui header">Un outil simple et efficace</div>
+          <p>Le plus souvent, quelques clics suffisent à analyser vos logs.</p>
         </div>
-        <div class="ui center aligned basic segment" style="margin: 0 5%">
-          <p>Enregistrez-vous avant de pouvoir traiter vos logs, c'est simple et rapide.<br/>Vous pourrez ensuite suivre vos traitements et communiquer plus facilement avec l'équipe ezPAARSE.</p>
-          <button class="ui mini teal button et-rotate" et-in="moveFromBottom" et-out="moveToTop">ezPAARSE, qu'est-ce que c'est ?</button>
+        <div class="ui segment">
+          <div class="ui header">Une équipe disponible et réactive</div>
+          <p>Un problème, une question, une suggestion ? Ça nous intéresse ! Vous pouvez nous joindre facilement par mail ou sur les réseaux sociaux.</p>
+        </div>
+        <div class="ui segment">
+          <div class="ui header">Une communauté grandissante</div>
+          <p>Et pas seulement francophone !</p>
         </div>
       </div>
 
-      <div class="et-page">
-        <div class="ui page grid">
-          <div class="ui sixteen wide center aligned column">
-            <div class="ui icon header">
-              <i class="circular question icon"></i>ezPAARSE, qu'est-ce que c'est ?
-              <div class="sub header">On vous explique !</div>
-            </div>
-            <br/><button class="ui mini left labeled teal icon button et-rotate" et-in="moveFromTop" et-out="moveToBottom"><i class="up arrow icon"></i>Revenir</button>
-          </div>
-        </div>
+      <div class="column">
+        <ul ez-bxslider>
+          <li><img src="/assets/img/slider/pic1.jpg" title="De nombreuses possibilités d'exploitation" /></li>
+          <li><img src="/assets/img/slider/pic2.jpg" title="Des chiffres en temps réel" /></li>
+        </ul>
       </div>
     </div>
-    <script src="/assets/components/ElementTransitions.js/build/elementTransitions.min.js"></script>
+  </div> <!-- container -->
+
+  <% include form-login %>
+  <% include form-register %>
+  </form> <!-- register-modal -->

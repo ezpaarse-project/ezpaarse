@@ -1,9 +1,5 @@
 /* app stylesheet */
 
-* {
-  position: relative;
-}
-
 html, body {
   height: 100%;
 }
@@ -15,7 +11,8 @@ body {
   margin: 0px;
   padding: 0px;
   color: #555555;
-  background-image: url('/assets/img/geometry.png');
+  background-color: #FAFAFA;
+  /*background-image: url('/assets/img/geometry.png');*/
 }
 
 .wrapper {
@@ -130,7 +127,7 @@ a:hover {
   border-radius: 0;
 }
 
-.ui.modal {
+.ui.modal.scrollable {
   max-height: 90%;
   overflow: auto;
 }
@@ -189,8 +186,11 @@ a:hover {
 }
 
 /**
- * Fix PageTransition scrolling
+ * Fix bxSlider margin and z-index
  */
-.et-page {
-  overflow: auto;
+.bx-wrapper .bx-viewport ul {
+  margin: 0;
+}
+.bx-wrapper .bx-controls-direction a {
+  z-index: 999;
 }
