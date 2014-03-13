@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<Report Created="2014-01-22T14:51:04+01:00" Name="JR1" Title="Journal Report 1">
+<Report Created="2014-03-12T12:00:17+01:00" Name="JR1" Title="Journal Report 1">
     <Vendor>
         <Name>platform42</Name>
     </Vendor>
@@ -65,6 +65,8 @@
                 <Type>Proprietary</Type>
                 <Value>00121606</Value>
             </ItemIdentifier>
+            <ItemName>Developmental Biology</ItemName>
+            <ItemDataType>Journal</ItemDataType>
             <ItemPerformance>
                 <Period>
                     <Begin>2013-10-25</Begin>
