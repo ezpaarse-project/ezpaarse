@@ -1,0 +1,100 @@
+    <h1 class="ui header">
+      Sélection des logs
+      <div class="sub header">Indiquez ici les logs que vous désirez faire analyser par ezPAARSE. Vos logs nécessitent peut-être un paramétrage particulier pour qu'ezPAARSE les comprenne. Si nécessaire, <a class="feedback-toggle">contactez l'équipe ezPAARSE</a> pour une aide au paramétrage.</div>
+    </h1>
+
+    <div class="bottom-padded-group">
+      <div><button id="settings-button" class="ui left labeled icon mini button block"><i class="settings icon"></i> Paramètres</button></div>
+      <div><select id="predefined-settings" class="chosen-select-deselect" data-placeholder="Réglages prédéfinis..." data-no_results_text="Aucun résultat pour" ez-chosen>
+        <option value="" selected=""></option>
+        <option value="INISTCNRS">INIST-CNRS</option>
+        <option value="ULorraine">Université de Lorraine</option>
+        <option value="UParisDApache">Université Paris Descartes Apache</option>
+        <option value="UParisDBibliopam">Université Paris Descartes Bibliopam</option>
+        <option value="EPFL">École polytechnique fédérale de Lausanne</option>
+        <option value="URennes1">Université de Rennes 1</option>
+        <option value="URennes2">Université de Rennes 2</option>
+        <option value="ULyon1">Université Lyon 1</option>
+        <option value="ULyon">Université Lyon 3</option>
+        <option value="UPMCezproxy">UPMC ezproxy</option>
+        <option value="UPMCsquid">UPMC squid</option>
+        <option value="UStrasbourg">Université de Strasbourg</option>
+        <option value="UToulouse">Université de Toulouse</option>
+        <option value="ULimoges">Université de Limoges</option>
+        <option value="UMontpellier3">Université de Montpellier 3</option>
+        <option value="INRIA">INRIA</option>
+        <option value="UParis1">Université Paris 1</option>
+        <option value="UParis11">Université Paris 11</option>
+        <option value="UPEC">Université Paris-Est Créteil (UPEC)</option>
+        <option value="UVHC">Université de Valenciennes et du Hainaut-Cambrésis</option>
+        <option value="ExempleOutput">Exemple selection sortie</option>
+        <option value="Lara">Lara</option>
+      </select></div>
+    </div>
+
+    <div class="ui top attached tabular menu">
+      <a class="active item" data-tab="file">Fichiers de logs</a>
+      <a class="item" data-tab="direct-input">Copier/coller de logs</a>
+    </div>
+    <div class="ui bottom attached active tab segment" data-tab="file">
+      <input type="file" id="input-file">
+      <div class="dropzone">
+        <p class="text">Déposez vos fichiers de logs ici</p>
+      </div>
+    </div>
+    <div class="ui bottom attached tab segment" data-tab="direct-input">
+      <div class="ui form field">
+        <label for="log-lines">Copiez/coller vos lignes de log ici</label>
+        <textarea id="log-lines"></textarea>
+      </div>
+    </div>
+
+    <div class="ui center aligned basic segment">
+      <a href="/process" class="ui huge teal button">Traiter vos logs</a>
+    </div>
+
+    <div id="settings-modal" class="ui scrollable modal">
+      <div class="header">
+        Paramètres
+      </div>
+      <div class="ui form content">
+        <div class="ui two column grid">
+          <div class="column">
+            <div class="ui header field">En entrée</div>
+            <div class="field">
+              <label>Type de log</label>
+              <div class="ui fluid selection dropdown">
+                <input type="hidden" name="logtype">
+                <div class="text"></div>
+                <i class="dropdown icon"></i>
+                <div class="menu">
+                  <div class="item" data-value="">Auto</div>
+                  <div class="item" data-value="ezproxy">EZproxy</div>
+                  <div class="item" data-value="apache">Apache</div>
+                  <div class="item" data-value="squid">Squid</div>
+                </div>
+              </div>
+            </div>
+            <div class="field">
+              <label>Format de log</label>
+              <input placeholder="%h %t %r %s" type="text" data-html="Format des lignes de log (Ex: '%h %l %u %t %s %b'). <a href='/doc/formats.html' target='_blank'>En savoir plus</a>" data-position="right center">
+            </div>
+          </div>
+
+          <div class="column">
+            <div class="ui header field">En sortie</div>
+            <div class="field">
+              <label>Champs en sortie</label>
+              <input placeholder="Ex: -host, +datetime" type="text" data-content="Champs (en-têtes) à ajouter/enlever dans le fichier de sortie." data-position="left center">
+            </div>
+          </div>
+        </div>
+        <div class="ui slider checkbox">
+          <input type="checkbox" name="remember">
+          <label>Mémoriser mes paramètres</label>
+        </div>
+      </div>
+      <div class="actions">
+        <div class="ui positive right labeled icon button"><i class="checkmark icon"></i> OK​</div>
+      </div>
+    </div>
