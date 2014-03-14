@@ -8,7 +8,7 @@ angular.module('ezPAARSE', [
   // 'ezPAARSE.filters'
 ]).config(function ($stateProvider, $locationProvider, $urlRouterProvider) {
   $locationProvider.html5Mode(true);
-  $urlRouterProvider.otherwise('/process');
+  $urlRouterProvider.otherwise('/form');
 
   var login = {
     name: 'login',
@@ -49,10 +49,17 @@ angular.module('ezPAARSE', [
     parent: home,
     templateUrl: 'partials/process'
   };
+  var form = {
+    name: 'form',
+    url: 'form',
+    parent: home,
+    templateUrl: 'partials/form'
+  };
 
   $stateProvider.state(login);
   $stateProvider.state(home);
   $stateProvider.state(process);
+  $stateProvider.state(form);
 
 });
 // .factory('loginInterceptor', function ($q, $injector) {
