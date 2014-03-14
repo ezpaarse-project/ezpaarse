@@ -5,7 +5,7 @@
 angular.module('ezPAARSE.directives', [])
   .directive('ezBxslider', function () {
     return {
-      link: function (scope, element, attrs) {
+      link: function (scope, element, attributes) {
         element.bxSlider({
           captions: true,
           auto: true,
@@ -14,13 +14,21 @@ angular.module('ezPAARSE.directives', [])
       }
     };
   })
-  .directive('modal', function () {
+  .directive('sidebar', function () {
     return {
       restrict: 'C',
-      link: function(scope, elem, attr) {
-        if (attr['attachedTo']) {
-          $(elem).modal('attach events', attr['attachedTo'], 'toggle');
-        }
+      link: function(scope, element, attributes) {
+        $(element).sidebar({ overlay: true });
+      }
+    };
+  })
+  .directive('ezAttachedTo', function () {
+    return {
+      restrict: 'A',
+      link: function(scope, element, attributes) {
+        var elem = $(element);
+        if (elem.hasClass('modal')) { elem.modal('attach events', attributes['ezAttachedTo'], 'toggle'); }
+        if (elem.hasClass('sidebar')) { elem.sidebar('attach events', attributes['ezAttachedTo'], 'toggle'); }
       }
     };
   })
@@ -39,6 +47,13 @@ angular.module('ezPAARSE.directives', [])
       restrict: 'E',
       link: function (scope, element, attributes) {
         element.checkbox();
+      }
+    };
+  }).directive('ezChosen', function () {
+    return {
+      restrict: 'A',
+      link: function (scope, element, attributes) {
+        $(element).chosen();
       }
     };
   });
