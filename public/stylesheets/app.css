@@ -112,7 +112,8 @@ a:hover {
   box-shadow: none;
   border-radius: 5px;
   margin: 20px auto;
-  height: 100px;
+  padding: 10px;
+  min-height: 100px;
 }
 
 .dropzone p {

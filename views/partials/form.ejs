@@ -40,14 +40,18 @@
     <div class="ui bottom attached active tab segment" data-tab="file">
       <input type="file" id="input-file" onchange="angular.element(this).scope().checkFiles(this)" multiple>
 
-      <table ng-show="files" class="ui small compact table">
+
+
+      <div class="dropzone">
+        <p class="text">Déposez vos fichiers de logs ici</p>
+        <table ng-show="files" class="ui small compact basic table">
         <thead><tr>
           <th>Nom de fichier</th>
           <th>Taille</th>
         </tr></thead>
         <tbody>
           <tr ng-repeat="file in files">
-            <td>{{ file.name }}</td>
+            <td><i class="tiny delete icon" ng-click="removeFile($index)"></i> {{ file.name }}</td>
             <td>{{ file.size | bytesToSize }}</td>
           </tr>
         </tbody>
@@ -56,9 +60,6 @@
           <th>{{ totalSize | bytesToSize }} au total</th>
         </tr></tfoot>
       </table>
-
-      <div class="dropzone">
-        <p class="text">Déposez vos fichiers de logs ici</p>
       </div>
     </div>
     <div class="ui bottom attached tab segment" data-tab="direct-input">
@@ -69,7 +70,10 @@
     </div>
 
     <div class="ui center aligned basic segment">
-      <a href="/process" class="ui huge teal button">Traiter vos logs</a>
+      <div class="ui huge buttons">
+        <a href="/process" class="ui teal button">Traiter vos logs</a>
+        <button class="ui icon teal button" title="Traiter avec cURL"><i class="copy small icon"></i></button>
+      </div>
     </div>
 
     <div id="settings-modal" class="ui scrollable modal">

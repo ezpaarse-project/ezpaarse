@@ -64,12 +64,18 @@ angular.module('ezPAARSE.controllers', [])
     $scope.files = [];
     $scope.totalSize = 0;
 
+    $scope.removeFile = function (index) {
+      $scope.files.splice(index, 1);
+    };
+
     $scope.checkFiles = function (file) {
-      $scope.files = $(file).prop('files') || [];
+      $scope.files = [];
+      var files = $(file).prop('files') || [];
 
       $scope.totalSize = 0;
-      for (var i = 0, l = $scope.files.length; i < l; i++) {
-        $scope.totalSize += $scope.files[i].size;
+      for (var i = 0, l = files.length; i < l; i++) {
+        $scope.totalSize += files[i].size;
+        $scope.files.push(files[i]);
       }
 
       $scope.$apply();
