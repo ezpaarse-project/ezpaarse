@@ -109,21 +109,6 @@ module.exports = function (app) {
   }
 
   /**
-   * GET route on /form
-   */
-  if (config.EZPAARSE_REQUIRE_AUTH) {
-    app.get('/form', passport.authenticate('basic', { session: true }), function (req, res) {
-      res.render('ws', { title: 'ezPAARSE - Web service', user: req.user });
-    });
-  } else {
-    app.get('/form', function (req, res) {
-      res.render('ws', { title: 'ezPAARSE - Web service', user: req.user });
-    });
-  }
-
-
-
-  /**
    * GET route on /datasets/
    * Returns a list of all datasets
    */
