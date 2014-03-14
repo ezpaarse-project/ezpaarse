@@ -39,6 +39,7 @@ body {
 a {
   text-decoration: none;
   color: #5FAACE;
+  cursor: pointer;
 }
 
 a:hover {
