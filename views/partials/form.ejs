@@ -1,3 +1,4 @@
+  <div ng-controller="FormCtrl">
     <h1 class="ui header">
       Sélection des logs
       <div class="sub header">Indiquez ici les logs que vous désirez faire analyser par ezPAARSE. Vos logs nécessitent peut-être un paramétrage particulier pour qu'ezPAARSE les comprenne. Si nécessaire, <a class="feedback-toggle">contactez l'équipe ezPAARSE</a> pour une aide au paramétrage.</div>
@@ -37,7 +38,25 @@
       <a class="item" data-tab="direct-input">Copier/coller de logs</a>
     </div>
     <div class="ui bottom attached active tab segment" data-tab="file">
-      <input type="file" id="input-file">
+      <input type="file" id="input-file" onchange="angular.element(this).scope().checkFiles(this)" multiple>
+
+      <table ng-show="files" class="ui small compact table">
+        <thead><tr>
+          <th>Nom de fichier</th>
+          <th>Taille</th>
+        </tr></thead>
+        <tbody>
+          <tr ng-repeat="file in files">
+            <td>{{ file.name }}</td>
+            <td>{{ file.size | bytesToSize }}</td>
+          </tr>
+        </tbody>
+        <tfoot><tr>
+          <th>{{ files.length }} fichiers sélectionnés</th>
+          <th>{{ totalSize | bytesToSize }} au total</th>
+        </tr></tfoot>
+      </table>
+
       <div class="dropzone">
         <p class="text">Déposez vos fichiers de logs ici</p>
       </div>
@@ -98,3 +117,4 @@
         <div class="ui positive right labeled icon button"><i class="checkmark icon"></i> OK​</div>
       </div>
     </div>
+  </div>

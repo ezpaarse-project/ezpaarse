@@ -52,11 +52,26 @@ angular.module('ezPAARSE.controllers', [])
         $scope.loading = false;
 
         $element.modal('hide');
-        $state.transitionTo('process');
+        $state.transitionTo('form');
       })
       .error(function (data, status) {
         $scope.loading = false;
         $scope.error = status == 401 ? 'bad credentials' : 'unknown';
       });
+    };
+  }).controller('FormCtrl', function ($scope) {
+
+    $scope.files = [];
+    $scope.totalSize = 0;
+
+    $scope.checkFiles = function (file) {
+      $scope.files = $(file).prop('files') || [];
+
+      $scope.totalSize = 0;
+      for (var i = 0, l = $scope.files.length; i < l; i++) {
+        $scope.totalSize += $scope.files[i].size;
+      }
+
+      $scope.$apply();
     };
   });
