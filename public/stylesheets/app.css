@@ -172,6 +172,25 @@ a:hover {
 }
 
 /**
+ * Social icons of login page
+ */
+#social {
+  float: right;
+}
+#social a {
+  text-decoration: none;
+}
+#social .facebook.colored {
+  color: #3B579D;
+}
+#social .google.plus.colored {
+  color: #D34836;
+}
+#social .twitter.colored {
+  color: #4092CC;
+}
+
+/**
  * Progressbar and download/cancel buttons
  */
 .progress-header {
@@ -192,11 +211,20 @@ a:hover {
 }
 
 /**
- * Fix bxSlider margin and z-index
+ * Fix bxSlider
  */
+.bx-wrapper {
+  margin-top: 58px;
+}
 .bx-wrapper .bx-viewport ul {
   margin: 0;
 }
 .bx-wrapper .bx-controls-direction a {
   z-index: 999;
+}
+.bx-caption {
+  left: -40px !important;
+}
+.bx-wrapper img {
+  margin-left: -40px;
 }

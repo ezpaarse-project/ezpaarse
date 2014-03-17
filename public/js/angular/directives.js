@@ -3,13 +3,15 @@
 /* Directives */
 
 angular.module('ezPAARSE.directives', [])
-  .directive('ezBxslider', function () {
+  .directive('bxslider', function () {
     return {
+      restrict: 'C',
       link: function (scope, element, attributes) {
         element.bxSlider({
+          mode: 'fade',
           captions: true,
           auto: true,
-          autoControls: true
+          adaptiveHeight: true
         });
       }
     };
