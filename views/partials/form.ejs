@@ -38,20 +38,25 @@
       <a class="item" data-tab="direct-input">Copier/coller de logs</a>
     </div>
     <div class="ui bottom attached active tab segment" data-tab="file">
-      <input type="file" id="input-file" onchange="angular.element(this).scope().checkFiles(this)" multiple>
+      <input type="file" style="display: none;" id="input-file" onchange="angular.element(this).scope().selectFiles(this)" multiple>
 
-
-
-      <div class="dropzone">
-        <p class="text">Déposez vos fichiers de logs ici</p>
-        <table ng-show="files" class="ui small compact basic table">
+      <div class="ui dimmable dropzone" ez-file-drop="addFiles">
+        <div class="ui dimmer">
+          <div class="content"><div class="center">Déposez les fichiers ici</div></div>
+        </div>
+        <p><button class="ui small basic button" ez-trigger-click="#input-file">
+          <i class="plus icon"></i>
+          Cliquez pour ajouter
+        </button></p>
+        <!-- <p class="text">Ou déposez vos fichiers de logs ici</p> -->
+        <table ng-if="files.length" class="ui small compact basic table">
         <thead><tr>
-          <th>Nom de fichier</th>
-          <th>Taille</th>
+          <th class="twelve wide">Nom de fichier</th>
+          <th class="four wide">Taille</th>
         </tr></thead>
         <tbody>
           <tr ng-repeat="file in files">
-            <td><i class="tiny delete icon" ng-click="removeFile($index)"></i> {{ file.name }}</td>
+            <td><i class="tiny delete link icon" ng-click="removeFile($index)"></i> {{ file.name }}</td>
             <td>{{ file.size | bytesToSize }}</td>
           </tr>
         </tbody>

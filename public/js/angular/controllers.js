@@ -64,20 +64,34 @@ angular.module('ezPAARSE.controllers', [])
     $scope.files = [];
     $scope.totalSize = 0;
 
-    $scope.removeFile = function (index) {
-      $scope.files.splice(index, 1);
+
+    var updateTotalSize = function () {
+      $scope.totalSize = 0;
+      for (var i = 0, l = $scope.files.length; i < l; i++) {
+        $scope.totalSize += $scope.files[i].size;
+      }
+    }
+
+    $scope.addFiles = function (files) {
+      if (!files) { return; }
+
+      $scope.$apply(function () {
+        for (var i = 0, l = files.length; i < l; i++) {
+          $scope.files.push(files[i]);
+        }
+        updateTotalSize();
+      });
     };
 
-    $scope.checkFiles = function (file) {
-      $scope.files = [];
-      var files = $(file).prop('files') || [];
+    $scope.removeFile = function (index) {
+      $scope.files.splice(index, 1);
+      updateTotalSize();
+    };
 
-      $scope.totalSize = 0;
-      for (var i = 0, l = files.length; i < l; i++) {
-        $scope.totalSize += files[i].size;
-        $scope.files.push(files[i]);
-      }
-
-      $scope.$apply();
+    $scope.selectFiles = function (fileInput) {
+      var input = $(fileInput);
+      var files = input.prop('files') || [];
+      $scope.addFiles(files);
+      input.val('');
     };
   });
