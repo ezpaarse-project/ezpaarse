@@ -107,22 +107,24 @@ a:hover {
   margin: 0;
 }
 
-.dropzone {
-  position: relative;
+.ui.segment.dropzone {
+  min-height: 100px;
   border: 3px dashed #CCC;
   box-shadow: none;
-  border-radius: 5px;
-  margin: 0 auto;
-  padding: 10px;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
 }
 
-.dropzone.over {
+.ui.segment.dropzone.over {
   border-style: solid;
 }
 
-.dropzone p {
-  color: #999;
+.dropzone > p {
   text-align: center;
+}
+
+.dropzone .dimmer * {
+  pointer-events: none;
 }
 
 .bottom-spaced {
