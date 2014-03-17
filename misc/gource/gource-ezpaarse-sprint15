@@ -1,0 +1,77 @@
+#!/bin/bash
+
+# https://wiki.inist.fr/applis/ezpaarse/versions_de_ezpaarse/v1.x/1.5/start
+PROJECT_NAME="ezpaarse"
+SPRINT_NAME="sprint15"
+SPRINT_START="2014-02-03"
+SPRINT_END="2014-03-13"
+GENERATE_VIDEO="1"
+
+# get all the ezpaarse github repositories name
+# and generate a commit log for each repository
+npm install
+MODULES=`./get-repository-list.js`
+for M in $MODULES
+do
+  # clone source code
+  echo "-> Getting source code"
+  mkdir -p ./sources/
+  if [ -d ./sources/$M/ ]; then
+    cd ./sources/$M/
+    git pull
+    cd ../..
+  else
+    cd ./sources/
+    git clone https://github.com/ezpaarse-project/$M.git
+    cd ..
+  fi
+  # code source commit logs
+  echo "-> Generating $M.log"
+  gource --output-custom-log "./logs_$M.log" ./sources/$M/
+  sed -i -E "s#(.+)\|#\1|/$PROJECT_NAME/$M#" ./logs_$M.log
+done
+
+# sort by date
+echo "-> Sorting *.log"
+cat ./logs_*.log | sort -n > ./gource-all.log
+
+# date range
+TIMESTAMP1=`date --date="$SPRINT_START" +%s`
+TIMESTAMP2=`date --date="$SPRINT_END" +%s`
+
+# filter logs out of the date range
+echo "-> Filtering date range"
+rm -f ./gource-range.log
+touch ./gource-range.log
+while read line
+do
+  TIMESTAMP=`echo $line | awk -F'|' '{ print $1 }'`
+  if [ "${TIMESTAMP:-0}" -ge $TIMESTAMP1 ] ; then
+    if [ "${TIMESTAMP:-0}" -le $TIMESTAMP2 ] ; then
+      echo $line >> ./gource-range.log
+    fi
+  fi
+done < ./gource-all.log
+
+echo "-> Generating the gource"
+# generate the video
+if [ "$GENERATE_VIDEO" == "1" ]; then
+  gource --seconds-per-day 2 \
+         --file-filter ".*node_modules.*" \
+         --file-filter ".*bower_components.*" \
+         --output-framerate 60 \
+         --user-scale 1.5 \
+         --user-image-dir ./avatars/ \
+         --path ./gource-range.log \
+         -1024x576 -o - \
+        | ffmpeg -y -r 60 -f image2pipe -vcodec ppm -i - -vcodec libvpx -b 10000K gource-$PROJECT_NAME-$SPRINT_NAME.webm
+else
+  gource --seconds-per-day 2 \
+         --file-filter ".*node_modules.*" \
+         --file-filter ".*bower_components.*" \
+         --output-framerate 60 \
+         --user-scale 1.5 \
+         --user-image-dir ./avatars/ \
+         --path ./gource-range.log
+fi
+echo "-> Gource generated"
