@@ -179,6 +179,9 @@ app.configure(function () {
 
   // used to expose static files from the public folder
   app.use('/assets', express.static(path.join(__dirname, 'public')));
+  app.use('/assets', function(req, res, next) {
+    res.send(404); // Send 404 if a request for a static file is invalid
+  });
 
   // routes handling
   app.use(app.router);
