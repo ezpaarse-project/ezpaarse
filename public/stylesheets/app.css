@@ -74,7 +74,7 @@ a:hover {
   margin-left: 140px;
 }
 
-#container .content {
+#content {
   width: 960px;
   margin: 10px auto;
   margin-top: 10px;
@@ -108,12 +108,16 @@ a:hover {
 }
 
 .dropzone {
+  position: relative;
   border: 3px dashed #CCC;
   box-shadow: none;
   border-radius: 5px;
-  margin: 20px auto;
+  margin: 0 auto;
   padding: 10px;
-  min-height: 100px;
+}
+
+.dropzone.over {
+  border-style: solid;
 }
 
 .dropzone p {
