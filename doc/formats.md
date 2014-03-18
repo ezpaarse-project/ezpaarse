@@ -17,16 +17,16 @@ Les différentes syntaxes sont calquées sur celles utilisées par les proxy, de
 
 ### Expressions régulières générées pour les champs EZproxy ###
 
-Chacun des champs ci-dessus est transformé par ezPAARSE en une expression régulière :
-- %h (host)     : '([a-zA-Z0-9\\.\\-]+(?:, ?[a-zA-Z0-9\\.\\-]+)*)'
-- %u (login)    : '([a-zA-Z0-9@\\.\\-_%,=]+)'
-- %l (identd)   : '([a-zA-Z0-9\\-]+|\\-)'
-- %b (size)     : '([0-9]+)'
-- %U (url)      : '([^ ]+)'
-- %m (method)   : '([A-Z]+)'
-- %r (url)      : '[A-Z]+ ([^ ]+) [^ ]+'
-- %t (datetime) : '\\[([^\\]]+)\\]'
-- %s (status)   : '([0-9]+)'
+Chacun des paramètres ci-dessus est transformé en une expression régulière :
+- %h (host)     : ([a-zA-Z0-9\\.\\-]+(?:, ?[a-zA-Z0-9\\.\\-]+)*)
+- %u (login)    : ([a-zA-Z0-9@\\.\\-_%,=]+)
+- %l (identd)   : ([a-zA-Z0-9\\-]+|\\-)
+- %b (size)     : ([0-9]+)
+- %U (url)      : ([^ ]+)
+- %m (method)   : ([A-Z]+)
+- %r (url)      : [A-Z]+ ([^ ]+) [^ ]+
+- %t (datetime) : \\[([^\\]]+)\\]
+- %s (status)   : ([0-9]+)
 
 ## Syntaxe Apache ##
 
