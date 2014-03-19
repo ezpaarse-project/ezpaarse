@@ -80,9 +80,16 @@
       </div>
     </div>
 
+    <div class="ui active progress" ng-class="progress < 100 ? 'blue':'green'">
+      <div class="bar" ng-style="progressStyle" ng-switch on="progress">
+        <span ng-switch-default>{{ progress }}%</span>
+        <span ng-switch-when="100">Terminé</span>
+      </div>
+    </div>
+
     <div class="ui center aligned basic segment">
       <div class="ui huge buttons">
-        <a href="/process" class="ui teal button">Traiter vos logs</a>
+        <a ng-click="start()" class="ui teal button">Traiter vos logs</a>
         <button class="ui icon teal button" title="Traiter avec cURL"><i class="copy small icon"></i></button>
       </div>
     </div>

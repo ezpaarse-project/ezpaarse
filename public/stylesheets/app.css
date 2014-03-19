@@ -211,6 +211,16 @@ a:hover {
 .progress-header > div:last-child {
   padding-right: 0;
 }
+/**
+ * Fix semantic-ui 'very long' (1s) transitions
+ */
+.ui.progress .bar {
+  -webkit-transition-duration: 500ms;
+  -moz-transition-duration: 500ms;
+  -o-transition-duration: 500ms;
+  transition-duration: 500ms;
+}
+
 
 /**
  * Fix bxSlider
