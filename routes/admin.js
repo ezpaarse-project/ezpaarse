@@ -77,12 +77,12 @@ module.exports = function (app) {
    * POST route on /users
    * To add a user
    */
-  app.post('/users/', auth.ensureAuthenticated(true),
-    auth.authorizeMembersOf('admin'), express.bodyParser(), function (req, res) {
-      var username = req.body.username;
+  app.post('/users/', express.bodyParser(), function (req, res) {
+      var userid   = req.body.userid;
       var password = req.body.password;
+      var confirm  = req.body.confirm;
 
-      if (!username || !password) {
+      if (!userid || !password || !confirm) {
         res.writeHead(400, {
           'ezPAARSE-Status-Message': 'vous devez soumettre un login et un mot de passe'
         });
@@ -90,7 +90,15 @@ module.exports = function (app) {
         return;
       }
 
-      if (userlist.get(username)) {
+      if (password != confirm) {
+        res.writeHead(400, {
+          'ezPAARSE-Status-Message': 'le mot de passe de confirmation ne correspond pas'
+        });
+        res.end();
+        return;
+      }
+
+      if (userlist.get(userid)) {
         res.writeHead(409, {
           'ezPAARSE-Status-Message': 'cet utilisateur existe'
         });
@@ -99,12 +107,12 @@ module.exports = function (app) {
       }
 
       var cryptedPassword = crypto.createHmac('sha1', 'ezgreatpwd0968')
-      .update(username + password)
+      .update(userid + password)
       .digest('hex');
 
 
       var user = userlist.add({
-        username: username,
+        username: userid,
         password: cryptedPassword,
         group: 'user'
       });
