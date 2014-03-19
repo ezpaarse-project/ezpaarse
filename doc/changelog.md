@@ -1,5 +1,10 @@
 # Versions ezPAARSE #
 
+## 1.5.0  ## 
+##### 03/02/2014 - Normalisation KBART #####
+- normalisation KBART des PKB
+- version Libre Office de la macro de rendu
+
 ## 1.4.0  ## 
 ##### 30/01/2014 - Export COUNTER #####
 - export COUNTER JR1
