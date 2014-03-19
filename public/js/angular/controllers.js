@@ -42,6 +42,12 @@ angular.module('ezPAARSE.controllers', [])
     $scope.credentials = {};
     $scope.error       = null;
 
+    $element.find('form').on('reset', function () {
+      $scope.$apply(function () {
+        $scope.error = null;
+      });
+    });
+
     $scope.login = function () {
       $scope.loading = true;
 
@@ -56,7 +62,37 @@ angular.module('ezPAARSE.controllers', [])
       })
       .error(function (data, status) {
         $scope.loading = false;
-        $scope.error = status == 401 ? 'bad credentials' : 'unknown';
+        var err = 'Une erreur est survenue';
+        if (status == 401) { err = 'Identifiant ou mot de passe incorrect'; }
+        $scope.error = err;
+      });
+    };
+  }).controller('RegisterCtrl', function ($scope, $state, $http, userService, $element) {
+    $scope.formData = {};
+    $scope.error    = null;
+
+    $element.find('form').on('reset', function () {
+      $scope.$apply(function () {
+        $scope.error = null;
+      });
+    });
+
+    $scope.register = function () {
+      $scope.loading = true;
+
+      $http.post('/users/', $scope.formData)
+      .success(function (user) {
+        userService.login(user.username, user.group);
+        $scope.user    = userService.user;
+        $scope.loading = false;
+
+        $element.modal('hide');
+        $state.transitionTo('form');
+      })
+      .error(function (data, status, headers) {
+        $scope.loading = false;
+        var err        = headers('ezPAARSE-Status-Message');
+        $scope.error   = err ? err : 'Une erreur est survenue';
       });
     };
   }).controller('FormCtrl', function ($scope, $http) {
