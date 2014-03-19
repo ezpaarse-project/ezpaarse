@@ -117,16 +117,25 @@ module.exports = function (app) {
         group: 'user'
       });
 
-      if (user) {
+      if (!user) {
+        res.send(500);
+        return;
+      }
+
+      req.logIn(user, function (err) {
+        if (err) {
+          res.send(500);
+          return;
+        }
+
         var copyUser = {};
         for (var prop in user) {
           if (prop != 'password') { copyUser[prop] = user[prop]; }
         }
+
         res.set("Content-Type", "application/json; charset=utf-8");
         res.send(201, JSON.stringify(copyUser, null, 2));
-      } else {
-        res.send(500);
-      }
+      });
     }
   );
 
