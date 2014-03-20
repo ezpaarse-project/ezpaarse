@@ -151,7 +151,7 @@
         <div class="three fields">
           <div class="field">
             <label>Champs en sortie</label>
-            <input placeholder="Ex: -host, +datetime" type="text" data-content="Champs (en-têtes) à ajouter/enlever dans le fichier de sortie." data-position="left center">
+            <input placeholder="Ex: -host, +datetime" type="text" data-content="Champs (en-têtes) à ajouter/enlever dans le fichier de sortie." data-position="left center" ng-model="settings.outputFields">
           </div>
         </div>
       <div class="ui right labeled floated mini icon button" ng-click="loadDefault()"><i class="repeat icon"></i> Paramètres par défaut</div>
