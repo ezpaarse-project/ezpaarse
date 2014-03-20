@@ -95,7 +95,7 @@ angular.module('ezPAARSE.controllers', [])
         $scope.error   = err ? err : 'Une erreur est survenue';
       });
     };
-  }).controller('FormCtrl', function ($scope, $http) {
+  }).controller('FormCtrl', function ($scope) {
 
     $scope.files         = [];
     $scope.totalSize     = 0;
