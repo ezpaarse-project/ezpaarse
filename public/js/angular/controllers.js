@@ -102,6 +102,46 @@ angular.module('ezPAARSE.controllers', [])
     $scope.progress      = 0;
     $scope.progressStyle = { width: '0%' };
 
+    $scope.proxyTypes = [
+      'EZproxy',
+      'Apache',
+      'Squid'
+    ];
+
+    $scope.encodings = [
+      'UTF-8',
+      'ISO-8859-1'
+    ];
+
+    $scope.resultFormats = [
+      { type: 'CSV', mime: 'text/csv' },
+      { type: 'TSV', mime: 'text/tab-separated-values' },
+      { type: 'JSON', mime: 'application/json' }
+    ];
+
+    $scope.tracesLevels = [
+      { level: 'error', desc: 'Erreurs uniquement' },
+      { level: 'warn', desc: 'Warnings sans conséquences' },
+      { level: 'info', desc: 'Informations générales' },
+      { level: 'verbose', desc: '-- vraiment nécessaire? --' },
+      { level: 'silly', desc: 'Détails du traitement' }
+    ];
+
+    var defaultSettings = {
+      tracesLevel: 'info',
+      resultFormat: 'text/csv',
+      outputEncoding: 'UTF-8',
+      inputEncoding: 'UTF-8'
+    };
+
+    $scope.loadDefault = function () {
+      $scope.settings = {};
+      for (var setting in defaultSettings) {
+        $scope.settings[setting] = defaultSettings[setting];
+      }
+    };
+    $scope.loadDefault();
+
 
     var updateTotalSize = function () {
       $scope.totalSize = 0;

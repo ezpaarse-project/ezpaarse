@@ -94,49 +94,70 @@
       </div>
     </div>
 
-    <div id="settings-modal" class="ui scrollable modal">
-      <div class="header">
+    <div id="settings-modal" class="ui scrollable modal" ez-attached-to="#settings-button">
+      <div class="ui left floated header">
         Paramètres
       </div>
-      <div class="ui form content">
-        <div class="ui two column grid">
-          <div class="column">
-            <div class="ui header field">En entrée</div>
-            <div class="field">
-              <label>Type de log</label>
-              <div class="ui fluid selection dropdown">
-                <input type="hidden" name="logtype">
-                <div class="text"></div>
-                <i class="dropdown icon"></i>
-                <div class="menu">
-                  <div class="item" data-value="">Auto</div>
-                  <div class="item" data-value="ezproxy">EZproxy</div>
-                  <div class="item" data-value="apache">Apache</div>
-                  <div class="item" data-value="squid">Squid</div>
-                </div>
-              </div>
-            </div>
-            <div class="field">
-              <label>Format de log</label>
-              <input placeholder="%h %t %r %s" type="text" data-html="Format des lignes de log (Ex: '%h %l %u %t %s %b'). <a href='/doc/formats.html' target='_blank'>En savoir plus</a>" data-position="right center">
-            </div>
-          </div>
-
-          <div class="column">
-            <div class="ui header field">En sortie</div>
-            <div class="field">
-              <label>Champs en sortie</label>
-              <input placeholder="Ex: -host, +datetime" type="text" data-content="Champs (en-têtes) à ajouter/enlever dans le fichier de sortie." data-position="left center">
-            </div>
-          </div>
-        </div>
-        <div class="ui slider checkbox">
-          <input type="checkbox" name="remember">
+      <div class="ui right floated basic segment">
+        <ez-checkbox class="ui slider checkbox">
+          <input type="checkbox" ng-model="rememberMe">
           <label>Mémoriser mes paramètres</label>
+        </ez-checkbox>
+      </div>
+      <div class="ui form content">
+        <div class="ui teal dividing header">En entrée</div>
+        <div class="three fields">
+          <div class="field">
+            <label>Format de date</label>
+            <input placeholder="DD/MMM/YYYY:HH:mm:ss Z" type="text" ng-model="settings.dateFormat">
+          </div>
+          <div class="field">
+            <label>Domaine relatif</label>
+            <input placeholder="www.domain.com" type="text" ng-model="settings.relativeDomain">
+          </div>
+          <div class="field">
+            <label>Encodage du texte</label>
+            <select ng-model="settings.inputEncoding" ng-options="e for e in encodings"></select>
+          </div>
         </div>
+        <div class="four fields">
+          <div class="select field">
+            <label>Type de log</label>
+            <select ng-model="settings.proxyType" ng-options="proxy for proxy in proxyTypes">
+              <option value="">Reconnaissance auto</option>
+            </select>
+          </div>
+          <div class="three wide field" ng-show="settings.proxyType">
+            <label>Format de log</label>
+            <textarea placeholder="%h %t %r %s" type="text" data-html="Format des lignes de log (Ex: '%h %l %u %t %s %b'). <a href='/doc/formats.html' target='_blank'>En savoir plus</a>" data-position="right center" ng-model="settings.logFormat"></textarea>
+          </div>
+        </div>
+
+        <div class="ui red dividing header">En sortie</div>
+        <div class="three fields">
+          <div class="field">
+            <label>Format du résultat</label>
+            <select ng-model="settings.resultFormat" ng-options="f.mime as f.type for f in resultFormats"></select>
+          </div>
+          <div class="field">
+            <label>Traces système</label>
+            <select ng-model="settings.tracesLevel" ng-options="t.level as t.desc for t in tracesLevels"></select>
+          </div>
+          <div class="field">
+            <label>Encodage du texte</label>
+            <select ng-model="settings.outputEncoding" ng-options="e for e in encodings"></select>
+          </div>
+        </div>
+        <div class="three fields">
+          <div class="field">
+            <label>Champs en sortie</label>
+            <input placeholder="Ex: -host, +datetime" type="text" data-content="Champs (en-têtes) à ajouter/enlever dans le fichier de sortie." data-position="left center">
+          </div>
+        </div>
+      <div class="ui right labeled floated mini icon button" ng-click="loadDefault()"><i class="repeat icon"></i> Paramètres par défaut</div>
       </div>
       <div class="actions">
-        <div class="ui positive right labeled icon button"><i class="checkmark icon"></i> OK​</div>
+        <div class="ui positive left labeled icon button"><i class="checkmark icon"></i> OK​</div>
       </div>
     </div>
   </div>
