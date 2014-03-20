@@ -2,6 +2,16 @@
  * Semantic-ui fixes
  */
 
+/**
+ * Fix elements shifting during animations in chrome
+ */
+.no-translate {
+  -webkit-transform: translateZ(0);
+  -moz-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+}
+
 /* long progress transitions (1s) */
 .ui.progress .bar {
   -webkit-transition-duration: 500ms;
