@@ -101,6 +101,7 @@ angular.module('ezPAARSE.controllers', [])
     $scope.totalSize     = 0;
     $scope.progress      = 0;
     $scope.progressStyle = { width: '0%' };
+    $scope.showHelp      = false;
 
     $scope.proxyTypes = [
       'EZproxy',
@@ -142,6 +143,9 @@ angular.module('ezPAARSE.controllers', [])
     };
     $scope.loadDefault();
 
+    $scope.toggleHelp = function () {
+      $scope.showHelp = !$scope.showHelp;
+    };
 
     var updateTotalSize = function () {
       $scope.totalSize = 0;
