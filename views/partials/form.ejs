@@ -166,16 +166,45 @@
         <div class="three fields">
           <div class="field">
             <label>Champs en sortie</label>
-            <input ng-hide="showHelp" placeholder="Ex: -host, +datetime" type="text" ng-model="settings.outputFields">
+            <div class="two fields" ng-hide="showHelp">
+              <div class="field">
+                <form ng-submit="addField('plus')">
+                  <div class="ui action input">
+                    <input type="text" placeholder="Ajouter..." ng-model="plusField">
+                    <div ng-click="addField('plus')" class="ui orange icon button">
+                      <i class="plus icon"></i>
+                    </div>
+                  </div>
+                </form>
+              </div>
+
+              <div class="field">
+                <form ng-submit="addField('minus')">
+                  <div class="ui action input">
+                    <input type="text" placeholder="Enlever..." ng-model="minusField">
+                    <div ng-click="addField('minus')" class="ui purple icon button"><i class="minus icon"></i></div>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+            <div class="inline-labels field" ng-hide="showHelp">
+              <div class="ui normalized label" ng-class="{plus: 'orange', minus: 'purple'}[field.type]" ng-repeat="field in settings.outputFields | orderBy:'type'">
+                {{ field.name }}
+                <i class="delete icon" ng-click="removeField($index, $event)"></i>
+              </div>
+            </div>
+
             <div ng-show="showHelp" class="ui inverted red bottom attached segment">Champs (en-têtes) à ajouter/enlever dans le fichier de sortie.</div>
           </div>
         </div>
 
-      <div class="ui right aligned basic segment">
-        <div class="ui right labeled mini icon button" ng-click="loadDefault()"><i class="repeat icon"></i> Paramètres par défaut</div>
-        <div class="ui right mini icon button" ng-class="{true: 'purple', false: 'black'}[showHelp]" ng-click="toggleHelp()">
-          <i class="help icon"></i>
-          {{ showHelp ? "Masquer l'aide" : "Afficher l'aide" }}
+        <div class="ui right aligned basic segment">
+          <div class="ui right labeled mini icon button" ng-click="loadDefault()"><i class="repeat icon"></i> Paramètres par défaut</div>
+          <div class="ui right mini icon button" ng-class="{true: 'purple', false: 'black'}[showHelp]" ng-click="toggleHelp()">
+            <i class="help icon"></i>
+            {{ showHelp ? "Masquer l'aide" : "Afficher l'aide" }}
+          </div>
         </div>
       </div>
       <div class="actions">

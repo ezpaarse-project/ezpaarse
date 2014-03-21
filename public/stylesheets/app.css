@@ -158,6 +158,15 @@ a:hover {
   padding-bottom: 10px;
 }
 
+.ui.label.normalized {
+  text-transform: none;
+}
+
+.inline-labels .ui.label {
+  word-break: break-all;
+  margin: 2px;
+}
+
 /**
  * Feedback sidebar
  */

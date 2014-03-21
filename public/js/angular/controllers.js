@@ -132,19 +132,31 @@ angular.module('ezPAARSE.controllers', [])
       tracesLevel: 'info',
       resultFormat: 'text/csv',
       outputEncoding: 'UTF-8',
-      inputEncoding: 'UTF-8'
+      inputEncoding: 'UTF-8',
+      outputFields: [],
     };
 
     $scope.loadDefault = function () {
-      $scope.settings = {};
-      for (var setting in defaultSettings) {
-        $scope.settings[setting] = defaultSettings[setting];
-      }
+      $scope.settings = angular.copy(defaultSettings);
     };
     $scope.loadDefault();
 
     $scope.toggleHelp = function () {
       $scope.showHelp = !$scope.showHelp;
+    };
+
+    $scope.addField = function (type) {
+      var input = (type == 'plus') ? 'plusField' : 'minusField';
+
+      if ($scope[input]) {
+        $scope.settings.outputFields.push({ name: $scope[input], type: type });
+        $scope[input] = '';
+      }
+    };
+
+    $scope.removeField = function (index, evt) {
+      evt.stopPropagation();
+      $scope.settings.outputFields.splice(index, 1);
     };
 
     var updateTotalSize = function () {
