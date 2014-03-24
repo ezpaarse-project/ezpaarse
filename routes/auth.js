@@ -20,6 +20,11 @@ module.exports = function (app) {
    * Login
    */
   app.post('/login', express.bodyParser(), passport.authenticate('local'), function (req, res) {
+    if (req.body.remember) {
+      req.session.cookie.maxAge = 1000 * 60 * 3;
+    } else {
+      req.session.cookie.expires = false;
+    }
     res.json(200, req.user);
   });
 
