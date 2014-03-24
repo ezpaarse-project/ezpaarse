@@ -66,7 +66,7 @@ angular.module('ezPAARSE.form-controllers', ['ngCookies'])
       if ($scope.settings.remember) {
         $cookieStore.put('settings', $scope.settings);
       } else {
-        $cookieStore.put('settings', { remember: $scope.settings.remember });
+        $cookieStore.put('settings', { remember: false });
       }
     }, true);
 
