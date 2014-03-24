@@ -212,20 +212,8 @@ require('./routes/ws')(app);
 require('./routes/info')(app);
 require('./routes/logs')(app);
 require('./routes/admin')(app);
+require('./routes/auth')(app);
 require('./routes/feedback')(app);
-
-app.get('/session', auth.ensureAuthenticated(false), function (req, res) {
-  res.json(200, req.user);
-});
-
-app.post('/login', express.bodyParser(), passport.authenticate('local'), function (req, res) {
-  res.json(200, req.user);
-});
-
-app.get('/logout', function (req, res) {
-  req.logout();
-  res.send(204);
-});
 
 // For angular HTML5 mode
 app.get('*', function (req, res) {
