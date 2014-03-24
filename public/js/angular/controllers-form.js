@@ -60,19 +60,17 @@ angular.module('ezPAARSE.form-controllers', ['ngCookies'])
       }
     };
 
-    $scope.saveCookie = function () {
-      if ($scope.settings.remember) {
-        $scope.$apply(function () {
-          $cookieStore.put('settings', $scope.settings);
-        });
-      } else {
-        $scope.$apply(function () {
-          $cookieStore.put('settings', { remember: $scope.settings.remember });
-        });
-      }
-    };
-
     $scope.loadCookie();
+
+    $scope.$watch('settings', function saveCookie() {
+      if ($scope.settings.remember) {
+        console.log('save');
+        $cookieStore.put('settings', $scope.settings);
+      } else {
+        console.log('reset');
+        $cookieStore.put('settings', { remember: $scope.settings.remember });
+      }
+    }, true);
 
     $scope.toggleHelp = function () {
       $scope.showHelp = !$scope.showHelp;
