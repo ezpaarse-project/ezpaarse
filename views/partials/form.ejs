@@ -6,7 +6,7 @@
 
     <div class="bottom-padded-group">
       <div><button id="settings-button" class="ui left labeled icon mini button block"><i class="settings icon"></i> Paramètres</button></div>
-      <div><select id="predefined-settings" class="chosen-select-deselect" data-placeholder="Réglages prédéfinis..." data-no_results_text="Aucun résultat pour" ez-chosen>
+      <div><select id="predefined-settings" class="chosen-select-deselect" data-placeholder="Choix d'un paramétrage prédéfini..." data-no_results_text="Aucun résultat pour" ez-chosen>
         <option value="" selected=""></option>
         <option value="INISTCNRS">INIST-CNRS</option>
         <option value="ULorraine">Université de Lorraine</option>
@@ -94,13 +94,14 @@
       </div>
     </div>
 
-    <div id="settings-modal" class="ui scrollable modal" ez-attached-to="#settings-button">
+    <div id="settings-modal" ez-hide="saveCookie" class="ui scrollable modal" ez-attached-to="#settings-button">
+      <i class="inverted close icon"></i>
       <div class="ui left floated header">
         Paramètres
       </div>
       <div class="ui right floated basic segment">
         <div class="ui slider checkbox">
-          <input id="rememberToggle" type="checkbox" ng-model="rememberMe">
+          <input id="rememberToggle" type="checkbox" ng-model="settings.remember">
           <label for="rememberToggle">Mémoriser mes paramètres</label>
         </div>
       </div>

@@ -34,6 +34,23 @@ angular.module('ezPAARSE.directives', [])
       }
     };
   })
+  .directive('ezHide', function () {
+    return {
+      restrict: 'A',
+      link: function(scope, element, attributes) {
+        var elem = $(element);
+        var fn = attributes['ezHide'];
+
+        var setting = {
+          onHide: function () {
+            if (typeof scope[fn] == 'function') { scope[fn](); }
+          }
+        };
+        if (elem.hasClass('modal')) { elem.modal('setting', setting); }
+        if (elem.hasClass('sidebar')) { elem.sidebar('setting', setting); }
+      }
+    };
+  })
   .directive('ezTriggerClick', function () {
     return {
       restrict: 'A',

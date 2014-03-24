@@ -3,7 +3,7 @@
 /* Controllers of the form page */
 
 angular.module('ezPAARSE.form-controllers', ['ngCookies'])
-  .controller('FormCtrl', function ($scope, $cookies) {
+  .controller('FormCtrl', function ($scope, $cookieStore) {
 
     $scope.files         = [];
     $scope.totalSize     = 0;
@@ -37,17 +37,42 @@ angular.module('ezPAARSE.form-controllers', ['ngCookies'])
     ];
 
     var defaultSettings = {
+      remember: true,
       tracesLevel: 'info',
       resultFormat: 'text/csv',
       outputEncoding: 'UTF-8',
       inputEncoding: 'UTF-8',
-      outputFields: [],
+      outputFields: []
     };
 
     $scope.loadDefault = function () {
       $scope.settings = angular.copy(defaultSettings);
     };
-    $scope.loadDefault();
+
+    $scope.loadCookie = function () {
+      $scope.loadDefault();
+
+      var settings = $cookieStore.get('settings');
+      if (!settings) { return; }
+
+      for (var opt in settings) {
+        $scope.settings[opt] = settings[opt];
+      }
+    };
+
+    $scope.saveCookie = function () {
+      if ($scope.settings.remember) {
+        $scope.$apply(function () {
+          $cookieStore.put('settings', $scope.settings);
+        });
+      } else {
+        $scope.$apply(function () {
+          $cookieStore.put('settings', { remember: $scope.settings.remember });
+        });
+      }
+    };
+
+    $scope.loadCookie();
 
     $scope.toggleHelp = function () {
       $scope.showHelp = !$scope.showHelp;
