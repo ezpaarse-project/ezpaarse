@@ -26,10 +26,10 @@
         </div>
       </div>
       <div class="field">
-        <ez-checkbox class="ui checkbox">
-          <input type="checkbox" name="remember">
-          <label>Se souvenir de moi</label>
-        </ez-checkbox>
+        <div class="ui checkbox">
+          <input type="checkbox" id="rememberMe" ng-model="credentials.remember">
+          <label for="rememberMe">Se souvenir de moi</label>
+        </div>
       </div>
 
       <div class="ui two fluid buttons" mp-semantic>
