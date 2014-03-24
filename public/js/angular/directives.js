@@ -107,7 +107,7 @@ angular.module('ezPAARSE.directives', [])
     return {
       restrict: 'A',
       link: function (scope, element, attributes) {
-        $(element).chosen();
+        $(element).chosen({ allow_single_deselect: true });
       }
     };
   });
