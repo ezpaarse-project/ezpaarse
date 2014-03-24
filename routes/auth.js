@@ -21,7 +21,7 @@ module.exports = function (app) {
    */
   app.post('/login', express.bodyParser(), passport.authenticate('local'), function (req, res) {
     if (req.body.remember) {
-      req.session.cookie.maxAge = 1000 * 60 * 3;
+      req.session.cookie.maxAge = 604800000; //7days
     } else {
       req.session.cookie.expires = false;
     }
