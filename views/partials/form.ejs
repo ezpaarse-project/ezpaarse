@@ -111,19 +111,19 @@
 
           <div class="field">
             <label>Format de date</label>
-            <input ng-hide="showHelp" placeholder="DD/MMM/YYYY:HH:mm:ss Z" type="text" ng-model="settings.dateFormat">
+            <input ng-hide="showHelp" placeholder="DD/MMM/YYYY:HH:mm:ss Z" type="text" ng-model="settings.headers['Date-Format']">
             <div ng-show="showHelp" class="ui inverted teal bottom attached segment">Format de date des lignes de log.</div>
           </div>
 
           <div class="field">
             <label>Domaine relatif</label>
-            <input ng-hide="showHelp" placeholder="www.domain.com" type="text" ng-model="settings.relativeDomain">
+            <input ng-hide="showHelp" placeholder="www.domain.com" type="text" ng-model="settings.headers['Relative-Domain']">
             <div ng-show="showHelp" class="ui inverted teal bottom attached segment">Domaine à utiliser pour les URLs relatives.</div>
           </div>
 
           <div class="field">
             <label>Encodage du texte</label>
-            <select ng-hide="showHelp" ng-model="settings.inputEncoding" ng-options="e for e in encodings"></select>
+            <select ng-hide="showHelp" ng-model="settings.headers['Request-Charset']" ng-options="e for e in encodings"></select>
             <div ng-show="showHelp" class="ui inverted teal bottom attached segment">Jeu de caractères (charset) utilisé dans les fichiers à traiter.</div>
           </div>
 
@@ -148,19 +148,19 @@
         <div class="three fields">
           <div class="field">
             <label>Format du résultat</label>
-            <select ng-hide="showHelp" ng-model="settings.resultFormat" ng-options="f.mime as f.type for f in resultFormats"></select>
+            <select ng-hide="showHelp" ng-model="settings.headers['Accept']" ng-options="f.mime as f.type for f in resultFormats"></select>
             <div ng-show="showHelp" class="ui inverted red bottom attached segment">Format des données en sortie.</div>
           </div>
 
           <div class="field">
             <label>Traces système</label>
-            <select ng-hide="showHelp" ng-model="settings.tracesLevel" ng-options="t.level as t.desc for t in tracesLevels"></select>
+            <select ng-hide="showHelp" ng-model="settings.headers['Traces-Level']" ng-options="t.level as t.desc for t in tracesLevels"></select>
             <div ng-show="showHelp" class="ui inverted red bottom attached segment">Niveau de verbosité des traces laissées durant le traitement.</div>
           </div>
 
           <div class="field">
             <label>Encodage du texte</label>
-            <select ng-hide="showHelp" ng-model="settings.outputEncoding" ng-options="e for e in encodings"></select>
+            <select ng-hide="showHelp" ng-model="settings.headers['Response-Charset']" ng-options="e for e in encodings"></select>
             <div ng-show="showHelp" class="ui inverted red bottom attached segment">Jeu de caractères (charset) utilisé dans les données en sortie.</div>
           </div>
         </div>

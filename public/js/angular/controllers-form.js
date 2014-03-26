@@ -38,11 +38,13 @@ angular.module('ezPAARSE.form-controllers', ['ngCookies'])
 
     var defaultSettings = {
       remember: true,
-      tracesLevel: 'info',
-      resultFormat: 'text/csv',
-      outputEncoding: 'UTF-8',
-      inputEncoding: 'UTF-8',
-      outputFields: []
+      outputFields: [],
+      headers: {
+        'Accept':           'text/csv',
+        'Traces-Level':     'info',
+        'Response-Charset': 'UTF-8',
+        'Request-Charset':  'UTF-8'
+      }
     };
 
     $scope.loadDefault = function () {
@@ -121,13 +123,29 @@ angular.module('ezPAARSE.form-controllers', ['ngCookies'])
     $scope.start = function (ajax) {
       var jobid    = uuid.v1();
       var formData = new FormData();
+      var settings = $scope.settings;
+      var headers  = angular.copy(settings.headers);
+
+      if (settings.proxyType && settings.logFormat) {
+        headers['Log-Format-' + settings.proxyType] = settings.logFormat;
+      }
+
+      // Create Output-Fields
+      if (settings.outputFields && settings.outputFields.length) {
+        var outputFields = '';
+        settings.outputFields.forEach(function (field) {
+          outputFields += field.type == 'plus' ? '+' : '-';
+          outputFields += field.name + ',';
+        });
+        headers['Output-Fields'] = outputFields.substr(0, outputFields.length - 1);
+      }
 
       $scope.files.forEach(function (file) {
         formData.append("files[]", file);
       });
 
       $.ajax({
-        headers:     {},
+        headers:     headers,
         type:        'PUT',
         url:         '/' + jobid,
         // dataType:    'html',
