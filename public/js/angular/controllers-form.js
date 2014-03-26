@@ -4,6 +4,9 @@
 
 angular.module('ezPAARSE.form-controllers', ['ngCookies'])
   .controller('FormCtrl', function ($scope, $location, $cookieStore, requestService) {
+    if (requestService.processing) {
+      $location.path('/process');
+    }
 
     $scope.customHeaders = [];
     $scope.files         = [];
