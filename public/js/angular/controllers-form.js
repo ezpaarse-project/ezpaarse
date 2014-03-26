@@ -5,6 +5,7 @@
 angular.module('ezPAARSE.form-controllers', ['ngCookies'])
   .controller('FormCtrl', function ($scope, $cookieStore) {
 
+    $scope.customHeaders = [];
     $scope.files         = [];
     $scope.totalSize     = 0;
     $scope.progress      = 0;
@@ -85,6 +86,18 @@ angular.module('ezPAARSE.form-controllers', ['ngCookies'])
       }
     };
 
+    $scope.addCustomHeader = function () {
+      if (!$scope.settings.customHeaders) {
+        $scope.settings.customHeaders = [];
+      }
+      $scope.settings.customHeaders.push({ name: '', value: '' });
+    };
+
+    $scope.removeCustomHeader = function (index, evt) {
+      evt.stopPropagation();
+      $scope.settings.customHeaders.splice(index, 1);
+    };
+
     $scope.removeField = function (index, evt) {
       evt.stopPropagation();
       $scope.settings.outputFields.splice(index, 1);
@@ -95,7 +108,7 @@ angular.module('ezPAARSE.form-controllers', ['ngCookies'])
       for (var i = 0, l = $scope.files.length; i < l; i++) {
         $scope.totalSize += $scope.files[i].size;
       }
-    }
+    };
 
     $scope.addFiles = function (files) {
       if (!files) { return; }
@@ -139,6 +152,10 @@ angular.module('ezPAARSE.form-controllers', ['ngCookies'])
         });
         headers['Output-Fields'] = outputFields.substr(0, outputFields.length - 1);
       }
+
+      settings.customHeaders.forEach(function (header) {
+        if (header.name && header.value) { headers[header.name] = header.value; }
+      });
 
       $scope.files.forEach(function (file) {
         formData.append("files[]", file);

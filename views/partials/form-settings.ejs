@@ -104,6 +104,25 @@
           </div>
         </div>
 
+        <div class="ui purple dividing header">Headers (avancé)</div>
+        <div class="ui small form">
+          <div class="field">
+            <div ng-click="addCustomHeader()" class="ui small purple icon button"><i class="plus icon"></i> Nouveau</div>
+          </div>
+
+          <div class="five fields" ng-repeat="header in settings.customHeaders">
+            <div class="field">
+              <input type="text" placeholder="Name" ng-model="settings.customHeaders[$index].name">
+            </div>
+            <div class="three wide field">
+              <input type="text" placeholder="Value" ng-model="settings.customHeaders[$index].value">
+            </div>
+            <div class="field">
+              <div class="ui small icon button" ng-click="removeCustomHeader($index, $event)"><i class="red trash icon"></i></div>
+            </div>
+          </div>
+        </div>
+
         <div class="ui right aligned basic segment">
           <div class="ui right labeled mini icon button" ng-click="loadDefault()"><i class="repeat icon"></i> Paramètres par défaut</div>
           <div class="ui right mini icon button" ng-class="{true: 'purple', false: 'black'}[showHelp]" ng-click="toggleHelp()">
