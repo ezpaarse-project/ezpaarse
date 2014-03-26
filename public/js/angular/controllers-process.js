@@ -8,7 +8,6 @@ angular.module('ezPAARSE.form-controllers')
 
     $scope.$on('process:progress', function (event, percentComplete) {
       $scope.$apply(function () {
-        console.log('pouet: ' + percentComplete);
         $scope.progress = percentComplete.toFixed(1);
       });
     });
