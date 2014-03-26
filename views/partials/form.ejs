@@ -80,13 +80,6 @@
       </div>
     </div>
 
-    <div class="ui active progress" ng-class="progress < 100 ? 'blue':'green'">
-      <div class="bar" ng-style="progressStyle" ng-switch on="progress">
-        <span ng-switch-default>{{ progress }}%</span>
-        <span ng-switch-when="100">Terminé</span>
-      </div>
-    </div>
-
     <div class="ui center aligned basic segment">
       <div class="ui huge buttons">
         <button ng-click="start()" class="ui teal button">Traiter vos logs</button>

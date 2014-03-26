@@ -1,11 +1,15 @@
+    <div ng-controller="ProcessCtrl">
       <h1 class="ui header">
         Traitement en cours
         <div class="sub header">Vos logs sont en cours d'analyse par ezPAARSE. Vous pouvez suivre en temps réel l'état d'avancement du traitement et l'évolution des différents types de rejets.</div>
       </h1>
       <div class="progress-header">
         <div>
-          <div class="ui blue active progress">
-            <div class="bar" style="width: 40%">40%</div>
+          <div class="ui progress" ng-class="{true: 'blue active', false: 'green'}[progress < 100]">
+            <div class="bar" ng-style="{width: progress + '%'}" ng-switch on="progress">
+              <span ng-switch-default>{{ progress }}%</span>
+              <span ng-switch-when="100.0">Terminé</span>
+            </div>
           </div>
         </div>
         <div>
@@ -110,3 +114,4 @@
       <div class="ui bottom attached tab segment" data-tab="report">
         <!-- PUT CONTENT HERE -->
       </div>
+    </div>

@@ -3,13 +3,11 @@
 /* Controllers of the form page */
 
 angular.module('ezPAARSE.form-controllers', ['ngCookies'])
-  .controller('FormCtrl', function ($scope, $cookieStore) {
+  .controller('FormCtrl', function ($scope, $location, $cookieStore, requestService) {
 
     $scope.customHeaders = [];
     $scope.files         = [];
     $scope.totalSize     = 0;
-    $scope.progress      = 0;
-    $scope.progressStyle = { width: '0%' };
     $scope.showHelp      = false;
 
     $scope.proxyTypes = [
@@ -134,7 +132,6 @@ angular.module('ezPAARSE.form-controllers', ['ngCookies'])
     };
 
     $scope.start = function (ajax) {
-      var jobid    = uuid.v1();
       var formData = new FormData();
       var settings = $scope.settings;
       var headers  = angular.copy(settings.headers);
@@ -161,46 +158,8 @@ angular.module('ezPAARSE.form-controllers', ['ngCookies'])
         formData.append("files[]", file);
       });
 
-      $.ajax({
-        headers:     headers,
-        type:        'PUT',
-        url:         '/' + jobid,
-        // dataType:    'html',
-        data:        formData,
-        cache:       false,
-        contentType: false,
-        processData: false,
-        xhr: function() {
-          var myXhr = $.ajaxSettings.xhr();
-          if (myXhr.upload) {
-            myXhr.upload.addEventListener('progress', function (e) {
-              if (e.lengthComputable) {
-                var percentComplete = ( e.loaded * 100 ) / e.total;
-                $scope.$apply(function () {
-                  $scope.progressStyle.width = percentComplete + '%';
-                  $scope.progress = percentComplete.toFixed(1);
-                });
-              }
-            });
-            myXhr.upload.addEventListener('load', function (e) {
-              $scope.$apply(function () {
-                $scope.progressStyle.width = '100%';
-                $scope.progress = 100;
-              });
-            });
-          }
-          return myXhr;
-        },
-        success: function(data) {
-          console.log('Success');
-        },
-        error: function(jqXHR, textStatus, errorThrown) {
-          if (textStatus != 'abort') {
-            var status  = jqXHR.getResponseHeader("ezPAARSE-Status");
-            var message = jqXHR.getResponseHeader("ezPAARSE-Status-Message");
-            console.log('Error %s : %s', status, message);
-          }
-        }
-      });
+      requestService.send(formData, headers);
+
+      $location.path('/process');
     };
   });
