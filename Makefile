@@ -49,7 +49,7 @@ docopen: doc $(DOC_HMTL)
 # # # # # # # # #
 
 EZPATH = $(shell pwd)
-JSFILES=$(wildcard $(EZPATH)/*.js) $(wildcard $(EZPATH)/lib/*.js) $(wildcard $(EZPATH)/lib/*/*.js) $(wildcard $(EZPATH)/test/*.js)  $(wildcard $(EZPATH)/routes/*.js) $(wildcard $(EZPATH)/platforms-parsers/*/*.js)
+JSFILES=$(wildcard $(EZPATH)/*.js) $(wildcard $(EZPATH)/lib/*.js) $(wildcard $(EZPATH)/lib/*/*.js) $(wildcard $(EZPATH)/test/*.js)  $(wildcard $(EZPATH)/routes/*.js) $(wildcard $(EZPATH)/platforms-parsers/*/*.js $(EZPATH)/platforms-scrapers/*/*.js)
 PKBFILES=$(shell ls $(EZPATH)/platforms-kb/*/*.txt | grep -v miss)
 
 
