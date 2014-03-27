@@ -5,23 +5,17 @@
 angular.module('ezPAARSE.services', [])
   .service('userService', function () {
     function userService() {
-      this.user = null;
-      this.loginListeners  = [];
-      this.logoutListeners = [];
+      this.user = { logged: false };
     };
 
     userService.prototype.login = function (name, group) {
-      var self = this;
-      this.user = {
-        name: name,
-        group: group
-      };
-      this.loginListeners.forEach(function (fn) { fn(self.user); });
+      this.user.name   = name;
+      this.user.group  = group;
+      this.user.logged = true;
     };
 
     userService.prototype.logout = function () {
-      this.user = null;
-      this.logoutListeners.forEach(function (fn) { fn(); });
+      this.user.logged = false;
     };
 
     userService.prototype.hasAccess = function () {
@@ -33,14 +27,7 @@ angular.module('ezPAARSE.services', [])
     };
 
     userService.prototype.isAuthenticated = function () {
-      return this.user ? true : false;
-    };
-
-    userService.prototype.onLogin = function (fn) {
-      this.loginListeners.push(fn);
-    };
-    userService.prototype.onLogout = function (fn) {
-      this.logoutListeners.push(fn);
+      return this.user.logged;
     };
 
     return new userService();
