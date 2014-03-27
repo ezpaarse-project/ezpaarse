@@ -153,9 +153,11 @@ angular.module('ezPAARSE.form-controllers', ['ngCookies'])
         headers['Output-Fields'] = outputFields.substr(0, outputFields.length - 1);
       }
 
-      settings.customHeaders.forEach(function (header) {
-        if (header.name && header.value) { headers[header.name] = header.value; }
-      });
+      if (settings.customHeaders && settings.customHeaders.length) {
+        settings.customHeaders.forEach(function (header) {
+          if (header.name && header.value) { headers[header.name] = header.value; }
+        });
+      }
 
       $scope.files.forEach(function (file) {
         formData.append("files[]", file);
