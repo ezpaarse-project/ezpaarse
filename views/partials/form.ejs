@@ -1,0 +1,93 @@
+  <div ng-controller="FormCtrl">
+    <h1 class="ui header">
+      Sélection des logs
+      <div class="sub header">Indiquez ici les logs que vous désirez faire analyser par ezPAARSE. Vos logs nécessitent peut-être un paramétrage particulier pour qu'ezPAARSE les comprenne. Si nécessaire, <a class="feedback-toggle">contactez l'équipe ezPAARSE</a> pour une aide au paramétrage.</div>
+    </h1>
+
+    <div class="bottom-padded-group">
+      <div><button id="settings-button" class="ui left labeled icon mini button block"><i class="settings icon"></i> Paramètres</button></div>
+      <div><select id="predefined-settings" class="chosen-select-deselect" data-placeholder="Choix d'un paramétrage prédéfini..." data-no_results_text="Aucun résultat pour" ez-chosen>
+        <option value="" selected=""></option>
+        <option value="INISTCNRS">INIST-CNRS</option>
+        <option value="ULorraine">Université de Lorraine</option>
+        <option value="UParisDApache">Université Paris Descartes Apache</option>
+        <option value="UParisDBibliopam">Université Paris Descartes Bibliopam</option>
+        <option value="EPFL">École polytechnique fédérale de Lausanne</option>
+        <option value="URennes1">Université de Rennes 1</option>
+        <option value="URennes2">Université de Rennes 2</option>
+        <option value="ULyon1">Université Lyon 1</option>
+        <option value="ULyon">Université Lyon 3</option>
+        <option value="UPMCezproxy">UPMC ezproxy</option>
+        <option value="UPMCsquid">UPMC squid</option>
+        <option value="UStrasbourg">Université de Strasbourg</option>
+        <option value="UToulouse">Université de Toulouse</option>
+        <option value="ULimoges">Université de Limoges</option>
+        <option value="UMontpellier3">Université de Montpellier 3</option>
+        <option value="INRIA">INRIA</option>
+        <option value="UParis1">Université Paris 1</option>
+        <option value="UParis11">Université Paris 11</option>
+        <option value="UPEC">Université Paris-Est Créteil (UPEC)</option>
+        <option value="UVHC">Université de Valenciennes et du Hainaut-Cambrésis</option>
+        <option value="ExempleOutput">Exemple selection sortie</option>
+        <option value="Lara">Lara</option>
+      </select></div>
+    </div>
+
+    <div class="ui top attached tabular menu">
+      <a class="item" ng-click="selectInputType('files')" ng-class="{'files': 'active'}[inputType]">Fichiers de logs</a>
+      <a class="item" ng-click="selectInputType('text')" ng-class="{'text': 'active'}[inputType]">Copier/coller de logs</a>
+    </div>
+    <div class="ui bottom attached active tab segment" ng-switch on="inputType">
+      <div ng-switch-when="files">
+        <input type="file" style="display: none;" id="input-file" onchange="angular.element(this).scope().selectFiles(this)" multiple>
+
+        <div class="ui dimmable dropzone segment" ez-file-drop="addFiles">
+          <div class="ui dimmer">
+            <div class="content"><div class="center">
+              <div class="ui tiny icon header">
+                <i class="download icon"></i>
+                Déposez les fichiers ici
+              </div>
+            </div></div>
+          </div>
+
+          <p><button class="ui small basic button" ez-trigger-click="#input-file">
+            <i class="plus icon"></i>
+            Cliquez pour ajouter
+          </button></p>
+          <!-- <p class="text">Ou déposez vos fichiers de logs ici</p> -->
+          <table ng-if="files.length" class="ui small compact basic table">
+            <thead><tr>
+              <th class="twelve wide">Nom de fichier</th>
+              <th class="four wide">Taille</th>
+            </tr></thead>
+            <tbody>
+              <tr ng-repeat="file in files">
+                <td><i class="tiny delete link icon" ng-click="removeFile($index)"></i> {{ file.name }}</td>
+                <td>{{ file.size | bytesToSize }}</td>
+              </tr>
+            </tbody>
+            <tfoot><tr>
+              <th>{{ files.length }} fichiers sélectionnés</th>
+              <th>{{ totalSize | bytesToSize }} au total</th>
+            </tr></tfoot>
+          </table>
+        </div>
+      </div>
+      <div ng-switch-when="text">
+        <div class="ui form field">
+          <label for="log-lines">Copiez/coller vos lignes de log ici</label>
+          <textarea ng-model="$parent.directInput"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <div class="ui center aligned basic segment">
+      <div class="ui huge buttons">
+        <button ng-click="start()" class="ui teal button">Traiter vos logs</button>
+        <button class="ui icon teal button" title="Traiter avec cURL"><i class="copy small icon"></i></button>
+      </div>
+    </div>
+
+    <% include form-settings %>
+  </div>

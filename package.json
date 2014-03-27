@@ -44,7 +44,9 @@
     "mime": "~1.2.11",
     "xml2js": "~0.4.1",
     "stackware": "0.0.2",
-    "graceful-fs": "~2.0.1"
+    "graceful-fs": "~2.0.1",
+    "bower": "~1.2.8",
+    "passport-local": "~0.1.6"
   },
   "devDependencies": {
     "should": "*",

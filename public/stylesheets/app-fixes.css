@@ -1,0 +1,76 @@
+/**
+ * Semantic-ui fixes
+ */
+
+/**
+ * Fix elements shifting during animations in chrome
+ */
+.no-translate {
+  -webkit-transform: translateZ(0);
+  -moz-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+}
+
+/* long progress transitions (1s) */
+.ui.progress .bar {
+  -webkit-transition-duration: 500ms;
+  -moz-transition-duration: 500ms;
+  -o-transition-duration: 500ms;
+  transition-duration: 500ms;
+}
+
+/* select styling */
+select {
+  margin: 0em;
+  padding: 0.85em 1.2em;
+  font-size: 0.875em;
+  background-color: #FFF;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  outline: none;
+  color: rgba(0, 0, 0, 0.7);
+  border-radius: 0.3125em;
+  -webkit-transition: background-color 0.3s ease-out, -webkit-box-shadow 0.2s ease, border-color 0.2s ease;
+  transition: background-color 0.3s ease-out, box-shadow 0.2s ease, border-color 0.2s ease;
+  -webkit-box-shadow: 0em 0em 0em 0em rgba(0, 0, 0, 0.3) inset;
+  box-shadow: 0em 0em 0em 0em rgba(0, 0, 0, 0.3) inset;
+  -webkit-tap-highlight-color: rgba(255, 255, 255, 0);
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
+}
+select:focus {
+  color: rgba(0, 0, 0, 0.85);
+  border-color: rgba(0, 0, 0, 0.2);
+}
+.ui.form select {
+  width: 100%;
+}
+
+/* fields taking multiple columns */
+.ui.form .three.fields > .two.wide.field  { width: 66.66%; }
+.ui.form .four.fields > .two.wide.field   { width: 50%; }
+.ui.form .four.fields > .three.wide.field { width: 75%; }
+.ui.form .five.fields > .two.wide.field   { width: 40%; }
+.ui.form .five.fields > .three.wide.field { width: 60%; }
+.ui.form .five.fields > .four.wide.field  { width: 80%; }
+
+/**
+ * Fix bxSlider
+ */
+.bx-wrapper {
+  margin-top: 58px;
+}
+.bx-wrapper .bx-viewport ul {
+  margin: 0;
+}
+.bx-wrapper .bx-controls-direction a {
+  z-index: 999;
+}
+.bx-caption {
+  left: -40px !important;
+}
+.bx-wrapper img {
+  margin-left: -40px;
+}

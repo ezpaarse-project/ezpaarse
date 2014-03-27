@@ -1,0 +1,49 @@
+    <div class="wrapper display-table">
+      <div id="header" class="ui inverted teal basic segment display-row">
+        <div class="inner">
+          <div class="ui inverted teal menu">
+              <div class="ui right item simple dropdown">
+              <i class="user icon"></i> {{ user.name }} <i class="dropdown icon"></i>
+              <div class="menu">
+                <div class="item"><i class="open folder icon"></i> Mes jobs</div>
+                <div class="item"><i class="settings icon"></i> Mon profil</div>
+                <div class="item" ng-click="logout()"><i class="off icon"></i> Déconnexion</div>
+              </div>
+            </div>
+            <a href="/form" class="active item">Traitez vos logs</a>
+            <a class="item">Complétez les PKBs</a>
+            <div class="ui simple dropdown item">
+              Documentation <i class="dropdown icon"></i>
+              <div class="menu">
+                <div class="item">ezPAARSE</div>
+                <div class="item">AnalogIST</div>
+              </div>
+            </div>
+            <a class="item" ng-if="hasAccess('admin')">Administration</a>
+          </div>
+        </div>
+      </div>
+
+      <div id="container" class="display-row">
+        <div id="content" ui-view></div>
+      </div>
+
+      <div id="footer" class="ui inverted basic segment display-row">
+        <div class="ui two column relaxed grid">
+          <div class="ui column left aligned">
+            <div>
+              <p class="ui medium header">ezPAARSE v1.4.3</p>
+              <p>Propulsé par Node.js et Express 3</p>
+            </div>
+          </div>
+          <div class="ui column right aligned">
+            <a href="#" title="Ecrivez-nous à ezpaarse@couperin.org" class="ui mini icon teal button"><i class="tiny mail icon"></i></a>
+            <a href="#" title="Suivez-nous sur Facebook !" class="ui mini icon facebook button"><i class="tiny facebook icon"></i></a>
+            <a href="#" title="Suivez-nous sur Twitter !" class="ui mini icon twitter button"><i class="tiny twitter icon"></i></a>
+            <a href="#" title="Suivez-nous sur Google+ !" class="ui mini icon google plus button"><i class="tiny google plus icon"></i></a>
+          </div>
+        </div>
+      </div>
+
+      <% include feedback %>
+    </div>

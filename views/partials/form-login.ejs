@@ -1,0 +1,41 @@
+  <div class="ui segment small modal" ez-attached-to="#login-button" ng-controller="LoginCtrl">
+    <div class="ui small error message" ng-show="error">
+      <div class="header">Erreur</div>
+      {{ error }}
+    </div>
+
+    <form id="login-form" class="ui form" ng-submit="login()">
+      <div class="ui inverted dimmer" ng-class="{true: 'active', false: 'disabled'}[loading]">
+        <div class="ui text loader">Connexion...</div>
+      </div>
+
+      <div class="field">
+        <label>Identifiant</label>
+        <div class="ui left labeled icon input">
+          <input type="text" placeholder="Adresse email" ng-model="credentials.userid">
+          <i class="user icon"></i>
+          <div class="ui corner label"><i class="icon asterisk"></i></div>
+        </div>
+      </div>
+      <div class="field">
+        <label>Mot de passe</label>
+        <div class="ui left labeled icon input">
+          <input type="password" ng-model="credentials.password">
+          <i class="lock icon"></i>
+          <div class="ui corner label"><i class="icon asterisk"></i></div>
+        </div>
+      </div>
+      <div class="field">
+        <div class="ui checkbox">
+          <input type="checkbox" id="rememberMe" ng-model="credentials.remember">
+          <label for="rememberMe">Se souvenir de moi</label>
+        </div>
+      </div>
+
+      <div class="ui two fluid buttons" mp-semantic>
+        <button type="submit" class="ui teal button">Se connecter</button>
+        <div class="or" data-text="ou"></div>
+        <button type="reset" class="ui close button">Annuler</button>
+      </div>
+    </form> <!-- login-modal -->
+  </div>

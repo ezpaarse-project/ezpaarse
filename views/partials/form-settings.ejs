@@ -1,0 +1,137 @@
+    <div id="settings-modal" class="ui scrollable modal" ez-attached-to="#settings-button">
+      <i class="inverted close icon"></i>
+      <div class="ui left floated header">
+        Paramètres
+      </div>
+      <div class="ui right floated basic segment">
+        <div class="ui slider checkbox">
+          <input id="rememberToggle" type="checkbox" ng-model="settings.remember">
+          <label for="rememberToggle">Mémoriser mes paramètres</label>
+        </div>
+      </div>
+      <div class="ui form content">
+        <div class="ui teal dividing header">En entrée</div>
+        <div class="three fields">
+
+          <div class="field">
+            <label>Format de date</label>
+            <input ng-hide="showHelp" placeholder="DD/MMM/YYYY:HH:mm:ss Z" type="text" ng-model="settings.headers['Date-Format']">
+            <div ng-show="showHelp" class="ui inverted teal bottom attached segment">Format de date des lignes de log.</div>
+          </div>
+
+          <div class="field">
+            <label>Domaine relatif</label>
+            <input ng-hide="showHelp" placeholder="www.domain.com" type="text" ng-model="settings.headers['Relative-Domain']">
+            <div ng-show="showHelp" class="ui inverted teal bottom attached segment">Domaine à utiliser pour les URLs relatives.</div>
+          </div>
+
+          <div class="field">
+            <label>Encodage du texte</label>
+            <select ng-hide="showHelp" ng-model="settings.headers['Request-Charset']" ng-options="e for e in encodings"></select>
+            <div ng-show="showHelp" class="ui inverted teal bottom attached segment">Jeu de caractères (charset) utilisé dans les fichiers à traiter.</div>
+          </div>
+
+        </div>
+        <div class="four fields">
+          <div class="select field">
+            <label>Type de log</label>
+            <select ng-hide="showHelp" ng-model="settings.proxyType" ng-options="proxy for proxy in proxyTypes">
+              <option value="">Reconnaissance auto</option>
+            </select>
+            <div ng-show="showHelp" class="ui inverted teal bottom attached segment">Plateforme d'origine des log.</div>
+          </div>
+
+          <div class="three wide field" ng-show="settings.proxyType || showHelp">
+            <label>Format de log</label>
+            <textarea ng-hide="showHelp" placeholder="%h %t %r %s" type="text" ng-model="settings.logFormat"></textarea>
+            <div ng-show="showHelp" class="ui inverted teal bottom attached segment">Format des lignes de log (Ex: '%h %l %u %t %s %b'). <a href='/doc/formats.html' target='_blank'>En savoir plus</a></div>
+          </div>
+        </div>
+
+        <div class="ui red dividing header">En sortie</div>
+        <div class="three fields">
+          <div class="field">
+            <label>Format du résultat</label>
+            <select ng-hide="showHelp" ng-model="settings.headers['Accept']" ng-options="f.mime as f.type for f in resultFormats"></select>
+            <div ng-show="showHelp" class="ui inverted red bottom attached segment">Format des données en sortie.</div>
+          </div>
+
+          <div class="field">
+            <label>Traces système</label>
+            <select ng-hide="showHelp" ng-model="settings.headers['Traces-Level']" ng-options="t.level as t.desc for t in tracesLevels"></select>
+            <div ng-show="showHelp" class="ui inverted red bottom attached segment">Niveau de verbosité des traces laissées durant le traitement.</div>
+          </div>
+
+          <div class="field">
+            <label>Encodage du texte</label>
+            <select ng-hide="showHelp" ng-model="settings.headers['Response-Charset']" ng-options="e for e in encodings"></select>
+            <div ng-show="showHelp" class="ui inverted red bottom attached segment">Jeu de caractères (charset) utilisé dans les données en sortie.</div>
+          </div>
+        </div>
+        <div class="three fields">
+          <div class="field">
+            <label>Champs en sortie</label>
+            <div class="two fields" ng-hide="showHelp">
+              <div class="field">
+                <form ng-submit="addField('plus')">
+                  <div class="ui action input">
+                    <input type="text" placeholder="Ajouter..." ng-model="plusField">
+                    <div ng-click="addField('plus')" class="ui orange icon button">
+                      <i class="plus icon"></i>
+                    </div>
+                  </div>
+                </form>
+              </div>
+
+              <div class="field">
+                <form ng-submit="addField('minus')">
+                  <div class="ui action input">
+                    <input type="text" placeholder="Enlever..." ng-model="minusField">
+                    <div ng-click="addField('minus')" class="ui purple icon button"><i class="minus icon"></i></div>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+            <div class="inline-labels field" ng-hide="showHelp">
+              <div class="ui normalized label" ng-class="{plus: 'orange', minus: 'purple'}[field.type]" ng-repeat="field in settings.outputFields | orderBy:'type'">
+                {{ field.name }}
+                <i class="delete icon" ng-click="removeField($index, $event)"></i>
+              </div>
+            </div>
+
+            <div ng-show="showHelp" class="ui inverted red bottom attached segment">Champs (en-têtes) à ajouter/enlever dans le fichier de sortie.</div>
+          </div>
+        </div>
+
+        <div class="ui purple dividing header">Headers (avancé)</div>
+        <div class="ui small form">
+          <div class="field">
+            <div ng-click="addCustomHeader()" class="ui small purple icon button"><i class="plus icon"></i> Nouveau</div>
+          </div>
+
+          <div class="five fields" ng-repeat="header in settings.customHeaders">
+            <div class="field">
+              <input type="text" placeholder="Nom" ng-model="settings.customHeaders[$index].name">
+            </div>
+            <div class="three wide field">
+              <input type="text" placeholder="Valeur" ng-model="settings.customHeaders[$index].value">
+            </div>
+            <div class="field">
+              <div class="ui small icon button" ng-click="removeCustomHeader($index, $event)"><i class="red trash icon"></i></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="ui right aligned basic segment">
+          <div class="ui right labeled mini icon button" ng-click="loadDefault()"><i class="repeat icon"></i> Paramètres par défaut</div>
+          <div class="ui right mini icon button" ng-class="{true: 'purple', false: 'black'}[showHelp]" ng-click="toggleHelp()">
+            <i class="help icon"></i>
+            {{ showHelp ? "Masquer l'aide" : "Afficher l'aide" }}
+          </div>
+        </div>
+      </div>
+      <div class="actions">
+        <div class="ui positive left labeled icon button"><i class="checkmark icon"></i> OK​</div>
+      </div>
+    </div>
