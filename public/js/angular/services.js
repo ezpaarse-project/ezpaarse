@@ -46,16 +46,18 @@ angular.module('ezPAARSE.services', [])
     return new userService();
   }).service('requestService', function ($rootScope) {
     function requestService() {
-      this.processing = false;
+      this.data = {
+        state: 'idle',
+        progress: 0
+      }
     };
 
     requestService.prototype.send = function (formData, headers) {
-      if (this.processing) { return false; }
+      if (this.data.state == 'loading') { return false; }
 
       var self        = this;
-      this.processing = true;
       var jobID       = uuid.v1();
-      $rootScope.$broadcast('process:start', jobID);
+      this.data.state = 'loading';
 
       $.ajax({
         headers:     headers || {},
@@ -71,30 +73,35 @@ angular.module('ezPAARSE.services', [])
           if (myXhr.upload) {
             myXhr.upload.addEventListener('progress', function (e) {
               if (e.lengthComputable) {
-                var percentComplete = ( e.loaded * 100 ) / e.total;
-                $rootScope.$broadcast('process:progress', percentComplete);
+                $rootScope.$apply(function () {
+                  self.data.progress = ((e.loaded * 100) / e.total).toFixed(1);
+                });
               }
             });
             myXhr.upload.addEventListener('load', function (e) {
-              $rootScope.$broadcast('process:complete', 100);
+              $rootScope.$apply(function () {
+                self.data.progress = 100;
+              });
             });
           }
           return myXhr;
         },
-        complete: function () {
-          self.processing = false;
-        },
         success: function(data) {
-          $rootScope.$broadcast('process:success');
+          $rootScope.$apply(function () {
+            self.data.state = 'success';
+          });
         },
         error: function(jqXHR, textStatus, errorThrown) {
-          var error = '';
-          if (textStatus != 'abort') {
-            var status  = jqXHR.getResponseHeader("ezPAARSE-Status");
-            var message = jqXHR.getResponseHeader("ezPAARSE-Status-Message");
-            error = 'Error ' + status + ' : ' + message;
-          }
-          $rootScope.$broadcast('process:error', error);
+          $rootScope.$apply(function () {
+            if (textStatus == 'abort') {
+              self.data.state = 'aborted';
+              return;
+            }
+
+            self.data.errorCode    = jqXHR.getResponseHeader("ezPAARSE-Status");
+            self.data.errorMessage = jqXHR.getResponseHeader("ezPAARSE-Status-Message");
+            self.data.state   = 'error';
+          });
         }
       });
 

@@ -5,10 +5,10 @@
       </h1>
       <div class="progress-header">
         <div>
-          <div class="ui progress" ng-class="{true: 'blue active', false: 'green'}[progress < 100]">
-            <div class="bar" ng-style="{width: progress + '%'}" ng-switch on="progress">
-              <span ng-switch-default>{{ progress }}%</span>
-              <span ng-switch-when="100.0">Terminé</span>
+          <div class="ui progress" ng-class="{true: 'blue active', false: 'green'}[request.progress < 100]">
+            <div class="bar" ng-style="{width: request.progress + '%'}" ng-switch on="request.progress">
+              <span ng-switch-default>{{ request.progress }}%</span>
+              <span ng-switch-when="100">Terminé</span>
             </div>
           </div>
         </div>

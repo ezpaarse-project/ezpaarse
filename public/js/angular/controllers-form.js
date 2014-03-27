@@ -4,7 +4,7 @@
 
 angular.module('ezPAARSE.form-controllers', ['ngCookies'])
   .controller('FormCtrl', function ($scope, $location, $cookieStore, requestService) {
-    if (requestService.processing) {
+    if (requestService.data.state == 'loading') {
       $location.path('/process');
     }
 
