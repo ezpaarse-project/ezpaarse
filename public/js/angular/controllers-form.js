@@ -8,28 +8,24 @@ angular.module('ezPAARSE.form-controllers', ['ngCookies'])
       $location.path('/process');
     }
 
-    $scope.customHeaders = [];
-    $scope.files         = [];
-    $scope.totalSize     = 0;
-    $scope.showHelp      = false;
-
+    $scope.files      = [];
+    $scope.totalSize  = 0;
+    $scope.showHelp   = false;
+    $scope.inputType  = 'files';
     $scope.proxyTypes = [
       'EZproxy',
       'Apache',
       'Squid'
     ];
-
     $scope.encodings = [
       'UTF-8',
       'ISO-8859-1'
     ];
-
     $scope.resultFormats = [
       { type: 'CSV', mime: 'text/csv' },
       { type: 'TSV', mime: 'text/tab-separated-values' },
       { type: 'JSON', mime: 'application/json' }
     ];
-
     $scope.tracesLevels = [
       { level: 'error', desc: 'Erreurs uniquement' },
       { level: 'warn', desc: 'Warnings sans conséquences' },
@@ -47,6 +43,10 @@ angular.module('ezPAARSE.form-controllers', ['ngCookies'])
         'Response-Charset': 'UTF-8',
         'Request-Charset':  'UTF-8'
       }
+    };
+
+    $scope.selectInputType = function (type) {
+      $scope.inputType = type;
     };
 
     $scope.loadDefault = function () {
@@ -135,7 +135,18 @@ angular.module('ezPAARSE.form-controllers', ['ngCookies'])
     };
 
     $scope.start = function (ajax) {
-      var formData = new FormData();
+      var formData;
+      if ($scope.inputType == 'text') {
+        if (!$scope.directInput) { return; }
+        formData = $scope.directInput;
+      } else {
+        if (!$scope.files.length) { return; }
+        formData = new FormData();
+        $scope.files.forEach(function (file) {
+          formData.append("files[]", file);
+        });
+      }
+
       var settings = $scope.settings;
       var headers  = angular.copy(settings.headers);
 
@@ -158,10 +169,6 @@ angular.module('ezPAARSE.form-controllers', ['ngCookies'])
           if (header.name && header.value) { headers[header.name] = header.value; }
         });
       }
-
-      $scope.files.forEach(function (file) {
-        formData.append("files[]", file);
-      });
 
       requestService.send(formData, headers);
 

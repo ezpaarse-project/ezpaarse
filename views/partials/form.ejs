@@ -34,49 +34,51 @@
     </div>
 
     <div class="ui top attached tabular menu">
-      <a class="active item" data-tab="file">Fichiers de logs</a>
-      <a class="item" data-tab="direct-input">Copier/coller de logs</a>
+      <a class="item" ng-click="selectInputType('files')" ng-class="{'files': 'active'}[inputType]">Fichiers de logs</a>
+      <a class="item" ng-click="selectInputType('text')" ng-class="{'text': 'active'}[inputType]">Copier/coller de logs</a>
     </div>
-    <div class="ui bottom attached active tab segment" data-tab="file">
-      <input type="file" style="display: none;" id="input-file" onchange="angular.element(this).scope().selectFiles(this)" multiple>
+    <div class="ui bottom attached active tab segment" ng-switch on="inputType">
+      <div ng-switch-when="files">
+        <input type="file" style="display: none;" id="input-file" onchange="angular.element(this).scope().selectFiles(this)" multiple>
 
-      <div class="ui dimmable dropzone segment" ez-file-drop="addFiles">
-        <div class="ui dimmer">
-          <div class="content"><div class="center">
-            <div class="ui tiny icon header">
-              <i class="download icon"></i>
-              Déposez les fichiers ici
-            </div>
-          </div></div>
+        <div class="ui dimmable dropzone segment" ez-file-drop="addFiles">
+          <div class="ui dimmer">
+            <div class="content"><div class="center">
+              <div class="ui tiny icon header">
+                <i class="download icon"></i>
+                Déposez les fichiers ici
+              </div>
+            </div></div>
+          </div>
+
+          <p><button class="ui small basic button" ez-trigger-click="#input-file">
+            <i class="plus icon"></i>
+            Cliquez pour ajouter
+          </button></p>
+          <!-- <p class="text">Ou déposez vos fichiers de logs ici</p> -->
+          <table ng-if="files.length" class="ui small compact basic table">
+            <thead><tr>
+              <th class="twelve wide">Nom de fichier</th>
+              <th class="four wide">Taille</th>
+            </tr></thead>
+            <tbody>
+              <tr ng-repeat="file in files">
+                <td><i class="tiny delete link icon" ng-click="removeFile($index)"></i> {{ file.name }}</td>
+                <td>{{ file.size | bytesToSize }}</td>
+              </tr>
+            </tbody>
+            <tfoot><tr>
+              <th>{{ files.length }} fichiers sélectionnés</th>
+              <th>{{ totalSize | bytesToSize }} au total</th>
+            </tr></tfoot>
+          </table>
         </div>
-
-        <p><button class="ui small basic button" ez-trigger-click="#input-file">
-          <i class="plus icon"></i>
-          Cliquez pour ajouter
-        </button></p>
-        <!-- <p class="text">Ou déposez vos fichiers de logs ici</p> -->
-        <table ng-if="files.length" class="ui small compact basic table">
-        <thead><tr>
-          <th class="twelve wide">Nom de fichier</th>
-          <th class="four wide">Taille</th>
-        </tr></thead>
-        <tbody>
-          <tr ng-repeat="file in files">
-            <td><i class="tiny delete link icon" ng-click="removeFile($index)"></i> {{ file.name }}</td>
-            <td>{{ file.size | bytesToSize }}</td>
-          </tr>
-        </tbody>
-        <tfoot><tr>
-          <th>{{ files.length }} fichiers sélectionnés</th>
-          <th>{{ totalSize | bytesToSize }} au total</th>
-        </tr></tfoot>
-      </table>
       </div>
-    </div>
-    <div class="ui bottom attached tab segment" data-tab="direct-input">
-      <div class="ui form field">
-        <label for="log-lines">Copiez/coller vos lignes de log ici</label>
-        <textarea id="log-lines"></textarea>
+      <div ng-switch-when="text">
+        <div class="ui form field">
+          <label for="log-lines">Copiez/coller vos lignes de log ici</label>
+          <textarea ng-model="$parent.directInput"></textarea>
+        </div>
       </div>
     </div>
 
