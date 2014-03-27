@@ -112,10 +112,10 @@
 
           <div class="five fields" ng-repeat="header in settings.customHeaders">
             <div class="field">
-              <input type="text" placeholder="Name" ng-model="settings.customHeaders[$index].name">
+              <input type="text" placeholder="Nom" ng-model="settings.customHeaders[$index].name">
             </div>
             <div class="three wide field">
-              <input type="text" placeholder="Value" ng-model="settings.customHeaders[$index].value">
+              <input type="text" placeholder="Valeur" ng-model="settings.customHeaders[$index].value">
             </div>
             <div class="field">
               <div class="ui small icon button" ng-click="removeCustomHeader($index, $event)"><i class="red trash icon"></i></div>
