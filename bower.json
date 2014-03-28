@@ -22,6 +22,7 @@
     "angular-ui-router": "0.2.8-bowratic-tedium",
     "bxslider-4-kallisto": "~4.1.2",
     "node-uuid": "~1.4.1",
-    "angular-cookies": "~1.2.14"
+    "angular-cookies": "~1.2.14",
+    "angular-socket-io": "~0.4.1"
   }
 }
