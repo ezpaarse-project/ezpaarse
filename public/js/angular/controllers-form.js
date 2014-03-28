@@ -22,7 +22,6 @@ angular.module('ezPAARSE.form-controllers', [])
 
     $scope.$watch('settings', function () {
       settingService.saveSettings();
-      console.log($scope.plusField);
     }, true);
 
     $scope.selectTab  = function (type) { $scope.inputType = type; };
