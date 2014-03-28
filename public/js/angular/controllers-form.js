@@ -24,11 +24,12 @@ angular.module('ezPAARSE.form-controllers', [])
       settingService.saveSettings();
     }, true);
 
-    $scope.selectInputType = function (type) { $scope.inputType = type; };
-    $scope.toggleHelp      = function ()     { $scope.showHelp  = !$scope.showHelp; };
+    $scope.selectTab  = function (type) { $scope.inputType = type; };
+    $scope.toggleHelp = function ()     { $scope.showHelp  = !$scope.showHelp; };
 
     $scope.addOutputField = function (type) {
       var input = (type == 'plus') ? 'plusField' : 'minusField';
+
       if ($scope[input]) {
         settingService.addOutputField($scope[input], type);
         $scope[input] = '';
