@@ -1,6 +1,5 @@
-    <div class="ui small form">
-      <div class="two fields">
-        <div class="field">
+      <div class="ui two column grid">
+        <div class="column">
           <select id="predefined-settings" class="chosen-select-deselect" data-placeholder="Choix d'un paramétrage prédéfini..." data-no_results_text="Aucun résultat pour" ez-chosen>
             <option value="" selected=""></option>
             <option value="INISTCNRS">INIST-CNRS</option>
@@ -27,26 +26,13 @@
             <option value="Lara">Lara</option>
           </select>
         </div>
-        <div class="field">
-          <div class="ui slider checkbox">
-            <input id="rememberToggle" type="checkbox" ng-model="settings.remember">
-            <label for="rememberToggle">Mémoriser mes paramètres</label>
-          </div>
-        </div>
-      </div>
-      <div class="three fields">
-        <div class="field">
-          <div class="ui right fluid labeled mini icon button" ng-click="loadDefault()"><i class="repeat icon"></i> Paramètres par défaut</div>
-        </div>
 
-        <div class="field">
-          <div class="ui right fluid mini icon button" ng-class="{true: 'purple', false: 'black'}[showHelp]" ng-click="toggleHelp()">
-            <i class="help icon"></i>
-            {{ showHelp ? "Masquer l'aide" : "Afficher l'aide" }}
-          </div>
+        <div class="right aligned column">
+          <i class="big help link icon" ng-class="{true: 'black', false: 'teal'}[showHelp]" ng-click="toggleHelp()"></i>
         </div>
       </div>
 
+    <div class="ui small form">
       <div class="ui teal dividing header">En entrée</div>
       <div class="three fields">
 
@@ -144,7 +130,7 @@
       <div class="ui purple dividing header">Headers (avancé)</div>
       <div class="ui small form" ng-hide="showHelp">
         <div class="field">
-          <div ng-click="addCustomHeader()" class="ui small purple icon button"><i class="plus icon"></i> Nouveau</div>
+          <div ng-click="addCustomHeader()" class="ui small icon button"><i class="plus icon"></i> Nouveau</div>
         </div>
 
         <div class="five fields" ng-repeat="header in settings.customHeaders">
@@ -160,4 +146,13 @@
         </div>
       </div>
       <div ng-show="showHelp" class="ui inverted purple bottom attached segment">Liste de headers à ajouter à la requête. Si l'un d'eux fait doublon avec une autre option du formulaire, cette dernière est écrasée.</div>
+    </div>
+
+    <div class="ui right aligned basic segment">
+      <p><div class="ui slider checkbox">
+        <input id="rememberToggle" type="checkbox" ng-model="settings.remember">
+        <label for="rememberToggle">Mémoriser mes paramètres</label>
+      </div></p>
+      <p>
+      <div class="ui right labeled mini icon button" ng-click="loadDefault()"><i class="repeat icon"></i> Paramètres par défaut</div></p>
     </div>
