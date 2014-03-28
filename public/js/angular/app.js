@@ -2,6 +2,7 @@
 
 angular.module('ezPAARSE', [
   'ui.router',
+  'ngCookies',
   'ezPAARSE.services',
   'ezPAARSE.auth-controllers',
   'ezPAARSE.form-controllers',

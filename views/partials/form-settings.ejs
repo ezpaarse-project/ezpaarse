@@ -27,7 +27,7 @@
 
           <div class="field">
             <label>Encodage du texte</label>
-            <select ng-hide="showHelp" ng-model="settings.headers['Request-Charset']" ng-options="e for e in encodings"></select>
+            <select ng-hide="showHelp" ng-model="settings.headers['Request-Charset']" ng-options="e for e in selections.encodings"></select>
             <div ng-show="showHelp" class="ui inverted teal bottom attached segment">Jeu de caractères (charset) utilisé dans les fichiers à traiter.</div>
           </div>
 
@@ -35,7 +35,7 @@
         <div class="four fields">
           <div class="select field">
             <label>Type de log</label>
-            <select ng-hide="showHelp" ng-model="settings.proxyType" ng-options="proxy for proxy in proxyTypes">
+            <select ng-hide="showHelp" ng-model="settings.proxyType" ng-options="proxy for proxy in selections.proxyTypes">
               <option value="">Reconnaissance auto</option>
             </select>
             <div ng-show="showHelp" class="ui inverted teal bottom attached segment">Plateforme d'origine des log.</div>
@@ -52,19 +52,19 @@
         <div class="three fields">
           <div class="field">
             <label>Format du résultat</label>
-            <select ng-hide="showHelp" ng-model="settings.headers['Accept']" ng-options="f.mime as f.type for f in resultFormats"></select>
+            <select ng-hide="showHelp" ng-model="settings.headers['Accept']" ng-options="f.mime as f.type for f in selections.resultFormats"></select>
             <div ng-show="showHelp" class="ui inverted red bottom attached segment">Format des données en sortie.</div>
           </div>
 
           <div class="field">
             <label>Traces système</label>
-            <select ng-hide="showHelp" ng-model="settings.headers['Traces-Level']" ng-options="t.level as t.desc for t in tracesLevels"></select>
+            <select ng-hide="showHelp" ng-model="settings.headers['Traces-Level']" ng-options="t.level as t.desc for t in selections.tracesLevels"></select>
             <div ng-show="showHelp" class="ui inverted red bottom attached segment">Niveau de verbosité des traces laissées durant le traitement.</div>
           </div>
 
           <div class="field">
             <label>Encodage du texte</label>
-            <select ng-hide="showHelp" ng-model="settings.headers['Response-Charset']" ng-options="e for e in encodings"></select>
+            <select ng-hide="showHelp" ng-model="settings.headers['Response-Charset']" ng-options="e for e in selections.encodings"></select>
             <div ng-show="showHelp" class="ui inverted red bottom attached segment">Jeu de caractères (charset) utilisé dans les données en sortie.</div>
           </div>
         </div>
@@ -73,10 +73,10 @@
             <label>Champs en sortie</label>
             <div class="two fields" ng-hide="showHelp">
               <div class="field">
-                <form ng-submit="addField('plus')">
+                <form ng-submit="addOutputField('plus')">
                   <div class="ui action input">
                     <input type="text" placeholder="Ajouter..." ng-model="plusField">
-                    <div ng-click="addField('plus')" class="ui orange icon button">
+                    <div ng-click="addOutputField('plus')" class="ui orange icon button">
                       <i class="plus icon"></i>
                     </div>
                   </div>
@@ -84,10 +84,10 @@
               </div>
 
               <div class="field">
-                <form ng-submit="addField('minus')">
+                <form ng-submit="addOutputField('minus')">
                   <div class="ui action input">
                     <input type="text" placeholder="Enlever..." ng-model="minusField">
-                    <div ng-click="addField('minus')" class="ui purple icon button"><i class="minus icon"></i></div>
+                    <div ng-click="addOutputField('minus')" class="ui purple icon button"><i class="minus icon"></i></div>
                   </div>
                 </form>
               </div>
@@ -96,7 +96,7 @@
             <div class="inline-labels field" ng-hide="showHelp">
               <div class="ui normalized label" ng-class="{plus: 'orange', minus: 'purple'}[field.type]" ng-repeat="field in settings.outputFields | orderBy:'type'">
                 {{ field.name }}
-                <i class="delete icon" ng-click="removeField($index, $event)"></i>
+                <i class="delete icon" ng-click="removeOutputField($index, $event)"></i>
               </div>
             </div>
 

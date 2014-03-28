@@ -2,106 +2,47 @@
 
 /* Controllers of the form page */
 
-angular.module('ezPAARSE.form-controllers', ['ngCookies'])
-  .controller('FormCtrl', function ($scope, $location, $cookieStore, requestService) {
+angular.module('ezPAARSE.form-controllers', [])
+  .controller('FormCtrl', function ($scope, $location, settingService, requestService) {
     if (requestService.data.state == 'loading') {
       $location.path('/process');
     }
 
-    $scope.files      = [];
-    $scope.totalSize  = 0;
-    $scope.showHelp   = false;
-    $scope.inputType  = 'files';
-    $scope.proxyTypes = [
-      'EZproxy',
-      'Apache',
-      'Squid'
-    ];
-    $scope.encodings = [
-      'UTF-8',
-      'ISO-8859-1'
-    ];
-    $scope.resultFormats = [
-      { type: 'CSV', mime: 'text/csv' },
-      { type: 'TSV', mime: 'text/tab-separated-values' },
-      { type: 'JSON', mime: 'application/json' }
-    ];
-    $scope.tracesLevels = [
-      { level: 'error', desc: 'Erreurs uniquement' },
-      { level: 'warn', desc: 'Warnings sans conséquences' },
-      { level: 'info', desc: 'Informations générales' },
-      { level: 'verbose', desc: '-- vraiment nécessaire? --' },
-      { level: 'silly', desc: 'Détails du traitement' }
-    ];
-
-    var defaultSettings = {
-      remember: true,
-      outputFields: [],
-      headers: {
-        'Accept':           'text/csv',
-        'Traces-Level':     'info',
-        'Response-Charset': 'UTF-8',
-        'Request-Charset':  'UTF-8'
-      }
-    };
-
-    $scope.selectInputType = function (type) {
-      $scope.inputType = type;
-    };
+    $scope.files       = [];
+    $scope.totalSize   = 0;
+    $scope.showHelp    = false;
+    $scope.inputType   = 'files';
+    $scope.selections  = settingService.selections;
+    $scope.settings    = settingService.settings;
 
     $scope.loadDefault = function () {
-      $scope.settings = angular.copy(defaultSettings);
-    };
+      settingService.loadDefault();
+    }
+    settingService.loadSavedSettings();
 
-    $scope.loadCookie = function () {
-      $scope.loadDefault();
-
-      var settings = $cookieStore.get('settings');
-      if (!settings) { return; }
-
-      for (var opt in settings) {
-        $scope.settings[opt] = settings[opt];
-      }
-    };
-
-    $scope.loadCookie();
-
-    $scope.$watch('settings', function saveCookie() {
-      if ($scope.settings.remember) {
-        $cookieStore.put('settings', $scope.settings);
-      } else {
-        $cookieStore.put('settings', { remember: false });
-      }
+    $scope.$watch('settings', function () {
+      settingService.saveSettings();
     }, true);
 
-    $scope.toggleHelp = function () {
-      $scope.showHelp = !$scope.showHelp;
-    };
+    $scope.selectInputType = function (type) { $scope.inputType = type; };
+    $scope.toggleHelp      = function ()     { $scope.showHelp  = !$scope.showHelp; };
 
-    $scope.addField = function (type) {
+    $scope.addOutputField = function (type) {
       var input = (type == 'plus') ? 'plusField' : 'minusField';
-
       if ($scope[input]) {
-        $scope.settings.outputFields.push({ name: $scope[input], type: type });
+        settingService.addOutputField($scope[input], type);
         $scope[input] = '';
       }
     };
-
-    $scope.addCustomHeader = function () {
-      if (!$scope.settings.customHeaders) {
-        $scope.settings.customHeaders = [];
-      }
-      $scope.settings.customHeaders.push({ name: '', value: '' });
+    $scope.removeOutputField = function (index, evt) {
+      evt.stopPropagation();
+      settingService.removeOutputField(index);
     };
 
+    $scope.addCustomHeader = settingService.addCustomHeader;
     $scope.removeCustomHeader = function (index, evt) {
       evt.stopPropagation();
-      $scope.settings.customHeaders.splice(index, 1);
-    };
-
-    $scope.removeField = function (index, evt) {
-      evt.stopPropagation();
-      $scope.settings.outputFields.splice(index, 1);
+      settingService.removeCustomHeader();
     };
 
     var updateTotalSize = function () {
@@ -134,7 +75,7 @@ angular.module('ezPAARSE.form-controllers', ['ngCookies'])
       input.val('');
     };
 
-    $scope.start = function (ajax) {
+    $scope.start = function () {
       var formData;
       if ($scope.inputType == 'text') {
         if (!$scope.directInput) { return; }

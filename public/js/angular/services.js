@@ -96,4 +96,91 @@ angular.module('ezPAARSE.services', [])
     };
 
     return new requestService();
+  }).service('settingService', function ($cookieStore) {
+    function settingService() {
+
+      this.selections = {
+        proxyTypes: [
+          'EZproxy',
+          'Apache',
+          'Squid'
+        ],
+        encodings: [
+          'UTF-8',
+          'ISO-8859-1'
+        ],
+        resultFormats: [
+          { type: 'CSV',  mime: 'text/csv' },
+          { type: 'TSV',  mime: 'text/tab-separated-values' },
+          { type: 'JSON', mime: 'application/json' }
+        ],
+        tracesLevels: [
+          { level: 'error',   desc: 'Erreurs uniquement' },
+          { level: 'warn',    desc: 'Warnings sans conséquences' },
+          { level: 'info',    desc: 'Informations générales' },
+          { level: 'verbose', desc: '-- vraiment nécessaire? --' },
+          { level: 'silly',   desc: 'Détails du traitement' }
+        ]
+      };
+
+      this.defaults = {
+        remember: true,
+        outputFields: [],
+        headers: {
+          'Accept':           'text/csv',
+          'Traces-Level':     'info',
+          'Response-Charset': 'UTF-8',
+          'Request-Charset':  'UTF-8'
+        }
+      };
+
+      this.settings = angular.copy(this.defaults);
+    };
+
+    settingService.prototype.addOutputField = function (name, type) {
+      this.settings.outputFields.push({ name: name, type: type });
+    };
+    settingService.prototype.removeOutputField = function (index) {
+      this.settings.outputFields.splice(index, 1);
+    };
+
+    settingService.prototype.addCustomHeader = function () {
+      if (!this.settings.customHeaders) { this.settings.customHeaders = []; }
+      this.settings.customHeaders.push({ name: '', value: '' });
+    };
+    settingService.prototype.removeCustomHeader = function (index) {
+      this.settings.customHeaders.splice(index, 1);
+    };
+
+    var empty = function (obj) { for (var i in obj) { delete obj[i]; } }
+    settingService.prototype.loadDefault = function () {
+      empty(this.settings);
+      var defaults = angular.copy(this.defaults);
+
+      for (var opt in defaults) {
+        this.settings[opt] = defaults[opt];
+      }
+    };
+
+    settingService.prototype.loadSavedSettings = function () {
+      this.loadDefault();
+
+      var settings = $cookieStore.get('settings');
+      if (!settings) { return; }
+
+      for (var opt in settings) {
+        this.settings[opt] = settings[opt];
+      }
+    };
+
+    settingService.prototype.saveSettings = function () {
+      if (this.settings.remember) {
+        $cookieStore.put('settings', this.settings);
+      } else {
+        $cookieStore.put('settings', { remember: false });
+      }
+    };
+
+
+    return new settingService();
   });
