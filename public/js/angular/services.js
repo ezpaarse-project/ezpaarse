@@ -36,7 +36,7 @@ angular.module('ezPAARSE.services', [])
       this.data = {
         state: 'idle',
         progress: 0
-      }
+      };
     };
 
     requestService.prototype.send = function (formData, headers) {
@@ -45,6 +45,9 @@ angular.module('ezPAARSE.services', [])
       var self        = this;
       var jobID       = uuid.v1();
       this.data.state = 'loading';
+
+      headers = headers || {}
+      headers['Socket-ID'] = this.data.socketID;
 
       $.ajax({
         headers:     headers || {},
@@ -96,7 +99,8 @@ angular.module('ezPAARSE.services', [])
     };
 
     return new requestService();
-  }).service('settingService', function ($cookieStore) {
+  })
+  .service('settingService', function ($cookieStore) {
     function settingService() {
 
       this.selections = {
@@ -183,4 +187,7 @@ angular.module('ezPAARSE.services', [])
 
 
     return new settingService();
+  })
+  .factory('socket', function (socketFactory) {
+    return socketFactory();
   });

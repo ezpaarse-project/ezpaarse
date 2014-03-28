@@ -3,8 +3,9 @@
 angular.module('ezPAARSE', [
   'ui.router',
   'ngCookies',
+  'btford.socket-io',
   'ezPAARSE.services',
-  'ezPAARSE.auth-controllers',
+  'ezPAARSE.main-controllers',
   'ezPAARSE.form-controllers',
   'ezPAARSE.directives',
   'ezPAARSE.filters'

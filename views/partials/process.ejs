@@ -28,19 +28,19 @@
         <table class="ui basic collapsing table">
           <tr>
             <th>Lignes lues</th>
-            <td>58402</td>
+            <td ng-bind="report.general['nb-lines-input']"></td>
           </tr>
           <tr>
             <th>ECs générés</th>
-            <td>1260</td>
+            <td ng-bind="report.general['nb-ecs']"></td>
           </tr>
           <tr>
             <th>Durée du traitement</th>
-            <td>1m08s</td>
+            <td ng-bind="report.general['Job-Duration']"></td>
           </tr>
           <tr>
             <th>Vitesse</th>
-            <td>5210 lignes/sec</td>
+            <td ng-bind="report.general['process-speed']"></td>
           </tr>
         </table>
       </div>

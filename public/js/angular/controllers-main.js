@@ -2,8 +2,8 @@
 
 /* Controllers for auth */
 
-angular.module('ezPAARSE.auth-controllers', [])
-  .controller('AppCtrl', function ($scope, $state, userService, $http) {
+angular.module('ezPAARSE.main-controllers', [])
+  .controller('AppCtrl', function ($scope, $state, userService, $http, requestService, socket) {
 
     $scope.user = userService.user;
 
@@ -19,6 +19,14 @@ angular.module('ezPAARSE.auth-controllers', [])
 
       $http.get('/logout').then(cb, cb);
     };
+
+    /**
+     * Give socket ID to the request service
+     */
+    socket.on('connected', function (socketID) {
+      requestService.data.socketID = socketID
+      console.log('connected ' + socketID);
+    });
 
   }).controller('LoginCtrl', function ($scope, $state, $http, userService, $element) {
     $scope.credentials = {};
