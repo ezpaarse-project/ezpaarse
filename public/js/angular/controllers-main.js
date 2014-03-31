@@ -27,6 +27,13 @@ angular.module('ezPAARSE.main-controllers', [])
       requestService.data.socketID = socketID;
     });
 
+    /**
+     * Get app version
+     */
+    $http.get('/info/version')
+      .success(function (version)    { $scope.ezVersion = version; })
+      .error(function (data, status) { $scope.ezVersion = '...'; });
+
   }).controller('LoginCtrl', function ($scope, $state, $http, userService, $element) {
     $scope.credentials = {};
     $scope.error       = null;

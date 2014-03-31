@@ -9,8 +9,20 @@ var uuid   = require('uuid');
 var moment = require('moment');
 var pp     = require('../lib/platform-parser.js');
 var config = require('../lib/config.js');
+var pkg    = require('../package.json');
 
 module.exports = function (app) {
+
+  /**
+   * GET route on /info/version
+   */
+  app.get('/info/version', function (req, res) {
+    if (pkg.version) {
+      res.send(200, pkg.version);
+    } else {
+      res.send(500);
+    }
+  });
 
   /**
    * GET route on /info/platforms
