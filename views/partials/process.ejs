@@ -47,10 +47,16 @@
         <div ng-switch-when="rejects" class="ui grid">
           <div class="ui ten wide column">
             <table class="rejects ui compact table">
+              <tr>
+                <td>Lignes ignorées</td>
+                <td>{{ report.rejets['nb-lines-ignored'] | number}}</td>
+                <td style="width: 150px;"></td>
+              </tr>
+
               <tr ng-repeat="reject in rejects">
                 <td>{{ reject.title }} <i class="attention red icon" ng-show="reject.warning"></i></td>
                 <td ng-class="{true: 'bold'}[reject.warning]">{{ reject.number | number}}</td>
-                <td style="width: 150px;"><div class="ui warning progress"><div class="bar" ng-style="reject.css"></div></div></td>
+                <td><div class="ui warning progress"><div class="bar" ng-style="reject.css"></div></div></td>
               </tr>
 
               <tfoot>

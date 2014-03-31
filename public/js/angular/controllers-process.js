@@ -9,7 +9,6 @@ angular.module('ezPAARSE.form-controllers')
     $scope.tab     = 'metrics';
     $scope.report  = {};
     $scope.rejects = [
-      { cat: 'rejets',  key: 'nb-lines-ignored',         percent: 0, css: { width: '0%' }, title: 'Lignes ignorées' },
       { cat: 'general', key: 'nb-denied-ecs',            percent: 0, css: { width: '0%' }, title: 'ECs en accès refusé' },
       { cat: 'rejets',  key: 'nb-lines-duplicate-ecs',   percent: 0, css: { width: '0%' }, title: 'Doublons filtrés' },
       { cat: 'rejets',  key: 'nb-lines-unordered-ecs',   percent: 0, css: { width: '0%' }, title: 'Anomalies chronologiques' },
