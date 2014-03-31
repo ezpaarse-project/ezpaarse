@@ -1,0 +1,3 @@
+#!/usr/bin/env ezpaarse-node
+
+require('../lib/bin/hostlocalize.js').hostLocalize();

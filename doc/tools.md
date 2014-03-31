@@ -255,3 +255,22 @@ Options:
   -L [required]
 
 ```
+## hostlocalize
+
+Commande permettant d'enrichir un fichier résultat ezpaarse csv contenant un nom d'hôte avec la localisation issue de l'adresse IP
+
+Exemple d'utilisation :
+```bash
+./hostlocalize -f ezpaarsedata.csv > ezpaarsedatalocalised.csv 
+
+```
+Le fichier en entrée est supposé comporter un champ contenant l'adresse ip à utiliser pour la localisation
+```
+Enrich a csv with geolocalisation from host ip.
+  Usage: node ./bin/hostlocalize [-s] [-f string | -k string]
+
+Options:
+  --hostkey, -k  the field name containing host ip (default "host").           
+  --file, -f     A csv file to parse. If absent, will read from standard input.
+
+```
