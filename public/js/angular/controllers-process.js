@@ -19,7 +19,8 @@ angular.module('ezPAARSE.form-controllers')
       { cat: 'rejets',  key: 'nb-lines-pkb-miss-ecs',    percent: 0, css: { width: '0%' }, title: 'PKBs manquantes' }
     ];
 
-    $scope.selectTab  = function (tab) { $scope.tab = tab; };
+    $scope.selectTab = function (tab) { $scope.tab = tab; };
+    $scope.selectHelper = function (helper) { $scope.helper = helper; };
 
     socket.on('report', function (report) {
       $scope.report = report;

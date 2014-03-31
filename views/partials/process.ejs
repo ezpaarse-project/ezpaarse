@@ -47,13 +47,13 @@
         <div ng-switch-when="rejects" class="ui grid">
           <div class="ui ten wide column">
             <table class="rejects ui compact table">
-              <tr>
+              <tr ng-mouseenter="selectHelper('nb-lines-ignored')">
                 <td>Lignes ignorées</td>
                 <td>{{ report.rejets['nb-lines-ignored'] | number}}</td>
                 <td style="width: 150px;"></td>
               </tr>
 
-              <tr ng-repeat="reject in rejects">
+              <tr ng-repeat="reject in rejects" ng-mouseenter="selectHelper(reject.key)">
                 <td>{{ reject.title }} <i class="attention red icon" ng-show="reject.warning"></i></td>
                 <td ng-class="{true: 'bold'}[reject.warning]">{{ reject.number | number}}</td>
                 <td><div class="ui warning progress"><div class="bar" ng-style="reject.css"></div></div></td>
@@ -67,42 +67,43 @@
             </table>
           </div>
 
-          <div class="rejects-help six wide column" ng-switch on="currentHelp">
+          <!-- Help section -->
+          <div class="rejects-help six wide column" ng-switch on="helper">
             <div ng-switch-default>
               <p class="ui header"></p>
               <p class="inner" style="text-align: justify"><em>Survoler une catégorie pour voir sa description</em></p>
             </div>
 
             <div ng-switch-when="nb-lines-ignored">
-              <p class="ui header"></p>
+              <p class="ui header">Lignes ignorées</p>
               <p class="inner" style="text-align: justify">Nombre de requêtes non pertinentes. Il s'agit principalement de téléchargements d'images, css ou scripts web sans rapport direct avec une ressource. Dans un log brut, ce chiffre est souvent élevé.</p>
             </div>
             <div ng-switch-when="nb-denied-ecs">
-              <p class="ui header"></p>
+              <p class="ui header">ECs en accès refusé</p>
               <p class="inner" style="text-align: justify">Liste des accès qui ont été refusés à l'utilisateur au moment du clic. Exemple : tentative d'accès à un article non négocié dans le bouquet de l'établissement.</p>
             </div>
             <div ng-switch-when="nb-lines-duplicate-ecs">
-              <p class="ui header"></p>
+              <p class="ui header">Doublons filtrés</p>
               <p class="inner" style="text-align: justify">Nombre de consultations ignorées car détectées comme des double-clics.</p>
             </div>
             <div ng-switch-when="nb-lines-unordered-ecs">
-              <p class="ui header"></p>
+              <p class="ui header">Anomalies chronologiques</p>
               <p class="inner" style="text-align: justify">Lignes ignorées en raison d'un mauvais ordre chronologique.</p>
             </div>
-            <div ng-switch-when="ng-lines-ignored-domains">
-              <p class="ui header"></p>
+            <div ng-switch-when="nb-lines-ignored-domains">
+              <p class="ui header">Domaines ignorés</p>
               <p class="inner" style="text-align: justify">Les domaines ignorés.</p>
             </div>
             <div ng-switch-when="nb-lines-unknown-domains">
-              <p class="ui header"></p>
+              <p class="ui header">Domaines inconnus</p>
               <p class="inner" style="text-align: justify">Les domaines inconnus.</p>
             </div>
             <div ng-switch-when="nb-lines-unknown-format">
-              <p class="ui header"></p>
+              <p class="ui header">Formats inconnus</p>
               <p class="inner" style="text-align: justify">Les formats inconnus.</p>
             </div>
             <div ng-switch-when="nb-lines-unqualified-ecs">
-              <p class="ui header"></p>
+              <p class="ui header">ECs non qualifiés</p>
               <p class="inner" style="text-align: justify">Les parseurs n'ont pas reconnu d'information documentaire dans les URL de ces lignes de log. Elles sont donc ignorées par ezPAARSE.</p>
             </div>
             <div ng-switch-when="nb-lines-pkb-miss-ecs">
