@@ -25,24 +25,45 @@
         <a class="item" ng-class="{true: 'active'}[tab=='report']" ng-click="selectTab('report')">Rapport</a>
       </div>
       <div class="ui bottom attached active tab segment" ng-switch on="tab">
-        <table ng-switch-when="metrics" class="ui basic collapsing table">
-          <tr>
-            <th>Lignes lues</th>
-            <td ng-bind="report.general['nb-lines-input'] | number"></td>
-          </tr>
-          <tr>
-            <th>ECs générés</th>
-            <td ng-bind="report.general['nb-ecs'] | number"></td>
-          </tr>
-          <tr>
-            <th>Durée du traitement</th>
-            <td ng-bind="report.general['Job-Duration']"></td>
-          </tr>
-          <tr>
-            <th>Vitesse</th>
-            <td ng-bind="report.general['process-speed']"></td>
-          </tr>
-        </table>
+        <div ng-switch-when="metrics" class="ui two column relaxed grid">
+          <div class="column">
+            <table class="ui basic table">
+              <tr>
+                <th>Lignes lues</th>
+                <td ng-bind="report.general['nb-lines-input'] | number"></td>
+              </tr>
+              <tr>
+                <th>ECs générés</th>
+                <td ng-bind="report.general['nb-ecs'] | number"></td>
+              </tr>
+              <tr>
+                <th>Durée du traitement</th>
+                <td ng-bind="report.general['Job-Duration']"></td>
+              </tr>
+              <tr>
+                <th>Vitesse</th>
+                <td ng-bind="report.general['process-speed']"></td>
+              </tr>
+            </table>
+          </div>
+
+          <div class="column">
+            <table class="ui basic table">
+              <tr>
+                <th>Plateformes reconnues</th>
+                <td ng-bind="report.stats['platforms'] | number"></td>
+              </tr>
+              <tr>
+                <th>Consultations HTML</th>
+                <td ng-bind="report.stats['mime-HTML'] | number"></td>
+              </tr>
+              <tr>
+                <th>Consultations PDF</th>
+                <td ng-bind="report.stats['mime-PDF']"></td>
+              </tr>
+            </table>
+          </div>
+        </div>
 
         <div ng-switch-when="rejects" class="ui grid">
           <div class="ui ten wide column">
@@ -118,7 +139,21 @@
         </div>
 
         <div ng-switch-when="report">
-          <!-- PUT CONTENT HERE -->
+          <accordion class="ui accordion" ng-repeat="(category, elements) in report">
+            <div class="title">
+              <i class="dropdown icon"></i>
+              {{ category }}
+            </div>
+
+            <div class="content">
+              <table class="ui basic collapsing table">
+                <tr ng-repeat="(key, val) in elements">
+                  <th class="four wide">{{ key }}</th>
+                  <td>{{ val }}</td>
+                </tr>
+              </table>
+            </div>
+          </accordion>
         </div>
       </div>
     </div>

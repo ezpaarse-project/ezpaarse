@@ -96,14 +96,24 @@ angular.module('ezPAARSE.directives', [])
         });
       }
     };
-  }).directive('ezCheckbox', function () {
+  })
+  .directive('accordion', function () {
+    return {
+      restrict: 'E',
+      link: function (scope, element, attributes) {
+        element.accordion();
+      }
+    };
+  })
+  .directive('ezCheckbox', function () {
     return {
       restrict: 'E',
       link: function (scope, element, attributes) {
         element.checkbox();
       }
     };
-  }).directive('ezChosen', function () {
+  })
+  .directive('ezChosen', function () {
     return {
       restrict: 'A',
       link: function (scope, element, attributes) {
