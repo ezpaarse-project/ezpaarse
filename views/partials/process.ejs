@@ -19,20 +19,20 @@
       </div>
 
       <div class="ui top attached tabular menu">
-        <a class="active item" data-tab="metrics">État du traitement</a>
-        <a class="item" data-tab="rejects">Rejets</a>
-        <a class="item" data-tab="traces">Traces système</a>
-        <a class="item" data-tab="report">Rapport</a>
+        <a class="item" ng-class="{true: 'active'}[tab=='metrics']" ng-click="selectTab('metrics')">État du traitement</a>
+        <a class="item" ng-class="{true: 'active'}[tab=='rejects']" ng-click="selectTab('rejects')">Rejets</a>
+        <a class="item" ng-class="{true: 'active'}[tab=='traces']" ng-click="selectTab('traces')">Traces système</a>
+        <a class="item" ng-class="{true: 'active'}[tab=='report']" ng-click="selectTab('report')">Rapport</a>
       </div>
-      <div class="ui bottom attached active tab segment" data-tab="metrics">
-        <table class="ui basic collapsing table">
+      <div class="ui bottom attached active tab segment" ng-switch on="tab">
+        <table ng-switch-when="metrics" class="ui basic collapsing table">
           <tr>
             <th>Lignes lues</th>
-            <td ng-bind="report.general['nb-lines-input']"></td>
+            <td ng-bind="report.general['nb-lines-input'] | number"></td>
           </tr>
           <tr>
             <th>ECs générés</th>
-            <td ng-bind="report.general['nb-ecs']"></td>
+            <td ng-bind="report.general['nb-ecs'] | number"></td>
           </tr>
           <tr>
             <th>Durée du traitement</th>
@@ -43,75 +43,75 @@
             <td ng-bind="report.general['process-speed']"></td>
           </tr>
         </table>
-      </div>
-      <div class="ui bottom attached tab segment" data-tab="rejects">
-        <div class="ui grid">
-          <div class="ui ten wide column">
 
-            <table class="rejects ui basic collapsing compact table">
-              <tr ez-help="Nombre de requêtes non pertinentes. Il s'agit principalement de téléchargements d'images, css ou scripts web sans rapport direct avec une ressource. Dans un log brut, ce chiffre est souvent élevé.">
-                <th>Lignes ignorées</th>
-                <td>30400</td>
-                <td style="width: 150px;"></td>
+        <div ng-switch-when="rejects" class="ui grid">
+          <div class="ui ten wide column">
+            <table class="rejects ui compact table">
+              <tr ng-repeat="reject in rejects">
+                <td>{{ reject.title }} <i class="attention red icon" ng-show="reject.warning"></i></td>
+                <td ng-class="{true: 'bold'}[reject.warning]">{{ reject.number | number}}</td>
+                <td style="width: 150px;"><div class="ui warning progress"><div class="bar" ng-style="reject.css"></div></div></td>
               </tr>
-              <tr ez-help="Liste des accès qui ont été refusés à l'utilisateur au moment du clic. Exemple : tentative d'accès à un article non négocié dans le bouquet de l'établissement.">
-                <th>ECs en accès refusé</th>
-                <td>0</td>
-                <td><div class="ui warning progress" data-content="0%"><div class="bar" style="width: 0%;"></div></div></td>
-              </tr>
-              <tr ez-help="Nombre de consultations ignorées car détectées comme des double-clics.">
-                <th>Doublons filtrés</th>
-                <td>1604</td>
-                <td><div class="ui warning progress" data-content="6%"><div class="bar" style="width: 6%;"></div></div></td>
-              </tr>
-              <tr ez-help="Lignes ignorées en raison d'un mauvais ordre chronologique.">
-                <th>Anomalies chronologiques</th>
-                <td class="negative">16045</td>
-                <td><div class="ui warning progress" data-content="60%"><div class="bar" style="width: 60%;"></div></div></td>
-              </tr>
-              <tr ez-help="Les domaines ignorés.">
-                <th>Domaines ignorés</th>
-                <td>0</td>
-                <td><div class="ui warning progress" data-content="0%"><div class="bar" style="width: 0%;"></div></div></td>
-              </tr>
-              <tr ez-help="Les domaines inconnus.">
-                <th>Domaines inconnus</th>
-                <td>160</td>
-                <td><div class="ui warning progress" data-content="1%"><div class="bar" style="width: 1%;"></div></div></td>
-              </tr>
-              <tr ez-help="Les formats inconnus.">
-                <th>Formats inconnus</th>
-                <td>16</td>
-                <td><div class="ui warning progress" data-content="0%"><div class="bar" style="width: 0%;"></div></div></td>
-              </tr>
-              <tr ez-help="Les parseurs n'ont pas reconnu d'information documentaire dans les URL de ces lignes de log. Elles sont donc ignorées par ezPAARSE.">
-                <th>ECs non qualifiés</th>
-                <td>3208</td>
-                <td><div class="ui warning progress" data-content="12%"><div class="bar" style="width: 12%;"></div></div></td>
-              </tr>
-              <tr ez-help="Les PKBs manquantes.">
-                <th>PKBs manquantes</th>
-                <td>0</td>
-                <td><div class="ui warning progress" data-content="0%"><div class="bar" style="width: 0%;"></div></div></td>
-              </tr>
+
               <tfoot>
                 <tr><th colspan="3">
-                  Les pourcentages sont basés sur le nombre de lignes de log pertinentes lues.
+                  Lignes de log pertinentes lues : {{ nbLines | number }}
                 </th></tr>
               </tfoot>
             </table>
           </div>
 
-          <div class="rejects-help six wide column">
-            <p class="ui header"></p>
-            <p class="inner" style="text-align: justify"><em>Survoler une catégorie pour voir sa description</em></p>
+          <div class="rejects-help six wide column" ng-switch on="currentHelp">
+            <div ng-switch-default>
+              <p class="ui header"></p>
+              <p class="inner" style="text-align: justify"><em>Survoler une catégorie pour voir sa description</em></p>
+            </div>
+
+            <div ng-switch-when="nb-lines-ignored">
+              <p class="ui header"></p>
+              <p class="inner" style="text-align: justify">Nombre de requêtes non pertinentes. Il s'agit principalement de téléchargements d'images, css ou scripts web sans rapport direct avec une ressource. Dans un log brut, ce chiffre est souvent élevé.</p>
+            </div>
+            <div ng-switch-when="nb-denied-ecs">
+              <p class="ui header"></p>
+              <p class="inner" style="text-align: justify">Liste des accès qui ont été refusés à l'utilisateur au moment du clic. Exemple : tentative d'accès à un article non négocié dans le bouquet de l'établissement.</p>
+            </div>
+            <div ng-switch-when="nb-lines-duplicate-ecs">
+              <p class="ui header"></p>
+              <p class="inner" style="text-align: justify">Nombre de consultations ignorées car détectées comme des double-clics.</p>
+            </div>
+            <div ng-switch-when="nb-lines-unordered-ecs">
+              <p class="ui header"></p>
+              <p class="inner" style="text-align: justify">Lignes ignorées en raison d'un mauvais ordre chronologique.</p>
+            </div>
+            <div ng-switch-when="ng-lines-ignored-domains">
+              <p class="ui header"></p>
+              <p class="inner" style="text-align: justify">Les domaines ignorés.</p>
+            </div>
+            <div ng-switch-when="nb-lines-unknown-domains">
+              <p class="ui header"></p>
+              <p class="inner" style="text-align: justify">Les domaines inconnus.</p>
+            </div>
+            <div ng-switch-when="nb-lines-unknown-format">
+              <p class="ui header"></p>
+              <p class="inner" style="text-align: justify">Les formats inconnus.</p>
+            </div>
+            <div ng-switch-when="nb-lines-unqualified-ecs">
+              <p class="ui header"></p>
+              <p class="inner" style="text-align: justify">Les parseurs n'ont pas reconnu d'information documentaire dans les URL de ces lignes de log. Elles sont donc ignorées par ezPAARSE.</p>
+            </div>
+            <div ng-switch-when="nb-lines-pkb-miss-ecs">
+              <p class="ui header">PKBs manquantes</p>
+              <p class="inner" style="text-align: justify">Les PKBs manquantes.</p>
+            </div>
           </div>
         </div>
-      </div>
-      <div class="ui bottom attached tab segment" data-tab="traces">
-        <!-- PUT CONTENT HERE -->
-      </div>
-      <div class="ui bottom attached tab segment" data-tab="report">
-        <!-- PUT CONTENT HERE -->
+
+        <div ng-switch-when="traces">
+          <!-- PUT CONTENT HERE -->
+        </div>
+
+        <div ng-switch-when="report">
+          <!-- PUT CONTENT HERE -->
+        </div>
       </div>
     </div>

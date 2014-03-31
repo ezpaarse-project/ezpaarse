@@ -24,8 +24,7 @@ angular.module('ezPAARSE.main-controllers', [])
      * Give socket ID to the request service
      */
     socket.on('connected', function (socketID) {
-      requestService.data.socketID = socketID
-      console.log('connected ' + socketID);
+      requestService.data.socketID = socketID;
     });
 
   }).controller('LoginCtrl', function ($scope, $state, $http, userService, $element) {

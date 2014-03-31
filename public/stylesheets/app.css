@@ -46,6 +46,9 @@ a:hover {
   text-decoration: underline;
 }
 
+.bold {
+  font-weight: bold;
+}
 
 #container {
   position: relative;
