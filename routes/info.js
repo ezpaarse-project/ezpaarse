@@ -6,7 +6,6 @@
 var fs     = require('graceful-fs');
 var path   = require('path');
 var uuid   = require('uuid');
-var moment = require('moment');
 var pp     = require('../lib/platform-parser.js');
 var config = require('../lib/config.js');
 var pkg    = require('../package.json');
@@ -227,36 +226,18 @@ module.exports = function (app) {
   /**
    * GET route on /info/usage
    */
-  app.get(/\/info\/usage(?:\.(html|json))?$/, function (req, res) {
-    var format    = req.params[0] || 'json';
+  app.get('/info/usage.json', function (req, res) {
     var usageFile = path.join(__dirname, '/../usage.json');
-    var usage;
+
     if (!fs.existsSync(usageFile)) {
       res.send(404);
       return;
     }
-    usage = require(usageFile);
+    var usage = require(usageFile);
 
-    switch (format) {
-    case 'json':
-      res.header('Content-Type', 'application/json; charset=utf-8');
-      res.header("Access-Control-Allow-Origin", "*");
-      res.header("Access-Control-Allow-Headers", "X-Requested-With");
-      res.status(200);
-      res.write(JSON.stringify(usage, null, 2));
-      res.end();
-      break;
-    case 'html':
-      var title = "Utilisation d'ezPAARSE";
-      if (usage.general && usage.general['Job-Date-end']) {
-        title += " au " + moment(usage.general['Job-Date-end']).format('DD-MM-YYYY (hh[h]mm)');
-      }
-      title += ' - ezPAARSE';
-      // Utilisation d'ezPAARSE au 5 juin 2013 (11h25) - ezPAARSE
-      res.render('usage', { usage: usage, title: title, user: req.user });
-      break;
-    default:
-      res.send(406);
-    }
+    res.header('Content-Type', 'application/json; charset=utf-8');
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    res.json(200, usage);
   });
 };
