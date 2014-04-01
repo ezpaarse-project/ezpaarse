@@ -2,7 +2,7 @@
       <div id="header" class="ui inverted teal basic segment display-row">
         <div class="inner">
           <div class="ui inverted teal menu">
-              <div class="ui right item simple dropdown">
+            <div ng-if="user.logged" class="ui right item simple dropdown">
               <i class="user icon"></i> {{ user.name }} <i class="dropdown icon"></i>
               <div class="menu">
                 <div class="item"><i class="open folder icon"></i> Mes jobs</div>
@@ -10,8 +10,8 @@
                 <div class="item" ng-click="logout()"><i class="off icon"></i> Déconnexion</div>
               </div>
             </div>
-            <a href="/form" class="active item">Traitez vos logs</a>
-            <a class="item">Complétez les PKBs</a>
+            <a ng-if="user.logged" href="/form" class="active item">Traitez vos logs</a>
+            <a ng-if="user.logged" class="item">Complétez les PKBs</a>
             <div class="ui simple dropdown item">
               Documentation <i class="dropdown icon"></i>
               <div class="menu">
@@ -19,7 +19,7 @@
                 <div class="item">AnalogIST</div>
               </div>
             </div>
-            <a class="item" ng-if="hasAccess('admin')">Administration</a>
+            <a class="item" ng-if="user.logged && hasAccess('admin')">Administration</a>
           </div>
         </div>
       </div>

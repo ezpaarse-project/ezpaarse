@@ -68,6 +68,7 @@ a:hover {
   width: 960px;
   margin: 0 auto;
   padding-top: 80px;
+  min-height: 40px;
   background-image: url('/assets/img/logo-white.png');
   background-repeat: no-repeat;
   background-position: 0px 5px;

@@ -1,0 +1,31 @@
+    <div ng-controller="ReportCtrl">
+      <div ng-if="error" class="ui error message">
+        <div class="header">
+          Le rapport n'a pas pu être être récupéré.
+        </div>
+        <ul class="list">
+          <li>Avez-vous précisé un identifiant ?</li>
+          <li>Ce rapport a-t-il moins de 2 jours ?</li>
+        </ul>
+      </div>
+
+      <h2 class="ui header">
+        Rapport de traitement
+        <div class="sub header" ng-show="report.general['Job-Date']">Réalisé le {{ report.general['Job-Date'] | date:'short' }}</div>
+      </h2>
+      <accordion class="ui accordion" ng-repeat="(category, elements) in report">
+        <div class="title">
+          <i class="dropdown icon"></i>
+          {{ category }}
+        </div>
+
+        <div class="content">
+          <table class="ui basic collapsing table">
+            <tr ng-repeat="(key, val) in elements">
+              <th class="four wide">{{ key }}</th>
+              <td>{{ val }}</td>
+            </tr>
+          </table>
+        </div>
+      </accordion>
+    </div>

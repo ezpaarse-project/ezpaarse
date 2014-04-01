@@ -7,6 +7,7 @@ angular.module('ezPAARSE', [
   'ezPAARSE.services',
   'ezPAARSE.main-controllers',
   'ezPAARSE.form-controllers',
+  'ezPAARSE.anonymous-controllers',
   'ezPAARSE.directives',
   'ezPAARSE.filters'
 ]).config(function ($stateProvider, $locationProvider, $urlRouterProvider) {
@@ -16,12 +17,12 @@ angular.module('ezPAARSE', [
   var login = {
     name: 'login',
     url: '/login',
-    templateUrl: 'partials/login'
+    templateUrl: '/partials/login'
   };
   var home = {
     name: 'home',
     url: '/',
-    templateUrl: 'partials/index',
+    templateUrl: '/partials/index',
     abstract: true,
     resolve: {
       /**
@@ -29,40 +30,54 @@ angular.module('ezPAARSE', [
        * If not, request the session from the server.
        * Redirect to login in case of failure.
        */
-      userSession: function (userService, $state, $http) {
+      userSession: function (userService, $state, $http, $q) {
         if (userService.isAuthenticated()) { return; }
 
-        return $http.get('/session').success(function (user) {
-          if (!user) {
-            $state.go('login');
-            return;
+        var promise = $q.defer();
+        $http.get('/session').success(function (user) {
+          if (user) {
+            userService.login(user.username, user.group);
           }
-
-          userService.login(user.username, user.group);
-          return;
+          promise.resolve();
         }).error(function () {
-          $state.go('login');
+          promise.resolve();
         });
+
+        return promise;
       }
     }
   };
+
+  var checkAuth = function ($state, userService) {
+    if (!userService.isAuthenticated()) { $state.go('login'); }
+  };
+
   var process = {
     name: 'process',
     url: 'process',
     parent: home,
-    templateUrl: 'partials/process'
+    templateUrl: '/partials/process',
+    onEnter: checkAuth
   };
   var form = {
     name: 'form',
     url: 'form',
     parent: home,
-    templateUrl: 'partials/form'
+    templateUrl: '/partials/form',
+    onEnter: checkAuth
+  };
+  var report = {
+    name: 'report',
+    url: 'report/:jobID',
+    parent: home,
+    templateUrl: '/partials/report'
   };
 
   $stateProvider.state(login);
   $stateProvider.state(home);
   $stateProvider.state(process);
   $stateProvider.state(form);
+  $stateProvider.state(report);
 
 });
 // .factory('loginInterceptor', function ($q, $injector) {
