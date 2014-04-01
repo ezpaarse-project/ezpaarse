@@ -7,6 +7,7 @@ angular.module('ezPAARSE.form-controllers')
     $scope.request = requestService.data;
     $scope.nbLines = 0;
     $scope.tab     = 'metrics';
+    $scope.logs    = [];
     $scope.report  = {};
     $scope.rejects = [
       { cat: 'general', key: 'nb-denied-ecs',            percent: 0, css: { width: '0%' }, title: 'ECs en accès refusé' },
@@ -21,6 +22,10 @@ angular.module('ezPAARSE.form-controllers')
 
     $scope.selectTab = function (tab) { $scope.tab = tab; };
     $scope.selectHelper = function (helper) { $scope.helper = helper; };
+
+    socket.on('logging', function (log) {
+      $scope.logs.push(log);
+    });
 
     socket.on('report', function (report) {
       $scope.report = report;

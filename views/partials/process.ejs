@@ -134,8 +134,8 @@
           </div>
         </div>
 
-        <div ng-switch-when="traces">
-          <!-- PUT CONTENT HERE -->
+        <div class="ui inverted segment" ng-switch-when="traces">
+          <div ng-repeat="log in logs" ng-bind="log"></div>
         </div>
 
         <div ng-switch-when="report">

@@ -11,6 +11,7 @@ var I18n          = require('i18n-2');
 var Reaper        = require('tmp-reaper');
 var auth          = require('./lib/auth-middlewares.js');
 var winston       = require('winston');
+require('./lib/winston-socketio.js');
 var passport      = require('passport');
 var BasicStrategy = require('passport-http').BasicStrategy;
 var LocalStrategy = require('passport-local').Strategy;
