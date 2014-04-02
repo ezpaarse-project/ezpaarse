@@ -5,7 +5,7 @@
 angular.module('ezPAARSE.directives', [])
   .directive('bxslider', function () {
     return {
-      restrict: 'C',
+      restrict: 'A',
       link: function (scope, element, attributes) {
         element.bxSlider({
           mode: 'fade',
@@ -18,19 +18,24 @@ angular.module('ezPAARSE.directives', [])
   })
   .directive('sidebar', function () {
     return {
-      restrict: 'C',
+      restrict: 'E',
       link: function(scope, element, attributes) {
-        $(element).sidebar({ overlay: true });
+        element.sidebar({ overlay: true });
+
+        var attach = attributes['ezAttachedTo'];
+        if (attach) { element.sidebar('attach events', attributes['ezAttachedTo'], 'toggle'); }
       }
     };
   })
-  .directive('ezAttachedTo', function () {
+  .directive('modal', function () {
     return {
-      restrict: 'A',
+      restrict: 'E',
       link: function(scope, element, attributes) {
-        var elem = $(element);
-        if (elem.hasClass('modal')) { elem.modal('attach events', attributes['ezAttachedTo'], 'toggle'); }
-        if (elem.hasClass('sidebar')) { elem.sidebar('attach events', attributes['ezAttachedTo'], 'toggle'); }
+        var attach = attributes['ezAttachedTo']
+
+        if (attach) {
+          element.modal('attach events', attributes['ezAttachedTo'], 'toggle');
+        }
       }
     };
   })
