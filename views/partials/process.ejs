@@ -3,9 +3,10 @@
         Traitement en cours
         <div class="sub header">Vos logs sont en cours d'analyse par ezPAARSE. Vous pouvez suivre en temps réel l'état d'avancement du traitement et l'évolution des différents types de rejets.</div>
       </h2>
+      <div ng-if="request.errorMessage" ng-bind="request.errorMessage" class="ui error message"></div>
       <div class="progress-header">
         <div>
-          <div class="ui progress" ng-class="{true: 'blue active', false: 'green'}[request.progress < 100]">
+          <div class="ui progress" ng-class="{'loading': 'blue active', 'success': 'green', 'error': 'failed'}[request.state]">
             <div class="bar" ng-style="{width: request.progress + '%'}" ng-switch on="request.progress">
               <span ng-switch-default>{{ request.progress }}%</span>
               <span ng-switch-when="100">Terminé</span>
@@ -14,7 +15,7 @@
         </div>
         <div>
           <div class="ui left labeled attached icon positive mini button" data-content="Vous pouvez d'ores et déjà débuter le téléchargement."><i class="download disk icon"></i> Télécharger le résultat</div>
-          <div class="ui right labeled attached icon red mini button"><i class="basic cancel icon"></i> Annuler</div>
+          <div ng-click="abort()" class="ui right labeled attached icon red mini button"><i class="basic cancel icon"></i> Annuler</div>
         </div>
       </div>
 

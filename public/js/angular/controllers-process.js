@@ -3,7 +3,7 @@
 /* Controllers of the process page */
 
 angular.module('ezPAARSE.form-controllers')
-  .controller('ProcessCtrl', function ($scope, requestService, socket) {
+  .controller('ProcessCtrl', function ($scope, $location, requestService, socket) {
     $scope.request = requestService.data;
     $scope.nbLines = 0;
     $scope.tab     = 'metrics';
@@ -22,6 +22,12 @@ angular.module('ezPAARSE.form-controllers')
 
     $scope.selectTab = function (tab) { $scope.tab = tab; };
     $scope.selectHelper = function (helper) { $scope.helper = helper; };
+
+    $scope.abort = function () {
+      requestService.abort(function () {
+        $location.path('/form');
+      });
+    };
 
     socket.on('logging', function (log) {
       $scope.logs.push(log);

@@ -39,17 +39,30 @@ angular.module('ezPAARSE.services', [])
       };
     };
 
+    requestService.prototype.abort = function (callback) {
+      var self = this;
+
+      if (this.xhr) {
+        // Workaround : call function out of angular context
+        setTimeout(function () {
+          self.xhr.abort();
+          callback();
+        }, 1);
+      }
+    };
+
     requestService.prototype.send = function (formData, headers) {
       if (this.data.state == 'loading') { return false; }
 
-      var self        = this;
-      var jobID       = uuid.v1();
-      this.data.state = 'loading';
+      var self               = this;
+      var jobID              = uuid.v1();
+      this.data.state        = 'loading';
+      this.data.errorMessage = '';
 
-      headers = headers || {}
+      headers = headers || {};
       headers['Socket-ID'] = this.data.socketID;
 
-      $.ajax({
+      this.xhr = $.ajax({
         headers:     headers || {},
         type:        'PUT',
         url:         '/' + jobID,
@@ -58,7 +71,7 @@ angular.module('ezPAARSE.services', [])
         cache:       false,
         contentType: false,
         processData: false,
-        xhr: function() {
+        xhr: function () {
           var myXhr = $.ajaxSettings.xhr();
           if (myXhr.upload) {
             myXhr.upload.addEventListener('progress', function (e) {
@@ -76,21 +89,31 @@ angular.module('ezPAARSE.services', [])
           }
           return myXhr;
         },
-        success: function(data) {
+        complete: function () {
+          self.xhr = null;
+        },
+        success: function (data) {
           $rootScope.$apply(function () {
             self.data.state = 'success';
           });
         },
-        error: function(jqXHR, textStatus, errorThrown) {
+        error: function (jqXHR, textStatus, errorThrown) {
           $rootScope.$apply(function () {
             if (textStatus == 'abort') {
               self.data.state = 'aborted';
               return;
             }
 
-            self.data.errorCode    = jqXHR.getResponseHeader("ezPAARSE-Status");
-            self.data.errorMessage = jqXHR.getResponseHeader("ezPAARSE-Status-Message");
-            self.data.state   = 'error';
+            var errorCode    = jqXHR.getResponseHeader("ezPAARSE-Status");
+            var errorMessage = jqXHR.getResponseHeader("ezPAARSE-Status-Message");
+
+            if (errorCode && errorMessage) {
+              self.data.errorMessage = errorCode + ' : ' + errorMessage;
+            } else {
+              self.data.errorMessage = 'Une erreur est survenue';
+            }
+
+            self.data.state = 'error';
           });
         }
       });
