@@ -16,6 +16,14 @@ angular.module('ezPAARSE.directives', [])
       }
     };
   })
+  .directive('popup', function () {
+    return {
+      restrict: 'AE',
+      link: function(scope, element, attributes) {
+        element.popup();
+      }
+    };
+  })
   .directive('sidebar', function () {
     return {
       restrict: 'E',
