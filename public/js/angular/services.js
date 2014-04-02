@@ -47,7 +47,7 @@ angular.module('ezPAARSE.services', [])
         setTimeout(function () {
           self.xhr.abort();
           callback();
-        }, 1);
+        });
       }
     };
 

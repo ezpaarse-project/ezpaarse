@@ -7,9 +7,11 @@
       <div class="progress-header">
         <div>
           <div class="ui progress" ng-class="{'loading': 'blue active', 'success': 'green', 'error': 'failed'}[request.state]">
-            <div class="bar" ng-style="{width: request.progress + '%'}" ng-switch on="request.progress">
+            <div class="bar" ng-style="{width: request.progress + '%'}" ng-switch on="request.state">
               <span ng-switch-default>{{ request.progress }}%</span>
-              <span ng-switch-when="100">Terminé</span>
+              <span ng-switch-when="success">Terminé</span>
+              <span ng-switch-when="error">Erreur</span>
+              <span ng-switch-when="aborted">Annulé</span>
             </div>
           </div>
         </div>
