@@ -31,7 +31,7 @@ angular.module('ezPAARSE.directives', [])
         element.sidebar({ overlay: true });
 
         var attach = attributes['ezAttachedTo'];
-        if (attach) { element.sidebar('attach events', attributes['ezAttachedTo'], 'toggle'); }
+        if (attach) { element.sidebar('attach events', attach, 'toggle'); }
       }
     };
   })
@@ -42,7 +42,7 @@ angular.module('ezPAARSE.directives', [])
         var attach = attributes['ezAttachedTo']
 
         if (attach) {
-          element.modal('attach events', attributes['ezAttachedTo'], 'toggle');
+          element.modal('attach events', attach, 'toggle');
         }
       }
     };
