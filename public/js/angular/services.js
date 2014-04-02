@@ -55,7 +55,7 @@ angular.module('ezPAARSE.services', [])
       if (this.data.state == 'loading') { return false; }
 
       var self               = this;
-      var jobID              = uuid.v1();
+      this.data.jobID        = uuid.v1();
       this.data.state        = 'loading';
       this.data.errorMessage = '';
 
@@ -65,7 +65,7 @@ angular.module('ezPAARSE.services', [])
       this.xhr = $.ajax({
         headers:     headers || {},
         type:        'PUT',
-        url:         '/' + jobID,
+        url:         '/' + this.data.jobID,
         // dataType:    'html',
         data:        formData,
         cache:       false,
