@@ -5,7 +5,7 @@
         </div>
         <ul class="list">
           <li>Avez-vous précisé un identifiant ?</li>
-          <li>Ce rapport a-t-il moins de 2 jours ?</li>
+          <li>Ce rapport est-il récent ?</li>
         </ul>
       </div>
 
@@ -13,19 +13,22 @@
         Rapport de traitement
         <div class="sub header" ng-show="report.general['Job-Date']">Réalisé le {{ report.general['Job-Date'] | date:'short' }}</div>
       </h2>
-      <accordion class="ui accordion" ng-repeat="(category, elements) in report">
-        <div class="title">
-          <i class="dropdown icon"></i>
-          {{ category }}
-        </div>
 
-        <div class="content">
-          <table class="ui basic collapsing table">
-            <tr ng-repeat="(key, val) in elements">
-              <th class="four wide">{{ key }}</th>
-              <td>{{ val }}</td>
-            </tr>
-          </table>
-        </div>
-      </accordion>
+      <div class="ui no-print horizontal list">
+        <div class="header item">Aller à :</div>
+        <a ng-href="#cat-{{ category }}" class="item" ng-repeat="(category, elements) in report">{{ category }}</a>
+      </div>
+
+      <div class="report ui basic segment" ng-repeat="(category, elements) in report">
+        <h3 id="cat-{{ category }}" class="ui purple dividing header">
+          {{ category }}
+        </h3>
+
+        <table class="ui basic compact table">
+          <tr ng-repeat="(key, val) in elements">
+            <th class="four wide">{{ key }}</th>
+            <td>{{ val }}</td>
+          </tr>
+        </table>
+      </div>
     </div>
