@@ -21,47 +21,6 @@ module.exports = function (app) {
     });
 
   /**
-   * POST route on /register
-   * To create an admin if there is none
-   */
-  app.post('/register', express.bodyParser(), function (req, res) {
-    var username = req.body.username;
-    var password = req.body.password;
-
-    if (!username || !password) {
-      res.writeHead(400, {
-        'ezPAARSE-Status-Message': 'vous devez soumettre un login et un mot de passe'
-      });
-      res.end();
-      return;
-    }
-
-    if (userlist.length() !== 0) {
-      res.writeHead(409, {
-        'ezPAARSE-Status-Message': 'un compte administrateur existe'
-      });
-      res.end();
-      return;
-    }
-
-    var cryptedPassword = crypto.createHmac('sha1', 'ezgreatpwd0968')
-    .update(username + password)
-    .digest('hex');
-
-    var added = userlist.add({
-      username: username,
-      password: cryptedPassword,
-      group: 'admin'
-    });
-
-    if (added) {
-      res.send(201);
-    } else {
-      res.send(500);
-    }
-  });
-
-  /**
    * GET route on /users
    * To get the user list
    */
@@ -78,66 +37,65 @@ module.exports = function (app) {
    * To add a user
    */
   app.post('/users/', express.bodyParser(), function (req, res) {
-      var userid   = req.body.userid;
-      var password = req.body.password;
-      var confirm  = req.body.confirm;
+    var userid   = req.body.userid;
+    var password = req.body.password;
+    var confirm  = req.body.confirm;
 
-      if (!userid || !password || !confirm) {
-        res.writeHead(400, {
-          'ezPAARSE-Status-Message': 'vous devez soumettre un login et un mot de passe'
-        });
-        res.end();
-        return;
-      }
-
-      if (password != confirm) {
-        res.writeHead(400, {
-          'ezPAARSE-Status-Message': 'le mot de passe de confirmation ne correspond pas'
-        });
-        res.end();
-        return;
-      }
-
-      if (userlist.get(userid)) {
-        res.writeHead(409, {
-          'ezPAARSE-Status-Message': 'cet utilisateur existe'
-        });
-        res.end();
-        return;
-      }
-
-      var cryptedPassword = crypto.createHmac('sha1', 'ezgreatpwd0968')
-      .update(userid + password)
-      .digest('hex');
-
-
-      var user = userlist.add({
-        username: userid,
-        password: cryptedPassword,
-        group: 'user'
+    if (!userid || !password || !confirm) {
+      res.writeHead(400, {
+        'ezPAARSE-Status-Message': 'vous devez soumettre un login et un mot de passe'
       });
+      res.end();
+      return;
+    }
 
-      if (!user) {
+    if (password != confirm) {
+      res.writeHead(400, {
+        'ezPAARSE-Status-Message': 'le mot de passe de confirmation ne correspond pas'
+      });
+      res.end();
+      return;
+    }
+
+    if (userlist.get(userid)) {
+      res.writeHead(409, {
+        'ezPAARSE-Status-Message': 'cet utilisateur existe'
+      });
+      res.end();
+      return;
+    }
+
+    var cryptedPassword = crypto.createHmac('sha1', 'ezgreatpwd0968')
+    .update(userid + password)
+    .digest('hex');
+
+
+    var user = userlist.add({
+      username: userid,
+      password: cryptedPassword,
+      group: userlist.length() === 0 ? 'admin' : 'user'
+    });
+
+    if (!user) {
+      res.send(500);
+      return;
+    }
+
+    req.logIn(user, function (err) {
+      if (err) {
         res.send(500);
         return;
       }
 
-      req.logIn(user, function (err) {
-        if (err) {
-          res.send(500);
-          return;
-        }
+      var copyUser = {};
+      for (var prop in user) {
+        if (prop != 'password') { copyUser[prop] = user[prop]; }
+      }
 
-        var copyUser = {};
-        for (var prop in user) {
-          if (prop != 'password') { copyUser[prop] = user[prop]; }
-        }
-
-        res.set("Content-Type", "application/json; charset=utf-8");
-        res.send(201, JSON.stringify(copyUser, null, 2));
-      });
-    }
-  );
+      res.set("Content-Type", "application/json; charset=utf-8");
+      res.send(201, JSON.stringify(copyUser, null, 2));
+    });
+  });
 
   /**
    * DELETE route on /users/{username}
