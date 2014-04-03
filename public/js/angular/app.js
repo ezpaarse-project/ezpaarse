@@ -48,8 +48,14 @@ angular.module('ezPAARSE', [
     }
   };
 
-  var checkAuth = function ($state, userService) {
-    if (!userService.isAuthenticated()) { $state.go('login'); }
+  var checkAuth = function (groups) {
+    return function ($state, userService) {
+      if (!userService.isAuthenticated()) { $state.go('login'); }
+
+      if (groups && groups.split(',').indexOf(userService.user.group) == -1) {
+        $state.go('form');
+      }
+    };
   };
 
   var process = {
@@ -57,21 +63,21 @@ angular.module('ezPAARSE', [
     url: 'process',
     parent: home,
     templateUrl: '/partials/process',
-    onEnter: checkAuth
+    onEnter: checkAuth()
   };
   var form = {
     name: 'form',
     url: 'form',
     parent: home,
     templateUrl: '/partials/form',
-    onEnter: checkAuth
+    onEnter: checkAuth()
   };
   var admin = {
     name: 'admin',
     url: 'admin',
     parent: home,
     templateUrl: '/partials/admin',
-    onEnter: checkAuth
+    onEnter: checkAuth('admin')
   };
   var report = {
     name: 'report',
