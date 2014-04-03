@@ -16,6 +16,38 @@ angular.module('ezPAARSE.directives', [])
       }
     };
   })
+  .directive('ezGetCurl', function ($location, requestService) {
+    return {
+      restrict: 'A',
+      link: function(scope, element, attributes) {
+        scope.getCurl = function () {
+          var headers = scope.getHeaders();
+          var data    = scope.getData();
+          var curl    = 'curl -X POST -u "username:password"';
+
+          for (var key in headers) {
+            curl += ' -H "' + key + ':' + headers[key].replace(/"/g, '\\"') + '"';
+          }
+
+          if (Array.isArray(data)) {
+            var i = 1;
+            data.forEach(function (file) {
+              curl += ' -F "file' + (i++) + '=@' + file.name + (file.type ? ';type=' + file.type : '') + '"';
+            });
+          } else {
+            curl += ' --data-binary=""';
+          }
+
+          curl += ' ' + $location.protocol() + '://';
+          curl += $location.host() + ':';
+          curl += $location.port();
+
+          scope.curl = curl;
+          element.modal('show');
+        };
+      }
+    };
+  })
   .directive('popup', function () {
     return {
       restrict: 'AE',

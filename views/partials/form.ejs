@@ -49,21 +49,21 @@
         <div class="ui center aligned basic segment">
           <div class="ui big buttons">
             <button ng-click="start()" class="ui teal button">Traiter les fichiers</button>
-            <button class="ui icon teal button" title="Traiter avec cURL"><i class="copy small icon"></i></button>
+            <button ng-click="getCurl()" class="ui icon teal button" popup data-variation="inverted" data-position="right center" title="Traiter avec cURL"><i class="copy small icon"></i></button>
           </div>
         </div>
       </div>
 
       <div ng-switch-when="text">
         <div class="ui form field">
-          <label for="log-lines">Copiez/coller vos lignes de log ici</label>
+          <label for="log-lines">Copiez/collez vos lignes de log ici</label>
           <textarea ng-model="$parent.directInput"></textarea>
         </div>
 
         <div class="ui center aligned basic segment">
           <div class="ui big buttons">
             <button ng-click="start()" class="ui teal button">Traiter les lignes</button>
-            <button class="ui icon teal button" title="Traiter avec cURL"><i class="copy small icon"></i></button>
+            <button ng-click="getCurl()" class="ui icon teal button" popup data-variation="inverted" data-position="right center" title="Traiter avec cURL"><i class="copy small icon"></i></button>
           </div>
         </div>
       </div>
@@ -73,4 +73,13 @@
       </div>
     </div>
 
+    <modal class="ui modal" ez-get-curl>
+      <div class="ui form content">
+        <p class="justify aligned">Copiez la commande ci-dessous pour exécuter la requête avec cURL en utilisant le paramétrage actuel du formulaire. Vous devrez peut-être modifier le chemin des fichiers ou ajouter des options telles que <code>--proxy</code> ou <code>--no-buffer</code>.</p>
+
+        <div class="field">
+          <textarea class="ui input" ng-model="curl"></textarea>
+        </div>
+      </div>
+    </modal>
   </div>

@@ -46,6 +46,14 @@ a:hover {
   text-decoration: underline;
 }
 
+code {
+  padding: 2px 4px;
+  color: #D14;
+  white-space: nowrap;
+  background-color: #F7F7F9;
+  border: 1px solid #E1E1E8;
+}
+
 .bold {
   font-weight: bold;
 }
@@ -169,6 +177,10 @@ a:hover {
 .inline-labels .ui.label {
   word-break: break-all;
   margin: 2px;
+}
+
+.justify.aligned {
+  text-align: justify;
 }
 
 /**

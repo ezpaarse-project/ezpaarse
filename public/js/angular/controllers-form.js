@@ -8,12 +8,12 @@ angular.module('ezPAARSE.form-controllers', [])
       $location.path('/process');
     }
 
-    $scope.files       = [];
-    $scope.totalSize   = 0;
-    $scope.showHelp    = false;
-    $scope.inputType   = 'files';
-    $scope.selections  = settingService.selections;
-    $scope.settings    = settingService.settings;
+    $scope.files      = [];
+    $scope.totalSize  = 0;
+    $scope.showHelp   = false;
+    $scope.inputType  = 'files';
+    $scope.selections = settingService.selections;
+    $scope.settings   = settingService.settings;
 
     $scope.loadDefault = function () {
       settingService.loadDefault();
@@ -76,19 +76,7 @@ angular.module('ezPAARSE.form-controllers', [])
       input.val('');
     };
 
-    $scope.start = function () {
-      var formData;
-      if ($scope.inputType == 'text') {
-        if (!$scope.directInput) { return; }
-        formData = $scope.directInput;
-      } else {
-        if (!$scope.files.length) { return; }
-        formData = new FormData();
-        $scope.files.forEach(function (file) {
-          formData.append("files[]", file);
-        });
-      }
-
+    $scope.getHeaders = function () {
       var settings = $scope.settings;
       var headers  = angular.copy(settings.headers);
 
@@ -112,7 +100,34 @@ angular.module('ezPAARSE.form-controllers', [])
         });
       }
 
-      requestService.send(formData, headers);
+      return headers;
+    };
+
+    $scope.getData = function () {
+      if ($scope.inputType == 'text') {
+        return $scope.directInput;
+      } else {
+        return $scope.files;
+      }
+    };
+
+    $scope.start = function () {
+      var formData;
+      var data = $scope.getData();
+
+      if (!data) { return; }
+      if (Array.isArray(data)) {
+        if (!data.length) { return; }
+
+        formData = new FormData();
+        $scope.files.forEach(function (file) {
+          formData.append("files[]", file);
+        });
+      } else {
+        formData = $scope.directInput;
+      }
+
+      requestService.send(formData, $scope.getHeaders());
 
       $location.path('/process');
     };
