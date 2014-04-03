@@ -8,6 +8,7 @@ angular.module('ezPAARSE', [
   'ezPAARSE.main-controllers',
   'ezPAARSE.form-controllers',
   'ezPAARSE.anonymous-controllers',
+  'ezPAARSE.admin-controllers',
   'ezPAARSE.directives',
   'ezPAARSE.filters'
 ]).config(function ($stateProvider, $locationProvider, $urlRouterProvider) {
