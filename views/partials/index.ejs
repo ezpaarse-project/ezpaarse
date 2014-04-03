@@ -37,10 +37,10 @@
             </div>
           </div>
           <div class="ui column right aligned">
-            <a href="#" popup data-variation="inverted" title="Ecrivez-nous à ezpaarse@couperin.org" class="ui mini icon teal button"><i class="tiny mail icon"></i></a>
-            <a href="#" popup data-variation="inverted" title="Suivez-nous sur Facebook !" class="ui mini icon facebook button"><i class="tiny facebook icon"></i></a>
-            <a href="#" popup data-variation="inverted" title="Suivez-nous sur Twitter !" class="ui mini icon twitter button"><i class="tiny twitter icon"></i></a>
-            <a href="#" popup data-variation="inverted" title="Suivez-nous sur Google+ !" class="ui mini icon google plus button"><i class="tiny google plus icon"></i></a>
+            <a ng-href="mailto:{{ contact.mail }}" popup data-variation="inverted" title="Ecrivez-nous à ezpaarse@couperin.org" class="ui mini icon teal button"><i class="tiny mail icon"></i></a>
+            <a ng-href="{{ contact.facebook }}" target="_blank" popup data-variation="inverted" title="Suivez-nous sur Facebook !" class="ui mini icon facebook button"><i class="tiny facebook icon"></i></a>
+            <a ng-href="{{ contact.twitter }}" target="_blank" popup data-variation="inverted" title="Suivez-nous sur Twitter !" class="ui mini icon twitter button"><i class="tiny twitter icon"></i></a>
+            <a ng-href="{{ contact.googleplus }}" target="_blank" popup data-variation="inverted" title="Suivez-nous sur Google+ !" class="ui mini icon google plus button"><i class="tiny google plus icon"></i></a>
           </div>
         </div>
       </div>

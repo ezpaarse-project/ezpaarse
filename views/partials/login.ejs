@@ -34,10 +34,10 @@
                 <div class="description">
                   Un problème, une question, une suggestion ?<br/>Ça nous intéresse !
                   <span id="social">
-                    <a href="#" popup data-variation="inverted" title="Ecrivez-nous à ezpaarse@couperin.org"><i class="tiny teal mail icon"></i></a>
-                    <a href="#" popup data-variation="inverted" title="Suivez-nous sur Facebook !"><i class="tiny facebook colored icon"></i></a>
-                    <a href="#" popup data-variation="inverted" title="Suivez-nous sur Twitter !"><i class="tiny twitter colored icon"></i></a>
-                    <a href="#" popup data-variation="inverted" title="Suivez-nous sur Google+ !"><i class="tiny google plus colored icon"></i></a>
+                    <a ng-href="mailto:{{ contact.mail }}" popup data-variation="inverted" title="Ecrivez-nous à ezpaarse@couperin.org"><i class="tiny teal mail icon"></i></a>
+                    <a ng-href="{{ contact.facebook }}" target="_blank" popup data-variation="inverted" title="Suivez-nous sur Facebook !"><i class="tiny facebook colored icon"></i></a>
+                    <a ng-href="{{ contact.twitter }}" target="_blank" popup data-variation="inverted" title="Suivez-nous sur Twitter !"><i class="tiny twitter colored icon"></i></a>
+                    <a ng-href="{{ contact.googleplus }}" target="_blank" popup data-variation="inverted" title="Suivez-nous sur Google+ !"><i class="tiny google plus colored icon"></i></a>
                   </span>
                 </div>
               </div>

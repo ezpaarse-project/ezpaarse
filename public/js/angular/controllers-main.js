@@ -5,6 +5,13 @@
 angular.module('ezPAARSE.main-controllers', [])
   .controller('AppCtrl', function ($scope, $state, userService, $http, requestService, socket) {
 
+    $scope.contact = {
+      facebook: 'https://www.facebook.com/Ezpaarse',
+      googleplus: 'https://plus.google.com/113684662646843807159',
+      twitter: 'https://twitter.com/ezpaarse',
+      mail: 'ezpaarse@gmail.com'
+    };
+
     $scope.user = userService.user;
 
     $scope.hasAccess = function () {
