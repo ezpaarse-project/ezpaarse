@@ -11,7 +11,7 @@
 
       <h2 class="ui header">
         Rapport de traitement
-        <div class="sub header" ng-show="report.general['Job-Date']">Réalisé le {{ report.general['Job-Date'] | date:'short' }}</div>
+        <div class="sub header" ng-show="report.general['Job-Date']">Réalisé le {{ report.general['Job-Date'] | date:'dd-MM-yyyy (HH:mm)' }}</div>
       </h2>
 
       <div class="ui no-print horizontal list">
