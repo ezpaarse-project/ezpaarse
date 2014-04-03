@@ -34,8 +34,6 @@ angular.module('ezPAARSE.directives', [])
             data.forEach(function (file) {
               curl += ' -F "file' + (i++) + '=@' + file.name + (file.type ? ';type=' + file.type : '') + '"';
             });
-          } else {
-            curl += ' --data-binary=""';
           }
 
           curl += ' ' + $location.protocol() + '://';
