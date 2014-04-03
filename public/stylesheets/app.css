@@ -182,6 +182,12 @@ code {
 .justify.aligned {
   text-align: justify;
 }
+.right.aligned {
+  text-align: right;
+}
+.left.aligned {
+  text-align: left;
+}
 
 /**
  * Feedback sidebar

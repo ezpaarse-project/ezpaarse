@@ -33,19 +33,19 @@
             <table class="ui basic table">
               <tr>
                 <th>Lignes lues</th>
-                <td ng-bind="report.general['nb-lines-input'] | number"></td>
+                <td class="right aligned" ng-bind="report.general['nb-lines-input'] | number"></td>
               </tr>
               <tr>
                 <th>ECs générés</th>
-                <td ng-bind="report.general['nb-ecs'] | number"></td>
+                <td class="right aligned" ng-bind="report.general['nb-ecs'] | number"></td>
               </tr>
               <tr>
                 <th>Durée du traitement</th>
-                <td ng-bind="report.general['Job-Duration']"></td>
+                <td class="right aligned" ng-bind="report.general['Job-Duration']"></td>
               </tr>
               <tr>
                 <th>Vitesse</th>
-                <td ng-bind="report.general['process-speed']"></td>
+                <td class="right aligned" ng-bind="report.general['process-speed']"></td>
               </tr>
             </table>
           </div>
@@ -54,15 +54,15 @@
             <table class="ui basic table">
               <tr>
                 <th>Plateformes reconnues</th>
-                <td ng-bind="report.stats['platforms'] | number"></td>
+                <td class="right aligned" ng-bind="report.stats['platforms'] | number"></td>
               </tr>
               <tr>
                 <th>Consultations HTML</th>
-                <td ng-bind="report.stats['mime-HTML'] | number"></td>
+                <td class="right aligned" ng-bind="report.stats['mime-HTML'] | number"></td>
               </tr>
               <tr>
                 <th>Consultations PDF</th>
-                <td ng-bind="report.stats['mime-PDF'] | number"></td>
+                <td class="right aligned" ng-bind="report.stats['mime-PDF'] | number"></td>
               </tr>
             </table>
           </div>
@@ -70,16 +70,16 @@
 
         <div ng-switch-when="rejects" class="ui grid">
           <div class="ui ten wide column">
-            <table class="rejects ui compact table">
+            <table class="ui basic compact table">
               <tr ng-mouseenter="selectHelper('nb-lines-ignored')">
-                <td>Lignes ignorées</td>
-                <td>{{ report.rejets['nb-lines-ignored'] | number}}</td>
+                <th>Lignes ignorées</th>
+                <td class="right aligned">{{ report.rejets['nb-lines-ignored'] | number}}</td>
                 <td style="width: 150px;"></td>
               </tr>
 
               <tr ng-repeat="reject in rejects" ng-mouseenter="selectHelper(reject.key)">
-                <td>{{ reject.title }} <i class="attention red icon" ng-show="reject.warning"></i></td>
-                <td ng-class="{true: 'bold'}[reject.warning]">{{ reject.number | number}}</td>
+                <th>{{ reject.title }} <i class="attention red icon" ng-show="reject.warning"></i></th>
+                <td class="right aligned" ng-class="{true: 'bold'}[reject.warning]">{{ reject.number | number}}</td>
                 <td><div class="ui warning progress"><div class="bar" ng-style="reject.css"></div></div></td>
               </tr>
 
