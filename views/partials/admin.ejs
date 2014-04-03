@@ -11,5 +11,15 @@
       <h3 class="ui dividing header">
         Utilisateurs
       </h3>
-
+      <p ng-hide="users" class="center aligned"><i class="big loading icon"></i></p>
+      <table ng-show="users" class="ui basic collapsing table">
+        <thead><tr>
+          <th>Nom</th>
+          <th>Groupe</th>
+        </tr></thead>
+        <tr ng-repeat="user in users | orderBy:'name'">
+          <td>{{ user.username }}</td>
+          <td>{{ user.group }}</td>
+        </tr>
+      </table>
     </div>

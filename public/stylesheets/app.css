@@ -179,15 +179,10 @@ code {
   margin: 2px;
 }
 
-.justify.aligned {
-  text-align: justify;
-}
-.right.aligned {
-  text-align: right;
-}
-.left.aligned {
-  text-align: left;
-}
+.justify.aligned { text-align: justify; }
+.right.aligned   { text-align: right; }
+.left.aligned    { text-align: left; }
+.center.aligned  { text-align: center; }
 
 /**
  * Feedback sidebar
