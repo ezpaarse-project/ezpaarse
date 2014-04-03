@@ -66,6 +66,13 @@ angular.module('ezPAARSE', [
     templateUrl: '/partials/form',
     onEnter: checkAuth
   };
+  var admin = {
+    name: 'admin',
+    url: 'admin',
+    parent: home,
+    templateUrl: '/partials/admin',
+    onEnter: checkAuth
+  };
   var report = {
     name: 'report',
     url: 'report/:jobID',
@@ -77,19 +84,7 @@ angular.module('ezPAARSE', [
   $stateProvider.state(home);
   $stateProvider.state(process);
   $stateProvider.state(form);
+  $stateProvider.state(admin);
   $stateProvider.state(report);
 
 });
-// .factory('loginInterceptor', function ($q, $injector) {
-//   // Redirect to login page if a request gets a 401
-//   return {
-//     responseError: function(rejection) {
-//       if (rejection.status === 401) {
-//         $injector.get('$state').transitionTo('login');
-//       }
-//       return $q.reject(rejection);
-//      }
-//    };
-// }).config(function ($httpProvider) {
-//   $httpProvider.interceptors.push('loginInterceptor');
-// })

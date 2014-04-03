@@ -10,17 +10,6 @@ var auth     = require('../lib/auth-middlewares.js');
 module.exports = function (app) {
 
   /**
-   * GET route on /
-   */
-  app.get('/admin', auth.ensureAuthenticated(true),
-    auth.authorizeMembersOf('admin'), function (req, res) {
-      res.render('admin', {
-        title: 'ezPAARSE - Web service',
-        user: req.user
-      });
-    });
-
-  /**
    * GET route on /users
    * To get the user list
    */
