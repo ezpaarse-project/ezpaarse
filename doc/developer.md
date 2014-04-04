@@ -91,6 +91,8 @@ Une fois les tests valides, le parseur peut être intégré a github.
 A noter que l'écriture d'un parseur se base principalement sur l'écriture d'expressions régulières (regexp).
 Pour aider l'écriture des regexp, voici un [outil qui pourra aider à visualiser l'écriture d'une regexp](http://www.regexper.com/).
 
+Une [procédure détaillée](http://analogist.couperin.org/platforms/contribute/parser) est disponible sur AnalogIST
+
 ## Tests de validation du parseur
 
 Chaque parseur est accompagné du nécessaire pour être testé. Il s'agit d'un ou plusieurs fichiers présents dans le sous-repertoire `test` du package du parseur. Ces fichiers sont au format CSV et suivent la nomenclature ``platform.version.csv``.  
@@ -134,7 +136,26 @@ Le fichier manifest.json est utilisé pour afficher dynamiquement les [caractér
 
 ## Principe de gestion des bases de connaissance éditeur
 
-Les bases de connaissance éditeur sont enregistrées sous forme de fichier texte au [format KBART](http://www.uksg.org/kbart/s1/summary) et sont propres à chaque plateforme. Le fichier ``platform_AllTitles.txt`` contient les correspondances entre les identifiants de la plateforme en question et un ISSN ou autre identifiant normalisé. Le champ KBART appelé ``title_id`` est utilisé pour faire cette correspondance avec le champ ``print_identifier`` (cas du papier) ou ``online_identifier`` (cas électronique). La [liste des champs KBART](http://www.uksg.org/kbart/s5/guidelines/data_field_labels) et leur signification est consultable.
+Les bases de connaissance éditeur sont utilisées pour :
+
+* faire la correspondance entre les identifiants des plateformes éditeurs (qui peuvent être spécifiques) et des identifiants normalisés (de type ISSN)
+* inclure les titres des ressources consultées dans les résultats
+
+Les bases de connaissance éditeur sont enregistrées sous forme de fichier texte au [format KBART](http://www.uksg.org/kbart/s1/summary) et sont propres à chaque plateforme.
+Le fichier ``platform_AllTitles.txt`` contient les correspondances entre les identifiants de la plateforme en question et un ISSN ou autre identifiant normalisé. Le champ KBART appelé ``title_id`` est utilisé pour faire cette correspondance avec le champ ``print_identifier`` (cas du papier) ou ``online_identifier`` (cas électronique). La [liste des champs KBART](http://www.uksg.org/kbart/s5/guidelines/data_field_labels) et leur signification est consultable.
+
+Les bases de connaissances sont chargées par ezPAARSE et leur structure doit être préalablement contrôlée par la [commande pkbvalidator](/doc/tools.html#pkbvalidator)
+
+Elles peuvent être :
+
+* récupérées sur les sites des éditeurs sous forme de fichier KBART
+* générées automatiquement grâce à un programme spécifique appelé scraper 
+* éditées manuellement
+
+Les scrapers sont rangés dans un [répertoire spécifique](/doc/tree.html#arborescence-ezpaarse) classés par plateforme.
+Il n'en existe pas pour toutes les plateformes, la liste actuelle est [disponible sur gitHub](https://github.com/ezpaarse-project/ezpaarse-scrapers).
+
+Vous pouvez consulter [comment écrire un scraper](http://analogist.couperin.org/platforms/contribute/scraper) sur AnalogIST
 
 
 ## Effectuer un test en particulier ##
