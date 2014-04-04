@@ -19,8 +19,7 @@ var infoRoutes = [
 
 var adminRoutes = [
   '/pkb/status',
-  '/users',
-  '/admin'
+  '/users'
 ];
 
 function testNextRoute(routes, status, callback) {
