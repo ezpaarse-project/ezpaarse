@@ -13,7 +13,7 @@ DOC_OUTPUT=$(shell pwd)/public/doc
 DOC_HTML=$(DOC_OUTPUT)/index.html
 
 # Run every steps needed to start ezpaarse
-all: nodejs pkb-update parsers-update scrapers-update node-modules doc checkconfig
+all: nodejs pkb-update parsers-update scrapers-update node-modules doc bower checkconfig
 
 # Application section
 # # # # # # # # # # # #
@@ -145,6 +145,9 @@ nodejs:
 
 node-modules:
 	@. ./bin/env; npm install; cd platforms-scrapers && npm install
+
+bower:
+	@. ./bin/env; bower install
 
 # make deb v=0.0.3
 deb:
