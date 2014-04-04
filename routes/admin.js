@@ -58,7 +58,6 @@ module.exports = function (app) {
     .update(userid + password)
     .digest('hex');
 
-
     var user = userlist.add({
       username: userid,
       password: cryptedPassword,

@@ -4,8 +4,12 @@
 
 angular.module('ezPAARSE.admin-controllers', [])
   .controller('AdminCtrl', function ($scope, $http) {
+
     $http.get('/users/')
       .success(function (users) {
         $scope.users = users;
+      })
+      .error(function () {
+        $scope.getUsersError = true;
       });
   });
