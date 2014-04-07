@@ -146,7 +146,7 @@ Le fichier ``platform_AllTitles.txt`` contient les correspondances entre les ide
 
 Les bases de connaissances sont chargées par ezPAARSE et leur structure doit être préalablement contrôlée par la [commande pkbvalidator](/doc/tools.html#pkbvalidator)
 
-[Plus de détails sur AnalogIST](http://analogist.couperin.org/platforms/contribute/start)
+[Plus de détails sur AnalogIST](http://analogist.couperin.org/platforms/contribute/parser)
 
 ## Effectuer un test en particulier ##
 
