@@ -1,0 +1,64 @@
+#!/bin/bash
+#
+# Script used to download latest libs (node_modules and bower_components) 
+# from the ezpaarse-libs github repository.
+#
+# Before downloading, the script checks the latest commit id and do not
+# download a new version if nothing new has been commited.
+#
+# To force downloading again, you just have to manualy remove:
+#   build/ezpaarse-libs.commitid.cache
+#
+
+EZPAARSE_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
+
+LATEST_LIBS_COMMIT=`curl -s https://api.github.com/repos/ezpaarse-project/ezpaarse-libs/git/refs/heads/master | grep '"sha"' | sed 's#^.*: *"##g' | sed 's#",.*$##g'`
+
+LOCAL_LIBS_COMMIT=`cat $EZPAARSE_PATH/build/ezpaarse-libs.commitid.cache 2>/dev/null`
+
+# checking that latest ezpaarse-libs is not yet installed locally
+if [ "$LATEST_LIBS_COMMIT" == "" ]; then
+  echo "Error: latest commit from https://github.com/ezpaarse-project/ezpaarse-libs/ cannot be checked."
+  echo "       Please check Github status https://status.github.com/ or your local network / proxy..."
+  exit 1
+fi
+if [ "$LATEST_LIBS_COMMIT" == "$LOCAL_LIBS_COMMIT" ]; then
+  echo "Already have the latest ezpaarse-libs version localy (commitid = $LOCAL_LIBS_COMMIT)"
+  echo "Skipping https://github.com/ezpaarse-project/ezpaarse-libs/ downloading"
+  exit 0
+fi
+
+# downloading latest ezpaarse-libs archive
+echo "--> Downloading https://codeload.github.com/ezpaarse-project/ezpaarse-libs/zip/master"
+curl -L https://codeload.github.com/ezpaarse-project/ezpaarse-libs/zip/master > $EZPAARSE_PATH/build/ezpaarse-libs.zip
+if [ "$?" != "0" ]; then
+  echo "Error: cURL error while downloading https://codeload.github.com/ezpaarse-project/ezpaarse-libs/zip/master"
+  echo "       Please check Github status https://status.github.com/ or your local network / proxy..."
+  exit 1
+fi
+ARCHIVE_SIZE=$(stat -c '%s' $EZPAARSE_PATH/build/ezpaarse-libs.zip)
+if [ "$ARCHIVE_SIZE" == "0" ]; then
+  echo "Error: cURL error while downloading https://codeload.github.com/ezpaarse-project/ezpaarse-libs/zip/master"
+  echo "       Filesize is $ARCHIVE_SIZE"
+  echo "       Please check Github status https://status.github.com/ or your local network / proxy..."
+  exit 1
+fi
+
+# extracting the archive
+cd $EZPAARSE_PATH/build/
+unzip -q ezpaarse-libs.zip
+if [ "$?" != "0" ]; then
+  echo "Error: unzip error $EZPAARSE_PATH/build/ezpaarse-libs.zip"
+  exit 1
+fi
+
+# copying the node_modules and bower_components
+cp -rf ./ezpaarse-libs-master/ezpaarse/node_modules/ $EZPAARSE_PATH/
+mkdir -p $EZPAARSE_PATH/public/components/
+cp -rf ./ezpaarse-libs-master/ezpaarse/bower_components/* $EZPAARSE_PATH/public/components/
+
+# cleanup temp zip and extracted files
+rm -rf $EZPAARSE_PATH/build/ezpaarse-libs.zip $EZPAARSE_PATH/build/ezpaarse-libs-master/
+
+# storing commit id as a cache id
+echo $LATEST_LIBS_COMMIT > $EZPAARSE_PATH/build/ezpaarse-libs.commitid.cache

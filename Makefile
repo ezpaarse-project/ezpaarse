@@ -143,8 +143,12 @@ nodejs:
 	@test -f /usr/bin/git || sudo apt-get install --yes git
 	@./bin/buildnode
 
-node-modules:
-	@. ./bin/env; npm install; cd platforms-scrapers && npm install
+node-modules: libs
+
+bower: libs
+
+libs:
+	@./bin/downloadlibs
 
 bower:
 	@. ./bin/env; bower install
