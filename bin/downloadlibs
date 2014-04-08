@@ -56,6 +56,7 @@ fi
 cp -rf ./ezpaarse-libs-master/ezpaarse/node_modules/ $EZPAARSE_PATH/
 mkdir -p $EZPAARSE_PATH/public/components/
 cp -rf ./ezpaarse-libs-master/ezpaarse/bower_components/* $EZPAARSE_PATH/public/components/
+cp -rf ./ezpaarse-libs-master/ezpaarse-scrapers/node_modules/ $EZPAARSE_PATH/platforms-scrapers/
 
 # cleanup temp zip and extracted files
 rm -rf $EZPAARSE_PATH/build/ezpaarse-libs.zip $EZPAARSE_PATH/build/ezpaarse-libs-master/
