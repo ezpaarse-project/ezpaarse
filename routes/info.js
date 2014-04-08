@@ -215,12 +215,10 @@ module.exports = function (app) {
     var file = path.join(__dirname, '/../form-predefined.json');
     if (fs.existsSync(file)) {
       var predefined = require(file);
-      res.status(200);
-      res.write(JSON.stringify(predefined, null, 2));
+      res.json(200, predefined);
     } else {
-      res.status(404);
+      res.send(404);
     }
-    res.end();
   });
 
   /**

@@ -4,6 +4,7 @@ angular.module('ezPAARSE', [
   'ui.router',
   'ngCookies',
   'btford.socket-io',
+  'localytics.directives',
   'ezPAARSE.services',
   'ezPAARSE.main-controllers',
   'ezPAARSE.form-controllers',

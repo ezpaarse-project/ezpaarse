@@ -8,20 +8,15 @@ angular.module('ezPAARSE.form-controllers', [])
       $location.path('/process');
     }
 
-    $scope.files      = [];
-    $scope.totalSize  = 0;
-    $scope.showHelp   = false;
-    $scope.inputType  = 'files';
-    $scope.selections = settingService.selections;
-    $scope.settings   = settingService.settings;
+    $scope.files     = [];
+    $scope.totalSize = 0;
+    $scope.showHelp  = false;
+    $scope.inputType = 'files';
+    $scope.ss        = settingService;
 
-    $scope.loadDefault = function () {
-      settingService.loadDefault();
-    }
-    settingService.loadSavedSettings();
-
-    $scope.$watch('settings', function () {
+    $scope.$watch('ss.settings', function () {
       settingService.saveSettings();
+      settingService.control();
     }, true);
 
     $scope.selectTab  = function (type) { $scope.inputType = type; };
@@ -35,15 +30,8 @@ angular.module('ezPAARSE.form-controllers', [])
         $scope[input] = '';
       }
     };
-    $scope.removeOutputField = function (index, evt) {
-      evt.stopPropagation();
-      settingService.removeOutputField(index);
-    };
-
-    $scope.addCustomHeader = settingService.addCustomHeader;
-    $scope.removeCustomHeader = function (index, evt) {
-      evt.stopPropagation();
-      settingService.removeCustomHeader();
+    $scope.removeOutputField = function (name, type) {
+      settingService.removeOutputField(name, type);
     };
 
     var updateTotalSize = function () {
@@ -77,7 +65,7 @@ angular.module('ezPAARSE.form-controllers', [])
     };
 
     $scope.getHeaders = function () {
-      var settings = $scope.settings;
+      var settings = settingService.settings;
       var headers  = angular.copy(settings.headers);
 
       if (settings.proxyType && settings.logFormat) {

@@ -1,30 +1,15 @@
       <div class="ui two column grid">
         <div class="column">
-          <select id="predefined-settings" class="chosen-select-deselect" data-placeholder="Choix d'un paramétrage prédéfini..." data-no_results_text="Aucun résultat pour" ez-chosen>
-            <option value="" selected=""></option>
-            <option value="INISTCNRS">INIST-CNRS</option>
-            <option value="ULorraine">Université de Lorraine</option>
-            <option value="UParisDApache">Université Paris Descartes Apache</option>
-            <option value="UParisDBibliopam">Université Paris Descartes Bibliopam</option>
-            <option value="EPFL">École polytechnique fédérale de Lausanne</option>
-            <option value="URennes1">Université de Rennes 1</option>
-            <option value="URennes2">Université de Rennes 2</option>
-            <option value="ULyon1">Université Lyon 1</option>
-            <option value="ULyon">Université Lyon 3</option>
-            <option value="UPMCezproxy">UPMC ezproxy</option>
-            <option value="UPMCsquid">UPMC squid</option>
-            <option value="UStrasbourg">Université de Strasbourg</option>
-            <option value="UToulouse">Université de Toulouse</option>
-            <option value="ULimoges">Université de Limoges</option>
-            <option value="UMontpellier3">Université de Montpellier 3</option>
-            <option value="INRIA">INRIA</option>
-            <option value="UParis1">Université Paris 1</option>
-            <option value="UParis11">Université Paris 11</option>
-            <option value="UPEC">Université Paris-Est Créteil (UPEC)</option>
-            <option value="UVHC">Université de Valenciennes et du Hainaut-Cambrésis</option>
-            <option value="ExempleOutput">Exemple selection sortie</option>
-            <option value="Lara">Lara</option>
-          </select>
+          <div ng-hide="ss.predefined"><i class="large loading icon"></i> Chargement des paramètres prédéfinis</div>
+          <div ng-show="ss.predefined">
+            <div class="ui tiny header">
+              Paramétrage actuel
+              <div class="sub header">{{ ss.settingsType || 'par défaut' }}<span ng-show="ss.custom"> (modifié)</span></div>
+            </div>
+            <select chosen ng-model="predefined" ng-change="ss.defineSettings(predefined)" data-placeholder="Choix d'un paramétrage prédéfini..." no-results-text="'Aucun résultat pour'" allow-single-deselect="true" ng-options="key as key for (key, val) in ss.predefined">
+              <option value=""></option>
+            </select>
+          </div>
         </div>
 
         <div class="right aligned column">
@@ -35,63 +20,47 @@
     <div class="ui small form">
       <div class="ui teal dividing header">En entrée</div>
       <div class="three fields">
-
         <div class="field">
           <label>Format de date</label>
-          <input ng-hide="showHelp" placeholder="DD/MMM/YYYY:HH:mm:ss Z" type="text" ng-model="settings.headers['Date-Format']">
+          <input ng-hide="showHelp" placeholder="DD/MMM/YYYY:HH:mm:ss Z" type="text" ng-model="ss.settings.headers['Date-Format']">
           <div ng-show="showHelp" class="ui inverted teal bottom attached segment">Format de date des lignes de log.</div>
         </div>
 
         <div class="field">
           <label>Domaine relatif</label>
-          <input ng-hide="showHelp" placeholder="www.domain.com" type="text" ng-model="settings.headers['Relative-Domain']">
+          <input ng-hide="showHelp" placeholder="www.domain.com" type="text" ng-model="ss.settings.headers['Relative-Domain']">
           <div ng-show="showHelp" class="ui inverted teal bottom attached segment">Domaine à utiliser pour les URLs relatives.</div>
         </div>
 
-        <div class="field">
-          <label>Encodage du texte</label>
-          <select ng-hide="showHelp" ng-model="settings.headers['Request-Charset']" ng-options="e for e in selections.encodings"></select>
-          <div ng-show="showHelp" class="ui inverted teal bottom attached segment">Jeu de caractères (charset) utilisé dans les fichiers à traiter.</div>
-        </div>
-
-      </div>
-      <div class="four fields">
         <div class="select field">
           <label>Type de log</label>
-          <select ng-hide="showHelp" ng-model="settings.proxyType" ng-options="proxy for proxy in selections.proxyTypes">
+          <select ng-hide="showHelp" ng-model="ss.settings.proxyType" ng-options="proxy for proxy in ss.selections.proxyTypes">
             <option value="">Reconnaissance auto</option>
           </select>
           <div ng-show="showHelp" class="ui inverted teal bottom attached segment">Plateforme d'origine des log.</div>
         </div>
+      </div>
 
-        <div class="three wide field" ng-show="settings.proxyType || showHelp">
-          <label>Format de log</label>
-          <textarea ng-hide="showHelp" placeholder="%h %t %r %s" type="text" ng-model="settings.logFormat"></textarea>
-          <div ng-show="showHelp" class="ui inverted teal bottom attached segment">Format des lignes de log (Ex: '%h %l %u %t %s %b'). <a href='/doc/formats.html' target='_blank'>En savoir plus</a></div>
-        </div>
+      <div class="field" ng-show="ss.settings.proxyType || showHelp">
+        <label>Format de log</label>
+        <textarea ng-hide="showHelp" placeholder="%h %t %r %s" type="text" ng-model="ss.settings.logFormat"></textarea>
+        <div ng-show="showHelp" class="ui inverted teal bottom attached segment">Format des lignes de log (Ex: '%h %l %u %t %s %b'). <a href='/doc/formats.html' target='_blank'>En savoir plus</a></div>
       </div>
 
       <div class="ui red dividing header">En sortie</div>
       <div class="three fields">
         <div class="field">
           <label>Format du résultat</label>
-          <select ng-hide="showHelp" ng-model="settings.headers['Accept']" ng-options="f.mime as f.type for f in selections.resultFormats"></select>
+          <select ng-hide="showHelp" ng-model="ss.settings.headers['Accept']" ng-options="f.mime as f.type for f in ss.selections.resultFormats"></select>
           <div ng-show="showHelp" class="ui inverted red bottom attached segment">Format des données en sortie.</div>
         </div>
 
         <div class="field">
           <label>Traces système</label>
-          <select ng-hide="showHelp" ng-model="settings.headers['Traces-Level']" ng-options="t.level as t.desc for t in selections.tracesLevels"></select>
+          <select ng-hide="showHelp" ng-model="ss.settings.headers['Traces-Level']" ng-options="t.level as t.desc for t in ss.selections.tracesLevels"></select>
           <div ng-show="showHelp" class="ui inverted red bottom attached segment">Niveau de verbosité des traces laissées durant le traitement.</div>
         </div>
 
-        <div class="field">
-          <label>Encodage du texte</label>
-          <select ng-hide="showHelp" ng-model="settings.headers['Response-Charset']" ng-options="e for e in selections.encodings"></select>
-          <div ng-show="showHelp" class="ui inverted red bottom attached segment">Jeu de caractères (charset) utilisé dans les données en sortie.</div>
-        </div>
-      </div>
-      <div class="three fields">
         <div class="field">
           <label>Champs en sortie</label>
           <div class="two fields" ng-hide="showHelp">
@@ -117,9 +86,14 @@
           </div>
 
           <div class="inline-labels field" ng-hide="showHelp">
-            <div class="ui normalized label" ng-class="{plus: 'orange', minus: 'purple'}[field.type]" ng-repeat="field in settings.outputFields | orderBy:'type'">
-              {{ field.name }}
-              <i class="delete icon" ng-click="removeOutputField($index, $event)"></i>
+            <div class="ui purple normalized label" ng-repeat="field in ss.settings.outputFields.minus track by $index">
+              {{ field }}
+              <i class="delete icon" ng-click="removeOutputField(field, 'minus')"></i>
+            </div>
+
+            <div class="ui orange normalized label" ng-repeat="field in ss.settings.outputFields.plus track by $index">
+              {{ field }}
+              <i class="delete icon" ng-click="removeOutputField(field, 'plus')"></i>
             </div>
           </div>
 
@@ -130,18 +104,18 @@
       <div class="ui purple dividing header">Headers (avancé)</div>
       <div class="ui small form" ng-hide="showHelp">
         <div class="field">
-          <div ng-click="addCustomHeader()" class="ui small icon button"><i class="plus icon"></i> Nouveau</div>
+          <div ng-click="ss.addCustomHeader()" class="ui small icon button"><i class="plus icon"></i> Nouveau</div>
         </div>
 
-        <div class="five fields" ng-repeat="header in settings.customHeaders">
+        <div class="five fields" ng-repeat="header in ss.settings.customHeaders">
           <div class="field">
-            <input type="text" placeholder="Nom" ng-model="settings.customHeaders[$index].name">
+            <input type="text" placeholder="Nom" ng-model="ss.settings.customHeaders[$index].name">
           </div>
           <div class="three wide field">
-            <input type="text" placeholder="Valeur" ng-model="settings.customHeaders[$index].value">
+            <input type="text" placeholder="Valeur" ng-model="ss.settings.customHeaders[$index].value">
           </div>
           <div class="field">
-            <div class="ui small icon button" ng-click="removeCustomHeader($index, $event)"><i class="red trash icon"></i></div>
+            <div class="ui small icon button" ng-click="ss.removeCustomHeader($index)"><i class="red trash icon"></i></div>
           </div>
         </div>
       </div>
@@ -150,9 +124,9 @@
 
     <div class="ui right aligned basic segment">
       <p><div class="ui slider checkbox">
-        <input id="rememberToggle" type="checkbox" ng-model="settings.remember">
+        <input id="rememberToggle" type="checkbox" ng-model="ss.remember" ng-change="ss.saveRemember()">
         <label for="rememberToggle">Mémoriser mes paramètres</label>
       </div></p>
       <p>
-      <div class="ui right labeled mini icon button" ng-click="loadDefault()"><i class="repeat icon"></i> Paramètres par défaut</div></p>
+      <div class="ui right labeled mini icon button" ng-click="ss.loadDefault()"><i class="repeat icon"></i> Paramètres par défaut</div></p>
     </div>

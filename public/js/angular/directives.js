@@ -155,12 +155,4 @@ angular.module('ezPAARSE.directives', [])
         element.checkbox();
       }
     };
-  })
-  .directive('ezChosen', function () {
-    return {
-      restrict: 'A',
-      link: function (scope, element, attributes) {
-        $(element).chosen({ allow_single_deselect: true });
-      }
-    };
   });
