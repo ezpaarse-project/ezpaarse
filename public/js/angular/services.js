@@ -64,8 +64,8 @@ angular.module('ezPAARSE.services', [])
 
       this.xhr = $.ajax({
         headers:     headers || {},
-        type:        'PUT',
-        url:         '/' + this.data.jobID,
+        type:        'POST',
+        url:         '/' + this.data.jobID + '?_METHOD=PUT',
         // dataType:    'html',
         data:        formData,
         cache:       false,

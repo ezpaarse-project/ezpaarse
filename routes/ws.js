@@ -106,6 +106,16 @@ module.exports = function (app) {
   } else {
     app.post('/', startJob);
     app.put(uuidRegExp, startJob);
+
+    // this route is useful because sometime PUT is not allowed by reverse proxies
+    // PUT is replaced by a POST with a _METHOD=PUT as a query
+    app.post(uuidRegExp, function (req, res) {
+      if (req.query._METHOD == 'PUT') {
+        startJob(req, res);
+      } else {
+        res.send(400, 'Please add _METHOD=PUT as a query in the URL (RESTful way)');
+      }
+    });
   }
 
   /**
