@@ -146,17 +146,7 @@ Le fichier ``platform_AllTitles.txt`` contient les correspondances entre les ide
 
 Les bases de connaissances sont chargées par ezPAARSE et leur structure doit être préalablement contrôlée par la [commande pkbvalidator](/doc/tools.html#pkbvalidator)
 
-Elles peuvent être :
-
-* récupérées sur les sites des éditeurs sous forme de fichier KBART
-* générées automatiquement grâce à un programme spécifique appelé scraper 
-* éditées manuellement
-
-Les scrapers sont rangés dans un [répertoire spécifique](/doc/tree.html#arborescence-ezpaarse) classés par plateforme.
-Il n'en existe pas pour toutes les plateformes, la liste actuelle est [disponible sur gitHub](https://github.com/ezpaarse-project/ezpaarse-scrapers).
-
-Vous pouvez consulter [comment écrire un scraper](http://analogist.couperin.org/platforms/contribute/scraper) sur AnalogIST
-
+[Plus de détails sur AnalogIST](http://analogist.couperin.org/platforms/contribute/parser)
 
 ## Effectuer un test en particulier ##
 
