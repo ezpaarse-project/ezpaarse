@@ -32,27 +32,28 @@ angular.module('ezPAARSE', [
        * If not, request the session from the server.
        * Redirect to login in case of failure.
        */
-      userSession: function (userService, $state, $http, $q) {
-        if (userService.isAuthenticated()) { return; }
+      isConnected: function (userService, $state, $http, $q) {
+        if (userService.isAuthenticated()) { return true; }
 
-        var promise = $q.defer();
+        var deferred = $q.defer();
         $http.get('/session').success(function (user) {
           if (user) {
             userService.login(user.username, user.group);
           }
-          promise.resolve();
+
+          deferred.resolve(user ? true : false);
         }).error(function () {
-          promise.resolve();
+          deferred.resolve(false);
         });
 
-        return promise;
+        return deferred.promise;
       }
     }
   };
 
   var checkAuth = function (groups) {
-    return function ($state, userService) {
-      if (!userService.isAuthenticated()) { $state.go('login'); }
+    return function ($state, userService, isConnected) {
+      if (!isConnected) { $state.go('login'); }
 
       if (groups && groups.split(',').indexOf(userService.user.group) == -1) {
         $state.go('form');
