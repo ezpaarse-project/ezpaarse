@@ -66,20 +66,18 @@
           <div class="two fields" ng-hide="showHelp">
             <div class="field">
               <form ng-submit="addOutputField('plus')">
-                <div class="ui action input">
+                <div class="ui icon input">
                   <input type="text" placeholder="Ajouter..." ng-model="$parent.plusField">
-                  <div ng-click="addOutputField('plus')" class="ui orange icon button">
-                    <i class="plus icon"></i>
-                  </div>
+                  <i class="plus link icon" ng-click="addOutputField('plus')"></i>
                 </div>
               </form>
             </div>
 
             <div class="field">
               <form ng-submit="addOutputField('minus')">
-                <div class="ui action input">
+                <div class="ui icon input">
                   <input type="text" placeholder="Enlever..." ng-model="$parent.minusField">
-                  <div ng-click="addOutputField('minus')" class="ui purple icon button"><i class="minus icon"></i></div>
+                  <i class="minus link icon" ng-click="addOutputField('minus')"></i>
                 </div>
               </form>
             </div>
@@ -87,12 +85,12 @@
 
           <div class="inline-labels field" ng-hide="showHelp">
             <div class="ui purple normalized label" ng-repeat="field in ss.settings.outputFields.minus track by $index">
-              {{ field }}
+              - {{ field }}
               <i class="delete icon" ng-click="removeOutputField(field, 'minus')"></i>
             </div>
 
             <div class="ui orange normalized label" ng-repeat="field in ss.settings.outputFields.plus track by $index">
-              {{ field }}
+              + {{ field }}
               <i class="delete icon" ng-click="removeOutputField(field, 'plus')"></i>
             </div>
           </div>
