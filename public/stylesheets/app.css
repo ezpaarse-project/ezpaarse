@@ -152,6 +152,11 @@ code {
   overflow: auto;
 }
 
+textarea#log-lines {
+  font-size: 0.7em;
+  word-break: break-all;
+}
+
 .inverted.popup a {
   color: inherit;
 }
