@@ -54,14 +54,31 @@ angular.module('ezPAARSE.directives', [])
       }
     };
   })
+  .directive('ezToggleSidebar', function () {
+    return {
+      restrict: 'A',
+      link: function(scope, element, attributes) {
+        element.click(function () {
+          $(attributes['ezToggleSidebar']).sidebar('toggle');
+        });
+      }
+    };
+  })
+  .directive('ezToggleModal', function () {
+    return {
+      restrict: 'A',
+      link: function(scope, element, attributes) {
+        element.click(function () {
+          $(attributes['ezToggleModal']).modal('toggle');
+        });
+      }
+    };
+  })
   .directive('sidebar', function () {
     return {
       restrict: 'E',
       link: function(scope, element, attributes) {
         element.sidebar({ overlay: true });
-
-        var attach = attributes['ezAttachedTo'];
-        if (attach) { element.sidebar('attach events', attach, 'toggle'); }
       }
     };
   })
@@ -69,11 +86,7 @@ angular.module('ezPAARSE.directives', [])
     return {
       restrict: 'E',
       link: function(scope, element, attributes) {
-        var attach = attributes['ezAttachedTo']
-
-        if (attach) {
-          element.modal('attach events', attach, 'toggle');
-        }
+        var attach = attributes['ezAttachedTo'];
       }
     };
   })

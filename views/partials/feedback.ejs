@@ -1,8 +1,8 @@
-  <div class="ui no-print blue feedback right attached icon button feedback-toggle">
+  <div class="ui no-print blue feedback right attached icon button" ez-toggle-sidebar="#feedback-sidebar">
     <i class="comment icon"></i>
   </div>
-  <sidebar class="ui very wide feedback inverted purple sidebar segment" ez-attached-to=".feedback-toggle">
-    <i class="big feedback-toggle close link icon"></i>
+  <sidebar id="feedback-sidebar" class="ui very wide feedback inverted purple sidebar segment">
+    <i class="big close link icon" ez-toggle-sidebar="#feedback-sidebar"></i>
     <div class="ui inverted form">
       <div class="ui inverted header">
         Feedback
