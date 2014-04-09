@@ -116,7 +116,7 @@ app.configure(function () {
    */
   app.use(function (req, res, next) {
     var key = '_method';
-    if (req.query && key in req.query) {
+    if (req.query && req.query[key]) {
       req.method = req.query[key].toUpperCase();
     } else if (req.headers['x-http-method-override']) {
       req.method = req.headers['x-http-method-override'].toUpperCase();
