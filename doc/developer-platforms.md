@@ -1,22 +1,14 @@
-# Documentation développeur #
+# Documentation développeur: parseurs, pkb, scrapers #
 
-## Technologies utilisées par ezPAARSE ##
+## Pré-requis pour le développement : guide d'utilisation de git(hub) ##
 
-* [nodejs](http://nodejs.org/) pour le coeur d'ezPAARSE (performances et sa gestion avancée du streaming).
-* [git](http://git-scm.com/) pour gérer les bases de connaissances éditeurs et le code source.
-* [php](http://php.net), [perl](http://www.perl.org/), [python](http://www.python.org/) ou autres langages pour l'écriture des parseurs.
+Pour pouvoir contribuer à ezPAARSE en tant que développeur :
 
-## Guide rapide d'utilisation de git ##
+* pour l'écriture d'un parseur
+* ou pour la maintenance d'un parseur existant
+* ou pour proposer des améliorations dans le coeur d'ezPAARSE.
 
-Vous êtes développeur et souhaitez contribuer au code source d'ezPAARSE par exemple :
-
-* pour l'écriture de parseur.
-* ou pour la maintenance d'un parseur existant.
-* ou même en proposant des améliorations dans le coeur d'ezPAARSE.
-
-Consultez régulièrement [la page de contribution à la reconnaissance de plateforme](http://analogist.couperin.org/platforms/contribute/start).
-
-Tout d'abord, veuillez vous enregistrer sur [Github](https://github.com/).
+Il est nécessaire tout d'abord, de s'enregistrer sur [Github](https://github.com/).
 
 Vous avez ensuite besoin de maîtriser quelques commandes [git](http://git-scm.com/) :
 
@@ -53,11 +45,7 @@ git commit ./monfichiertest -m "ajout d'un fichier test"
 git push
 ```
 
-Remarque: à moins de disposer d'un accès privilégié (équipe ezPAARSE), vous devez tout d'abord "forker" le dépôt github d'ezPAARSE pour pouvoir ensuite travailler sur cette copie. Une fois que vous êtes satisfaits vous pouvez alors soumettre votre travail à l'équipe ezPAARSE en envoyant une ["pull request"](https://help.github.com/articles/using-pull-requests). Votre travail sera alors relu par l'équipe ezPAARSE puis intégré si aucun souci n'est repéré.
-
-## Fonctionnement du moteur d'ezPAARSE
-
-![Schema du fonctionnement du moteur ezPAARSE](images/ezPAARSE-Moteur.png "Moteur ezPAARSE")
+Remarque: à moins de disposer d'un accès privilégié (équipe ezPAARSE), vous devez tout d'abord "forker" le dépôt github d'ezPAARSE pour pouvoir ensuite travailler sur cette copie. Une fois que vous êtes satisfaits vous pouvez alors soumettre votre travail à l'équipe ezPAARSE en envoyant une ["pull request"](https://help.github.com/articles/using-pull-requests). Votre travail sera alors relu par l'équipe ezPAARSE puis intégré si aucun souci n'est repéré. L'équipe ezPAARSE fourni ensuite les droits d'accès en écriture sur le code source officiels d'ezPAARSE aux contributeurs réguliers afin de faciliter les contributions.
 
 ## Écriture d'un parseur ##
 
@@ -73,6 +61,8 @@ Remarque: à moins de disposer d'un accès privilégié (équipe ezPAARSE), vous
 * le code retour est 0 si tout s'est bien passé et 1 en cas d'erreur.
 * [exemple en Javascript](https://github.com/ezpaarse-project/ezpaarse-parsers/blob/master/js-parser-skeleton/parser.js)
 * [exemple en PHP](https://github.com/ezpaarse-project/ezpaarse-parsers/blob/master/sd/parser.php)
+
+
 
 ## Écriture d'un parseur Javascript ##
 
@@ -174,65 +164,3 @@ Par exemple pour le test de Science Direct :
 mocha ./test/platforms-test -g sd
 ```
 
-
-## Générer une version d'ezPAARSE ##
-
-Pour générer une nouvelle version d'ezPAARSE plusieurs étapes semi-automatiques sont nécessaires :
-
-- S'assurer de ne pas avoir de modification locales en attente: `git status` permet de s'en assurer.
-
-- Modifier le numéro de version des différents fichiers concernés (bien entendu, remplacez `0.0.3` par le numéro souhaité) :
-```console
-make version v=0.0.3
-git commit -a -m "Version 0.0.3"
-git push
-```
-
-- Créer un tag git correspondant à la version précédemment créée :
-```console
-make tag
-```
-
-- Créer une archive tar.gz :
-```
-make tar
-```
-
-- Créer une archive debian (.deb) :
-```console
-make deb
-```
-
-- Créer une archive rpm (.rpm) :
-```console
-make rpm
-```
-
-- Créer une archive windows (.exe) :
-```console
-make exe
-```
-
-- Envoyer le tout sur le serveur [AnalogIST](http://analogist.couperin.org) pour mettre la version à disposition de la communauté :
-```console
-make upload
-```
-
-## Générer une archive snapshot d'ezPAARSE ##
-
-Le numéro de version `latest` doit être utilisé pour générer un snapshot (une archive de la version de développement).
-
-```
-make tar v=latest
-make deb v=latest
-make rpm v=latest
-make exe v=latest
-make upload v=latest
-```
-
-Le numéro de version aura cette forme : `AAAAMMJJ<commitid>`  
-Exemple: `201303240bc258f` (24 mars 2013 commit id = 0bc258f)
-
-## Contributions à ezPAARSE-arborescence ezPAARSE ##
-
-Lors d'une contribution, se référer à [l'arborescence ezPAARSE](/doc/tree.html) pour savoir où déposer vos fichiers
