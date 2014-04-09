@@ -1,144 +1,88 @@
 {
-  "advanced-options-predefined":
-  {
-    "INISTCNRS":
-    {
-      "label": "INST-CNRS"
-    },
-    "ULorraine":
-    {
-      "label": "Université de Lorraine",
-      "Log-Type": "ezproxy",
-      "Log-Format": "%h %{session}<[a-zA-Z0-9\\-\\+]+> %u %t \"%r\" %s %b %{user}<[a-zA-Z0-9\\-\\+,]+>"
-    },
-    "UParisDApache":
-    {
-      "label": "Université Paris Descartes Apache",
-      "Log-Type": "apache",
-      "Log-Format": "%h %l %u %t \"%r\" %>s %b %<.*>"
-    },
-    "UParisDBibliopam":
-    {
-      "label": "Université Paris Descartes Bibliopam"
-    },
-    "EPFL":
-    {
-      "label": "École polytechnique fédérale de Lausanne"
-    },
-    "URennes1":
-    {
-      "label": "Université de Rennes 1",
-      "Log-Type": "ezproxy",
-      "Log-Format": "%h %{session1}<[a-zA-Z0-9\\-\\+]+> %{session2}<[a-zA-Z0-9\\-\\+]+> %t \"%r\" %s %b %{user}<[a-zA-Z0-9\\-\\+]+>"
-    },
-    "URennes2":
-    {
-      "label": "Université de Rennes 2",
-      "Log-Type": "ezproxy",
-      "Log-Format": "%h %l %u %t \"%r\" %s %b \"%<.*>\""
-    },
-    "ULyon1":
-    {
-      "label": "Université Lyon 1",
-      "Log-Type": "ezproxy"
-    },
-    "ULyon":
-    {
-      "label": "Université Lyon 3",
-      "Log-Type": "ezproxy",
-      "Log-Format": "%h %l %u %t \"%r\" %s %b"
-    },
-    "UPMCezproxy":
-    {
-      "label": "UPMC ezproxy",
-      "Log-Type": "ezproxy",
-      "Log-Format": "%h %{session}<[a-zA-Z0-9\\-]+> %u %t \"%r\" %s %b %<.*>"
-    },
-    "UPMCsquid":
-    {
-      "label": "UPMC squid",
-      "Log-Type": "squid",
-      "Log-Format": "%ts.%03tu %6tr %>a %Ss/%03>Hs %<st %rm %ru %[un %Sh/%<a %mt"
-    },
-    "UStrasbourg":
-    {
-      "label": "Université de Strasbourg",
-      "Log-Type": "ezproxy",
-      "Log-Format": "%t %h %h %u %U %b %{session}<[a-zA-Z0-9]+|\\->"
-    },
-    "UToulouse":
-    {
-      "label": "Université de Toulouse",
-      "Log-Type": "ezproxy",
-      "Log-Format": "%h %l %u %t \"%r\" %>s %b %<.*>"
-    },
-    "ULimoges":
-    {
-      "label": "Université de Limoges",
-      "Log-Type": "ezproxy",
-      "Log-Format": "%t %h %U"
-    },
-    "UMontpellier3":
-    {
-      "label": "Université de Montpellier 3",
-      "Log-Type": "ezproxy",
-      "Log-Format": "%h %{session}<[a-zA-Z0-9\\-\\+]+> %<[a-zA-Z0-9]+>.%{user}<[a-zA-Z0-9]+> %t \"%r\" %s %b %<[a-zA-Z0-9\\-\\+]+>"
-    },
-    "INRIA":
-    {
-      "label": "INRIA",
-      "Log-Type": "squid",
-      "Log-Format": "%<A:%lp %>a %ui %[un [%tl] \"%rm %ru HTTP/%rv\" %>Hs %<st %<.*>"
-    },
-    "UParis1":
-    {
-      "label": "Université Paris 1",
-      "Log-Type": "ezproxy",
-      "Log-Format": "%h %{session} %u %t \"%r\" %s %b"
-    },
-    "UParis11":
-    {
-      "label": "Université Paris 11"
-    },
-    "UPEC": {
-      "label": "Université Paris-Est Créteil (UPEC)",
-      "Log-Format": "%h %l %u %t \"%r\" %s %b - -  %{revue}<[a-zA-Z0-9\\-\\+,]+> %{discipline}<[a-zA-Z0-9\\-\\+,]+> %<.*>",
-      "Log-Type": "ezproxy"
-    },
-    "UVHC": {
-      "label": "Université de Valenciennes et du Hainaut-Cambrésis",
-      "Log-Type": "ezproxy",
-      "Log-Format": "%{datetime}<[^|]+>|%{session}<[^ ]+>|%h|%U|%{profil}<[a-zA-Z0-9+]+>|%{domain}<[^ ]+>|",
-      "Date-Format": "YYYY/MM/DD:HH:mm:ss"
-    },
-    "ExempleOutput":
-    {
-      "label": "Exemple selection sortie",
-      "Log-Type": "ezproxy",
-      "Output-Fields": "-host,-login,+datetime"
-    },
-    "Lara":
-    {
-      "label": "Lara",
-      "Log-Type": "apache",
-      "Log-Format": "%h %l %u %t %r %>s %b",
-      "Relative-Domain": "lara.inist.fr",
-      "Output-Fields": "+pid,-domain"
-    },
-    "SAM":
-    {
-      "label": "Archive ouverte Art et Metier ParisTech",
-      "Log-Type": "apache",
-      "Relative-Domain": "sam.ensam.eu",
-      "Output-Fields": "+pid,-domain,-pissn,-doi,-eissn,-pisbn,-title,-identid"
-    },
-    "AOUnivAngers":
-    {
-      "label": "Archive ouverte Université Angers",
-      "Log-Type": "apache",
-      "Log-Format": "%<[a-zA-Z0-9\\+\\-.:]+> %h %l %u %t \"%r\" %>s %b \"%<[^\"]+>\" \"%<.*>\"",
-      "Relative-Domain": "ao.univ-angers.fr",
-      "Output-Fields": "+pid,-domain,-pissn,-doi,-eissn,-pisbn,-title,-identid"
-    }
+  "INIST-CNRS": {},
+  "Université de Lorraine": {
+    "Log-Type": "EZproxy",
+    "Log-Format": "%h %{session}<[a-zA-Z0-9\\-\\+]+> %u %t \"%r\" %s %b %{user}<[a-zA-Z0-9\\-\\+,]+>"
+  },
+  "Université Paris Descartes Apache": {
+    "Log-Type": "Apache",
+    "Log-Format": "%h %l %u %t \"%r\" %>s %b %<.*>"
+  },
+  "Université Paris Descartes Bibliopam": {},
+  "École polytechnique fédérale de Lausanne": {},
+  "Université de Rennes 1": {
+    "Log-Type": "EZproxy",
+    "Log-Format": "%h %{session1}<[a-zA-Z0-9\\-\\+]+> %{session2}<[a-zA-Z0-9\\-\\+]+> %t \"%r\" %s %b %{user}<[a-zA-Z0-9\\-\\+]+>"
+  },
+  "Université de Rennes 2": {
+    "Log-Type": "EZproxy",
+    "Log-Format": "%h %l %u %t \"%r\" %s %b \"%<.*>\""
+  },
+  "Université Lyon 1": {},
+  "Université Lyon 3": {
+    "Log-Type": "EZproxy",
+    "Log-Format": "%h %l %u %t \"%r\" %s %b"
+  },
+  "UPMC ezproxy": {
+    "Log-Type": "EZproxy",
+    "Log-Format": "%h %{session}<[a-zA-Z0-9\\-]+> %u %t \"%r\" %s %b %<.*>"
+  },
+  "UPMC squid": {
+    "Log-Type": "Squid",
+    "Log-Format": "%ts.%03tu %6tr %>a %Ss/%03>Hs %<st %rm %ru %[un %Sh/%<a %mt"
+  },
+  "Université de Strasbourg": {
+    "Log-Type": "EZproxy",
+    "Log-Format": "%t %h %h %u %U %b %{session}<[a-zA-Z0-9]+|\\->"
+  },
+  "Université de Toulouse": {
+    "Log-Type": "EZproxy",
+    "Log-Format": "%h %l %u %t \"%r\" %>s %b %<.*>"
+  },
+  "Université de Limoges": {
+    "Log-Type": "EZproxy",
+    "Log-Format": "%t %h %U"
+  },
+  "Université de Montpellier 3": {
+    "Log-Type": "EZproxy",
+    "Log-Format": "%h %{session}<[a-zA-Z0-9\\-\\+]+> %<[a-zA-Z0-9]+>.%{user}<[a-zA-Z0-9]+> %t \"%r\" %s %b %<[a-zA-Z0-9\\-\\+]+>"
+  },
+  "INRIA": {
+    "Log-Type": "Squid",
+    "Log-Format": "%<A:%lp %>a %ui %[un [%tl] \"%rm %ru HTTP/%rv\" %>Hs %<st %<.*>"
+  },
+  "Université Paris 1": {
+    "Log-Type": "EZproxy",
+    "Log-Format": "%h %{session} %u %t \"%r\" %s %b"
+  },
+  "Université Paris 11": {},
+  "Université Paris-Est Créteil (UPEC)": {
+    "Log-Format": "%h %l %u %t \"%r\" %s %b - -  %{revue}<[a-zA-Z0-9\\-\\+,]+> %{discipline}<[a-zA-Z0-9\\-\\+,]+> %<.*>",
+    "Log-Type": "EZproxy"
+  },
+  "Université de Valenciennes et du Hainaut-Cambrésis": {
+    "Log-Type": "EZproxy",
+    "Log-Format": "%{datetime}<[^|]+>|%{session}<[^ ]+>|%h|%U|%{profil}<[a-zA-Z0-9+]+>|%{domain}<[^ ]+>|",
+    "Date-Format": "YYYY/MM/DD:HH:mm:ss"
+  },
+  "Exemple selection sortie": {
+    "Log-Type": "EZproxy",
+    "Output-Fields": "-host,-login,+datetime"
+  },
+  "Lara": {
+    "Log-Type": "Apache",
+    "Log-Format": "%h %l %u %t %r %>s %b",
+    "Relative-Domain": "lara.inist.fr",
+    "Output-Fields": "+pid,-domain"
+  },
+  "Archive ouverte Art et Metier ParisTech": {
+    "Relative-Domain": "sam.ensam.eu",
+    "Output-Fields": "+pid,-domain,-pissn,-doi,-eissn,-pisbn,-title,-identid"
+  },
+  "Archive ouverte Université Angers": {
+    "Log-Type": "Apache",
+    "Log-Format": "%<[a-zA-Z0-9\\+\\-.:]+> %h %l %u %t \"%r\" %>s %b \"%<[^\"]+>\" \"%<.*>\"",
+    "Relative-Domain": "ao.univ-angers.fr",
+    "Output-Fields": "+pid,-domain,-pissn,-doi,-eissn,-pisbn,-title,-identid"
   }
 }

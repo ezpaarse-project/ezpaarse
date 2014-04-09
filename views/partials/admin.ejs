@@ -1,0 +1,67 @@
+    <div ng-controller="AdminCtrl">
+
+      <h2 class="ui header">
+        Administration
+      </h2>
+
+      <h3 class="ui dividing header">
+        Dépôts
+      </h3>
+      <h4 class="ui header">Etat de la base de connaissances</h4>
+      <div ng-switch="repos.pkb">
+        <div ng-switch-when="uptodate" class="ui small green button">la base est à jour</div>
+        <div ng-switch-when="outdated" class="ui small animated orange fade button" ng-click="updatePkb()">
+          <div class="visible content">mises à jour disponibles</div>
+          <div class="hidden content">
+            Mettre à jour
+          </div>
+        </div>
+        <div ng-switch-when="refresh" class="ui small loading button">loading</div>
+        <div ng-switch-default class="ui small red button">statut inconnu {{repos.pkb}}</div>
+      </div>
+
+      <h4 class="ui header">Etat des parseurs</h4>
+      <div ng-switch="repos.parsers">
+        <div ng-switch-when="uptodate" class="ui small green button">les parseurs sont à jour</div>
+        <div ng-switch-when="outdated" class="ui small animated orange fade button" ng-click="updateParsers()">
+          <div class="visible content">mises à jour disponibles</div>
+          <div class="hidden content">
+            Mettre à jour
+          </div>
+        </div>
+        <div ng-switch-when="refresh" class="ui small loading button">loading</div>
+        <div ng-switch-default class="ui small red button">statut inconnu {{repos.pkb}}</div>
+      </div>
+
+      <h3 class="ui dividing header">
+        Utilisateurs
+      </h3>
+      <p ng-hide="users || getUsersError" class="center aligned"><i class="big loading icon"></i></p>
+      <div ng-show="getUsersError" class="ui error compact message">Les utilisateurs n'ont pas pu être chargés.</div>
+      <table ng-show="users" class="ui basic collapsing table">
+        <thead><tr>
+          <th>Nom</th>
+          <th>Groupe</th>
+          <th></th>
+        </tr></thead>
+        <tr ng-repeat="user in users | orderBy:'name'">
+          <td>{{ user.username }}</td>
+          <td>{{ user.group }}</td>
+          <td>
+            <i class="red trash link icon" title="Supprimer" ng-click="deleteUser(user.username)"></i>
+          </td>
+        </tr>
+        <tr>
+          <form ng-submit="createUser()">
+            <td><div class="ui mini input"><input type="text" placeholder="Nom" ng-model="credentials.userid"></div></td>
+            <td><div class="ui mini input"><input type="password" placeholder="Mot de passe" ng-model="credentials.password"></div></td>
+            <td><button class="ui mini icon submit button"><i class="plus icon"></i></button></td>
+          </form>
+        </tr>
+        <tr>
+          <td colspan="3">
+            <div class="ui error message" ng-show="postUserError" ng-bind="postUserError"></div>
+          </td>
+        </tr>
+      </table>
+    </div>

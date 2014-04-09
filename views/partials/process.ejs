@@ -1,0 +1,162 @@
+    <div ng-controller="ProcessCtrl">
+      <h2 class="ui header">
+        Traitement en cours
+        <div class="sub header">Vos logs sont en cours d'analyse par ezPAARSE. Vous pouvez suivre en temps réel l'état d'avancement du traitement et l'évolution des différents types de rejets.</div>
+      </h2>
+      <div ng-if="request.errorMessage" ng-bind="request.errorMessage" class="ui error message"></div>
+      <div class="progress-header">
+        <div>
+          <div class="ui progress" ng-class="{'loading': 'blue active', 'success': 'green', 'error': 'failed'}[request.state]">
+            <div class="bar" ng-style="{width: request.progress + '%'}" ng-switch on="request.state">
+              <span ng-switch-default>{{ request.progress }}%</span>
+              <span ng-switch-when="success">Terminé</span>
+              <span ng-switch-when="error">Erreur</span>
+              <span ng-switch-when="aborted">Annulé</span>
+            </div>
+          </div>
+        </div>
+        <div>
+          <a ng-href="/{{ request.jobID }}" target="_blank" class="ui left labeled attached icon positive mini button" popup data-variation="inverted" title="Vous pouvez d'ores et déjà débuter le téléchargement."><i class="download disk icon"></i> Télécharger le résultat</a>
+          <div ng-click="abort()" class="ui right labeled attached icon red mini button"><i class="basic cancel icon"></i> Annuler</div>
+        </div>
+      </div>
+
+      <div class="ui top attached tabular menu">
+        <a class="item" ng-class="{true: 'active'}[tab=='metrics']" ng-click="selectTab('metrics')">État du traitement</a>
+        <a class="item" ng-class="{true: 'active'}[tab=='rejects']" ng-click="selectTab('rejects')">Rejets</a>
+        <a class="item" ng-class="{true: 'active'}[tab=='traces']" ng-click="selectTab('traces')">Traces système</a>
+        <a class="item" ng-class="{true: 'active'}[tab=='report']" ng-click="selectTab('report')">Rapport</a>
+      </div>
+      <div class="ui bottom attached active tab segment" ng-switch on="tab">
+        <div ng-switch-when="metrics" class="ui two column relaxed grid">
+          <div class="column">
+            <table class="ui basic table">
+              <tr>
+                <th>Lignes lues</th>
+                <td class="right aligned" ng-bind="report.general['nb-lines-input'] | localNumber"></td>
+              </tr>
+              <tr>
+                <th>ECs générés</th>
+                <td class="right aligned" ng-bind="report.general['nb-ecs'] | localNumber"></td>
+              </tr>
+              <tr>
+                <th>Durée du traitement</th>
+                <td class="right aligned" ng-bind="report.general['Job-Duration']"></td>
+              </tr>
+              <tr>
+                <th>Vitesse</th>
+                <td class="right aligned" ng-bind="report.general['process-speed']"></td>
+              </tr>
+            </table>
+          </div>
+
+          <div class="column">
+            <table class="ui basic table">
+              <tr>
+                <th>Plateformes reconnues</th>
+                <td class="right aligned" ng-bind="report.stats['platforms'] | localNumber"></td>
+              </tr>
+              <tr>
+                <th>Consultations HTML</th>
+                <td class="right aligned" ng-bind="report.stats['mime-HTML'] | localNumber"></td>
+              </tr>
+              <tr>
+                <th>Consultations PDF</th>
+                <td class="right aligned" ng-bind="report.stats['mime-PDF'] | localNumber"></td>
+              </tr>
+            </table>
+          </div>
+        </div>
+
+        <div ng-switch-when="rejects" class="ui grid">
+          <div class="ui ten wide column">
+            <table class="ui basic compact table">
+              <tr ng-mouseenter="selectHelper('nb-lines-ignored')">
+                <th>Lignes ignorées</th>
+                <td class="right aligned">{{ report.rejets['nb-lines-ignored'] | localNumber}}</td>
+                <td style="width: 150px;"></td>
+              </tr>
+
+              <tr ng-repeat="reject in rejects" ng-mouseenter="selectHelper(reject.key)">
+                <th>{{ reject.title }} <i class="attention red icon" ng-show="reject.warning"></i></th>
+                <td class="right aligned" ng-class="{true: 'bold'}[reject.warning]">{{ reject.number | localNumber}}</td>
+                <td><div class="ui warning progress"><div class="bar" ng-style="reject.css"></div></div></td>
+              </tr>
+
+              <tfoot>
+                <tr><th colspan="3">
+                  Lignes de log pertinentes lues : {{ nbLines | localNumber }}
+                </th></tr>
+              </tfoot>
+            </table>
+          </div>
+
+          <!-- Help section -->
+          <div class="rejects-help six wide column" ng-switch on="helper">
+            <div ng-switch-default>
+              <p class="ui header"></p>
+              <p class="inner" style="text-align: justify"><em>Survoler une catégorie pour voir sa description</em></p>
+            </div>
+
+            <div ng-switch-when="nb-lines-ignored">
+              <p class="ui header">Lignes ignorées</p>
+              <p class="inner" style="text-align: justify">Nombre de requêtes non pertinentes. Il s'agit principalement de téléchargements d'images, css ou scripts web sans rapport direct avec une ressource. Dans un log brut, ce chiffre est souvent élevé.</p>
+            </div>
+            <div ng-switch-when="nb-denied-ecs">
+              <p class="ui header">ECs en accès refusé</p>
+              <p class="inner" style="text-align: justify">Liste des accès qui ont été refusés à l'utilisateur au moment du clic. Exemple : tentative d'accès à un article non négocié dans le bouquet de l'établissement.</p>
+            </div>
+            <div ng-switch-when="nb-lines-duplicate-ecs">
+              <p class="ui header">Doublons filtrés</p>
+              <p class="inner" style="text-align: justify">Nombre de consultations ignorées car détectées comme des double-clics.</p>
+            </div>
+            <div ng-switch-when="nb-lines-unordered-ecs">
+              <p class="ui header">Anomalies chronologiques</p>
+              <p class="inner" style="text-align: justify">Lignes ignorées en raison d'un mauvais ordre chronologique.</p>
+            </div>
+            <div ng-switch-when="nb-lines-ignored-domains">
+              <p class="ui header">Domaines ignorés</p>
+              <p class="inner" style="text-align: justify">Les domaines ignorés.</p>
+            </div>
+            <div ng-switch-when="nb-lines-unknown-domains">
+              <p class="ui header">Domaines inconnus</p>
+              <p class="inner" style="text-align: justify">Les domaines inconnus.</p>
+            </div>
+            <div ng-switch-when="nb-lines-unknown-format">
+              <p class="ui header">Formats inconnus</p>
+              <p class="inner" style="text-align: justify">Les formats inconnus.</p>
+            </div>
+            <div ng-switch-when="nb-lines-unqualified-ecs">
+              <p class="ui header">ECs non qualifiés</p>
+              <p class="inner" style="text-align: justify">Les parseurs n'ont pas reconnu d'information documentaire dans les URL de ces lignes de log. Elles sont donc ignorées par ezPAARSE.</p>
+            </div>
+            <div ng-switch-when="nb-lines-pkb-miss-ecs">
+              <p class="ui header">PKBs manquantes</p>
+              <p class="inner" style="text-align: justify">Les PKBs manquantes.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="ui inverted segment" ng-switch-when="traces">
+          <div ng-repeat="log in logs" ng-bind="log"></div>
+        </div>
+
+        <div ng-switch-when="report">
+          <accordion class="ui accordion" ng-repeat="(category, elements) in report">
+            <div class="title">
+              <i class="dropdown icon"></i>
+              {{ category }}
+            </div>
+
+            <div class="content">
+              <table class="ui basic collapsing table">
+                <tr ng-repeat="(key, val) in elements">
+                  <th class="four wide">{{ key }}</th>
+                  <td>{{ val }}</td>
+                </tr>
+              </table>
+            </div>
+          </accordion>
+        </div>
+      </div>
+    </div>

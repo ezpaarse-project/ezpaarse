@@ -1,0 +1,29 @@
+{
+  "name": "ezPAARSE",
+  "version": "1.4.3",
+  "homepage": "https://github.com/ezpaarse-project/ezpaarse",
+  "authors": [
+    "Yannick Schurter",
+    "Stéphane Gully"
+  ],
+  "license": "CeCILL",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.2.16",
+    "semantic-ui": "~0.15.4",
+    "jquery": "~1.11.0",
+    "angular-ui-router": "~0.2.10",
+    "bxslider-4-kallisto": "~4.1.2",
+    "node-uuid": "~1.4.1",
+    "angular-cookies": "~1.2.16",
+    "angular-socket-io": "~0.4.1",
+    "angular-chosen-localytics": "~1.0.6"
+  }
+}

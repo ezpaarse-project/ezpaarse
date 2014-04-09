@@ -14,14 +14,12 @@ var infoRoutes = [
   '/info/uuid',
   '/info/form-predefined',
   '/info/usage.json',
-  '/info/usage.html',
   '/info/config'
 ];
 
 var adminRoutes = [
   '/pkb/status',
-  '/users',
-  '/admin'
+  '/users'
 ];
 
 function testNextRoute(routes, status, callback) {

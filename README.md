@@ -20,6 +20,7 @@ The tools you need to let ezPAARSE run are:
 * Linux OS: [See the prerequisites for those OSes](https://github.com/ezpaarse-project/ezpaarse/blob/master/doc/multi-os.md)
 * Standard Linux tools: bash, make, grep, sed ... 
 * curl (used by nvm)
+* unzip
 * git >= 1.7.10 (required from github)
 
 ezPAARSE then comes with all the elements it needs to run.

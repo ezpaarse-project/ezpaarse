@@ -1,0 +1,30 @@
+  <div class="ui no-print blue feedback right attached icon button" ez-toggle-sidebar="#feedback-sidebar">
+    <i class="comment icon"></i>
+  </div>
+  <sidebar id="feedback-sidebar" class="ui very wide feedback inverted purple sidebar segment">
+    <i class="big close link icon" ez-toggle-sidebar="#feedback-sidebar"></i>
+    <div class="ui inverted form">
+      <div class="ui inverted header">
+        Feedback
+        <div class="sub header">Votre avis nous intéresse !</div>
+      </div>
+      <div class="field">
+        <label>Votre adresse</label>
+        <div class="ui left labeled icon input">
+          <input type="text" placeholder="E-Mail">
+          <i class="mail icon"></i>
+          <div class="ui corner label">
+            <i class="icon asterisk"></i>
+          </div>
+        </div>
+      </div>
+      <div class="field">
+        <label>Votre commentaire</label>
+        <textarea placeholder="Que pensez-vous d'ezPAARSE ?"></textarea>
+      </div>
+      <div class="ui error message">
+        <div class="header">Une erreur est survenue</div>
+      </div>
+      <div class="ui fluid submit button">Envoyer</div>
+    </div>
+  </sidebar>
