@@ -123,6 +123,38 @@ angular.module('ezPAARSE.services', [])
 
     return new requestService();
   })
+  .service('inputService', function ($cookieStore, $http) {
+    function inputService() {
+      this.files = [];
+      this.text  = '';
+    }
+
+    inputService.prototype.updateTotalSize = function () {
+      this.totalSize = 0;
+      for (var i = this.files.length - 1; i >= 0; i--) {
+        this.totalSize += this.files[i].size;
+      }
+    };
+
+    inputService.prototype.addFile = function (file) {
+      if (file) {
+        this.files.push(file);
+        this.updateTotalSize();
+      }
+    };
+
+    inputService.prototype.removeFile = function (filename) {
+      for (var i = this.files.length - 1; i >= 0; i--) {
+        if (this.files[i].name == filename) {
+          this.files.splice(i, 1);
+          this.updateTotalSize();
+          return;
+        }
+      }
+    };
+
+    return new inputService();
+  })
   .service('settingService', function ($cookieStore, $http) {
     function settingService() {
       var self = this;

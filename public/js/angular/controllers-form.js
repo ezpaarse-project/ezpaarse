@@ -3,7 +3,7 @@
 /* Controllers of the form page */
 
 angular.module('ezPAARSE.form-controllers', [])
-  .controller('FormCtrl', function ($scope, $location, settingService, requestService) {
+  .controller('FormCtrl', function ($scope, $location, settingService, requestService, inputService) {
     if (requestService.data.state == 'loading') {
       $location.path('/process');
     }
@@ -13,6 +13,7 @@ angular.module('ezPAARSE.form-controllers', [])
     $scope.showHelp  = false;
     $scope.inputType = 'files';
     $scope.ss        = settingService;
+    $scope.inputs    = inputService;
 
     $scope.$watch('ss.settings', function () {
       settingService.saveSettings();
@@ -46,15 +47,9 @@ angular.module('ezPAARSE.form-controllers', [])
 
       $scope.$apply(function () {
         for (var i = 0, l = files.length; i < l; i++) {
-          $scope.files.push(files[i]);
+          inputService.addFile(files[i]);
         }
-        updateTotalSize();
       });
-    };
-
-    $scope.removeFile = function (index) {
-      $scope.files.splice(index, 1);
-      updateTotalSize();
     };
 
     $scope.selectFiles = function (fileInput) {
@@ -91,28 +86,19 @@ angular.module('ezPAARSE.form-controllers', [])
       return headers;
     };
 
-    $scope.getData = function () {
-      if ($scope.inputType == 'text') {
-        return $scope.directInput;
-      } else {
-        return $scope.files;
-      }
-    };
-
     $scope.start = function () {
       var formData;
-      var data = $scope.getData();
 
-      if (!data) { return; }
-      if (Array.isArray(data)) {
-        if (!data.length) { return; }
-
+      if ($scope.inputType == 'text') {
+        if (!inputService.text) { return; }
+        formData = inputService.text;
+      } else if (inputService.files.length > 0) {
         formData = new FormData();
-        $scope.files.forEach(function (file) {
+        inputService.files.forEach(function (file) {
           formData.append("files[]", file);
         });
       } else {
-        formData = $scope.directInput;
+        return;
       }
 
       requestService.send(formData, $scope.getHeaders());
