@@ -15,7 +15,7 @@ ezpaarse.pid
 sessions
 config.local.json
 domains.miss.csv
-
+VERSION
 
 .DS_Store
 .directory

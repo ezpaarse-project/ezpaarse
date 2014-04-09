@@ -198,7 +198,8 @@ clean-for-release:
 
 # example: make version v=0.0.3
 version:
-	./bin/patch-version-number --version $(v)
+	@./bin/patch-version-number --version $(v)
+	@echo $(v) > VERSION
 
 tag:
 	./bin/tagversion
