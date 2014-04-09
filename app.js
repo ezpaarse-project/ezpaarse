@@ -105,7 +105,7 @@ app.configure(function () {
   // used to expose a favicon in the browser
   // http://www.senchalabs.org/connect/middleware-favicon.html
   // todo: favico should be created
-  app.use(express.favicon());
+  app.use(express.favicon(path.join(__dirname, 'public/img/favicon.ico')));
 
 
   /**
