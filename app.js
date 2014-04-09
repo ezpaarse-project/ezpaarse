@@ -21,7 +21,6 @@ require('./lib/init.js');
 winston.addColors({ verbose: 'green', info: 'green', warn: 'yellow', error: 'red' });
 
 mkdirp.sync(path.join(__dirname, '/tmp'));
-mkdirp.sync(path.join(__dirname, '/sessions'));
 
 // Setup cleaning jobs for the temporary folder
 if (config.EZPAARSE_TMP_CYCLE && config.EZPAARSE_TMP_LIFETIME) {
