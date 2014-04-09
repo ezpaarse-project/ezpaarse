@@ -69,17 +69,23 @@ module.exports = function (app) {
       return;
     }
 
+    var copyUser = {};
+    for (var prop in user) {
+      if (prop != 'password') { copyUser[prop] = user[prop]; }
+    }
+
+    if (req.user && req.user.group == 'admin') {
+      //TODO: put that in a separate route
+      res.set("Content-Type", "application/json; charset=utf-8");
+      res.json(201, copyUser);
+      return;
+    }
+
     req.logIn(user, function (err) {
       if (err) {
         res.send(500);
         return;
       }
-
-      var copyUser = {};
-      for (var prop in user) {
-        if (prop != 'password') { copyUser[prop] = user[prop]; }
-      }
-
       res.set("Content-Type", "application/json; charset=utf-8");
       res.json(201, copyUser);
     });

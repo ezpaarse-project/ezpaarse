@@ -167,8 +167,6 @@ angular.module('ezPAARSE.services', [])
           self.predefined = data;
 
           if (data[self.settingsType]) {
-          //   self.defineSettings(self.settingsType);
-          //   self.loadSavedSettings();
             var settings = self.getSettingsFrom(self.settingsType);
             if (settings) {
               self._control = settings;
