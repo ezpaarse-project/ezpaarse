@@ -8,14 +8,29 @@
         Dépôts
       </h3>
       <h4 class="ui header">Etat de la base de connaissances</h4>
-      <div class="ui small animated green fade button">la base est à jour</div>
+      <div ng-switch="repos.pkb">
+        <div ng-switch-when="uptodate" class="ui small green button">la base est à jour</div>
+        <div ng-switch-when="outdated" class="ui small animated orange fade button" ng-click="updatePkb()">
+          <div class="visible content">mises à jour disponibles</div>
+          <div class="hidden content">
+            Mettre à jour
+          </div>
+        </div>
+        <div ng-switch-when="refresh" class="ui small loading button">loading</div>
+        <div ng-switch-default class="ui small red button">statut inconnu {{repos.pkb}}</div>
+      </div>
 
       <h4 class="ui header">Etat des parseurs</h4>
-      <div class="ui small animated red fade button">
-        <div class="visible content">mises à jour disponibles</div>
-        <div class="hidden content">
-          Mettre à jour
+      <div ng-switch="repos.parsers">
+        <div ng-switch-when="uptodate" class="ui small green button">les parseurs sont à jour</div>
+        <div ng-switch-when="outdated" class="ui small animated orange fade button" ng-click="updateParsers()">
+          <div class="visible content">mises à jour disponibles</div>
+          <div class="hidden content">
+            Mettre à jour
+          </div>
         </div>
+        <div ng-switch-when="refresh" class="ui small loading button">loading</div>
+        <div ng-switch-default class="ui small red button">statut inconnu {{repos.pkb}}</div>
       </div>
 
       <h3 class="ui dividing header">
