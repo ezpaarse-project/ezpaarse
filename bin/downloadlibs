@@ -5,7 +5,12 @@
 #
 
 EZPAARSE_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
+
+# detect local version
 LOCAL_VERSION=`git describe --tags`
+if [ "$?" != "0" ]; then
+  LOCAL_VERSION=`cat $EZPAARSE_PATH/VERSION`
+fi
 
 # pull modification of clone from ezpaarse-libs
 echo "--> Getting ezpaarse-libs repository"
