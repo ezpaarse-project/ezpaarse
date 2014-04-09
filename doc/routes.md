@@ -55,6 +55,10 @@ Valeurs possibles : Unknown-Formats, Ignored-Domains, Unknown-Domains, Unqualifi
 -   **COUNTER-Format:** format des rapports COUNTER : `XML` (par défaut) ou `CSV`.  
 -   **COUNTER-Customer:** nom et/ou email du client à renseigner dans les rapports, sous la forme `nom`, `<email>` ou `nom<email>`. (Par défaut `ezPAARSE<mail de l'administrateur>`)  
 -   **COUNTER-Vendor:** nom et/ou email de l'éditeur à renseigner dans les rapports, sous la forme `nom`, `<email>` ou `nom<email>`. (Par défaut `platform42`, sans mail)  
+-   **Geoip-Localization:** renvoi des informations de géolocalisation dans les résultats. La géolocalisation se base sur l'adresse IP contenue dans le champ `host` et est activée par défaut mais peut être désactivée en positionnant ce paramètre à `none`. [(plus de détails)](./geolocalisation.html)
+-   **Geoip-Output-Fields:** liste des informations de géolocalisation dans les résultats. Par défaut `geoip-longitude, geoip-latitude, geoip-country`. `all` peut être utilisé pour renvoyer tous les champs possibles.
+
+
 
 #### Body ####
 
