@@ -28,4 +28,23 @@ describe('The server', function () {
       });
     });
   });
+  describe('receives a log file', function () {
+    it('and correctly handles data without geolocalization (@02)', function (done) {
+      var headers = {
+        'Accept' : 'application/json',
+        'Geoip-Localization' : 'none'
+      };
+      helpers.post('/', logFile, headers, function (err, res, body) {
+        if (!res) { throw new Error('ezPAARSE is not running'); }
+        if (err)  { throw err; }
+        res.should.have.status(200);
+
+        var result = JSON.parse(body);
+        result[0].should.not.have.property('geoip-country');
+        result[0].should.have.property('host');
+        result[0]['host'].should.equal('193.54.109.8');
+        done();
+      });
+    });
+  });
 });
