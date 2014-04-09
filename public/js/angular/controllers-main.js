@@ -3,7 +3,7 @@
 /* Controllers for auth */
 
 angular.module('ezPAARSE.main-controllers', [])
-  .controller('AppCtrl', function ($scope, $state, userService, $http, requestService, socket) {
+  .controller('AppCtrl', function ($scope, $state, userService, $http, requestService, inputService, socket) {
 
     $scope.contact = {
       facebook: 'https://www.facebook.com/Ezpaarse',
@@ -23,7 +23,8 @@ angular.module('ezPAARSE.main-controllers', [])
         userService.logout();
         $state.transitionTo('login');
       };
-
+      requestService.abort();
+      inputService.clear();
       $http.get('/logout').then(cb, cb);
     };
 

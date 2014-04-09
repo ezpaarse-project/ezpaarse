@@ -16,25 +16,22 @@ angular.module('ezPAARSE.directives', [])
       }
     };
   })
-  .directive('ezGetCurl', function ($location, requestService) {
+  .directive('ezGetCurl', function ($location, requestService, inputService) {
     return {
       restrict: 'A',
       link: function(scope, element, attributes) {
         scope.getCurl = function () {
           var headers = scope.getHeaders();
-          var data    = scope.getData();
           var curl    = 'curl -X POST -u "username:password"';
 
           for (var key in headers) {
             curl += ' -H "' + key + ':' + headers[key].replace(/"/g, '\\"') + '"';
           }
 
-          if (Array.isArray(data)) {
-            var i = 1;
-            data.forEach(function (file) {
-              curl += ' -F "file' + (i++) + '=@' + file.name + (file.type ? ';type=' + file.type : '') + '"';
-            });
-          }
+          var i = 1;
+          inputService.files.forEach(function (file) {
+            curl += ' -F "file' + (i++) + '=@' + file.name + (file.type ? ';type=' + file.type : '') + '"';
+          });
 
           curl += ' ' + $location.protocol() + '://';
           curl += $location.host() + ':';
