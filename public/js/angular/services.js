@@ -40,6 +40,7 @@ angular.module('ezPAARSE.services', [])
     };
 
     requestService.prototype.abort = function (callback) {
+      callback = callback || function () {};
       var self = this;
 
       if (this.xhr) {
@@ -128,6 +129,11 @@ angular.module('ezPAARSE.services', [])
       this.files = [];
       this.text  = '';
     }
+
+    inputService.prototype.clear = function () {
+      this.files = [];
+      this.text  = '';
+    };
 
     inputService.prototype.updateTotalSize = function () {
       this.totalSize = 0;
