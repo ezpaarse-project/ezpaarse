@@ -5,21 +5,37 @@
 
 set -e
 
-MY_PATH=$(cd ${0%/*} && echo $PWD/${0##*/})
-BIN_PATH=`dirname "$MY_PATH"`
-EZPAARSE_PATH=$BIN_PATH/..
-VERSION=`$BIN_PATH/readconfig -k version`
+EZPAARSE_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
+VERSION=`$EZPAARSE_PATH/bin/readconfig -k version`
 
+# tag the core ezpaarse repository
+cd $EZPAARSE_PATH/
 git fetch --tags
 if [ "`git tag -l | grep $VERSION`" != "" ] ; then
   echo "Warning: version $VERSION already exists. Aborting ..."
   exit 2
 fi
-
 git tag -d latest
 git push origin :latest
 git tag -a -m "Version $VERSION" latest
 git tag -a -m "Version $VERSION" $VERSION
 git push --tags
+
+# tag the ezpaarse-libs repository
+if [ -d $EZPAARSE_PATH/build/ezpaarse-libs/ ]; then
+  cd $EZPAARSE_PATH/build/ezpaarse-libs/
+  git pull
+  git fetch --tags
+else
+  cd $EZPAARSE_PATH/build/
+  git clone git@github.com:ezpaarse-project/ezpaarse-libs.git --depth 1
+  cd $EZPAARSE_PATH/build/ezpaarse-libs/
+fi
+git tag -d latest
+git push origin :latest
+git tag -a -m "Version $VERSION" latest
+git tag -a -m "Version $VERSION" $VERSION
+git push --tags
+
 
 exit 0
