@@ -4,6 +4,7 @@
 
 angular.module('ezPAARSE.admin-controllers', [])
   .controller('AdminCtrl', function ($scope, $http) {
+    $scope.credentials = {};
 
     $http.get('/users/')
       .success(function (users) {
@@ -12,4 +13,19 @@ angular.module('ezPAARSE.admin-controllers', [])
       .error(function () {
         $scope.getUsersError = true;
       });
+
+    $scope.createUser = function () {
+      $scope.postUserError       = undefined;
+      $scope.credentials.confirm = $scope.credentials.password;
+
+      $http.post('/users/', $scope.credentials)
+        .success(function (user) {
+          $scope.users.push(user);
+        })
+        .error(function (data, status, headers) {
+          var errorMessage = headers('ezpaarse-status-message');
+          $scope.postUserError = errorMessage || 'An error occured';
+        });
+    };
+
   });

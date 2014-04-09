@@ -81,7 +81,7 @@ module.exports = function (app) {
       }
 
       res.set("Content-Type", "application/json; charset=utf-8");
-      res.send(201, JSON.stringify(copyUser, null, 2));
+      res.json(201, copyUser);
     });
   });
 
