@@ -41,5 +41,6 @@
   [
     "www.google.fr",
     "www.google.com"
-  ]
+  ],
+  "EZPAARSE_GEOLOCALIZE_DEFAULT": "geoip-lookup"
 }
