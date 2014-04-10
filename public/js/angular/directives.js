@@ -33,9 +33,8 @@ angular.module('ezPAARSE.directives', [])
             }
           }
 
-          var i = 1;
           inputService.files.forEach(function (file) {
-            curl += ' \\\n -F "file' + (i++) + '=@' + file.name + (file.type ? ';type=' + file.type : '') + '"';
+            curl += ' \\\n -F "files[]=@' + file.name + (file.type ? ';type=' + file.type : '') + '"';
           });
 
 
