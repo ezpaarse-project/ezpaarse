@@ -16,16 +16,16 @@
 
       <div class="ui no-print horizontal list">
         <div class="header item">Aller à :</div>
-        <a ng-href="#cat-{{ category }}" class="item" ng-repeat="(category, elements) in report">{{ category }}</a>
+        <a ng-href="#{{ category }}" class="item" ng-repeat="category in report | reportCategories">{{ category }}</a>
       </div>
 
-      <div class="report ui basic segment" ng-repeat="(category, elements) in report">
-        <h3 id="cat-{{ category }}" class="ui purple dividing header">
+      <div class="report ui basic segment" ng-repeat="category in report | reportCategories">
+        <h3 id="{{ category }}" class="ui purple dividing header">
           {{ category }}
         </h3>
 
         <table class="ui basic compact table">
-          <tr ng-repeat="(key, val) in elements">
+          <tr ng-repeat="(key, val) in report | reportElements:category">
             <th class="four wide">{{ key }}</th>
             <td>{{ val }}</td>
           </tr>
