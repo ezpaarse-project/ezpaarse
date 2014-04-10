@@ -12,6 +12,10 @@
     <div class="ui bottom attached active tab segment" ng-switch on="inputType">
       <div ng-switch-when="files">
         <input type="file" style="display: none;" id="input-file" onchange="angular.element(this).scope().selectFiles(this)" multiple>
+        <div class="ui checkbox">
+          <input type="checkbox" id="autoSort" ng-model="inputs.autoSort" ng-change="inputs.sortFiles()">
+          <label for="autoSort">tri automatique</label>
+        </div>
 
         <div class="ui dimmable dropzone segment" ez-file-drop="addFiles">
           <div class="ui dimmer">
