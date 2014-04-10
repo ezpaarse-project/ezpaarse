@@ -14,6 +14,7 @@ describe('The server', function () {
     it('and correctly handles geolocalization (@01)', function (done) {
       var headers = {
         'Accept' : 'application/json',
+        'Geoip-Localization' : 'geoip-lookup',
         'Geoip-Output-Fields' : 'geoip-country'
       };
       helpers.post('/', logFile, headers, function (err, res, body) {
