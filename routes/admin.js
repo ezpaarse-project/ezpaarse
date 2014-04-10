@@ -7,6 +7,8 @@ var execFile = require('child_process').execFile;
 var userlist = require('../lib/userlist.js');
 var auth     = require('../lib/auth-middlewares.js');
 
+var emailRegexp = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9-]+(\.[a-z0-9-]+)*$/i;
+
 module.exports = function (app) {
 
   /**
@@ -41,7 +43,7 @@ module.exports = function (app) {
     }
 
     // Regex used by angular
-    if (!/^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9-]+(\.[a-z0-9-]+)*$/i.test(userid)) {
+    if (!emailRegexp.test(userid)) {
       sendErr(400, 'cette adresse mail n\'est pas valide');
       return;
     }
