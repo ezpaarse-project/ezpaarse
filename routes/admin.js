@@ -35,7 +35,7 @@ module.exports = function (app) {
     var sendErr = function (status, message) {
       res.writeHead(status, { 'ezPAARSE-Status-Message': message });
       res.end();
-    }
+    };
 
     if (!userid || !password || !confirm) {
       sendErr(400, 'vous devez soumettre un login et un mot de passe');
