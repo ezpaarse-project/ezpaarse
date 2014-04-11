@@ -126,8 +126,9 @@ angular.module('ezPAARSE.services', [])
   })
   .service('inputService', function ($cookieStore, $http) {
     function inputService() {
-      this.files = [];
-      this.text  = '';
+      this.files    = [];
+      this.text     = '';
+      this.autoSort = true;
     }
 
     inputService.prototype.clear = function () {
@@ -142,10 +143,19 @@ angular.module('ezPAARSE.services', [])
       }
     };
 
+    inputService.prototype.sortFiles = function (file) {
+      if (this.autoSort) {
+        this.files.sort(function (f1, f2) {
+          return (f1.name.toLowerCase() > f2.name.toLowerCase() ? 1 : -1);
+        });
+      }
+    };
+
     inputService.prototype.addFile = function (file) {
       if (file) {
         this.files.push(file);
         this.updateTotalSize();
+        this.sortFiles();
       }
     };
 

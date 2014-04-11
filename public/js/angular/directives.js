@@ -22,20 +22,21 @@ angular.module('ezPAARSE.directives', [])
       link: function(scope, element, attributes) {
         scope.getCurl = function () {
           var headers = scope.getHeaders();
-          var curl    = 'curl -X POST -u "username:password"';
-
-          for (var key in headers) {
-            curl += ' -H "' + key + ':' + headers[key].replace(/"/g, '\\"') + '"';
-          }
-
-          var i = 1;
-          inputService.files.forEach(function (file) {
-            curl += ' -F "file' + (i++) + '=@' + file.name + (file.type ? ';type=' + file.type : '') + '"';
-          });
-
-          curl += ' ' + $location.protocol() + '://';
+          var curl    = 'curl -X POST -u "username:password" ';
+          curl += $location.protocol() + '://';
           curl += $location.host() + ':';
           curl += $location.port();
+
+          for (var key in headers) {
+            if (headers[key]) {
+              curl += ' \\\n -H "' + key + ':' + headers[key].replace(/"/g, '\\"') + '"';
+            }
+          }
+
+          inputService.files.forEach(function (file) {
+            curl += ' \\\n -F "files[]=@' + file.name + (file.type ? ';type=' + file.type : '') + '"';
+          });
+
 
           scope.curl = curl;
           element.modal('show');

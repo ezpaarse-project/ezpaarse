@@ -142,15 +142,16 @@
         </div>
 
         <div ng-switch-when="report">
-          <accordion class="ui accordion" ng-repeat="(category, elements) in report">
-            <div class="title">
+          <p ng-show="request.jobID"><a ng-href="/report/{{ request.jobID }}">View report in full page</a></p>
+          <accordion class="ui accordion" ng-repeat="category in report | reportCategories">
+            <div class="title" ng-class="{'active': $first}">
               <i class="dropdown icon"></i>
               {{ category }}
             </div>
 
-            <div class="content">
-              <table class="ui basic collapsing table">
-                <tr ng-repeat="(key, val) in elements">
+            <div class="content" ng-class="{'active': $first}">
+              <table class="ui basic compact table">
+                <tr ng-repeat="(key, val) in report | reportElements:category">
                   <th class="four wide">{{ key }}</th>
                   <td>{{ val }}</td>
                 </tr>

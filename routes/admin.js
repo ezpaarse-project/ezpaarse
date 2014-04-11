@@ -7,6 +7,8 @@ var execFile = require('child_process').execFile;
 var userlist = require('../lib/userlist.js');
 var auth     = require('../lib/auth-middlewares.js');
 
+var emailRegexp = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9-]+(\.[a-z0-9-]+)*$/i;
+
 module.exports = function (app) {
 
   /**
@@ -30,27 +32,29 @@ module.exports = function (app) {
     var password = req.body.password;
     var confirm  = req.body.confirm;
 
-    if (!userid || !password || !confirm) {
-      res.writeHead(400, {
-        'ezPAARSE-Status-Message': 'vous devez soumettre un login et un mot de passe'
-      });
+    var sendErr = function (status, message) {
+      res.writeHead(status, { 'ezPAARSE-Status-Message': message });
       res.end();
+    }
+
+    if (!userid || !password || !confirm) {
+      sendErr(400, 'vous devez soumettre un login et un mot de passe');
+      return;
+    }
+
+    // Regex used by angular
+    if (!emailRegexp.test(userid)) {
+      sendErr(400, 'cette adresse mail n\'est pas valide');
       return;
     }
 
     if (password != confirm) {
-      res.writeHead(400, {
-        'ezPAARSE-Status-Message': 'le mot de passe de confirmation ne correspond pas'
-      });
-      res.end();
+      sendErr(400, 'le mot de passe de confirmation ne correspond pas');
       return;
     }
 
     if (userlist.get(userid)) {
-      res.writeHead(409, {
-        'ezPAARSE-Status-Message': 'cet utilisateur existe'
-      });
-      res.end();
+      sendErr(409, 'cet utilisateur existe');
       return;
     }
 

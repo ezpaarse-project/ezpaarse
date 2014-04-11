@@ -5,6 +5,7 @@
 angular.module('ezPAARSE.main-controllers', [])
   .controller('AppCtrl', function ($scope, $state, userService, $http, requestService, inputService, socket) {
 
+    $scope.emailRegexp = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9-]+(\.[a-z0-9-]+)*$/i;
     $scope.contact = {
       facebook: 'https://www.facebook.com/Ezpaarse',
       googleplus: 'https://plus.google.com/113684662646843807159',
@@ -52,7 +53,8 @@ angular.module('ezPAARSE.main-controllers', [])
       });
     });
 
-    $scope.login = function () {
+    $scope.login = function (valid) {
+      if (!valid) { return; }
       $scope.loading = true;
 
       $http.post('/login', $scope.credentials)
@@ -80,7 +82,8 @@ angular.module('ezPAARSE.main-controllers', [])
       });
     });
 
-    $scope.register = function () {
+    $scope.register = function (valid) {
+      if (!valid) { return; }
       $scope.loading = true;
 
       $http.post('/users/', $scope.formData)
