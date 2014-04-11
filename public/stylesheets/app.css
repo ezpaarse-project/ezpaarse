@@ -189,6 +189,11 @@ textarea#log-lines {
 .left.aligned    { text-align: left; }
 .center.aligned  { text-align: center; }
 
+.terminal .error { color: red; }
+.terminal .warn  { color: orange; }
+.terminal .info  { color: green; }
+.terminal .silly { color: grey; }
+
 /**
  * Feedback sidebar
  */
