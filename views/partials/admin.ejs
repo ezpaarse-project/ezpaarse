@@ -51,13 +51,13 @@
             <i class="red trash link icon" title="Supprimer" ng-click="deleteUser(user.username)"></i>
           </td>
         </tr>
-        <tr>
+        <tr><td colspan="3">
           <form ng-submit="createUser()">
-            <td><div class="ui mini input"><input type="text" placeholder="Nom" ng-model="credentials.userid"></div></td>
-            <td><div class="ui mini input"><input type="password" placeholder="Mot de passe" ng-model="credentials.password"></div></td>
-            <td><button class="ui mini icon submit button"><i class="plus icon"></i></button></td>
+            <div class="ui mini input"><input type="text" placeholder="Nom" ng-model="credentials.userid"></div>
+            <div class="ui mini input"><input type="password" placeholder="Mot de passe" ng-model="credentials.password"></div>
+            <button class="ui mini icon submit button"><i class="plus icon"></i></button>
           </form>
-        </tr>
+        </td></tr>
         <tr>
           <td colspan="3">
             <div class="ui error message" ng-show="postUserError" ng-bind="postUserError"></div>

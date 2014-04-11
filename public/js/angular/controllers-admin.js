@@ -38,8 +38,12 @@ angular.module('ezPAARSE.admin-controllers', [])
 
       $http.delete('/users/' + userid)
         .success(function () {
-          var index = $scope.users.indexOf(userid);
-          $scope.users.splice(index, 1);
+          for (var i = $scope.users.length - 1; i>=0; i--) {
+            if ($scope.users[i].username == userid) {
+              $scope.users.splice(i, 1);
+              break;
+            }
+          }
         })
         .error(function (data, status, headers) {
           var errorMessage    = headers('ezpaarse-status-message');
@@ -50,7 +54,6 @@ angular.module('ezPAARSE.admin-controllers', [])
     $scope.createUser = function () {
       $scope.postUserError       = undefined;
       $scope.credentials.confirm = $scope.credentials.password;
-
       $http.post('/users/', $scope.credentials)
         .success(function (user) {
           $scope.users.push(user);

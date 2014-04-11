@@ -99,7 +99,7 @@ module.exports = function (app) {
    * DELETE route on /users/{username}
    * To remove a user
    */
-  app.delete(/^\/users\/([a-zA-Z0-9\-_]+)$/, auth.ensureAuthenticated(true),
+  app.delete(/^\/users\/(.+)$/, auth.ensureAuthenticated(true),
     auth.authorizeMembersOf('admin'), function (req, res) {
       var username = req.params[0];
       if (username == req.user.username) {
@@ -110,6 +110,7 @@ module.exports = function (app) {
         if (user) {
           res.send(204);
         } else {
+          res.set('ezPAARSE-Status-Message', 'cet utilisateur n\'existe pas');
           res.send(404);
         }
       }
