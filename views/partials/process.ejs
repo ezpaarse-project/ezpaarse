@@ -137,10 +137,6 @@
           </div>
         </div>
 
-        <div class="ui inverted segment" ng-switch-when="traces">
-          <div ng-repeat="log in logs" ng-bind="log"></div>
-        </div>
-
         <div ng-switch-when="report">
           <p ng-show="request.jobID"><a ng-href="/report/{{ request.jobID }}">View report in full page</a></p>
           <accordion class="ui accordion" ng-repeat="category in report | reportCategories">
@@ -158,6 +154,10 @@
               </table>
             </div>
           </accordion>
+        </div>
+
+        <div class="ui inverted segment" ng-switch-when="traces">
+          <div ng-repeat="log in logs" ng-bind="log"></div>
         </div>
       </div>
     </div>
