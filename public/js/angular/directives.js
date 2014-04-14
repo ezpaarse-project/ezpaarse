@@ -80,14 +80,6 @@ angular.module('ezPAARSE.directives', [])
       }
     };
   })
-  .directive('modal', function () {
-    return {
-      restrict: 'E',
-      link: function(scope, element, attributes) {
-        var attach = attributes['ezAttachedTo'];
-      }
-    };
-  })
   .directive('ezTriggerClick', function () {
     return {
       restrict: 'A',
