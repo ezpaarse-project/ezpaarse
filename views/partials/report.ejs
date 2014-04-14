@@ -34,10 +34,10 @@
         </table>
       </div>
 
-      <h3 id="traces" class="ui purple dividing header">
+      <h3 id="traces" class="ui no-print purple dividing header">
         Traces système
       </h3>
-      <div class="ui terminal inverted segment">
+      <div class="ui no-print terminal inverted segment">
         <div ng-show="tracesLoading"><i class="loading icon"></i> Chargement...</div>
         <div ng-show="tracesError"><i class="attention icon"></i> Impossible de récupérer les traces</div>
         <div ng-repeat="log in traces track by $index">
