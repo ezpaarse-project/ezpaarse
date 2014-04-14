@@ -16,12 +16,19 @@ module.exports = function (app) {
    * To get the user list
    */
   app.get('/users', auth.ensureAuthenticated(true), function (req, res) {
-      var users = userlist.getAll();
-      res.set("Content-Type", "application/json; charset=utf-8");
-      res.set("ezPAARSE-Logged-User", req.user.username);
-      res.send(200, JSON.stringify(users));
-    }
-  );
+    var users = userlist.getAll();
+    res.set("Content-Type", "application/json; charset=utf-8");
+    res.set("ezPAARSE-Logged-User", req.user.username);
+    res.json(200, users);
+  });
+
+  /**
+   * GET route on /usersnumber
+   * To get the number of registered users
+   */
+  app.get('/usersnumber', function (req, res) {
+    res.send(200, userlist.length().toString());
+  });
 
   /**
    * POST route on /users

@@ -43,7 +43,20 @@ angular.module('ezPAARSE.main-controllers', [])
       .success(function (version)    { $scope.ezVersion = version; })
       .error(function (data, status) { $scope.ezVersion = '...'; });
 
-  }).controller('LoginCtrl', function ($scope, $state, $http, userService, $element) {
+  })
+  .controller('ConnectButtonsCtrl', function ($scope, $http) {
+    $scope.checkingUsers = true;
+
+    $http.get('/usersnumber')
+    .success(function (data) {
+      var number = parseInt(data);
+      $scope.noUsers = isNaN(number) || number === 0;
+    })
+    .error(function () {
+      $scope.noUsers = false;
+    })
+  })
+  .controller('LoginCtrl', function ($scope, $state, $http, userService, $element) {
     $scope.credentials = {};
     $scope.error       = null;
 
@@ -72,7 +85,8 @@ angular.module('ezPAARSE.main-controllers', [])
         $scope.error = err;
       });
     };
-  }).controller('RegisterCtrl', function ($scope, $state, $http, userService, $element) {
+  })
+  .controller('RegisterCtrl', function ($scope, $state, $http, userService, $element) {
     $scope.formData = {};
     $scope.error    = null;
 

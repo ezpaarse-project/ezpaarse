@@ -1,10 +1,27 @@
  <div id="container">
     <div class="ui center aligned segment">
       <p><img src="/assets/img/logo.png"/></p>
-      <div class="ui small buttons">
-        <div ez-toggle-modal="#login-modal" class="ui teal button">Connectez-vous</div>
-        <div class="or" data-text="ou"></div>
-        <div ez-toggle-modal="#register-modal" class="ui button">Enregistrez-vous</div>
+
+      <div ng-switch="noUsers" ng-controller="ConnectButtonsCtrl">
+        <div ng-switch-when="undefined">
+          <i class="loading icon"></i> Vérification des utilisateurs...
+        </div>
+
+        <div class="ui small buttons" ng-switch-default>
+          <div ez-toggle-modal="#login-modal" class="ui teal button">Connectez-vous</div>
+          <div class="or" data-text="ou" ></div>
+          <div ez-toggle-modal="#register-modal" class="ui button">Enregistrez-vous</div>
+        </div>
+
+        <div ng-switch-when="true">
+          <div class="ui basic segment">
+            <div class="ui compact success message">
+              <div class="header"><i class="checkmark icon"></i>Installation réussie !</div>
+              Enregistrez-vous dès à présent pour définir le compte administrateur.
+            </div>
+          </div>
+          <div ez-toggle-modal="#register-modal" class="ui button">Enregistrez-vous</div>
+        </div>
       </div>
       <p>Enregistrez-vous avant de pouvoir traiter vos logs, c'est simple et rapide.<br/>Vous pourrez ensuite suivre vos traitements et communiquer plus facilement avec l'équipe ezPAARSE.</p>
     </div>
