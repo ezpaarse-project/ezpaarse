@@ -29,14 +29,13 @@ touch $TMP_DIR/$EZPAARSE_NAME/clean-for-release-flag
 make version v=$VERSION_PREFIX$VERSION
 make clean-for-release
 
-cd $TMP_DIR/$EZPAARSE_NAME
 
-make doc
-make pkb-update
-make parsers-update
-make scrapers-update
-make node-modules
-npm install
+mkdir -p $TMP_DIR/$EZPAARSE_NAME/build
+
+make
+
+# build cleanup
+rm -rf ./build
 
 # git cleanup
 rm -rf ./platforms-kb/.git/
@@ -45,6 +44,9 @@ rm -rf ./platforms-scrapers/.git/
 
 # test cleanup
 rm -rf $TMP_DIR/$EZPAARSE_NAME/test/dataset/*.*
+
+# we don't need forever on windows and it's making errors for a path > 255 
+rm -rf $TMP_DIR/$EZPAARSE_NAME/node_modules/forever
 
 # download node version for windows
 # http://nodejs.org/dist/v0.8.22/node.exe
