@@ -21,6 +21,17 @@ angular.module('ezPAARSE.filters', [])
       }
     };
   })
+  .filter('toLink', function ($sce, $filter) {
+    return function (text, target) {
+      if (text === 0) { return '0'; }
+      text = (text || '').toString();
+      if (/^https?:\/\//.test(text)) {
+        return $filter('linky')(text, target);
+      } else {
+        return text;
+      }
+    };
+  })
   .filter('reportCategories', function () {
     return function (report) {
       var categories = [];

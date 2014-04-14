@@ -29,7 +29,7 @@
         <table class="ui basic compact table">
           <tr ng-repeat="(key, val) in report | reportElements:category">
             <th class="four wide">{{ key }}</th>
-            <td>{{ val }}</td>
+            <td ng-bind-html="val | toLink:'_blank'"></td>
           </tr>
         </table>
       </div>

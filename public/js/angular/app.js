@@ -3,6 +3,7 @@
 angular.module('ezPAARSE', [
   'ui.router',
   'ngCookies',
+  'ngSanitize',
   'btford.socket-io',
   'localytics.directives',
   'ezPAARSE.services',
