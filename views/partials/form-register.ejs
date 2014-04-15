@@ -1,18 +1,18 @@
   <modal id="register-modal" class="ui segment small modal" ng-controller="RegisterCtrl">
     <div class="ui small error message" ng-show="error">
-      <div class="header">Erreur</div>
+      <div class="header" translate>login+error</div>
       {{ error }}
     </div>
 
     <form name="registerForm" class="ui form" ng-submit="register(registerForm.$valid)" novalidate>
       <div class="ui inverted dimmer" ng-class="{true: 'active', false: 'disabled'}[loading]">
-        <div class="ui text loader">Soumission...</div>
+        <div class="ui text loader" translate>login+submitting</div>
       </div>
 
       <div class="field" ng-class="{'error': registerForm.userid.$invalid && !registerForm.userid.$pristine}">
-        <label>Adresse email</label>
+        <label translate>login+identifier</label>
         <div class="ui left labeled icon input">
-          <input type="text" name="userid" placeholder="Adresse email" ng-model="formData.userid" ng-pattern="emailRegexp" required>
+          <input type="text" name="userid" placeholder="{{ 'login+email' | translate }}" ng-model="formData.userid" ng-pattern="emailRegexp" required>
           <i class="user icon"></i>
           <div class="ui corner label">
             <i class="icon asterisk"></i>
@@ -20,7 +20,7 @@
         </div>
       </div>
       <div class="field" ng-class="{'error': registerForm.password.$invalid && !registerForm.password.$pristine}">
-        <label>Mot de passe</label>
+        <label translate>login+password</label>
         <div class="ui left labeled icon input">
           <input type="password" name="password" ng-model="formData.password" required>
           <i class="lock icon"></i>
@@ -30,7 +30,7 @@
         </div>
       </div>
       <div class="field" ng-class="{'error': registerForm.confirm.$invalid && !registerForm.confirm.$pristine}">
-        <label>Confirmer le mot de passe</label>
+        <label translate>login+confirm</label>
         <div class="ui left labeled icon input">
           <input type="password" name="confirm" ng-model="formData.confirm" required>
           <i class="lock icon"></i>
@@ -41,9 +41,9 @@
       </div>
 
       <div class="ui two fluid buttons" mp-semantic>
-        <button type="submit" class="ui green button" ng-disabled="registerForm.$invalid" ng-class="{false: 'disabled'}[registerForm.$valid]">S'enregistrer</button>
+        <button type="submit" class="ui green button" ng-disabled="registerForm.$invalid" ng-class="{false: 'disabled'}[registerForm.$valid]" translate>login+signup</button>
         <div class="or" data-text="ou"></div>
-        <button type="reset" class="ui close button">Annuler</button>
+        <button type="reset" class="ui close button" translate>login+cancel</button>
       </div>
     </form> <!-- register-modal -->
   </modal>

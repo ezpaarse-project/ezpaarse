@@ -3,7 +3,7 @@
 /* Controllers for auth */
 
 angular.module('ezPAARSE.main-controllers', [])
-  .controller('AppCtrl', function ($scope, $state, userService, $http, requestService, inputService, socket) {
+  .controller('AppCtrl', function ($scope, $state, userService, $http, $translate, requestService, inputService, socket) {
 
     $scope.emailRegexp = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9-]+(\.[a-z0-9-]+)*$/i;
     $scope.contact = {
@@ -11,6 +11,17 @@ angular.module('ezPAARSE.main-controllers', [])
       googleplus: 'https://plus.google.com/113684662646843807159',
       twitter: 'https://twitter.com/ezpaarse',
       mail: 'ezpaarse@gmail.com'
+    };
+
+    $scope.links = {
+      github: 'https://github.com/ezpaarse-project/ezpaarse',
+      platforms: 'http://analogist.couperin.org/platforms/',
+      api: '/doc/routes.html',
+    }
+
+    $scope.currentLanguage = 'fr';
+    $scope.useLanguage = function (lang) {
+      $translate.use(lang);
     };
 
     $scope.user = userService.user;
@@ -54,7 +65,7 @@ angular.module('ezPAARSE.main-controllers', [])
     })
     .error(function () {
       $scope.noUsers = false;
-    })
+    });
   })
   .controller('LoginCtrl', function ($scope, $state, $http, userService, $element) {
     $scope.credentials = {};

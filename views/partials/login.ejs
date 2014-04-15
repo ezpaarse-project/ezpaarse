@@ -1,60 +1,62 @@
  <div id="container">
     <div class="ui center aligned segment">
+      <select id="language-selector" ng-model="currentLanguage" ng-change="useLanguage(currentLanguage)">
+        <option value="fr">Français</option>
+        <option value="en">English</option>
+      </select>
+
       <p><img src="/assets/img/logo.png"/></p>
 
       <div ng-switch="noUsers" ng-controller="ConnectButtonsCtrl">
         <div ng-switch-when="undefined">
-          <i class="loading icon"></i> Vérification des utilisateurs...
+          <i class="loading icon"></i> {{ 'login+checking_users' | translate }}
         </div>
 
         <div class="ui small buttons" ng-switch-default>
-          <div ez-toggle-modal="#login-modal" class="ui teal button">Connectez-vous</div>
+          <div ez-toggle-modal="#login-modal" class="ui teal button" translate>login+signin</div>
           <div class="or" data-text="ou" ></div>
-          <div ez-toggle-modal="#register-modal" class="ui button">Enregistrez-vous</div>
+          <div ez-toggle-modal="#register-modal" class="ui button" translate>login+signup</div>
         </div>
 
         <div ng-switch-when="true">
           <div class="ui basic segment">
             <div class="ui compact success message">
-              <div class="header"><i class="checkmark icon"></i>Installation réussie !</div>
-              Enregistrez-vous dès à présent pour définir le compte administrateur.
+              <div class="header"><i class="checkmark icon"></i>{{ 'login+install_successful' | translate }}</div>
+              {{ 'login+set_admin_account' | translate }}
             </div>
           </div>
           <div ez-toggle-modal="#register-modal" class="ui button">Enregistrez-vous</div>
         </div>
       </div>
-      <p>Enregistrez-vous avant de pouvoir traiter vos logs, c'est simple et rapide.<br/>Vous pourrez ensuite suivre vos traitements et communiquer plus facilement avec l'équipe ezPAARSE.</p>
+      <p translate>login+register_quick_and_easy</p>
     </div>
 
     <div class="ui two column page grid">
       <div class="column">
-        <div class="ui huge center aligned header">
-          ezPAARSE, c'est...
-        </div>
-        <div class="ui justified segment">
-          <p>Un <a href="https://github.com/ezpaarse-project/ezpaarse">logiciel libre</a> qui permet l’analyse, l’enrichissement et l’exploitation des logs d’accès aux ressources électroniques proposées par les <a href="http://analogist.couperin.org/platforms/">plate-formes Web des éditeurs de littérature scientifique</a>. Il se présente sous la forme d'une application Web disposant d'un formulaire et d'une <a href="/doc/routes.html">API</a> permettant l'ingestion manuelle et automatique des logs générées par les serveurs et proxy des établissements.</p>
-        </div>
+        <div class="ui huge center aligned header" translate="login+ezpaarse_is"></div>
+        <div class="ui justified segment" translate translate-values='links'>login+ezpaarse_description</div>
 
          <div class="ui segment">
           <div class="ui divided list">
             <div class="item">
               <i class="thumbs up outline large icon"></i>
               <div class="content">
-                <div class="header">Un outil simple et efficace</div>
-                <div class="description">Quelques clics suffisent à l'installer et à analyser vos logs.</div>
+                <div class="header" translate>login+simple_tool</div>
+                <div class="description" translate>login+few_clic_enough</div>
               </div>
             </div>
             <div class="item">
               <i class="chat outline large icon"></i>
               <div class="content">
-                <div class="header">Une équipe disponible et réactive</div>
+                <div class="header" translate>login+responsive_team</div>
                 <div class="description">
-                  Un problème, une question, une suggestion ?<br/>Ça nous intéresse !
+                  {{ 'login+problem_question' | translate }}
+                  <br/>{{ 'login+interested' | translate }}
                   <span id="social">
-                    <a ng-href="mailto:{{ contact.mail }}" popup data-variation="inverted" title="Ecrivez-nous à ezpaarse@couperin.org"><i class="tiny teal mail icon"></i></a>
-                    <a ng-href="{{ contact.facebook }}" target="_blank" popup data-variation="inverted" title="Suivez-nous sur Facebook !"><i class="tiny facebook colored icon"></i></a>
-                    <a ng-href="{{ contact.twitter }}" target="_blank" popup data-variation="inverted" title="Suivez-nous sur Twitter !"><i class="tiny twitter colored icon"></i></a>
-                    <a ng-href="{{ contact.googleplus }}" target="_blank" popup data-variation="inverted" title="Suivez-nous sur Google+ !"><i class="tiny google plus colored icon"></i></a>
+                    <a ng-href="mailto:{{ contact.mail }}" popup data-variation="inverted" title="{{ 'social+mail' | translate:contact }}"><i class="tiny teal mail icon"></i></a>
+                    <a ng-href="{{ contact.facebook }}" target="_blank" popup data-variation="inverted" title="{{ 'social+facebook' | translate }}"><i class="tiny facebook colored icon"></i></a>
+                    <a ng-href="{{ contact.twitter }}" target="_blank" popup data-variation="inverted" title="{{ 'social+twitter' | translate }}"><i class="tiny twitter colored icon"></i></a>
+                    <a ng-href="{{ contact.googleplus }}" target="_blank" popup data-variation="inverted" title="{{ 'social+googleplus' | translate }}"><i class="tiny google plus colored icon"></i></a>
                   </span>
                 </div>
               </div>
@@ -62,8 +64,8 @@
             <div class="item">
               <i class="users large icon"></i>
               <div class="content">
-                <div class="header">Une communauté grandissante</div>
-                <div class="description">Et pas seulement francophone !</div>
+                <div class="header" translate>login+growing_community</div>
+                <div class="description" translate>login+not_only_fr</div>
               </div>
             </div>
           </div>

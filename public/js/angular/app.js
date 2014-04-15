@@ -5,6 +5,7 @@ angular.module('ezPAARSE', [
   'ngCookies',
   'ngSanitize',
   'btford.socket-io',
+  'pascalprecht.translate',
   'localytics.directives',
   'ezPAARSE.services',
   'ezPAARSE.main-controllers',
@@ -13,9 +14,14 @@ angular.module('ezPAARSE', [
   'ezPAARSE.admin-controllers',
   'ezPAARSE.directives',
   'ezPAARSE.filters'
-]).config(function ($stateProvider, $locationProvider, $urlRouterProvider) {
+]).config(function ($stateProvider, $locationProvider, $urlRouterProvider, $translateProvider) {
   $locationProvider.html5Mode(true);
   $urlRouterProvider.otherwise('/form');
+
+  for (var lang in ezLanguages) {
+    $translateProvider.translations(lang, ezLanguages[lang]);
+  }
+  $translateProvider.preferredLanguage('fr');
 
   var login = {
     name: 'login',
