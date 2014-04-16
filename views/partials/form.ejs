@@ -1,20 +1,18 @@
   <div ng-controller="FormCtrl">
-    <h2 class="ui header">
-      Préparation du traitement
-    </h2>
-    <div class="ui segment">Indiquez ici les logs que vous désirez faire analyser par ezPAARSE. Vos logs nécessitent peut-être un paramétrage particulier pour qu'ezPAARSE les comprenne. Si nécessaire, <a ez-toggle-sidebar="#feedback-sidebar">contactez l'équipe ezPAARSE</a> pour une aide au paramétrage.</div>
+    <h2 class="ui header" translate>form+title</h2>
+    <div class="ui segment" translate translate-compile translate-values="{sidebarID: '#feedback-sidebar'}">form+description</div>
 
     <div class="ui top attached tabular menu">
-      <a class="right item" ng-click="selectTab('settings')" ng-class="{'settings': 'active'}[inputType]"><i class="settings icon"></i> Paramètres</a>
-      <a class="item" ng-click="selectTab('files')" ng-class="{'files': 'active'}[inputType]"><i class="open folder icon"></i> Fichiers de logs</a>
-      <a class="item" ng-click="selectTab('text')" ng-class="{'text': 'active'}[inputType]"><i class="text file icon"></i> Copier/coller de logs</a>
+      <a class="right item" ng-click="selectTab('settings')" ng-class="{'settings': 'active'}[inputType]"><i class="settings icon"></i> {{ 'form+settings' | translate }}</a>
+      <a class="item" ng-click="selectTab('files')" ng-class="{'files': 'active'}[inputType]"><i class="open folder icon"></i> {{ 'form+logfiles' | translate }}</a>
+      <a class="item" ng-click="selectTab('text')" ng-class="{'text': 'active'}[inputType]"><i class="text file icon"></i> {{ 'form+copy_paste' | translate }}</a>
     </div>
     <div class="ui bottom attached active tab segment" ng-switch on="inputType">
       <div ng-switch-when="files">
         <input type="file" style="display: none;" id="input-file" onchange="angular.element(this).scope().selectFiles(this)" multiple>
         <div class="ui checkbox">
           <input type="checkbox" id="autoSort" ng-model="inputs.autoSort" ng-change="inputs.sortFiles()">
-          <label for="autoSort">tri automatique</label>
+          <label for="autoSort">{{ 'form+autosort' | translate }}</label>
         </div>
 
         <div class="ui dimmable dropzone segment" ez-file-drop="addFiles">
@@ -22,20 +20,20 @@
             <div class="content"><div class="center">
               <div class="ui tiny icon header">
                 <i class="download icon"></i>
-                Déposez les fichiers ici
+                {{ 'form+drop_files_here' | translate }}
               </div>
             </div></div>
           </div>
 
           <p><button class="ui small basic button" ez-trigger-click="#input-file">
             <i class="plus icon"></i>
-            Cliquez pour ajouter
+            {{ 'form+click_to_add' | translate }}
           </button></p>
           <!-- <p class="text">Ou déposez vos fichiers de logs ici</p> -->
           <table ng-if="inputs.files.length" class="ui small compact basic table">
             <thead><tr>
-              <th class="twelve wide">Nom de fichier</th>
-              <th class="four wide">Taille</th>
+              <th class="twelve wide"translate>form+filename</th>
+              <th class="four wide" translate>form+size</th>
             </tr></thead>
             <tbody>
               <tr ng-repeat="file in inputs.files">
@@ -44,30 +42,30 @@
               </tr>
             </tbody>
             <tfoot><tr>
-              <th>{{ inputs.files.length }} fichiers sélectionnés</th>
-              <th>{{ inputs.totalSize | bytesToSize }} au total</th>
+              <th translate translate-values="{ number: inputs.files.length }">form+n_selected_files</th>
+              <th translate translate-compile translate-values="{ size: inputs.totalSize }">form+total_size</th>
             </tr></tfoot>
           </table>
         </div>
 
         <div class="ui center aligned basic segment">
           <div class="ui big buttons">
-            <button ng-click="start()" class="ui teal button">Traiter les fichiers</button>
-            <button ng-click="getCurl()" class="ui icon teal button" popup data-variation="inverted" data-position="right center" title="Traiter avec cURL"><i class="copy small icon"></i></button>
+            <button ng-click="start()" class="ui teal button" translate>form+process_files</button>
+            <button ng-click="getCurl()" class="ui icon teal button" popup data-variation="inverted" data-position="right center" title="{{ 'form+process_with_curl' | translate }}"><i class="copy small icon"></i></button>
           </div>
         </div>
       </div>
 
       <div ng-switch-when="text">
         <div class="ui form field">
-          <label for="log-lines">Copiez/collez vos lignes de log ici</label>
+          <label for="log-lines" translate>form+paste_your_logs</label>
           <textarea id="log-lines" ng-model="inputs.text"></textarea>
         </div>
 
         <div class="ui center aligned basic segment">
           <div class="ui big buttons">
-            <button ng-click="start()" class="ui teal button">Traiter les lignes</button>
-            <button ng-click="getCurl()" class="ui icon teal button" popup data-variation="inverted" data-position="right center" title="Traiter avec cURL"><i class="copy small icon"></i></button>
+            <button ng-click="start()" class="ui teal button" translate>form+process_lines</button>
+            <button ng-click="getCurl()" class="ui icon teal button" popup data-variation="inverted" data-position="right center" title="{{ 'form+process_with_curl' | translate }}"><i class="copy small icon"></i></button>
           </div>
         </div>
       </div>
@@ -80,7 +78,7 @@
     <modal class="ui modal" ez-get-curl>
       <i class="close icon"></i>
       <div class="ui form content">
-        <p class="justify aligned">Copiez la commande ci-dessous pour exécuter la requête avec cURL en utilisant le paramétrage actuel du formulaire. Vous devrez peut-être modifier le chemin des fichiers ou ajouter des options telles que <code>--proxy</code> ou <code>--no-buffer</code>.</p>
+        <p class="justify aligned" translate>form+curl_instructions</p>
 
         <div class="field">
           <textarea class="ui input" ng-model="curl"></textarea>

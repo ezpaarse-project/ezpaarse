@@ -1,22 +1,27 @@
     <div class="wrapper display-table">
       <div id="header" class="ui inverted teal basic segment display-row">
         <div class="inner">
+          <select id="language-selector" ng-model="currentLanguage" ng-change="useLanguage(currentLanguage)">
+            <option value="fr">Français</option>
+            <option value="en">English</option>
+          </select>
+
           <div class="ui inverted teal menu">
-            <a ng-if="user.logged" href="/form" class="item">Traitez vos logs</a>
+            <a ng-if="user.logged" href="/form" class="item" translate>menu+process_logs</a>
             <div class="ui simple dropdown item">
-              Documentation <i class="dropdown icon"></i>
+              {{ 'menu+documentation' | translate }} <i class="dropdown icon"></i>
               <div class="menu">
                 <a href="http://ezpaarse.couperin.org/doc/" target="_blank" class="item">ezPAARSE</a>
                 <a href="http://analogist.couperin.org/" target="_blank" class="item">AnalogIST</a>
               </div>
             </div>
-            <a href="/admin" class="item" ng-if="user.logged && hasAccess('admin')">Administration</a>
+            <a href="/admin" class="item" ng-if="user.logged && hasAccess('admin')" translate>menu+admin</a>
 
             <div class="right menu">
               <div ng-if="user.logged" class="ui item simple dropdown">
                 <i class="user icon"></i> {{ user.name }} <i class="dropdown icon"></i>
                 <div class="menu">
-                  <div class="item" ng-click="logout()"><i class="off icon"></i> Déconnexion</div>
+                  <div class="item" ng-click="logout()"><i class="off icon"></i> {{ 'menu+logout' | translate }}</div>
                 </div>
               </div>
             </div>
@@ -33,14 +38,14 @@
           <div class="ui column left aligned">
             <div>
               <p class="ui medium header">ezPAARSE v{{ ezVersion }}</p>
-              <p>Propulsé par Node.js et Express 3</p>
+              <p translate translate-values="links">footer+powered</p>
             </div>
           </div>
           <div class="ui column right aligned">
-            <a ng-href="mailto:{{ contact.mail }}" popup data-variation="inverted" title="Ecrivez-nous à ezpaarse@couperin.org" class="ui mini icon teal button"><i class="tiny mail icon"></i></a>
-            <a ng-href="{{ contact.facebook }}" target="_blank" popup data-variation="inverted" title="Suivez-nous sur Facebook !" class="ui mini icon facebook button"><i class="tiny facebook icon"></i></a>
-            <a ng-href="{{ contact.twitter }}" target="_blank" popup data-variation="inverted" title="Suivez-nous sur Twitter !" class="ui mini icon twitter button"><i class="tiny twitter icon"></i></a>
-            <a ng-href="{{ contact.googleplus }}" target="_blank" popup data-variation="inverted" title="Suivez-nous sur Google+ !" class="ui mini icon google plus button"><i class="tiny google plus icon"></i></a>
+            <a ng-href="mailto:{{ contact.mail }}" popup data-variation="inverted" title="{{ 'social+mail' | translate:contact }}" class="ui mini icon teal button"><i class="tiny mail icon"></i></a>
+            <a ng-href="{{ contact.facebook }}" target="_blank" popup data-variation="inverted" title="{{ 'social+facebook' | translate }}" class="ui mini icon facebook button"><i class="tiny facebook icon"></i></a>
+            <a ng-href="{{ contact.twitter }}" target="_blank" popup data-variation="inverted" title="{{ 'social+twitter' | translate }}" class="ui mini icon twitter button"><i class="tiny twitter icon"></i></a>
+            <a ng-href="{{ contact.googleplus }}" target="_blank" popup data-variation="inverted" title="{{ 'social+googleplus' | translate }}" class="ui mini icon google plus button"><i class="tiny google plus icon"></i></a>
           </div>
         </div>
       </div>

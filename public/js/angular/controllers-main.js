@@ -17,6 +17,8 @@ angular.module('ezPAARSE.main-controllers', [])
       github: 'https://github.com/ezpaarse-project/ezpaarse',
       platforms: 'http://analogist.couperin.org/platforms/',
       api: '/doc/routes.html',
+      nodejs: 'http://nodejs.org/',
+      expressjs: 'http://expressjs.com/'
     }
 
     $scope.currentLanguage = 'fr';
