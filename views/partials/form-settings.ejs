@@ -1,12 +1,16 @@
       <div class="ui two column grid">
         <div class="column">
-          <div ng-hide="ss.predefined"><i class="large loading icon"></i> Chargement des paramètres prédéfinis</div>
+          <div ng-hide="ss.predefined"><i class="large loading icon"></i> {{ 'settings+loading_predefined' | translate }}</div>
           <div ng-show="ss.predefined">
             <div class="ui tiny header">
               Paramétrage actuel
-              <div class="sub header">{{ ss.settingsType || 'par défaut' }}<span ng-show="ss.custom"> (modifié)</span></div>
+              <div class="sub header">
+                <span ng-show="ss.settingsType" ng-bind="ss.settingsType"></span>
+                <span ng-show="!ss.settingsType" translate>settings+default</span>
+                <span ng-show="ss.custom"> ({{ 'settings+modified' | translate }})</span>
+              </div>
             </div>
-            <select chosen ng-model="predefined" ng-change="ss.defineSettings(predefined)" data-placeholder="Choix d'un paramétrage prédéfini..." no-results-text="'Aucun résultat pour'" allow-single-deselect="true" ng-options="key as key for (key, val) in ss.predefined">
+            <select chosen ng-model="predefined" ng-change="ss.defineSettings(predefined)" data-placeholder="{{ 'settings+predefined_choice' | translate }}" no-results-text="'{{ 'settings+no_result_for' | translate }}'" allow-single-deselect="true" ng-options="key as key for (key, val) in ss.predefined">
               <option value=""></option>
             </select>
           </div>
@@ -18,56 +22,56 @@
       </div>
 
     <div class="ui small form">
-      <div class="ui teal dividing header">En entrée</div>
+      <div class="ui teal dividing header" translate>settings+input</div>
       <div class="three fields">
         <div class="field">
-          <label>Format de date</label>
+          <label translate>settings+date_format</label>
           <input ng-hide="showHelp" placeholder="DD/MMM/YYYY:HH:mm:ss Z" type="text" ng-model="ss.settings.headers['Date-Format']">
-          <div ng-show="showHelp" class="ui inverted teal bottom attached segment">Format de date des lignes de log.</div>
+          <div ng-show="showHelp" class="ui inverted teal bottom attached segment" translate>settings+date_format_help</div>
         </div>
 
         <div class="field">
-          <label>Domaine relatif</label>
+          <label translate>settings+relative_domain</label>
           <input ng-hide="showHelp" placeholder="www.domain.com" type="text" ng-model="ss.settings.headers['Relative-Domain']">
-          <div ng-show="showHelp" class="ui inverted teal bottom attached segment">Domaine à utiliser pour les URLs relatives.</div>
+          <div ng-show="showHelp" class="ui inverted teal bottom attached segment" translate>settings+relative_domain_help</div>
         </div>
 
         <div class="select field">
-          <label>Type de log</label>
+          <label translate>settings+log_type</label>
           <select ng-hide="showHelp" ng-model="ss.settings.proxyType" ng-options="proxy for proxy in ss.selections.proxyTypes">
-            <option value="">Reconnaissance auto</option>
+            <option value="" translate>settings+auto_recognition</option>
           </select>
-          <div ng-show="showHelp" class="ui inverted teal bottom attached segment">Plateforme d'origine des log.</div>
+          <div ng-show="showHelp" class="ui inverted teal bottom attached segment" translate>settings+log_type_help</div>
         </div>
       </div>
 
       <div class="field" ng-show="ss.settings.proxyType || showHelp">
-        <label>Format de log</label>
+        <label translate>settings+log_format</label>
         <textarea ng-hide="showHelp" placeholder="%h %t %r %s" type="text" ng-model="ss.settings.logFormat"></textarea>
-        <div ng-show="showHelp" class="ui inverted teal bottom attached segment">Format des lignes de log (Ex: '%h %l %u %t %s %b'). <a href='/doc/formats.html' target='_blank'>En savoir plus</a></div>
+        <div ng-show="showHelp" class="ui inverted teal bottom attached segment" translate translate-values="{ docURL: '/doc/formats.html' }" translate>settings+log_format_help</div>
       </div>
 
-      <div class="ui red dividing header">En sortie</div>
+      <div class="ui red dividing header" translate>settings+output</div>
       <div class="three fields">
         <div class="field">
-          <label>Format du résultat</label>
+          <label translate>settings+result_format</label>
           <select ng-hide="showHelp" ng-model="ss.settings.headers['Accept']" ng-options="f.mime as f.type for f in ss.selections.resultFormats"></select>
-          <div ng-show="showHelp" class="ui inverted red bottom attached segment">Format des données en sortie.</div>
+          <div ng-show="showHelp" class="ui inverted red bottom attached segment" translate>settings+result_format_help</div>
         </div>
 
         <div class="field">
-          <label>Traces système</label>
+          <label translate>settings+system_traces</label>
           <select ng-hide="showHelp" ng-model="ss.settings.headers['Traces-Level']" ng-options="t.level as t.desc for t in ss.selections.tracesLevels"></select>
-          <div ng-show="showHelp" class="ui inverted red bottom attached segment">Niveau de verbosité des traces laissées durant le traitement.</div>
+          <div ng-show="showHelp" class="ui inverted red bottom attached segment" translate>settings+system_traces_help</div>
         </div>
 
         <div class="field">
-          <label>Champs en sortie</label>
+          <label translate>settings+output_fields</label>
           <div class="two fields" ng-hide="showHelp">
             <div class="field">
               <form ng-submit="addOutputField('plus')">
                 <div class="ui icon input">
-                  <input type="text" placeholder="Ajouter..." ng-model="$parent.plusField">
+                  <input type="text" placeholder="{{ 'settings+output_fields_add' | translate }}" ng-model="$parent.plusField">
                   <i class="plus link icon" ng-click="addOutputField('plus')"></i>
                 </div>
               </form>
@@ -76,7 +80,7 @@
             <div class="field">
               <form ng-submit="addOutputField('minus')">
                 <div class="ui icon input">
-                  <input type="text" placeholder="Enlever..." ng-model="$parent.minusField">
+                  <input type="text" placeholder="{{ 'settings+output_fields_remove' | translate }}" ng-model="$parent.minusField">
                   <i class="minus link icon" ng-click="addOutputField('minus')"></i>
                 </div>
               </form>
@@ -95,36 +99,36 @@
             </div>
           </div>
 
-          <div ng-show="showHelp" class="ui inverted red bottom attached segment">Champs (en-têtes) à ajouter/enlever dans le fichier de sortie.</div>
+          <div ng-show="showHelp" class="ui inverted red bottom attached segment" translate>settings+output_fields_help</div>
         </div>
       </div>
 
-      <div class="ui purple dividing header">Headers (avancé)</div>
+      <div class="ui purple dividing header" translate>settings+headers</div>
       <div class="ui small form" ng-hide="showHelp">
         <div class="field">
-          <div ng-click="ss.addCustomHeader()" class="ui small icon button"><i class="plus icon"></i> Nouveau</div>
+          <div ng-click="ss.addCustomHeader()" class="ui small icon button"><i class="plus icon"></i> {{ 'settings+new' | translate }}</div>
         </div>
 
         <div class="five fields" ng-repeat="header in ss.settings.customHeaders">
           <div class="field">
-            <input type="text" placeholder="Nom" ng-model="ss.settings.customHeaders[$index].name">
+            <input type="text" placeholder="{{ 'settings+name' | translate}}" ng-model="ss.settings.customHeaders[$index].name">
           </div>
           <div class="three wide field">
-            <input type="text" placeholder="Valeur" ng-model="ss.settings.customHeaders[$index].value">
+            <input type="text" placeholder="{{ 'settings+value' | translate }}" ng-model="ss.settings.customHeaders[$index].value">
           </div>
           <div class="field">
             <div class="ui small icon button" ng-click="ss.removeCustomHeader($index)"><i class="red trash icon"></i></div>
           </div>
         </div>
       </div>
-      <div ng-show="showHelp" class="ui inverted purple bottom attached segment">Liste de headers à ajouter à la requête. Si l'un d'eux fait doublon avec une autre option du formulaire, cette dernière est écrasée.</div>
+      <div ng-show="showHelp" class="ui inverted purple bottom attached segment" translate>settings+headers_help</div>
     </div>
 
     <div class="ui right aligned basic segment">
       <p><div class="ui slider checkbox">
         <input id="rememberToggle" type="checkbox" ng-model="ss.remember" ng-change="ss.saveRemember()">
-        <label for="rememberToggle">Mémoriser mes paramètres</label>
+        <label for="rememberToggle" translate>settings+remember</label>
       </div></p>
       <p>
-      <div class="ui right labeled mini icon button" ng-click="ss.loadDefault()"><i class="repeat icon"></i> Paramètres par défaut</div></p>
+      <div class="ui right labeled mini icon button" ng-click="ss.loadDefault()"><i class="repeat icon"></i> {{ 'settings+reset' | translate }}</div></p>
     </div>

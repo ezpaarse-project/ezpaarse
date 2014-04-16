@@ -24,6 +24,7 @@ angular.module('ezPAARSE.main-controllers', [])
     $scope.currentLanguage = 'fr';
     $scope.useLanguage = function (lang) {
       $translate.use(lang);
+      $scope.currentLanguage = lang;
     };
 
     $scope.user = userService.user;
