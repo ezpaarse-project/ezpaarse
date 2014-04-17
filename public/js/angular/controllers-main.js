@@ -3,7 +3,7 @@
 /* Controllers for auth */
 
 angular.module('ezPAARSE.main-controllers', [])
-  .controller('AppCtrl', function ($scope, $state, userService, $http, $translate, requestService, inputService, socket) {
+  .controller('AppCtrl', function ($scope, $state, userService, $http, $translate, $location, $cookies, requestService, inputService, socket) {
 
     $scope.emailRegexp = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9-]+(\.[a-z0-9-]+)*$/i;
     $scope.contact = {
@@ -17,12 +17,21 @@ angular.module('ezPAARSE.main-controllers', [])
       github: 'https://github.com/ezpaarse-project/ezpaarse',
       platforms: 'http://analogist.couperin.org/platforms/',
       api: '/doc/routes.html',
+      nodejs: 'http://nodejs.org/',
+      expressjs: 'http://expressjs.com/'
     }
 
-    $scope.currentLanguage = 'fr';
     $scope.useLanguage = function (lang) {
+      if (!ezLanguages.hasOwnProperty(lang)) { lang = 'fr'; }
+
       $translate.use(lang);
+      $scope.currentLanguage = lang;
+      $cookies.lang = lang;
     };
+
+    var querylang = $location.search().lang;
+    $scope.useLanguage(querylang || $cookies.lang || 'fr');
+    $location.search('lang', null);
 
     $scope.user = userService.user;
 

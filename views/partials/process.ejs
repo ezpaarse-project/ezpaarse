@@ -1,50 +1,51 @@
     <div ng-controller="ProcessCtrl">
       <h2 class="ui header">
-        Traitement en cours
-        <div class="sub header">Vos logs sont en cours d'analyse par ezPAARSE. Vous pouvez suivre en temps réel l'état d'avancement du traitement et l'évolution des différents types de rejets.</div>
+        {{ 'process+title' | translate }}
       </h2>
+      <div class="ui segment" translate>process+description</div>
+
       <div ng-if="request.errorMessage" ng-bind="request.errorMessage" class="ui error message"></div>
       <div class="progress-header">
         <div>
           <div class="ui progress" ng-class="{'loading': 'blue active', 'success': 'green', 'error': 'failed'}[request.state]">
             <div class="bar" ng-style="{width: request.progress + '%'}" ng-switch on="request.state">
               <span ng-switch-default>{{ request.progress }}%</span>
-              <span ng-switch-when="success">Terminé</span>
-              <span ng-switch-when="error">Erreur</span>
-              <span ng-switch-when="aborted">Annulé</span>
+              <span ng-switch-when="success">{{ 'process+done' | translate }}</span>
+              <span ng-switch-when="error">{{ 'process+error' | translate }}</span>
+              <span ng-switch-when="aborted">{{ 'process+cancelled' | translate }}</span>
             </div>
           </div>
         </div>
         <div>
-          <a ng-href="/{{ request.jobID }}" target="_blank" class="ui left labeled attached icon positive mini button" popup data-variation="inverted" title="Vous pouvez d'ores et déjà débuter le téléchargement."><i class="download disk icon"></i> Télécharger le résultat</a>
-          <div ng-click="abort()" class="ui right labeled attached icon red mini button"><i class="basic cancel icon"></i> Annuler</div>
+          <a ng-href="/{{ request.jobID }}" target="_blank" class="ui left labeled attached icon positive mini button" popup data-variation="inverted" title="{{ 'process+can_start_download' | translate }}"><i class="download disk icon"></i> {{ 'process+download' | translate }}</a>
+          <div ng-click="abort()" class="ui right labeled attached icon red mini button"><i class="basic cancel icon"></i> {{ 'process+cancel' | translate }}</div>
         </div>
       </div>
 
       <div class="ui top attached tabular menu">
-        <a class="item" ng-class="{true: 'active'}[tab=='metrics']" ng-click="selectTab('metrics')">État du traitement</a>
-        <a class="item" ng-class="{true: 'active'}[tab=='rejects']" ng-click="selectTab('rejects')">Rejets</a>
-        <a class="item" ng-class="{true: 'active'}[tab=='traces']" ng-click="selectTab('traces')">Traces système</a>
-        <a class="item" ng-class="{true: 'active'}[tab=='report']" ng-click="selectTab('report')">Rapport</a>
+        <a class="item" ng-class="{true: 'active'}[tab=='metrics']" ng-click="selectTab('metrics')" translate>process+state</a>
+        <a class="item" ng-class="{true: 'active'}[tab=='rejects']" ng-click="selectTab('rejects')" translate>process+rejects</a>
+        <a class="item" ng-class="{true: 'active'}[tab=='traces']" ng-click="selectTab('traces')" translate>process+system_traces</a>
+        <a class="item" ng-class="{true: 'active'}[tab=='report']" ng-click="selectTab('report')" translate>process+report</a>
       </div>
       <div class="ui bottom attached active tab segment" ng-switch on="tab">
         <div ng-switch-when="metrics" class="ui two column relaxed grid">
           <div class="column">
             <table class="ui basic table">
               <tr>
-                <th>Lignes lues</th>
+                <th translate>metrics+read_lines</th>
                 <td class="right aligned" ng-bind="report.general['nb-lines-input'] | localNumber"></td>
               </tr>
               <tr>
-                <th><popup data-variation="inverted" data-content="Événements de consultation">ECs</popup> générés</th>
+                <th translate translate-compile>metrics+generated_ecs</th>
                 <td class="right aligned" ng-bind="report.general['nb-ecs'] | localNumber"></td>
               </tr>
               <tr>
-                <th>Durée du traitement</th>
+                <th translate>metrics+duration</th>
                 <td class="right aligned" ng-bind="report.general['Job-Duration']"></td>
               </tr>
               <tr>
-                <th>Vitesse</th>
+                <th translate>metrics+speed</th>
                 <td class="right aligned" ng-bind="report.general['process-speed']"></td>
               </tr>
             </table>
@@ -53,15 +54,15 @@
           <div class="column">
             <table class="ui basic table">
               <tr>
-                <th>Plateformes reconnues</th>
+                <th translate>metrics+platforms_count</th>
                 <td class="right aligned" ng-bind="report.stats['platforms'] | localNumber"></td>
               </tr>
               <tr>
-                <th>Consultations HTML</th>
+                <th translate>metrics+html_count</th>
                 <td class="right aligned" ng-bind="report.stats['mime-HTML'] | localNumber"></td>
               </tr>
               <tr>
-                <th>Consultations PDF</th>
+                <th translate>metrics+pdf_count</th>
                 <td class="right aligned" ng-bind="report.stats['mime-PDF'] | localNumber"></td>
               </tr>
             </table>
@@ -72,20 +73,20 @@
           <div class="ui ten wide column">
             <table class="ui basic compact table">
               <tr ng-mouseenter="selectHelper('nb-lines-ignored')">
-                <th>Lignes ignorées</th>
+                <th translate>rejects+ignored_lines</th>
                 <td class="right aligned">{{ report.rejets['nb-lines-ignored'] | localNumber}}</td>
                 <td style="width: 150px;"></td>
               </tr>
 
               <tr ng-repeat="reject in rejects" ng-mouseenter="selectHelper(reject.key)">
-                <th>{{ reject.title }} <i class="attention red icon" ng-show="reject.warning"></i></th>
+                <th>{{ reject.title | translate }} <i class="attention red icon" ng-show="reject.warning"></i></th>
                 <td class="right aligned" ng-class="{true: 'bold'}[reject.warning]">{{ reject.number | localNumber}}</td>
                 <td><div class="ui warning progress"><div class="bar" ng-style="reject.css"></div></div></td>
               </tr>
 
               <tfoot>
-                <tr><th colspan="3">
-                  Lignes de log pertinentes lues : {{ nbLines | localNumber }}
+                <tr><th colspan="3" translate translate-values="{ nb: nbLines }" translate-compile>
+                  rejects+relevant_lines
                 </th></tr>
               </tfoot>
             </table>
@@ -99,50 +100,50 @@
             </div>
 
             <div ng-switch-when="nb-lines-ignored">
-              <p class="ui header">Lignes ignorées</p>
-              <p class="inner" style="text-align: justify">Nombre de requêtes non pertinentes. Il s'agit principalement de téléchargements d'images, css ou scripts web sans rapport direct avec une ressource. Dans un log brut, ce chiffre est souvent élevé.</p>
+              <p class="ui header" translate>rejects+ignored_lines</p>
+              <p class="inner" style="text-align: justify" translate>rejects+ignored_lines_help</p>
             </div>
             <div ng-switch-when="nb-denied-ecs">
-              <p class="ui header">ECs en accès refusé</p>
-              <p class="inner" style="text-align: justify">Liste des accès qui ont été refusés à l'utilisateur au moment du clic. Exemple : tentative d'accès à un article non négocié dans le bouquet de l'établissement.</p>
+              <p class="ui header" translate>rejects+denied_ecs</p>
+              <p class="inner" style="text-align: justify" translate>rejects+denied_ecs_help</p>
             </div>
             <div ng-switch-when="nb-lines-duplicate-ecs">
-              <p class="ui header">Doublons filtrés</p>
-              <p class="inner" style="text-align: justify">Nombre de consultations ignorées car détectées comme des double-clics.</p>
+              <p class="ui header" translate>rejects+duplicates</p>
+              <p class="inner" style="text-align: justify" translate>rejects+duplicates_help</p>
             </div>
             <div ng-switch-when="nb-lines-unordered-ecs">
-              <p class="ui header">Anomalies chronologiques</p>
-              <p class="inner" style="text-align: justify">Lignes ignorées en raison d'un mauvais ordre chronologique.</p>
+              <p class="ui header" translate>rejects+chrono_anomalies</p>
+              <p class="inner" style="text-align: justify" translate>rejects+chrono_anomalies_help</p>
             </div>
             <div ng-switch-when="nb-lines-ignored-domains">
-              <p class="ui header">Domaines ignorés</p>
-              <p class="inner" style="text-align: justify">Les domaines ignorés.</p>
+              <p class="ui header" translate>rejects+ignored_domains</p>
+              <p class="inner" style="text-align: justify" translate>rejects+ignored_domains_help</p>
             </div>
             <div ng-switch-when="nb-lines-unknown-domains">
-              <p class="ui header">Domaines inconnus</p>
-              <p class="inner" style="text-align: justify">Les domaines inconnus.</p>
+              <p class="ui header" translate>rejects+unknown_domains</p>
+              <p class="inner" style="text-align: justify" translate>rejects+unknown_domains_help</p>
             </div>
             <div ng-switch-when="nb-lines-unknown-format">
-              <p class="ui header">Formats inconnus</p>
-              <p class="inner" style="text-align: justify">Les formats inconnus.</p>
+              <p class="ui header" translate>rejects+unknown_formats</p>
+              <p class="inner" style="text-align: justify" translate>rejects+unknown_formats_help</p>
             </div>
             <div ng-switch-when="nb-lines-unqualified-ecs">
-              <p class="ui header">ECs non qualifiés</p>
-              <p class="inner" style="text-align: justify">Les parseurs n'ont pas reconnu d'information documentaire dans les URL de ces lignes de log. Elles sont donc ignorées par ezPAARSE.</p>
+              <p class="ui header" translate>rejects+unqualified_ecs</p>
+              <p class="inner" style="text-align: justify" translate>rejects+unqualified_ecs_help</p>
             </div>
             <div ng-switch-when="nb-lines-pkb-miss-ecs">
-              <p class="ui header">PKBs manquantes</p>
-              <p class="inner" style="text-align: justify">Les PKBs manquantes.</p>
+              <p class="ui header" translate>rejects+missing_pkbs</p>
+              <p class="inner" style="text-align: justify" translate>rejects+missing_pkbs_help</p>
             </div>
           </div>
         </div>
 
         <div ng-switch-when="report">
-          <p ng-show="request.jobID"><a ng-href="/report/{{ request.jobID }}">View report in full page</a></p>
+          <p ng-show="request.jobID"><a ng-href="/report/{{ request.jobID }}" translate>report+view_full_page</a></p>
           <accordion class="ui accordion" ng-repeat="category in report | reportCategories">
             <div class="title" ng-class="{'active': $first}">
               <i class="dropdown icon"></i>
-              {{ category }}
+              {{ 'report+' + category | translate }}
             </div>
 
             <div class="content" ng-class="{'active': $first}">
