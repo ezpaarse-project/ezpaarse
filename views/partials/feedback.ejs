@@ -5,13 +5,13 @@
     <i class="big close link icon" ez-toggle-sidebar="#feedback-sidebar"></i>
     <div class="ui inverted form">
       <div class="ui inverted header">
-        Feedback
-        <div class="sub header">Votre avis nous intéresse !</div>
+        {{ 'feedback+title' | translate }}
+        <div class="sub header" translate>feedback+subtitle</div>
       </div>
       <div class="field">
-        <label>Votre adresse</label>
+        <label translate>feedback+address</label>
         <div class="ui left labeled icon input">
-          <input type="text" placeholder="E-Mail">
+          <input type="text" placeholder="{{ 'feedback+email' | translate }}">
           <i class="mail icon"></i>
           <div class="ui corner label">
             <i class="icon asterisk"></i>
@@ -19,12 +19,9 @@
         </div>
       </div>
       <div class="field">
-        <label>Votre commentaire</label>
-        <textarea placeholder="Que pensez-vous d'ezPAARSE ?"></textarea>
+        <label translate>feedback+comment</label>
+        <textarea placeholder="{{ 'feedback+what_do_you_think' | translate }}"></textarea>
       </div>
-      <div class="ui error message">
-        <div class="header">Une erreur est survenue</div>
-      </div>
-      <div class="ui fluid submit button">Envoyer</div>
+      <div class="ui fluid submit button" translate>feedback+send</div>
     </div>
   </sidebar>

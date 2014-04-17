@@ -102,5 +102,14 @@ ezLanguages['fr'] = {
 	"settings+remember":             "Mémoriser mes paramètres",
 	"settings+reset":                "Paramètres par défaut",
 	"settings+name":                 "Nom",
-	"settings+value":                "Valeur"
+	"settings+value":                "Valeur",
+
+	// Feedback sidebar
+	"feedback+title":             "Feedback",
+	"feedback+subtitle":          "Votre avis nous intéresse !",
+	"feedback+address":           "Votre adresse",
+	"feedback+email":             "E-Mail",
+	"feedback+comment":           "Votre commentaire",
+	"feedback+what_do_you_think": "Que pensez-vous d'ezPAARSE ?",
+	"feedback+send":              "Envoyer"
 };
