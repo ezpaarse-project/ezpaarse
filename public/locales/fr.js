@@ -155,5 +155,13 @@ ezLanguages['fr'] = {
 	"rejects+unknown_domains_help":  "Les domaines inconnus.",
 	"rejects+unknown_formats_help":  "Les formats inconnus.",
 	"rejects+unqualified_ecs_help":  "Les parseurs n'ont pas reconnu d'informations documentaires dans les URL de ces lignes de log. Elles sont donc ignorées par ezPAARSE.",
-	"rejects+missing_pkbs_help":     "Les PKBs manquantes."
+	"rejects+missing_pkbs_help":     "Les PKBs manquantes.",
+
+	// Report (tab and fullpage)
+	"report+view_full_page": "Voir le rapport en pleine page",
+	"report+general":        "Général",
+	"report+rejets":         "Rejets",
+	"report+dedoublonnage":  "Dédoublonnage",
+	"report+stats":          "Statistiques",
+	"report+files": 				 "Fichiers"
 };
