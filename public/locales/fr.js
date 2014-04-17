@@ -111,5 +111,49 @@ ezLanguages['fr'] = {
 	"feedback+email":             "E-Mail",
 	"feedback+comment":           "Votre commentaire",
 	"feedback+what_do_you_think": "Que pensez-vous d'ezPAARSE ?",
-	"feedback+send":              "Envoyer"
+	"feedback+send":              "Envoyer",
+
+	// Process page
+	"process+title": "Traitement en cours",
+	"process+description": "Vos logs sont en cours d'analyse par ezPAARSE. Vous pouvez suivre en temps réel l'état d'avancement du traitement et l'évolution des différents types de rejets.",
+	"process+done": "Terminé",
+	"process+error": "Erreur", //TODO finalisation
+	"process+cancelled": "Annulé",
+	"process+download": "Télécharger le résultat",
+	"process+can_start_download": "Vous pouvez d'ores et déjà débuter le téléchargement.",
+	"process+cancel": "Annuler",
+	"process+state": "État du traitement",
+	"process+rejects": "Rejets",
+	"process+system_traces": "Traces système",
+	"process+report": "Rapport",
+
+	// Process page -> metrics tab
+	"metrics+read_lines": "Lignes lues",
+	"metrics+generated_ecs": "<popup data-variation=\"inverted\" data-content=\"Événements de consultation\">ECs</popup> générés",
+	"metrics+duration": "Durée du traitement",
+	"metrics+speed": "Vitesse",
+	"metrics+platforms_count": "Plateformes reconnues",
+	"metrics+html_count": "Consultations HTML",
+	"metrics+pdf_count": "Consultations PDF",
+
+	// Process page -> rejects tab
+	"rejects+ignored_lines":         "Lignes ignorées",
+	"rejects+denied_ecs":            "ECs en accès refusé",
+	"rejects+duplicates":            "Doublons filtrés",
+	"rejects+chrono_anomalies":      "Anomalies chronologiques",
+	"rejects+ignored_domains":       "Domaines ignorés",
+	"rejects+unknown_domains":       "Domaines inconnus",
+	"rejects+unknown_formats":       "Formats inconnus",
+	"rejects+unqualified_ecs":       "ECs non qualifiés",
+	"rejects+missing_pkbs":          "PKBs manquantes",
+	"rejects+relevant_lines":        "Lignes de log pertinentes lues : {{ nb | localNumber }}",
+	"rejects+ignored_lines_help":    "Nombre de requêtes non pertinentes. Il s'agit principalement de téléchargements d'images, css ou scripts web sans rapport direct avec une ressource. Dans un log brut, ce chiffre est souvent élevé.",
+	"rejects+denied_ecs_help":       "Liste des accès qui ont été refusés à l'utilisateur au moment du clic.<br/>Exemple : tentative d'accès à un article non négocié dans le bouquet de l'établissement.",
+	"rejects+duplicates_help":       "Nombre de consultations ignorées car détectées comme des double-clics.",
+	"rejects+chrono_anomalies_help": "Lignes ignorées en raison d'un mauvais ordre chronologique.",
+	"rejects+ignored_domains_help":  "Les domaines ignorés.",
+	"rejects+unknown_domains_help":  "Les domaines inconnus.",
+	"rejects+unknown_formats_help":  "Les formats inconnus.",
+	"rejects+unqualified_ecs_help":  "Les parseurs n'ont pas reconnu d'informations documentaires dans les URL de ces lignes de log. Elles sont donc ignorées par ezPAARSE.",
+	"rejects+missing_pkbs_help":     "Les PKBs manquantes."
 };

@@ -10,14 +10,14 @@ angular.module('ezPAARSE.form-controllers')
     $scope.logs    = [];
     $scope.report  = {};
     $scope.rejects = [
-      { cat: 'general', key: 'nb-denied-ecs',            percent: 0, css: { width: '0%' }, title: 'ECs en accès refusé' },
-      { cat: 'rejets',  key: 'nb-lines-duplicate-ecs',   percent: 0, css: { width: '0%' }, title: 'Doublons filtrés' },
-      { cat: 'rejets',  key: 'nb-lines-unordered-ecs',   percent: 0, css: { width: '0%' }, title: 'Anomalies chronologiques' },
-      { cat: 'rejets',  key: 'nb-lines-ignored-domains', percent: 0, css: { width: '0%' }, title: 'Domaines ignorés' },
-      { cat: 'rejets',  key: 'nb-lines-unknown-domains', percent: 0, css: { width: '0%' }, title: 'Domaines inconnus' },
-      { cat: 'rejets',  key: 'nb-lines-unknown-format',  percent: 0, css: { width: '0%' }, title: 'Formats inconnus' },
-      { cat: 'rejets',  key: 'nb-lines-unqualified-ecs', percent: 0, css: { width: '0%' }, title: 'ECs non qualifiés' },
-      { cat: 'rejets',  key: 'nb-lines-pkb-miss-ecs',    percent: 0, css: { width: '0%' }, title: 'PKBs manquantes' }
+      { cat: 'general', key: 'nb-denied-ecs',            percent: 0, css: { width: '0%' }, title: 'rejects+denied_ecs' },
+      { cat: 'rejets',  key: 'nb-lines-duplicate-ecs',   percent: 0, css: { width: '0%' }, title: 'rejects+duplicates' },
+      { cat: 'rejets',  key: 'nb-lines-unordered-ecs',   percent: 0, css: { width: '0%' }, title: 'rejects+chrono_anomalies' },
+      { cat: 'rejets',  key: 'nb-lines-ignored-domains', percent: 0, css: { width: '0%' }, title: 'rejects+ignored_domains' },
+      { cat: 'rejets',  key: 'nb-lines-unknown-domains', percent: 0, css: { width: '0%' }, title: 'rejects+unknown_domains' },
+      { cat: 'rejets',  key: 'nb-lines-unknown-format',  percent: 0, css: { width: '0%' }, title: 'rejects+unknown_formats' },
+      { cat: 'rejets',  key: 'nb-lines-unqualified-ecs', percent: 0, css: { width: '0%' }, title: 'rejects+unqualified_ecs' },
+      { cat: 'rejets',  key: 'nb-lines-pkb-miss-ecs',    percent: 0, css: { width: '0%' }, title: 'rejects+missing_pkbs' }
     ];
 
     $scope.selectTab = function (tab) { $scope.tab = tab; };
