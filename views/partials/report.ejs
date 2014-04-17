@@ -1,29 +1,29 @@
     <div ng-controller="ReportCtrl">
 
       <h2 class="ui header">
-        Rapport de traitement
-        <div class="sub header" ng-show="report.general['Job-Date']">Réalisé le {{ report.general['Job-Date'] | date:'dd-MM-yyyy (HH:mm)' }}</div>
+        {{ 'report+title' | translate }}
+        <div class="sub header" ng-show="report.general['Job-Date']" translate translate-values="{ date: report.general['Job-Date'] }" translate-compile>report+subtitle</div>
       </h2>
 
-      <div class="ui no-print horizontal list">
-        <div class="header item">Aller à :</div>
-        <a ng-href="#{{ category }}" class="item" ng-repeat="category in report | reportCategories">{{ category }}</a>
-        <a ng-href="#traces" class="item">traces</a>
+      <div class="ui no-print horizontal bulleted list">
+        <div class="header item" translate>report+goto</div>
+        <a ng-href="#{{ category }}" class="item" ng-repeat="category in report | reportCategories">{{ 'report+' + category | translate }}</a>
+        <a ng-href="#traces" class="item" translate>report+system_traces</a>
       </div>
 
       <div ng-if="reportError" class="ui error message">
-        <div class="header">
-          Le rapport n'a pas pu être être récupéré.
+        <div class="header" translate>
+          report+report_fail
         </div>
         <ul class="list">
-          <li>Avez-vous précisé un identifiant ?</li>
-          <li>Le traitement associé est-il récent ?</li>
+          <li translate>report+fail_cause_1</li>
+          <li translate>report+fail_cause_2</li>
         </ul>
       </div>
-      <div ng-show="reportLoading"><i class="loading icon"></i> Chargement...</div>
+      <div ng-show="reportLoading"><i class="loading icon"></i> {{ 'report+loading' | translate }}</div>
       <div ng-repeat="category in report | reportCategories">
         <h3 id="{{ category }}" class="ui purple dividing header">
-          {{ category }}
+          {{ 'report+' + category | translate }}
         </h3>
 
         <table class="ui basic compact table">
@@ -34,12 +34,12 @@
         </table>
       </div>
 
-      <h3 id="traces" class="ui no-print purple dividing header">
-        Traces système
+      <h3 id="traces" class="ui no-print purple dividing header" translate>
+        report+system_traces
       </h3>
       <div class="ui no-print terminal inverted segment">
-        <div ng-show="tracesLoading"><i class="loading icon"></i> Chargement...</div>
-        <div ng-show="tracesError"><i class="attention icon"></i> Impossible de récupérer les traces</div>
+        <div ng-show="tracesLoading"><i class="loading icon"></i> {{ 'report+loading' | translate }}</div>
+        <div ng-show="tracesError"><i class="attention icon"></i> {{ 'report+traces_fail' | translate }}</div>
         <div ng-repeat="log in traces track by $index">
           <span ng-class="log.level" ng-bind="log.level"></span>: {{ log.message }}
         </div>

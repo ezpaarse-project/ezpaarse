@@ -158,10 +158,19 @@ ezLanguages['fr'] = {
 	"rejects+missing_pkbs_help":     "Les PKBs manquantes.",
 
 	// Report (tab and fullpage)
+	"report+title": 				 "Rapport de traitement",
+	"report+subtitle": 			 "Réalisé le {{ date | date:'dd-MM-yyyy (HH:mm)' }}",
 	"report+view_full_page": "Voir le rapport en pleine page",
 	"report+general":        "Général",
 	"report+rejets":         "Rejets",
 	"report+dedoublonnage":  "Dédoublonnage",
 	"report+stats":          "Statistiques",
-	"report+files": 				 "Fichiers"
+	"report+files": 				 "Fichiers",
+	"report+system_traces":  "Traces système",
+	"report+loading":  			 "Chargement...",
+	"report+goto":  			 	 "Aller à :",
+	"report+report_fail":    "Le rapport n'a pas pu être être récupéré.",
+	"report+fail_cause_1":   "Avez-vous précisé un identifiant ?",
+	"report+fail_cause_2":   "Le traitement associé est-il récent ?",
+	"report+traces_fail":  	 "Impossible de récupérer les traces"
 };
