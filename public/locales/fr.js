@@ -159,7 +159,7 @@ ezLanguages['fr'] = {
 
 	// Report (tab and fullpage)
 	"report+title": 				 "Rapport de traitement",
-	"report+subtitle": 			 "Réalisé le {{ date | date:'dd-MM-yyyy (HH:mm)' }}",
+	"report+subtitle": 			 "Réalisé le {{ date | date:\"dd-MM-yyyy 'à' HH:mm\" }}",
 	"report+view_full_page": "Voir le rapport en pleine page",
 	"report+general":        "Général",
 	"report+rejets":         "Rejets",
@@ -172,5 +172,22 @@ ezLanguages['fr'] = {
 	"report+report_fail":    "Le rapport n'a pas pu être être récupéré.",
 	"report+fail_cause_1":   "Avez-vous précisé un identifiant ?",
 	"report+fail_cause_2":   "Le traitement associé est-il récent ?",
-	"report+traces_fail":  	 "Impossible de récupérer les traces"
+	"report+traces_fail":  	 "Impossible de récupérer les traces",
+
+	// Admin page
+	"admin+title":             "Administration",
+	"admin+repositories":      "Dépôts",
+	"admin+unknown_state":     "statut inconnu",
+	"admin+updates_available": "mises à jour disponibles",
+	"admin+update":            "Mettre à jour",
+	"admin+pkb_state":         "État de la base de connaissances",
+	"admin+pkb_uptodate":      "la base est à jour",
+	"admin+parsers_state":     "État des parseurs",
+	"admin+parsers_uptodate":  "les parseurs sont à jour",
+	"admin+users":             "Utilisateurs",
+	"admin+get_users_fail":    "Les utilisateurs n'ont pas pu être chargés.",
+	"admin+name":              "Nom",
+	"admin+group":             "Groupe",
+	"admin+remove":            "Supprimer",
+	"admin+password":          "Mot de passe"
 };
