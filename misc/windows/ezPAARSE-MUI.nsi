@@ -182,7 +182,7 @@ Function runEZPAARSE
   MessageBox MB_OK $(end+runMessage)
   ExecShell "" "$SMPROGRAMS\$StartMenuFolder\$(menu+1_lancer)"
   ExecShell "open" $(url_usage)
-  Sleep 5000 ; wait for node startup
+  Sleep 7000 ; wait for node startup
   ExecShell "open" $(url_start)
 FunctionEnd
 
