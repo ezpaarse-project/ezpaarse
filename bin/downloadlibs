@@ -1,21 +1,21 @@
 #!/bin/bash
 #
-# Script used to download latest libs (node_modules and bower_components) 
+# Script used to download latest libs (node_modules and bower_components)
 # from the ezpaarse-libs github repository.
 #
-
+ 
 EZPAARSE_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
-
+ 
 # detect local version
 LOCAL_VERSION=`git describe --tags`
 if [ "$?" != "0" ]; then
   LOCAL_VERSION=`cat $EZPAARSE_PATH/VERSION`
 fi
-
+ 
 if [ ! -d $EZPAARSE_PATH/build ]; then
   mkdir $EZPAARSE_PATH/build
 fi
-
+ 
 # pull modification of clone from ezpaarse-libs
 echo "--> Getting ezpaarse-libs repository"
 if [ -d $EZPAARSE_PATH/build/ezpaarse-libs/ ]; then
@@ -27,7 +27,7 @@ else
   git clone https://github.com/ezpaarse-project/ezpaarse-libs.git --depth 1
   cd $EZPAARSE_PATH/build/ezpaarse-libs/
 fi
-
+ 
 # sync local ezpaarse version and the ezpaarse-libs repository
 if [ "`git tag -l | grep $LOCAL_VERSION`" != "" ]; then
   git checkout $LOCAL_VERSION
@@ -35,15 +35,26 @@ if [ "`git tag -l | grep $LOCAL_VERSION`" != "" ]; then
 else
   echo "--> Getting latest ezpaarse-libs version"
 fi
-
+ 
+ 
 # cleanup ezpaarse node_modules and bower_components
 rm -rf $EZPAARSE_PATH/node_modules/
 rm -rf $EZPAARSE_PATH/ezpaarse-scrapers/node_modules/
 rm -rf $EZPAARSE_PATH/public/components/
-
+ 
 # copying the node_modules and bower_components from ezpaarse-libs
 cp -rf $EZPAARSE_PATH/build/ezpaarse-libs/ezpaarse/node_modules/          $EZPAARSE_PATH/
 cp -rf $EZPAARSE_PATH/build/ezpaarse-libs/ezpaarse/bower_components/      $EZPAARSE_PATH/public/components/
 cp -rf $EZPAARSE_PATH/build/ezpaarse-libs/ezpaarse-scrapers/node_modules/ $EZPAARSE_PATH/platforms-scrapers/
-
+ 
+# for mac installation
+BFDOCS=`bfdocs 2>&1 > /dev/null`
+R=$?
+if [ $R -eq 0 ]; then
+  echo "bfdocs trouve"
+else
+  echo "bfdocs non trouve"
+  npm update
+fi
+ 
 echo "--> node_modules and bower_components are now sync with ezpaarse-libs"
