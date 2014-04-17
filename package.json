@@ -39,7 +39,6 @@
     "nodemailer": "~0.6.1",
     "portscanner": "~0.2.2",
     "jschardet": "~1.1.0",
-    "i18n-2": "~0.4.6",
     "xml-writer": "~1.4.1",
     "mime": "~1.2.11",
     "xml2js": "~0.4.2",

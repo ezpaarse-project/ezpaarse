@@ -7,7 +7,6 @@ var http          = require('http');
 var path          = require('path');
 var mkdirp        = require('mkdirp');
 var fs            = require('graceful-fs');
-var I18n          = require('i18n-2');
 var Reaper        = require('tmp-reaper');
 var auth          = require('./lib/auth-middlewares.js');
 var winston       = require('winston');
@@ -128,27 +127,6 @@ app.configure(function () {
   }));
   app.use(passport.initialize());
   app.use(passport.session());
-
-  // bind i18n to express so that it's available using req.i18n
-  I18n.expressBind(app, {
-    locales: ['en', 'fr'],
-    defaultLocale: 'en',
-    extension: '.json', //locales extensions (ex: en.json)
-    directory: path.join(__dirname, 'locales'),
-    cookieName: 'lang'
-  });
-
-  /**
-   * Set locale using either 'lang' cookie or browser language
-   */
-  app.use(function (req, res, next) {
-    if (req.cookies.lang) {
-      req.i18n.setLocaleFromCookie(req);
-    } else {
-      req.i18n.setLocale(req.i18n.preferredLocale(req));
-    }
-    next();
-  });
 
   // Set the ezPAARSE-Version header in all responses
   app.use(function (req, res, next) {
