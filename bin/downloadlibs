@@ -12,6 +12,10 @@ if [ "$?" != "0" ]; then
   LOCAL_VERSION=`cat $EZPAARSE_PATH/VERSION`
 fi
 
+if [ ! -d $EZPAARSE_PATH/build ]; then
+  mkdir $EZPAARSE_PATH/build
+fi
+
 # pull modification of clone from ezpaarse-libs
 echo "--> Getting ezpaarse-libs repository"
 if [ -d $EZPAARSE_PATH/build/ezpaarse-libs/ ]; then
