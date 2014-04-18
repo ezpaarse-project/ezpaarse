@@ -38,28 +38,25 @@ module.exports = function (app) {
 
     var feedback = req.body;
 
-    if (!feedback || !feedback.note) {
+    if (!feedback || !feedback.comment) {
       res.send(400);
       return;
     }
 
-    var username;
-    if (feedback.username) {
-      username = feedback.username;
-    } else if (req.user) {
-      username = req.user.username;
+    var mail;
+    if (req.user) {
+      mail = req.user.username;
+    } else if (feedback.mail) {
+      mail = feedback.mail;
     }
 
     var subject = '[ezPAARSE] Feedback ';
-    subject += username ? 'de ' + username : 'anonyme';
-    var text = "Utilisateur : " + (username ? username : "non connecté");
-    if (feedback.browser) {
-      if (feedback.browser.userAgent) { text += '\nNavigateur : ' + feedback.browser.userAgent; }
-      if (feedback.browser.platform)  { text += '\nPlateforme : ' + feedback.browser.platform; }
-    }
-    text += "\n===============================\n\n";
-    text += feedback.note;
+    subject += mail ? 'de ' + mail : 'anonyme';
+    var text = "Utilisateur : " + (mail ? mail : "anonyme");
 
+    if (feedback.browser) { text += '\nNavigateur : ' + feedback.browser; }
+    text += "\n===============================\n\n";
+    text += feedback.comment;
 
     var mailOptions = {
       from: config.EZPAARSE_ADMIN_MAIL,
@@ -69,20 +66,13 @@ module.exports = function (app) {
       attachments: []
     };
 
-    if (feedback.img) {
-      mailOptions.attachments.push({
-        fileName: "screenshot.png",
-        contents: new Buffer(feedback.img.replace(/^data:image\/png;base64,/, ""), "Base64")
-      });
-    }
-
     if (feedback.report) {
       mailOptions.attachments.push({
         fileName: "report.json",
         contents: feedback.report
       });
-    } else if (req.cookies && req.cookies.lastJob) {
-      var jobID      = req.cookies.lastJob;
+    } else if (req.body.jobID) {
+      var jobID      = req.body.jobID;
       var reportFile = path.join(__dirname, '/../tmp/jobs/',
         jobID.charAt(0),
         jobID.charAt(1),
@@ -99,11 +89,9 @@ module.exports = function (app) {
     // send mail with defined transport object
     smtpTransport.sendMail(mailOptions, function (error, response) {
       if (error) {
-        console.log(error);
         res.send(500);
       } else {
-        console.log("Message sent: " + response.message);
-        res.send(201, {});
+        res.send(200);
       }
     });
   }
@@ -112,8 +100,8 @@ module.exports = function (app) {
    * Forward feedback request to the main ezpaarse instance
    */
   function forwardFeedback(req, res) {
-    if (req.cookies && req.cookies.lastJob) {
-      var jobID      = req.cookies.lastJob;
+    if (req.body.jobID) {
+      var jobID      = req.body.jobID;
       var reportFile = path.join(__dirname, '/../tmp/jobs/',
         jobID.charAt(0),
         jobID.charAt(1),
@@ -126,7 +114,7 @@ module.exports = function (app) {
 
     if (config.EZPAARSE_PARENT_URL) {
       if (req.user) {
-        req.body.username = req.user.username;
+        req.body.mail = req.user.username;
       }
 
       request({

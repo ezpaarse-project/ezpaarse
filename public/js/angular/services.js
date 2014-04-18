@@ -35,8 +35,13 @@ angular.module('ezPAARSE.services', [])
     function requestService() {
       this.data = {
         state: 'idle',
-        progress: 0
+        progress: 0,
+        history: []
       };
+    };
+
+    requestService.prototype.cleanHistory = function () {
+      this.data.history = [];
     };
 
     requestService.prototype.abort = function (callback) {
@@ -62,6 +67,11 @@ angular.module('ezPAARSE.services', [])
 
       headers = headers || {};
       headers['Socket-ID'] = this.data.socketID;
+
+      var currentJob = {
+        id: this.data.jobID,
+        date: new Date()
+      };
 
       this.xhr = $.ajax({
         headers:     headers || {},
@@ -92,6 +102,7 @@ angular.module('ezPAARSE.services', [])
         },
         complete: function () {
           self.xhr = null;
+          self.data.history.push(currentJob);
         },
         success: function (data) {
           $rootScope.$apply(function () {

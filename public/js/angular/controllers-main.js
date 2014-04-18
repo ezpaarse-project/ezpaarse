@@ -45,6 +45,7 @@ angular.module('ezPAARSE.main-controllers', [])
         $state.transitionTo('login');
       };
       requestService.abort();
+      requestService.cleanHistory();
       inputService.clear();
       $http.get('/logout').then(cb, cb);
     };
@@ -62,7 +63,35 @@ angular.module('ezPAARSE.main-controllers', [])
     $http.get('/info/version')
       .success(function (version)    { $scope.ezVersion = version; })
       .error(function (data, status) { $scope.ezVersion = '...'; });
+  })
+  .controller('FeedbackCtrl', function ($scope, $http, userService, requestService) {
+    $scope.fb = {
+      mail: userService.user ? userService.user.name : undefined
+    };
+    $scope.request = requestService.data;
 
+    $scope.sendFeedback = function (valid) {
+      $scope.feedbackForm.comment.$pristine = false;
+      $scope.feedbackForm.email.$pristine = false;
+      if (!valid || $scope.sending) { return; }
+
+      $scope.error   = false;
+      $scope.success = false;
+      $scope.sending = true;
+      var data = angular.copy($scope.fb);
+
+      if ($scope.sendBrowser) { data.browser = navigator.userAgent; };
+
+      $http.post('/feedback', data)
+      .success(function (data) {
+        $scope.sending = false;
+        $scope.success = true;
+      })
+      .error(function (data) {
+        $scope.sending = false;
+        $scope.error = 'Une erreur est survenue';
+      });
+    }
   })
   .controller('ConnectButtonsCtrl', function ($scope, $http) {
     $scope.checkingUsers = true;
