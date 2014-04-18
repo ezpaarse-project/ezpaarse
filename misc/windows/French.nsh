@@ -18,7 +18,7 @@ ${LangFileString} menu+6_doc_usage "Explications usage ezPAARSE.lnk"
 ${LangFileString} menu+7_analogist "Site AnalogIST.lnk"
 ${LangFileString} preinstall+already_installed "ezPAARSE est deja installe. $\n$\nClick `OK` pour desinstaller \
   la version precedente ou `Cancel` pour annuler."
-${LangFileString} url_start "http://localhost:59599/lang/fr"
+${LangFileString} url_start "http://localhost:59599?lang=fr"
 ${LangFileString} url_usage "http://analogist.couperin.org/ezpaarse/doc/usage"
 ${LangFileString} url_doc "http://localhost:59599/doc"
 ${LangFileString} excel_render "ezPAARSE-Render.xltm"
