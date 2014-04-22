@@ -57,6 +57,19 @@ angular.module('ezPAARSE.main-controllers', [])
       requestService.data.socketID = socketID;
     });
 
+    $scope.feedbackLoading = true;
+    $http.get('/feedback/status')
+      .success(function () {
+        console.log('OK !');
+        $scope.feedbackLoading   = false;
+        $scope.feedbackAvailable = true;
+      })
+      .error(function ()   {
+        console.log('KO.');
+        $scope.feedbackLoading   = false;
+        $scope.feedbackAvailable = false;
+      });
+
     /**
      * Get app version
      */

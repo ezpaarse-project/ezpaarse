@@ -1,7 +1,4 @@
-  <div class="ui no-print blue feedback right attached icon button" ez-toggle-sidebar="#feedback-sidebar">
-    <i class="comment icon"></i>
-  </div>
-  <sidebar id="feedback-sidebar" class="ui very wide feedback sidebar segment" ng-controller="FeedbackCtrl">
+  <sidebar id="feedback-sidebar" ng-if="feedbackAvailable" class="ui very wide feedback sidebar segment" ng-controller="FeedbackCtrl">
     <i class="big close link icon" ez-toggle-sidebar="#feedback-sidebar"></i>
 
     <div class="ui header">
