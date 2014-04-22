@@ -102,7 +102,9 @@ angular.module('ezPAARSE.services', [])
         },
         complete: function () {
           self.xhr = null;
-          self.data.history.push(currentJob);
+          $rootScope.$apply(function () {
+            self.data.history.push(currentJob);
+          });
         },
         success: function (data) {
           $rootScope.$apply(function () {

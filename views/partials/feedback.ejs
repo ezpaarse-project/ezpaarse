@@ -6,14 +6,14 @@
       <div class="sub header" translate>feedback+subtitle</div>
     </div>
 
-    <div class="ui small error message" ng-show="error" ng-bind="error"></div>
+    <div class="ui small error message" ng-show="error" translate>feedback+error</div>
     <div class="ui small success icon message" ng-show="success">
       <i class="checkmark icon"></i>
       <div class="content">
-        <div class="header">
-          Feedback envoyé
+        <div class="header" translate>
+          feedback+sent
         </div>
-        <p>Merci pour vos retours !</p>
+        <p translate>feedback+thanks</p>
       </div>
     </div>
 
@@ -33,17 +33,17 @@
       </div>
 
       <div class="field">
-        <label>Envoyer un rapport de traitement</label>
+        <label translate>feedback+send_report</label>
         <select ng-model="fb.jobID">
-          <option value="">Non</option>
-          <option value="{{ job.id }}" ng-repeat="job in request.history">Rapport du {{ job.date | date:"dd-MM-yyyy 'à' HH:mm" }}</option>
+          <option value="" translate>feedback+no</option>
+          <option value="{{ job.id }}" ng-repeat="job in request.history" translate translate-compile translate-values="{ date: job.date }">feedback+report</option>
         </select>
       </div>
 
       <div class="field">
         <checkbox class="ui checkbox">
           <input id="send-browser" type="checkbox" ng-model="sendBrowser">
-          <label for="send-browser">Envoyer la version de mon navigateur</label>
+          <label for="send-browser" translate>feedback+send_browser</label>
         </checkbox>
       </div>
 

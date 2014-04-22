@@ -42,10 +42,10 @@
             </div>
           </div>
           <div class="ui column right aligned">
-            <i class="big loading icon" ng-show="feedbackLoading" popup data-variation="inverted" title="Vérification du serveur de feedback"></i>
+            <i class="big loading icon" ng-show="feedbackLoading" popup data-variation="inverted" title="{{ 'feedback+checking_server' | translate }}"></i>
             <div class="ui mini icon button" ng-if="feedbackAvailable" ez-toggle-sidebar="#feedback-sidebar">
               <i class="comment icon"></i>
-              Feedback
+              {{ 'feedback+title' | translate }}
             </div>
             <a ng-href="mailto:{{ contact.mail }}" popup data-variation="inverted" title="{{ 'social+mail' | translate:contact }}" class="ui mini icon teal button"><i class="tiny mail icon"></i></a>
             <a ng-href="{{ contact.facebook }}" target="_blank" popup data-variation="inverted" title="{{ 'social+facebook' | translate }}" class="ui mini icon facebook button"><i class="tiny facebook icon"></i></a>

@@ -60,12 +60,10 @@ angular.module('ezPAARSE.main-controllers', [])
     $scope.feedbackLoading = true;
     $http.get('/feedback/status')
       .success(function () {
-        console.log('OK !');
         $scope.feedbackLoading   = false;
         $scope.feedbackAvailable = true;
       })
       .error(function ()   {
-        console.log('KO.');
         $scope.feedbackLoading   = false;
         $scope.feedbackAvailable = false;
       });
@@ -102,7 +100,7 @@ angular.module('ezPAARSE.main-controllers', [])
       })
       .error(function (data) {
         $scope.sending = false;
-        $scope.error = 'Une erreur est survenue';
+        $scope.error   = true;
       });
     }
   })
