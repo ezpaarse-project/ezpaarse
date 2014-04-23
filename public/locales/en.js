@@ -125,6 +125,7 @@ ezLanguages['en'] = {
   // Process page
   "process+title":              "Processing",
   "process+description":        "Your logs are being processed by ezPAARSE. You can follow the processing and the different reject types in realtime",
+  "process+finalisation":       "Finalisation...",
   "process+done":               "Done",
   "process+error":              "Error", //TODO finalisation
   "process+cancelled":          "Canceled",

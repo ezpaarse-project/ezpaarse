@@ -95,6 +95,7 @@ angular.module('ezPAARSE.services', [])
             myXhr.upload.addEventListener('load', function (e) {
               $rootScope.$apply(function () {
                 self.data.progress = 100;
+                self.data.state    = 'finalisation';
               });
             });
           }

@@ -7,12 +7,13 @@
       <div ng-if="request.errorMessage" ng-bind="request.errorMessage" class="ui error message"></div>
       <div class="progress-header">
         <div>
-          <div class="ui progress" ng-class="{'loading': 'blue active', 'success': 'green', 'error': 'failed'}[request.state]">
+          <div class="ui progress" ng-class="{'loading': 'blue active', 'finalisation': 'blue', 'success': 'green', 'error': 'failed'}[request.state]">
             <div class="bar" ng-style="{width: request.progress + '%'}" ng-switch on="request.state">
               <span ng-switch-default>{{ request.progress }}%</span>
-              <span ng-switch-when="success">{{ 'process+done' | translate }}</span>
-              <span ng-switch-when="error">{{ 'process+error' | translate }}</span>
-              <span ng-switch-when="aborted">{{ 'process+cancelled' | translate }}</span>
+              <span ng-switch-when="finalisation" translate>process+finalisation</span>
+              <span ng-switch-when="success" translate>process+done</span>
+              <span ng-switch-when="error" translate>process+error</span>
+              <span ng-switch-when="aborted" translate>process+cancelled</span>
             </div>
           </div>
         </div>
