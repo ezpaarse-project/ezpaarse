@@ -55,6 +55,10 @@
     "Log-Type": "EZproxy",
     "Log-Format": "%h %{session} %u %t \"%r\" %s %b"
   },
+  "Université Paris 8": {
+    "Log-Type": "EZproxy",
+    "Log-Format": "%h - %u %{group} %{session}<[a-zA-Z0-9\\-\\+]+> %t \"%r\" %s %b %{domain}<[^ ]+>"
+  },
   "Université Paris 11": {},
   "Université Paris-Est Créteil (UPEC)": {
     "Log-Format": "%h %l %u %t \"%r\" %s %b - -  %{revue}<[a-zA-Z0-9\\-\\+,]+> %{discipline}<[a-zA-Z0-9\\-\\+,]+> %<.*>",
