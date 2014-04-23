@@ -29,6 +29,10 @@ angular.module('ezPAARSE.form-controllers')
       });
     };
 
+    $scope.inProgress = function () {
+      return requestService.isLoading();
+    };
+
     socket.on('logging', function (log) {
       $scope.logs.push(log);
     });

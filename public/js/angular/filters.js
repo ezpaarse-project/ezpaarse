@@ -21,7 +21,7 @@ angular.module('ezPAARSE.filters', [])
       }
     };
   })
-  .filter('toLink', function ($sce, $filter) {
+  .filter('toLink', function ($filter) {
     return function (text, target) {
       if (text === 0) { return '0'; }
       text = (text || '').toString();

@@ -44,6 +44,10 @@ angular.module('ezPAARSE.services', [])
       this.data.history = [];
     };
 
+    requestService.prototype.isLoading = function () {
+      return (this.data.state == 'loading' || this.data.state == 'finalisation');
+    };
+
     requestService.prototype.abort = function (callback) {
       callback = callback || function () {};
       var self = this;
@@ -95,6 +99,7 @@ angular.module('ezPAARSE.services', [])
             myXhr.upload.addEventListener('load', function (e) {
               $rootScope.$apply(function () {
                 self.data.progress = 100;
+                self.data.state    = 'finalisation';
               });
             });
           }

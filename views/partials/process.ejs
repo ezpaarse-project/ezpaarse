@@ -7,18 +7,20 @@
       <div ng-if="request.errorMessage" ng-bind="request.errorMessage" class="ui error message"></div>
       <div class="progress-header">
         <div>
-          <div class="ui progress" ng-class="{'loading': 'blue active', 'success': 'green', 'error': 'failed'}[request.state]">
+          <div class="ui progress" ng-class="{'loading': 'teal active', 'finalisation': 'teal', 'success': 'green', 'error': 'failed'}[request.state]">
             <div class="bar" ng-style="{width: request.progress + '%'}" ng-switch on="request.state">
               <span ng-switch-default>{{ request.progress }}%</span>
-              <span ng-switch-when="success">{{ 'process+done' | translate }}</span>
-              <span ng-switch-when="error">{{ 'process+error' | translate }}</span>
-              <span ng-switch-when="aborted">{{ 'process+cancelled' | translate }}</span>
+              <span ng-switch-when="finalisation" translate>process+finalisation</span>
+              <span ng-switch-when="success" translate>process+done</span>
+              <span ng-switch-when="error" translate>process+error</span>
+              <span ng-switch-when="aborted" translate>process+cancelled</span>
             </div>
           </div>
         </div>
         <div>
-          <a ng-href="/{{ request.jobID }}" target="_blank" class="ui left labeled attached icon positive mini button" popup data-variation="inverted" title="{{ 'process+can_start_download' | translate }}"><i class="download disk icon"></i> {{ 'process+download' | translate }}</a>
-          <div ng-click="abort()" class="ui right labeled attached icon red mini button"><i class="basic cancel icon"></i> {{ 'process+cancel' | translate }}</div>
+          <a ng-href="/{{ request.jobID }}" target="_blank" class="ui left labeled icon teal mini button" popup data-variation="inverted" title="{{ 'process+can_start_download' | translate }}"><i class="download disk icon"></i> {{ 'process+download' | translate }}</a>
+          <div ng-show="inProgress()" ng-click="abort()" class="ui right labeled icon red mini button"><i class="basic cancel icon"></i> {{ 'process+cancel' | translate }}</div>
+          <a href="/form" ng-hide="inProgress()" class="ui right labeled icon mini button"><i class="refresh icon"></i> {{ 'process+new' | translate }}</a>
         </div>
       </div>
 

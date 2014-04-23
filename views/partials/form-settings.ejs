@@ -24,6 +24,14 @@
     <div class="ui small form">
       <div class="ui teal dividing header" translate>settings+input</div>
       <div class="three fields">
+        <div class="select field">
+          <label translate>settings+log_type</label>
+          <select ng-hide="showHelp" ng-model="ss.settings.proxyType" ng-options="proxy for proxy in ss.selections.proxyTypes">
+            <option value="" translate>settings+auto_recognition</option>
+          </select>
+          <div ng-show="showHelp" class="ui inverted teal bottom attached segment" translate>settings+log_type_help</div>
+        </div>
+
         <div class="field">
           <label translate>settings+date_format</label>
           <input ng-hide="showHelp" placeholder="DD/MMM/YYYY:HH:mm:ss Z" type="text" ng-model="ss.settings.headers['Date-Format']">
@@ -34,14 +42,6 @@
           <label translate>settings+relative_domain</label>
           <input ng-hide="showHelp" placeholder="www.domain.com" type="text" ng-model="ss.settings.headers['Relative-Domain']">
           <div ng-show="showHelp" class="ui inverted teal bottom attached segment" translate>settings+relative_domain_help</div>
-        </div>
-
-        <div class="select field">
-          <label translate>settings+log_type</label>
-          <select ng-hide="showHelp" ng-model="ss.settings.proxyType" ng-options="proxy for proxy in ss.selections.proxyTypes">
-            <option value="" translate>settings+auto_recognition</option>
-          </select>
-          <div ng-show="showHelp" class="ui inverted teal bottom attached segment" translate>settings+log_type_help</div>
         </div>
       </div>
 
