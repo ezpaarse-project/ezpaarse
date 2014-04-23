@@ -3,7 +3,7 @@
           <div ng-hide="ss.predefined"><i class="large loading icon"></i> {{ 'settings+loading_predefined' | translate }}</div>
           <div ng-show="ss.predefined">
             <div class="ui tiny header">
-              Paramétrage actuel
+              {{ 'settings+parameters' | translate }}
               <div class="sub header">
                 <span ng-show="ss.settingsType" ng-bind="ss.settingsType"></span>
                 <span ng-show="!ss.settingsType" translate>settings+default</span>
