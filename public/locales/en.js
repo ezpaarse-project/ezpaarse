@@ -132,6 +132,7 @@ ezLanguages['en'] = {
   "process+download":           "Download the result",
   "process+can_start_download": "You can already start downloading the results",
   "process+cancel":             "Abort",
+  "process+new":                "New process",
   "process+state":              "Process state",
   "process+rejects":            "Rejects",
   "process+system_traces":      "System traces",
