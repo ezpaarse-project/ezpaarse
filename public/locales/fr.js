@@ -72,6 +72,7 @@ ezLanguages['fr'] = {
   "form+curl_instructions": "Copiez la commande ci-dessous pour exécuter la requête avec cURL en utilisant le paramétrage actuel du formulaire. Vous devrez peut-être modifier le chemin des fichiers ou ajouter des options telles que <code>--proxy</code> ou <code>--no-buffer</code>.",
 
   // Settings tab
+  "settings+parameters":           "Paramétrage actuel",
   "settings+loading_predefined":   "Chargement des paramètres prédéfinis",
   "settings+modified":             "modifié",
   "settings+predefined_choice":    "Choix d'un paramétrage prédéfini...",
