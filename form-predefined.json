@@ -69,9 +69,13 @@
     "Log-Format": "%{datetime}<[^|]+>|%{session}<[^ ]+>|%h|%U|%{profil}<[a-zA-Z0-9+]+>|%{domain}<[^ ]+>|",
     "Date-Format": "YYYY/MM/DD:HH:mm:ss"
   },
-  "Lamson Library - Plymouth State University": {
+  "Lamson Library - Plymouth State University - United States": {
     "Log-Type": "EZproxy",
     "Log-Format": "%h %{session}<[a-zA-Z0-9\\-\\+]+> %l %u %t \"%r\" %s %b"
+  },
+  "Burnaby Public Library - Canada": {
+    "Log-Type": "EZproxy",
+    "Log-Format": "%h %l %t \"%r\" %s %b"
   },
   "Exemple selection sortie": {
     "Log-Type": "EZproxy",
