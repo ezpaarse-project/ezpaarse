@@ -10,8 +10,8 @@
   <link type="text/css" rel="stylesheet" href="http://yandex.st/highlightjs/6.1/styles/<%= @manifest.options.codeHighlightTheme || 'sunburst' %>.min.css">
   <link type="text/css" rel="stylesheet" href="/assets/stylesheets/docs.css">
   <link type="text/css" rel="stylesheet" href="/assets/stylesheets/print.css" media="print">
+  <link rel="stylesheet" type="text/css" href="/assets/components/semantic-ui/build/packaged/css/semantic.css">
   <link type="text/css" rel="stylesheet" href="/assets/stylesheets/app.css">
-  <% if @manifest.options.css: %><link type="text/css" rel="stylesheet" href="<%- @manifest.options.css %>"><% end %>
 
   <script type="text/javascript" src="<%= @baseUrl %>assets/js/jquery-1.10.1.min.js"></script>
   <script type="text/javascript" src="http://yandex.st/highlightjs/6.1/highlight.min.js"></script>
@@ -31,53 +31,46 @@
 
   <script type="text/javascript">var BASE_URL = "<%= @baseUrl %>";</script>
   <script type="text/javascript" src="<%= @baseUrl %>assets/js/viewer.js"></script>
-
-  <link rel="stylesheet" type="text/css" href="/assets/components/semantic-ui/build/packaged/css/semantic.css">
-  <link rel="stylesheet" type="text/css" href="/assets/stylesheets/app.css">
 </head>
 
 <body ng-controller="AppCtrl">
-  <div class="wrapper">
-        <div class="wrapper display-table">
-      <div id="header" class="ui inverted teal basic segment display-row">
-        <a href="https://github.com/ezpaarse-project/ezpaarse"><img style="position: absolute; top: 0; right: 0; border: 0; z-index: 999" src="/img/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a>
-        <div class="inner">
-          <div class="ui inverted teal menu">
-            <a href="/" class="item">Aller à l'application</a>
-            <a href="http://analogist.couperin.org/" target="_blank" class="item">AnalogIST</a>
-          </div>
+  <div class="wrapper display-table">
+    <div id="header" class="ui inverted teal basic segment display-row">
+      <a href="https://github.com/ezpaarse-project/ezpaarse"><img style="position: absolute; top: 0; right: 0; border: 0; z-index: 999" src="/img/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a>
+      <div class="inner">
+        <div class="ui inverted teal menu">
+          <a href="/" class="item">Aller à l'application</a>
+          <a href="http://analogist.couperin.org/" target="_blank" class="item">AnalogIST</a>
         </div>
       </div>
-
-      <div id="container" class="display-row">
-        <div id="content">
-          <%- @include "_sidebar.html" %>
-          <div id="doc-content">
-            <%- @content %>
-          </div>
-        </div>
-      </div>
-
-      <div id="footer" class="ui inverted basic segment display-row">
-        <div class="ui two column relaxed grid">
-          <div class="ui column left aligned">
-            <div>
-              <p class="ui medium header">ezPAARSE v1.6.0</p>
-              <p>Propulsé par <a href="http://nodejs.org/" target="_blank">Node.js</a> et <a href="http://expressjs.com/" target="_blank">Express 3</a></p>
-            </div>
-          </div>
-          <div class="ui column right aligned">
-            <a href="#top" class="ui mini icon button"><i class="up icon"></i> Back to top</a>
-            <a href="mailto:ezpaarse@gmail.com" popup data-variation="inverted" title="Ecrivez-nous à ezpaarse@gmail.com" class="ui mini icon teal button"><i class="tiny mail icon"></i></a>
-            <a href="https://www.facebook.com/Ezpaarse" target="_blank" popup data-variation="inverted" title="Suivez-nous sur Facebook" class="ui mini icon facebook button"><i class="tiny facebook icon"></i></a>
-            <a href="https://twitter.com/ezpaarse" target="_blank" popup data-variation="inverted" title="Suivez-nous sur Twitter" class="ui mini icon twitter button"><i class="tiny twitter icon"></i></a>
-            <a href="https://plus.google.com/113684662646843807159" target="_blank" popup data-variation="inverted" title="Suivez-nous sur Google+" class="ui mini icon google plus button"><i class="tiny google plus icon"></i></a>
-          </div>
-        </div>
-      </div> <!-- footer -->
     </div>
-  </div>
 
-  <script src="/assets/components/semantic-ui/build/packaged/javascript/semantic.js"></script>
+    <div id="container" class="display-row">
+      <div id="content">
+        <%- @include "_sidebar.html" %>
+        <div id="doc-content">
+          <%- @content %>
+        </div>
+      </div>
+    </div>
+
+    <div id="footer" class="ui inverted basic segment display-row">
+      <div class="ui two column relaxed grid">
+        <div class="ui column left aligned">
+          <div>
+            <p class="ui medium header">ezPAARSE v1.6.0</p>
+            <p>Propulsé par <a href="http://nodejs.org/" target="_blank">Node.js</a> et <a href="http://expressjs.com/" target="_blank">Express 3</a></p>
+          </div>
+        </div>
+        <div class="ui column right aligned">
+          <a href="#top" class="ui mini icon button"><i class="up icon"></i> Back to top</a>
+          <a href="mailto:ezpaarse@gmail.com" popup data-variation="inverted" title="Ecrivez-nous à ezpaarse@gmail.com" class="ui mini icon teal button"><i class="tiny mail icon"></i></a>
+          <a href="https://www.facebook.com/Ezpaarse" target="_blank" popup data-variation="inverted" title="Suivez-nous sur Facebook" class="ui mini icon facebook button"><i class="tiny facebook icon"></i></a>
+          <a href="https://twitter.com/ezpaarse" target="_blank" popup data-variation="inverted" title="Suivez-nous sur Twitter" class="ui mini icon twitter button"><i class="tiny twitter icon"></i></a>
+          <a href="https://plus.google.com/113684662646843807159" target="_blank" popup data-variation="inverted" title="Suivez-nous sur Google+" class="ui mini icon google plus button"><i class="tiny google plus icon"></i></a>
+        </div>
+      </div>
+    </div> <!-- footer -->
+  </div>
 </body>
 </html>
