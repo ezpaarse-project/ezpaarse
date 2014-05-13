@@ -22,6 +22,5 @@
         "developer-core.md",
         "tree.md"
     ],
-    "css": "/stylesheets/doc.css",
     "codeHighlightTheme": "solarized_dark"
 }

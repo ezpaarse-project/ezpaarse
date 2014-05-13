@@ -1,98 +1,84 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="ezPAARSE">
 <head>
-    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <title><%= @manifest.title or @title %></title>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 
-     <!-- Le styles -->
-    <link href="/stylesheets/bootstrap.css" rel="stylesheet" />
-    <link href="/stylesheets/bootstrap-responsive.css" rel="stylesheet" />
-    <link href="/stylesheets/style.css" rel="stylesheet" />
+  <title><%= @manifest.title or @title %></title>
 
-    <!-- Fav and touch icons -->
-    <link rel="shortcut icon" href="/img/favicon.png" />
+  <link type="text/css" rel="stylesheet" href="http://yandex.st/highlightjs/6.1/styles/<%= @manifest.options.codeHighlightTheme || 'sunburst' %>.min.css">
+  <link type="text/css" rel="stylesheet" href="/assets/stylesheets/docs.css">
+  <link type="text/css" rel="stylesheet" href="/assets/stylesheets/print.css" media="print">
+  <link rel="stylesheet" type="text/css" href="/assets/components/semantic-ui/build/packaged/css/semantic.css">
+  <link type="text/css" rel="stylesheet" href="/assets/stylesheets/app.css">
 
-    <link type="text/css" rel="stylesheet" href="/stylesheets/doc-font.css" />
-    <link type="text/css" rel="stylesheet" href="/stylesheets/reset.css" />
-    <link type="text/css" rel="stylesheet" href="/stylesheets/docs.css" />
-    <link type="text/css" rel="stylesheet" href="/stylesheets/print.css" media="print" />
-    <link type="text/css" rel="stylesheet" href="/stylesheets/sunburst.min.css" />
-    <% if @manifest.options.css: %><link type="text/css" rel="stylesheet" href="<%- @manifest.options.css %>"><% end %>
+  <script type="text/javascript" src="<%= @baseUrl %>assets/js/jquery-1.10.1.min.js"></script>
+  <script type="text/javascript" src="http://yandex.st/highlightjs/6.1/highlight.min.js"></script>
+  <script type="text/javascript" src="<%= @baseUrl %>assets/js/lunr.min.js"></script>
 
-    <script type="text/javascript" src="<%= @baseUrl %>assets/js/jquery-1.10.1.min.js"></script>
-    <script type="text/javascript" src="http://yandex.st/highlightjs/6.1/highlight.min.js"></script>
-    <script type="text/javascript" src="<%= @baseUrl %>assets/js/lunr.min.js"></script>
+  <% if @manifest.options.embedly: %>
+      <script type="text/javascript" src="http://scripts.embed.ly/jquery.embedly.min.js"></script>
+      <script type="text/javascript">
+          $(function(){
+              $('#content p:not(.disable-embedly) a:only-child').parent().embedly({
+                  key:'<%= @manifest.options.embedly %>',
+                  maxWidth: 700
+              });
+          });
+      </script>
+  <% end %>
 
-    <% if @manifest.options.embedly: %>
-        <script type="text/javascript" src="http://scripts.embed.ly/jquery.embedly.min.js"></script>
-        <script type="text/javascript">
-            $(function(){
-                $('#content p:not(.disable-embedly) a:only-child').parent().embedly({
-                    key:'<%= @manifest.options.embedly %>',
-                    maxWidth: 700
-                });
-            });
-        </script>
-    <% end %>
-
-    <script type="text/javascript">var BASE_URL = "<%= @baseUrl %>";</script>
-    <script type="text/javascript" src="<%= @baseUrl %>assets/js/viewer.js"></script>
+  <script type="text/javascript">var BASE_URL = "<%= @baseUrl %>";</script>
+  <script type="text/javascript" src="<%= @baseUrl %>assets/js/viewer.js"></script>
 </head>
-<body>
-    <a href="https://github.com/ezpaarse-project/ezpaarse"><img style="position: absolute; top: 0; right: 0; border: 0;" src="/img/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a>
 
-    <div class="container-narrow">
-      <div class="header row-fluid">
-        <div id="masthead" class="span8">
-          <a href="/"><img id="banner" src="/img/banner.jpg" alt="ezPAARSE" /></a>
+<body ng-controller="AppCtrl">
+  <div class="wrapper display-table">
+    <div id="header" class="ui inverted teal basic segment display-row">
+      <a href="https://github.com/ezpaarse-project/ezpaarse"><img style="position: absolute; top: 0; right: 0; border: 0; z-index: 999" src="/img/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a>
+      <div class="inner">
+        <div class="ui inverted teal menu">
+          <a href="/" class="item">Aller à l'application</a>
+          <a href="http://analogist.couperin.org/" target="_blank" class="item">AnalogIST</a>
         </div>
-        <ul id="link-list" class="span4">
-          <li class="link-container">
-            <a href="mailto:ezpaarse@gmail.com" class="link-icon" title="Vontactez-nous par e-mail"><img src="/img/icon-mail.png" alt="icone mail"></a>
-            <div class="link-text">Contactez-nous par <a href="mailto:ezpaarse@gmail.com" title="Contactez-nous par e-mail">e-mail</a></div>
-          </li>
-          <li class="link-container">
-            <a href="http://analogist.couperin.org" class="link-icon" title="Visitez notre plateforme AnalogIST"><img src="/img/icon-analogist.png" alt="icone analogist"></a>
-            <div class="link-text">Visitez notre plateforme <a href="http://analogist.couperin.org" title="Visitez notre plateforme AnalogIST">AnalogIST</a></div>
-          </li>
-          <li class="link-container">
-            <a href="/doc" class="link-icon" title="Consultez la documentation d'ezPAARSE"><img src="/img/icon-ezpaarse-doc.png" alt="icone ezpaarse"></a>
-            <div class="link-text">Consultez la <a href="/doc" title="Consultez la documentation d'ezPAARSE">documentation d'ezPAARSE</a></div>
-          </li>
-          <li class="link-container">
-            <a href="https://www.facebook.com/Ezpaarse" class="link-icon" title="Suivez-nous sur Facebook"><img src="/img/icon-facebook.png" alt="icone facebook"></a>
-            <div class="link-text">Suivez-nous sur <a href="https://www.facebook.com/Ezpaarse" title="Suivez-nous sur Facebook">Facebook</a></div>
-          </li>
-          <li class="link-container">
-            <a href="https://twitter.com/ezpaarse" class="link-icon" title="Suivez-nous sur Twitter"><img src="/img/icon-twitter.png" alt="icone Twitter"></a>
-            <div class="link-text">Suivez-nous sur <a href="https://twitter.com/ezpaarse" title="Suivez-nous sur Twitter">Twitter</a></div>
-          </li>
-          <li class="link-container">
-            <a href="https://plus.google.com/113684662646843807159" class="link-icon" title="Suivez-nous sur Google+"><img src="/img/icon-googleplus.png" alt="icone google+"></a>
-            <div class="link-text">Suivez-nous sur <a href="https://plus.google.com/113684662646843807159" title="Suivez-nous sur Google+">Google+</a></div>
-          </li>
-        </ul>
       </div>
+    </div>
 
-      <hr id="top" />
-
-      <div class="content row-fluid">
-
+    <div id="container" class="display-row">
+      <div id="content">
         <%- @include "_sidebar.html" %>
-        <div id="content">
-            <%- @content %>
+        <div id="doc-content">
+          <%- @content %>
         </div>
+      </div>
+    </div>
 
-        <footer id="footer">
-            ezPAARSE - Version: 1.6.0 -
-            Powered by <a href="https://github.com/maximebf/beautiful-docs">beautiful-docs</a> -
-            <a href="#top">Back to top</a> - <a href="<%= @baseUrl %>all.html">Everything on a single page</a>
-            - <a href="?print=1">Print current page</a> - <a href="<%= @baseUrl %>all.html?print=1">Print all pages</a>
-            <% if @manifest.options.github: %>
-                <a href="https://github.com/<%= @manifest.options.github %>" id="fork-me-on-github">Fork me on Github</a>
-            <% end %>
-        </footer>
-      </div> <!-- content -->
-    </div> <!-- container -->
+    <div id="footer" class="ui inverted basic segment display-row">
+      <div class="ui two column relaxed grid">
+        <div class="ui column left aligned">
+          <div>
+            <p class="ui medium header">ezPAARSE v<span id="ezVersion">...</span></p>
+            <p>Propulsé par <a href="http://nodejs.org/" target="_blank">Node.js</a> et <a href="http://expressjs.com/" target="_blank">Express 3</a></p>
+          </div>
+        </div>
+        <div class="ui column right aligned">
+          <a href="#top" class="ui mini icon button"><i class="up icon"></i> Retour en haut</a>
+          <a href="mailto:ezpaarse@gmail.com" popup data-variation="inverted" title="Ecrivez-nous à ezpaarse@gmail.com" class="ui mini icon teal button"><i class="tiny mail icon"></i></a>
+          <a href="https://www.facebook.com/Ezpaarse" target="_blank" popup data-variation="inverted" title="Suivez-nous sur Facebook" class="ui mini icon facebook button"><i class="tiny facebook icon"></i></a>
+          <a href="https://twitter.com/ezpaarse" target="_blank" popup data-variation="inverted" title="Suivez-nous sur Twitter" class="ui mini icon twitter button"><i class="tiny twitter icon"></i></a>
+          <a href="https://plus.google.com/113684662646843807159" target="_blank" popup data-variation="inverted" title="Suivez-nous sur Google+" class="ui mini icon google plus button"><i class="tiny google plus icon"></i></a>
+        </div>
+      </div>
+    </div> <!-- footer -->
+  </div>
+
+  <script type="text/javascript">
+    $.get('/info/version', function (data) {
+      if (data && /^[0-9]+\.[0-9]+\.[0-9]+$/.test(data)) {
+        $('#ezVersion').text(data);
+      }
+    });
+  </script>
 </body>
 </html>
