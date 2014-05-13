@@ -1,10 +1,6 @@
 <% toc_level = (level, maxLevel, currentLevel=1) => %>
 
     <% for entry in level: %>
-        <% if !entry.childs.length or currentLevel >= maxLevel: %>
-            <a class="item" href="<%= @baseUrl %><%- entry.slug %>.html#<%= entry.anchor %>"><%= entry.title %></a>
-        <% end %>
-
         <% if entry.childs.length and currentLevel < maxLevel: %>
             <div class="ui simple dropdown item">
                 <a href="<%= @baseUrl %><%- entry.slug %>.html#<%= entry.anchor %>"><%= entry.title %></a> <i class="dropdown icon"></i>
@@ -12,6 +8,8 @@
                     <%= toc_level(entry.childs, maxLevel, currentLevel + 1) %>
                 </div>
             </div>
+        <% else: %>
+            <a class="item" href="<%= @baseUrl %><%- entry.slug %>.html#<%= entry.anchor %>"><%= entry.title %></a>
         <% end %>
     <% end %>
 <% end %>
