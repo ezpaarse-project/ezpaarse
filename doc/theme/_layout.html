@@ -58,7 +58,7 @@
       <div class="ui two column relaxed grid">
         <div class="ui column left aligned">
           <div>
-            <p class="ui medium header">ezPAARSE v1.6.0</p>
+            <p class="ui medium header">ezPAARSE v<span id="ezVersion">...</span></p>
             <p>Propulsé par <a href="http://nodejs.org/" target="_blank">Node.js</a> et <a href="http://expressjs.com/" target="_blank">Express 3</a></p>
           </div>
         </div>
@@ -72,5 +72,13 @@
       </div>
     </div> <!-- footer -->
   </div>
+
+  <script type="text/javascript">
+    $.get('/info/version', function (data) {
+      if (data && /^[0-9]+\.[0-9]+\.[0-9]+$/.test(data)) {
+        $('#ezVersion').text(data);
+      }
+    });
+  </script>
 </body>
 </html>
