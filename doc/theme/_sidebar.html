@@ -17,11 +17,16 @@
 <% end %>
 
 <div id="doc-sidebar">
-    <a href="<%= @baseUrl %>all.html">Tout sur une seule page</a>
-    <form action="<%= @baseUrl %>search.html"><input id="search" type="text" placeholder="Search" name="q" /></form>
-    <nav id="doc-toc" class="ui vertical menu">
+    <form action="<%= @baseUrl %>search.html">
+        <div class="ui icon input">
+            <input id="search" type="text" placeholder="Search..." name="q" />
+            <i class="search icon"></i>
+        </div>
+    </form>
+    <nav id="doc-toc" class="ui fluid vertical menu">
         <%= toc_level(@manifest.tableOfContent, @manifest.maxTocLevel) %>
     </nav>
+    <a href="<%= @baseUrl %>all.html" class="ui mini fluid basic button">Tout sur une seule page</a>
     <% if @manifest.links: %>
     <nav id="doc-links">
         <ul>

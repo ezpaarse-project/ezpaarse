@@ -2,17 +2,9 @@
   float: left;
   width: 230px;
 }
-#doc-sidebar input#search {
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  -moz-border-radius: 4px;
-  font-size: 16px;
-  margin-bottom: 20px;
-  padding: 5px;
-  width: 100%;
-}
 #doc-content {
   float: left;
+  line-height: 1.4em;
   margin-left: -1px;
   padding: 0px 1px 20px 30px;
   width: 690px;
@@ -29,7 +21,6 @@
   padding-bottom: 7px;
 }
 #doc-content h3 {
-  line-height: 1.4em;
   font-size: 18px;
   margin: 25px 0px 10px 0;
   padding-bottom: 5px;
