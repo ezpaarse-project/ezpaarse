@@ -59,33 +59,6 @@ angular.module('ezPAARSE.form-controllers', [])
       input.val('');
     };
 
-    $scope.getHeaders = function () {
-      var settings = settingService.settings;
-      var headers  = angular.copy(settings.headers);
-
-      if (settings.proxyType && settings.logFormat) {
-        headers['Log-Format-' + settings.proxyType] = settings.logFormat;
-      }
-
-      // Create Output-Fields
-      if (settings.outputFields && settings.outputFields.length) {
-        var outputFields = '';
-        settings.outputFields.forEach(function (field) {
-          outputFields += field.type == 'plus' ? '+' : '-';
-          outputFields += field.name + ',';
-        });
-        headers['Output-Fields'] = outputFields.substr(0, outputFields.length - 1);
-      }
-
-      if (settings.customHeaders && settings.customHeaders.length) {
-        settings.customHeaders.forEach(function (header) {
-          if (header.name && header.value) { headers[header.name] = header.value; }
-        });
-      }
-
-      return headers;
-    };
-
     $scope.start = function () {
       var formData;
 
@@ -101,7 +74,7 @@ angular.module('ezPAARSE.form-controllers', [])
         return;
       }
 
-      requestService.send(formData, $scope.getHeaders());
+      requestService.send(formData, settingService.getHeaders());
 
       $location.path('/process');
     };

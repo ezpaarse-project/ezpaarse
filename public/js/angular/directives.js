@@ -16,12 +16,12 @@ angular.module('ezPAARSE.directives', [])
       }
     };
   })
-  .directive('ezGetCurl', function ($location, requestService, inputService) {
+  .directive('ezGetCurl', function ($location, requestService, inputService, settingService) {
     return {
       restrict: 'A',
       link: function(scope, element, attributes) {
         scope.getCurl = function () {
-          var headers = scope.getHeaders();
+          var headers = settingService.getHeaders();
           var curl    = 'curl -X POST -u "username:password" ';
           curl += $location.protocol() + '://';
           curl += $location.host() + ':';

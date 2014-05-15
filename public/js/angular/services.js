@@ -253,6 +253,45 @@ angular.module('ezPAARSE.services', [])
     };
 
     /**
+     * Returns settings as a list of headers for a request
+     */
+    settingService.prototype.getHeaders = function () {
+      var settings = this.settings;
+      var headers  = angular.copy(settings.headers);
+
+      if (settings.proxyType && settings.logFormat) {
+        headers['Log-Format-' + settings.proxyType] = settings.logFormat;
+      }
+
+      // Create Output-Fields headers
+      if (settings.outputFields) {
+        var outputFields = '';
+
+        if (settings.outputFields.plus && settings.outputFields.plus.length) {
+          settings.outputFields.plus.forEach(function (field) {
+            outputFields += '+' + field + ',';
+          });
+        }
+
+        if (settings.outputFields.minus && settings.outputFields.minus.length) {
+          settings.outputFields.minus.forEach(function (field) {
+            outputFields += '-' + field + ',';
+          });
+        }
+
+        headers['Output-Fields'] = outputFields.substr(0, outputFields.length - 1);
+      }
+
+      if (settings.customHeaders && settings.customHeaders.length) {
+        settings.customHeaders.forEach(function (header) {
+          if (header.name && header.value) { headers[header.name] = header.value; }
+        });
+      }
+
+      return headers;
+    };
+
+    /**
      * Add an output field
      * @param {String} name name of the field
      * @param {String} type plus or minus
@@ -396,8 +435,8 @@ angular.module('ezPAARSE.services', [])
      */
     settingService.prototype.saveSettings = function () {
       if (this.remember) {
-        $cookieStore.put('settings', this.settings);
-        $cookieStore.put('settingsType', this.settingsType);
+        if (this.settings)     { $cookieStore.put('settings', this.settings); }
+        if (this.settingsType) { $cookieStore.put('settingsType', this.settingsType); }
       } else {
         $cookieStore.remove('settings');
         $cookieStore.remove('settingsType');
