@@ -1,5 +1,10 @@
 # Versions ezPAARSE #
 
+## 1.6.0  ## 
+##### 13/03/2014 - Refonte de l'interface Web #####
+- Refonte de l'interface Web avec AngularJS
+- Geolocalisation des ECs
+
 ## 1.5.0  ## 
 ##### 03/02/2014 - Normalisation KBART #####
 - normalisation KBART des PKB
