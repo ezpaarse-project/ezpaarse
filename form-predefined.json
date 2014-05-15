@@ -79,7 +79,7 @@
   },
   "Vanderbilt University Library - Nashville - United States": {
     "Log-Type": "EZproxy",
-    "Log-Format": "%h %{session}<[a-zA-Z0-9\\-\\+]+> %u %t \"%r\" %s %b %{referer}<[^ ]+> %{fullname}<[A-Za-z\\-0-9]+>"
+    "Log-Format": "%h %{session}<[a-zA-Z0-9\\-\\+]+> %u %t \"%r\" %s %b %{referer}<.*?> %{fullname}<[A-Za-z\\-0-9']*>"
   },
   "Exemple selection sortie": {
     "Log-Type": "EZproxy",
