@@ -48,6 +48,10 @@ angular.module('ezPAARSE.form-controllers')
         reject.percent   = (reject.number / $scope.nbLines) * 100;
         reject.css.width = reject.percent + '%';
         reject.warning   = (reject.percent > 25);
+
+        if (reject.number === 0) {
+          report[reject.cat][reject.key.replace(/^nb(?:-lines)?/, 'url')] = '';
+        }
       });
     });
   });

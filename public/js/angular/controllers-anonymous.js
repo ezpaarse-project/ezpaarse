@@ -11,6 +11,22 @@ angular.module('ezPAARSE.anonymous-controllers', [])
       .success(function (data) {
         $scope.reportLoading = false;
         if (angular.isObject(data)) {
+          var rejects = [
+            { cat: 'general', key: 'nb-denied-ecs',            },
+            { cat: 'rejets',  key: 'nb-lines-duplicate-ecs',   },
+            { cat: 'rejets',  key: 'nb-lines-unordered-ecs',   },
+            { cat: 'rejets',  key: 'nb-lines-ignored-domains', },
+            { cat: 'rejets',  key: 'nb-lines-unknown-domains', },
+            { cat: 'rejets',  key: 'nb-lines-unknown-format',  },
+            { cat: 'rejets',  key: 'nb-lines-unqualified-ecs', },
+            { cat: 'rejets',  key: 'nb-lines-pkb-miss-ecs',    }
+          ];
+          rejects.forEach(function (reject) {
+            if (data[reject.cat][reject.key] === 0) {
+              data[reject.cat][reject.key.replace(/^nb(?:-lines)?/, 'url')] = '';
+            }
+          });
+
           $scope.report = data;
           $timeout($anchorScroll);
         } else {
