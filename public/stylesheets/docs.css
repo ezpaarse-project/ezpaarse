@@ -59,6 +59,7 @@
   overflow: auto;
   border: 1px solid #bbb;
   padding: 2px;
+  white-space: pre;
   background-color: #eee;
   font-size: 0.9em;
   border-radius: 2px;
