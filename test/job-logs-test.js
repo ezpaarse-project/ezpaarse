@@ -50,7 +50,8 @@ describe('The server', function () {
         request.get(logURL, function (error, response) {
           if (!response) { throw new Error('ezPAARSE is not running'); }
           if (error)     { throw error; }
-          response.statusCode.should.equal(200, 'couldn\'t get the logfile, server sent ' + response.statusCode);
+          response.statusCode.should.equal(200,
+            'couldn\'t get the logfile, server sent ' + response.statusCode);
           done();
         });
       });
@@ -77,7 +78,8 @@ describe('The server', function () {
         request.get(logURL, function (error, response, logBody) {
           if (!response) { throw new Error('ezPAARSE is not running'); }
           if (error)     { throw error; }
-          response.statusCode.should.equal(200, 'couldn\'t get the logfile, server sent ' + response.statusCode);
+          response.statusCode.should.equal(200,
+            'couldn\'t get the logfile, server sent ' + response.statusCode);
 
           logBody = logBody.trim().split('\n');
           should.ok(logBody.length === 1, '1 line should be present in the log file');
@@ -108,7 +110,8 @@ describe('The server', function () {
         request.get(logURL, function (error, response, logBody) {
           if (!response) { throw new Error('ezPAARSE is not running'); }
           if (error)     { throw error; }
-          response.statusCode.should.equal(200, 'couldn\'t get the logfile, server sent ' + response.statusCode);
+          response.statusCode.should.equal(200,
+            'couldn\'t get the logfile, server sent ' + response.statusCode);
 
           var logLine = fs.readFileSync(ignoredDomain).toString().trim();
           logBody.trim().should.equal(logLine, 'The logfile and the input should be identical');
@@ -136,7 +139,8 @@ describe('The server', function () {
         request.get(logURL, function (error, response, logBody) {
           if (!response) { throw new Error('ezPAARSE is not running'); }
           if (error)     { throw error; }
-          response.statusCode.should.equal(200, 'couldn\'t get the logfile, server sent ' + response.statusCode);
+          response.statusCode.should.equal(200,
+            'couldn\'t get the logfile, server sent ' + response.statusCode);
 
           var logLine = fs.readFileSync(unknownDomain).toString().trim();
           logBody.trim().should.equal(logLine, 'The logfile and the input should be identical');
@@ -164,7 +168,8 @@ describe('The server', function () {
         request.get(logURL, function (error, response, logBody) {
           if (!response) { throw new Error('ezPAARSE is not running'); }
           if (error)     { throw error; }
-          response.statusCode.should.equal(200, 'couldn\'t get the logfile, server sent ' + response.statusCode);
+          response.statusCode.should.equal(200,
+            'couldn\'t get the logfile, server sent ' + response.statusCode);
 
           var logLine = fs.readFileSync(unqualifiedEC).toString().trim();
           logBody.trim().should.equal(logLine, 'The logfile and the input should be identical');
@@ -194,7 +199,8 @@ describe('The server', function () {
         request.get(logURL, function (error, response, logBody) {
           if (!response) { throw new Error('ezPAARSE is not running'); }
           if (error)     { throw error; }
-          response.statusCode.should.equal(200, 'couldn\'t get the logfile, server sent ' + response.statusCode);
+          response.statusCode.should.equal(200,
+            'couldn\'t get the logfile, server sent ' + response.statusCode);
 
           var logLine = fs.readFileSync(pkbmissEC).toString().trim();
           logBody.trim().should.equal(logLine, 'The logfile and the input should be identical');
@@ -224,7 +230,8 @@ describe('The server', function () {
         request.get(logURL, function (error, response, logBody) {
           if (!response) { throw new Error('ezPAARSE is not running'); }
           if (error)     { throw error; }
-          response.statusCode.should.equal(200, 'couldn\'t get the logfile, server sent ' + response.statusCode);
+          response.statusCode.should.equal(200,
+            'couldn\'t get the logfile, server sent ' + response.statusCode);
 
           var logLine = fs.readFileSync(duplicateEC).toString().split('\n')[0].trim();
           logBody.trim().should.equal(logLine, 'The logfile should match the first line');
@@ -254,7 +261,8 @@ describe('The server', function () {
         request.get(logURL, function (error, response, logBody) {
           if (!response) { throw new Error('ezPAARSE is not running'); }
           if (error)     { throw error; }
-          response.statusCode.should.equal(200, 'couldn\'t get the logfile, server sent ' + response.statusCode);
+          response.statusCode.should.equal(200,
+            'couldn\'t get the logfile, server sent ' + response.statusCode);
 
           var logLine = fs.readFileSync(unorderedEC).toString().split('\n')[1].trim();
           logBody.trim().should.equal(logLine, 'The logfile should match the second line');
@@ -312,7 +320,8 @@ describe('The server', function () {
         request.get(logURL, function (error, response, logBody) {
           if (!response) { throw new Error('ezPAARSE is not running'); }
           if (error)     { throw error; }
-          response.statusCode.should.equal(200, 'couldn\'t get the logfile, server sent ' + response.statusCode);
+          response.statusCode.should.equal(200,
+            'couldn\'t get the logfile, server sent ' + response.statusCode);
 
           logBody = logBody.trim().split('\n');
           should.ok(logBody.length === 3, '3 lines should be present in the log file,'
