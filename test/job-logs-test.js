@@ -26,7 +26,7 @@ describe('The server', function () {
       helpers.post('/', logFile, headers, function (err, res) {
         if (!res) { throw new Error('ezPAARSE is not running'); }
         if (err)  { throw err; }
-        res.should.have.status(200);
+        res.statusCode.should.equal(200, 'expected 200, got ' + res.statusCode);
         should.exist(res.headers['job-id'],
           'The header "Job-ID" was not sent by the server');
         done();
@@ -41,7 +41,7 @@ describe('The server', function () {
       helpers.post('/', logFile, headers, function (err, res) {
         if (!res) { throw new Error('ezPAARSE is not running'); }
         if (err)  { throw err; }
-        res.should.have.status(200);
+        res.statusCode.should.equal(200, 'expected 200, got ' + res.statusCode);
 
         var logURL = res.headers['job-traces'];
         should.exist(logURL,
@@ -50,7 +50,7 @@ describe('The server', function () {
         request.get(logURL, function (error, response) {
           if (!response) { throw new Error('ezPAARSE is not running'); }
           if (error)     { throw error; }
-          response.should.have.status(200);
+          response.statusCode.should.equal(200, 'couldn\'t get the logfile, server sent ' + response.statusCode);
           done();
         });
       });
@@ -65,7 +65,7 @@ describe('The server', function () {
       helpers.post('/', wrongSecondLineLogFile, headers, function (err, res, body) {
         if (!res) { throw new Error('ezPAARSE is not running'); }
         if (err)  { throw err; }
-        res.should.have.status(200);
+        res.statusCode.should.equal(200, 'expected 200, got ' + res.statusCode);
 
         body = body.trim().split('\n');
         should.ok(body.length === 2, '1 EC should be returned, got ' + (body.length - 1));
@@ -77,7 +77,7 @@ describe('The server', function () {
         request.get(logURL, function (error, response, logBody) {
           if (!response) { throw new Error('ezPAARSE is not running'); }
           if (error)     { throw error; }
-          response.should.have.status(200);
+          response.statusCode.should.equal(200, 'couldn\'t get the logfile, server sent ' + response.statusCode);
 
           logBody = logBody.trim().split('\n');
           should.ok(logBody.length === 1, '1 line should be present in the log file');
@@ -98,7 +98,7 @@ describe('The server', function () {
       helpers.post('/', ignoredDomain, headers, function (err, res, body) {
         if (!res) { throw new Error('ezPAARSE is not running'); }
         if (err)  { throw err; }
-        res.should.have.status(200);
+        res.statusCode.should.equal(200, 'expected 200, got ' + res.statusCode);
         should.ok(body === '', 'The body is not empty');
 
         var logURL = res.headers['lines-ignored-domains'];
@@ -108,7 +108,7 @@ describe('The server', function () {
         request.get(logURL, function (error, response, logBody) {
           if (!response) { throw new Error('ezPAARSE is not running'); }
           if (error)     { throw error; }
-          response.should.have.status(200);
+          response.statusCode.should.equal(200, 'couldn\'t get the logfile, server sent ' + response.statusCode);
 
           var logLine = fs.readFileSync(ignoredDomain).toString().trim();
           logBody.trim().should.equal(logLine, 'The logfile and the input should be identical');
@@ -126,7 +126,7 @@ describe('The server', function () {
       helpers.post('/', unknownDomain, headers, function (err, res, body) {
         if (!res) { throw new Error('ezPAARSE is not running'); }
         if (err)  { throw err; }
-        res.should.have.status(200);
+        res.statusCode.should.equal(200, 'expected 200, got ' + res.statusCode);
         should.ok(body === '', 'The body is not empty');
 
         var logURL = res.headers['lines-unknown-domains'];
@@ -136,7 +136,7 @@ describe('The server', function () {
         request.get(logURL, function (error, response, logBody) {
           if (!response) { throw new Error('ezPAARSE is not running'); }
           if (error)     { throw error; }
-          response.should.have.status(200);
+          response.statusCode.should.equal(200, 'couldn\'t get the logfile, server sent ' + response.statusCode);
 
           var logLine = fs.readFileSync(unknownDomain).toString().trim();
           logBody.trim().should.equal(logLine, 'The logfile and the input should be identical');
@@ -154,7 +154,7 @@ describe('The server', function () {
       helpers.post('/', unqualifiedEC, headers, function (err, res, body) {
         if (!res) { throw new Error('ezPAARSE is not running'); }
         if (err)  { throw err; }
-        res.should.have.status(200);
+        res.statusCode.should.equal(200, 'expected 200, got ' + res.statusCode);
         should.ok(body === '', 'The body is not empty');
 
         var logURL = res.headers['lines-unqualified-ecs'];
@@ -164,7 +164,7 @@ describe('The server', function () {
         request.get(logURL, function (error, response, logBody) {
           if (!response) { throw new Error('ezPAARSE is not running'); }
           if (error)     { throw error; }
-          response.should.have.status(200);
+          response.statusCode.should.equal(200, 'couldn\'t get the logfile, server sent ' + response.statusCode);
 
           var logLine = fs.readFileSync(unqualifiedEC).toString().trim();
           logBody.trim().should.equal(logLine, 'The logfile and the input should be identical');
@@ -182,7 +182,7 @@ describe('The server', function () {
       helpers.post('/', pkbmissEC, headers, function (err, res, body) {
         if (!res) { throw new Error('ezPAARSE is not running'); }
         if (err)  { throw err; }
-        res.should.have.status(200);
+        res.statusCode.should.equal(200, 'expected 200, got ' + res.statusCode);
 
         body = body.trim().split('\n');
         should.ok(body.length === 2, '1 EC should be returned, got ' + (body.length - 1));
@@ -194,7 +194,7 @@ describe('The server', function () {
         request.get(logURL, function (error, response, logBody) {
           if (!response) { throw new Error('ezPAARSE is not running'); }
           if (error)     { throw error; }
-          response.should.have.status(200);
+          response.statusCode.should.equal(200, 'couldn\'t get the logfile, server sent ' + response.statusCode);
 
           var logLine = fs.readFileSync(pkbmissEC).toString().trim();
           logBody.trim().should.equal(logLine, 'The logfile and the input should be identical');
@@ -212,7 +212,7 @@ describe('The server', function () {
       helpers.post('/', duplicateEC, headers, function (err, res, body) {
         if (!res) { throw new Error('ezPAARSE is not running'); }
         if (err)  { throw err; }
-        res.should.have.status(200);
+        res.statusCode.should.equal(200, 'expected 200, got ' + res.statusCode);
 
         body = body.trim().split('\n');
         should.ok(body.length === 2, '1 EC should be returned, got ' + (body.length - 1));
@@ -224,7 +224,7 @@ describe('The server', function () {
         request.get(logURL, function (error, response, logBody) {
           if (!response) { throw new Error('ezPAARSE is not running'); }
           if (error)     { throw error; }
-          response.should.have.status(200);
+          response.statusCode.should.equal(200, 'couldn\'t get the logfile, server sent ' + response.statusCode);
 
           var logLine = fs.readFileSync(duplicateEC).toString().split('\n')[0].trim();
           logBody.trim().should.equal(logLine, 'The logfile should match the first line');
@@ -242,7 +242,7 @@ describe('The server', function () {
       helpers.post('/', unorderedEC, headers, function (err, res, body) {
         if (!res) { throw new Error('ezPAARSE is not running'); }
         if (err)  { throw err; }
-        res.should.have.status(200);
+        res.statusCode.should.equal(200, 'expected 200, got ' + res.statusCode);
 
         body = body.trim().split('\n');
         should.ok(body.length === 2, '1 EC should be returned, got ' + (body.length - 1));
@@ -254,7 +254,7 @@ describe('The server', function () {
         request.get(logURL, function (error, response, logBody) {
           if (!response) { throw new Error('ezPAARSE is not running'); }
           if (error)     { throw error; }
-          response.should.have.status(200);
+          response.statusCode.should.equal(200, 'couldn\'t get the logfile, server sent ' + response.statusCode);
 
           var logLine = fs.readFileSync(unorderedEC).toString().split('\n')[1].trim();
           logBody.trim().should.equal(logLine, 'The logfile should match the second line');
@@ -272,7 +272,7 @@ describe('The server', function () {
       helpers.post('/', unorderedEC, headers, function (err, res, body) {
         if (!res) { throw new Error('ezPAARSE is not running'); }
         if (err)  { throw err; }
-        res.should.have.status(200);
+        res.statusCode.should.equal(200, 'expected 200, got ' + res.statusCode);
 
         body = body.trim().split('\n');
         should.ok(body.length === 2, '1 EC should be returned, got ' + (body.length - 1));
@@ -301,7 +301,7 @@ describe('The server', function () {
       helpers.post('/', deniedEC, headers, function (err, res, body) {
         if (!res) { throw new Error('ezPAARSE is not running'); }
         if (err)  { throw err; }
-        res.should.have.status(200);
+        res.statusCode.should.equal(200, 'expected 200, got ' + res.statusCode);
 
         should.ok(body.length === 0, 'the response should be empty');
 
@@ -312,7 +312,7 @@ describe('The server', function () {
         request.get(logURL, function (error, response, logBody) {
           if (!response) { throw new Error('ezPAARSE is not running'); }
           if (error)     { throw error; }
-          response.should.have.status(200);
+          response.statusCode.should.equal(200, 'couldn\'t get the logfile, server sent ' + response.statusCode);
 
           logBody = logBody.trim().split('\n');
           should.ok(logBody.length === 3, '3 lines should be present in the log file,'
