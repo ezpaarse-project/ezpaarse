@@ -97,5 +97,9 @@
     "Log-Format": "%<[a-zA-Z0-9\\+\\-.:]+> %h %l %u %t \"%r\" %>s %b \"%<[^\"]+>\" \"%<.*>\"",
     "Relative-Domain": "ao.univ-angers.fr",
     "Output-Fields": "+pid,-domain,-pissn,-doi,-eissn,-pisbn,-title,-identid"
+  },
+  "France - Université d'Evry Val d'Essonne": {
+    "Log-Type": "Apache",
+    "Log-Format": "%{epoch},%h,%b,%{ress-name}<[a-zA-Z0-9\\:\\,\\-]+>,%U,%>s,%{mt}<[\"a-zA-Z0-9\\-\\/\\=\\+; ]+>,%{profil}<[a-zA-Z0-9]*>,%{uid}<[a-zA-Z0-9]*>,%{session-id}<[a-zA-Z0-9]*>,"
   }
 }
