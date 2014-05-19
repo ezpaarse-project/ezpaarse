@@ -36,19 +36,19 @@
             <table class="ui basic table">
               <tr>
                 <th translate>metrics+read_lines</th>
-                <td class="right aligned" ng-bind="report.general['nb-lines-input'] | localNumber"></td>
+                <td class="right aligned" ng-bind="request.report.general['nb-lines-input'] | localNumber"></td>
               </tr>
               <tr>
                 <th translate translate-compile>metrics+generated_ecs</th>
-                <td class="right aligned" ng-bind="report.general['nb-ecs'] | localNumber"></td>
+                <td class="right aligned" ng-bind="request.report.general['nb-ecs'] | localNumber"></td>
               </tr>
               <tr>
                 <th translate>metrics+duration</th>
-                <td class="right aligned" ng-bind="report.general['Job-Duration']"></td>
+                <td class="right aligned" ng-bind="request.report.general['Job-Duration']"></td>
               </tr>
               <tr>
                 <th translate>metrics+speed</th>
-                <td class="right aligned" ng-bind="report.general['process-speed']"></td>
+                <td class="right aligned" ng-bind="request.report.general['process-speed']"></td>
               </tr>
             </table>
           </div>
@@ -57,15 +57,15 @@
             <table class="ui basic table">
               <tr>
                 <th translate>metrics+platforms_count</th>
-                <td class="right aligned" ng-bind="report.stats['platforms'] | localNumber"></td>
+                <td class="right aligned" ng-bind="request.report.stats['platforms'] | localNumber"></td>
               </tr>
               <tr>
                 <th translate>metrics+html_count</th>
-                <td class="right aligned" ng-bind="report.stats['mime-HTML'] | localNumber"></td>
+                <td class="right aligned" ng-bind="request.report.stats['mime-HTML'] | localNumber"></td>
               </tr>
               <tr>
                 <th translate>metrics+pdf_count</th>
-                <td class="right aligned" ng-bind="report.stats['mime-PDF'] | localNumber"></td>
+                <td class="right aligned" ng-bind="request.report.stats['mime-PDF'] | localNumber"></td>
               </tr>
             </table>
           </div>
@@ -76,18 +76,18 @@
             <table class="ui basic compact table">
               <tr ng-mouseenter="selectHelper('nb-lines-ignored')">
                 <th translate>rejects+ignored_lines</th>
-                <td class="right aligned">{{ report.rejets['nb-lines-ignored'] | localNumber}}</td>
+                <td class="right aligned">{{ request.report.rejets['nb-lines-ignored'] | localNumber}}</td>
                 <td style="width: 150px;"></td>
               </tr>
 
-              <tr ng-repeat="reject in rejects" ng-mouseenter="selectHelper(reject.key)">
-                <th>{{ reject.title | translate }} <i class="attention red icon" ng-show="reject.warning"></i></th>
-                <td class="right aligned" ng-class="{true: 'bold'}[reject.warning]">{{ reject.number | localNumber}}</td>
-                <td><div class="ui warning progress"><div class="bar" ng-style="reject.css"></div></div></td>
+              <tr ng-repeat="reject in request.rejects" ng-mouseenter="selectHelper(reject.key)">
+                <th>{{ reject.title | translate }} <i class="attention red icon" ng-show="reject.percent > 25"></i></th>
+                <td class="right aligned" ng-class="{true: 'bold'}[reject.percent > 25]">{{ reject.number | localNumber}}</td>
+                <td><div class="ui warning progress"><div class="bar" style="width: {{reject.percent}}%"></div></div></td>
               </tr>
 
               <tfoot>
-                <tr><th colspan="3" translate translate-values="{ nb: nbLines }" translate-compile>
+                <tr><th colspan="3" translate translate-values="{ nb: request.nbLines }" translate-compile>
                   rejects+relevant_lines
                 </th></tr>
               </tfoot>
@@ -142,7 +142,7 @@
 
         <div ng-switch-when="report">
           <p ng-show="request.jobID"><a ng-href="/report/{{ request.jobID }}" translate>report+view_full_page</a></p>
-          <accordion class="ui accordion" ng-repeat="category in report | reportCategories">
+          <accordion class="ui accordion" ng-repeat="category in request.report | reportCategories">
             <div class="title" ng-class="{'active': $first}">
               <i class="dropdown icon"></i>
               {{ 'report+' + category | translate }}
@@ -150,7 +150,7 @@
 
             <div class="content" ng-class="{'active': $first}">
               <table class="ui basic compact table">
-                <tr ng-repeat="(key, val) in report | reportElements:category">
+                <tr ng-repeat="(key, val) in request.report | reportElements:category">
                   <th class="four wide">{{ key }}</th>
                   <td ng-bind-html="val | toLink:'_blank'"></td>
                 </tr>
@@ -160,7 +160,7 @@
         </div>
 
         <div class="ui inverted segment" ng-switch-when="traces">
-          <div ng-repeat="log in logs" ng-bind="log"></div>
+          <div ng-repeat="log in request.logs track by $index" ng-bind="log"></div>
         </div>
       </div>
     </div>

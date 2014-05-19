@@ -36,7 +36,7 @@
         <label translate>feedback+send_report</label>
         <select ng-model="fb.jobID">
           <option value="" translate>feedback+no</option>
-          <option value="{{ job.id }}" ng-repeat="job in request.history" translate translate-compile translate-values="{ date: job.date }">feedback+report</option>
+          <option value="{{ job.id }}" ng-repeat="job in jobsHistory" translate translate-compile translate-values="{ date: job.date }">feedback+report</option>
         </select>
       </div>
 

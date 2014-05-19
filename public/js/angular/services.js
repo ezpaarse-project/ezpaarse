@@ -31,17 +31,68 @@ angular.module('ezPAARSE.services', [])
     };
 
     return new userService();
-  }).service('requestService', function ($rootScope) {
+  }).service('requestService', function ($rootScope, socket) {
     function requestService() {
-      this.data = {
+      var self  = this;
+      this.history  = [];
+      this.baseData = {
         state: 'idle',
         progress: 0,
-        history: []
+        logs: [],
+        report: {},
+        rejects: [
+          { cat: 'general', key: 'nb-denied-ecs',            percent: 0, title: 'rejects+denied_ecs' },
+          { cat: 'rejets',  key: 'nb-lines-duplicate-ecs',   percent: 0, title: 'rejects+duplicates' },
+          { cat: 'rejets',  key: 'nb-lines-unordered-ecs',   percent: 0, title: 'rejects+chrono_anomalies' },
+          { cat: 'rejets',  key: 'nb-lines-ignored-domains', percent: 0, title: 'rejects+ignored_domains' },
+          { cat: 'rejets',  key: 'nb-lines-unknown-domains', percent: 0, title: 'rejects+unknown_domains' },
+          { cat: 'rejets',  key: 'nb-lines-unknown-format',  percent: 0, title: 'rejects+unknown_formats' },
+          { cat: 'rejets',  key: 'nb-lines-unqualified-ecs', percent: 0, title: 'rejects+unqualified_ecs' },
+          { cat: 'rejets',  key: 'nb-lines-pkb-miss-ecs',    percent: 0, title: 'rejects+missing_pkbs' }
+        ]
+      };
+      this.data = angular.copy(this.baseData);
+
+      /**
+       * Give socket ID to the request service
+       */
+      socket.on('connected', function (socketID) {
+        self.socketID = socketID;
+      });
+
+      this.loggingListener = function (log) {
+        self.data.logs.push(log);
+      };
+
+      this.reportListener = function (report) {
+        self.data.report = report;
+
+        self.data.nbLines = report.general['nb-lines-input'] - report.rejets['nb-lines-ignored'];
+        if (!self.data.nbLines) { self.data.nbLines = 0; return; }
+
+        self.data.rejects.forEach(function (reject) {
+          reject.number  = report[reject.cat][reject.key];
+          reject.percent = (reject.number / self.data.nbLines) * 100;
+
+          if (reject.number === 0) {
+            report[reject.cat][reject.key.replace(/^nb(?:-lines)?/, 'url')] = '';
+          }
+        });
       };
     };
 
     requestService.prototype.cleanHistory = function () {
-      this.data.history = [];
+      this.history = [];
+    };
+
+    /**
+     * Set state to idle, clean current request data and stop listening to socket events
+     */
+    requestService.prototype.reset = function () {
+      socket.removeListener('report', this.reportListener);
+      socket.removeListener('logging', this.loggingListener);
+
+      this.data = angular.copy(this.baseData);
     };
 
     requestService.prototype.isLoading = function () {
@@ -64,18 +115,22 @@ angular.module('ezPAARSE.services', [])
     requestService.prototype.send = function (formData, headers) {
       if (this.data.state == 'loading') { return false; }
 
+      this.reset();
       var self               = this;
       this.data.jobID        = uuid.v1();
       this.data.state        = 'loading';
       this.data.errorMessage = '';
 
       headers = headers || {};
-      headers['Socket-ID'] = this.data.socketID;
+      headers['Socket-ID'] = this.socketID;
 
       var currentJob = {
         id: this.data.jobID,
         date: new Date()
       };
+
+      socket.on('logging', this.loggingListener);
+      socket.on('report', this.reportListener);
 
       this.xhr = $.ajax({
         headers:     headers || {},
@@ -108,7 +163,7 @@ angular.module('ezPAARSE.services', [])
         complete: function () {
           self.xhr = null;
           $rootScope.$apply(function () {
-            self.data.history.push(currentJob);
+            self.history.push(currentJob);
           });
         },
         success: function (data) {

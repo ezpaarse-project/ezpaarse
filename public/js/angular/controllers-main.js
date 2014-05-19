@@ -44,18 +44,13 @@ angular.module('ezPAARSE.main-controllers', [])
         userService.logout();
         $state.transitionTo('login');
       };
-      requestService.abort();
-      requestService.cleanHistory();
+      requestService.abort(function () {
+        requestService.reset();
+        requestService.cleanHistory();
+      });
       inputService.clear();
       $http.get('/logout').then(cb, cb);
     };
-
-    /**
-     * Give socket ID to the request service
-     */
-    socket.on('connected', function (socketID) {
-      requestService.data.socketID = socketID;
-    });
 
     $scope.feedbackLoading = true;
     $http.get('/feedback/status')
@@ -79,7 +74,8 @@ angular.module('ezPAARSE.main-controllers', [])
     $scope.fb = {
       mail: userService.user ? userService.user.name : undefined
     };
-    $scope.request = requestService.data;
+    $scope.request     = requestService.data;
+    $scope.jobsHistory = requestService.history;
 
     $scope.sendFeedback = function (valid) {
       $scope.feedbackForm.comment.$pristine = false;
@@ -132,11 +128,12 @@ angular.module('ezPAARSE.main-controllers', [])
 
       $http.post('/login', $scope.credentials)
       .success(function (user) {
-        userService.login(user.username, user.group);
         $scope.loading = false;
+        userService.login(user.username, user.group);
 
-        $element.modal('hide');
-        $state.transitionTo('form');
+        $element.modal('hide', function () {
+          $state.transitionTo('form');
+        });
       })
       .error(function (data, status) {
         $scope.loading = false;
