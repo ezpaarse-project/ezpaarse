@@ -187,19 +187,17 @@ ezLanguages['en'] = {
   "report+traces_fail":    "Failed to retrieve the traces",
 
   // Admin page
-  "admin+title":             "Administration",
-  "admin+repositories":      "Repositories",
-  "admin+unknown_state":     "Unknwon state",
-  "admin+updates_available": "Updates available",
-  "admin+update":            "Update",
-  "admin+pkb_state":         "Publisher Knowledge Bases' state",
-  "admin+pkb_uptodate":      "The base is up-to-date",
-  "admin+parsers_state":     "Parsers' state",
-  "admin+parsers_uptodate":  "The parsers are up-to-date",
-  "admin+users":             "Users",
-  "admin+get_users_fail":    "The users could not be retrieved",
-  "admin+name":              "Name",
-  "admin+group":             "Group",
-  "admin+remove":            "Remove",
-  "admin+password":          "Password"
+  "admin+title":              "Administration",
+  "admin+repositories":       "Repositories",
+  "admin+unknown_state":      "Unknwon state",
+  "admin+updates_available":  "Updates available",
+  "admin+update":             "Update",
+  "admin+platforms_state":    "Platforms' state",
+  "admin+platforms_uptodate": "The platforms are up-to-date",
+  "admin+users":              "Users",
+  "admin+get_users_fail":     "The users could not be retrieved",
+  "admin+name":               "Name",
+  "admin+group":              "Group",
+  "admin+remove":             "Remove",
+  "admin+password":           "Password"
 };

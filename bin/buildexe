@@ -38,14 +38,12 @@ make
 rm -rf ./build
 
 # git cleanup
-rm -rf ./platforms-kb/.git/
-rm -rf ./platforms-parsers/.git/
-rm -rf ./platforms-scrapers/.git/
+rm -rf ./platforms/.git/
 
 # test cleanup
 rm -rf $TMP_DIR/$EZPAARSE_NAME/test/dataset/*.*
 
-# we don't need forever on windows and it's making errors for a path > 255 
+# we don't need forever on windows and it's making errors for a path > 255
 rm -rf $TMP_DIR/$EZPAARSE_NAME/node_modules/forever
 
 # download node version for windows

@@ -125,14 +125,14 @@ module.exports = function (app) {
   );
 
   /**
-   * GET route on /pkb/status
-   * To know if there are incoming changes in the PKB folder
+   * GET route on /platforms/status
+   * To know if there are incoming changes in the platforms directory
    */
-  app.get('/pkb/status', auth.ensureAuthenticated(true), function (req, res) {
-    var pkbFolder = path.join(__dirname, '../platforms-kb');
+  app.get('/platforms/status', auth.ensureAuthenticated(true), function (req, res) {
+    var platformsFolder = path.join(__dirname, '../platforms');
     var gitscript = path.join(__dirname, '../bin/check-git-uptodate');
 
-    execFile(gitscript, {cwd: pkbFolder}, function (error, stdout) {
+    execFile(gitscript, {cwd: platformsFolder}, function (error, stdout) {
       if (error || !stdout) {
         res.send(500);
         return;
@@ -140,62 +140,13 @@ module.exports = function (app) {
       res.send(200, stdout);
     });
   });
-
-  function updatePkb(req, res) {
-    var bodyString = '';
-
-    req.on('readable', function () {
-      bodyString += req.read() || '';
-    });
-
-    req.on('error', function () {
-      res.send(500);
-    });
-
-    req.on('end', function () {
-      if (bodyString.trim() == 'uptodate') {
-        var pkbFolder = path.join(__dirname, '../platforms-kb');
-        var gitscript = path.join(__dirname, '../bin/git-update');
-
-        execFile(gitscript, {cwd: pkbFolder}, function (error) {
-          if (error) {
-            res.send(500);
-            return;
-          }
-          res.send(200);
-        });
-      } else {
-        res.send(400);
-      }
-    });
-  }
 
   /**
    * PUT route on /pkb/status
    * To update the PKB folder
    */
-  app.put('/pkb/status', auth.ensureAuthenticated(true),
-    auth.authorizeMembersOf('admin'), updatePkb);
-
-  /**
-   * GET route on /parsers/status
-   * To know if there are incoming changes in the parsers folder
-   */
-  app.get('/parsers/status', auth.ensureAuthenticated(true),
+  app.put('/platforms/status', auth.ensureAuthenticated(true), auth.authorizeMembersOf('admin'),
     function (req, res) {
-    var parsersFolder = path.join(__dirname, '../platforms-parsers');
-    var gitscript = path.join(__dirname, '../bin/check-git-uptodate');
-
-    execFile(gitscript, {cwd: parsersFolder}, function (error, stdout) {
-      if (error || !stdout) {
-        res.send(500);
-        return;
-      }
-      res.send(200, stdout);
-    });
-  });
-
-  function updateParsers(req, res) {
     var bodyString = '';
 
     req.on('readable', function () {
@@ -208,10 +159,10 @@ module.exports = function (app) {
 
     req.on('end', function () {
       if (bodyString.trim() == 'uptodate') {
-        var parsersFolder = path.join(__dirname, '../platforms-parsers');
+        var platformsFolder = path.join(__dirname, '../platforms');
         var gitscript = path.join(__dirname, '../bin/git-update');
 
-        execFile(gitscript, {cwd: parsersFolder}, function (error) {
+        execFile(gitscript, {cwd: platformsFolder}, function (error) {
           if (error) {
             res.send(500);
             return;
@@ -222,12 +173,5 @@ module.exports = function (app) {
         res.send(400);
       }
     });
-  }
-
-  /**
-   * PUT route on /parsers/status
-   * To update the parsers folder
-   */
-  app.put('/parsers/status', auth.ensureAuthenticated(true),
-    auth.authorizeMembersOf('admin'), updateParsers);
+  });
 };

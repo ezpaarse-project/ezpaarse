@@ -107,14 +107,12 @@ Les librairies d'ezPAARSE sont les différents modules npm et bower.
 Elles sont présentes dans les répertoires suivants :
 - ezpaarse/node_modules/
 - ezpaarse/public/components/
-- ezpaarse/platforms-scrapers/node_modules/
 
 Un [dépôt github](https://github.com/ezpaarse-project/ezpaarse-libs) est dédié à la mise à disposition des snapshots de ces librairies.
 
 Le script [upgrade-ezpaarse-libs](https://github.com/ezpaarse-project/ezpaarse-libs/blob/master/upgrade-ezpaarse-libs) permet de mettre à jour les paquets npm et bower présents dans ce dépôt en respectant les dépendances exprimées dans les dépôts github d'ezpaarse :
 - [package.json](https://github.com/ezpaarse-project/ezpaarse/blob/master/package.json) d'ezpaarse
 - [bower.json](https://github.com/ezpaarse-project/ezpaarse/blob/master/bower.json) d'ezpaarse
-- [package.json](https://github.com/ezpaarse-project/ezpaarse-scrapers/blob/master/package.json) d'ezpaarse-scrapers
 
 Pour mettre à jour ces librairies, il est donc dans un premier temps nécessaire de mettre à jour les package.json et bower.json de la distribution d'ezPAARSE (utilisation de l'utilitaire npm-check-updates) puis de tester qu'ezPAARSE fonctionne correctement :
 ```bash

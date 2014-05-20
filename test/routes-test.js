@@ -18,7 +18,7 @@ var infoRoutes = [
 ];
 
 var adminRoutes = [
-  '/pkb/status',
+  '/platforms/status',
   '/users'
 ];
 

@@ -13,7 +13,7 @@ DOC_OUTPUT=$(shell pwd)/public/doc
 DOC_HTML=$(DOC_OUTPUT)/index.html
 
 # Run every steps needed to start ezpaarse
-all: nodejs pkb-update parsers-update scrapers-update node-modules bower doc checkconfig
+all: nodejs platforms-update node-modules bower doc checkconfig
 
 # Application section
 # # # # # # # # # # # #
@@ -49,8 +49,8 @@ docopen: doc $(DOC_HMTL)
 # # # # # # # # #
 
 EZPATH = $(shell pwd)
-JSFILES=$(wildcard $(EZPATH)/*.js) $(wildcard $(EZPATH)/lib/*.js) $(wildcard $(EZPATH)/lib/*/*.js) $(wildcard $(EZPATH)/test/*.js)  $(wildcard $(EZPATH)/routes/*.js) $(wildcard $(EZPATH)/platforms-parsers/*/*.js $(EZPATH)/platforms-scrapers/*/*.js)
-PKBFILES=$(shell ls $(EZPATH)/platforms-kb/*/*.txt | grep -v miss)
+JSFILES=$(wildcard $(EZPATH)/*.js) $(wildcard $(EZPATH)/lib/*.js) $(wildcard $(EZPATH)/lib/*/*.js) $(wildcard $(EZPATH)/test/*.js)  $(wildcard $(EZPATH)/routes/*.js) $(wildcard $(EZPATH)/platforms/*/*.js $(EZPATH)/platforms/*/*/*.js)
+PKBFILES=$(shell ls $(EZPATH)/platforms/*/pkb/*.txt | grep -v miss)
 
 
 ## Runs all tests (*-test.js) in the test folder except big and tdd
@@ -79,19 +79,19 @@ test-platforms-verbose:
 	fi
 
 test-pkb:
-	@if test -d platforms-kb; \
+	@if test -d platforms; \
 	then . ./bin/env; ./bin/pkbvalidator $(PKBFILES); \
 	else echo 'No test folder found'; \
 	fi
 
 test-pkb-verbose:
-	@if test -d platforms-kb; \
+	@if test -d platforms; \
 	then . ./bin/env; ./bin/pkbvalidator -v $(PKBFILES); \
 	else echo 'No test folder found'; \
 	fi
 
 kbart-verbose:
-	@if test -d platforms-kb; \
+	@if test -d platforms; \
 	then . ./bin/env; ./bin/pkbvalidator -v -k $(PKBFILES); \
 	else echo 'No test folder found'; \
 	fi
@@ -209,32 +209,18 @@ upload:
 	./bin/uploadversion
 
 
-# Clone or update pkb folder
-pkb-update:
-	@if test -d platforms-kb; \
-	then cd platforms-kb; git pull; \
-	else git clone https://github.com/ezpaarse-project/ezpaarse-pkb.git platforms-kb; \
-	fi
-
-# Clone or update parsers folder
-parsers-update:
-	@if test -d platforms-parsers; \
-	then cd platforms-parsers; git pull; \
-	else git clone https://github.com/ezpaarse-project/ezpaarse-parsers.git platforms-parsers; \
-	fi
-
-# Clone or update scrapers folder
-scrapers-update:
-	@if test -d platforms-scrapers; \
-	then cd platforms-scrapers; git pull; \
-	else git clone https://github.com/ezpaarse-project/ezpaarse-scrapers.git platforms-scrapers; \
+# Clone or update platforms directory
+platforms-update:
+	@if test -d platforms; \
+	then cd platforms; git pull; \
+	else git clone https://github.com/ezpaarse-project/ezpaarse-platforms.git platforms; \
 	fi
 
 # git pull on every git repositories
-pull: pkb-update parsers-update scrapers-update
+pull: platforms-update
 	@git pull
 	@echo "ezPAARSE has been updated, changes will take effect at next restart."
 
 update: pull
 
-.PHONY: test checkconfig nodejs pkb-update deb rpm tar exe clean-for-release version tag update pull start restart status stop doc
+.PHONY: test checkconfig nodejs platforms-update deb rpm tar exe clean-for-release version tag update pull start restart status stop doc
