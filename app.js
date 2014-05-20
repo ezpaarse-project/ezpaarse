@@ -180,14 +180,6 @@ app.all('*', function (req, res, next) {
   next();
 });
 
-/**
- * Set the cookie 'lang' with the given locale and redirect back to the previous page
- */
-app.get(/^\/lang\/([a-z]+)$/, function (req, res) {
-  res.cookie('lang', req.params[0]);
-  res.redirect('back');
-});
-
 // log related routes
 require('./routes/views')(app);
 require('./routes/ws')(app);
