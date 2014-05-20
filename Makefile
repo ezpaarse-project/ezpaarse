@@ -13,7 +13,7 @@ DOC_OUTPUT=$(shell pwd)/public/doc
 DOC_HTML=$(DOC_OUTPUT)/index.html
 
 # Run every steps needed to start ezpaarse
-all: nodejs pkb-update parsers-update scrapers-update node-modules bower doc checkconfig
+all: nodejs platforms-update node-modules bower doc checkconfig
 
 # Application section
 # # # # # # # # # # # #
