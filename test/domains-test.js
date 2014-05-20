@@ -8,7 +8,7 @@ var csvextractor = require('../lib/csvextractor.js');
 var pp           = require('../lib/platform-parser.js');
 var parserlist   = require('../lib/parserlist.js');
 
-var platformsFolder = path.join(__dirname, '/../platforms-parsers');
+var platformsFolder = path.join(__dirname, '/../platforms');
 var platforms       = fs.readdirSync(platformsFolder);
 var cfgFilename     = 'manifest.json';
 
@@ -56,7 +56,7 @@ function testPlatform(platform, done) {
   }
 
   if (domainsPkbField) {
-    var pkbFolder = path.join(__dirname, '../platforms-kb/', config.name);
+    var pkbFolder = path.join(__dirname, '../platforms/', config.name, 'pkp');
 
     fs.readdir(pkbFolder, function (err, files) {
       should.not.exist(err, 'The PKB directory of ' + platform + ' could not be found');

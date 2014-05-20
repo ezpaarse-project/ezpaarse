@@ -12,7 +12,7 @@ var csvextractor = require('../lib/csvextractor.js');
 var pp           = require('../lib/platform-parser.js');
 var assert       = require('assert');
 
-var platformsFolder = path.join(__dirname, '/../platforms-parsers');
+var platformsFolder = path.join(__dirname, '/../platforms');
 var cfgFilename     = 'manifest.json';
 
 var platforms       = fs.readdirSync(platformsFolder);
@@ -76,14 +76,13 @@ function testFiles(files, platformName, parserFile, done) {
 }
 
 function fetchPlatform(platform) {
-
-  var platformPath = platformsFolder + '/' + platform;
-
   if (!platform) {
-
     return;
-  } else if (/^\./.test(platform) || !fs.statSync(platformPath).isDirectory()) {
+  }
 
+  var platformPath = path.join(platformsFolder, platform);
+
+  if (/^\./.test(platform) || !fs.statSync(platformPath).isDirectory()) {
     fetchPlatform(platforms.pop());
     return;
   }

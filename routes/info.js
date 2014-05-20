@@ -36,7 +36,7 @@ module.exports = function (app) {
     var sort    = req.param('sort', null);
 
     var delimiter       = '';
-    var platformsFolder = path.join(__dirname, '/../platforms-parsers');
+    var platformsFolder = path.join(__dirname, '/../platforms');
     var cfgFilename     = 'manifest.json';
     var folders         = fs.readdirSync(platformsFolder);
 
@@ -84,7 +84,7 @@ module.exports = function (app) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
 
-    var file = path.join(__dirname, '/../platforms-parsers/rtype.json');
+    var file = path.join(__dirname, '/../platforms/rtype.json');
     if (fs.existsSync(file)) {
       var types = require(file);
       res.status(200);
@@ -122,7 +122,7 @@ module.exports = function (app) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
 
-    var file = path.join(__dirname, '/../platforms-parsers/mime.json');
+    var file = path.join(__dirname, '/../platforms/mime.json');
     if (fs.existsSync(file)) {
       var types = require(file);
       res.status(200);
@@ -141,7 +141,7 @@ module.exports = function (app) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
 
-    var file = path.join(__dirname, '/../platforms-parsers/rid.json');
+    var file = path.join(__dirname, '/../platforms/rid.json');
     if (fs.existsSync(file)) {
       var types = require(file);
       res.status(200);

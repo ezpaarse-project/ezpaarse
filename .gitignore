@@ -7,9 +7,7 @@ bench.png
 bench-*.csv
 bench-*.png*
 build/
-platforms-kb/
-platforms-parsers/
-platforms-scrapers/
+platforms/
 tmp/
 ezpaarse.pid
 sessions
