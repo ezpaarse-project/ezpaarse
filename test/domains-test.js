@@ -56,7 +56,7 @@ function testPlatform(platform, done) {
   }
 
   if (domainsPkbField) {
-    var pkbFolder = path.join(__dirname, '../platforms/', config.name, 'pkp');
+    var pkbFolder = path.join(__dirname, '../platforms/', config.name, 'pkb');
 
     fs.readdir(pkbFolder, function (err, files) {
       should.not.exist(err, 'The PKB directory of ' + platform + ' could not be found');
