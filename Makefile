@@ -182,7 +182,7 @@ clean-for-release:
 	rm -f ./test/deduplication-test.js
 	rm -f ./test/pkb-test.js
 	rm -rf ./test/dataset/multiformat
-	find ./test/dataset/* -size +1k -exec rm {} \;
+	find ./test/dataset/* -size +5k -exec rm {} \;
 	rm -rf ./build/
 	rm -rf ./misc/
 	rm -rf ./ezpaarse-*/
