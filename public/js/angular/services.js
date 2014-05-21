@@ -209,6 +209,10 @@ angular.module('ezPAARSE.services', [])
       this.text  = '';
     };
 
+    inputService.prototype.clearFiles = function () {
+      this.files = [];
+    };
+
     inputService.prototype.updateTotalSize = function () {
       this.totalSize = 0;
       for (var i = this.files.length - 1; i >= 0; i--) {

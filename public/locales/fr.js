@@ -59,6 +59,7 @@ ezLanguages['fr'] = {
   "form+logfiles":          "Fichiers de logs",
   "form+copy_paste":        "Copier/coller de logs",
   "form+autosort":          "tri automatique",
+  "form+clear_files":       "Vider les fichiers",
   "form+drop_files_here":   "Déposez les fichiers ici",
   "form+click_to_add":      "Cliquez pour ajouter",
   "form+filename":          "Nom de fichier",

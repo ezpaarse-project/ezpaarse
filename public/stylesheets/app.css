@@ -138,10 +138,6 @@ code {
   border-style: solid;
 }
 
-.dropzone > p {
-  text-align: center;
-}
-
 .dropzone .dimmer * {
   pointer-events: none;
 }
