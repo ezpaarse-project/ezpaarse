@@ -186,6 +186,7 @@ ezLanguages['fr'] = {
   "report+dedoublonnage":  "Dédoublonnage",
   "report+stats":          "Statistiques",
   "report+files":          "Fichiers",
+  "report+first_event":    "Première consultation",
   "report+system_traces":  "Traces système",
   "report+loading":        "Chargement...",
   "report+goto":           "Aller à :",

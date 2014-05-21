@@ -187,6 +187,7 @@ ezLanguages['en'] = {
   "report+dedoublonnage":  "Duplicates",
   "report+stats":          "Statistics",
   "report+files":          "Files",
+  "report+first_event":    "First consultation",
   "report+system_traces":  "System traces",
   "report+loading":        "Loading...",
   "report+goto":           "Go to :",
