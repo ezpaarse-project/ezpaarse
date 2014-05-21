@@ -48,5 +48,15 @@
 
   <% include partials/form-login %>
   <% include partials/form-register %>
+  <modal class="ui modal" ez-get-curl>
+    <i class="close icon"></i>
+    <div class="ui form content">
+      <p class="justify aligned" translate>form+curl_instructions</p>
+
+      <div class="field">
+        <textarea class="ui input" ng-model="curl"></textarea>
+      </div>
+    </div>
+  </modal>
 </body>
 </html>
