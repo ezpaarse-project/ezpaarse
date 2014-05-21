@@ -5,8 +5,9 @@
 angular.module('ezPAARSE.main-controllers', [])
   .controller('AppCtrl', function ($scope, $state, userService, $http, $translate, $location, $cookies, requestService, inputService, socket) {
 
+    $scope.request     = requestService.data;
     $scope.emailRegexp = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9-]+(\.[a-z0-9-]+)*$/i;
-    $scope.contact = {
+    $scope.contact     = {
       facebook: 'https://www.facebook.com/Ezpaarse',
       googleplus: 'https://plus.google.com/113684662646843807159',
       twitter: 'https://twitter.com/ezpaarse',
