@@ -1,10 +1,21 @@
     <div class="wrapper display-table">
       <div id="header" class="ui inverted teal basic segment display-row">
         <div class="inner">
-          <select id="language-selector" ng-model="currentLanguage" ng-change="useLanguage(currentLanguage)">
-            <option value="fr">Français</option>
-            <option value="en">English</option>
-          </select>
+          <div class="top-right">
+            <a href="/process" class="ui mini inverted basic button" ng-switch="request.state">
+              <span ng-switch-default translate>state+idle</span>
+              <span ng-switch-when="loading" translate translate-values="{ percent: request.progress }">state+loading</span>
+              <span ng-switch-when="success" translate>state+success</span>
+              <span ng-switch-when="error" translate>state+error</span>
+              <span ng-switch-when="finalisation" translate>state+finalisation</span>
+              <span ng-switch-when="aborted" translate>state+aborted</span>
+            </a>
+
+            <select id="language-selector" ng-model="currentLanguage" ng-change="useLanguage(currentLanguage)">
+              <option value="fr">Français</option>
+              <option value="en">English</option>
+            </select>
+          </div>
 
           <div class="ui inverted teal menu">
             <a ng-if="user.logged" href="/form" class="item" translate>menu+process_logs</a>

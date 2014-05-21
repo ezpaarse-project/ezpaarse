@@ -92,7 +92,10 @@ angular.module('ezPAARSE.services', [])
       socket.removeListener('report', this.reportListener);
       socket.removeListener('logging', this.loggingListener);
 
-      this.data = angular.copy(this.baseData);
+      for (var i in this.data) {
+        delete this.data[i];
+      }
+      angular.extend(this.data, this.baseData);
     };
 
     requestService.prototype.isLoading = function () {
@@ -207,6 +210,10 @@ angular.module('ezPAARSE.services', [])
     inputService.prototype.clear = function () {
       this.files = [];
       this.text  = '';
+    };
+
+    inputService.prototype.clearFiles = function () {
+      this.files = [];
     };
 
     inputService.prototype.updateTotalSize = function () {

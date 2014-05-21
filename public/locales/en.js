@@ -52,6 +52,14 @@ ezLanguages['en'] = {
   "menu+documentation": "Documentation",
   "footer+powered":     "Powered by <a href=\"{{ nodejs }}\" target=\"_blank\">Node.js</a> and <a href=\"{{ expressjs }}\" target=\"_blank\">Express 3</a>",
 
+  // Process state button
+  "state+idle":         "No process loading",
+  "state+loading":      "Ongoing process... {{ percent }}%",
+  "state+finalisation": "Finalisation...",
+  "state+success":      "Process successful",
+  "state+error":        "Error, process aborted",
+  "state+aborted":      "Process cancelled",
+
   // Form page
   "form+title":             "Prepare the data to be processed",
   "form+description":       "Select the logfiles you wish to process. Your logfiles may need setting some parameters to be properly analysed with ezPAARSE. If you need help, you can <a ez-toggle-sidebar=\"{{ sidebarID }}\">contact the ezPAARSE team</a>.",
@@ -59,6 +67,7 @@ ezLanguages['en'] = {
   "form+logfiles":          "Logfiles",
   "form+copy_paste":        "Copy/Paste logs",
   "form+autosort":          "autosort",
+  "form+clear_files":       "Clear files",
   "form+drop_files_here":   "Drag and drop your files here",
   "form+click_to_add":      "Click to add",
   "form+filename":          "Filename",
@@ -128,7 +137,7 @@ ezLanguages['en'] = {
   "process+description":        "Your logs are being processed by ezPAARSE. You can follow the processing and the different reject types in realtime",
   "process+finalisation":       "Finalisation...",
   "process+done":               "Done",
-  "process+error":              "Error", //TODO finalisation
+  "process+error":              "Error",
   "process+cancelled":          "Canceled",
   "process+download":           "Download the result",
   "process+can_start_download": "You can already start downloading the results",

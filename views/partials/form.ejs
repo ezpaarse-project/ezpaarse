@@ -25,11 +25,16 @@
             </div></div>
           </div>
 
-          <p><button class="ui small basic button" ez-trigger-click="#input-file">
+          <p class="center aligned"><button class="ui small basic button" ez-trigger-click="#input-file">
             <i class="plus icon"></i>
             {{ 'form+click_to_add' | translate }}
           </button></p>
-          <!-- <p class="text">Ou déposez vos fichiers de logs ici</p> -->
+
+          <p><button ng-if="inputs.files.length" class="ui mini basic button" ng-click="inputs.clearFiles()">
+            <i class="trash icon"></i>
+            {{ 'form+clear_files' | translate }}
+          </button></p>
+
           <table ng-if="inputs.files.length" class="ui small compact basic table">
             <thead><tr>
               <th class="twelve wide"translate>form+filename</th>

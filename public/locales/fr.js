@@ -52,6 +52,14 @@ ezLanguages['fr'] = {
   "menu+documentation": "Documentation",
   "footer+powered":     "Propulsé par <a href=\"{{ nodejs }}\" target=\"_blank\">Node.js</a> et <a href=\"{{ expressjs }}\" target=\"_blank\">Express 3</a>",
 
+  // Process state button
+  "state+idle":         "Aucun traitement en cours",
+  "state+loading":      "Traitement en cours... {{ percent }}%",
+  "state+finalisation": "Finalisation...",
+  "state+success":      "Traitement terminé",
+  "state+error":        "Erreur, traitement avorté",
+  "state+aborted":      "Traitement annulé",
+
   // Form page
   "form+title":             "Préparation du traitement",
   "form+description":       "Indiquez ici les logs que vous désirez faire analyser par ezPAARSE. Vos logs nécessitent peut-être un paramétrage particulier pour qu'ezPAARSE les comprenne. Si nécessaire, <a ez-toggle-sidebar=\"{{ sidebarID }}\">contactez l'équipe ezPAARSE</a> pour une aide au paramétrage.",
@@ -59,6 +67,7 @@ ezLanguages['fr'] = {
   "form+logfiles":          "Fichiers de logs",
   "form+copy_paste":        "Copier/coller de logs",
   "form+autosort":          "tri automatique",
+  "form+clear_files":       "Vider les fichiers",
   "form+drop_files_here":   "Déposez les fichiers ici",
   "form+click_to_add":      "Cliquez pour ajouter",
   "form+filename":          "Nom de fichier",
@@ -127,7 +136,7 @@ ezLanguages['fr'] = {
   "process+description":        "Vos logs sont en cours d'analyse par ezPAARSE. Vous pouvez suivre en temps réel l'état d'avancement du traitement et l'évolution des différents types de rejets.",
   "process+finalisation":       "Finalisation...",
   "process+done":               "Terminé",
-  "process+error":              "Erreur", //TODO finalisation
+  "process+error":              "Erreur",
   "process+cancelled":          "Annulé",
   "process+download":           "Télécharger le résultat",
   "process+can_start_download": "Vous pouvez d'ores et déjà débuter le téléchargement.",

@@ -4,6 +4,10 @@
 
 angular.module('ezPAARSE.form-controllers')
   .controller('ProcessCtrl', function ($scope, $location, requestService) {
+    if (requestService.data.state == 'idle') {
+      $location.path('/form');
+    }
+
     $scope.request = requestService.data;
     $scope.tab     = 'metrics';
 
