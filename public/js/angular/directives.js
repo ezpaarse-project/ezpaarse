@@ -19,7 +19,7 @@ angular.module('ezPAARSE.directives', [])
   .directive('ezGetCurl', function ($location, requestService, inputService, settingService) {
     return {
       restrict: 'A',
-      link: function(scope, element, attributes) {
+      link: function (scope, element, attributes) {
         scope.getCurl = function () {
           var headers = settingService.getHeaders();
           var curl    = 'curl -X POST -u "username:password" ';
@@ -47,7 +47,7 @@ angular.module('ezPAARSE.directives', [])
   .directive('popup', function () {
     return {
       restrict: 'AE',
-      link: function(scope, element, attributes) {
+      link: function (scope, element, attributes) {
         element.popup();
       }
     };
@@ -55,7 +55,7 @@ angular.module('ezPAARSE.directives', [])
   .directive('ezToggleSidebar', function () {
     return {
       restrict: 'A',
-      link: function(scope, element, attributes) {
+      link: function (scope, element, attributes) {
         element.click(function () {
           $(attributes['ezToggleSidebar']).sidebar('toggle');
         });
@@ -65,7 +65,7 @@ angular.module('ezPAARSE.directives', [])
   .directive('ezToggleModal', function () {
     return {
       restrict: 'A',
-      link: function(scope, element, attributes) {
+      link: function (scope, element, attributes) {
         element.click(function () {
           $(attributes['ezToggleModal']).modal('toggle');
         });
@@ -75,15 +75,23 @@ angular.module('ezPAARSE.directives', [])
   .directive('sidebar', function () {
     return {
       restrict: 'E',
-      link: function(scope, element, attributes) {
+      link: function (scope, element, attributes) {
         element.sidebar({ overlay: true });
+      }
+    };
+  })
+  .directive('modal', function () {
+    return {
+      restrict: 'E',
+      link: function (scope, element, attributes) {
+        element.modal({ allowMultiple: false });
       }
     };
   })
   .directive('ezTriggerClick', function () {
     return {
       restrict: 'A',
-      link: function(scope, element, attributes) {
+      link: function (scope, element, attributes) {
         $(element).click(function () {
           $(attributes['ezTriggerClick']).click();
         });
@@ -93,7 +101,7 @@ angular.module('ezPAARSE.directives', [])
   .directive('ezFileDrop', function () {
     return {
       restrict: 'A',
-      link: function(scope, element, attributes) {
+      link: function (scope, element, attributes) {
         var elem   = $(element);
         var fn     = attributes['ezFileDrop'];
         var dimmer = elem.find('.ui.dimmer');
