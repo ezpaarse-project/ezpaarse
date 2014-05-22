@@ -108,24 +108,49 @@ describe('ezPAARSE processes', function () {
     var lsofAfter   = [];
     lsof.raw(ezpaarsePid, function (data) {
       lsofBefore = data.filter(filterTypes);
+      lsofBefore.should.be.instanceof(Array);
+
       helpers.post('/', log, headers, function (err, res) {
         if (!res) { throw new Error('ezPAARSE is not running'); }
         if (err)  { throw err; }
 
-        lsof.raw(ezpaarsePid, function (data) {
-          lsofAfter = data.filter(filterTypes);
-          // test the number of open files before the log processing is equal
-          // to the number of open file after the log processing
-          lsofAfter.should.be.instanceof(Array);
-          lsofBefore.should.be.instanceof(Array);
+        var test = function (tries, callback) {
+          tries++;
 
-          // add a trace to help to understand which file descriptor is still open
-          if (lsofAfter.length != lsofBefore.length) {
-            console.error(lsofAfter);
-          }
+          lsof.raw(ezpaarsePid, function (data) {
+            lsofAfter = data.filter(filterTypes);
+            // test the number of open files before the log processing is equal
+            // to the number of open file after the log processing
+            lsofAfter.should.be.instanceof(Array);
 
-          should.equal(lsofAfter.length, lsofBefore.length);
+            if (lsofAfter.length == lsofBefore.length) {
+              callback(null);
+            } else if (tries > 5) {
 
+              var unclosedFiles = [];
+              lsofBefore = lsofBefore.map(function (file) { return file.name; });
+
+              lsofAfter.forEach(function (file) {
+                if (lsofBefore.indexOf(file.name) == -1) {
+                  unclosedFiles.push(file.name);
+                }
+              });
+
+              // add a trace to help to understand which file descriptor is still open
+              console.error(JSON.stringify(unclosedFiles, null, 2));
+
+              callback(false);
+              return;
+            } else {
+              setTimeout(function() {
+                test(tries, callback);
+              }, 200);
+            }
+          });
+        };
+
+        test(0, function (fail) {
+          should.not.exist(fail, 'some file descriptors were not closed correctly');
           done();
         });
       });

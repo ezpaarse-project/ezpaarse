@@ -24,6 +24,8 @@ describe('The server receives a log but network is cut during the transfer', fun
     // get the lsof value before the test
     lsof.raw(ezpaarsePid, function (data) {
       lsofBefore = data.filter(filterTypes);
+      lsofBefore.should.be.instanceof(Array);
+
       logF.logFaker({ rate: 500 }, function (logStream) {
         var headers   = {};
         var reqStream = helpers.postPiped('/', headers, logStream);
@@ -34,22 +36,43 @@ describe('The server receives a log but network is cut during the transfer', fun
 
           // stop the test once the ezpaarse response is closed
           res.on('end', function () {
-            // test lsof !
-            // get the lsof value before the test
-            lsof.raw(ezpaarsePid, function (data) {
-              lsofAfter = data.filter(filterTypes);
+            var test = function (tries, callback) {
+              tries++;
 
-              // test the number of open files before the log processing is equal
-              // to the number of open file after the log processing
-              lsofAfter.should.be.instanceof(Array);
-              lsofBefore.should.be.instanceof(Array);
+              lsof.raw(ezpaarsePid, function (data) {
+                lsofAfter = data.filter(filterTypes);
+                // test the number of open files before the log processing is equal
+                // to the number of open file after the log processing
+                lsofAfter.should.be.instanceof(Array);
 
-              // add a trace to help to understand which file descriptor is still open
-              if (lsofAfter.length != lsofBefore.length) {
-                console.error(lsofAfter);
-              }
+                if (lsofAfter.length == lsofBefore.length) {
+                  callback(null);
+                } else if (tries > 5) {
 
-              should.equal(lsofAfter.length, lsofBefore.length);
+                  var unclosedFiles = [];
+                  lsofBefore = lsofBefore.map(function (file) { return file.name; });
+
+                  lsofAfter.forEach(function (file) {
+                    if (lsofBefore.indexOf(file.name) == -1) {
+                      unclosedFiles.push(file.name);
+                    }
+                  });
+
+                  // add a trace to help to understand which file descriptor is still open
+                  console.error(JSON.stringify(unclosedFiles, null, 2));
+
+                  callback(false);
+                  return;
+                } else {
+                  setTimeout(function() {
+                    test(tries, callback);
+                  }, 200);
+                }
+              });
+            };
+
+            test(0, function (fail) {
+              should.not.exist(fail, 'some file descriptors were not closed correctly');
               done();
             });
           });
