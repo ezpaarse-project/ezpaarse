@@ -57,6 +57,7 @@ sudo -E dpkg -i ezpaarse-X.X.X.deb
 sudo /etc/init.d/ezpaarse start
 ```
 
+
 ## Test the installation ##
 
 This step allows you to validate that your install is working.
