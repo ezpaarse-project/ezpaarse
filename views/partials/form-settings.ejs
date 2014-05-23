@@ -26,7 +26,7 @@
       <div class="three fields">
         <div class="select field">
           <label translate>settings+log_type</label>
-          <select ng-hide="showHelp" ng-model="ss.settings.proxyType" ng-options="proxy for proxy in ss.selections.proxyTypes">
+          <select ng-model="ss.settings.proxyType" ng-options="proxy for proxy in ss.selections.proxyTypes">
             <option value="" translate>settings+auto_recognition</option>
           </select>
           <div ng-show="showHelp" class="ui inverted teal bottom attached segment" translate>settings+log_type_help</div>
@@ -34,20 +34,20 @@
 
         <div class="field">
           <label translate>settings+date_format</label>
-          <input ng-hide="showHelp" placeholder="DD/MMM/YYYY:HH:mm:ss Z" type="text" ng-model="ss.settings.headers['Date-Format']">
+          <input placeholder="DD/MMM/YYYY:HH:mm:ss Z" type="text" ng-model="ss.settings.headers['Date-Format']">
           <div ng-show="showHelp" class="ui inverted teal bottom attached segment" translate>settings+date_format_help</div>
         </div>
 
         <div class="field">
           <label translate>settings+relative_domain</label>
-          <input ng-hide="showHelp" placeholder="www.domain.com" type="text" ng-model="ss.settings.headers['Relative-Domain']">
+          <input placeholder="www.domain.com" type="text" ng-model="ss.settings.headers['Relative-Domain']">
           <div ng-show="showHelp" class="ui inverted teal bottom attached segment" translate>settings+relative_domain_help</div>
         </div>
       </div>
 
-      <div class="field" ng-show="ss.settings.proxyType || showHelp">
+      <div class="field" ng-show="ss.settings.proxyType">
         <label translate>settings+log_format</label>
-        <textarea ng-hide="showHelp" placeholder="%h %t %r %s" type="text" ng-model="ss.settings.logFormat"></textarea>
+        <textarea placeholder="%h %t %r %s" type="text" ng-model="ss.settings.logFormat"></textarea>
         <div ng-show="showHelp" class="ui inverted teal bottom attached segment" translate translate-values="{ docURL: '/doc/formats.html' }" translate>settings+log_format_help</div>
       </div>
 
@@ -55,19 +55,19 @@
       <div class="three fields">
         <div class="field">
           <label translate>settings+result_format</label>
-          <select ng-hide="showHelp" ng-model="ss.settings.headers['Accept']" ng-options="f.mime as f.type for f in ss.selections.resultFormats"></select>
+          <select ng-model="ss.settings.headers['Accept']" ng-options="f.mime as f.type for f in ss.selections.resultFormats"></select>
           <div ng-show="showHelp" class="ui inverted red bottom attached segment" translate>settings+result_format_help</div>
         </div>
 
         <div class="field">
           <label translate>settings+system_traces</label>
-          <select ng-hide="showHelp" ng-model="ss.settings.headers['Traces-Level']" ng-options="t.level as t.desc for t in ss.selections.tracesLevels"></select>
+          <select ng-model="ss.settings.headers['Traces-Level']" ng-options="t.level as t.desc for t in ss.selections.tracesLevels"></select>
           <div ng-show="showHelp" class="ui inverted red bottom attached segment" translate>settings+system_traces_help</div>
         </div>
 
         <div class="field">
           <label translate>settings+output_fields</label>
-          <div class="two fields" ng-hide="showHelp">
+          <div class="two fields">
             <div class="field">
               <form ng-submit="addOutputField('plus')">
                 <div class="ui icon input">
@@ -87,7 +87,7 @@
             </div>
           </div>
 
-          <div class="inline-labels field" ng-hide="showHelp">
+          <div class="inline-labels field">
             <div class="ui purple normalized label" ng-repeat="field in ss.settings.outputFields.minus track by $index">
               - {{ field }}
               <i class="delete icon" ng-click="removeOutputField(field, 'minus')"></i>
@@ -99,12 +99,13 @@
             </div>
           </div>
 
-          <div ng-show="showHelp" class="ui inverted red bottom attached segment" translate>settings+output_fields_help</div>
+          <div ng-show="showHelp" class="ui inverted red segment" translate>settings+output_fields_help</div>
         </div>
       </div>
 
       <div class="ui purple dividing header" translate>settings+headers</div>
-      <div class="ui small form" ng-hide="showHelp">
+      <div ng-show="showHelp" class="ui inverted purple segment" translate>settings+headers_help</div>
+      <div class="ui small form">
         <div class="field">
           <div ng-click="ss.addCustomHeader()" class="ui small icon button"><i class="plus icon"></i> {{ 'settings+new' | translate }}</div>
         </div>
@@ -121,7 +122,6 @@
           </div>
         </div>
       </div>
-      <div ng-show="showHelp" class="ui inverted purple bottom attached segment" translate>settings+headers_help</div>
     </div>
 
     <div class="ui right aligned basic segment">
