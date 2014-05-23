@@ -117,6 +117,7 @@ ezLanguages['fr'] = {
   // Feedback
   "feedback+title":             "Feedback",
   "feedback+subtitle":          "Votre avis nous intéresse !",
+  "feedback+recipients":        "Votre feedback sera envoyé à <strong>{{ recipients }}</strong>. Une copie vous sera transmise à l'adresse indiquée ci-dessous.",
   "feedback+address":           "Votre adresse",
   "feedback+email":             "E-Mail",
   "feedback+comment":           "Votre commentaire",

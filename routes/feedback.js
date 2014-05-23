@@ -61,6 +61,7 @@ module.exports = function (app) {
     var mailOptions = {
       from: config.EZPAARSE_ADMIN_MAIL,
       to: config.EZPAARSE_FEEDBACK_RECIPIENTS,
+      cc: feedback.mail,
       subject: subject,
       text: text,
       attachments: []
