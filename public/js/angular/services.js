@@ -269,8 +269,7 @@ angular.module('ezPAARSE.services', [])
         tracesLevels: [
           { level: 'error',   desc: 'Erreurs uniquement' },
           { level: 'warn',    desc: 'Warnings sans conséquences' },
-          { level: 'info',    desc: 'Informations générales' },
-          { level: 'verbose', desc: '-- vraiment nécessaire? --' }
+          { level: 'info',    desc: 'Informations générales' }
         ]
       };
 
