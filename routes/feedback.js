@@ -61,6 +61,7 @@ module.exports = function (app) {
     var mailOptions = {
       from: config.EZPAARSE_ADMIN_MAIL,
       to: config.EZPAARSE_FEEDBACK_RECIPIENTS,
+      cc: feedback.mail,
       subject: subject,
       text: text,
       attachments: []
@@ -145,14 +146,18 @@ module.exports = function (app) {
       var host = config.EZPAARSE_SMTP_SERVER.host;
 
       portscanner.checkPortStatus(port, host, function (err, status) {
-        res.send((!err && status == 'open') ? 200 : 501);
+        if (err || status != 'open') {
+          res.send(501);
+        } else {
+          res.send(200, config.EZPAARSE_FEEDBACK_RECIPIENTS);
+        }
       });
     } else if (config.EZPAARSE_PARENT_URL) {
-      request.get(config.EZPAARSE_PARENT_URL + '/feedback/status', function (err, response) {
+      request.get(config.EZPAARSE_PARENT_URL + '/feedback/status', function (err, response, body) {
         if (err || !response || response.statusCode != 200) {
           res.send(501);
         } else {
-          res.send(200);
+          res.send(200, body);
         }
       });
     } else {

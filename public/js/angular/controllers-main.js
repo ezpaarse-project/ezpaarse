@@ -55,9 +55,10 @@ angular.module('ezPAARSE.main-controllers', [])
 
     $scope.feedbackLoading = true;
     $http.get('/feedback/status')
-      .success(function () {
-        $scope.feedbackLoading   = false;
-        $scope.feedbackAvailable = true;
+      .success(function (data) {
+        $scope.feedbackLoading    = false;
+        $scope.feedbackAvailable  = true;
+        $scope.feedbackRecipients = data;
       })
       .error(function ()   {
         $scope.feedbackLoading   = false;

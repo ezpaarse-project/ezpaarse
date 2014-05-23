@@ -17,6 +17,7 @@
       </div>
     </div>
 
+    <p translate translate-values="{ recipients: feedbackRecipients }">feedback+recipients</p>
     <form name="feedbackForm" ng-submit="sendFeedback(feedbackForm.$valid)" class="ui form" novalidate>
       <div class="field" ng-class="{'error': feedbackForm.email.$invalid && !feedbackForm.email.$pristine, 'disabled': fb.mail}">
         <label translate>feedback+address</label>
