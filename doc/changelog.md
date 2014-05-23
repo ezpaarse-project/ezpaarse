@@ -1,5 +1,10 @@
 # Versions ezPAARSE #
 
+## 1.7.0  ## 
+##### 13/03/2014 - Validation de l'interface Web #####
+- Validation de l'interface Web
+- Refactoring platform-plugin
+
 ## 1.6.0  ## 
 ##### 13/03/2014 - Refonte de l'interface Web #####
 - Refonte de l'interface Web avec AngularJS
