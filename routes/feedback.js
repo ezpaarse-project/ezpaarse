@@ -145,16 +145,14 @@ module.exports = function (app) {
       var host = config.EZPAARSE_SMTP_SERVER.host;
 
       portscanner.checkPortStatus(port, host, function (err, status) {
-        res.send((!err && status == 'open') ? 200 : 501);
-      });
-    } else if (config.EZPAARSE_PARENT_URL) {
-      request.get(config.EZPAARSE_PARENT_URL + '/feedback/status', function (err, response) {
-        if (err || !response || response.statusCode != 200) {
+        if (err || status != 'open') {
           res.send(501);
         } else {
-          res.send(200);
+          res.send(200, config.EZPAARSE_FEEDBACK_RECIPIENTS);
         }
       });
+    } else if (config.EZPAARSE_PARENT_URL) {
+      request.get(config.EZPAARSE_PARENT_URL + '/feedback/status').pipe(res);
     } else {
       res.send(501);
     }
