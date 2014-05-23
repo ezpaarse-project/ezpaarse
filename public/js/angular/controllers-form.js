@@ -11,7 +11,7 @@ angular.module('ezPAARSE.form-controllers', [])
     $scope.files     = [];
     $scope.totalSize = 0;
     $scope.showHelp  = false;
-    $scope.inputType = 'files';
+    $scope.inputType = $location.search().tab || 'files';
     $scope.ss        = settingService;
     $scope.inputs    = inputService;
 
@@ -20,8 +20,11 @@ angular.module('ezPAARSE.form-controllers', [])
       settingService.control();
     }, true);
 
-    $scope.selectTab  = function (type) { $scope.inputType = type; };
     $scope.toggleHelp = function ()     { $scope.showHelp  = !$scope.showHelp; };
+    $scope.selectTab  = function (type) {
+      $scope.inputType = type;
+      $location.search('tab', type);
+    };
 
     $scope.addOutputField = function (type) {
       var input = (type == 'plus') ? 'plusField' : 'minusField';
