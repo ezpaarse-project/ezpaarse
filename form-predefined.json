@@ -105,5 +105,9 @@
   "France - ULCO Université Littoral Cote d'Opale": {
     "Log-Type": "EZproxy",
     "Log-Format": "%h \"%{config}<[^\"]*>\" %u %t %b %U"
+  },
+  "France - Université Lille 2": {
+    "Log-Type": "EZproxy",
+    "Log-Format": "%h %u %{session}<[a-zA-Z0-9\\-]+> %t \"%r\" %s %b"
   }
 }
