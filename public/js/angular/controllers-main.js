@@ -75,6 +75,7 @@ angular.module('ezPAARSE.main-controllers', [])
     $scope.fb = {
       mail: userService.user ? userService.user.name : undefined
     };
+    $scope.sendBrowser = true;
     $scope.request     = requestService.data;
     $scope.jobsHistory = requestService.history;
 
