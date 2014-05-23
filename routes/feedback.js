@@ -152,7 +152,13 @@ module.exports = function (app) {
         }
       });
     } else if (config.EZPAARSE_PARENT_URL) {
-      request.get(config.EZPAARSE_PARENT_URL + '/feedback/status').pipe(res);
+      request.get(config.EZPAARSE_PARENT_URL + '/feedback/status', function (err, response, body) {
+        if (err || !response || response.statusCode != 200) {
+          res.send(501);
+        } else {
+          res.send(200, body);
+        }
+      });
     } else {
       res.send(501);
     }
