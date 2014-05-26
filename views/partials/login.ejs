@@ -1,4 +1,4 @@
- <div id="container">
+ <div id="container" ng-controller="LoginPageCtrl">
     <div class="ui center aligned segment">
       <div class="top-right">
         <select id="language-selector" ng-model="currentLanguage" ng-change="useLanguage(currentLanguage)">
@@ -9,7 +9,7 @@
 
       <p><img src="/assets/img/logo.png"/></p>
 
-      <div ng-switch="noUsers" ng-controller="ConnectButtonsCtrl">
+      <div ng-switch="noUsers">
         <div ng-switch-when="undefined">
           <i class="loading icon"></i> {{ 'login+checking_users' | translate }}
         </div>
@@ -27,7 +27,7 @@
               {{ 'login+set_admin_account' | translate }}
             </div>
           </div>
-          <div ez-toggle-modal="#register-modal" class="ui button">Enregistrez-vous</div>
+          <div ez-toggle-modal="#register-modal" class="ui button" translate>login+signup</div>
         </div>
       </div>
       <p translate>login+register_quick_and_easy</p>

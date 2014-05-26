@@ -40,6 +40,17 @@
         </div>
       </div>
 
+      <div class="field" ng-if="noUsers && feedbackAvailable">
+        <div class="ui justified message segment">
+          <p>Vous venez d'installer ezPAARSE et vous vous apprétez à créer le compte administrateur. Avec votre accord, nous souhaiterions être informés de cette installation. L'adresse e-mail entrée ci-dessus et la version d'ezPAARSE installée seront envoyées à <strong>{{ feedbackRecipients }}</strong>.</p>
+
+          <div class="ui checkbox">
+            <input type="checkbox" id="inform-team" ng-model="formData.informTeam">
+            <label for="inform-team">Informer l'équipe</label>
+          </div>
+        </div>
+      </div>
+
       <div class="ui two fluid buttons" mp-semantic>
         <button type="submit" class="ui green button" ng-disabled="registerForm.$invalid" ng-class="{false: 'disabled'}[registerForm.$valid]" translate>login+signup</button>
         <div class="or" data-text="ou"></div>

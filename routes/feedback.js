@@ -122,9 +122,13 @@ module.exports = function (app) {
         uri: config.EZPAARSE_PARENT_URL + '/feedback',
         method: 'POST',
         json: req.body
-      }).on('error', function () {
-        res.send(500);
-      }).pipe(res);
+      }, function (err, response, body) {
+        if (err || !response || response.statusCode != 200) {
+          res.send(501);
+        } else {
+          res.send(200, body);
+        }
+      });
     } else {
       res.send(500);
     }
@@ -135,6 +139,56 @@ module.exports = function (app) {
    * To submit a feedback
    */
   app.post('/feedback', express.bodyParser(), canSendMail ? sendFeedback : forwardFeedback);
+
+  /**
+   * POST route on /feedback/freshinstall
+   * To inform the team about a fresh installation
+   */
+  app.post('/feedback/freshinstall', express.bodyParser(), function (req, res) {
+    if (!canSendMail) {
+      if (!config.EZPAARSE_PARENT_URL) {
+        res.send(500);
+      } else {
+        request({
+          uri: config.EZPAARSE_PARENT_URL + '/feedback/freshinstall',
+          method: 'POST',
+          json: req.body
+        }, function (err, response, body) {
+          if (err || !response || response.statusCode != 200) {
+            res.send(501);
+          } else {
+            res.send(200, body);
+          }
+        });
+      }
+      return;
+    }
+
+    res.header('Content-Type', 'application/json; charset=utf-8');
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'X-Requested-With');
+
+    if (!req.body.mail) {
+      res.send(400);
+      return;
+    }
+
+    var text = "Une nouvelle instance d'ezPAARSE vient d'être installée.\n";
+    text    += "Premier compte : " + req.body.mail;
+    text    += "Version installée : " + req.body.ezversion || 'inconnue';
+
+    var mailOptions = {
+      from: config.EZPAARSE_ADMIN_MAIL,
+      to: config.EZPAARSE_FEEDBACK_RECIPIENTS,
+      subject: '[ezPAARSE] Nouvelle installation',
+      text: text
+    };
+
+    smtpTransport.sendMail(mailOptions, function (error, response) {
+      if (error) { res.send(500); }
+      else       { res.send(200); }
+    });
+  });
 
   /**
    * GET route on /feedback/status
