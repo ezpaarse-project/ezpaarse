@@ -32,6 +32,8 @@ ezLanguages['en'] = {
   "login+rememberme":              "Remember me",
   "login+cancel":                  "Cancel",
   "login+submitting":              "Submitting...",
+  "login+inform_team_warning":     "You just installed ezPAARSE and you're going to create the administrator account. With your agreement, we would like to be informed about this installation. The e-mail address filled above and the version of ezPAARSE you installed will be sent to <strong>{{ recipients }}</strong>.",
+  "login+inform_team":             "Inform the team",
 
   // Slides on the login page
   "slider+raw_material":      "The raw material: your logs",

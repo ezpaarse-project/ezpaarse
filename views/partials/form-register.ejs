@@ -42,11 +42,11 @@
 
       <div class="field" ng-if="noUsers && feedbackAvailable">
         <div class="ui justified message segment">
-          <p>Vous venez d'installer ezPAARSE et vous vous apprétez à créer le compte administrateur. Avec votre accord, nous souhaiterions être informés de cette installation. L'adresse e-mail entrée ci-dessus et la version d'ezPAARSE installée seront envoyées à <strong>{{ feedbackRecipients }}</strong>.</p>
+          <p translate translate-values="{ recipients: feedbackRecipients }">login+inform_team_warning</p>
 
           <div class="ui checkbox">
             <input type="checkbox" id="inform-team" ng-model="formData.informTeam">
-            <label for="inform-team">Informer l'équipe</label>
+            <label for="inform-team" translate>login+inform_team</label>
           </div>
         </div>
       </div>
