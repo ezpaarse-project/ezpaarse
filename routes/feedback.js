@@ -173,9 +173,9 @@ module.exports = function (app) {
       return;
     }
 
-    var text = "Une nouvelle instance d'ezPAARSE vient d'être installée.\n";
-    text    += "Premier compte : " + req.body.mail;
-    text    += "Version installée : " + req.body.ezversion || 'inconnue';
+    var text = "Une nouvelle instance d'ezPAARSE vient d'être installée.";
+    text    += "\n\nPremier compte : " + req.body.mail;
+    text    += "\nVersion installée : " + req.body.ezversion || 'inconnue';
 
     var mailOptions = {
       from: config.EZPAARSE_ADMIN_MAIL,
