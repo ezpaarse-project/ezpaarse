@@ -103,16 +103,16 @@ angular.module('ezPAARSE.main-controllers', [])
       });
     }
   })
-  .controller('ConnectButtonsCtrl', function ($scope, $http) {
-    $scope.checkingUsers = true;
+  .controller('LoginPageCtrl', function ($scope, $http, $rootScope) {
+    $rootScope.noUsers = undefined;
 
     $http.get('/usersnumber')
     .success(function (data) {
       var number = parseInt(data);
-      $scope.noUsers = isNaN(number) || number === 0;
+      $rootScope.noUsers = isNaN(number) || number === 0;
     })
     .error(function () {
-      $scope.noUsers = false;
+      $rootScope.noUsers = false;
     });
   })
   .controller('LoginCtrl', function ($scope, $state, $http, userService, $element) {
@@ -121,6 +121,7 @@ angular.module('ezPAARSE.main-controllers', [])
 
     $element.find('form').on('reset', function () {
       $scope.$apply(function () {
+        $scope.loginForm.$setPristine(true);
         $scope.error = null;
       });
     });
@@ -131,8 +132,12 @@ angular.module('ezPAARSE.main-controllers', [])
 
       $http.post('/login', $scope.credentials)
       .success(function (user) {
-        $scope.loading = false;
         userService.login(user.username, user.group);
+
+        $scope.loginForm.$setPristine(true);
+        $scope.loading     = false;
+        $scope.credentials = {};
+        $scope.error       = null;
 
         $element.modal('hide', function () {
           $state.transitionTo('form');
@@ -147,11 +152,12 @@ angular.module('ezPAARSE.main-controllers', [])
     };
   })
   .controller('RegisterCtrl', function ($scope, $state, $http, userService, $element) {
-    $scope.formData = {};
+    $scope.formData = { informTeam: true };
     $scope.error    = null;
 
     $element.find('form').on('reset', function () {
       $scope.$apply(function () {
+        $scope.registerForm.$setPristine(true);
         $scope.error = null;
       });
     });
@@ -163,7 +169,18 @@ angular.module('ezPAARSE.main-controllers', [])
       $http.post('/users/', $scope.formData)
       .success(function (user) {
         userService.login(user.username, user.group);
-        $scope.loading = false;
+
+        if ($scope.formData.informTeam && $scope.noUsers === true) {
+          $http.post('/feedback/freshinstall', {
+            mail: user.username,
+            ezversion: $scope.ezVersion
+          });
+        }
+
+        $scope.registerForm.$setPristine(true);
+        $scope.loading  = false;
+        $scope.formData = {};
+        $scope.error    = null;
 
         $element.modal('hide');
         $state.transitionTo('form');
