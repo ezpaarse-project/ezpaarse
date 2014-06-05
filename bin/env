@@ -1,7 +1,23 @@
 #!/bin/bash -e
 #
-# setup ezpaarse env variables 
+# setup ezpaarse env variables
 #
 
 EZPAARSE_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
-export PATH="$EZPAARSE_PATH/build/nvm/bin/latest/:$EZPAARSE_PATH/node_modules/.bin:$EZPAARSE_PATH/bin:$PATH:/usr/local/bin:/usr/bin:/bin"
+
+# list of paths to check in $PATH
+declare -a EZ_PATHS=(
+  "/usr/local/bin"
+  "/usr/bin"
+  "/bin"
+  "$EZPAARSE_PATH/bin"
+  "$EZPAARSE_PATH/node_modules/.bin"
+  "$EZPAARSE_PATH/build/nvm/bin/latest/"
+)
+
+for i in "${EZ_PATHS[@]}"
+do
+  if ! [[ $PATH =~ (^|:)"$i"($|:) ]];then
+    export PATH="$i:$PATH"
+  fi
+done
