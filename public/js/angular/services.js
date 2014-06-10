@@ -495,11 +495,15 @@ angular.module('ezPAARSE.services', [])
      * Save or reset settings depending to remember boolean
      */
     settingService.prototype.saveSettings = function () {
-      if (this.remember) {
-        if (this.settings)     { $cookieStore.put('settings', this.settings); }
-        if (this.settingsType) { $cookieStore.put('settingsType', this.settingsType); }
+      if (this.remember && this.settings) {
+        $cookieStore.put('settings', this.settings);
       } else {
         $cookieStore.remove('settings');
+      }
+
+      if (this.remember && this.settingsType) {
+        $cookieStore.put('settingsType', this.settingsType);
+      } else {
         $cookieStore.remove('settingsType');
       }
     };
