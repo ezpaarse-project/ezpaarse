@@ -109,5 +109,9 @@
   "France - Université Lille 2": {
     "Log-Type": "EZproxy",
     "Log-Format": "%h %u %{session}<[a-zA-Z0-9\\-]+> %t \"%r\" %s %b"
+  },
+  "Australia - University of Sydney": {
+    "Log-Type": "EZproxy",
+    "Log-Format": "%h %l %u %{ezproxy-session}<.+?> %{ezproxy-spuaccess}<.+?> %t \"%r\" %s %b \"%{x-forwarded-for}<.+?>\""
   }
 }
