@@ -3,28 +3,14 @@
 var fs          = require('graceful-fs');
 var path        = require('path');
 var express     = require('express');
-var nodemailer  = require('nodemailer');
-var portscanner = require('portscanner');
 var request     = require('request');
+var mailer      = require('../lib/mailer.js');
 var config      = require('../lib/config.js');
 
 module.exports = function (app) {
 
   if (config.EZPAARSE_HTTP_PROXY) {
     request.defaults({ proxy: config.EZPAARSE_HTTP_PROXY });
-  }
-
-  var canSendMail = config.EZPAARSE_ADMIN_MAIL &&
-                    config.EZPAARSE_FEEDBACK_RECIPIENTS &&
-                    config.EZPAARSE_SMTP_SERVER &&
-                    config.EZPAARSE_SMTP_SERVER.port &&
-                    config.EZPAARSE_SMTP_SERVER.host;
-  var smtpTransport;
-  if (canSendMail) {
-    smtpTransport = nodemailer.createTransport('SMTP', {
-      host: config.EZPAARSE_SMTP_SERVER.host,
-      port: config.EZPAARSE_SMTP_SERVER.port
-    });
   }
 
   /**
@@ -43,35 +29,30 @@ module.exports = function (app) {
       return;
     }
 
-    var mail;
+    var usermail;
     if (req.user) {
-      mail = req.user.username;
+      usermail = req.user.username;
     } else if (feedback.mail) {
-      mail = feedback.mail;
+      usermail = feedback.mail;
     }
 
     var subject = '[ezPAARSE] Feedback ';
-    subject += mail ? 'de ' + mail : 'anonyme';
-    var text = "Utilisateur : " + (mail ? mail : "anonyme");
+    subject += usermail ? 'de ' + usermail : 'anonyme';
+    var text = "Utilisateur : " + (usermail ? usermail : "anonyme");
 
     if (feedback.browser) { text += '\nNavigateur : ' + feedback.browser; }
     text += "\n===============================\n\n";
     text += feedback.comment;
 
-    var mailOptions = {
-      from: config.EZPAARSE_ADMIN_MAIL,
-      to: config.EZPAARSE_FEEDBACK_RECIPIENTS,
-      cc: feedback.mail,
-      subject: subject,
-      text: text,
-      attachments: []
-    };
+    var mail = mailer.mail();
+    mail.subject(subject)
+        .message(text)
+        .from(config.EZPAARSE_ADMIN_MAIL)
+        .to(config.EZPAARSE_FEEDBACK_RECIPIENTS)
+        .cc(feedback.mail);
 
     if (feedback.report) {
-      mailOptions.attachments.push({
-        fileName: "report.json",
-        contents: feedback.report
-      });
+      mail.attach("report.json", feedback.report);
     } else if (req.body.jobID) {
       var jobID      = req.body.jobID;
       var reportFile = path.join(__dirname, '/../tmp/jobs/',
@@ -79,16 +60,13 @@ module.exports = function (app) {
         jobID.charAt(1),
         jobID,
         'report.json');
+
       if (fs.existsSync(reportFile)) {
-        mailOptions.attachments.push({
-          fileName: "report.json",
-          contents: fs.readFileSync(reportFile)
-        });
+        mail.attach("report.json", fs.readFileSync(reportFile));
       }
     }
 
-    // send mail with defined transport object
-    smtpTransport.sendMail(mailOptions, function (error, response) {
+    mail.send(function (error, response) {
       if (error) {
         res.send(500);
       } else {
@@ -138,14 +116,45 @@ module.exports = function (app) {
    * POST route on /feedback
    * To submit a feedback
    */
-  app.post('/feedback', express.bodyParser(), canSendMail ? sendFeedback : forwardFeedback);
+  app.post('/feedback', express.bodyParser(), function (req, res) {
+    if (mailer.canSendMail && config.EZPAARSE_ADMIN_MAIL && config.EZPAARSE_FEEDBACK_RECIPIENTS) {
+      sendFeedback(req, res);
+    } else {
+      forwardFeedback(req, res);
+    }
+  });
 
   /**
    * POST route on /feedback/freshinstall
    * To inform the team about a fresh installation
    */
   app.post('/feedback/freshinstall', express.bodyParser(), function (req, res) {
-    if (!canSendMail) {
+    if (mailer.canSendMail && config.EZPAARSE_FEEDBACK_RECIPIENTS && config.EZPAARSE_ADMIN_MAIL) {
+      // If mail can be sent
+      res.header('Content-Type', 'application/json; charset=utf-8');
+      res.header('Access-Control-Allow-Origin', '*');
+      res.header('Access-Control-Allow-Headers', 'X-Requested-With');
+
+      if (!req.body.mail) {
+        res.send(400);
+        return;
+      }
+
+      var text = "Une nouvelle instance d'ezPAARSE vient d'être installée.";
+      text    += "\n\nPremier compte : " + req.body.mail;
+      text    += "\nVersion installée : " + req.body.ezversion || 'inconnue';
+
+      mailer.mail()
+      .subject('[ezPAARSE] Nouvelle installation')
+      .message(text)
+      .from(config.EZPAARSE_ADMIN_MAIL)
+      .to(config.EZPAARSE_FEEDBACK_RECIPIENTS)
+      .send(function (error, response) {
+        if (error) { res.send(500); }
+        else       { res.send(200); }
+      });
+    } else {
+      // If mail can not be sent
       if (!config.EZPAARSE_PARENT_URL) {
         res.send(500);
       } else {
@@ -161,33 +170,8 @@ module.exports = function (app) {
           }
         });
       }
-      return;
     }
 
-    res.header('Content-Type', 'application/json; charset=utf-8');
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'X-Requested-With');
-
-    if (!req.body.mail) {
-      res.send(400);
-      return;
-    }
-
-    var text = "Une nouvelle instance d'ezPAARSE vient d'être installée.";
-    text    += "\n\nPremier compte : " + req.body.mail;
-    text    += "\nVersion installée : " + req.body.ezversion || 'inconnue';
-
-    var mailOptions = {
-      from: config.EZPAARSE_ADMIN_MAIL,
-      to: config.EZPAARSE_FEEDBACK_RECIPIENTS,
-      subject: '[ezPAARSE] Nouvelle installation',
-      text: text
-    };
-
-    smtpTransport.sendMail(mailOptions, function (error, response) {
-      if (error) { res.send(500); }
-      else       { res.send(200); }
-    });
   });
 
   /**
@@ -195,15 +179,13 @@ module.exports = function (app) {
    * To know if sending a feedback is possible
    */
   app.get('/feedback/status', function (req, res) {
-    if (canSendMail) {
-      var port = config.EZPAARSE_SMTP_SERVER.port;
-      var host = config.EZPAARSE_SMTP_SERVER.host;
+    if (mailer.canSendMail && config.EZPAARSE_FEEDBACK_RECIPIENTS) {
 
-      portscanner.checkPortStatus(port, host, function (err, status) {
-        if (err || status != 'open') {
-          res.send(501);
-        } else {
+      mailer.checkServer(function (online) {
+        if (online) {
           res.send(200, config.EZPAARSE_FEEDBACK_RECIPIENTS);
+        } else {
+          res.send(501);
         }
       });
     } else if (config.EZPAARSE_PARENT_URL) {
