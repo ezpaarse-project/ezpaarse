@@ -22,7 +22,7 @@ curl -X POST http://localhost:59599 \
  -H "COUNTER-Format:csv" \
  -F "files[]=@fede.bibliovie.ezproxy.2014.06.10.log.gz;type=application/x-gzip"```
 
-En mode commande avec cURL, le rapport généré peut être téléchargé à l'adresse renvoyée dans le header **Job-Report-jr1**  comme ci-dessous :
+En mode commande avec cURL, le rapport généré peut être téléchargé à l'adresse renvoyée dans le header **Job-Report-jr1** (comme ci-dessous) ou dans la section statistiques du rapport de traitement avec le contenu du champ **url-counter-jr1** (voir plus bas) :
 
 <img src="images/ezPAARSE-SR18-04.jpg" alt="Commande cURL pour JR1" style="width: 600px"/>
 
@@ -32,7 +32,7 @@ La génération de rapports COUNTER peut être demandée via l'onglet **Paramèt
 
 <img src="images/ezPAARSE-SR18-01.jpg" alt="COUNTER via formulaire" style="width: 600px"/>
 
-A la fin du traitement le(s) rapport(s) COUNTER peut être téléchargé via le(s) lien(s) présent dans le rapport du traitement à la section **statistiques**
+A la fin du traitement le(s) rapport(s) COUNTER peut être téléchargé via le(s) lien(s) présent dans le rapport du traitement à la section **statistiques** dans le champ **url-counter-jr1**
 
 <img src="images/ezPAARSE-SR18-02.jpg" alt="COUNTER via formulaire" style="width: 600px"/>
 
