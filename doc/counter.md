@@ -24,21 +24,21 @@ curl -X POST http://localhost:59599 \
 
 En mode commande avec cURL, le rapport généré peut être téléchargé à l'adresse renvoyée dans le header **Job-Report-jr1** (comme ci-dessous) ou dans la section statistiques du rapport de traitement avec le contenu du champ **url-counter-jr1** (voir plus bas) :
 
-<img src="images/ezPAARSE-SR18-04.jpg" alt="Commande cURL pour JR1" style="width: 600px"/>
+<img src="images/ezPAARSE-SR18-04.jpg" alt="Commande cURL pour JR1" style="width: 750px"/>
 
 #### Usage via le formulaire ####
 
 La génération de rapports COUNTER peut être demandée via l'onglet **Paramètres** du formulaire de traitement de log, en complètant la section **Headers (avancé)** et en ajoutant les headers relatifs à COUNTER comme ci-dessous :
 
-<img src="images/ezPAARSE-SR18-01.jpg" alt="COUNTER via formulaire" style="width: 600px"/>
+<img src="images/ezPAARSE-SR18-01.jpg" alt="COUNTER via formulaire" style="width: 750px"/>
 
 A la fin du traitement le(s) rapport(s) COUNTER peut être téléchargé via le(s) lien(s) présent dans le rapport du traitement à la section **statistiques** dans le champ **url-counter-jr1**
 
-<img src="images/ezPAARSE-SR18-02.jpg" alt="COUNTER via formulaire" style="width: 600px"/>
+<img src="images/ezPAARSE-SR18-02.jpg" alt="COUNTER via formulaire" style="width: 750px"/>
 
 #### Rapport COUNTER ####
 
 Selon le format de sortie demandée, le(s) rapport(s) COUNTER peut être chargé dans un tableur. Ci-dessous, un fichier CSV importé dans excel.
 
-<img src="images/ezPAARSE-SR18-03.jpg" alt="COUNTER via formulaire" style="width: 600px"/>
+<img src="images/ezPAARSE-SR18-03.jpg" alt="COUNTER via formulaire" style="width: 750px"/>
 
