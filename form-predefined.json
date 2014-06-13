@@ -113,5 +113,9 @@
   "Australia - University of Sydney": {
     "Log-Type": "EZproxy",
     "Log-Format": "%h %l %u %{ezproxy-session}<.+?> %{ezproxy-spuaccess}<.+?> %t \"%r\" %s %b \"%{x-forwarded-for}<.+?>\""
+  },
+  "Australia - Melbourne - RMIT University": {
+    "Log-Type": "EZproxy",
+    "Log-Format": "%h %l %u %t \"%r\" %s %b %{referer}<.*?>"
   }
 }
