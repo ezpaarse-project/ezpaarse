@@ -1,8 +1,7 @@
-/*global describe, it*/
+/* jshint maxlen: 260 */
+/* global describe, it */
 'use strict';
 
-var should   = require('should');
-var path     = require('path');
 var helper   = require('./helpers.js');
 var StreamPT = require('stream').PassThrough;
 
@@ -19,7 +18,7 @@ describe('Alert', function () {
     var stream = new StreamPT();
     var i = 0;
     while (i < 1100) {
-      if (i % 8 == 0) { // write about 13% of www.unknowndomain.com 
+      if (i % 8 === 0) { // write about 13% of www.unknowndomain.com 
         stream.write(unknownDomainLog + "\n");
       } else {
         stream.write(knownDomainLog + "\n");
