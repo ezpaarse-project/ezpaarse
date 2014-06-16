@@ -9,6 +9,7 @@ var mkdirp        = require('mkdirp');
 var fs            = require('graceful-fs');
 var Reaper        = require('tmp-reaper');
 var auth          = require('./lib/auth-middlewares.js');
+var mailer        = require('./lib/mailer.js');
 var winston       = require('winston');
 require('./lib/winston-socketio.js');
 var passport      = require('passport');
@@ -179,6 +180,9 @@ app.all('*', function (req, res, next) {
   res.header("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS");
   next();
 });
+
+// Handles delegated mails
+app.post('/mail', express.bodyParser(), mailer.handle);
 
 // log related routes
 require('./routes/views')(app);
