@@ -170,7 +170,7 @@ angular.module('ezPAARSE.main-controllers', [])
       .success(function (user) {
         userService.login(user.username, user.group);
 
-        if ($scope.formData.informTeam && $scope.noUsers === true) {
+        if ($scope.feedbackAvailable && $scope.formData.informTeam && $scope.noUsers === true) {
           $http.post('/feedback/freshinstall', {
             mail: user.username,
             ezversion: $scope.ezVersion
