@@ -52,7 +52,8 @@
     "cheerio": "~0.15.0",
     "xml-mapping": "~1.5.2",
     "csv-string": "~2.1.1",
-    "xlsjs": "~0.6.16"
+    "xlsjs": "~0.6.16",
+    "email-templates": "~1.0.0"
   },
   "devDependencies": {
     "should": "*",

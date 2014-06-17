@@ -1,0 +1,28 @@
+<div id="content">
+  <div id="header">
+    ezPAARSE - Job <%= job.jobID %>
+  </div>
+
+  <h2>Your job is completed.</h2>
+  <p>You can get the report in this mail or <a href="<%= ezBaseURL + '/report/' + job.jobID %>">view it online</a>.</p>
+
+  <h3>Alerts :</h3>
+  <% if (job.alerts.length) { %>
+    <ul>
+    <% job.alerts.forEach(function (alert) { %>
+      <li><%= alert %></li>
+    <% }) %>
+    </ul>
+  <% } else { %>
+    <p>No alert generated.</p>
+  <% } %>
+
+  <h3>Reject files :</h3>
+  <ul>
+  <% job.rejects.forEach(function (reject) { %>
+    <% var rejectUrl = ezBaseURL + '/' + job.jobID + '/lines-' + reject + '.log'; %>
+    <% var nbLines   = job.report.get('rejets', 'nb-lines-' + reject) || 0; %>
+    <li><a href="<%= rejectUrl %>"><%= reject %></a> (<%= nbLines %>)</li>
+  <% }) %>
+  </ul>
+</div>
