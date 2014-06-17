@@ -47,7 +47,7 @@ module.exports = function (app) {
 
     var mail = mailer.mail();
     mail.subject(subject)
-        .message(text)
+        .text(text)
         .from(config.EZPAARSE_ADMIN_MAIL)
         .to(config.EZPAARSE_FEEDBACK_RECIPIENTS)
         .cc(feedback.mail);
@@ -101,7 +101,7 @@ module.exports = function (app) {
 
     mailer.mail()
     .subject('[ezPAARSE] Nouvelle installation')
-    .message(text)
+    .text(text)
     .from(config.EZPAARSE_ADMIN_MAIL)
     .to(config.EZPAARSE_FEEDBACK_RECIPIENTS)
     .send(function (error, response) {

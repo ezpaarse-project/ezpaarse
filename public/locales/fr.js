@@ -192,6 +192,7 @@ ezLanguages['fr'] = {
   "report+first_event":    "Première consultation",
   "report+system_traces":  "Traces système",
   "report+alerts":         "Alertes",
+  "report+notifications":  "Notifications",
   "report+loading":        "Chargement...",
   "report+goto":           "Aller à :",
   "report+report_fail":    "Le rapport n'a pas pu être être récupéré.",
