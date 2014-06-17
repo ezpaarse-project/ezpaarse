@@ -43,5 +43,9 @@
     "www.google.com"
   ],
   "EZPAARSE_GEOLOCALIZE_DEFAULT": "geoip-lookup",
-  "EZPAARSE_GEOLOCALIZE_SEPARATOR": "."
+  "EZPAARSE_GEOLOCALIZE_SEPARATOR": ".",
+  "EZPAARSE_ALERTS": {
+    "activationThreshold": 1000,
+    "unknownDomainsRate": 10
+  }
 }
