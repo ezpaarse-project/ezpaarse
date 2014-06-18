@@ -370,7 +370,16 @@ angular.module('ezPAARSE.services', [])
 
       if (settings.customHeaders && settings.customHeaders.length) {
         settings.customHeaders.forEach(function (header) {
-          if (header.name && header.value) { headers[header.name] = header.value; }
+          if (header.name && header.value) {
+            // Look case-insensitively for a header with the same name
+            for (var n in headers) {
+              if (n.toLowerCase() == header.name.toLowerCase()) {
+                headers[n] = header.value;
+                return;
+              }
+            }
+            headers[header.name] = header.value;
+          }
         });
       }
 
