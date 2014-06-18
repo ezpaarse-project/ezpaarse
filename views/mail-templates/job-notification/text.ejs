@@ -9,7 +9,7 @@ Alerts :
 <% })} else { %>
   No alert generated.
 <% } %>
-COUNTER Reports
+COUNTER Reports :
 <% if (job.counterReports.length) { job.counterReports.forEach(function (reportType) { %>
  - <%= reportType %>: <%= job.headers['Job-Report-' + reportType] %>
 <% })} else { %>
