@@ -95,6 +95,14 @@
         </div>
       </div>
 
+      <div class="three fields">
+        <div class="field">
+          <label translate>settings+notifications</label>
+          <input placeholder="{{ 'settings+notification_mails' | translate }}" type="text" ng-model="ss.settings.notificationMails">
+          <div ng-show="showHelp" class="ui inverted red bottom attached segment" translate>settings+notifications_help</div>
+        </div>
+      </div>
+
       <div class="ui purple dividing header" translate>settings+headers</div>
       <div ng-show="showHelp" class="ui inverted purple segment" translate>settings+headers_help</div>
       <div class="ui small form">

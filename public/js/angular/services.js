@@ -277,6 +277,7 @@ angular.module('ezPAARSE.services', [])
       this.defaults = {
         outputFields: { plus: [], minus: [] },
         customHeaders: [],
+        notificationMails: "",
         headers: {
           'Accept':          'text/csv',
           'Traces-Level':    'info',
@@ -322,6 +323,15 @@ angular.module('ezPAARSE.services', [])
 
       if (settings.proxyType && settings.logFormat) {
         headers['Log-Format-' + settings.proxyType] = settings.logFormat;
+      }
+
+      // Create notification header
+      if (settings.notificationMails) {
+        var notifications = '';
+        settings.notificationMails.split(',').forEach(function (mail) {
+          notifications += 'mail<' + mail.trim() + '>,';
+        });
+        headers['ezPAARSE-Job-Notifications'] = notifications.replace(/,$/, '');
       }
 
       // Create Output-Fields headers
