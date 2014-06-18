@@ -6,6 +6,8 @@ Les différentes sections disponibles sont documentées ici.
 -  [Général](#general) Contient toutes les informations générales liées au traitement
 -  [Rejets](#rejets) Répertories tous les rejets rencontrés, leur nombre et les liens vient les fichiers contenant les lignes écartées
 -  [Statistiques](#stats) Fourni les premiers chiffres 
+-  [Alertes](#alerts) Alertes générées
+-  [Notifications](#notifications) Concerne les notifications de fin de traitement
 -  [Dédoublonnage](#dedoublonnage) Algorithme utilisé pour le dédoublonnage
 -  [Fichiers](#files) Rappel du nom des fichiers de log utilisés pour le traitement
 -  [Première consultation](#first_event) Contenu du premier événement de consultation
@@ -293,6 +295,44 @@ Les différentes sections disponibles sont documentées ici.
     </tr><tr>
       <th class="four wide">rtype-TOC</th>
       <td>2536</td>
+    </tr>
+  </tbody></table>
+</div>
+<div>
+  <h3 id="alerts" class="ui purple dividing header">
+    Alertes
+  </h3>
+
+  <table class="ui basic compact table">
+    <tbody><tr>
+      <th class="four wide">active-alerts</th>
+      <td>unknown-domains
+        <div class="comment">Liste des alertes qui peuvent être levées</div>
+      </td>
+    </tr><tr>
+      <th class="four wide">alert-1</th>
+      <td>www.ncbi.nlm.nih.gov is unknown but represents 64% of the log lines
+        <div class="comment">Contenu d'une alerte</div>
+      </td>
+    </tr>
+  </tbody></table>
+</div>
+<div>
+  <h3 id="notifications" class="ui purple dividing header">
+    Notifications
+  </h3>
+
+  <table class="ui basic compact table">
+    <tbody><tr>
+      <th class="four wide">mailto</th>
+      <td>someone@somewhere.com
+        <div class="comment">Destinataires du mail de fin de traitement</div>
+      </td>
+    </tr><tr>
+      <th class="four wide">mail-status</th>
+      <td>success
+        <div class="comment">Réussite ou non de l'envoi du mail.</div>
+      </td>
     </tr>
   </tbody></table>
 </div>
