@@ -17,4 +17,4 @@ COUNTER Reports :
 <% } %>
 Reject files :
 <% job.rejects.forEach(function (reject) { %>
-  - <%= reject %> (<%= job.report.get('rejets', 'nb-lines-' + reject) || 0 %>) : <%= ezBaseURL + '/' + job.jobID + '/lines-' + reject + '.log' %><% }) %>
+  - <%= reject %> (<%= job.report.get('rejets', 'nb-lines-' + reject) || 0 %>) : <%= job.report.get('rejets', 'url-' + reject) %><% }) %>
