@@ -141,6 +141,7 @@ ezLanguages['fr'] = {
   // Process page
   "process+title":              "Traitement en cours",
   "process+description":        "Vos logs sont en cours d'analyse par ezPAARSE. Vous pouvez suivre en temps réel l'état d'avancement du traitement et l'évolution des différents types de rejets.",
+  "process+description_done":   "ezPAARSE a fini de traiter vos logs. Des macros <a href='https://github.com/ezpaarse-project/ezpaarse/raw/master/misc/windows/ezPAARSE-Render.xltm'>Excel</a> et <a href='https://github.com/ezpaarse-project/ezpaarse/raw/master/misc/windows/ezPAARSE-Render.ots'>LibreOffice</a> sont à votre disposition si vous souhaitez avoir un premier aperçu visuel des résultats.",
   "process+finalisation":       "Finalisation...",
   "process+done":               "Terminé",
   "process+error":              "Erreur",
