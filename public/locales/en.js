@@ -111,6 +111,7 @@ ezLanguages['en'] = {
   "settings+notifications":        "Notifications",
   "settings+notification_mails":   "Mail address(es)",
   "settings+notifications_help":   "List of comma-separated email addresses that will get a notification at the end of the process.",
+  "settings+counter_reports":      "COUNTER reports",
   "settings+new":                  "New",
   "settings+headers":              "Headers (advanced)",
   "settings+headers_help":         "Headers list to add to the request. If a header duplicates an option in the form, the option is overwritten.",

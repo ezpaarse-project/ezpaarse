@@ -275,6 +275,7 @@ angular.module('ezPAARSE.services', [])
 
       this.remember = true;
       this.defaults = {
+        counter: { jr1: false },
         outputFields: { plus: [], minus: [] },
         customHeaders: [],
         notificationMails: "",
@@ -323,6 +324,20 @@ angular.module('ezPAARSE.services', [])
 
       if (settings.proxyType && settings.logFormat) {
         headers['Log-Format-' + settings.proxyType] = settings.logFormat;
+      }
+
+      // Create COUNTER reports header
+      if (settings.counter) {
+        var reports = '';
+        for (var name in settings.counter) {
+          if (settings.counter[name]) {
+            reports += name + ',';
+          }
+        }
+        if (reports) {
+          headers['COUNTER-Reports'] = reports.replace(/,$/, '');
+          headers['COUNTER-Format']  = 'csv';
+        }
       }
 
       // Create notification header
