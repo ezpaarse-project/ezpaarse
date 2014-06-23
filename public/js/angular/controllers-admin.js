@@ -14,9 +14,9 @@ angular.module('ezPAARSE.admin-controllers', [])
       .success(function (users) { $scope.users = users; })
       .error(function () { $scope.getUsersError = true; });
 
-    $scope.updatePkb = function () {
+    $scope.updatePlatforms = function () {
       $scope.platformsStatus = 'refresh';
-      $http.put('/pkb/status', 'uptodate')
+      $http.put('/platforms/status', 'uptodate')
         .success(function () { $scope.platformsStatus = 'uptodate'; })
         .error(function ()   { $scope.platformsStatus = 'error'; });
     };
