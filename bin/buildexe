@@ -49,6 +49,7 @@ rm -rf $TMP_DIR/$EZPAARSE_NAME/node_modules/forever
 # download node version for windows
 # http://nodejs.org/dist/v0.8.22/node.exe
 curl -L http://nodejs.org/dist/v$EZPAARSE_NODEJS_VERSION/node.exe > node.exe
+echo "node.exe app.js > ezpaarselog.txt 2>> ezpaarselogerror.txt" > ezpaarsestart.bat
 
 # download sample log
 curl -L http://analogist.couperin.org/ezpaarse/dataset/small-sample.log.gz > $TMP_DIR/$EZPAARSE_NAME/test/dataset/small-sample.log.gz
@@ -60,7 +61,6 @@ cd $TMP_DIR
 sed -e "s/APP_VERSION \"[0-9]\+.[0-9]\+.[0-9a-z+]\+\"/APP_VERSION \"$VERSION_NAME$VERSION\"/g" $EZPAARSE_PATH/misc/windows/ezPAARSE-MUI.nsi \
 	> ezPAARSE-MUI.nsi
 
-echo "node.exe app.js > ezpaarselog.txt 2>> ezpaarselogerror.txt" > ezpaarsestart.bat
 cp $EZPAARSE_PATH/misc/windows/French.nsh .
 cp $EZPAARSE_PATH/misc/windows/English.nsh .
 cp $EZPAARSE_PATH/misc/windows/Licence-CeCILL-V2-fr.txt .
@@ -82,6 +82,6 @@ mv $INSTALLER $EZPAARSE_PATH/$EZPAARSE_NAME/
 echo "$EZPAARSE_PATH/$EZPAARSE_NAME/$INSTALLER generated"
 
 # cleanup
-rm -rf $TMP_DIR
+#rm -rf $TMP_DIR
 cd $EZPAARSE_PATH
 exit 0
