@@ -141,7 +141,7 @@ Section $(menu+ezPAARSEmenu) SecMenuEZPAARSE
     ;Create shortcuts
     CreateDirectory "$SMPROGRAMS\$StartMenuFolder"
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Uninstall.lnk" "$INSTDIR\Uninstall.exe"
-    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+1_lancer)" "$INSTDIR\ezpaarsestart.bat" 0
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+1_lancer)" "$INSTDIR\ezpaarsestart.bat"
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+2_utiliser)" "$DefaultBrowser" $(url_start) 0 
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+3_tester)" "$WINDIR\explorer.exe" "$INSTDIR\test\dataset" 
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+4a_visualiser)" "$DefaultExcel" "$INSTDIR\excel\$(excel_render)" 0 
@@ -149,8 +149,8 @@ Section $(menu+ezPAARSEmenu) SecMenuEZPAARSE
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+5_documenter)" "$DefaultBrowser" $(url_doc) 0 
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+6_doc_usage)" "$DefaultBrowser" $(url_usage) 0 
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+7_analogist)" "$DefaultBrowser" "http://analogist.couperin.org" 0 
-    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+8_traces)" "$WINDIR\system32\notepad.exe" "$INSTDIR\ezpaarselog.txt" 0
-    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+9_errors)" "$WINDIR\system32\notepad.exe" "$INSTDIR\ezpaarselogerror.txt" 0
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+8_traces)" "$WINDIR\system32\notepad.exe" "$INSTDIR\ezpaarselog.txt"
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+9_errors)" "$WINDIR\system32\notepad.exe" "$INSTDIR\ezpaarselogerror.txt"
   !insertmacro MUI_STARTMENU_WRITE_END
 
 SectionEnd
