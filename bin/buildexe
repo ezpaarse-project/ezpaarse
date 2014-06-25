@@ -82,6 +82,6 @@ mv $INSTALLER $EZPAARSE_PATH/$EZPAARSE_NAME/
 echo "$EZPAARSE_PATH/$EZPAARSE_NAME/$INSTALLER generated"
 
 # cleanup
-#rm -rf $TMP_DIR
+rm -rf $TMP_DIR
 cd $EZPAARSE_PATH
 exit 0
