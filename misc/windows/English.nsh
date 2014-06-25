@@ -16,6 +16,8 @@ ${LangFileString} menu+4b_visualiser "4-View results with libreOffice.lnk"
 ${LangFileString} menu+5_documenter "ezPAARSE Documentation.lnk"
 ${LangFileString} menu+6_doc_usage "How to use ezPAARSE.lnk"
 ${LangFileString} menu+7_analogist "AnalogIST Home Page.lnk"
+${LangFileString} menu+8_traces "ezPAARSE server messages"
+${LangFileString} menu+9_errors "ezPAARSE server error messages"
 ${LangFileString} preinstall+already_installed "ezPAARSE is already installed. $\n$\nClick `OK` to remove the \
   previous version or `Cancel` to cancel this upgrade."
 ${LangFileString} url_start "http://localhost:59599?lang=en"
