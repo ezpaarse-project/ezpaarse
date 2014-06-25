@@ -60,6 +60,7 @@ cd $TMP_DIR
 sed -e "s/APP_VERSION \"[0-9]\+.[0-9]\+.[0-9a-z+]\+\"/APP_VERSION \"$VERSION_NAME$VERSION\"/g" $EZPAARSE_PATH/misc/windows/ezPAARSE-MUI.nsi \
 	> ezPAARSE-MUI.nsi
 
+echo "node.exe app.js > ezpaarselog.txt 2>> ezpaarselogerror.txt" > ezpaarsestart.bat
 cp $EZPAARSE_PATH/misc/windows/French.nsh .
 cp $EZPAARSE_PATH/misc/windows/English.nsh .
 cp $EZPAARSE_PATH/misc/windows/Licence-CeCILL-V2-fr.txt .

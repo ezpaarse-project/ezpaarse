@@ -141,7 +141,7 @@ Section $(menu+ezPAARSEmenu) SecMenuEZPAARSE
     ;Create shortcuts
     CreateDirectory "$SMPROGRAMS\$StartMenuFolder"
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Uninstall.lnk" "$INSTDIR\Uninstall.exe"
-    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+1_lancer)" "$INSTDIR\node.exe" "app.js > ezpaarselog.txt 2>> ezpaarselogerror.txt" 0
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+1_lancer)" "$INSTDIR\ezpaarsestart.bat" 0
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+2_utiliser)" "$DefaultBrowser" $(url_start) 0 
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+3_tester)" "$WINDIR\explorer.exe" "$INSTDIR\test\dataset" 
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+4a_visualiser)" "$DefaultExcel" "$INSTDIR\excel\$(excel_render)" 0 
