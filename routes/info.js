@@ -227,15 +227,27 @@ module.exports = function (app) {
   app.get('/info/usage.json', function (req, res) {
     var usageFile = path.join(__dirname, '/../usage.json');
 
-    if (!fs.existsSync(usageFile)) {
-      res.send(404);
-      return;
-    }
-    var usage = require(usageFile);
+    fs.exists(usageFile, function (exists) {
+      if (!exists) {
+        res.send(404);
+        return;
+      }
 
-    res.header('Content-Type', 'application/json; charset=utf-8');
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
-    res.json(200, usage);
+      fs.readFile(usageFile, function (err, data) {
+        var usage;
+        try {
+          usage = JSON.parse(data);
+        } catch (e) {
+          res.send(500);
+          return;
+        }
+
+        res.header('Content-Type', 'application/json; charset=utf-8');
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "X-Requested-With");
+        res.json(200, usage);
+      })
+    })
+
   });
 };
