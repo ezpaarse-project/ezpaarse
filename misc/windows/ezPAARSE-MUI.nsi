@@ -149,8 +149,6 @@ Section $(menu+ezPAARSEmenu) SecMenuEZPAARSE
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+5_documenter)" "$DefaultBrowser" $(url_doc) 0 
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+6_doc_usage)" "$DefaultBrowser" $(url_usage) 0 
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+7_analogist)" "$DefaultBrowser" "http://analogist.couperin.org" 0 
-    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+8_traces)" "$WINDIR\system32\notepad.exe" "$INSTDIR\ezpaarselog.txt"
-    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+9_errors)" "$WINDIR\system32\notepad.exe" "$INSTDIR\ezpaarselogerror.txt"
   !insertmacro MUI_STARTMENU_WRITE_END
 
 SectionEnd
