@@ -49,6 +49,7 @@ rm -rf $TMP_DIR/$EZPAARSE_NAME/node_modules/forever
 # download node version for windows
 # http://nodejs.org/dist/v0.8.22/node.exe
 curl -L http://nodejs.org/dist/v$EZPAARSE_NODEJS_VERSION/node.exe > node.exe
+echo "node.exe app.js > ezpaarselog.txt 2>> ezpaarselogerror.txt" > ezpaarsestart.bat
 
 # download sample log
 curl -L http://analogist.couperin.org/ezpaarse/dataset/small-sample.log.gz > $TMP_DIR/$EZPAARSE_NAME/test/dataset/small-sample.log.gz
