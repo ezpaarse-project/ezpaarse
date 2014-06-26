@@ -208,17 +208,29 @@ module.exports = function (app) {
    * GET route on /info/form-predefined
    */
   app.get('/info/form-predefined', function (req, res) {
-    res.header('Content-Type', 'application/json; charset=utf-8');
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    var settingsFile = path.join(__dirname, '/../form-predefined.json');
 
-    var file = path.join(__dirname, '/../form-predefined.json');
-    if (fs.existsSync(file)) {
-      var predefined = require(file);
-      res.json(200, predefined);
-    } else {
-      res.send(404);
-    }
+    fs.exists(settingsFile, function (exists) {
+      if (!exists) {
+        res.send(404);
+        return;
+      }
+
+      fs.readFile(settingsFile, function (err, data) {
+        var settings;
+        try {
+          settings = JSON.parse(data);
+        } catch (e) {
+          res.send(500);
+          return;
+        }
+
+        res.header('Content-Type', 'application/json; charset=utf-8');
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "X-Requested-With");
+        res.json(200, settings);
+      });
+    });
   });
 
   /**
