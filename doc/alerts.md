@@ -18,3 +18,19 @@ Générée lorsqu'un domaine sans parseur associé apparaît fréquemment dans l
 ```
 
 Le seuil d'alerte est défini dans le fichier `config.json` sous la clé `unknownDomainsRate`.
+
+### Manques dans les bases de connaissance ###
+
+#### Absence de base de connaissance ####
+Générée lorsque qu'une PKB absente empêche l'enrichissement d'événements de consultations pourvus d'un identifiant éditeur (title_id).
+
+#### Absence d'un identifiant ####
+Générée lorsqu'un identifiant absent d'une PKB a été recherché un grand nombre de fois.
+
+Le taux d'apparition toléré est défini dans le fichier `config.json` sous la clé `titleIdOccurrenceRate`.
+
+
+#### Manque généralisé ####
+Générée lorsqu'un grand nombre de recherches dans une PKB se sont révélées infructueuses.
+
+Le taux de requêtes infructueuses toléré est défini dans le fichier `config.json` sous la clé `pkbFailRate`.
