@@ -1,0 +1,17 @@
+#!/bin/bash
+#
+# Script used to list outdated files in a git folder
+# File paths are relative to the root of the repository
+#
+
+set -e
+
+# first argument or current path
+_DIR="${1:-${PWD}}"
+
+[ ! -d "$_DIR" ] && { echo "Error: Directory $_DIR not found."; exit 2; }
+
+cd $_DIR
+git fetch 1>/dev/null
+git diff --name-only HEAD origin/master .
+exit 0
