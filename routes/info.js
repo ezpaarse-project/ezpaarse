@@ -3,12 +3,13 @@
 /*jshint maxlen: 180*/
 'use strict';
 
-var fs     = require('graceful-fs');
-var path   = require('path');
-var uuid   = require('uuid');
-var pp     = require('../lib/platform-parser.js');
-var config = require('../lib/config.js');
-var pkg    = require('../package.json');
+var fs         = require('graceful-fs');
+var path       = require('path');
+var uuid       = require('uuid');
+var pp         = require('../lib/platform-parser.js');
+var parserlist = require('../lib/parserlist.js');
+var config     = require('../lib/config.js');
+var pkg        = require('../package.json');
 
 module.exports = function (app) {
 
@@ -231,6 +232,23 @@ module.exports = function (app) {
         res.json(200, settings);
       });
     });
+  });
+
+  /**
+   * GET route on /info/form-predefined
+   */
+  app.get(/\/info\/domains\/([a-zA-Z0-9\-\.]+)/, function (req, res) {
+    res.header('Content-Type', 'application/json; charset=utf-8');
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+
+    var domain = req.params[0];
+    var parser = parserlist.get(domain);
+    if (parser) {
+      res.json(200, parser);
+    } else {
+      res.send(404);
+    }
   });
 
   /**
