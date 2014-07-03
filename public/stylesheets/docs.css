@@ -107,3 +107,6 @@
 #doc-content table td:first-child {
   border-left: 0;
 }
+#doc-content .comment {
+  color: green;
+}

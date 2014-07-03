@@ -16,6 +16,8 @@ ${LangFileString} menu+4b_visualiser "4-Visualiser les resultats avec LibreOffic
 ${LangFileString} menu+5_documenter "Documentation ezPAARSE.lnk"
 ${LangFileString} menu+6_doc_usage "Explications usage ezPAARSE.lnk"
 ${LangFileString} menu+7_analogist "Site AnalogIST.lnk"
+${LangFileString} menu+8_traces "Messages serveur ezPAARSE.lnk"
+${LangFileString} menu+9_errors "Messages erreur serveur ezPAARSE.lnk"
 ${LangFileString} preinstall+already_installed "ezPAARSE est deja installe. $\n$\nClick `OK` pour desinstaller \
   la version precedente ou `Cancel` pour annuler."
 ${LangFileString} url_start "http://localhost:59599?lang=fr"

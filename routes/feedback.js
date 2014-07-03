@@ -47,7 +47,7 @@ module.exports = function (app) {
 
     var mail = mailer.mail();
     mail.subject(subject)
-        .message(text)
+        .text(text)
         .from(config.EZPAARSE_ADMIN_MAIL)
         .to(config.EZPAARSE_FEEDBACK_RECIPIENTS)
         .cc(feedback.mail);
@@ -101,7 +101,7 @@ module.exports = function (app) {
 
     mailer.mail()
     .subject('[ezPAARSE] Nouvelle installation')
-    .message(text)
+    .text(text)
     .from(config.EZPAARSE_ADMIN_MAIL)
     .to(config.EZPAARSE_FEEDBACK_RECIPIENTS)
     .send(function (error, response) {
@@ -115,7 +115,12 @@ module.exports = function (app) {
    * To know if sending a feedback is possible
    */
   app.get('/feedback/status', function (req, res) {
-    if (mailer.canSendMail && config.EZPAARSE_FEEDBACK_RECIPIENTS) {
+    if (!config.EZPAARSE_FEEDBACK_RECIPIENTS) {
+      res.send(501);
+      return;
+    }
+
+    if (mailer.canSendMail) {
 
       mailer.checkServer(function (online) {
         if (online) {
@@ -129,7 +134,7 @@ module.exports = function (app) {
         if (err || !response || response.statusCode != 200) {
           res.send(501);
         } else {
-          res.send(200, body);
+          res.send(200, config.EZPAARSE_FEEDBACK_RECIPIENTS);
         }
       });
     } else {
