@@ -275,8 +275,10 @@ angular.module('ezPAARSE.services', [])
 
       this.remember = true;
       this.defaults = {
+        counter: { jr1: false },
         outputFields: { plus: [], minus: [] },
         customHeaders: [],
+        notificationMails: "",
         headers: {
           'Accept':          'text/csv',
           'Traces-Level':    'info',
@@ -324,6 +326,29 @@ angular.module('ezPAARSE.services', [])
         headers['Log-Format-' + settings.proxyType] = settings.logFormat;
       }
 
+      // Create COUNTER reports header
+      if (settings.counter) {
+        var reports = '';
+        for (var name in settings.counter) {
+          if (settings.counter[name]) {
+            reports += name + ',';
+          }
+        }
+        if (reports) {
+          headers['COUNTER-Reports'] = reports.replace(/,$/, '');
+          headers['COUNTER-Format']  = 'csv';
+        }
+      }
+
+      // Create notification header
+      if (settings.notificationMails) {
+        var notifications = '';
+        settings.notificationMails.split(',').forEach(function (mail) {
+          notifications += 'mail<' + mail.trim() + '>,';
+        });
+        headers['ezPAARSE-Job-Notifications'] = notifications.replace(/,$/, '');
+      }
+
       // Create Output-Fields headers
       if (settings.outputFields) {
         var outputFields = '';
@@ -345,7 +370,16 @@ angular.module('ezPAARSE.services', [])
 
       if (settings.customHeaders && settings.customHeaders.length) {
         settings.customHeaders.forEach(function (header) {
-          if (header.name && header.value) { headers[header.name] = header.value; }
+          if (header.name && header.value) {
+            // Look case-insensitively for a header with the same name
+            for (var n in headers) {
+              if (n.toLowerCase() == header.name.toLowerCase()) {
+                headers[n] = header.value;
+                return;
+              }
+            }
+            headers[header.name] = header.value;
+          }
         });
       }
 
@@ -495,11 +529,15 @@ angular.module('ezPAARSE.services', [])
      * Save or reset settings depending to remember boolean
      */
     settingService.prototype.saveSettings = function () {
-      if (this.remember) {
-        if (this.settings)     { $cookieStore.put('settings', this.settings); }
-        if (this.settingsType) { $cookieStore.put('settingsType', this.settingsType); }
+      if (this.remember && this.settings) {
+        $cookieStore.put('settings', this.settings);
       } else {
         $cookieStore.remove('settings');
+      }
+
+      if (this.remember && this.settingsType) {
+        $cookieStore.put('settingsType', this.settingsType);
+      } else {
         $cookieStore.remove('settingsType');
       }
     };

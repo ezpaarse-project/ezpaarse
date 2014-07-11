@@ -3,12 +3,13 @@
 /*jshint maxlen: 180*/
 'use strict';
 
-var fs     = require('graceful-fs');
-var path   = require('path');
-var uuid   = require('uuid');
-var pp     = require('../lib/platform-parser.js');
-var config = require('../lib/config.js');
-var pkg    = require('../package.json');
+var fs         = require('graceful-fs');
+var path       = require('path');
+var uuid       = require('uuid');
+var pp         = require('../lib/platform-parser.js');
+var parserlist = require('../lib/parserlist.js');
+var config     = require('../lib/config.js');
+var pkg        = require('../package.json');
 
 module.exports = function (app) {
 
@@ -208,14 +209,43 @@ module.exports = function (app) {
    * GET route on /info/form-predefined
    */
   app.get('/info/form-predefined', function (req, res) {
+    var settingsFile = path.join(__dirname, '/../form-predefined.json');
+
+    fs.exists(settingsFile, function (exists) {
+      if (!exists) {
+        res.send(404);
+        return;
+      }
+
+      fs.readFile(settingsFile, function (err, data) {
+        var settings;
+        try {
+          settings = JSON.parse(data);
+        } catch (e) {
+          res.send(500);
+          return;
+        }
+
+        res.header('Content-Type', 'application/json; charset=utf-8');
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "X-Requested-With");
+        res.json(200, settings);
+      });
+    });
+  });
+
+  /**
+   * GET route on /info/form-predefined
+   */
+  app.get(/\/info\/domains\/([a-zA-Z0-9\-\.]+)/, function (req, res) {
     res.header('Content-Type', 'application/json; charset=utf-8');
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
 
-    var file = path.join(__dirname, '/../form-predefined.json');
-    if (fs.existsSync(file)) {
-      var predefined = require(file);
-      res.json(200, predefined);
+    var domain = req.params[0];
+    var parser = parserlist.get(domain);
+    if (parser) {
+      res.json(200, parser);
     } else {
       res.send(404);
     }
@@ -227,15 +257,26 @@ module.exports = function (app) {
   app.get('/info/usage.json', function (req, res) {
     var usageFile = path.join(__dirname, '/../usage.json');
 
-    if (!fs.existsSync(usageFile)) {
-      res.send(404);
-      return;
-    }
-    var usage = require(usageFile);
+    fs.exists(usageFile, function (exists) {
+      if (!exists) {
+        res.send(404);
+        return;
+      }
 
-    res.header('Content-Type', 'application/json; charset=utf-8');
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
-    res.json(200, usage);
+      fs.readFile(usageFile, function (err, data) {
+        var usage;
+        try {
+          usage = JSON.parse(data);
+        } catch (e) {
+          res.send(500);
+          return;
+        }
+
+        res.header('Content-Type', 'application/json; charset=utf-8');
+        res.header("Access-Control-Allow-Origin", "*");
+        res.header("Access-Control-Allow-Headers", "X-Requested-With");
+        res.json(200, usage);
+      });
+    });
   });
 };

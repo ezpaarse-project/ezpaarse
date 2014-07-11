@@ -2,14 +2,6 @@
         <div class="column">
           <div ng-hide="ss.predefined"><i class="large loading icon"></i> {{ 'settings+loading_predefined' | translate }}</div>
           <div ng-show="ss.predefined">
-            <div class="ui tiny header">
-              {{ 'settings+parameters' | translate }}
-              <div class="sub header">
-                <span ng-show="ss.settingsType" ng-bind="ss.settingsType"></span>
-                <span ng-show="!ss.settingsType" translate>settings+default</span>
-                <span ng-show="ss.custom"> ({{ 'settings+modified' | translate }})</span>
-              </div>
-            </div>
             <select chosen ng-model="predefined" ng-change="ss.defineSettings(predefined)" data-placeholder="{{ 'settings+predefined_choice' | translate }}" no-results-text="'{{ 'settings+no_result_for' | translate }}'" allow-single-deselect="true" ng-options="key as key for (key, val) in ss.predefined">
               <option value=""></option>
             </select>
@@ -100,6 +92,26 @@
           </div>
 
           <div ng-show="showHelp" class="ui inverted red segment" translate>settings+output_fields_help</div>
+        </div>
+      </div>
+
+      <div class="three fields">
+        <div class="field">
+          <label translate>settings+notifications</label>
+          <input placeholder="{{ 'settings+notification_mails' | translate }}" type="text" ng-model="ss.settings.notificationMails">
+          <div ng-show="showHelp" class="ui inverted red bottom attached segment" translate>settings+notifications_help</div>
+        </div>
+
+        <div class="field">
+          <label translate>settings+counter_reports</label>
+          <div class="grouped fields">
+            <div class="field">
+              <div class="ui checkbox">
+                <input id="counter-JR1" type="checkbox" ng-model="ss.settings.counter.jr1">
+                <label for="counter-JR1">JR1</label>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 

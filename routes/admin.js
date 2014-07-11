@@ -1,11 +1,12 @@
 'use strict';
 
-var path     = require('path');
-var crypto   = require('crypto');
-var express  = require('express');
-var execFile = require('child_process').execFile;
-var userlist = require('../lib/userlist.js');
-var auth     = require('../lib/auth-middlewares.js');
+var path       = require('path');
+var crypto     = require('crypto');
+var express    = require('express');
+var pkbmanager = require('../lib/pkbmanager.js');
+var execFile   = require('child_process').execFile;
+var userlist   = require('../lib/userlist.js');
+var auth       = require('../lib/auth-middlewares.js');
 
 var emailRegexp = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9-]+(\.[a-z0-9-]+)*$/i;
 
@@ -167,6 +168,7 @@ module.exports = function (app) {
             res.send(500);
             return;
           }
+          pkbmanager.clearCache();
           res.send(200);
         });
       } else {

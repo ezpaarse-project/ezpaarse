@@ -2,7 +2,10 @@
       <h2 class="ui header">
         {{ 'process+title' | translate }}
       </h2>
-      <div class="ui segment" translate>process+description</div>
+      <div class="ui segment" ng-switch="request.state">
+        <div ng-switch-default translate>process+description</div>
+        <div ng-switch-when="success" translate translate-compile>process+description_done</div>
+      </div>
 
       <div ng-if="request.errorMessage" ng-bind="request.errorMessage" class="ui error message"></div>
       <div class="progress-header">

@@ -109,5 +109,17 @@
   "France - Université Lille 2": {
     "Log-Type": "EZproxy",
     "Log-Format": "%h %u %{session}<[a-zA-Z0-9\\-]+> %t \"%r\" %s %b"
+  },
+  "Australia - University of Sydney": {
+    "Log-Type": "EZproxy",
+    "Log-Format": "%h %l %u %{ezproxy-session}<.+?> %{ezproxy-spuaccess}<.+?> %t \"%r\" %s %b \"%{x-forwarded-for}<.+?>\""
+  },
+  "Australia - Melbourne - RMIT University": {
+    "Log-Type": "EZproxy",
+    "Log-Format": "%h %l %u %t \"%r\" %s %b %{referer}<.*?>"
+  },
+  "France - Saint-Étienne - Université Jean Monnet (UJM)": {
+    "Log-Type": "Squid",
+    "Log-Format": "%ts.%03tu %6tr %>a %Ss/%03>Hs %<st %rm %ru %[un %Sh/%{last-ip}<.*?> %mt"
   }
 }
