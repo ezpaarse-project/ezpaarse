@@ -37,6 +37,10 @@ function testFiles(files, platformName, parserFile, done) {
           if (/^in-/.test(prop))       { set.in[prop.substr(3)]  = record[prop]; }
           else if (/^out-/.test(prop)) { set.out[prop.substr(4)] = record[prop]; }
         }
+
+        if (set.out.hasOwnProperty('_granted')) {
+          set.out._granted = set.out._granted === 'true';
+        }
         return set;
       });
 
