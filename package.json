@@ -32,7 +32,6 @@
     "uuid": "~1.4.1",
     "winston": "~0.7.3",
     "socket.io": "~0.9.16",
-    "iconv-lite": "~0.2.11",
     "glob": "~3.2.9",
     "mkdirp": "~0.3.5",
     "tmp-reaper": "0.0.2",
@@ -52,7 +51,8 @@
     "cheerio": "~0.15.0",
     "xml-mapping": "~1.5.2",
     "csv-string": "~2.1.1",
-    "xlsjs": "~0.6.16"
+    "xlsjs": "~0.6.16",
+    "iconv-lite": "~0.4.4"
   },
   "devDependencies": {
     "should": "*",
