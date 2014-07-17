@@ -1,5 +1,10 @@
 # Versions ezPAARSE #
 
+## 1.8.0  ## 
+##### 13/03/2014 - MVP des alertes sur anomalies #####
+- Notification de fin de traitement
+- Alerte sur domaine inconnu dans le traitement
+
 ## 1.7.0  ## 
 ##### 13/03/2014 - Validation de l'interface Web #####
 - Validation de l'interface Web
