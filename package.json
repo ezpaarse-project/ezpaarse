@@ -21,7 +21,6 @@
     "moment": "~2.5.1",
     "shelljs": "~0.2.6",
     "async": "~0.7.0",
-    "csv": "~0.3.7",
     "Faker": "~0.7.0",
     "optimist": "~0.6.1",
     "lazy": "~1.0.11",
@@ -52,7 +51,8 @@
     "xml-mapping": "~1.5.2",
     "csv-string": "~2.1.1",
     "xlsjs": "~0.6.16",
-    "iconv-lite": "~0.4.4"
+    "iconv-lite": "~0.4.4",
+    "csv": "~0.4.0"
   },
   "devDependencies": {
     "should": "*",
