@@ -1,0 +1,2 @@
+publication_title	title_id	"print_identifier	online_identifier	doi
+Test some-pid		978-1-4302-1998-9

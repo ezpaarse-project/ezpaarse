@@ -2,12 +2,13 @@
 /* global describe, it */
 'use strict';
 
-var path        = require('path');
-var spawn       = require('child_process').spawn;
+var path  = require('path');
+var spawn = require('child_process').spawn;
 
 
 var noHeaderLineFile = "no-header-line.validator.pkb.txt";
-var ridFile = "rid.validator.pkb.txt";
+var ridFile          = "rid.validator.pkb.txt";
+var invalidSyntax    = "invalid-syntax.pkb.txt";
 
 
 describe('The pkbvalidator command', function () {
@@ -24,7 +25,7 @@ describe('The pkbvalidator command', function () {
   });
 
   it('should not crash if parsing a not syntaxicaly valid CSV file (@02)', function (done) {
-    var testValidatorFile = path.join(__dirname, '/dataset/' + ridFile);
+    var testValidatorFile = path.join(__dirname, '/dataset/' + invalidSyntax);
     var child   = spawn('pkbvalidator', [testValidatorFile], { cwd: path.join(__dirname, '/../bin/') });
 
     child.on('close', function (code) {
@@ -32,5 +33,4 @@ describe('The pkbvalidator command', function () {
       done();
     });
   });
-
 });
