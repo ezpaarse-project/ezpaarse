@@ -7,7 +7,7 @@ var spawn = require('child_process').spawn;
 
 
 var noHeaderLineFile = "no-header-line.validator.pkb.txt";
-var ridFile          = "rid.validator.pkb.txt";
+// var ridFile          = "rid.validator.pkb.txt";
 var invalidSyntax    = "invalid-syntax.pkb.txt";
 
 
@@ -18,7 +18,7 @@ describe('The pkbvalidator command', function () {
     var child   = spawn('pkbvalidator', [testValidatorFile], { cwd: path.join(__dirname, '/../bin/') });
 
     child.on('close', function (code) {
-      code.should.be.equal(1);
+      code.should.be.equal(2);
       done();
     });
 
@@ -29,7 +29,7 @@ describe('The pkbvalidator command', function () {
     var child   = spawn('pkbvalidator', [testValidatorFile], { cwd: path.join(__dirname, '/../bin/') });
 
     child.on('close', function (code) {
-      code.should.be.equal(9);
+      code.should.be.equal(3);
       done();
     });
   });
