@@ -58,6 +58,7 @@ Valeurs possibles : Unknown-Formats, Ignored-Domains, Unknown-Domains, Unqualifi
 -   **Geoip-Localization:** renvoi des informations de géolocalisation dans les résultats. La géolocalisation se base sur l'adresse IP contenue dans le champ `host` et est activée par défaut mais peut être désactivée en positionnant ce paramètre à `none`. [(plus de détails)](./geolocalisation.html)
 -   **Geoip-Output-Fields:** liste des informations de géolocalisation dans les résultats. Par défaut `geoip-longitude, geoip-latitude, geoip-country`. `all` peut être utilisé pour renvoyer tous les champs possibles.
 -   **ezPAARSE-Job-Notifications:** liste de notifications à envoyer en fin de traitement, sous la forme `action<cible>` et séparées par des virgules. Actuellement disponible : `mail<adresse>`
+-   **ezPAARSE-Enrich:** indiquer `false` pour désactiver l'enrichissement (geoip et bases de connaissances). Toute autre valeur laisse l'enrichissement actif.
 
 
 
