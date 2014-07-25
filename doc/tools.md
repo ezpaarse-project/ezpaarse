@@ -220,39 +220,27 @@ Options:
 
 ## ecbulkmaker
 
-Commande permettant de lancer un traitement batch de fichiers de log contenu dans un répertoire sur l'instance ezPAARSE locale.
-La commande reproduit l'éventuelle arborescence du repertoire source dans le répertoire des résultats.
+Commande permettant de lancer un traitement batch de fichiers de log contenus dans un répertoire sur l'instance ezPAARSE locale.  
 
 Exemple d'utilisation :
 ```bash
-./ecbulkmaker --source=/applis/stats/home/archives --dest=/applis/stats/home/ezresults --logsdir=fede/bibliovie/2013
+./ecbulkmaker -r /applis/stats/home/archives/fede/bibliovie/2013 /applis/stats/home/ezresults/fede/bibliovie/2013
 
 ```
-Par defaut un fichier résultat (extension ec.csv) et un fichier rapport statique (extension report.html) sont générés dans le repertoire destination par fichier de log.
-Les fichiers de log en rejets ne sont pas conservés.
+Un fichier résultat (extension `.ec.csv`) et un rapport au format HTML (extension `.report.html`) sont générés dans le repertoire de destination pour chaque fichier de log. Si le répertoire de destination n'est pas présicé, ils sont générés au même endroit que le fichier traité.  
+Si une erreur survient lors du traitement d'un fichier, le fichier résultat incomplet est renommé avec l'extension `.ko`.  
+Les fichiers de rejets ne sont pas conservés par ezPAARSE.  
 
 ```
-Usage:
 Inject files to ezPAARSE (for batch purpose)
-  Usage: node ./ecbulkmaker [-fhlvDHLS] 
-  --source=sources_directory 
-  --dest=results_directory 
-  --logsdir=relative_path_to_log_form_sources
+  Usage: /home/yan/ezpaarse/bin/ecbulkmaker [-rflvH] SOURCE_DIR [RESULT_DIR]
 
 Options:
-  --source, -S   Archives sources base directory.
-   (like --source=/applis/stats/home/archives)
-  --dest, -D     Results base directory.
-   (like --dest=/applis/stats/home/ezresults)          
-  --logsdir, -L  Relative log directory.
-   (like --logsdir=fede/bibliovie/2013)                
-  --list, -l     If provided, only list files.                                                 
-  --force, -f    override existing result (default false).                                     
-  --headers, -H  headers parameters to use.                                                    
-  --verbose, -v  Shows detailed operations.                                                    
-  -S [required]
-  -D [required]
-  -L [required]
+  --recursive, -r  If provided, files in subdirectories will be processed. (preserves the file tree)
+  --list, -l       If provided, only list files.
+  --force, -f      override existing result (default false).
+  --header, -H     header parameter to use.
+  --verbose, -v    Shows detailed operations.
 
 ```
 ## hostlocalize
