@@ -48,12 +48,16 @@ var optimist = require('optimist')
   .describe('pidFile', 'the pid file where ezpaarse pid is stored')
   .default('pidFile', __dirname + '/ezpaarse.pid')
   .boolean('lsof')
-  .describe('lsof', 'if provided, periodically prints the number of opened file descriptors');
-if (optimist.argv.pidFile) {
-  fs.writeFileSync(optimist.argv.pidFile, process.pid);
+  .boolean('memory')
+  .describe('lsof', 'if provided, periodically prints the number of opened file descriptors')
+  .describe('memory', 'if provided, periodically prints the memory usage');
+var argv = optimist.argv;
+
+if (argv.pidFile) {
+  fs.writeFileSync(argv.pidFile, process.pid);
 }
-if (optimist.argv.lsof) {
-  var checklsof = function () {
+if (argv.lsof) {
+  (function checklsof() {
     lsof.raw(process.pid, function (data) {
       data = data.filter(function (element) {
         return /^(?:DIR|REG)$/i.test(element.type);
@@ -61,9 +65,14 @@ if (optimist.argv.lsof) {
       console.log('[%s] %d file descriptors', new Date().toLocaleTimeString(), data.length);
       setTimeout(checklsof, 5000);
     });
-  };
+  })();
+}
 
-  checklsof();
+if (argv.memory) {
+  (function checkMemory() {
+    console.log("Memory usage: %d MiB", Math.round(process.memoryUsage().rss / 1024 / 1024 * 100) / 100);
+    setTimeout(checkMemory, 5000);
+  })();
 }
 
 passport.serializeUser(function (user, done) {
