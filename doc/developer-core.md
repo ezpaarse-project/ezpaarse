@@ -12,6 +12,18 @@ Documentation orientée développeur du coeur d'ezPAARSE. La documentation déve
 
 ![Schema du fonctionnement du moteur ezPAARSE](images/ezPAARSE-Moteur.png "Moteur ezPAARSE")
 
+## Monitoring système d'ezPAARSE
+
+Les options suivantes peuvent être utilisées pour exécuter ezPAARSE.
+
+* ``--memory`` :  affiche la consommation mémoire du processus ezPAARSE toutes les 5 secondes
+* ``--lsof`` : affiche le nombre de descripteurs de fichiers ouverts toutes les 5 secondes
+
+Exemple :
+```console
+. ./bin/env
+node app.js --memory
+```
 
 ## Lancer les tests unitaires d'ezPAARSE
 
