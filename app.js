@@ -70,7 +70,8 @@ if (argv.lsof) {
 
 if (argv.memory) {
   (function checkMemory() {
-    console.log("Memory usage: %d MiB", Math.round(process.memoryUsage().rss / 1024 / 1024 * 100) / 100);
+    console.log("Memory usage: %d MiB",
+      Math.round(process.memoryUsage().rss / 1024 / 1024 * 100) / 100);
     setTimeout(checkMemory, 5000);
   })();
 }
