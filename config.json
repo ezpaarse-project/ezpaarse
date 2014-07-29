@@ -3,7 +3,7 @@
   "EZPAARSE_PARENT_URL": "http://ezpaarse-preprod.couperin.org",
   "EZPAARSE_ENV": "production",
   "EZPAARSE_NODEJS_PORT": "59599",
-  "EZPAARSE_NODEJS_VERSION": "0.10.24",
+  "EZPAARSE_NODEJS_VERSION": "0.10.29",
   "EZPAARSE_LOG_FOLDER": "test/dataset",
   "EZPAARSE_REQUIRE_AUTH": false,
   "EZPAARSE_OUTPUT_FIELDS":
