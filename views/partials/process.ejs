@@ -146,12 +146,12 @@
         <div ng-switch-when="report">
           <p ng-show="request.jobID"><a ng-href="/report/{{ request.jobID }}" translate>report+view_full_page</a></p>
           <accordion class="ui accordion" ng-repeat="category in request.report | reportCategories">
-            <div class="title" ng-class="{'active': $first}">
+            <div class="title">
               <i class="dropdown icon"></i>
               {{ 'report+' + category | translate }}
             </div>
 
-            <div class="content" ng-class="{'active': $first}">
+            <div class="content">
               <table class="ui basic compact table">
                 <tr ng-repeat="(key, val) in request.report | reportElements:category">
                   <th class="four wide">{{ key }}</th>
