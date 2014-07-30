@@ -28,8 +28,10 @@ La route principale d'ezPAARSE, elle correspond à la **racine** du service web.
 -   **Content-Encoding:** encodage des données envoyées. *(supportés : gzip, deflate)*  
 -   **Accept-Encoding:** encodage des données renvoyées par le serveur. *(supportés : gzip, deflate)*  
 -   **Accept:** format de sortie. Sont supportés :  
-  - text/csv (par défaut).
-  - application/json.
+  - text/csv (par défaut)
+  - text/tab-separated-values (pour une sortie TSV : comme CSV mais avec tabulations)
+  - application/json
+  - application/jsonstream (une ligne de json par ligne)
 -   **Log-Format-*xxx*:** format des lignes de log en entrée, dépend du proxy *xxx* utilisé. [Voir les formats disponibles](./formats.html).
 -   **Date-Format:** format de date utilisé dans les logs envoyés. Par défaut : 'DD/MMM/YYYY:HH:mm:ss Z'.  
 -   **Anonymize-host:** anonymise la valeur du host des lignes de log. Par défaut : 'none'. *(supportés : md5, none)*.  
