@@ -54,7 +54,7 @@ PKBFILES=$(shell ls $(EZPATH)/platforms/*/pkb/*.txt | grep -v miss)
 
 
 ## Runs all tests (*-test.js) in the test folder except big and tdd
-test: test-pkb
+test:
 	@if test -d test; \
 	then . ./bin/env; mocha -g '@big|@tdd' -i; \
 	else echo 'No test folder found'; \
