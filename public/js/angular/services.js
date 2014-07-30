@@ -336,7 +336,7 @@ angular.module('ezPAARSE.services', [])
         }
         if (reports) {
           headers['COUNTER-Reports'] = reports.replace(/,$/, '');
-          headers['COUNTER-Format']  = 'csv';
+          headers['COUNTER-Format']  = 'tsv';
         }
       }
 
