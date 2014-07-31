@@ -10,7 +10,7 @@ var cfg       = require('../lib/config.js');
 
 var logFile = __dirname + '/dataset/sd.jr1.log';
 var xmlFile = __dirname + '/dataset/sd.jr1.xml';
-var csvFile = __dirname + '/dataset/sd.jr1.csv';
+var tsvFile = __dirname + '/dataset/sd.jr1.txt';
 
 describe('The server', function () {
   it('generates a correct XML JR1 report (@01)', function (done) {
@@ -69,10 +69,10 @@ describe('The server', function () {
     });
   });
 
-  it('generates a correct CSV JR1 report (@02)', function (done) {
+  it('generates a correct TSV JR1 report (@02)', function (done) {
     var headers = {
       'COUNTER-Reports': 'JR1',
-      'COUNTER-Format': 'CSV'
+      'COUNTER-Format': 'TSV'
     };
     helpers.post('/', logFile, headers,
     function (err, res) {
@@ -89,7 +89,7 @@ describe('The server', function () {
         if (error)     { throw error; }
         response.should.have.status(200);
 
-        var expected = fs.readFileSync(csvFile).toString().split('\n');
+        var expected = fs.readFileSync(tsvFile).toString().split('\n');
         body = (body || '').split('\n');
 
         // Remove all dates, because they can differ depending on locale
