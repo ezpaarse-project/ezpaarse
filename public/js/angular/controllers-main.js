@@ -121,7 +121,7 @@ angular.module('ezPAARSE.main-controllers', [])
 
     $element.find('form').on('reset', function () {
       $scope.$apply(function () {
-        $scope.loginForm.$setPristine(true);
+        $scope.loginForm.$setPristine();
         $scope.error = null;
       });
     });
@@ -134,14 +134,13 @@ angular.module('ezPAARSE.main-controllers', [])
       .success(function (user) {
         userService.login(user.username, user.group);
 
-        $scope.loginForm.$setPristine(true);
+        $scope.loginForm.$setPristine();
         $scope.loading     = false;
         $scope.credentials = {};
         $scope.error       = null;
 
-        $element.modal('hide', function () {
-          $state.transitionTo('form');
-        });
+        $state.transitionTo('form');
+        $element.modal('hide');
       })
       .error(function (data, status) {
         $scope.loading = false;
@@ -157,7 +156,7 @@ angular.module('ezPAARSE.main-controllers', [])
 
     $element.find('form').on('reset', function () {
       $scope.$apply(function () {
-        $scope.registerForm.$setPristine(true);
+        $scope.registerForm.$setPristine();
         $scope.error = null;
       });
     });
@@ -177,7 +176,7 @@ angular.module('ezPAARSE.main-controllers', [])
           });
         }
 
-        $scope.registerForm.$setPristine(true);
+        $scope.registerForm.$setPristine();
         $scope.loading  = false;
         $scope.formData = {};
         $scope.error    = null;
