@@ -3,7 +3,6 @@
 'use strict';
 
 var helper   = require('./helpers.js');
-var Lazy     = require('lazy');
 var StreamPT = require('stream').PassThrough;
 var logLine  = '16.2.255.24 - 13BBIU1158 [01/Aug/2013:16:56:36 +0100] "GET http://onlinelibrary.wiley.com:80/doi/10.1111/dme.12357/pdf HTTP/1.1" 200 13639' + '\n';
 
