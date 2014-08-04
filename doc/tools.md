@@ -262,3 +262,11 @@ Options:
   --file, -f     A csv file to parse. If absent, will read from standard input.
 
 ```
+
+## platform-init
+Commande servant à créer la structure de base d'une plateforme. Pose une série de questions puis crée l'arborescence de la plateforme avec le fichier manifest.json, un squelette de parseur et un fichier de test vide. La commande est interactive et ne nécessite aucun paramètre.
+
+Usage:
+```
+platform-init
+```
