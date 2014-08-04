@@ -61,6 +61,7 @@ Valeurs possibles : Unknown-Formats, Ignored-Domains, Unknown-Domains, Unqualifi
 -   **Geoip-Output-Fields:** liste des informations de géolocalisation dans les résultats. Par défaut `geoip-longitude, geoip-latitude, geoip-country`. `all` peut être utilisé pour renvoyer tous les champs possibles.
 -   **ezPAARSE-Job-Notifications:** liste de notifications à envoyer en fin de traitement, sous la forme `action<cible>` et séparées par des virgules. Actuellement disponible : `mail<adresse>`
 -   **ezPAARSE-Enrich:** indiquer `false` pour désactiver l'enrichissement (geoip et bases de connaissances). Toute autre valeur laisse l'enrichissement actif.
+-   **ezPAARSE-Buffer-Size:** permet de changer la taille du buffer (taille des paquets d'ECs à envoyer aux parseurs). `100` par défaut.
 
 
 
