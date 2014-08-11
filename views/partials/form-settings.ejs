@@ -2,7 +2,7 @@
         <div class="column">
           <div ng-hide="ss.predefined"><i class="large loading icon"></i> {{ 'settings+loading_predefined' | translate }}</div>
           <div ng-show="ss.predefined">
-            <select chosen ng-model="predefined" ng-change="ss.defineSettings(predefined)" data-placeholder="{{ 'settings+predefined_choice' | translate }}" no-results-text="'{{ 'settings+no_result_for' | translate }}'" allow-single-deselect="true" ng-options="key as key for (key, val) in ss.predefined">
+            <select chosen ng-model="predefined" ng-change="ss.defineSettings(predefined)" data-placeholder="{{ 'settings+predefined_choice' | translate }}" no-results-text="'{{ 'settings+no_result_for' | translate }}'" allow-single-deselect="true" ng-options="key as (val.country + ' - ' + val.fullName) for (key, val) in ss.predefined">
               <option value=""></option>
             </select>
           </div>
@@ -18,7 +18,7 @@
       <div class="three fields">
         <div class="select field">
           <label translate>settings+log_type</label>
-          <select ng-model="ss.settings.proxyType" ng-options="proxy for proxy in ss.selections.proxyTypes">
+          <select ng-model="ss.settings.proxyType" ng-options="key as value for (key,value) in ss.selections.proxyTypes">
             <option value="" translate>settings+auto_recognition</option>
           </select>
           <div ng-show="showHelp" class="ui inverted teal bottom attached segment" translate>settings+log_type_help</div>
