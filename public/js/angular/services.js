@@ -402,8 +402,8 @@ angular.module('ezPAARSE.services', [])
      */
     settingService.prototype.removeOutputField = function (name, type) {
       if (type == 'plus' || type == 'minus') {
-        var index = this.settings.outputFields[type].indexOf('name');
-        if (index) {
+        var index = this.settings.outputFields[type].indexOf(name);
+        if (index !== -1) {
           this.settings.outputFields[type].splice(index, 1);
         }
       }
