@@ -1,9 +1,8 @@
 /*global describe, it*/
 'use strict';
 
-var helpers  = require('./helpers.js');
-var fs       = require('fs');
-var path     = require('path');
+var helpers = require('./helpers.js');
+var path    = require('path');
 
 var upmcLogFile = path.join(__dirname, '/dataset/multiformat/ul.ezproxy.log');
 
