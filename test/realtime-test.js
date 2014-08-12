@@ -41,7 +41,7 @@ describe('Real time ECs', function () {
       } else if (++tries >= 5) {
         throw new Error('expected 2 lines, got ' + nbLines);
       } else {
-        setTimeout(checkResponse, 100);
+        setTimeout(checkResponse, 200);
       }
     }, 100);
 
