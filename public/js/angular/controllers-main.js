@@ -127,7 +127,10 @@ angular.module('ezPAARSE.main-controllers', [])
     });
 
     $scope.login = function (valid) {
-      if (!valid) { return; }
+      // Workaround to trigger models update when form is auto-completed
+      $element.find('input').each(function () { $(this).trigger('input'); });
+
+      if ($scope.loginForm.$invalid) { return; }
       $scope.loading = true;
 
       $http.post('/login', $scope.credentials)
