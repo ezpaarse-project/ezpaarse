@@ -1,5 +1,14 @@
 # Outils #
 
+
+## platform-init
+Commande servant à créer la structure de base d'une plateforme. Pose une série de questions puis crée l'arborescence de la plateforme avec le fichier manifest.json, un squelette de parseur et un fichier de test vide. La commande est interactive et ne nécessite aucun paramètre.
+
+Usage:
+```
+platform-init
+```
+
 ## loginjector
 
 Commande permettant d'envoyer un fichier de log en streaming vers une instance locale d'ezPAARSE.
@@ -25,6 +34,30 @@ Options:
 ```
 
 Cette commande simplifie l'envoi des logs vers l'instance d'ezPAARSE par rapport à l'utilisation de la commande cURL.
+
+## loganonymizer
+
+Commande permettant d'anonymiser un fichier de log. Les éléments sensibles comme le login identifié ou le nom de machine sont remplacés par des valeurs aléatoires. Le fichier de log doit être envoyé sur l'entrée système (stdin) de la commande.
+
+Exemple d'utilisation:
+```bash
+zcat monezproxy.log.gz | ./bin/loganonymizer
+```
+
+Usage:
+```
+Anonymize critical data in a log file
+Usage: node ./loganonymizer --input=[string] --output=[string] --proxy=[string] --format[string]
+
+Options:
+  --input, -i   the input data to clean                      
+  --output, -o  the destination where to send the result to  
+  --proxy, -p   the proxy which generated the log file       
+  --format, -f  the format of log lines (ex: %h %u [%t] "%r")
+```
+
+Cette commande est utile pour constituer des fichiers de test en y retirant les éléments sensibles liés à la protection des données personnelles. Chaque valeur est remplacée par la même valeur aléatoire de façon à pouvoir faire les associations et dédoublonnages nécessaires aux traitements.
+
 
 ## logextractor
 
@@ -55,29 +88,6 @@ Cette commande est utile pour manipuler les fichiers de logs. Un usage récurren
 ```bash
 zcat monezproxy.log.gz | ./bin/logextractor --field=url | grep "sciencedirect" | sort | uniq
 ```
-
-## loganonymizer
-
-Commande permettant d'anonymiser un fichier de log. Les éléments sensibles comme le login identifié ou le nom de machine sont remplacés par des valeurs aléatoires. Le fichier de log doit être envoyé sur l'entrée système (stdin) de la commande.
-
-Exemple d'utilisation:
-```bash
-zcat monezproxy.log.gz | ./bin/loganonymizer
-```
-
-Usage:
-```
-Anonymize critical data in a log file
-Usage: node ./loganonymizer --input=[string] --output=[string] --proxy=[string] --format[string]
-
-Options:
-  --input, -i   the input data to clean                      
-  --output, -o  the destination where to send the result to  
-  --proxy, -p   the proxy which generated the log file       
-  --format, -f  the format of log lines (ex: %h %u [%t] "%r")
-```
-
-Cette commande est utile pour constituer des fichiers de test en y retirant les éléments sensibles liés à la protection des données personnelles. Chaque valeur est remplacée par la même valeur aléatoire de façon à pouvoir faire les associations et dédoublonnages nécessaires aux traitements.
 
 ## csvextractor
 
@@ -261,12 +271,4 @@ Options:
   --hostkey, -k  the field name containing host ip (default "host").           
   --file, -f     A csv file to parse. If absent, will read from standard input.
 
-```
-
-## platform-init
-Commande servant à créer la structure de base d'une plateforme. Pose une série de questions puis crée l'arborescence de la plateforme avec le fichier manifest.json, un squelette de parseur et un fichier de test vide. La commande est interactive et ne nécessite aucun paramètre.
-
-Usage:
-```
-platform-init
 ```
