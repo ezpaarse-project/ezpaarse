@@ -206,10 +206,10 @@ module.exports = function (app) {
   });
 
   /**
-   * GET route on /info/form-predefined
+   * GET route on /info/predefined-settings
    */
-  app.get('/info/form-predefined', function (req, res) {
-    var settingsFile = path.join(__dirname, '/../form-predefined.json');
+  app.get('/info/predefined-settings', function (req, res) {
+    var settingsFile = path.join(__dirname, '/../predefined-settings.json');
 
     fs.exists(settingsFile, function (exists) {
       if (!exists) {
@@ -235,7 +235,7 @@ module.exports = function (app) {
   });
 
   /**
-   * GET route on /info/form-predefined
+   * GET route on /info/domains/:domain:
    */
   app.get(/\/info\/domains\/([a-zA-Z0-9\-\.]+)/, function (req, res) {
     res.header('Content-Type', 'application/json; charset=utf-8');

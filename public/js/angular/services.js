@@ -256,11 +256,11 @@ angular.module('ezPAARSE.services', [])
       var self = this;
 
       this.selections = {
-        proxyTypes: [
-          'EZproxy',
-          'Apache',
-          'Squid'
-        ],
+        proxyTypes: {
+          'ezproxy': "EZproxy",
+          'apache': "Apache",
+          'squid': "Squid"
+        },
         resultFormats: [
           { type: 'CSV',  mime: 'text/csv' },
           { type: 'TSV',  mime: 'text/tab-separated-values' },
@@ -291,7 +291,7 @@ angular.module('ezPAARSE.services', [])
       this._control = angular.copy(this.defaults);
       this.loadSavedSettings();
 
-      $http.get('/info/form-predefined')
+      $http.get('/info/predefined-settings')
         .success(function (data) {
           self.predefined = data;
 
@@ -402,8 +402,8 @@ angular.module('ezPAARSE.services', [])
      */
     settingService.prototype.removeOutputField = function (name, type) {
       if (type == 'plus' || type == 'minus') {
-        var index = this.settings.outputFields[type].indexOf('name');
-        if (index) {
+        var index = this.settings.outputFields[type].indexOf(name);
+        if (index !== -1) {
           this.settings.outputFields[type].splice(index, 1);
         }
       }
@@ -445,11 +445,11 @@ angular.module('ezPAARSE.services', [])
      * @return {Object}      settings
      */
     settingService.prototype.getSettingsFrom = function (type) {
-      var headers  = this.predefined[type];
-      if (!headers) { return; }
+      var setting = this.predefined[type];
+      if (!setting || !setting.headers) { return; }
 
       var settings = angular.copy(this.defaults);
-      headers      = angular.copy(this.predefined[type]);
+      var headers  = angular.copy(setting.headers);
 
       if (headers['Output-Fields']) {
         var fields = headers['Output-Fields'].split(',');
@@ -469,11 +469,9 @@ angular.module('ezPAARSE.services', [])
         if (this.defaults.headers[name] !== undefined) {
           settings.headers[name] = headers[name];
 
-        } else if (/^Log-Type$/i.test(name)) {
-          settings.proxyType = headers[name];
-
-        } else if (/^Log-Format$/i.test(name)) {
+        } else if (/^Log-Format-[a-z]+$/i.test(name)) {
           settings.logFormat = headers[name];
+          settings.proxyType = name.substr(11).toLowerCase();
 
         } else {
           settings.customHeaders.push({ name: name, value: headers[name] });

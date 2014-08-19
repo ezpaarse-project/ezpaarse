@@ -1,13 +1,13 @@
 #!/bin/bash
 #
-# 
+#
 #
 
 set -e
 
-
 MY_PATH=$(cd ${0%/*} && echo $PWD/${0##*/})
 BIN_PATH=`dirname "$MY_PATH"`
+. "$BIN_PATH/env"
 EZPAARSE_PATH=$BIN_PATH/..
 EZRESULT_PATH=/applis/stats/home/ezresults
 

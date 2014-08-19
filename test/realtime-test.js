@@ -8,32 +8,41 @@ var logLine  = '16.2.255.24 - 13BBIU1158 [01/Aug/2013:16:56:36 +0100] "GET http:
 
 describe('Real time ECs', function () {
 
-  it('should be generated when Double-Click-Removal is false (@01)', function (done) {
+  it('should be generated when Double-Click-Removal is false and ezPAARSE-Buffer-Size equals zero (@01)', function (done) {
 
     // create a stream and write 2 lines logs into it
     var stream = new StreamPT();
-    stream.write(logLine);
-    // but wait 2 second before writing the second one
-    setTimeout(function () {
-      stream.write(logLine);
-      stream.end();
-    }, 2000);
+
+    var opt = {
+      'Double-Click-Removal': false,
+      'ezPAARSE-Buffer-Size': 0
+    };
 
     // send the logs to ezPAARSE
-    var jobStream = helper.postPiped('/', { 'Double-Click-Removal': false }, stream, function (err, res) {
+    var jobStream = helper.postPiped('/', opt, stream, function (err, res) {
+      if (!res) { throw new Error('ezPAARSE is not running'); }
       res.should.have.status(200);
     });
 
     // read the result real time
-    var chunksRead = [];
+    var readData = '';
     jobStream.on('data', function (chunk) {
-      chunksRead.push('' + chunk);
+      readData += chunk.toString();
     });
 
-    // test how many chunk has been received
-    setTimeout(function () {
-      chunksRead.length.should.be.above(0);
-      done();
+    stream.write(logLine);
+
+    // check that we immediately get two lines (header + one EC)
+    var tries = 0;
+    setTimeout(function checkResponse() {
+      var nbLines = readData.trim().split('\n').length;
+      if (nbLines == 2) {
+        done();
+      } else if (++tries >= 5) {
+        throw new Error('expected 2 lines, got ' + nbLines);
+      } else {
+        setTimeout(checkResponse, 200);
+      }
     }, 100);
 
   });
