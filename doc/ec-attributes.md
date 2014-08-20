@@ -17,9 +17,9 @@ L'identifiant d'une ressource permet de caractériser les événements de consul
 
 ### Description de unitid ###
 
-Unitid contient l'identifiant complet d'un événement de consultation sur une plateforme. Cet identifiant n'exclue pas l'usage d'autres identifiants, mais a un usage ciblé de dédoublonnage des EC dans leur ensemble selon leur type et permet d'obtenir des indicateurs utiles pour les documentalistes.
+Le unitid contient l'identifiant le plus précis (qui décrit la granularité la plus fine) pour un événement de consultation sur une plateforme. Cet identifiant n'exclut pas l'usage d'autres identifiants. Il est utilisé pour le dédoublonnage selon la norme [COUNTER](http://www.projectcounter.org/) en vigueur des EC dans leur ensemble selon leur type et permet d'obtenir des indicateurs utiles pour les documentalistes.
 
-Il peut s'agir du DOI ou d'un identifiant plus complexe permettant de savoir le plus précisément possible ce qui a été consulté (par exemple un paragraphe d'un article d'une page d'un livre).
+Il peut s'agir du DOI ou d'un identifiant plus complexe permettant de savoir le plus précisément possible ce qui a été consulté (par exemple : un paragraphe d'un article d'une page d'un livre).
 
 ## Types de ressources (rtype) ##
 
