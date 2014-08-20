@@ -2,7 +2,7 @@
 
 ## Identifiants de ressources ##
 
-L'identifiant d'une ressource permet de caractériser les événements de consultations qui lui sont associés, il peut prendre les valeurs définies dans le tableau ci-dessous (chargées depuis [le paramétrage d'ezPAARSE](https://github.com/ezpaarse-project/ezpaarse/blob/master/platforms/rid.json)). Il est possible qu'une ressource soit caractérisée par plusieurs identifiants (par exemple un identifiant interne de l'éditeur et un ISBN).
+L'identifiant d'une ressource permet de caractériser les événements de consultations qui lui sont associés, il peut prendre les valeurs définies dans le tableau ci-dessous (chargées depuis [le paramétrage d'ezPAARSE](https://github.com/ezpaarse-project/ezpaarse-platforms/blob/master/rid.json)). Il est possible qu'une ressource soit caractérisée par plusieurs identifiants (par exemple un identifiant interne de l'éditeur et un ISBN).
 
 <table>
   <tr><th>Code</th><th>Description</th><th>Commentaires</th></tr>
@@ -23,7 +23,7 @@ Il peut s'agir du DOI ou d'un identifiant plus complexe permettant de savoir le 
 
 ## Types de ressources (rtype) ##
 
-Le type d'une ressource permet de connaître la forme de la ressource et de caractériser les EC associés, il peut prendre les valeurs définies dans le tableau ci-dessous (chargées depuis [le paramétrage d'ezPAARSE](https://github.com/ezpaarse-project/ezpaarse/blob/master/platforms/rtype.json)).
+Le type d'une ressource permet de connaître la forme de la ressource et de caractériser les EC associés, il peut prendre les valeurs définies dans le tableau ci-dessous (chargées depuis [le paramétrage d'ezPAARSE](https://github.com/ezpaarse-project/ezpaarse-platforms/blob/master/rtype.json)).
 
 <table>
   <tr><th>Code</th><th>Description</th><th>Commentaires</th></tr>
@@ -45,7 +45,7 @@ Le type d'une ressource permet de connaître la forme de la ressource et de cara
 
 ## Formats de ressources (mime) ##
 
-Le format d'une ressource permet de caractériser les EC associés, il peut prendre les valeurs définies dans le tableau ci-dessous (chargées depuis [le paramétrage d'ezPAARSE](https://github.com/ezpaarse-project/ezpaarse/blob/master/platforms/mime.json)).
+Le format d'une ressource permet de caractériser les EC associés, il peut prendre les valeurs définies dans le tableau ci-dessous (chargées depuis [le paramétrage d'ezPAARSE](https://github.com/ezpaarse-project/ezpaarse-platforms/blob/master/mime.json)).
 
 <table>
   <tr><th>Code</th><th>Description</th><th>Commentaires</th></tr>
