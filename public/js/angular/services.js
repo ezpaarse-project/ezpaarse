@@ -200,7 +200,7 @@ angular.module('ezPAARSE.services', [])
 
     return new requestService();
   })
-  .service('inputService', function ($cookieStore, $http) {
+  .service('inputService', function ($http) {
     function inputService() {
       this.files    = [];
       this.text     = '';
@@ -251,7 +251,7 @@ angular.module('ezPAARSE.services', [])
 
     return new inputService();
   })
-  .service('settingService', function ($cookieStore, $http) {
+  .service('settingService', function (ipCookie, $http) {
     function settingService() {
       var self = this;
 
@@ -505,9 +505,9 @@ angular.module('ezPAARSE.services', [])
      */
     settingService.prototype.loadSavedSettings = function () {
 
-      this.remember     = $cookieStore.get('remember');
-      this.settingsType = $cookieStore.get('settingsType');
-      var settings      = $cookieStore.get('settings');
+      this.remember     = ipCookie('remember');
+      this.settingsType = ipCookie('settingsType');
+      var settings      = ipCookie('settings');
       if (!settings) { return; }
 
       for (var opt in settings) {
@@ -519,7 +519,7 @@ angular.module('ezPAARSE.services', [])
      * Save current remember setting to cookies and save or reset settings
      */
     settingService.prototype.saveRemember = function () {
-      $cookieStore.put('remember', this.remember);
+      ipCookie('remember', this.remember, { expires: 180 });
       this.saveSettings();
     };
 
@@ -528,15 +528,15 @@ angular.module('ezPAARSE.services', [])
      */
     settingService.prototype.saveSettings = function () {
       if (this.remember && this.settings) {
-        $cookieStore.put('settings', this.settings);
+        ipCookie('settings', this.settings, { expires: 180 });
       } else {
-        $cookieStore.remove('settings');
+        ipCookie.remove('settings');
       }
 
       if (this.remember && this.settingsType) {
-        $cookieStore.put('settingsType', this.settingsType);
+        ipCookie('settingsType', this.settingsType, { expires: 180 });
       } else {
-        $cookieStore.remove('settingsType');
+        ipCookie.remove('settingsType');
       }
     };
 

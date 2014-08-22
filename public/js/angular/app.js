@@ -2,7 +2,7 @@
 
 angular.module('ezPAARSE', [
   'ui.router',
-  'ngCookies',
+  'ipCookie',
   'ngSanitize',
   'btford.socket-io',
   'pascalprecht.translate',
