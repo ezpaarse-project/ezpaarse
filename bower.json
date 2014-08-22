@@ -22,10 +22,10 @@
     "angular-ui-router": "~0.2.10",
     "bxslider-4-kallisto": "~4.1.2",
     "node-uuid": "~1.4.1",
-    "angular-cookies": "~1.2.16",
     "angular-socket-io": "~0.4.1",
     "angular-chosen-localytics": "~1.0.6",
     "angular-sanitize": "~1.2.16",
-    "angular-translate": "~2.1.0"
+    "angular-translate": "~2.1.0",
+    "angular-cookie": "~4.0.2"
   }
 }
