@@ -168,6 +168,17 @@
       "Output-Fields": "+pid,-domain"
     }
   },
+  "irevues": {
+    "fullName": "INIST-CNRS - Irevues",
+    "country": "France",
+    "headers": {
+      "Log-Format-apache": "%h %l %u %t %r %>s %b",
+      "Relative-Domain": "irevues.inist.fr",
+      "Output-Fields": "+pid,-domain",
+      "Geoip-Localization": "geoip-lookup",
+      "Geoip-Output-Fields": "all"
+    }
+  },
   "ampt": {
     "fullName": "Archive ouverte Art et Metier ParisTech",
     "country": "France",
