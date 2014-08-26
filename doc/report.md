@@ -60,8 +60,8 @@ Les différentes sections disponibles sont documentées ici.
       </td>
     </tr><tr>
       <th class="four wide">geolocalization</th>
-      <td>geoip-lookup
-        <div class="comment">Type de géolocalisation demandée</div>
+      <td>all
+        <div class="comment">Champs de géolocalisation demandés</div>
       </td>
     </tr><tr>
       <th class="four wide">git-branch</th>
