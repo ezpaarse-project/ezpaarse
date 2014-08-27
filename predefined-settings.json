@@ -68,7 +68,7 @@
       "Log-Format-squid": "%ts.%03tu %6tr %>a %Ss/%03>Hs %<st %rm %ru %[un %Sh/%<a %mt"
     }
   },
-  "strabsourg": {
+  "strasbourg": {
     "fullName": "Université de Strasbourg",
     "country": "France",
     "headers": {
@@ -236,6 +236,13 @@
     "country": "France",
     "headers": {
       "Log-Format-squid": "%ts.%03tu %6tr %>a %Ss/%03>Hs %<st %rm %ru %[un %Sh/%{last-ip}<.*?> %mt"
+    }
+  },
+  "upmc": {
+    "fullName": "UPMC - Université Pierre et Marie Curie - Paris 6",
+    "country": "France",
+    "headers": {
+      "Log-Format-ezproxy": "%h %l %u - %t \"%r\" %s %b %{website}<.*>"
     }
   }
 }
