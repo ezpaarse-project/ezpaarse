@@ -14,8 +14,7 @@ describe('The server', function () {
     it('and correctly handles geolocalization (@01)', function (done) {
       var headers = {
         'Accept' : 'application/json',
-        'Geoip-Localization' : 'geoip-lookup',
-        'Geoip-Output-Fields' : 'geoip-country'
+        'Geoip' : 'geoip-country'
       };
       helpers.post('/', logFile, headers, function (err, res, body) {
         if (!res) { throw new Error('ezPAARSE is not running'); }
@@ -24,7 +23,8 @@ describe('The server', function () {
 
         var result = JSON.parse(body);
         result[0].should.have.property('geoip-country');
-        result[0]['geoip-country'].should.equal('FR');
+        result[0]['geoip-country'].should.equal('US');
+        result[0]['geoip-region'].should.equal('CA');
         done();
       });
     });
@@ -33,7 +33,7 @@ describe('The server', function () {
     it('and correctly handles data without geolocalization (@02)', function (done) {
       var headers = {
         'Accept' : 'application/json',
-        'Geoip-Localization' : 'none'
+        'Geoip' : 'none'
       };
       helpers.post('/', logFile, headers, function (err, res, body) {
         if (!res) { throw new Error('ezPAARSE is not running'); }
@@ -43,7 +43,7 @@ describe('The server', function () {
         var result = JSON.parse(body);
         result[0].should.not.have.property('geoip-country');
         result[0].should.have.property('host');
-        result[0]['host'].should.equal('193.54.109.8');
+        result[0]['host'].should.equal('66.249.65.107');
         done();
       });
     });

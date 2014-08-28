@@ -42,15 +42,22 @@ describe('The server', function () {
             if (err) { throw err; }
 
             // Remove all dates, because they can differ depending on locale
-            delete expected.Report.$.Created;
-            delete result.Report.$.Created;
-            result.Report.Customer.ReportItems.map(function (item) {
+            delete expected.ReportResponse.$.Created;
+            delete result.ReportResponse.$.Created;
+
+            delete expected.ReportResponse.Report.$.Created;
+            delete result.ReportResponse.Report.$.Created;
+
+            delete expected.ReportResponse.ReportDefinition.Filters.UsageDateRange;
+            delete result.ReportResponse.ReportDefinition.Filters.UsageDateRange;
+
+            result.ReportResponse.Report.Customer.ReportItems.map(function (item) {
               return item.ItemPerformance.map(function (subitem) {
                 delete subitem.Period;
                 return subitem;
               });
             });
-            expected.Report.Customer.ReportItems.map(function (item) {
+            expected.ReportResponse.Report.Customer.ReportItems.map(function (item) {
               return item.ItemPerformance.map(function (subitem) {
                 delete subitem.Period;
                 return subitem;
@@ -58,7 +65,7 @@ describe('The server', function () {
             });
 
             // Admin mail in the model could have been changed
-            expected.Report.Customer.Contact['E-mail'] = cfg.EZPAARSE_ADMIN_MAIL;
+            expected.ReportResponse.Report.Customer.Contact['E-mail'] = cfg.EZPAARSE_ADMIN_MAIL;
 
             should.ok(helpers.equals(result, expected), 'The result does not match the model');
 
