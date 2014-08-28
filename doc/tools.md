@@ -6,6 +6,8 @@ Commande servant à créer la structure de base d'une plateforme. Pose une séri
 
 Usage:
 ```
+cd ezpaarse/
+. ./bin/env
 platform-init
 ```
 
