@@ -1,5 +1,10 @@
 # Versions ezPAARSE #
 
+## 1.9.0  ## 
+##### 23/06/2014 - Parsathon #####
+- Reconnaissance de 50 plateformes
+- Debut de travail Open Access
+
 ## 1.8.0  ## 
 ##### 13/03/2014 - MVP des alertes sur anomalies #####
 - Notification de fin de traitement
