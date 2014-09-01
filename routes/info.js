@@ -18,9 +18,9 @@ module.exports = function (app) {
    */
   app.get('/info/version', function (req, res) {
     if (pkg.version) {
-      res.send(200, pkg.version);
+      res.status(200).send(pkg.version);
     } else {
-      res.send(500);
+      res.status(500).end();
     }
   });
 
@@ -112,7 +112,7 @@ module.exports = function (app) {
     fieldsToReturn.forEach(function (field) {
       cfg[field] = config[field];
     });
-    res.send(200, JSON.stringify(cfg, null, 2));
+    res.status(200).json(cfg);
   });
 
   /**
@@ -202,7 +202,7 @@ module.exports = function (app) {
    */
   app.get('/info/uuid', function (req, res) {
     res.header('Content-Type', 'text/plain');
-    res.send(uuid.v1());
+    res.status(200).send(uuid.v1());
   });
 
   /**
@@ -213,7 +213,7 @@ module.exports = function (app) {
 
     fs.exists(settingsFile, function (exists) {
       if (!exists) {
-        res.send(404);
+        res.status(404).end();
         return;
       }
 
@@ -222,7 +222,7 @@ module.exports = function (app) {
         try {
           settings = JSON.parse(data);
         } catch (e) {
-          res.send(500);
+          res.status(500).end();
           return;
         }
 
@@ -247,7 +247,7 @@ module.exports = function (app) {
     if (parser) {
       res.json(200, parser);
     } else {
-      res.send(404);
+      res.status(404).end();
     }
   });
 
@@ -259,7 +259,7 @@ module.exports = function (app) {
 
     fs.exists(usageFile, function (exists) {
       if (!exists) {
-        res.send(404);
+        res.status(404).end();
         return;
       }
 
@@ -268,14 +268,14 @@ module.exports = function (app) {
         try {
           usage = JSON.parse(data);
         } catch (e) {
-          res.send(500);
+          res.status(500).end();
           return;
         }
 
         res.header('Content-Type', 'application/json; charset=utf-8');
         res.header("Access-Control-Allow-Origin", "*");
         res.header("Access-Control-Allow-Headers", "X-Requested-With");
-        res.json(200, usage);
+        res.status(200).json(usage);
       });
     });
   });

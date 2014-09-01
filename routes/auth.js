@@ -34,6 +34,6 @@ module.exports = function (app) {
    */
   app.get('/logout', function (req, res) {
     req.logout();
-    res.send(204);
+    res.status(204).end();
   });
 };

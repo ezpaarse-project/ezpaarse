@@ -28,7 +28,7 @@ module.exports = function (app) {
    * To get the number of registered users
    */
   app.get('/usersnumber', function (req, res) {
-    res.send(200, userlist.length().toString());
+    res.status(200).send(userlist.length().toString());
   });
 
   /**
@@ -78,7 +78,7 @@ module.exports = function (app) {
     });
 
     if (!user) {
-      res.send(500);
+      res.status(500).end();
       return;
     }
 
@@ -96,7 +96,7 @@ module.exports = function (app) {
 
     req.logIn(user, function (err) {
       if (err) {
-        res.send(500);
+        res.status(500).end();
         return;
       }
       res.set("Content-Type", "application/json; charset=utf-8");
@@ -113,14 +113,14 @@ module.exports = function (app) {
       var username = req.params[0];
       if (username == req.user.username) {
         res.set('ezPAARSE-Status-Message', 'vous ne pouvez pas vous supprimer vous-même');
-        res.send(403);
+        res.status(403).end();
       } else {
         var user = userlist.remove(username);
         if (user) {
-          res.send(204);
+          res.status(204).end();
         } else {
           res.set('ezPAARSE-Status-Message', 'cet utilisateur n\'existe pas');
-          res.send(404);
+          res.status(404).end();
         }
       }
     }
@@ -136,10 +136,10 @@ module.exports = function (app) {
 
     execFile(gitscript, {cwd: platformsFolder}, function (error, stdout) {
       if (error || !stdout) {
-        res.send(500);
+        res.status(500).end();
         return;
       }
-      res.send(200, stdout);
+      res.status(200).send(stdout);
     });
   });
 
@@ -156,7 +156,7 @@ module.exports = function (app) {
     });
 
     req.on('error', function () {
-      res.send(500);
+      res.status(500).end();
     });
 
     req.on('end', function () {
@@ -166,14 +166,14 @@ module.exports = function (app) {
 
         execFile(gitscript, {cwd: platformsFolder}, function (error) {
           if (error) {
-            res.send(500);
+            res.status(500).end();
             return;
           }
           pkbmanager.clearCache();
-          res.send(200);
+          res.status(200).end();
         });
       } else {
-        res.send(400);
+        res.status(400).end();
       }
     });
   });
