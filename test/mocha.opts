@@ -1,3 +1,4 @@
 --require should
+--require should-http
 --reporter dot
 --timeout 5000

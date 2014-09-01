@@ -10,7 +10,7 @@ describe('The server', function () {
       if (!res) { throw new Error('ezPAARSE is not running'); }
       if (err)  { throw err; }
       res.should.have.status(200);
-      res.body.should.include(appname);
+      res.body.should.containEql(appname);
       done();
     });
   });
