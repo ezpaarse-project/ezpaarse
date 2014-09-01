@@ -2,7 +2,7 @@
 
 var path       = require('path');
 var crypto     = require('crypto');
-var express    = require('express');
+var bodyParser = require('body-parser');
 var pkbmanager = require('../lib/pkbmanager.js');
 var execFile   = require('child_process').execFile;
 var userlist   = require('../lib/userlist.js');
@@ -35,7 +35,8 @@ module.exports = function (app) {
    * POST route on /users
    * To add a user
    */
-  app.post('/users/', express.bodyParser(), function (req, res) {
+  app.post('/users/', bodyParser.urlencoded({ extended: true }), bodyParser.json(),
+    function (req, res) {
     var userid   = req.body.userid;
     var password = req.body.password;
     var confirm  = req.body.confirm;

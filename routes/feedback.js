@@ -1,11 +1,11 @@
 'use strict';
 
-var fs          = require('graceful-fs');
-var path        = require('path');
-var express     = require('express');
-var request     = require('request');
-var mailer      = require('../lib/mailer.js');
-var config      = require('../lib/config.js');
+var fs         = require('graceful-fs');
+var path       = require('path');
+var bodyParser = require('body-parser');
+var request    = require('request');
+var mailer     = require('../lib/mailer.js');
+var config     = require('../lib/config.js');
 
 module.exports = function (app) {
 
@@ -13,7 +13,8 @@ module.exports = function (app) {
    * POST route on /feedback
    * To submit a feedback
    */
-  app.post('/feedback', express.bodyParser(), function (req, res) {
+  app.post('/feedback', bodyParser.urlencoded({ extended: true }), bodyParser.json(),
+    function (req, res) {
     if (!config.EZPAARSE_ADMIN_MAIL || !config.EZPAARSE_FEEDBACK_RECIPIENTS) {
       res.send(500);
       return;
@@ -80,7 +81,8 @@ module.exports = function (app) {
    * POST route on /feedback/freshinstall
    * To inform the team about a fresh installation
    */
-  app.post('/feedback/freshinstall', express.bodyParser(), function (req, res) {
+  app.post('/feedback/freshinstall', bodyParser.urlencoded({ extended: true }), bodyParser.json(),
+    function (req, res) {
     if (!config.EZPAARSE_FEEDBACK_RECIPIENTS || !config.EZPAARSE_ADMIN_MAIL) {
       res.send(500);
       return;
@@ -115,7 +117,7 @@ module.exports = function (app) {
    * To know if sending a feedback is possible
    */
   app.get('/feedback/status', function (req, res) {
-    if (!config.EZPAARSE_FEEDBACK_RECIPIENTS) {
+    if (!config.EZPAARSE_FEEDBACK_RECIPIENTS || !config.EZPAARSE_ADMIN_MAIL) {
       res.send(501);
       return;
     }

@@ -3,9 +3,9 @@
 /*jshint maxlen: 180*/
 'use strict';
 
-var express  = require('express');
-var auth     = require('../lib/auth-middlewares.js');
-var passport = require('passport');
+var bodyParser = require('body-parser');
+var auth       = require('../lib/auth-middlewares.js');
+var passport   = require('passport');
 
 module.exports = function (app) {
 
@@ -19,7 +19,8 @@ module.exports = function (app) {
   /**
    * Login
    */
-  app.post('/login', express.bodyParser(), passport.authenticate('local'), function (req, res) {
+  app.post('/login', bodyParser.urlencoded({ extended: true }), bodyParser.json(),
+    passport.authenticate('local'), function (req, res) {
     if (req.body.remember) {
       req.session.cookie.maxAge = 15778462980; //6 months
     } else {
