@@ -13,7 +13,7 @@ module.exports = function (app) {
    * Retrieve current session
    */
   app.get('/session', auth.ensureAuthenticated(false), function (req, res) {
-    res.json(200, req.user);
+    res.status(200).json(req.user);
   });
 
   /**
@@ -26,7 +26,7 @@ module.exports = function (app) {
     } else {
       req.session.cookie.expires = false;
     }
-    res.json(200, req.user);
+    res.status(200).json(req.user);
   });
 
   /**

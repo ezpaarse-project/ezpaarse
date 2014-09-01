@@ -229,7 +229,7 @@ module.exports = function (app) {
         res.header('Content-Type', 'application/json; charset=utf-8');
         res.header("Access-Control-Allow-Origin", "*");
         res.header("Access-Control-Allow-Headers", "X-Requested-With");
-        res.json(200, settings);
+        res.status(200).json(settings);
       });
     });
   });
@@ -245,7 +245,7 @@ module.exports = function (app) {
     var domain = req.params[0];
     var parser = parserlist.get(domain);
     if (parser) {
-      res.json(200, parser);
+      res.status(200).json(parser);
     } else {
       res.status(404).end();
     }
