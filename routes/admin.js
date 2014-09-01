@@ -20,7 +20,7 @@ module.exports = function (app) {
     var users = userlist.getAll();
     res.set("Content-Type", "application/json; charset=utf-8");
     res.set("ezPAARSE-Logged-User", req.user.username);
-    res.json(200, users);
+    res.status(200).json(users);
   });
 
   /**
@@ -90,7 +90,7 @@ module.exports = function (app) {
     if (req.user && req.user.group == 'admin') {
       //TODO: put that in a separate route
       res.set("Content-Type", "application/json; charset=utf-8");
-      res.json(201, copyUser);
+      res.status(201).json(copyUser);
       return;
     }
 
@@ -100,7 +100,7 @@ module.exports = function (app) {
         return;
       }
       res.set("Content-Type", "application/json; charset=utf-8");
-      res.json(201, copyUser);
+      res.status(201).json(copyUser);
     });
   });
 
