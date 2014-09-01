@@ -1,6 +1,13 @@
 'use strict';
 
 var express       = require('express');
+var bodyParser    = require('body-parser');
+var errorHandler  = require('errorhandler');
+var morgan        = require('morgan');
+var favicon       = require('serve-favicon');
+var cookieSession = require('cookie-session');
+var cookieParser  = require('cookie-parser');
+
 var pkg           = require('./package.json');
 var config        = require('./lib/config.js');
 var http          = require('http');
@@ -90,100 +97,92 @@ passport.use(new LocalStrategy({ usernameField: 'userid' }, auth.login));
 var app = express();
 
 // connect ezpaarse env to expressjs env
-process.env.NODE_ENV = process.env.NODE_ENV || config.EZPAARSE_ENV;
-app.set('env', process.env.NODE_ENV);
+var env = process.env.NODE_ENV = process.env.NODE_ENV || config.EZPAARSE_ENV;
+app.set('env', env);
 
-app.configure('development', function () {
-  // http://www.senchalabs.org/connect/middleware-logger.html
-  app.use(express.logger('dev'));
-});
-app.configure('production', function () {
-  // http://www.senchalabs.org/connect/middleware-logger.html
-  app.use(express.logger({
+switch (env) {
+case 'development':
+  app.use(morgan('dev'));
+  break;
+case 'production':
+  app.use(morgan('combined', {
     stream: fs.createWriteStream(path.join(__dirname, '/logs/access.log'), { flags: 'a+' })
   }));
+}
+
+app.set('port', config.EZPAARSE_NODEJS_PORT || 3000);
+
+// for dynamics HTML pages (ejs template engine is used)
+// https://github.com/visionmedia/ejs
+app.set('views', path.join(__dirname, '/views'));
+app.set('view engine', 'ejs');
+
+// used to expose a favicon in the browser
+// http://www.senchalabs.org/connect/middleware-favicon.html
+app.use(favicon(path.join(__dirname, 'public/img/favicon.ico')));
+
+
+/**
+ * Middleware to allow method override
+ * either using _method in query
+ * or the header X-HTTP-Method-Override
+ */
+app.use(function (req, res, next) {
+  var key = '_method';
+  if (req.query && req.query[key]) {
+    req.method = req.query[key].toUpperCase();
+  } else if (req.headers['x-http-method-override']) {
+    req.method = req.headers['x-http-method-override'].toUpperCase();
+  }
+  next();
+});
+app.use(cookieParser());
+app.use(cookieSession({ //should not be used in PROD
+  key: 'ezpaarse',
+  secret: 'ezpaarseappoftheYEAR'
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Set the ezPAARSE-Version header in all responses
+app.use(function (req, res, next) {
+  res.header('ezPAARSE-Version', pkg.version || 'N/A');
+  next();
 });
 
-app.configure(function () {
-  app.set('port', config.EZPAARSE_NODEJS_PORT || 3000);
-
-  // for dynamics HTML pages (ejs template engine is used)
-  // https://github.com/visionmedia/ejs
-  app.set('views', path.join(__dirname, '/views'));
-  app.set('view engine', 'ejs');
-
-  // used to expose a favicon in the browser
-  // http://www.senchalabs.org/connect/middleware-favicon.html
-  app.use(express.favicon(path.join(__dirname, 'public/img/favicon.ico')));
-
-
-  /**
-   * Middleware to allow method override
-   * either using _method in query
-   * or the header X-HTTP-Method-Override
-   */
-  app.use(function (req, res, next) {
-    var key = '_method';
-    if (req.query && req.query[key]) {
-      req.method = req.query[key].toUpperCase();
-    } else if (req.headers['x-http-method-override']) {
-      req.method = req.headers['x-http-method-override'].toUpperCase();
-    }
-    next();
-  });
-  app.use(express.cookieParser());
-  app.use(express.cookieSession({ //should not be used in PROD
-    key: 'ezpaarse',
-    secret: 'ezpaarseappoftheYEAR'
-  }));
-  app.use(passport.initialize());
-  app.use(passport.session());
-
-  // Set the ezPAARSE-Version header in all responses
-  app.use(function (req, res, next) {
-    res.header('ezPAARSE-Version', pkg.version || 'N/A');
-    next();
-  });
-
-  // calculate the baseurl depending on reverse proxy variables
-  app.use(function (req, res, next) {
-    req.ezBaseURL = 'http://' + (req.headers['x-forwarded-host'] || req.headers.host);
-    next();
-  });
-
-  // // Ask for basic authentification if ?auth=local
-  // // Render admin creation form if credentials.json does not exist
-  // app.use(function (req, res, next) {
-  //   if (req.query.auth && req.query.auth == 'local') {
-  //     if (userlist.length() !== 0) {
-  //       (passport.authenticate('basic', { session: true }))(req, res, next);
-  //     } else {
-  //       res.render('register', { title: 'ezPAARSE - Register', user: false });
-  //     }
-  //   } else {
-  //     next();
-  //   }
-  // });
-
-  // used to expose static files from the public folder
-  app.use('/assets', express.static(path.join(__dirname, 'public')));
-  app.use('/assets', function (req, res, next) { res.send(404); });
-  app.use('/stylesheets', express.static(path.join(__dirname, 'public/stylesheets')));
-  app.use('/stylesheets', function (req, res, next) { res.send(404); });
-  app.use('/img', express.static(path.join(__dirname, 'public/img')));
-  app.use('/img', function (req, res, next) { res.send(404); });
-  app.use('/doc', express.static(path.join(__dirname, 'public/doc')));
-  app.use('/doc', function (req, res, next) { res.send(404); });
-
-  // routes handling
-  app.use(app.router);
-
+// calculate the baseurl depending on reverse proxy variables
+app.use(function (req, res, next) {
+  req.ezBaseURL = 'http://' + (req.headers['x-forwarded-host'] || req.headers.host);
+  next();
 });
 
-app.configure('development', function () {
-  app.use(express.errorHandler());
-});
+// // Ask for basic authentification if ?auth=local
+// // Render admin creation form if credentials.json does not exist
+// app.use(function (req, res, next) {
+//   if (req.query.auth && req.query.auth == 'local') {
+//     if (userlist.length() !== 0) {
+//       (passport.authenticate('basic', { session: true }))(req, res, next);
+//     } else {
+//       res.render('register', { title: 'ezPAARSE - Register', user: false });
+//     }
+//   } else {
+//     next();
+//   }
+// });
 
+// used to expose static files from the public folder
+app.use('/assets', express.static(path.join(__dirname, 'public')));
+app.use('/assets', function (req, res, next) { res.send(404); });
+app.use('/stylesheets', express.static(path.join(__dirname, 'public/stylesheets')));
+app.use('/stylesheets', function (req, res, next) { res.send(404); });
+app.use('/img', express.static(path.join(__dirname, 'public/img')));
+app.use('/img', function (req, res, next) { res.send(404); });
+app.use('/doc', express.static(path.join(__dirname, 'public/doc')));
+app.use('/doc', function (req, res, next) { res.send(404); });
+
+/**
+ * routes handling
+ */
 app.all('*', function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "X-Requested-With");
@@ -192,7 +191,7 @@ app.all('*', function (req, res, next) {
 });
 
 // Handles delegated mails
-app.post('/mail', express.bodyParser(), mailer.handle);
+app.post('/mail', bodyParser.urlencoded({ extended: true }), mailer.handle);
 
 // log related routes
 require('./routes/views')(app);
@@ -207,6 +206,10 @@ require('./routes/feedback')(app);
 app.get('*', function (req, res) {
   res.render('main');
 });
+
+if (env == 'development') {
+  app.use(errorHandler());
+}
 
 var server = http.createServer(app);
 

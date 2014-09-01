@@ -23,13 +23,13 @@ describe('The server', function () {
         should.ok(body.length == 2, 'One EC should be returned');
 
         var csvheader = body[0].split(';');
-        csvheader.should.include('col1');
-        csvheader.should.include('col2');
+        csvheader.should.containEql('col1');
+        csvheader.should.containEql('col2');
 
         var ec        = body[1].split(';');
-        ec.should.include('chucknorris');
-        ec.should.include('012');
-        ec.should.include('ABC');
+        ec.should.containEql('chucknorris');
+        ec.should.containEql('012');
+        ec.should.containEql('ABC');
 
         done();
       });
@@ -52,16 +52,16 @@ describe('The server', function () {
         should.ok(body.length == 2, 'One EC should be returned');
 
         var csvheader = body[0].split(';');
-        csvheader.should.include('col1');
-        csvheader.should.include('col2');
-        csvheader.should.include('newCol');
-        csvheader.should.not.include('url');
+        csvheader.should.containEql('col1');
+        csvheader.should.containEql('col2');
+        csvheader.should.containEql('newCol');
+        csvheader.should.not.containEql('url');
 
         var ec = body[1].split(';');
-        ec.should.not.include('fulltext.pdf');
-        ec.should.include('chucknorris');
-        ec.should.include('012');
-        ec.should.include('ABC');
+        ec.should.not.containEql('fulltext.pdf');
+        ec.should.containEql('chucknorris');
+        ec.should.containEql('012');
+        ec.should.containEql('ABC');
 
         done();
       });

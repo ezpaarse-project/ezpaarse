@@ -14,11 +14,11 @@ describe('Alert', function () {
     var unknownDomainLog = '247.63.228.176 - TEO [30/Nov/2012:00:13:10 +0100] "GET http://www.unknowndomain.com HTTP/1.1" 200 444';
 
     // create a stream and write 1100 lines of logs into it
-    // with about 13% of www.unknowndomain.com 
+    // with about 13% of www.unknowndomain.com
     var stream = new StreamPT();
     var i = 0;
     while (i < 1100) {
-      if (i % 8 === 0) { // write about 13% of www.unknowndomain.com 
+      if (i % 8 === 0) { // write about 13% of www.unknowndomain.com
         stream.write(unknownDomainLog + "\n");
       } else {
         stream.write(knownDomainLog + "\n");
@@ -29,6 +29,7 @@ describe('Alert', function () {
 
     // send the logs to ezPAARSE
     helper.postPiped('/', {}, stream, function (err, res) {
+
       res.should.have.status(200);
       res.headers.should.have.property('job-id');
 

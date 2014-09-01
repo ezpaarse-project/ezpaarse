@@ -2,7 +2,7 @@
 
 var path       = require('path');
 var crypto     = require('crypto');
-var express    = require('express');
+var bodyParser = require('body-parser');
 var pkbmanager = require('../lib/pkbmanager.js');
 var execFile   = require('child_process').execFile;
 var userlist   = require('../lib/userlist.js');
@@ -20,7 +20,7 @@ module.exports = function (app) {
     var users = userlist.getAll();
     res.set("Content-Type", "application/json; charset=utf-8");
     res.set("ezPAARSE-Logged-User", req.user.username);
-    res.json(200, users);
+    res.status(200).json(users);
   });
 
   /**
@@ -28,14 +28,15 @@ module.exports = function (app) {
    * To get the number of registered users
    */
   app.get('/usersnumber', function (req, res) {
-    res.send(200, userlist.length().toString());
+    res.status(200).send(userlist.length().toString());
   });
 
   /**
    * POST route on /users
    * To add a user
    */
-  app.post('/users/', express.bodyParser(), function (req, res) {
+  app.post('/users/', bodyParser.urlencoded({ extended: true }), bodyParser.json(),
+    function (req, res) {
     var userid   = req.body.userid;
     var password = req.body.password;
     var confirm  = req.body.confirm;
@@ -77,7 +78,7 @@ module.exports = function (app) {
     });
 
     if (!user) {
-      res.send(500);
+      res.status(500).end();
       return;
     }
 
@@ -89,17 +90,17 @@ module.exports = function (app) {
     if (req.user && req.user.group == 'admin') {
       //TODO: put that in a separate route
       res.set("Content-Type", "application/json; charset=utf-8");
-      res.json(201, copyUser);
+      res.status(201).json(copyUser);
       return;
     }
 
     req.logIn(user, function (err) {
       if (err) {
-        res.send(500);
+        res.status(500).end();
         return;
       }
       res.set("Content-Type", "application/json; charset=utf-8");
-      res.json(201, copyUser);
+      res.status(201).json(copyUser);
     });
   });
 
@@ -112,14 +113,14 @@ module.exports = function (app) {
       var username = req.params[0];
       if (username == req.user.username) {
         res.set('ezPAARSE-Status-Message', 'vous ne pouvez pas vous supprimer vous-même');
-        res.send(403);
+        res.status(403).end();
       } else {
         var user = userlist.remove(username);
         if (user) {
-          res.send(204);
+          res.status(204).end();
         } else {
           res.set('ezPAARSE-Status-Message', 'cet utilisateur n\'existe pas');
-          res.send(404);
+          res.status(404).end();
         }
       }
     }
@@ -135,10 +136,10 @@ module.exports = function (app) {
 
     execFile(gitscript, {cwd: platformsFolder}, function (error, stdout) {
       if (error || !stdout) {
-        res.send(500);
+        res.status(500).end();
         return;
       }
-      res.send(200, stdout);
+      res.status(200).send(stdout);
     });
   });
 
@@ -155,7 +156,7 @@ module.exports = function (app) {
     });
 
     req.on('error', function () {
-      res.send(500);
+      res.status(500).end();
     });
 
     req.on('end', function () {
@@ -165,14 +166,14 @@ module.exports = function (app) {
 
         execFile(gitscript, {cwd: platformsFolder}, function (error) {
           if (error) {
-            res.send(500);
+            res.status(500).end();
             return;
           }
           pkbmanager.clearCache();
-          res.send(200);
+          res.status(200).end();
         });
       } else {
-        res.send(400);
+        res.status(400).end();
       }
     });
   });

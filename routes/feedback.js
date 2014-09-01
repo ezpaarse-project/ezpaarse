@@ -1,11 +1,11 @@
 'use strict';
 
-var fs          = require('graceful-fs');
-var path        = require('path');
-var express     = require('express');
-var request     = require('request');
-var mailer      = require('../lib/mailer.js');
-var config      = require('../lib/config.js');
+var fs         = require('graceful-fs');
+var path       = require('path');
+var bodyParser = require('body-parser');
+var request    = require('request');
+var mailer     = require('../lib/mailer.js');
+var config     = require('../lib/config.js');
 
 module.exports = function (app) {
 
@@ -13,9 +13,10 @@ module.exports = function (app) {
    * POST route on /feedback
    * To submit a feedback
    */
-  app.post('/feedback', express.bodyParser(), function (req, res) {
+  app.post('/feedback', bodyParser.urlencoded({ extended: true }), bodyParser.json(),
+    function (req, res) {
     if (!config.EZPAARSE_ADMIN_MAIL || !config.EZPAARSE_FEEDBACK_RECIPIENTS) {
-      res.send(500);
+      res.status(500).end();
       return;
     }
 
@@ -26,7 +27,7 @@ module.exports = function (app) {
     var feedback = req.body;
 
     if (!feedback || !feedback.comment) {
-      res.send(400);
+      res.status(400).end();
       return;
     }
 
@@ -69,9 +70,9 @@ module.exports = function (app) {
 
     mail.send(function (error) {
       if (error) {
-        res.send(500);
+        res.status(500).end();
       } else {
-        res.send(200);
+        res.status(200).end();
       }
     });
   });
@@ -80,9 +81,10 @@ module.exports = function (app) {
    * POST route on /feedback/freshinstall
    * To inform the team about a fresh installation
    */
-  app.post('/feedback/freshinstall', express.bodyParser(), function (req, res) {
+  app.post('/feedback/freshinstall', bodyParser.urlencoded({ extended: true }), bodyParser.json(),
+    function (req, res) {
     if (!config.EZPAARSE_FEEDBACK_RECIPIENTS || !config.EZPAARSE_ADMIN_MAIL) {
-      res.send(500);
+      res.status(500).end();
       return;
     }
 
@@ -91,7 +93,7 @@ module.exports = function (app) {
     res.header('Access-Control-Allow-Headers', 'X-Requested-With');
 
     if (!req.body.mail) {
-      res.send(400);
+      res.status(400).end();
       return;
     }
 
@@ -105,8 +107,8 @@ module.exports = function (app) {
     .from(config.EZPAARSE_ADMIN_MAIL)
     .to(config.EZPAARSE_FEEDBACK_RECIPIENTS)
     .send(function (error, response) {
-      if (error) { res.send(500); }
-      else       { res.send(200); }
+      if (error) { res.status(500).end(); }
+      else       { res.status(200).end(); }
     });
   });
 
@@ -115,8 +117,8 @@ module.exports = function (app) {
    * To know if sending a feedback is possible
    */
   app.get('/feedback/status', function (req, res) {
-    if (!config.EZPAARSE_FEEDBACK_RECIPIENTS) {
-      res.send(501);
+    if (!config.EZPAARSE_FEEDBACK_RECIPIENTS || !config.EZPAARSE_ADMIN_MAIL) {
+      res.status(501).end();
       return;
     }
 
@@ -124,21 +126,21 @@ module.exports = function (app) {
 
       mailer.checkServer(function (online) {
         if (online) {
-          res.send(200, config.EZPAARSE_FEEDBACK_RECIPIENTS);
+          res.status(200).send(config.EZPAARSE_FEEDBACK_RECIPIENTS);
         } else {
-          res.send(501);
+          res.status(501).end();
         }
       });
     } else if (config.EZPAARSE_PARENT_URL) {
       request.get(config.EZPAARSE_PARENT_URL + '/feedback/status', function (err, response, body) {
         if (err || !response || response.statusCode != 200) {
-          res.send(501);
+          res.status(501).end();
         } else {
-          res.send(200, config.EZPAARSE_FEEDBACK_RECIPIENTS);
+          res.status(200).send(config.EZPAARSE_FEEDBACK_RECIPIENTS);
         }
       });
     } else {
-      res.send(501);
+      res.status(501).end();
     }
   });
 };

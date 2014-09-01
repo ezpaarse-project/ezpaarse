@@ -29,7 +29,7 @@ module.exports = function (app) {
 
       switch (format) {
       case 'json':
-        res.sendfile('report.json', {root: logPath}, function (err) {
+        res.sendFile('report.json', { root: logPath }, function (err) {
           if (err) {
             res.status(500);
             res.end();
@@ -48,7 +48,7 @@ module.exports = function (app) {
           try {
             report = JSON.parse(data);
           } catch (e) {
-            res.send(500);
+            res.status(500).end();
           }
           var title = "Rapport d'exécution";
           if (report.general && report.general['Job-Date']) {
@@ -90,7 +90,7 @@ module.exports = function (app) {
         if (stats.size > 500 * 1024) {
           res.download(logFile, requestID + '-' + filename);
         } else {
-          res.sendfile(logFile);
+          res.sendFile(logFile);
         }
       });
     } else {
