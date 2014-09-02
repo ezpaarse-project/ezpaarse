@@ -136,7 +136,7 @@ app.use(function (req, res, next) {
   }
   next();
 });
-app.use(cookieParser());
+app.use(cookieParser('ezpaarseappoftheYEAR'));
 app.use(cookieSession({ //should not be used in PROD
   key: 'ezpaarse',
   secret: 'ezpaarseappoftheYEAR'

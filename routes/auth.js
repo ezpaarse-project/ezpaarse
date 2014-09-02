@@ -22,9 +22,9 @@ module.exports = function (app) {
   app.post('/login', bodyParser.urlencoded({ extended: true }), bodyParser.json(),
     passport.authenticate('local'), function (req, res) {
     if (req.body.remember) {
-      req.session.cookie.maxAge = 15778462980; //6 months
+      req.sessionCookies.maxAge = 15778462980; //6 months
     } else {
-      req.session.cookie.expires = false;
+      req.sessionCookies.expires = false;
     }
     res.status(200).json(req.user);
   });
