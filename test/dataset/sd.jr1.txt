@@ -7,5 +7,5 @@ Date run
 2014-03-12
 Journal	Publisher	Platform	Journal DOI	Proprietary Identifier	Print ISSN	Online ISSN	Reporting Period Total	Reporting Period HTML	Reporting Period PDF	Oct-2013	Nov-2013
 Total for all journals							4	2	2	2	2
-		Science Direct		08966273	0896-6273		2	2	0	1	1
-Developmental Biology		Science Direct		00121606	0012-1606		2	0	2	1	1
+	Elsevier	Science Direct		08966273	0896-6273		2	2	0	1	1
+Developmental Biology	Elsevier	Science Direct		00121606	0012-1606		2	0	2	1	1
