@@ -164,6 +164,11 @@ angular.module('ezPAARSE.main-controllers', [])
       });
     });
 
+    $scope.cancelForm = function () {
+      $element.modal('hide');
+      $scope.formData = { informTeam: true };
+    };
+
     $scope.register = function (valid) {
       if (!valid) { return; }
       $scope.loading = true;
