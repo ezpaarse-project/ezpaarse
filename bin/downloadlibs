@@ -7,7 +7,7 @@
 EZPAARSE_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 
 # detect local version
-LOCAL_VERSION=`git describe --tags`
+LOCAL_VERSION=`git describe --tags  --abbrev=0`
 if [ "$?" != "0" ]; then
   LOCAL_VERSION=`cat $EZPAARSE_PATH/VERSION`
 fi
