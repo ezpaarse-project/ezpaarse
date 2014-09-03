@@ -244,5 +244,12 @@
     "headers": {
       "Log-Format-ezproxy": "%h %l %u - %t \"%r\" %s %b %{website}<.*>"
     }
+  },
+  "uvsq": {
+    "fullName": "UVSQ - Université de Versailles St-Quentin-en-Yvelines Bibliopam",
+    "country": "France",
+    "headers": {
+      "Log-Format-apache": "%{epoch},%h,%b,%{ress-name}<[a-zA-Z0-9-\/ ]+>,\"%U\",%>s,%{mt}<[a-zA-Z0-9-\/ ;=]+>,%{profil}<.+>,%{uid},%{session-id}"
+    }
   }
 }
