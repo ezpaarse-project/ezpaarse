@@ -12,6 +12,7 @@
     "date",
     "login",
     "platform",
+    "platform_name",
     "rtype",
     "mime",
     "print_identifier",
