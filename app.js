@@ -17,13 +17,13 @@ var fs            = require('graceful-fs');
 var Reaper        = require('tmp-reaper');
 var auth          = require('./lib/auth-middlewares.js');
 var mailer        = require('./lib/mailer.js');
+var parserlist    = require('./lib/parserlist.js');
 var winston       = require('winston');
 require('./lib/winston-socketio.js');
 var passport      = require('passport');
 var BasicStrategy = require('passport-http').BasicStrategy;
 var LocalStrategy = require('passport-local').Strategy;
 var lsof          = require('lsof');
-require('./lib/init.js');
 
 winston.addColors({ verbose: 'green', info: 'green', warn: 'yellow', error: 'red' });
 
@@ -211,11 +211,29 @@ if (env == 'development') {
   app.use(errorHandler());
 }
 
-var server = http.createServer(app);
+console.log('Building domains matching list...');
+parserlist.init(function (errors, duplicates) {
+  if (errors) {
+    errors.forEach(function (err) { console.error(err); });
+  }
 
-require('./lib/socketio.js').listen(server);
+  if (duplicates) {
+    duplicates.forEach(function (d) {
+      var msg = '[Warning] The domain %s is used twice in %s and %s, %s will be ignored';
+      console.error(msg, d.domain, d.first, d.ignored, d.ignored);
+    });
+  }
 
-server.listen(app.get('port'), function () {
-  console.log(pkg.name + "-" + pkg.version +
-    " listening on http://localhost:" + app.get('port') + " (pid is " + process.pid + ")");
+  console.log('Matching list built. (%d domains registered for %d platforms)\n',
+    parserlist.sizeOf('domains'), parserlist.sizeOf('platforms'));
+
+  var server = http.createServer(app);
+
+  require('./lib/socketio.js').listen(server);
+
+  server.listen(app.get('port'), function () {
+    console.log(pkg.name + "-" + pkg.version +
+      " listening on http://localhost:" + app.get('port') + " (pid is " + process.pid + ")");
+  });
 });
+
