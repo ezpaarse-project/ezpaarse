@@ -65,6 +65,8 @@ angular.module('ezPAARSE.services', [])
       };
 
       this.reportListener = function (report) {
+        // Do nothing if it's not the good report
+        if (report.general['Job-ID'] !== self.data.jobID) { return; }
         self.data.report = report;
 
         self.data.nbLines = report.general['nb-lines-input'] - report.rejets['nb-lines-ignored'];
