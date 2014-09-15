@@ -4,6 +4,7 @@ var path       = require('path');
 var crypto     = require('crypto');
 var bodyParser = require('body-parser');
 var pkbmanager = require('../lib/pkbmanager.js');
+var parserlist = require('../lib/parserlist.js');
 var execFile   = require('child_process').execFile;
 var userlist   = require('../lib/userlist.js');
 var auth       = require('../lib/auth-middlewares.js');
@@ -145,7 +146,7 @@ module.exports = function (app) {
 
   /**
    * PUT route on /pkb/status
-   * To update the PKB folder
+   * To update the platforms folder
    */
   app.put('/platforms/status', auth.ensureAuthenticated(true), auth.authorizeMembersOf('admin'),
     function (req, res) {
@@ -169,8 +170,12 @@ module.exports = function (app) {
             res.status(500).end();
             return;
           }
+
           pkbmanager.clearCache();
-          res.status(200).end();
+          parserlist.clearCachedParsers();
+          parserlist.init(function () {
+            res.status(200).end();
+          });
         });
       } else {
         res.status(400).end();
