@@ -75,11 +75,11 @@
       "Log-Format-ezproxy": "%t %h %h %u %U %b %{session}<[a-zA-Z0-9]+|\\->"
     }
   },
-  "toulouse": {
-    "fullName": "Université de Toulouse",
+  "toulouse-3": {
+    "fullName": "Université de Toulouse 3 BiblioPAM",
     "country": "France",
     "headers": {
-      "Log-Format-ezproxy": "%h %l %u %t \"%r\" %>s %b %<.*>"
+      "Log-Format-apache": "%{epoch},%h,%b,%<[\"]?>%{ress-name}<[a-zA-Z0-9 \":,-]+>%<[\"]?>,%U,%>s,%<[\"]?>%{mt}<[a-zA-Z0-9-\/ \"=+;]+>%<[\"]?>,%{profil1}<[a-zA-Z0-9-\/ \"=+;]+>,%{uid},%{session-id},%{profil2}<[a-zA-Z0-9-\/ \"=+;]+>"
     }
   },
   "limoges": {
