@@ -35,9 +35,13 @@ module.exports = function (app) {
   app.get('/update', auth.ensureAuthenticated(true), auth.authorizeMembersOf('admin'),
     function (req, res) {
 
-    // TODO: add --rebuild and a switch for --tag
+    var args = [];
 
-    execFile('../lib/bin/update-app.js', ['--tag'], { cwd: __dirname }, function (error) {
+    if (req.query.version === 'latest') { args.push('--latest'); }
+    if (req.query.force == 'yes')       { args.push('--force'); }
+    if (req.query.rebuild !== 'no')     { args.push('--rebuild'); }
+
+    execFile('../lib/bin/update-app.js', args, { cwd: __dirname }, function (error) {
       res.status(error ? 500 : 200).end();
     });
   });
