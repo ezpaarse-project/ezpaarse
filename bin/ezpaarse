@@ -9,6 +9,7 @@
 # load ezpaarse env
 . $EZPAARSE_PATH/bin/env
 
+[ -z "$EZPAARSE_APPFILE" ] && EZPAARSE_APPFILE="$EZPAARSE_PATH/app.js"
 [ -z "$EZPAARSE_PIDFILE" ] && EZPAARSE_PIDFILE="$EZPAARSE_PATH/ezpaarse.pid"
 [ -z "$EZPAARSE_PORT" ] && EZPAARSE_PORT=$($EZPAARSE_PATH/bin/readconfig --key EZPAARSE_NODEJS_PORT)
 [ -z "$EZPAARSE_NAME" ] && EZPAARSE_NAME=$($EZPAARSE_PATH/bin/readconfig --key name)
@@ -30,13 +31,13 @@ ezpaarse_start() {
     # DEBUG used to activate verbose and colored logs on stdout
     DEBUG=${DEBUG:="$EZPAARSE_DEBUG_LEVEL"}
     # run app.js forground to help developer
-    NODE_ENV="$NODE_ENV" DEBUG="$DEBUG" node $EZPAARSE_PATH/app.js --pidFile $EZPAARSE_PIDFILE &
+    NODE_ENV="$NODE_ENV" DEBUG="$DEBUG" node $EZPAARSE_APPFILE --pidFile $EZPAARSE_PIDFILE &
   else
     $FOREVER_CMD start -p $EZPAARSE_PATH -a -l $EZPAARSE_LOGDIR/forever.log \
                      -o $EZPAARSE_LOGDIR/out.log \
                      -e $EZPAARSE_LOGDIR/err.log \
                      --pidFile $EZPAARSE_PIDFILE \
-                     $EZPAARSE_PATH/app.js 1>/dev/null
+                     $EZPAARSE_APPFILE 1>/dev/null
   fi
 }
 
@@ -44,7 +45,7 @@ ezpaarse_stop() {
   if [ "$EZPAARSE_ENV" == "development" ]; then
     kill `cat $EZPAARSE_PIDFILE`
   else
-    $FOREVER_CMD stop -p $EZPAARSE_PATH $EZPAARSE_PATH/app.js 1>/dev/null
+    $FOREVER_CMD stop -p $EZPAARSE_PATH $EZPAARSE_APPFILE 1>/dev/null
   fi
 }
 
@@ -53,14 +54,18 @@ ezpaarse_restart() {
     ezpaarse_stop
     ezpaarse_start
   else
-    $FOREVER_CMD restart -p $EZPAARSE_PATH $EZPAARSE_PATH/app.js 1>/dev/null
+    $FOREVER_CMD restart -p $EZPAARSE_PATH $EZPAARSE_APPFILE 1>/dev/null
   fi
+}
+
+ezpaarse_status() {
+  echo `$FOREVER_CMD list | grep $EZPAARSE_APPFILE | wc -l`
 }
 
 case $1 in
 
   start)
-    if kill -0 `cat $EZPAARSE_PIDFILE 2>/dev/null` >/dev/null 2>&1; then
+    if [[ `ezpaarse_status` -gt 0 ]]; then
       echo "$EZPAARSE_NAME is already running, listening on http://localhost:$EZPAARSE_PORT/"
       exit 0
     else
@@ -75,7 +80,7 @@ case $1 in
           sleep 1
         done
 
-        if kill -0 `cat $EZPAARSE_PIDFILE 2>/dev/null` >/dev/null 2>&1; then
+        if [[ `ezpaarse_status` -gt 0 ]]; then
           echo "$EZPAARSE_NAME started, listening on http://localhost:$EZPAARSE_PORT/"
           exit 0
         else
@@ -90,7 +95,7 @@ case $1 in
   ;;
 
   stop)
-    if ! kill -0 `cat $EZPAARSE_PIDFILE 2>/dev/null` >/dev/null 2>&1; then
+    if [[ `ezpaarse_status` -eq 0 ]]; then
       echo "$EZPAARSE_NAME is already stopped."
       exit 0
     else
@@ -98,25 +103,21 @@ case $1 in
       ezpaarse_stop
 
       for i in 1 2 3 4 5 6 7 8 9 10 11 12 13 14; do
-        if ! kill -0 `cat $EZPAARSE_PIDFILE 2>/dev/null` >/dev/null 2>&1; then
-          break
+        if [[ `ezpaarse_status` -eq 0 ]]; then
+          echo "$EZPAARSE_NAME is stopped."
+          rm -f $EZPAARSE_PIDFILE 2>/dev/null
+          exit 0
         fi
         sleep 1
       done
 
-      if kill -0 `cat $EZPAARSE_PIDFILE 2>/dev/null` >/dev/null 2>&1; then
-        echo "$EZPAARSE_NAME cannot be stopped."
-        exit 1
-      else
-        echo "$EZPAARSE_NAME is stopped."
-        rm -f $EZPAARSE_PIDFILE 2>/dev/null
-        exit 0
-      fi
+      echo "$EZPAARSE_NAME cannot be stopped."
+      exit 1
     fi
   ;;
 
   restart | reload | force-reload)
-    if ! kill -0 `cat $EZPAARSE_PIDFILE 2>/dev/null` >/dev/null 2>&1; then
+    if [[ `ezpaarse_status` -eq 0 ]]; then
       PID=0
       ezpaarse_start
     else
@@ -131,22 +132,22 @@ case $1 in
       sleep 1
     done
 
-    if kill -0 `cat $EZPAARSE_PIDFILE 2>/dev/null` >/dev/null 2>&1; then
-      echo "$EZPAARSE_NAME has been restarted, listening on http://localhost:$EZPAARSE_PORT/"
-      exit 0
-    else
+    if [[ `ezpaarse_status` -eq 0 ]]; then
       echo "$EZPAARSE_NAME cannot be restarted."
       exit 1
-    fi    
+    else
+      echo "$EZPAARSE_NAME has been restarted, listening on http://localhost:$EZPAARSE_PORT/"
+      exit 0
+    fi
   ;;
 
   status)
-    if kill -0 `cat $EZPAARSE_PIDFILE 2>/dev/null` >/dev/null 2>&1; then
-      echo "$EZPAARSE_NAME is running, listening on http://localhost:$EZPAARSE_PORT/"
-      exit 0
-    else
+    if [[ `ezpaarse_status` -eq 0 ]]; then
       echo "$EZPAARSE_NAME is not running."
       exit 1
+    else
+      echo "$EZPAARSE_NAME is running, listening on http://localhost:$EZPAARSE_PORT/"
+      exit 0
     fi
   ;;
 
