@@ -1,7 +1,7 @@
 #!/bin/bash
 #
 # Stop ezPAARSE, update the core and restart
-# Options: [--tags][-t]     Update to the latest tag instead of the head
+# Options: [--latest][-l]   Update to the bleeding edge instead of the latest tag
 #          [--rebuild][-b]  Call 'make' once updated
 #          [--force][-f]    Overwrite any existing change in the working tree (use it carefully)
 #
@@ -18,7 +18,7 @@
 
 cd "$( dirname "${BASH_SOURCE[0]}" )/.."
 
-TAG=false
+LATEST=false
 REBUILD=false
 FORCE=""
 STATUS=0
@@ -26,10 +26,10 @@ STATUS=0
 for i in "$@"
 do
   case $i in
-  "--tag")
-    TAG=true;;
-  "-t")
-    TAG=true;;
+  "--latest")
+    LATEST=true;;
+  "-l")
+    LATEST=true;;
   "--rebuild")
     REBUILD=true;;
   "-b")
@@ -53,12 +53,14 @@ make stop
 if [[ $? -gt 0 ]]; then STATUS=1; fi
 
 if [[ $STATUS -eq 0 ]]; then
-  if [[ $TAG == true ]]; then
-    LATEST_TAG=$(git describe --tags `git rev-list --tags --max-count=1`)
-    git checkout $LATEST_TAG $FORCE
-  else
+  if [[ $LATEST == true ]]; then
+    echo "Updating to the bleeding edge of $CURRENT_BRANCH"
     git checkout $CURRENT_BRANCH $FORCE
     git merge origin/$CURRENT_BRANCH;
+  else
+    LATEST_TAG=$(git describe --tags `git rev-list --tags --max-count=1`)
+    echo "Updating to the tag $LATEST_TAG"
+    git checkout $LATEST_TAG $FORCE
   fi
 
   if [[ $? -gt 0 ]]; then STATUS=2; fi
