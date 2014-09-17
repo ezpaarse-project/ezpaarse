@@ -1,0 +1,69 @@
+#!/bin/bash
+#
+# Stop ezPAARSE, update the core and restart
+# Options: [--tags][-t]     Update to the latest tag instead of the head
+#          [--rebuild][-b]  Call 'make' once updated
+#
+# Status flags :  [1] Failed to stop
+#                 [2] Failed to update
+#                 [4] Failed to rebuild
+#                 [8] Failed to restart
+#
+# Status code is a bitwise flags enumeration
+# [failed to update] + [failed to restart] = 2|8 = 10
+#
+# [10 & 8 == 8] => [failed to restart]
+# [10 & 4 != 4] => [No rebuild or rebuild successful]
+
+cd "$( dirname "${BASH_SOURCE[0]}" )/.."
+
+TAG=false
+REBUILD=false
+STATUS=0
+
+for i in "$@"
+do
+  case $i in
+  "--tag")
+    TAG=true;;
+  "-t")
+    TAG=true;;
+  "--rebuild")
+    REBUILD=true;;
+  "-b")
+    REBUILD=true;;
+  esac
+done
+
+git fetch
+
+CURRENT_BRANCH=`git rev-parse --abbrev-ref HEAD`
+
+if [[ $CURRENT_BRANCH == 'HEAD' ]]; then
+  CURRENT_BRANCH='master'
+fi
+
+make stop
+if [[ $? -gt 0 ]]; then STATUS=1; fi
+
+if [[ $STATUS -eq 0 ]]; then
+  if [[ $TAG == true ]]; then
+    LATEST_TAG=$(git describe --tags `git rev-list --tags --max-count=1`)
+    git checkout $LATEST_TAG
+  else
+    git checkout $CURRENT_BRANCH
+    git merge origin/$CURRENT_BRANCH;
+  fi
+
+  if [[ $? -gt 0 ]]; then STATUS=2; fi
+
+  if [[ $STATUS -eq 0 && $REBUILD == true ]]; then
+    make
+    if [[ $? -gt 0 ]]; then STATUS=4; fi
+  fi
+fi
+
+make start
+
+if [[ $? -gt 0 ]]; then STATUS=$(($STATUS | 8)); fi
+exit $STATUS

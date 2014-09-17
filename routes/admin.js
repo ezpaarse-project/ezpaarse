@@ -14,6 +14,34 @@ var emailRegexp = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9-]+(\.[a-z0-9-]+)*$/i;
 module.exports = function (app) {
 
   /**
+   * GET route on /app/status
+   * To know if there are incoming changes
+   */
+  app.get('/app/status', auth.ensureAuthenticated(true), function (req, res) {
+    var gitscript = path.join(__dirname, '../bin/check-git-uptodate');
+
+    // TODO: add --rebuild and a switch for --tag
+
+    execFile(gitscript, ['--tag'], { cwd: __dirname }, function (error, stdout) {
+      if (error || !stdout) {
+        res.status(500).end();
+        return;
+      }
+      res.status(200).send(stdout);
+    });
+  });
+
+  /**
+   * Auto-update
+   */
+  app.get('/update', auth.ensureAuthenticated(true), auth.authorizeMembersOf('admin'),
+    function (req, res) {
+
+    execFile('../lib/bin/update-app.js', [], { cwd: __dirname });
+    res.status(200).end();
+  });
+
+  /**
    * GET route on /users
    * To get the user list
    */
