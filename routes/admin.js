@@ -41,9 +41,8 @@ module.exports = function (app) {
     if (req.query.force == 'yes')       { args.push('--force'); }
     if (req.query.rebuild !== 'no')     { args.push('--rebuild'); }
 
-    execFile('../lib/bin/update-app.js', args, { cwd: __dirname }, function (error) {
-      res.status(error ? 500 : 200).end();
-    });
+    res.status(200).end();
+    execFile('../lib/bin/update-app.js', args, { cwd: __dirname });
   });
 
   /**
