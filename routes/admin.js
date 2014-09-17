@@ -20,9 +20,7 @@ module.exports = function (app) {
   app.get('/app/status', auth.ensureAuthenticated(true), function (req, res) {
     var gitscript = path.join(__dirname, '../bin/check-git-uptodate');
 
-    // TODO: add --rebuild and a switch for --tag
-
-    execFile(gitscript, ['--tag'], { cwd: __dirname }, function (error, stdout) {
+    execFile(gitscript, { cwd: __dirname }, function (error, stdout) {
       if (error || !stdout) {
         res.status(500).end();
         return;
@@ -37,8 +35,11 @@ module.exports = function (app) {
   app.get('/update', auth.ensureAuthenticated(true), auth.authorizeMembersOf('admin'),
     function (req, res) {
 
-    execFile('../lib/bin/update-app.js', [], { cwd: __dirname });
-    res.status(200).end();
+    // TODO: add --rebuild and a switch for --tag
+
+    execFile('../lib/bin/update-app.js', ['--tag'], { cwd: __dirname }, function (error) {
+      res.status(error ? 500 : 200).end();
+    });
   });
 
   /**
