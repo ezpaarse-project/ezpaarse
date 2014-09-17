@@ -3,6 +3,7 @@
 # Stop ezPAARSE, update the core and restart
 # Options: [--tags][-t]     Update to the latest tag instead of the head
 #          [--rebuild][-b]  Call 'make' once updated
+#          [--force][-f]    Overwrite any existing change in the working tree (use it carefully)
 #
 # Status flags :  [1] Failed to stop
 #                 [2] Failed to update
@@ -19,6 +20,7 @@ cd "$( dirname "${BASH_SOURCE[0]}" )/.."
 
 TAG=false
 REBUILD=false
+FORCE=""
 STATUS=0
 
 for i in "$@"
@@ -32,6 +34,10 @@ do
     REBUILD=true;;
   "-b")
     REBUILD=true;;
+  "--force")
+    FORCE="-f";;
+  "-f")
+    FORCE="-f";;
   esac
 done
 
@@ -49,9 +55,9 @@ if [[ $? -gt 0 ]]; then STATUS=1; fi
 if [[ $STATUS -eq 0 ]]; then
   if [[ $TAG == true ]]; then
     LATEST_TAG=$(git describe --tags `git rev-list --tags --max-count=1`)
-    git checkout $LATEST_TAG
+    git checkout $LATEST_TAG $FORCE
   else
-    git checkout $CURRENT_BRANCH
+    git checkout $CURRENT_BRANCH $FORCE
     git merge origin/$CURRENT_BRANCH;
   fi
 
