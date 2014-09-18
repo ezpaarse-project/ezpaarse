@@ -27,6 +27,16 @@
         <div ng-switch-default ng-click="updateSoftware()" class="ui small red button" translate>admin+unknown_state</div>
       </div>
 
+      <div class="ui icon small info message" ng-show="softwareStatus == 'upward'">
+        <i class="exclamation icon"></i>
+        <div class="content">
+          <div class="header" translate>admin+attention</div>
+          <p ng-show="soft.version == 'latest'" translate>admin+soft_upward_latest</p>
+          <p ng-show="soft.version == 'stable'" translate>admin+soft_upward_stable</p>
+          <p translate>admin+contact_deployment_service</p>
+        </div>
+      </div>
+
       <h4 class="ui header" translate>admin+platforms</h4>
 
       <div ng-switch="platformsStatus">
@@ -40,6 +50,15 @@
         </div>
         <div ng-switch-when="refresh" class="ui small loading button" translate>admin+updating</div>
         <div ng-switch-default ng-click="updatePlatforms()" class="ui small red button" translate>admin+unknown_state</div>
+      </div>
+
+      <div class="ui icon small info message" ng-show="platformsStatus == 'upward'">
+        <i class="exclamation icon"></i>
+        <div class="content">
+          <div class="header" translate>admin+attention</div>
+          <p translate>admin+platforms_upward_latest</p>
+          <p translate>admin+contact_deployment_service</p>
+        </div>
       </div>
 
       <h3 class="ui dividing header" translate>

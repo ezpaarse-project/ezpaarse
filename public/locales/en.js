@@ -224,5 +224,10 @@ ezLanguages['en'] = {
   "admin+name":               "Name",
   "admin+group":              "Group",
   "admin+remove":             "Remove",
-  "admin+password":           "Password"
+  "admin+password":           "Password",
+  "admin+attention":                  "Attention",
+  "admin+soft_upward_latest":         "It seems that unofficial changes have been applied to the software. In that case, future updates might fail.",
+  "admin+soft_upward_stable":         "The current version of the software has got changes that are more recent than the latest stable release. If those modifications are unofficial, they could prevent future updates.",
+  "admin+platforms_upward_latest":    "It seems that unofficial changes have been applied to the platforms directory. In that case, future updates might fail.",
+  "admin+contact_deployment_service": "In case of problems, we invite you to contact the deployer."
 };
