@@ -32,7 +32,7 @@ module.exports = function (app) {
   /**
    * Auto-update
    */
-  app.get('/update', auth.ensureAuthenticated(true), auth.authorizeMembersOf('admin'),
+  app.put('/app/status', auth.ensureAuthenticated(true), auth.authorizeMembersOf('admin'),
     function (req, res) {
 
     var args = [];
