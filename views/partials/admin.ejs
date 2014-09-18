@@ -5,19 +5,33 @@
       </h2>
 
       <h3 class="ui dividing header" translate>
-        admin+repositories
+        admin+updates
       </h3>
-      <h4 class="ui header" translate>admin+platforms_state</h4>
-      <div ng-switch="platformsStatus">
-        <div ng-switch-when="uptodate" class="ui small green button" translate>admin+platforms_uptodate</div>
-        <div ng-switch-when="outdated" class="ui small animated orange fade button" ng-click="updatePlatforms()">
+
+      <h4 class="ui header" translate>admin+software</h4>
+      <div ng-switch="softwareStatus">
+        <div ng-switch-when="uptodate" ng-click="updateSoftWare()" class="ui small green button" translate>admin+uptodate</div>
+        <div ng-switch-when="outdated" ng-click="updateSoftware()" class="ui small animated orange fade button">
           <div class="visible content" translate>admin+updates_available</div>
           <div class="hidden content" translate>
             admin+update
           </div>
         </div>
         <div ng-switch-when="refresh" class="ui small loading button">loading</div>
-        <div ng-switch-default class="ui small red button" translate>admin+unknown_state</div>
+        <div ng-switch-default ng-click="updateSoftware()" class="ui small red button" translate>admin+unknown_state</div>
+      </div>
+
+      <h4 class="ui header" translate>admin+platforms</h4>
+      <div ng-switch="platformsStatus">
+        <div ng-switch-when="uptodate" ng-click="updatePlatforms()" class="ui small green button" translate>admin+uptodate</div>
+        <div ng-switch-when="outdated" ng-click="updatePlatforms()" class="ui small animated orange fade button" >
+          <div class="visible content" translate>admin+updates_available</div>
+          <div class="hidden content" translate>
+            admin+update
+          </div>
+        </div>
+        <div ng-switch-when="refresh" class="ui small loading button">loading</div>
+        <div ng-switch-default ng-click="updatePlatforms()" class="ui small red button" translate>admin+unknown_state</div>
       </div>
 
       <h3 class="ui dividing header" translate>

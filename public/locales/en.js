@@ -208,12 +208,13 @@ ezLanguages['en'] = {
 
   // Admin page
   "admin+title":              "Administration",
-  "admin+repositories":       "Repositories",
   "admin+unknown_state":      "Unknwon state",
   "admin+updates_available":  "Updates available",
+  "admin+updates":            "Updates",
   "admin+update":             "Update",
-  "admin+platforms_state":    "Platforms' state",
-  "admin+platforms_uptodate": "The platforms are up-to-date",
+  "admin+software":           "Software",
+  "admin+platforms":          "Platforms",
+  "admin+uptodate":           "up-to-date",
   "admin+users":              "Users",
   "admin+get_users_fail":     "The users could not be retrieved",
   "admin+name":               "Name",

@@ -6,19 +6,45 @@ angular.module('ezPAARSE.admin-controllers', [])
   .controller('AdminCtrl', function ($scope, $http) {
     $scope.credentials = {};
     $scope.platformsStatus = 'refresh';
+    $scope.softwareStatus  = 'refresh';
 
-    $http.get('/platforms/status')
-      .success(function (data) { $scope.platformsStatus = data.trim(); })
-      .error(function ()       { $scope.platformsStatus = 'error'; });
+    function refreshStatus() {
+      $http.get('/platforms/status')
+        .success(function (data) { $scope.platformsStatus = data.trim(); })
+        .error(function ()       { $scope.platformsStatus = 'error'; });
+      $http.get('/app/status')
+        .success(function (data) { $scope.softwareStatus = data.trim(); })
+        .error(function ()       { $scope.softwareStatus = 'error'; });
+    }
+    refreshStatus();
+
     $http.get('/users/')
       .success(function (users) { $scope.users = users; })
       .error(function () { $scope.getUsersError = true; });
+
+    /**
+     * Check every 5sec if the server is online
+     */
+    var checkOnline = function (callback) {
+      setTimeout(function () {
+        $http.get('/', { timeout: 5000 })
+        .success(callback)
+        .error(checkOnline);
+      }, 5000);
+    };
 
     $scope.updatePlatforms = function () {
       $scope.platformsStatus = 'refresh';
       $http.put('/platforms/status', 'uptodate')
         .success(function () { $scope.platformsStatus = 'uptodate'; })
         .error(function ()   { $scope.platformsStatus = 'error'; });
+    };
+
+    $scope.updateSoftWare = function () {
+      $scope.softwareStatus = 'refresh';
+      $http.put('/app/status?version=latest&rebuild=no') // TODO turn rebuild back on
+        .success(function () { checkOnline(refreshStatus); })
+        .error(function () { $scope.softwareStatus = 'error'; });
     };
 
     $scope.deleteUser = function (userid) {
