@@ -245,7 +245,25 @@ module.exports = function (app) {
     var domain = req.params[0];
     var parser = parserlist.get(domain);
     if (parser) {
-      res.status(200).json(parser);
+      var manifestFile = path.join(__dirname, '/../platforms/' + parser.platform + '/manifest.json');
+      fs.exists(manifestFile, function (exists) {
+        if (!exists) {
+          res.status(404).end();
+          return;
+        }
+
+        fs.readFile(manifestFile, function (err, data) {
+          var manifestJSON;
+          try {
+            manifestJSON = JSON.parse(data);
+          } catch (e) {
+            res.status(500).end();
+            return;
+          }
+          parser.manifest = manifestJSON;
+          res.status(200).json(parser);
+        });
+      });
     } else {
       res.status(404).end();
     }
