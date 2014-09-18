@@ -20,7 +20,7 @@ angular.module('ezPAARSE.admin-controllers', [])
 
       if (!what || what == 'software') {
         $scope.softwareStatus = 'refresh';
-        $http.get('/app/status?version=' + $scope.soft.version)
+        $http.get('/app/status?ref=' + $scope.soft.version)
           .success(function (data) { $scope.softwareStatus = data.trim(); })
           .error(function ()       { $scope.softwareStatus = 'error'; });
       }
