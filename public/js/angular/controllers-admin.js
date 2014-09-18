@@ -53,7 +53,7 @@ angular.module('ezPAARSE.admin-controllers', [])
       $scope.softwareStatus = 'refresh';
 
       $http.put('/app/status?version=' + $scope.soft.version)
-        .success(function () { checkOnline($scope.refreshStatus); })
+        .success(function () { checkOnline(function () { $scope.refreshStatus(); }); })
         .error(function () { $scope.softwareStatus = 'error'; });
     };
 
