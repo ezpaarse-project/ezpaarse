@@ -5,14 +5,41 @@
 
 set -e
 
-# first argument or current path
-_DIR="${1:-${PWD}}"
+# current path if not in arguments
+_DIR="${PWD}"
+TAG=false
+
+for i in "$@"
+do
+  case $i in
+  "--tag")
+    TAG=true;;
+  "-t")
+    TAG=true;;
+  *)
+    _DIR=$i
+  esac
+done
 
 [ ! -d "$_DIR" ] && { echo "Error: Directory $_DIR not found."; exit 2; }
 
 cd $_DIR
 git fetch 1>/dev/null
-COMMITS=`git log HEAD..origin/master --oneline`
+
+CURRENT_BRANCH=`git rev-parse --abbrev-ref HEAD`
+
+if [[ $CURRENT_BRANCH == 'HEAD' ]]; then
+  CURRENT_BRANCH='master'
+fi
+
+REF="origin/$CURRENT_BRANCH"
+
+if [[ $TAG == true ]]; then
+  # Latest tag
+  REF=$(git describe --tags `git rev-list --tags --max-count=1`)
+fi
+
+COMMITS=`git log HEAD..$REF --oneline`
 
 if [ ! -z "$COMMITS" ]; then
   echo "outdated"
