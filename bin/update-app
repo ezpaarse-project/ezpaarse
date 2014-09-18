@@ -25,7 +25,7 @@ cd "$( dirname "${BASH_SOURCE[0]}" )/.."
 if ( set -o noclobber; echo "$$" > update.lock) 2> /dev/null ; then
   trap 'rm -f update.lock; exit $STATUS' INT TERM EXIT
 else
-  echo "Another instance is already running"
+  echo "Another instance is already running" >&2
   exit 16
 fi
 
