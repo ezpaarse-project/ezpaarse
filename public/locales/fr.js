@@ -217,6 +217,7 @@ ezLanguages['fr'] = {
   "admin+beta_version":       "Dernière version beta",
   "admin+platforms":          "Plateformes",
   "admin+uptodate":           "à jour",
+  "admin+upward":             "plus récent",
   "admin+users":              "Utilisateurs",
   "admin+get_users_fail":     "Les utilisateurs n'ont pas pu être chargés.",
   "admin+name":               "Nom",

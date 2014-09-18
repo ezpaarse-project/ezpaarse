@@ -45,7 +45,7 @@ angular.module('ezPAARSE.admin-controllers', [])
     $scope.updatePlatforms = function () {
       $scope.platformsStatus = 'refresh';
       $http.put('/platforms/status', 'uptodate')
-        .success(function () { $scope.platformsStatus = 'uptodate'; })
+        .success(function () { $scope.refreshStatus('platforms'); })
         .error(function ()   { $scope.platformsStatus = 'error'; });
     };
 

@@ -218,6 +218,7 @@ ezLanguages['en'] = {
   "admin+beta_version":       "Latest beta version",
   "admin+platforms":          "Platforms",
   "admin+uptodate":           "up-to-date",
+  "admin+upward":             "newer",
   "admin+users":              "Users",
   "admin+get_users_fail":     "The users could not be retrieved",
   "admin+name":               "Name",

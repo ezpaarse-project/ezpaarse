@@ -10,8 +10,13 @@
 
       <h4 class="ui header" translate>admin+software</h4>
 
+      <select ng-model="soft.version" ng-change="refreshStatus('software')">
+        <option value="stable" ng-selected="soft.version == 'stable'" translate>admin+stable_version</option>
+        <option value="latest" ng-selected="soft.version == 'latest'" translate>admin+beta_version</option>
+      </select>
       <div ng-switch="softwareStatus" style="display: inline-block">
         <div ng-switch-when="uptodate" ng-click="updateSoftWare()" class="ui small green button" translate>admin+uptodate</div>
+        <div ng-switch-when="upward" ng-click="updateSoftWare()" class="ui small teal button" translate>admin+upward</div>
         <div ng-switch-when="outdated" ng-click="updateSoftware()" class="ui small animated orange fade button">
           <div class="visible content" translate>admin+updates_available</div>
           <div class="hidden content" translate>
@@ -21,15 +26,12 @@
         <div ng-switch-when="refresh" class="ui small loading button" translate>admin+updating</div>
         <div ng-switch-default ng-click="updateSoftware()" class="ui small red button" translate>admin+unknown_state</div>
       </div>
-      <select ng-model="soft.version" ng-change="refreshStatus('software')">
-        <option value="stable" ng-selected="soft.version == 'stable'" translate>admin+stable_version</option>
-        <option value="latest" ng-selected="soft.version == 'latest'" translate>admin+beta_version</option>
-      </select>
 
       <h4 class="ui header" translate>admin+platforms</h4>
 
       <div ng-switch="platformsStatus">
         <div ng-switch-when="uptodate" ng-click="updatePlatforms()" class="ui small green button" translate>admin+uptodate</div>
+        <div ng-switch-when="upward" ng-click="updatePlatforms()" class="ui small teal button" translate>admin+upward</div>
         <div ng-switch-when="outdated" ng-click="updatePlatforms()" class="ui small animated orange fade button" >
           <div class="visible content" translate>admin+updates_available</div>
           <div class="hidden content" translate>
