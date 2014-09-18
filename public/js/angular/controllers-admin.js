@@ -5,18 +5,27 @@
 angular.module('ezPAARSE.admin-controllers', [])
   .controller('AdminCtrl', function ($scope, $http) {
     $scope.credentials = {};
-    $scope.platformsStatus = 'refresh';
-    $scope.softwareStatus  = 'refresh';
 
-    function refreshStatus() {
-      $http.get('/platforms/status')
-        .success(function (data) { $scope.platformsStatus = data.trim(); })
-        .error(function ()       { $scope.platformsStatus = 'error'; });
-      $http.get('/app/status')
-        .success(function (data) { $scope.softwareStatus = data.trim(); })
-        .error(function ()       { $scope.softwareStatus = 'error'; });
-    }
-    refreshStatus();
+    $scope.soft = {
+      version: 'stable'
+    };
+
+    $scope.refreshStatus = function (what) {
+      if (!what || what == 'platforms') {
+        $scope.platformsStatus = 'refresh';
+        $http.get('/platforms/status')
+          .success(function (data) { $scope.platformsStatus = data.trim(); })
+          .error(function ()       { $scope.platformsStatus = 'error'; });
+      }
+
+      if (!what || what == 'software') {
+        $scope.softwareStatus = 'refresh';
+        $http.get('/app/status?version=' + $scope.soft.version)
+          .success(function (data) { $scope.softwareStatus = data.trim(); })
+          .error(function ()       { $scope.softwareStatus = 'error'; });
+      }
+    };
+    $scope.refreshStatus();
 
     $http.get('/users/')
       .success(function (users) { $scope.users = users; })
@@ -42,8 +51,9 @@ angular.module('ezPAARSE.admin-controllers', [])
 
     $scope.updateSoftWare = function () {
       $scope.softwareStatus = 'refresh';
-      $http.put('/app/status?version=latest&rebuild=no') // TODO turn rebuild back on
-        .success(function () { checkOnline(refreshStatus); })
+
+      $http.put('/app/status?version=' + $scope.soft.version)
+        .success(function () { checkOnline($scope.refreshStatus); })
         .error(function () { $scope.softwareStatus = 'error'; });
     };
 
