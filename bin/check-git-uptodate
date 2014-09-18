@@ -39,11 +39,18 @@ if [[ $TAG == true ]]; then
   REF=$(git describe --tags `git rev-list --tags --max-count=1`)
 fi
 
-COMMITS=`git log HEAD..$REF --oneline`
+COMMITS_UPWARD=`git log HEAD..$REF --oneline`
 
-if [ ! -z "$COMMITS" ]; then
-  echo "outdated"
+if [ -z "$COMMITS_UPWARD" ]; then
+  COMMITS_DOWNWARD=`git log $REF..HEAD --oneline`
+
+  if [ -z "$COMMITS_DOWNWARD" ]; then
+    echo "uptodate"
+  else
+    echo "upward"
+  fi
 else
-  echo "uptodate"
+  echo "outdated"
 fi
+
 exit 0
