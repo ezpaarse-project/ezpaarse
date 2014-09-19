@@ -29,7 +29,14 @@ module.exports = function (app) {
         res.status(500).end();
         return;
       }
-      res.status(200).send(stdout);
+
+      try {
+        var result = JSON.parse(stdout);
+        res.status(200).json(result);
+      } catch (e) {
+        res.status(500).end();
+      }
+
     });
   });
 
@@ -176,7 +183,13 @@ module.exports = function (app) {
         res.status(500).end();
         return;
       }
-      res.status(200).send(stdout);
+
+      try {
+        var result = JSON.parse(stdout);
+        res.status(200).json(result);
+      } catch (e) {
+        res.status(500).end();
+      }
     });
   });
 
