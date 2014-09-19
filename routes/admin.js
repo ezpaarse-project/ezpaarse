@@ -18,7 +18,7 @@ module.exports = function (app) {
    * To know if there are incoming changes
    */
   app.get('/app/status', auth.ensureAuthenticated(true), function (req, res) {
-    var gitscript = path.join(__dirname, '../bin/check-git-uptodate');
+    var gitscript = path.join(__dirname, '../bin/git-status');
 
     var args = [];
 
@@ -169,7 +169,7 @@ module.exports = function (app) {
    */
   app.get('/platforms/status', auth.ensureAuthenticated(true), function (req, res) {
     var platformsFolder = path.join(__dirname, '../platforms');
-    var gitscript = path.join(__dirname, '../bin/check-git-uptodate');
+    var gitscript = path.join(__dirname, '../bin/git-status');
 
     execFile(gitscript, {cwd: platformsFolder}, function (error, stdout) {
       if (error || !stdout) {
