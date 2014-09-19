@@ -1,0 +1,91 @@
+#!/bin/bash
+#
+# Script used to check for incoming changes in a git folder
+#
+
+set -e
+
+# current path if not in arguments
+_DIR="${PWD}"
+TAG=false
+
+for i in "$@"
+do
+  case $i in
+  "--tag")
+    TAG=true;;
+  "-t")
+    TAG=true;;
+  *)
+    _DIR=$i
+  esac
+done
+
+[ ! -d "$_DIR" ] && { echo "Error: Directory $_DIR not found."; exit 2; }
+
+cd $_DIR
+git fetch 1>/dev/null
+
+CURRENT_BRANCH=`git rev-parse --abbrev-ref HEAD`
+CURRENT_TAG=`git describe --tags --abbrev=0`
+LATEST_TAG=$(git describe --tags `git rev-list --tags --max-count=1`)
+
+if [[ $CURRENT_BRANCH == 'HEAD' ]]; then
+  CURRENT_BRANCH='master'
+fi
+
+REF="origin/$CURRENT_BRANCH"
+
+if [[ $TAG == true ]]; then
+  # Latest tag
+  REF=$LATEST_TAG
+fi
+
+COMMITS_UPWARD_HEAD=`git log HEAD..$REF --oneline`   # Commits from HEAD to (latest tag or origin)
+COMMITS_DOWNWARD_HEAD=`git log $REF..HEAD --oneline` # Commits from (latest tag or origin) to HEAD
+LOCAL_COMMITS=`git log origin/$CURRENT_BRANCH..HEAD --cherry --oneline` # Unpushed commits
+LOCAL_CHANGES=`git diff HEAD --name-only` # Uncommited changes (staged and unstaged)
+
+COMMON_ANCESTOR=`git merge-base HEAD $REF` # Common ancestor of HEAD and (latest tag or origin)
+COMMITS_BETWEEN_TAG_HEAD=`git log $CURRENT_TAG..$COMMON_ANCESTOR --oneline` # Pushed commits between current tag and HEAD
+
+RESULT="{\"status\":\""
+
+if [[ $TAG == true ]]; then
+  if [[ $CURRENT_TAG != $LATEST_TAG ]]; then
+    RESULT+="outdated"
+  elif [ -z $COMMITS_BETWEEN_TAG_HEAD]; then
+    RESULT+="uptodate"
+  else
+    RESULT+="upward"
+  fi
+
+else
+
+  if [ -z "$COMMITS_UPWARD_HEAD" ]; then
+    RESULT+="uptodate"
+  else
+    RESULT+="outdated"
+  fi
+fi
+
+RESULT+="\",\"local-commits\":"
+
+if [ -z "$LOCAL_COMMITS" ]; then
+  RESULT+="false"
+else
+  RESULT+="true"
+fi
+
+RESULT+="\",\"local-changes\":"
+
+if [ -z "$LOCAL_CHANGES" ]; then
+  RESULT+="false"
+else
+  RESULT+="true"
+fi
+
+RESULT+="}"
+echo -e "$RESULT"
+
+exit 0
