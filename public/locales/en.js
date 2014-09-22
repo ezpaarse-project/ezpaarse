@@ -208,16 +208,29 @@ ezLanguages['en'] = {
 
   // Admin page
   "admin+title":              "Administration",
-  "admin+repositories":       "Repositories",
   "admin+unknown_state":      "Unknwon state",
   "admin+updates_available":  "Updates available",
+  "admin+updates":            "Updates",
   "admin+update":             "Update",
-  "admin+platforms_state":    "Platforms' state",
-  "admin+platforms_uptodate": "The platforms are up-to-date",
+  "admin+updating":           "Updating...",
+  "admin+software":           "Software",
+  "admin+current_version":    "Current version",
+  "admin+stable_version":     "Latest stable version",
+  "admin+beta_version":       "Latest beta version",
+  "admin+general":            "General",
+  "admin+platforms":          "Platforms",
+  "admin+uptodate":           "up-to-date",
+  "admin+upward":             "newer",
   "admin+users":              "Users",
   "admin+get_users_fail":     "The users could not be retrieved",
   "admin+name":               "Name",
   "admin+group":              "Group",
   "admin+remove":             "Remove",
-  "admin+password":           "Password"
+  "admin+password":           "Password",
+  "admin+attention":                  "Attention",
+  "admin+soft_local_changes":         "It seems that local changes have been applied to the software. In that case, future updates might fail.",
+  "admin+soft_upward_stable":         "The current version of the software has got changes that are more recent than the latest stable release. Click the button above if you wish to get back to the latest stable release.",
+  "admin+platforms_local_changes":    "It seems that local changes have been applied to the platforms directory. In that case, future updates might fail.",
+  "admin+contact_deployment_service": "In case of problems, we invite you to contact the deployer.",
+  "admin+updating_software":          "ezPAARSE is being updated. This operation can take up to several minutes, please wait..."
 };

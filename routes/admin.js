@@ -14,6 +14,49 @@ var emailRegexp = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9-]+(\.[a-z0-9-]+)*$/i;
 module.exports = function (app) {
 
   /**
+   * GET route on /app/status
+   * To know if there are incoming changes
+   */
+  app.get('/app/status', auth.ensureAuthenticated(true), function (req, res) {
+    var gitscript = path.join(__dirname, '../bin/git-status');
+
+    var args = [];
+
+    if (req.query.ref !== 'latest') { args.push('--tag'); }
+
+    execFile(gitscript, args, { cwd: __dirname }, function (error, stdout) {
+      if (error || !stdout) {
+        res.status(500).end();
+        return;
+      }
+
+      try {
+        var result = JSON.parse(stdout);
+        res.status(200).json(result);
+      } catch (e) {
+        res.status(500).end();
+      }
+
+    });
+  });
+
+  /**
+   * Auto-update
+   */
+  app.put('/app/status', auth.ensureAuthenticated(true), auth.authorizeMembersOf('admin'),
+    function (req, res) {
+
+    var args = [];
+
+    if (req.query.version === 'latest') { args.push('--latest'); }
+    if (req.query.force == 'yes')       { args.push('--force'); }
+    if (req.query.rebuild !== 'no')     { args.push('--rebuild'); }
+
+    res.status(200).end();
+    execFile('../lib/bin/update-app.js', args, { cwd: __dirname });
+  });
+
+  /**
    * GET route on /users
    * To get the user list
    */
@@ -133,14 +176,20 @@ module.exports = function (app) {
    */
   app.get('/platforms/status', auth.ensureAuthenticated(true), function (req, res) {
     var platformsFolder = path.join(__dirname, '../platforms');
-    var gitscript = path.join(__dirname, '../bin/check-git-uptodate');
+    var gitscript = path.join(__dirname, '../bin/git-status');
 
     execFile(gitscript, {cwd: platformsFolder}, function (error, stdout) {
       if (error || !stdout) {
         res.status(500).end();
         return;
       }
-      res.status(200).send(stdout);
+
+      try {
+        var result = JSON.parse(stdout);
+        res.status(200).json(result);
+      } catch (e) {
+        res.status(500).end();
+      }
     });
   });
 
