@@ -14,7 +14,7 @@
         <option value="stable" ng-selected="soft.version == 'stable'" translate>admin+stable_version</option>
         <option value="latest" ng-selected="soft.version == 'latest'" translate>admin+beta_version</option>
       </select>
-      <div ng-switch="softwareStatus" style="display: inline-block">
+      <div ng-switch="softwareStatus.status" style="display: inline-block">
         <div ng-switch-when="uptodate" ng-click="updateSoftWare()" class="ui small green button" translate>admin+uptodate</div>
         <div ng-switch-when="upward" ng-click="updateSoftWare()" class="ui small teal button" translate>admin+upward</div>
         <div ng-switch-when="outdated" ng-click="updateSoftware()" class="ui small animated orange fade button">
@@ -27,7 +27,7 @@
         <div ng-switch-default ng-click="updateSoftware()" class="ui small red button" translate>admin+unknown_state</div>
       </div>
 
-      <div class="ui icon small info message" ng-show="softwareStatus == 'upward'">
+      <div class="ui icon small info message" ng-show="softwareStatus['local-commits'] || softwareStatus['local-changes']">
         <i class="exclamation icon"></i>
         <div class="content">
           <div class="header" translate>admin+attention</div>
@@ -39,7 +39,7 @@
 
       <h4 class="ui header" translate>admin+platforms</h4>
 
-      <div ng-switch="platformsStatus">
+      <div ng-switch="platformsStatus.status">
         <div ng-switch-when="uptodate" ng-click="updatePlatforms()" class="ui small green button" translate>admin+uptodate</div>
         <div ng-switch-when="upward" ng-click="updatePlatforms()" class="ui small teal button" translate>admin+upward</div>
         <div ng-switch-when="outdated" ng-click="updatePlatforms()" class="ui small animated orange fade button" >
@@ -52,7 +52,7 @@
         <div ng-switch-default ng-click="updatePlatforms()" class="ui small red button" translate>admin+unknown_state</div>
       </div>
 
-      <div class="ui icon small info message" ng-show="platformsStatus == 'upward'">
+      <div class="ui icon small info message" ng-show="platformsStatus['local-commits'] || platformsStatus['local-changes']">
         <i class="exclamation icon"></i>
         <div class="content">
           <div class="header" translate>admin+attention</div>

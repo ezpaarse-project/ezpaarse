@@ -12,16 +12,16 @@ angular.module('ezPAARSE.admin-controllers', [])
 
     $scope.refreshStatus = function (what) {
       if (!what || what == 'platforms') {
-        $scope.platformsStatus = 'refresh';
+        $scope.platformsStatus = { status: 'refresh' };
         $http.get('/platforms/status')
-          .success(function (data) { $scope.platformsStatus = data.trim(); })
+          .success(function (data) { $scope.platformsStatus = data; })
           .error(function ()       { $scope.platformsStatus = 'error'; });
       }
 
       if (!what || what == 'software') {
-        $scope.softwareStatus = 'refresh';
+        $scope.softwareStatus = { status: 'refresh' };
         $http.get('/app/status?ref=' + $scope.soft.version)
-          .success(function (data) { $scope.softwareStatus = data.trim(); })
+          .success(function (data) { $scope.softwareStatus = data; })
           .error(function ()       { $scope.softwareStatus = 'error'; });
       }
     };
@@ -43,14 +43,14 @@ angular.module('ezPAARSE.admin-controllers', [])
     };
 
     $scope.updatePlatforms = function () {
-      $scope.platformsStatus = 'refresh';
+      $scope.platformsStatus = { status: 'refresh' };
       $http.put('/platforms/status', 'uptodate')
         .success(function () { $scope.refreshStatus('platforms'); })
         .error(function ()   { $scope.platformsStatus = 'error'; });
     };
 
     $scope.updateSoftWare = function () {
-      $scope.softwareStatus = 'refresh';
+      $scope.softwareStatus = { status: 'refresh' };
 
       $http.put('/app/status?version=' + $scope.soft.version)
         .success(function () { checkOnline(function () { $scope.refreshStatus(); }); })
