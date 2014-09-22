@@ -4,95 +4,106 @@
         admin+title
       </h2>
 
-      <h3 class="ui dividing header" translate>
-        admin+updates
-      </h3>
+      <div class="ui top attached tabular menu">
+        <a class="item" ng-click="selectTab('general')" ng-class="{'general': 'active'}[tab]" translate>admin+general</a>
+        <a class="item" ng-click="selectTab('platforms')" ng-class="{'platforms': 'active'}[tab]" translate>admin+platforms</a>
+        <a class="item" ng-click="selectTab('users')" ng-class="{'users': 'active'}[tab]" translate>admin+users</a>
+      </div>
 
-      <h4 class="ui header" translate>admin+software</h4>
+      <div class="ui bottom attached active tab segment" ng-switch on="tab">
 
-      <select ng-model="soft.version" ng-change="refreshStatus('software')">
-        <option value="stable" ng-selected="soft.version == 'stable'" translate>admin+stable_version</option>
-        <option value="latest" ng-selected="soft.version == 'latest'" translate>admin+beta_version</option>
-      </select>
-      <div ng-switch="softwareStatus.status" style="display: inline-block">
-        <div ng-switch-when="uptodate" ng-click="updateSoftWare()" class="ui small green button" translate>admin+uptodate</div>
-        <div ng-switch-when="upward" ng-click="updateSoftWare()" class="ui small teal button" translate>admin+upward</div>
-        <div ng-switch-when="outdated" ng-click="updateSoftware()" class="ui small animated orange fade button">
-          <div class="visible content" translate>admin+updates_available</div>
-          <div class="hidden content" translate>
-            admin+update
+        <div ng-switch-when="general" ng-controller="AdminGeneralCtrl">
+          <h4 class="ui header" translate>admin+software</h4>
+
+          <p><strong translate>admin+current_version</strong> : {{ soft.currentVersion }}</p>
+
+          <select ng-model="soft.version" ng-change="refreshStatus('software')">
+            <option value="stable" ng-selected="soft.version == 'stable'" translate>admin+stable_version</option>
+            <option value="latest" ng-selected="soft.version == 'latest'" translate>admin+beta_version</option>
+          </select>
+          <div ng-switch="softwareStatus.status" style="display: inline-block">
+            <div ng-switch-when="uptodate" ng-click="updateSoftWare()" class="ui small green button" translate>admin+uptodate</div>
+            <div ng-switch-when="upward" ng-click="updateSoftWare()" class="ui small teal button" translate>admin+upward</div>
+            <div ng-switch-when="outdated" ng-click="updateSoftware()" class="ui small animated orange fade button">
+              <div class="visible content" translate>admin+updates_available</div>
+              <div class="hidden content" translate>
+                admin+update
+              </div>
+            </div>
+            <div ng-switch-when="refresh" class="ui small loading button" translate>admin+updating</div>
+            <div ng-switch-default ng-click="updateSoftware()" class="ui small red button" translate>admin+unknown_state</div>
+          </div>
+
+          <p ng-show="soft.updating" translate>admin+updating_software</p>
+          <div class="ui icon small info message" ng-show="softwareStatus.status == 'upward'">
+            <p ng-show="soft.version == 'stable'" translate>admin+soft_upward_stable</p>
+          </div>
+          <div class="ui icon small info message" ng-show="softwareStatus['local-commits'] || softwareStatus['local-changes']">
+            <i class="exclamation icon"></i>
+            <div class="content">
+              <div class="header" translate>admin+attention</div>
+              <p translate>admin+soft_local_changes</p>
+              <p translate>admin+contact_deployment_service</p>
+            </div>
           </div>
         </div>
-        <div ng-switch-when="refresh" class="ui small loading button" translate>admin+updating</div>
-        <div ng-switch-default ng-click="updateSoftware()" class="ui small red button" translate>admin+unknown_state</div>
-      </div>
 
-      <p ng-show="soft.updating" translate>admin+updating_software</p>
-      <div class="ui icon small info message" ng-show="softwareStatus.status == 'upward'">
-        <p ng-show="soft.version == 'stable'" translate>admin+soft_upward_stable</p>
-      </div>
-      <div class="ui icon small info message" ng-show="softwareStatus['local-commits'] || softwareStatus['local-changes']">
-        <i class="exclamation icon"></i>
-        <div class="content">
-          <div class="header" translate>admin+attention</div>
-          <p translate>admin+soft_local_changes</p>
-          <p translate>admin+contact_deployment_service</p>
-        </div>
-      </div>
+        <div ng-switch-when="platforms"  ng-controller="AdminPlatformsCtrl">
+          <h4 class="ui header" translate>admin+updates</h4>
 
-      <h4 class="ui header" translate>admin+platforms</h4>
+          <div ng-switch="platformsStatus.status">
+            <div ng-switch-when="uptodate" ng-click="updatePlatforms()" class="ui small green button" translate>admin+uptodate</div>
+            <div ng-switch-when="upward" ng-click="updatePlatforms()" class="ui small teal button" translate>admin+upward</div>
+            <div ng-switch-when="outdated" ng-click="updatePlatforms()" class="ui small animated orange fade button" >
+              <div class="visible content" translate>admin+updates_available</div>
+              <div class="hidden content" translate>
+                admin+update
+              </div>
+            </div>
+            <div ng-switch-when="refresh" class="ui small loading button" translate>admin+updating</div>
+            <div ng-switch-default ng-click="updatePlatforms()" class="ui small red button" translate>admin+unknown_state</div>
+          </div>
 
-      <div ng-switch="platformsStatus.status">
-        <div ng-switch-when="uptodate" ng-click="updatePlatforms()" class="ui small green button" translate>admin+uptodate</div>
-        <div ng-switch-when="upward" ng-click="updatePlatforms()" class="ui small teal button" translate>admin+upward</div>
-        <div ng-switch-when="outdated" ng-click="updatePlatforms()" class="ui small animated orange fade button" >
-          <div class="visible content" translate>admin+updates_available</div>
-          <div class="hidden content" translate>
-            admin+update
+          <div class="ui icon small info message" ng-show="platformsStatus['local-commits'] || platformsStatus['local-changes']">
+            <i class="exclamation icon"></i>
+            <div class="content">
+              <div class="header" translate>admin+attention</div>
+              <p translate>admin+platforms_local_changes</p>
+              <p translate>admin+contact_deployment_service</p>
+            </div>
           </div>
         </div>
-        <div ng-switch-when="refresh" class="ui small loading button" translate>admin+updating</div>
-        <div ng-switch-default ng-click="updatePlatforms()" class="ui small red button" translate>admin+unknown_state</div>
-      </div>
 
-      <div class="ui icon small info message" ng-show="platformsStatus['local-commits'] || platformsStatus['local-changes']">
-        <i class="exclamation icon"></i>
-        <div class="content">
-          <div class="header" translate>admin+attention</div>
-          <p translate>admin+platforms_local_changes</p>
-          <p translate>admin+contact_deployment_service</p>
+        <div ng-switch-when="users"  ng-controller="AdminUsersCtrl">
+          <p ng-hide="users || getUsersError" class="center aligned"><i class="big loading icon"></i></p>
+          <div ng-show="getUsersError" class="ui error compact message" translate>admin+get_users_fail</div>
+          <table ng-show="users" class="ui basic collapsing table">
+            <thead><tr>
+              <th translate>admin+name</th>
+              <th translate>admin+group</th>
+              <th></th>
+            </tr></thead>
+            <tr ng-repeat="user in users | orderBy:'name'">
+              <td>{{ user.username }}</td>
+              <td>{{ user.group }}</td>
+              <td>
+                <i class="red trash link icon" title="{{ 'admin+remove' | translate }}" ng-click="deleteUser(user.username)"></i>
+              </td>
+            </tr>
+            <tr><td colspan="3">
+              <form ng-submit="createUser()">
+                <div class="ui mini input"><input type="text" placeholder="{{ 'admin+name' | translate }}" ng-model="credentials.userid"></div>
+                <div class="ui mini input"><input type="password" placeholder="{{ 'admin+password' | translate }}" ng-model="credentials.password"></div>
+                <button class="ui mini icon submit button"><i class="plus icon"></i></button>
+              </form>
+            </td></tr>
+            <tr>
+              <td colspan="3">
+                <div class="ui error message" ng-show="postUserError" ng-bind="postUserError"></div>
+              </td>
+            </tr>
+          </table>
         </div>
       </div>
 
-      <h3 class="ui dividing header" translate>
-        admin+users
-      </h3>
-      <p ng-hide="users || getUsersError" class="center aligned"><i class="big loading icon"></i></p>
-      <div ng-show="getUsersError" class="ui error compact message" translate>admin+get_users_fail</div>
-      <table ng-show="users" class="ui basic collapsing table">
-        <thead><tr>
-          <th translate>admin+name</th>
-          <th translate>admin+group</th>
-          <th></th>
-        </tr></thead>
-        <tr ng-repeat="user in users | orderBy:'name'">
-          <td>{{ user.username }}</td>
-          <td>{{ user.group }}</td>
-          <td>
-            <i class="red trash link icon" title="{{ 'admin+remove' | translate }}" ng-click="deleteUser(user.username)"></i>
-          </td>
-        </tr>
-        <tr><td colspan="3">
-          <form ng-submit="createUser()">
-            <div class="ui mini input"><input type="text" placeholder="{{ 'admin+name' | translate }}" ng-model="credentials.userid"></div>
-            <div class="ui mini input"><input type="password" placeholder="{{ 'admin+password' | translate }}" ng-model="credentials.password"></div>
-            <button class="ui mini icon submit button"><i class="plus icon"></i></button>
-          </form>
-        </td></tr>
-        <tr>
-          <td colspan="3">
-            <div class="ui error message" ng-show="postUserError" ng-bind="postUserError"></div>
-          </td>
-        </tr>
-      </table>
     </div>

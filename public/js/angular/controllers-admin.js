@@ -4,12 +4,13 @@
 
 angular.module('ezPAARSE.admin-controllers', [])
   .controller('AdminCtrl', function ($scope, $http) {
-    $scope.credentials = {};
-
+    $scope.tab = 'general';
     $scope.soft = {
       version: 'stable',
       updating: false
     };
+
+    $scope.selectTab = function (tabName) { $scope.tab = tabName; };
 
     $scope.refreshStatus = function (what) {
       if (!what || what == 'platforms') {
@@ -22,48 +23,30 @@ angular.module('ezPAARSE.admin-controllers', [])
       if (!what || what == 'software') {
         $scope.softwareStatus = { status: 'refresh' };
         $http.get('/app/status?ref=' + $scope.soft.version)
-          .success(function (data) { $scope.softwareStatus = data; })
-          .error(function ()       { $scope.softwareStatus = 'error'; });
+          .success(function (data) {
+            $scope.softwareStatus = data;
+            $scope.soft.currentVersion = data.version;
+          })
+          .error(function () { $scope.softwareStatus = 'error'; });
       }
     };
+
     $scope.refreshStatus();
-
-    $http.get('/users/')
-      .success(function (users) { $scope.users = users; })
-      .error(function () { $scope.getUsersError = true; });
-
-    /**
-     * Check every 5sec if the server is online
-     */
-    var checkOnline = function (callback) {
-      setTimeout(function () {
-        $http.get('/', { timeout: 5000 })
-        .success(callback)
-        .error(checkOnline);
-      }, 5000);
-    };
-
+  })
+  .controller('AdminPlatformsCtrl', function ($scope, $http) {
     $scope.updatePlatforms = function () {
       $scope.platformsStatus = { status: 'refresh' };
       $http.put('/platforms/status', 'uptodate')
         .success(function () { $scope.refreshStatus('platforms'); })
         .error(function ()   { $scope.platformsStatus = 'error'; });
     };
+  })
+  .controller('AdminUsersCtrl', function ($scope, $http) {
+    $scope.credentials = {};
 
-    $scope.updateSoftWare = function () {
-      $scope.softwareStatus = { status: 'refresh' };
-      $scope.soft.updating  = true;
-
-      $http.put('/app/status?version=' + $scope.soft.version)
-        .success(function () { checkOnline(function () {
-          $scope.soft.updating = false;
-          $scope.refreshStatus(); });
-        })
-        .error(function () {
-          $scope.soft.updating  = false;
-          $scope.softwareStatus = 'error';
-        });
-    };
+    $http.get('/users/')
+      .success(function (users) { $scope.users = users; })
+      .error(function () { $scope.getUsersError = true; });
 
     $scope.deleteUser = function (userid) {
       $scope.postUserError = undefined;
@@ -95,5 +78,32 @@ angular.module('ezPAARSE.admin-controllers', [])
           $scope.postUserError = errorMessage || 'An error occured';
         });
     };
+  })
+  .controller('AdminGeneralCtrl', function ($scope, $http) {
 
+    /**
+     * Check every 5sec if the server is online
+     */
+    var checkOnline = function (callback) {
+      setTimeout(function () {
+        $http.get('/', { timeout: 5000 })
+        .success(callback)
+        .error(checkOnline);
+      }, 5000);
+    };
+
+    $scope.updateSoftWare = function () {
+      $scope.softwareStatus = { status: 'refresh' };
+      $scope.soft.updating  = true;
+
+      $http.put('/app/status?version=' + $scope.soft.version)
+        .success(function () { checkOnline(function () {
+          $scope.soft.updating = false;
+          $scope.refreshStatus(); });
+        })
+        .error(function () {
+          $scope.soft.updating  = false;
+          $scope.softwareStatus = 'error';
+        });
+    };
   });
