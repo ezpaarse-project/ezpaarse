@@ -225,8 +225,8 @@ ezLanguages['fr'] = {
   "admin+remove":             "Supprimer",
   "admin+password":           "Mot de passe",
   "admin+attention":                  "Attention",
-  "admin+soft_upward_latest":         "Des modifications non-officielles semblent avoir été apportées au logiciel. Dans ce-cas, il est possible que les prochaines mises à jour échouent.",
-  "admin+soft_upward_stable":         "La version actuelle du logiciel présente des changements ultérieurs à la dernière version stable. S'il s'agit de modifications non-officielles, elles pourraient empêcher les prochaines mises à jour.",
-  "admin+platforms_upward_latest":    "Des modifications non-officielles semblent avoir été apportées au répertoire des plateformes. Dans ce cas, il est possible que les prochaines mises à jour échouent.",
+  "admin+soft_local_changes":         "Des modifications locales semblent avoir été apportées au logiciel. Dans ce-cas, il est possible que les prochaines mises à jour échouent.",
+  "admin+soft_upward_stable":         "La version actuelle du logiciel présente des changements ultérieurs à la dernière version stable. Cliquez sur le boutton ci-dessus si vous souhaitez revenir à la dernière version stable.",
+  "admin+platforms_local_changes":    "Des modifications locales semblent avoir été apportées au répertoire des plateformes. Dans ce cas, il est possible que les prochaines mises à jour échouent.",
   "admin+contact_deployment_service": "En cas de problème, nous vous invitons à contacter le service en charge du déploiement."
 };

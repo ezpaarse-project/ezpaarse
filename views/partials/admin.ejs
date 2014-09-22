@@ -27,12 +27,14 @@
         <div ng-switch-default ng-click="updateSoftware()" class="ui small red button" translate>admin+unknown_state</div>
       </div>
 
+      <div class="ui icon small info message" ng-show="softwareStatus.status == 'upward'">
+        <p ng-show="soft.version == 'stable'" translate>admin+soft_upward_stable</p>
+      </div>
       <div class="ui icon small info message" ng-show="softwareStatus['local-commits'] || softwareStatus['local-changes']">
         <i class="exclamation icon"></i>
         <div class="content">
           <div class="header" translate>admin+attention</div>
-          <p ng-show="soft.version == 'latest'" translate>admin+soft_upward_latest</p>
-          <p ng-show="soft.version == 'stable'" translate>admin+soft_upward_stable</p>
+          <p translate>admin+soft_local_changes</p>
           <p translate>admin+contact_deployment_service</p>
         </div>
       </div>
@@ -56,7 +58,7 @@
         <i class="exclamation icon"></i>
         <div class="content">
           <div class="header" translate>admin+attention</div>
-          <p translate>admin+platforms_upward_latest</p>
+          <p translate>admin+platforms_local_changes</p>
           <p translate>admin+contact_deployment_service</p>
         </div>
       </div>
