@@ -51,40 +51,42 @@ angular.module('ezPAARSE.admin-controllers', [])
     };
   })
   .controller('AdminUsersCtrl', function ($scope, $http) {
-    $scope.credentials = {};
+    var adm = $scope.adm;
+
+    adm.credentials = {};
 
     $http.get('/users/')
-      .success(function (users) { $scope.users = users; })
-      .error(function () { $scope.getUsersError = true; });
+      .success(function (users) { adm.users = users; })
+      .error(function () { adm.getUsersError = true; });
 
-    $scope.deleteUser = function (userid) {
-      $scope.postUserError = undefined;
+    adm.deleteUser = function (userid) {
+      adm.postUserError = undefined;
 
       $http.delete('/users/' + userid)
         .success(function () {
-          for (var i = $scope.users.length - 1; i>=0; i--) {
-            if ($scope.users[i].username == userid) {
-              $scope.users.splice(i, 1);
+          for (var i = adm.users.length - 1; i>=0; i--) {
+            if (adm.users[i].username == userid) {
+              adm.users.splice(i, 1);
               break;
             }
           }
         })
         .error(function (data, status, headers) {
           var errorMessage    = headers('ezpaarse-status-message');
-          $scope.postUserError = errorMessage || 'An error occured';
+          adm.postUserError = errorMessage || 'An error occured';
         });
     };
 
-    $scope.createUser = function () {
-      $scope.postUserError       = undefined;
-      $scope.credentials.confirm = $scope.credentials.password;
-      $http.post('/users/', $scope.credentials)
+    adm.createUser = function () {
+      adm.postUserError       = undefined;
+      adm.credentials.confirm = adm.credentials.password;
+      $http.post('/users/', adm.credentials)
         .success(function (user) {
-          $scope.users.push(user);
+          adm.users.push(user);
         })
         .error(function (data, status, headers) {
           var errorMessage     = headers('ezpaarse-status-message');
-          $scope.postUserError = errorMessage || 'An error occured';
+          adm.postUserError = errorMessage || 'An error occured';
         });
     };
   })

@@ -79,31 +79,31 @@
         </div>
 
         <div ng-switch-when="users"  ng-controller="AdminUsersCtrl">
-          <p ng-hide="users || getUsersError" class="center aligned"><i class="big loading icon"></i></p>
-          <div ng-show="getUsersError" class="ui error compact message" translate>admin+get_users_fail</div>
-          <table ng-show="users" class="ui basic collapsing table">
+          <p ng-hide="adm.users || adm.getUsersError" class="center aligned"><i class="big loading icon"></i></p>
+          <div ng-show="adm.getUsersError" class="ui error compact message" translate>admin+get_users_fail</div>
+          <table ng-show="adm.users" class="ui basic collapsing table">
             <thead><tr>
               <th translate>admin+name</th>
               <th translate>admin+group</th>
               <th></th>
             </tr></thead>
-            <tr ng-repeat="user in users | orderBy:'name'">
+            <tr ng-repeat="user in adm.users | orderBy:'name'">
               <td>{{ user.username }}</td>
               <td>{{ user.group }}</td>
               <td>
-                <i class="red trash link icon" title="{{ 'admin+remove' | translate }}" ng-click="deleteUser(user.username)"></i>
+                <i class="red trash link icon" title="{{ 'admin+remove' | translate }}" ng-click="adm.deleteUser(user.username)"></i>
               </td>
             </tr>
             <tr><td colspan="3">
-              <form ng-submit="createUser()">
-                <div class="ui mini input"><input type="text" placeholder="{{ 'admin+name' | translate }}" ng-model="credentials.userid"></div>
-                <div class="ui mini input"><input type="password" placeholder="{{ 'admin+password' | translate }}" ng-model="credentials.password"></div>
+              <form ng-submit="adm.createUser()">
+                <div class="ui mini input"><input type="text" placeholder="{{ 'admin+name' | translate }}" ng-model="adm.credentials.userid"></div>
+                <div class="ui mini input"><input type="password" placeholder="{{ 'admin+password' | translate }}" ng-model="adm.credentials.password"></div>
                 <button class="ui mini icon submit button"><i class="plus icon"></i></button>
               </form>
             </td></tr>
             <tr>
               <td colspan="3">
-                <div class="ui error message" ng-show="postUserError" ng-bind="postUserError"></div>
+                <div class="ui error message" ng-show="adm.postUserError" ng-bind="adm.postUserError"></div>
               </td>
             </tr>
           </table>
