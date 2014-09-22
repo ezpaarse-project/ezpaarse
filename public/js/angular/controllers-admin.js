@@ -27,7 +27,6 @@ angular.module('ezPAARSE.admin-controllers', [])
 
       if (!what || what == 'software') {
         adm.software = { status: 'refresh' };
-
         $http.get('/app/status?ref=' + adm.soft.referenceVersion)
           .success(function (data) {
             adm.software = data;
@@ -85,7 +84,7 @@ angular.module('ezPAARSE.admin-controllers', [])
           adm.users.push(user);
         })
         .error(function (data, status, headers) {
-          var errorMessage     = headers('ezpaarse-status-message');
+          var errorMessage  = headers('ezpaarse-status-message');
           adm.postUserError = errorMessage || 'An error occured';
         });
     };
@@ -99,8 +98,8 @@ angular.module('ezPAARSE.admin-controllers', [])
     var checkOnline = function (callback) {
       setTimeout(function () {
         $http.get('/', { timeout: 5000 })
-        .success(callback)
-        .error(checkOnline);
+        .success(function () { callback(); })
+        .error(function () { checkOnline(callback); });
       }, 5000);
     };
 
