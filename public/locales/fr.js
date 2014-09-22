@@ -228,5 +228,6 @@ ezLanguages['fr'] = {
   "admin+soft_local_changes":         "Des modifications locales semblent avoir été apportées au logiciel. Dans ce-cas, il est possible que les prochaines mises à jour échouent.",
   "admin+soft_upward_stable":         "La version actuelle du logiciel présente des changements ultérieurs à la dernière version stable. Cliquez sur le boutton ci-dessus si vous souhaitez revenir à la dernière version stable.",
   "admin+platforms_local_changes":    "Des modifications locales semblent avoir été apportées au répertoire des plateformes. Dans ce cas, il est possible que les prochaines mises à jour échouent.",
-  "admin+contact_deployment_service": "En cas de problème, nous vous invitons à contacter le service en charge du déploiement."
+  "admin+contact_deployment_service": "En cas de problème, nous vous invitons à contacter le service en charge du déploiement.",
+  "admin+updating_software":          "ezPAARSE est en cours de mise à jour. Cette opération peut prendre plusieurs minutes, veuillez patienter..."
 };

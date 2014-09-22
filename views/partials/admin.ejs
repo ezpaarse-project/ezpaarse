@@ -27,6 +27,7 @@
         <div ng-switch-default ng-click="updateSoftware()" class="ui small red button" translate>admin+unknown_state</div>
       </div>
 
+      <p ng-show="soft.updating" translate>admin+updating_software</p>
       <div class="ui icon small info message" ng-show="softwareStatus.status == 'upward'">
         <p ng-show="soft.version == 'stable'" translate>admin+soft_upward_stable</p>
       </div>

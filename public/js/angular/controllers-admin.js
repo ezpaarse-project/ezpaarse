@@ -7,7 +7,8 @@ angular.module('ezPAARSE.admin-controllers', [])
     $scope.credentials = {};
 
     $scope.soft = {
-      version: 'stable'
+      version: 'stable',
+      updating: false
     };
 
     $scope.refreshStatus = function (what) {
@@ -51,10 +52,17 @@ angular.module('ezPAARSE.admin-controllers', [])
 
     $scope.updateSoftWare = function () {
       $scope.softwareStatus = { status: 'refresh' };
+      $scope.soft.updating  = true;
 
       $http.put('/app/status?version=' + $scope.soft.version)
-        .success(function () { checkOnline(function () { $scope.refreshStatus(); }); })
-        .error(function () { $scope.softwareStatus = 'error'; });
+        .success(function () { checkOnline(function () {
+          $scope.soft.updating = false;
+          $scope.refreshStatus(); });
+        })
+        .error(function () {
+          $scope.soft.updating  = false;
+          $scope.softwareStatus = 'error';
+        });
     };
 
     $scope.deleteUser = function (userid) {
