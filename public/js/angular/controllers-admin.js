@@ -5,7 +5,7 @@
 angular.module('ezPAARSE.admin-controllers', [])
   .controller('AdminCtrl', function ($scope, $http) {
     $scope.adm = {
-      tab: 'general',
+      tab: 'platforms',
       soft: {
         referenceVersion: 'stable',
         updating: false
@@ -89,7 +89,7 @@ angular.module('ezPAARSE.admin-controllers', [])
         });
     };
   })
-  .controller('AdminGeneralCtrl', function ($scope, $http) {
+  .controller('AdminSystemCtrl', function ($scope, $http) {
     var adm = $scope.adm;
 
     /**

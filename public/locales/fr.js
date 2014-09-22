@@ -216,7 +216,7 @@ ezLanguages['fr'] = {
   "admin+current_version":    "Version actuelle",
   "admin+stable_version":     "Dernière version stable",
   "admin+beta_version":       "Dernière version beta",
-  "admin+general":            "Général",
+  "admin+system":             "Système",
   "admin+platforms":          "Plateformes",
   "admin+uptodate":           "à jour",
   "admin+upward":             "plus récent",
