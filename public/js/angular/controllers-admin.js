@@ -4,41 +4,50 @@
 
 angular.module('ezPAARSE.admin-controllers', [])
   .controller('AdminCtrl', function ($scope, $http) {
-    $scope.tab = 'general';
-    $scope.soft = {
-      version: 'stable',
-      updating: false
+    $scope.adm = {
+      tab: 'general',
+      soft: {
+        referenceVersion: 'stable',
+        updating: false
+      }
     };
 
-    $scope.selectTab = function (tabName) { $scope.tab = tabName; };
+    var adm = $scope.adm;
 
-    $scope.refreshStatus = function (what) {
+    adm.selectTab = function (tabName) { adm.tab = tabName; };
+
+    adm.refreshStatus = function (what) {
       if (!what || what == 'platforms') {
-        $scope.platformsStatus = { status: 'refresh' };
+        adm.platforms = { status: 'refresh' };
+
         $http.get('/platforms/status')
-          .success(function (data) { $scope.platformsStatus = data; })
-          .error(function ()       { $scope.platformsStatus = 'error'; });
+          .success(function (data) { adm.platforms = data; })
+          .error(function ()       { adm.platforms = { status: 'error' }; });
       }
 
       if (!what || what == 'software') {
-        $scope.softwareStatus = { status: 'refresh' };
-        $http.get('/app/status?ref=' + $scope.soft.version)
+        adm.software = { status: 'refresh' };
+
+        $http.get('/app/status?ref=' + adm.soft.referenceVersion)
           .success(function (data) {
-            $scope.softwareStatus = data;
-            $scope.soft.currentVersion = data.version;
+            adm.software = data;
+            adm.soft.currentVersion = data.version;
           })
-          .error(function () { $scope.softwareStatus = 'error'; });
+          .error(function () { adm.softwareStatus = 'error'; });
       }
     };
 
-    $scope.refreshStatus();
+    adm.refreshStatus();
   })
   .controller('AdminPlatformsCtrl', function ($scope, $http) {
-    $scope.updatePlatforms = function () {
-      $scope.platformsStatus = { status: 'refresh' };
+    var adm = $scope.adm;
+
+    adm.updatePlatforms = function () {
+      adm.platforms = { status: 'refresh' };
+
       $http.put('/platforms/status', 'uptodate')
-        .success(function () { $scope.refreshStatus('platforms'); })
-        .error(function ()   { $scope.platformsStatus = 'error'; });
+        .success(function () { adm.refreshStatus('platforms'); })
+        .error(function ()   { adm.platforms = 'error'; });
     };
   })
   .controller('AdminUsersCtrl', function ($scope, $http) {
@@ -80,6 +89,7 @@ angular.module('ezPAARSE.admin-controllers', [])
     };
   })
   .controller('AdminGeneralCtrl', function ($scope, $http) {
+    var adm = $scope.adm;
 
     /**
      * Check every 5sec if the server is online
@@ -92,18 +102,20 @@ angular.module('ezPAARSE.admin-controllers', [])
       }, 5000);
     };
 
-    $scope.updateSoftWare = function () {
-      $scope.softwareStatus = { status: 'refresh' };
-      $scope.soft.updating  = true;
+    adm.updateSoftWare = function () {
+      adm.software      = { status: 'refresh' };
+      adm.soft.updating = true;
 
-      $http.put('/app/status?version=' + $scope.soft.version)
-        .success(function () { checkOnline(function () {
-          $scope.soft.updating = false;
-          $scope.refreshStatus(); });
+      $http.put('/app/status?version=' + adm.soft.referenceVersion)
+        .success(function () {
+          checkOnline(function () {
+            adm.soft.updating = false;
+            adm.refreshStatus();
+          });
         })
         .error(function () {
-          $scope.soft.updating  = false;
-          $scope.softwareStatus = 'error';
+          adm.soft.updating = false;
+          adm.software      = { status: 'error' };
         });
     };
   });
