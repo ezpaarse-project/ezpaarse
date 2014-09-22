@@ -104,7 +104,7 @@ angular.module('ezPAARSE.admin-controllers', [])
       }, 5000);
     };
 
-    adm.updateSoftWare = function () {
+    adm.updateSoftware = function () {
       adm.software      = { status: 'refresh' };
       adm.soft.updating = true;
 
