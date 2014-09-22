@@ -18,6 +18,7 @@ var infoRoutes = [
 ];
 
 var adminRoutes = [
+  '/app/status',
   '/platforms/status',
   '/users'
 ];
