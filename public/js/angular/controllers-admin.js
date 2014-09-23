@@ -3,9 +3,9 @@
 /* Controllers of the admin page */
 
 angular.module('ezPAARSE.admin-controllers', [])
-  .controller('AdminCtrl', function ($scope, $http) {
+  .controller('AdminCtrl', function ($scope, $http, $location) {
     $scope.adm = {
-      tab: 'platforms',
+      tab: $location.search().tab || 'platforms',
       soft: {
         referenceVersion: 'stable',
         updating: false
@@ -14,7 +14,10 @@ angular.module('ezPAARSE.admin-controllers', [])
 
     var adm = $scope.adm;
 
-    adm.selectTab = function (tabName) { adm.tab = tabName; };
+    adm.selectTab = function (tabName) {
+      adm.tab = tabName;
+      $location.search('tab', tabName);
+    };
 
     adm.refreshStatus = function (what) {
       if (!what || what == 'platforms') {
