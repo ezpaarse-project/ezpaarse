@@ -44,7 +44,7 @@ if [[ $CURRENT_BRANCH == 'HEAD' ]]; then
   CURRENT_BRANCH='master'
 fi
 
-FULL_VERSION=`git describe`
+FULL_VERSION=`git describe --always`
 
 RESULT="{\"version\":\"$FULL_VERSION\",\"status\":\""
 
