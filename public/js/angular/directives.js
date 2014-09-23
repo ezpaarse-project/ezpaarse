@@ -48,7 +48,9 @@ angular.module('ezPAARSE.directives', [])
     return {
       restrict: 'AE',
       link: function (scope, element, attributes) {
-        element.popup();
+        attributes.$observe('popup', function (newVal) {
+          element.popup({ html: newVal });
+        });
       }
     };
   })
