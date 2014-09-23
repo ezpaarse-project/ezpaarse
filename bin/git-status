@@ -6,27 +6,18 @@
 # Options: [--tag][-t] take the latest tag as reference
 #
 # Returns a JSON with three values:
+#   [String]  version         description of the current commit
 #   [Boolean] local-commits   is there any unpushed commit ?
 #   [Boolean] local-changes   is there any uncommited changesi nthe work tree ?
-#   [String]  status          'uptodate', 'outdated' or 'upward'
+#   [String]  from-head       position from origin : 'uptodate' or 'outdated'
+#                             Unpushed commits are not taken into account
+#   [String]  from-tag        position from latest tag : 'uptodate', 'outdated' or 'upward'
 #                             Unpushed commits are not taken into account
 #
 
 # current path if not in arguments
-_DIR="${PWD}"
-TAG=false
-
-for i in "$@"
-do
-  case $i in
-  "--tag")
-    TAG=true;;
-  "-t")
-    TAG=true;;
-  *)
-    _DIR=$i
-  esac
-done
+_DIR="${1:-${PWD}}"
+TAG=true
 
 [ ! -d "$_DIR" ] && { echo "Error: Directory $_DIR not found."; exit 2; }
 
@@ -34,8 +25,7 @@ cd $_DIR
 git fetch 1>/dev/null
 
 LATEST_TAG=$(git describe --tags `git rev-list --tags --max-count=1 2> /dev/null` 2> /dev/null)
-if [[ $TAG == true && $? -gt 0 ]]; then
-  echo "No tag found, taking origin as reference" >&2
+if [[ $? -gt 0 ]]; then
   TAG=false
 fi
 
@@ -44,11 +34,25 @@ if [[ $CURRENT_BRANCH == 'HEAD' ]]; then
   CURRENT_BRANCH='master'
 fi
 
+LATEST_COMMIT=`git describe origin/$CURRENT_BRANCH --always`
 FULL_VERSION=`git describe --always`
 
-RESULT="{\"version\":\"$FULL_VERSION\",\"status\":\""
+RESULT="{\"current\":\"$FULL_VERSION\",\"head\":\"$LATEST_COMMIT\",\"tag\":\"$LATEST_TAG\","
 
-if [[ $TAG == true ]]; then
+# Commits from HEAD to origin
+COMMITS_UPWARD_HEAD=`git log HEAD..origin/$CURRENT_BRANCH --oneline | wc -l`
+
+if [ $COMMITS_UPWARD_HEAD -eq 0 ]; then
+  HEAD="uptodate"
+else
+  HEAD="uptodate"
+fi
+
+RESULT+="\"from-head\":\"$HEAD\",\"from-tag\":\""
+
+if [[ $TAG == false ]]; then
+  RESULT+="$HEAD"
+else
   CURRENT_TAG=`git describe --tags --abbrev=0`
   # Common ancestor of HEAD and (latest tag or origin)
   COMMON_ANCESTOR=`git merge-base HEAD origin/$CURRENT_BRANCH`
@@ -61,17 +65,6 @@ if [[ $TAG == true ]]; then
     RESULT+="uptodate"
   else
     RESULT+="upward"
-  fi
-
-else
-
-  # Commits from HEAD to origin
-  COMMITS_UPWARD_HEAD=`git log HEAD..origin/$CURRENT_BRANCH --oneline | wc -l`
-
-  if [ $COMMITS_UPWARD_HEAD -eq 0 ]; then
-    RESULT+="uptodate"
-  else
-    RESULT+="outdated"
   fi
 fi
 
