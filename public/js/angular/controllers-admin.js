@@ -6,8 +6,8 @@ angular.module('ezPAARSE.admin-controllers', [])
   .controller('AdminCtrl', function ($scope, $http, $location) {
     $scope.adm = {
       tab: $location.search().tab || 'platforms',
-      soft: {
-        referenceVersion: 'stable',
+      software: {
+        refreshing: false,
         updating: false
       }
     };
@@ -29,13 +29,24 @@ angular.module('ezPAARSE.admin-controllers', [])
       }
 
       if (!what || what == 'software') {
-        adm.software = { status: 'refresh' };
-        $http.get('/app/status?ref=' + adm.soft.referenceVersion)
+        adm.software.refreshing = true;
+        adm.software.errored    = false;
+
+        $http.get('/app/status')
           .success(function (data) {
-            adm.software = data;
-            adm.soft.currentVersion = data.version;
+            adm.software.git = data;
+            adm.software.currentVersion = data.current;
+
+            adm.software.isBeta   = !/^[0-9]+\.[0-9]+\.[0-9]+$/.test(data.current);
+            adm.software.latest   = adm.software.isBeta ? data.head : data.tag;
+            adm.software.outdated = (adm.software.isBeta ? data['from-head'] : data['from-tag']) == 'outdated';
+
+            adm.software.refreshing = false;
           })
-          .error(function () { adm.softwareStatus = 'error'; });
+          .error(function () {
+            adm.software.refreshing = false;
+            adm.software.errored    = true;
+          });
       }
     };
 
@@ -106,20 +117,23 @@ angular.module('ezPAARSE.admin-controllers', [])
       }, 5000);
     };
 
-    adm.updateSoftware = function () {
-      adm.software      = { status: 'refresh' };
-      adm.soft.updating = true;
+    adm.updateSoftware = function (version) {
+      adm.software.refreshing = true;
+      adm.software.updating = true;
 
-      $http.put('/app/status?version=' + adm.soft.referenceVersion)
+      version = version || adm.isBeta(adm.software.currentVersion) ? 'latest' : 'stable';
+
+      $http.put('/app/status?version=' + adm.software.referenceVersion)
         .success(function () {
           checkOnline(function () {
-            adm.soft.updating = false;
+            adm.software.updating = false;
             adm.refreshStatus();
           });
         })
         .error(function () {
-          adm.soft.updating = false;
-          adm.software      = { status: 'error' };
+          adm.software.updating   = false;
+          adm.software.errored    = true;
+          adm.software.refreshing = false;
         });
     };
   });

@@ -22,8 +22,6 @@ module.exports = function (app) {
 
     var args = [];
 
-    if (req.query.ref !== 'latest') { args.push('--tag'); }
-
     execFile(gitscript, args, { cwd: __dirname }, function (error, stdout) {
       if (error || !stdout) {
         res.status(500).end();

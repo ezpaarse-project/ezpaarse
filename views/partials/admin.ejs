@@ -7,12 +7,12 @@
       <div class="ui top attached tabular menu">
         <a class="item" ng-click="adm.selectTab('platforms')" ng-class="{'platforms': 'active'}[adm.tab]">
           {{ 'admin+platforms' | translate }}
-          <i class="icon" ng-class="{'refresh': 'loading', 'uptodate': 'green ok sign', 'outdated': 'red attention', 'error': 'question'}[adm.platforms.status]"></i>
+          <i class="icon" ng-class="{'refresh': 'loading', 'uptodate': 'green ok sign', 'outdated': 'red attention', 'error': 'question'}[adm.platforms['from-head']]"></i>
         </a>
         <a class="item" ng-click="adm.selectTab('users')" ng-class="{'users': 'active'}[adm.tab]" translate>admin+users</a>
         <a class="item" ng-click="adm.selectTab('system')" ng-class="{'system': 'active'}[adm.tab]">
           {{ 'admin+system' | translate }}
-          <i class="icon" ng-show="adm.platforms.status == 'outdated'" ng-class="{'outdated': 'red attention'}[adm.platforms.status]"></i>
+          <i class="icon" ng-show="adm.software['from-head'] == 'outdated'" ng-class="{'outdated': 'red attention'}[adm.software['from-head']]"></i>
         </a>
       </div>
 
@@ -21,31 +21,34 @@
         <div ng-switch-when="system" ng-controller="AdminSystemCtrl">
           <h4 class="ui header" translate>admin+software</h4>
 
-          <p><strong translate>admin+current_version</strong> : {{ adm.soft.currentVersion }}</p>
+          <p>
+            <strong translate>admin+current_version</strong> : {{ adm.software.currentVersion }} <span ng-show="adm.software.currentVersion && adm.software.isBeta">(beta)</span><br>
 
-          <select ng-model="adm.soft.referenceVersion" ng-change="adm.refreshStatus('software')">
-            <option value="stable" ng-selected="adm.soft.referenceVersion == 'stable'" translate>admin+stable_version</option>
-            <option value="latest" ng-selected="adm.soft.referenceVersion == 'latest'" translate>admin+beta_version</option>
-          </select>
+            <span ng-show="adm.software.currentVersion && !adm.software.refreshing">
+              <a ng-hide="adm.software.isBeta" ng-click="adm.updateSoftware('beta')" translate>admin+migrate_to_beta</a>
+              <a ng-show="adm.software.isBeta" ng-click="adm.updateSoftware('stable')" translate>admin+back_to_stable</a>
+            </span>
+          </p>
 
-          <div ng-switch="adm.software.status" style="display: inline-block">
-            <div ng-switch-when="uptodate" ng-click="adm.updateSoftware()" class="ui small green button" translate>admin+uptodate</div>
-            <div ng-switch-when="upward" ng-click="adm.updateSoftware()" class="ui small teal button" translate>admin+upward</div>
-            <div ng-switch-when="outdated" ng-click="adm.updateSoftware()" class="ui small animated orange fade button">
-              <div class="visible content" translate>admin+updates_available</div>
-              <div class="hidden content" translate>
-                admin+update
-              </div>
-            </div>
-            <div ng-switch-when="refresh" class="ui small loading button" translate>admin+updating</div>
-            <div ng-switch-default ng-click="adm.updateSoftware()" class="ui small red button" translate>admin+unknown_state</div>
+          <div ng-show="adm.software.refreshing">
+            <div class="ui small loading button" translate>admin+update</div>
           </div>
 
-          <p ng-show="adm.soft.updating" translate>admin+updating_software</p>
+          <div ng-show="adm.software.errored">
+            <div class="ui small red button" translate>admin+error</div>
+          </div>
+
+          <div ng-hide="adm.software.refreshing || adm.software.errored">
+            <div ng-show="adm.software.outdated" popup="{{ 'admin+update_to_x' | translate:{ version: adm.software.latest } }}" data-position="right center" ng-click="adm.updateSoftware()" class="ui small orange button" translate>admin+update</div>
+
+            <div ng-hide="adm.software.outdated" popup="{{ 'admin+ezpaarse_is_uptodate' | translate }}" data-position="right center" class="ui small disabled button" translate>admin+update</div>
+          </div>
+
+          <p ng-show="adm.software.updating" translate>admin+updating_software</p>
           <div class="ui icon small info message" ng-show="adm.software.status == 'upward'">
             <p translate>admin+soft_upward_stable</p>
           </div>
-          <div class="ui icon small info message" ng-show="adm.software['local-commits'] || adm.software['local-changes']">
+          <div class="ui icon small info message" ng-show="adm.software.git['local-commits'] || adm.software.git['local-changes']">
             <i class="exclamation icon"></i>
             <div class="content">
               <div class="header" translate>admin+attention</div>
@@ -58,7 +61,7 @@
         <div ng-switch-when="platforms"  ng-controller="AdminPlatformsCtrl">
           <h4 class="ui header" translate>admin+updates</h4>
 
-          <div ng-switch="adm.platforms.status">
+          <div ng-switch="adm.platforms['from-head']">
             <div ng-switch-when="uptodate" ng-click="adm.updatePlatforms()" class="ui small green button" translate>admin+uptodate</div>
             <div ng-switch-when="upward" ng-click="adm.updatePlatforms()" class="ui small teal button" translate>admin+upward</div>
             <div ng-switch-when="outdated" ng-click="adm.updatePlatforms()" class="ui small animated orange fade button" >
