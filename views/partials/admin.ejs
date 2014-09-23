@@ -10,7 +10,10 @@
           <i class="icon" ng-class="{'refresh': 'loading', 'uptodate': 'green ok sign', 'outdated': 'red attention', 'error': 'question'}[adm.platforms.status]"></i>
         </a>
         <a class="item" ng-click="adm.selectTab('users')" ng-class="{'users': 'active'}[adm.tab]" translate>admin+users</a>
-        <a class="item" ng-click="adm.selectTab('system')" ng-class="{'system': 'active'}[adm.tab]" translate>admin+system</a>
+        <a class="item" ng-click="adm.selectTab('system')" ng-class="{'system': 'active'}[adm.tab]">
+          {{ 'admin+system' | translate }}
+          <i class="icon" ng-show="adm.platforms.status == 'outdated'" ng-class="{'outdated': 'red attention'}[adm.platforms.status]"></i>
+        </a>
       </div>
 
       <div class="ui bottom attached active tab segment" ng-switch on="adm.tab">
