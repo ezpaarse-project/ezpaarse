@@ -6,6 +6,7 @@
 var fs         = require('graceful-fs');
 var path       = require('path');
 var uuid       = require('uuid');
+var exec       = require('child_process').exec;
 var pp         = require('../lib/platform-parser.js');
 var parserlist = require('../lib/parserlist.js');
 var config     = require('../lib/config.js');
@@ -28,53 +29,50 @@ module.exports = function (app) {
    * GET route on /info/platforms
    */
   app.get('/info/platforms', function (req, res) {
-    res.header('Content-Type', 'application/json; charset=utf-8');
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
-    res.status(200);
 
     var status  = req.param('status', null);
-    var sort    = req.param('sort', null);
 
-    var delimiter       = '';
     var platformsFolder = path.join(__dirname, '/../platforms');
-    var cfgFilename     = 'manifest.json';
-    var folders         = fs.readdirSync(platformsFolder);
 
-    if (sort) {
-      folders.sort();
-      if (sort == 'desc') {
-        folders.reverse();
-      }
-    }
-    res.write('[');
+    fs.readdir(platformsFolder, function (err, folders) {
+      if (err) { return res.status(500).end(); }
 
-    for (var i in folders) {
-      var folder      = folders[i];
-      var configFile  = path.join(platformsFolder, folder, cfgFilename);
-      var pFile  = pp.getParser(folder);
-      var parserFile = pFile.path;
+      var platforms = {};
+      var i = 0;
 
-      var configExists = fs.existsSync(configFile) && fs.statSync(configFile).isFile();
-      if (configExists && parserFile !== false) {
-        var config = require(configFile);
-        if (!status || config.status == status) {
-          var platform       = {};
-          platform.longname  = config.longname;
-          platform.version   = config.version;
-          platform.status    = config.status;
-          platform.contact   = config.contact;
-          platform.describe  = config.describe;
-          platform.docurl    = config.docurl;
-          platform.recognize = config.recognize;
-          res.write(delimiter + JSON.stringify(platform, null, 2));
-          if (delimiter === '') { delimiter = ','; }
-        }
-      }
-    }
+      (function readNextDir(callback) {
+        var folder = folders[i++];
 
-    res.write(']');
-    res.end();
+        if (!folder) { return callback(); }
+
+        var configFile = path.join(platformsFolder, folder, 'manifest.json');
+        var parser = pp.getParser(folder);
+
+        if (!parser || !parser.path) { return readNextDir(callback); }
+
+        fs.readFile(configFile, function (err, content) {
+          if (err) { return readNextDir(callback); }
+
+          var manifest;
+          try {
+            manifest = JSON.parse(content);
+          } catch (e) {
+            return readNextDir(callback);
+          }
+
+          if (!manifest.name || (status && manifest.status != status)) {
+            return readNextDir(callback);
+          }
+
+          platforms[manifest.name] = manifest;
+          readNextDir(callback);
+        })
+      })(function () {
+        res.status(200).json(platforms);
+      });
+    });
   });
 
   /**
