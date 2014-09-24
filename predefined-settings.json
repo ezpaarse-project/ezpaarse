@@ -251,5 +251,12 @@
     "headers": {
       "Log-Format-apache": "%{epoch},%h,%b,%{ress-name}<[a-zA-Z0-9-\/ ]+>,\"%U\",%>s,%{mt}<[a-zA-Z0-9-\/ ;=]+>,%{profil}<.+>,%{uid},%{session-id}"
     }
+  },
+  "mines-paristech-squid": {
+    "fullName": "MINES ParisTech squid",
+    "country": "France",
+    "headers": {
+      "Log-Format-squid": "%ts.%tu %<st %>a %Ss/%>Hs %tr %rm %ru %[un HIER_DIRECT/%<a %mt"
+    }
   }
 }
