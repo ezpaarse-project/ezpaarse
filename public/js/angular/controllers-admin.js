@@ -29,8 +29,9 @@ angular.module('ezPAARSE.admin-controllers', [])
 
         $http.get('/platforms/status')
           .success(function (data) {
-            adm.platforms.git = data;
-            adm.platforms.refreshing = false;
+            adm.platforms.git           = data;
+            adm.platforms.refreshing    = false;
+            adm.platforms.currentVersion = data.current;
 
             adm.platforms.outdated = data['from-head'] == 'outdated';
           })

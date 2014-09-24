@@ -64,6 +64,11 @@
         <div ng-switch-when="platforms"  ng-controller="AdminPlatformsCtrl">
           <h4 class="ui header" translate>admin+updates</h4>
 
+
+          <p>
+            <strong translate>admin+current_version</strong> : {{ adm.platforms.currentVersion }}<br>
+          </p>
+
           <div ng-show="adm.platforms.refreshing">
             <div class="ui small loading button" translate>admin+update</div>
           </div>
