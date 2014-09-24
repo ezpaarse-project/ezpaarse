@@ -137,9 +137,9 @@ angular.module('ezPAARSE.admin-controllers', [])
       adm.software.refreshing = true;
       adm.software.updating = true;
 
-      version = version || adm.isBeta(adm.software.currentVersion) ? 'latest' : 'stable';
+      version = version || adm.software.isBeta ? 'latest' : 'stable';
 
-      $http.put('/app/status?version=' + adm.software.referenceVersion)
+      $http.put('/app/status?version=' + version)
         .success(function () {
           checkOnline(function () {
             adm.software.updating = false;
