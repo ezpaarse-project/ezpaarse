@@ -45,7 +45,7 @@ COMMITS_UPWARD_HEAD=`git log HEAD..origin/$CURRENT_BRANCH --oneline | wc -l`
 if [ $COMMITS_UPWARD_HEAD -eq 0 ]; then
   HEAD="uptodate"
 else
-  HEAD="uptodate"
+  HEAD="outdated"
 fi
 
 RESULT+="\"from-head\":\"$HEAD\",\"from-tag\":\""
