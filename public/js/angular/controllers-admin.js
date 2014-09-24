@@ -9,6 +9,9 @@ angular.module('ezPAARSE.admin-controllers', [])
       software: {
         refreshing: false,
         updating: false
+      },
+      platforms: {
+        refreshing: false
       }
     };
 
@@ -21,11 +24,20 @@ angular.module('ezPAARSE.admin-controllers', [])
 
     adm.refreshStatus = function (what) {
       if (!what || what == 'platforms') {
-        adm.platforms = { status: 'refresh' };
+        adm.platforms.refreshing = true;
+        adm.platforms.errored    = false;
 
         $http.get('/platforms/status')
-          .success(function (data) { adm.platforms = data; })
-          .error(function ()       { adm.platforms = { status: 'error' }; });
+          .success(function (data) {
+            adm.platforms.git = data;
+            adm.platforms.refreshing = false;
+
+            adm.platforms.outdated = data['from-head'] == 'outdated';
+          })
+          .error(function ()       {
+            adm.platforms.errored    = true;
+            adm.platforms.refreshing = false;
+          });
       }
 
       if (!what || what == 'software') {
@@ -56,11 +68,14 @@ angular.module('ezPAARSE.admin-controllers', [])
     var adm = $scope.adm;
 
     adm.updatePlatforms = function () {
-      adm.platforms = { status: 'refresh' };
+      adm.platforms.refreshing = true;
 
       $http.put('/platforms/status', 'uptodate')
         .success(function () { adm.refreshStatus('platforms'); })
-        .error(function ()   { adm.platforms = 'error'; });
+        .error(function ()   {
+          adm.platforms.refreshing = false;
+          adm.platforms.errored    = true;
+        });
     };
   })
   .controller('AdminUsersCtrl', function ($scope, $http) {
