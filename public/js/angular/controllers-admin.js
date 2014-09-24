@@ -168,7 +168,7 @@ angular.module('ezPAARSE.admin-controllers', [])
       adm.software.refreshing = true;
       adm.software.updating = true;
 
-      version = version || adm.software.isBeta ? 'latest' : 'stable';
+      version = version || (adm.software.isBeta ? 'latest' : 'stable');
 
       $http.put('/app/status?version=' + version)
         .success(function () {

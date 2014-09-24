@@ -28,7 +28,7 @@
             <strong translate>admin+current_version</strong> : {{ adm.software.currentVersion }} <span ng-show="adm.software.currentVersion && adm.software.isBeta">(beta)</span><br>
 
             <span ng-show="adm.software.currentVersion && !adm.software.refreshing">
-              <a ng-hide="adm.software.isBeta" ng-click="adm.updateSoftware('beta')" translate>admin+migrate_to_beta</a>
+              <a ng-hide="adm.software.isBeta" ng-click="adm.updateSoftware('latest')" translate>admin+migrate_to_beta</a>
               <a ng-show="adm.software.isBeta" ng-click="adm.updateSoftware('stable')" translate>admin+back_to_stable</a>
             </span>
           </p>
