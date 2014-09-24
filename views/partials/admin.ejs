@@ -47,7 +47,12 @@
             <div ng-hide="adm.software.outdated" popup="{{ 'admin+ezpaarse_is_uptodate' | translate }}" data-position="right center" class="ui small disabled button" translate>admin+update</div>
           </div>
 
-          <p ng-show="adm.software.updating" translate>admin+updating_software</p>
+          <div ng-show="adm.software.updating">
+            <p><span translate>admin+elapsed_time</span> : {{ adm.software.elapsed }}</p>
+            <p translate>admin+updating_software</p>
+            <div ng-show="adm.software.longUpdate" class="ui small message"><i class="warning icon"></i> {{ 'admin+long_update' | translate }}</div>
+          </div>
+
           <div class="ui icon small info message" ng-show="adm.software.status == 'upward'">
             <p translate>admin+soft_upward_stable</p>
           </div>

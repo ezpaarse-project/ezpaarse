@@ -238,5 +238,7 @@ ezLanguages['en'] = {
   "admin+soft_upward_stable":         "The current version of the software has got changes that are more recent than the latest stable release. Click the button above if you wish to get back to the latest stable release.",
   "admin+platforms_local_changes":    "It seems that local changes have been applied to the platforms directory. In that case, future updates might fail.",
   "admin+contact_deployment_service": "In case of problems, we invite you to contact the deployer.",
-  "admin+updating_software":          "ezPAARSE is being updated. This operation can take up to several minutes, please wait..."
+  "admin+updating_software":          "ezPAARSE is being updated. This operation can take up to several minutes, please wait...",
+  "admin+elapsed_time":               "Elapsed time",
+  "admin+long_update":                "This update seems to take a lot of time, ezPAARSE might have failed to be restarded."
 };

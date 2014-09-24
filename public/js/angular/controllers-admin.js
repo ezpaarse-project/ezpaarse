@@ -119,14 +119,45 @@ angular.module('ezPAARSE.admin-controllers', [])
         });
     };
   })
-  .controller('AdminSystemCtrl', function ($scope, $http) {
+  .controller('AdminSystemCtrl', function ($scope, $http, $timeout) {
     var adm = $scope.adm;
+
+    /**
+     * Used to display elapsed time during software update
+     */
+    var timer = {
+      start: function () {
+        if (timer.started) { return; }
+        timer.started   = true;
+        timer.startTime = new Date().getTime();
+        timer.elapsed();
+      },
+      elapsed: function () {
+        var now = new Date().getTime();
+        var elapsed = new Date(now - timer.startTime);
+
+        adm.software.longUpdate = (elapsed > 300000);
+
+        var seconds = elapsed.getSeconds().toString();
+        if (seconds.length == 1) { seconds = '0' + seconds; }
+        var minutes = elapsed.getMinutes().toString();
+        if (minutes.length == 1) { minutes = '0' + minutes; }
+
+        adm.software.elapsed = minutes + ':' + seconds;
+
+        if (timer.started) { timer.timeoutID = $timeout(timer.elapsed, 1000); }
+      },
+      stop: function () {
+        timer.started = false;
+        $timeout.cancel(timer.timeoutID);
+      }
+    }
 
     /**
      * Check every 5sec if the server is online
      */
     var checkOnline = function (callback) {
-      setTimeout(function () {
+      $timeout(function () {
         $http.get('/', { timeout: 5000 })
         .success(function () { callback(); })
         .error(function () { checkOnline(callback); });
@@ -141,7 +172,10 @@ angular.module('ezPAARSE.admin-controllers', [])
 
       $http.put('/app/status?version=' + version)
         .success(function () {
+          timer.start();
+
           checkOnline(function () {
+            timer.stop();
             adm.software.updating = false;
             adm.refreshStatus();
           });
