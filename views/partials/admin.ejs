@@ -15,7 +15,7 @@
 
         <a class="item" ng-click="adm.selectTab('system')" ng-class="{'system': 'active'}[adm.tab]">
           {{ 'admin+system' | translate }}
-          <i class="icon" ng-show="adm.software['from-head'] == 'outdated'" ng-class="{'outdated': 'red attention'}[adm.software['from-head']]"></i>
+          <i class="red attention icon" ng-show="adm.software.outdated"></i>
         </a>
       </div>
 
