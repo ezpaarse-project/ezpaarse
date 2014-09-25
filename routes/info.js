@@ -41,7 +41,7 @@ module.exports = function (app) {
 
         var platform = members.shift();
 
-        if (platform.charAt(0) == '.') { return; }
+        if (platform.charAt(0) == '.' || platform == 'js-parser-skeleton') { return; }
         if (!changed[platform]) { changed[platform] = []; }
 
         changed[platform].push(members.join('/'));
