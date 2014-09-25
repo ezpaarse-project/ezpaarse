@@ -6,7 +6,6 @@
 var fs         = require('graceful-fs');
 var path       = require('path');
 var uuid       = require('uuid');
-var exec       = require('child_process').exec;
 var pp         = require('../lib/platform-parser.js');
 var parserlist = require('../lib/parserlist.js');
 var config     = require('../lib/config.js');
@@ -68,7 +67,7 @@ module.exports = function (app) {
 
           platforms[manifest.name] = manifest;
           readNextDir(callback);
-        })
+        });
       })(function () {
         res.status(200).json(platforms);
       });
