@@ -8,6 +8,7 @@ var path       = require('path');
 var uuid       = require('uuid');
 var pp         = require('../lib/platform-parser.js');
 var parserlist = require('../lib/parserlist.js');
+var git        = require('../lib/git-tools.js');
 var config     = require('../lib/config.js');
 var pkg        = require('../package.json');
 
@@ -27,11 +28,37 @@ module.exports = function (app) {
   /**
    * GET route on /info/platforms
    */
+  app.get('/info/platforms/changed', function (req, res) {
+    git.changed({ cwd: path.join(__dirname, '../platforms') }, function (err, files) {
+      if (err) { return res.status(500); }
+
+      var changed = {};
+
+      files.forEach(function (file) {
+        var members = file.split(path.sep);
+
+        if (members.length < 2) { return; }
+
+        var platform = members.shift();
+
+        if (platform.charAt(0) == '.') { return; }
+        if (!changed[platform]) { changed[platform] = []; }
+
+        changed[platform].push(members.join('/'));
+      });
+
+      res.status(200).json(changed);
+    });
+  });
+
+  /**
+   * GET route on /info/platforms
+   */
   app.get('/info/platforms', function (req, res) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
 
-    var status  = req.param('status', null);
+    var status = req.param('status', null);
 
     var platformsFolder = path.join(__dirname, '/../platforms');
 
@@ -65,6 +92,7 @@ module.exports = function (app) {
             return readNextDir(callback);
           }
 
+          manifest.uptodate = true;
           platforms[manifest.name] = manifest;
           readNextDir(callback);
         });
