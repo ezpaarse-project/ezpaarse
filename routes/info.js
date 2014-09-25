@@ -71,7 +71,7 @@ module.exports = function (app) {
       (function readNextDir(callback) {
         var folder = folders[i++];
 
-        if (!folder) { return callback(); }
+        if (!folder || folder == 'js-parser-skeleton') { return callback(); }
 
         var configFile = path.join(platformsFolder, folder, 'manifest.json');
         var parser = pp.getParser(folder);
