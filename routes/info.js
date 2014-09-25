@@ -35,7 +35,7 @@ module.exports = function (app) {
       var changed = {};
 
       files.forEach(function (file) {
-        var members = file.split(path.sep);
+        var members = file.split('/');
 
         if (members.length < 2) { return; }
 
