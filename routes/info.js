@@ -30,7 +30,7 @@ module.exports = function (app) {
    */
   app.get('/info/platforms/changed', function (req, res) {
     git.changed({ cwd: path.join(__dirname, '../platforms') }, function (err, files) {
-      if (err) { return res.status(500); }
+      if (err) { return res.status(500).end(); }
 
       var changed = {};
 
