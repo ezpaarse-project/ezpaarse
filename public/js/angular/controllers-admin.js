@@ -52,10 +52,13 @@ angular.module('ezPAARSE.admin-controllers', [])
                 adm.platforms.changed  = changed;
 
                 for (var platform in changed) {
-                  if (!list.hasOwnProperty(platform)) {
-                    adm.platforms.brandNew.push(platform)
-                  } else {
+                  var exists = list.some(function (p) {
+                    return (p.name == platform);
+                  });
+                  if (exists) {
                     adm.platforms.list[platform].hasChanges = true;
+                  } else {
+                    adm.platforms.brandNew.push(platform)
                   }
                 }
 

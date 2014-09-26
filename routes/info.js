@@ -65,7 +65,7 @@ module.exports = function (app) {
     fs.readdir(platformsFolder, function (err, folders) {
       if (err) { return res.status(500).end(); }
 
-      var platforms = {};
+      var platforms = [];
       var i = 0;
 
       (function readNextDir(callback) {
@@ -93,8 +93,7 @@ module.exports = function (app) {
             return readNextDir(callback);
           }
 
-          manifest.uptodate = true;
-          platforms[manifest.name] = manifest;
+          platforms.push(manifest);
           readNextDir(callback);
         });
       })(function () {
