@@ -234,6 +234,7 @@ ezLanguages['fr'] = {
   "admin+platform":                "Plateforme",
   "admin+status":                  "Statut",
   "admin+version":                 "Version",
+  "admin+analysis":                "analyse",
   "admin+name":                    "Nom",
   "admin+group":                   "Groupe",
   "admin+remove":                  "Supprimer",
