@@ -64,14 +64,14 @@ angular.module('ezPAARSE.admin-controllers', [])
                 adm.platforms.changed  = changed;
 
                 for (var platform in changed) {
-                  var exists = list.some(function (p) {
-                    return (p.name == platform);
-                  });
-                  if (exists) {
-                    adm.platforms.list[platform].hasChanges = true;
-                  } else {
-                    adm.platforms.brandNew.push(platform)
+                  for (var i = list.length - 1; i >= 0; i--) {
+                    if (list[i].name == platform) {
+                      list[i].hasChanges = true;
+                      break;
+                    }
                   }
+
+                  if (i < 0) { adm.platforms.brandNew.push(platform); }
                 }
 
                 adm.platforms.refreshingList = false;
