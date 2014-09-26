@@ -26,18 +26,48 @@ angular.module('ezPAARSE.admin-controllers', [])
       if (!what || what == 'platforms') {
         adm.platforms.refreshing = true;
         adm.platforms.errored    = false;
+        adm.platforms.refreshingList = true;
+        adm.platforms.erroredList    = false;
 
         $http.get('/platforms/status')
           .success(function (data) {
-            adm.platforms.git           = data;
-            adm.platforms.refreshing    = false;
+            adm.platforms.git            = data;
+            adm.platforms.refreshing     = false;
             adm.platforms.currentVersion = data.current;
-
-            adm.platforms.outdated = data['from-head'] == 'outdated';
+            adm.platforms.outdated       = data['from-head'] == 'outdated';
           })
           .error(function ()       {
             adm.platforms.errored    = true;
             adm.platforms.refreshing = false;
+          });
+
+        $http.get('/info/platforms')
+          .success(function (list) {
+            adm.platforms.list = list;
+
+            $http.get('/info/platforms/changed')
+              .success(function (changed) {
+                adm.platforms.changed  = changed;
+                adm.platforms.brandNew = [];
+
+                for (var platform in changed) {
+                  if (!list.hasOwnProperty(platform)) {
+                    adm.platforms.brandNew.push(platform)
+                  } else {
+                    adm.platforms.list[platform].hasChanges = true;
+                  }
+                }
+
+                adm.platforms.refreshingList = false;
+              })
+              .error(function () {
+                adm.platforms.erroredList    = true;
+                adm.platforms.refreshingList = false;
+              });
+          })
+          .error(function () {
+            adm.platforms.erroredList    = true;
+            adm.platforms.refreshingList = false;
           });
       }
 
