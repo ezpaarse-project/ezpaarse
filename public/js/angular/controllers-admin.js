@@ -24,10 +24,11 @@ angular.module('ezPAARSE.admin-controllers', [])
 
     adm.refreshStatus = function (what) {
       if (!what || what == 'platforms') {
-        adm.platforms.refreshing = true;
-        adm.platforms.errored    = false;
-        adm.platforms.refreshingList = true;
-        adm.platforms.erroredList    = false;
+        adm.platforms.refreshing        = true;
+        adm.platforms.refreshingList    = true;
+        adm.platforms.errored           = false;
+        adm.platforms.erroredList       = false;
+        adm.platforms.erroredChanges    = false;
 
         $http.get('/platforms/status')
           .success(function (data) {
@@ -43,12 +44,12 @@ angular.module('ezPAARSE.admin-controllers', [])
 
         $http.get('/info/platforms')
           .success(function (list) {
-            adm.platforms.list = list;
+            adm.platforms.list     = list;
+            adm.platforms.brandNew = [];
 
             $http.get('/info/platforms/changed')
               .success(function (changed) {
                 adm.platforms.changed  = changed;
-                adm.platforms.brandNew = [];
 
                 for (var platform in changed) {
                   if (!list.hasOwnProperty(platform)) {
@@ -61,7 +62,7 @@ angular.module('ezPAARSE.admin-controllers', [])
                 adm.platforms.refreshingList = false;
               })
               .error(function () {
-                adm.platforms.erroredList    = true;
+                adm.platforms.erroredChanges = true;
                 adm.platforms.refreshingList = false;
               });
           })

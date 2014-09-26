@@ -230,6 +230,7 @@ ezLanguages['en'] = {
   "admin+users":                   "Users",
   "admin+get_users_fail":          "The users could not be retrieved.",
   "admin+get_platforms_fail":      "The list of the platforms could not be retrieved.",
+  "admin+get_outdated_fail":       "Outdated platforms could not be identified.",
   "admin+new_platforms_available": "New platforms are available",
   "admin+platform":                "Platform",
   "admin+status":                  "Status",

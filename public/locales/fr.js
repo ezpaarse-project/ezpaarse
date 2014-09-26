@@ -229,6 +229,7 @@ ezLanguages['fr'] = {
   "admin+users":                   "Utilisateurs",
   "admin+get_users_fail":          "Les utilisateurs n'ont pas pu être chargés.",
   "admin+get_platforms_fail":      "La liste des plateformes n'a pas pu être récupérée.",
+  "admin+get_outdated_fail":       "Les plateformes obsolètes n'ont pas pu être identifiées.",
   "admin+new_platforms_available": "De nouvelles plateformes sont disponibles",
   "admin+platform":                "Plateforme",
   "admin+status":                  "Statut",

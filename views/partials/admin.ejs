@@ -98,7 +98,8 @@
           </div>
 
           <p class="center aligned" ng-show="adm.platforms.refreshingList"><i class="big loading icon"></i></p>
-          <div class="ui error compact message" ng-show="adm.platforms.erroredList" translate>admin+get_platforms_fail</div>
+          <div class="ui error compact message" ng-show="adm.platforms.erroredList"><i class="attention icon"></i> {{ 'admin+get_platforms_fail' | translate }}</div>
+          <div class="ui warning compact message" ng-show="adm.platforms.erroredChanges"><i class="attention icon"></i>{{ 'admin+get_outdated_fail' | translate }}</div>
 
           <div class="ui info message" ng-hide="adm.platforms.refreshingList || adm.platforms.brandNew.length == 0">
             <div class="ui small header" translate>admin+new_platforms_available</div>
