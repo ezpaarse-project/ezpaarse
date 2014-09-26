@@ -113,15 +113,15 @@
             </div>
           </div>
 
-          <table class="ui bottom attached segment table" ng-hide="adm.platforms.refreshingList">
+          <table class="ui bottom attached sortable segment table" ng-hide="adm.platforms.refreshingList">
             <thead><tr>
-              <th translate>admin+platform</th>
-              <th translate>admin+status</th>
-              <th translate>admin+version</th>
+              <th ng-click="adm.sortBy('longname')" ng-class="{ '-longname': 'descending', '+longname': 'ascending' }[adm.platforms.sort]" translate>admin+platform</th>
+              <th ng-click="adm.sortBy('status')" ng-class="{ '-status': 'descending', '+status': 'ascending' }[adm.platforms.sort]" translate>admin+status</th>
+              <th ng-click="adm.sortBy('version')" ng-class="{ '-version': 'descending', '+version': 'ascending' }[adm.platforms.sort]" translate>admin+version</th>
               <th></th>
             </tr></thead>
             <tbody>
-            <tr ng-repeat="manifest in adm.platforms.list | filter:search" ng-class="{ warning: manifest.hasChanges }">
+            <tr ng-repeat="manifest in adm.platforms.list | filter:search | orderBy:adm.platforms.sort" ng-class="{ warning: manifest.hasChanges }">
               <td><i ng-if="manifest.hasChanges" class="attention icon"></i> {{ manifest.longname }}</td>
               <td ng-bind="manifest.status"></td>
               <td ng-bind="manifest.version"></td>

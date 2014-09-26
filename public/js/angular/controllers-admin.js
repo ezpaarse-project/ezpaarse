@@ -11,11 +11,23 @@ angular.module('ezPAARSE.admin-controllers', [])
         updating: false
       },
       platforms: {
-        refreshing: false
+        refreshing: false,
+        sort: '+longname'
       }
     };
 
     var adm = $scope.adm;
+
+    adm.sortBy = function (name) {
+      var sort  = adm.platforms.sort.substr(1);
+      var order = adm.platforms.sort.charAt(0);
+
+      if (sort == name) {
+        adm.platforms.sort = (order == '+' ? '-' : '+') + name;
+      } else {
+        adm.platforms.sort = '+' + name;
+      }
+    };
 
     adm.selectTab = function (tabName) {
       adm.tab = tabName;
