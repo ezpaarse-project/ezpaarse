@@ -107,9 +107,16 @@
           </div>
 
           <div class="ui top attached slightly padded segment" ng-hide="adm.platforms.refreshingList">
-            <div class="ui small borderless fluid left icon input">
-              <input type="text" placeholder="{{ 'admin+search' | translate }}" ng-model="search">
+            <div class="ui small borderless left icon input">
+              <input type="text" placeholder="{{ 'admin+search' | translate }}" ng-model="overallSearch">
               <i class="search icon"></i>
+            </div>
+
+            <div class="ui right floated vertical basic segment">
+              <div class="ui checkbox">
+                <input type="checkbox" id="only-outdated" ng-model="onlyOutdated">
+                <label for="only-outdated" translate>admin+outdated_only</label>
+              </div>
             </div>
           </div>
 
@@ -121,7 +128,7 @@
               <th></th>
             </tr></thead>
             <tbody>
-            <tr ng-repeat="manifest in adm.platforms.list | filter:search | orderBy:adm.platforms.sort" ng-class="{ warning: manifest.hasChanges }">
+            <tr ng-repeat="manifest in adm.platforms.list | filter:overallSearch | filter:{ hasChanges: onlyOutdated || undefined } | orderBy:adm.platforms.sort" ng-class="{ warning: manifest.hasChanges }">
               <td><i ng-if="manifest.hasChanges" class="attention icon"></i> {{ manifest.longname }}</td>
               <td ng-bind="manifest.status"></td>
               <td ng-bind="manifest.version"></td>

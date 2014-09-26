@@ -232,6 +232,7 @@ ezLanguages['fr'] = {
   "admin+get_outdated_fail":       "Les plateformes obsolètes n'ont pas pu être identifiées.",
   "admin+new_platforms_available": "De nouvelles plateformes sont disponibles",
   "admin+search":                  "Recherche...",
+  "admin+outdated_only":           "Obsolètes uniquement",
   "admin+platform":                "Plateforme",
   "admin+status":                  "Statut",
   "admin+version":                 "Version",

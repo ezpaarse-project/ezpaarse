@@ -233,6 +233,7 @@ ezLanguages['en'] = {
   "admin+get_outdated_fail":       "Outdated platforms could not be identified.",
   "admin+new_platforms_available": "New platforms are available",
   "admin+search":                  "Search...",
+  "admin+outdated_only":           "Outdated only",
   "admin+platform":                "Platform",
   "admin+status":                  "Status",
   "admin+version":                 "Version",
