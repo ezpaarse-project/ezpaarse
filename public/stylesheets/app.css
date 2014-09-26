@@ -129,6 +129,14 @@ code {
   padding: 5px;
 }
 
+.ui.slightly.padded.segment {
+  padding: 5px;
+}
+
+.ui.borderless.input > input {
+  border: none;
+}
+
 .ui.segment.dropzone {
   min-height: 100px;
   border: 3px dashed #CCC;

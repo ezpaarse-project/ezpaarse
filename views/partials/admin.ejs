@@ -106,7 +106,14 @@
             <p ng-bind="adm.platforms.brandNew | join:', '"></p>
           </div>
 
-          <table class="ui segment table" ng-hide="adm.platforms.refreshingList">
+          <div class="ui top attached slightly padded segment" ng-hide="adm.platforms.refreshingList">
+            <div class="ui small borderless fluid left icon input">
+              <input type="text" placeholder="{{ 'admin+search' | translate }}" ng-model="search">
+              <i class="search icon"></i>
+            </div>
+          </div>
+
+          <table class="ui bottom attached segment table" ng-hide="adm.platforms.refreshingList">
             <thead><tr>
               <th translate>admin+platform</th>
               <th translate>admin+status</th>
@@ -114,7 +121,7 @@
               <th></th>
             </tr></thead>
             <tbody>
-            <tr ng-repeat="(platform, manifest) in adm.platforms.list" ng-class="{ warning: manifest.hasChanges }">
+            <tr ng-repeat="manifest in adm.platforms.list | filter:search" ng-class="{ warning: manifest.hasChanges }">
               <td><i ng-if="manifest.hasChanges" class="attention icon"></i> {{ manifest.longname }}</td>
               <td ng-bind="manifest.status"></td>
               <td ng-bind="manifest.version"></td>
