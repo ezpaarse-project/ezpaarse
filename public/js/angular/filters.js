@@ -32,6 +32,15 @@ angular.module('ezPAARSE.filters', [])
       }
     };
   })
+  .filter('join', function ($filter) {
+    return function (array, separator) {
+      if (Array.isArray(array)) {
+        return array.join(separator || ',');
+      } else {
+        return '';
+      }
+    };
+  })
   .filter('reportCategories', function () {
     return function (report) {
       var categories = [];
