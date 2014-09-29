@@ -58,6 +58,13 @@ code {
   font-weight: bold;
 }
 
+.ui.table tr.odd {
+  background-color: rgba(0, 0, 50, 0.02) !important;
+}
+.ui.table tr.even {
+  background-color: #FFFFFF !important;
+}
+
 #container {
   position: relative;
   height: 100%;

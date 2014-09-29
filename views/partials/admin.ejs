@@ -128,7 +128,7 @@
               <th ng-click="adm.sortBy('version')" ng-class="{ '-version': 'descending', '+version': 'ascending' }[adm.platforms.sort]" translate>admin+version</th>
             </tr></thead>
             <tbody>
-            <tr ng-repeat-start="manifest in adm.platforms.list | filter:overallSearch | filter:{ hasChanges: onlyOutdated || undefined } | orderBy:adm.platforms.sort" ng-class="{ warning: manifest.hasChanges }">
+            <tr ng-repeat-start="manifest in adm.platforms.list | filter:overallSearch | filter:{ hasChanges: onlyOutdated || undefined } | orderBy:adm.platforms.sort" ng-class="{ warning: manifest.hasChanges, even: $even, odd: $odd }">
               <td>
                 <a ng-href="{{ manifest.docurl }}" title="{{ 'admin+analysis' | translate }}"><img src="/img/icon-analogist.png"></a>
                 <a ng-show="manifest['pkb-packages'].length" ng-click="adm.togglePkbOf(manifest.name)" title="{{ 'admin+knowledge_bases' | translate }}"><i class="text file link icon"></i></a>
@@ -137,7 +137,7 @@
               <td ng-bind="manifest.status"></td>
               <td ng-bind="manifest.version"></td>
             </tr>
-            <tr ng-repeat-end ng-if="adm.selectedPKBs[manifest.name]">
+            <tr ng-repeat-end ng-if="adm.selectedPKBs[manifest.name]" ng-class="{ even: $even, odd: $odd }">
               <td></td>
               <td>
                 <div class="ui tiny header" translate>admin+knowledge_bases</div>
