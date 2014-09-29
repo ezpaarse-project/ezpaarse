@@ -65,8 +65,39 @@ module.exports = function (app) {
     fs.readdir(platformsFolder, function (err, folders) {
       if (err) { return res.status(500).end(); }
 
+      var kbartReg  = /(.*)_([0-9]{4}-[0-9]{2}-[0-9]{2})\.txt$/;
       var platforms = [];
       var i = 0;
+
+      var getPkbPackages = function (pkbDir, callback) {
+        fs.readdir(pkbDir, function (err, files) {
+          if (err && err.code != 'ENOENT') { return callback(err); }
+
+          var dates = {};
+
+          (files || []).forEach(function (file) {
+            var match = kbartReg.exec(file);
+            if (match) {
+              var pkg  = match[1];
+              var date = match[2];
+
+              if (!dates[pkg] || dates[pkg] < date) {
+                dates[match[1]] = match[2];
+              }
+            }
+          });
+
+          var packages = [];
+          for (var i in dates) {
+            packages.push({
+              name: i,
+              date: dates[i]
+            })
+          }
+
+          callback(null, packages);
+        });
+      };
 
       (function readNextDir(callback) {
         var folder = folders[i++];
@@ -93,8 +124,13 @@ module.exports = function (app) {
             return readNextDir(callback);
           }
 
-          platforms.push(manifest);
-          readNextDir(callback);
+          getPkbPackages(path.join(platformsFolder, folder, 'pkb'), function (err, packages) {
+            if (!err) { manifest['pkb-packages'] = packages; }
+
+            platforms.push(manifest);
+            readNextDir(callback);
+          });
+
         });
       })(function () {
         res.status(200).json(platforms);
