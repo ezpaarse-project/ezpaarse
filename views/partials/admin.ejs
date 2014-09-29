@@ -126,14 +126,30 @@
               <th ng-click="adm.sortBy('status')" ng-class="{ '-status': 'descending', '+status': 'ascending' }[adm.platforms.sort]" translate>admin+status</th>
               <th ng-click="adm.sortBy('version')" ng-class="{ '-version': 'descending', '+version': 'ascending' }[adm.platforms.sort]" translate>admin+version</th>
               <th></th>
+              <th></th>
             </tr></thead>
             <tbody>
-            <tr ng-repeat="manifest in adm.platforms.list | filter:overallSearch | filter:{ hasChanges: onlyOutdated || undefined } | orderBy:adm.platforms.sort" ng-class="{ warning: manifest.hasChanges }">
+            <tr ng-repeat-start="manifest in adm.platforms.list | filter:overallSearch | filter:{ hasChanges: onlyOutdated || undefined } | orderBy:adm.platforms.sort" ng-class="{ warning: manifest.hasChanges }">
               <td><i ng-if="manifest.hasChanges" class="attention icon"></i> {{ manifest.longname }}</td>
               <td ng-bind="manifest.status"></td>
               <td ng-bind="manifest.version"></td>
+              <td><a ng-show="manifest['pkb-packages'].length" ng-click="adm.togglePkbOf(manifest.name)" translate>admin+pkb_files</a></td>
               <td>
                 <a ng-href="{{ manifest.docurl }}" translate>admin+analysis</a>
+              </td>
+            </tr>
+            <tr ng-repeat-end ng-if="adm.selectedPKBs[manifest.name]">
+              <td colspan="5">
+                <table class="ui inverted compact collapsing teal table segment">
+                  <thead><tr>
+                    <th translate>admin+package</th>
+                    <th translate>admin+date</th>
+                  </tr></thead>
+                  <tr ng-repeat="package in manifest['pkb-packages']">
+                    <td ng-bind="package.name"></td>
+                    <td ng-bind="package.date"></td>
+                  </tr>
+                </table>
               </td>
             </tr>
             </tbody>

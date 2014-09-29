@@ -13,7 +13,8 @@ angular.module('ezPAARSE.admin-controllers', [])
       platforms: {
         refreshing: false,
         sort: '+longname'
-      }
+      },
+      selectedPKBs: {}
     };
 
     var adm = $scope.adm;
@@ -26,6 +27,14 @@ angular.module('ezPAARSE.admin-controllers', [])
         adm.platforms.sort = (order == '+' ? '-' : '+') + name;
       } else {
         adm.platforms.sort = '+' + name;
+      }
+    };
+
+    adm.togglePkbOf = function (platform) {
+      if (adm.selectedPKBs[platform]) {
+        delete adm.selectedPKBs[platform];
+      } else {
+        adm.selectedPKBs[platform] = true;
       }
     };
 
