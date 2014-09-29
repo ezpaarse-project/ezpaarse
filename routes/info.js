@@ -92,7 +92,7 @@ module.exports = function (app) {
             packages.push({
               name: i,
               date: dates[i]
-            })
+            });
           }
 
           callback(null, packages);
