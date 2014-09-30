@@ -142,11 +142,13 @@
               <td>
                 <table class="ui compact table segment">
                   <tr>
-                    <th class="eleven wide" translate>admin+package</th>
-                    <th class="five wide" translate>admin+date</th>
+                    <th class="ten wide" translate>admin+package</th>
+                    <th class="three wide" translate>admin+lines</th>
+                    <th class="three wide" translate>admin+date</th>
                   </tr>
                   <tr ng-repeat="package in manifest['pkb-packages']">
                     <td ng-bind="package.name"></td>
+                    <td ng-bind="package.lines | localNumber"></td>
                     <td ng-bind="package.date"></td>
                   </tr>
                 </table>

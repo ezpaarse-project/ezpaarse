@@ -239,6 +239,7 @@ ezLanguages['en'] = {
   "admin+version":                 "Version",
   "admin+analysis":                "Analyzis",
   "admin+package":                 "Package",
+  "admin+lines":                   "Lines",
   "admin+date":                    "Date",
   "admin+knowledge_bases":         "Knowledge bases",
   "admin+name":                    "Name",
