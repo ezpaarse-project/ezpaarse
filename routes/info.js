@@ -69,21 +69,28 @@ module.exports = function (app) {
       var platforms = [];
       var i = 0;
 
-      var countLines = function (file, callback) {
+      var countEntries = function (file, callback) {
         var count     = 0;
         var linebreak = '\n'.charCodeAt(0);
         var stream    = fs.createReadStream(file);
+        var buffer    = '';
 
         stream.on('error', function (err) { callback(err, 0); });
         stream.on('readable', function () {
           var data = stream.read();
-          if (data) {
-            for (var i = data.length - 1; i >= 0; i--) {
-              if (data[i] == linebreak) { count++; }
-            }
+          if (!data) { return; }
+
+          buffer += data.toString();
+
+          var index = buffer.indexOf('\n');
+
+          while (index >= 0) {
+            if (buffer.substr(0, index).trim().length > 0) { count++; }
+            buffer = buffer.substr(++index);
+            index  = buffer.indexOf('\n');
           }
         });
-        stream.on('end', function () { callback(null, count); });
+        stream.on('end', function () { callback(null, Math.max(--count, 0)); });
       };
 
       var getPkbPackages = function (pkbDir, callback) {
@@ -104,12 +111,12 @@ module.exports = function (app) {
             var pkg  = match[1];
             var date = match[2];
 
-            countLines(path.join(pkbDir, file), function (err, count) {
+            countEntries(path.join(pkbDir, file), function (err, count) {
               if (!dates[pkg] || dates[pkg].date < date) {
-                dates[pkg] = { date: date, lines: 0 };
+                dates[pkg] = { date: date, entries: 0 };
               }
 
-              dates[pkg].lines += count;
+              dates[pkg].entries += count;
 
               nextFile(cb);
             });
@@ -121,7 +128,7 @@ module.exports = function (app) {
               packages.push({
                 name: i,
                 date: dates[i].date,
-                lines: dates[i].lines
+                entries: dates[i].entries
               });
             }
 
