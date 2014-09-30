@@ -41,6 +41,17 @@ angular.module('ezPAARSE.filters', [])
       }
     };
   })
+  .filter('sumOf', function ($filter) {
+    return function (array, property) {
+      if (!angular.isArray(array)) { return 0; }
+
+      var sum = 0;
+      array.forEach(function (element) {
+        sum += element[property];
+      });
+      return sum;
+    };
+  })
   .filter('reportCategories', function () {
     return function (report) {
       var categories = [];

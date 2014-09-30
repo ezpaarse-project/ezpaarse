@@ -205,10 +205,10 @@ textarea#log-lines {
   margin: 2px;
 }
 
-.justify.aligned { text-align: justify; }
-.right.aligned   { text-align: right; }
-.left.aligned    { text-align: left; }
-.center.aligned  { text-align: center; }
+.justify.aligned { text-align: justify !important; }
+.right.aligned   { text-align: right !important; }
+.left.aligned    { text-align: left !important; }
+.center.aligned  { text-align: center !important; }
 
 .terminal .error { color: red; }
 .terminal .warn  { color: orange; }

@@ -151,6 +151,13 @@
                     <td ng-bind="package.entries | localNumber" class="right aligned"></td>
                     <td ng-bind="package.date"></td>
                   </tr>
+                  <tfoot>
+                    <tr>
+                      <th translate>admin+total</th>
+                      <th ng-bind="manifest['pkb-packages'] | sumOf:'entries'" class="right aligned"></th>
+                      <th></th>
+                    </tr>
+                  </tfoot>
                 </table>
               </td>
               <td colspan="3"></td>
