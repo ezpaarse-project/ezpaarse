@@ -148,7 +148,7 @@
                   </tr>
                   <tr ng-repeat="package in manifest['pkb-packages']">
                     <td ng-bind="package.name"></td>
-                    <td ng-bind="package.entries | localNumber"></td>
+                    <td ng-bind="package.entries | localNumber" class="right aligned"></td>
                     <td ng-bind="package.date"></td>
                   </tr>
                 </table>
