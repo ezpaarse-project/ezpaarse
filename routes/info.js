@@ -107,7 +107,7 @@ module.exports = function (app) {
             if (dates[pkg] && dates[pkg].date > date) { return nextFile(cb); }
 
             countLines(path.join(pkbDir, file), function (err, count) {
-              dates[pkg] = { date: date, lines: count }
+              dates[pkg] = { date: date, lines: count };
               nextFile(cb);
             });
           })(function () {
