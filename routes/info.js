@@ -104,10 +104,13 @@ module.exports = function (app) {
             var pkg  = match[1];
             var date = match[2];
 
-            if (dates[pkg] && dates[pkg].date > date) { return nextFile(cb); }
-
             countLines(path.join(pkbDir, file), function (err, count) {
-              dates[pkg] = { date: date, lines: count };
+              if (!dates[pkg] || dates[pkg].date < date) {
+                dates[pkg] = { date: date, lines: 0 };
+              }
+
+              dates[pkg].lines += count;
+
               nextFile(cb);
             });
           })(function () {
