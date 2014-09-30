@@ -69,33 +69,62 @@ module.exports = function (app) {
       var platforms = [];
       var i = 0;
 
+      var countLines = function (file, callback) {
+        var count     = 0;
+        var linebreak = '\n'.charCodeAt(0);
+        var stream    = fs.createReadStream(file);
+
+        stream.on('error', function (err) { callback(err, 0); });
+        stream.on('readable', function () {
+          var data = stream.read();
+          if (data) {
+            for (var i = data.length - 1; i >= 0; i--) {
+              if (data[i] == linebreak) { count++; }
+            }
+          }
+        });
+        stream.on('end', function () { callback(null, count); });
+      };
+
       var getPkbPackages = function (pkbDir, callback) {
         fs.readdir(pkbDir, function (err, files) {
           if (err && err.code != 'ENOENT') { return callback(err); }
 
+          files = files || [];
           var dates = {};
 
-          (files || []).forEach(function (file) {
-            var match = kbartReg.exec(file);
-            if (match) {
-              var pkg  = match[1];
-              var date = match[2];
+          (function nextFile(cb) {
 
-              if (!dates[pkg] || dates[pkg] < date) {
-                dates[match[1]] = match[2];
-              }
+            var file = files.pop();
+            if (!file) { return cb(); }
+
+            var match = kbartReg.exec(file);
+            if (!match) { return nextFile(cb); }
+
+            var pkg  = match[1];
+            var date = match[2];
+
+            if (dates[pkg] && dates[pkg].date > date) { return nextFile(cb); }
+
+            countLines(path.join(pkbDir, file), function (err, count) {
+              dates[pkg] = { date: date, lines: count }
+              nextFile(cb);
+            });
+          })(function () {
+
+            var packages = [];
+
+            for (var i in dates) {
+              packages.push({
+                name: i,
+                date: dates[i].date,
+                lines: dates[i].lines
+              });
             }
+
+            callback(null, packages);
           });
 
-          var packages = [];
-          for (var i in dates) {
-            packages.push({
-              name: i,
-              date: dates[i]
-            });
-          }
-
-          callback(null, packages);
         });
       };
 
