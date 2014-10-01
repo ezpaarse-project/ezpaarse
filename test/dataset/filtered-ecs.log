@@ -1,0 +1,2 @@
+247.63.228.176 - THEODORE_MCCLURE [29/Nov/2012:00:14:17 +0100] "GET http://www.sciencedirect.com:80/science/journal/00121606 HTTP/1.1" 200 224846
+247.63.228.176 - ROBERT_JONES [29/Nov/2012:05:14:17 +0100] "GET http://www.sciencedirect.com:80/science/journal/00121606 HTTP/1.1" 301 224846
