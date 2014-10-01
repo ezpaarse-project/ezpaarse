@@ -62,6 +62,7 @@ Valeurs possibles : Unknown-Formats, Ignored-Domains, Unknown-Domains, Unqualifi
 -   **ezPAARSE-Enrich:** indiquer `false` pour désactiver l'enrichissement (geoip et bases de connaissances). Toute autre valeur laisse l'enrichissement actif.
 -   **ezPAARSE-Buffer-Size:** permet de changer la taille du buffer (taille des paquets d'ECs à envoyer aux parseurs). `100` par défaut. Le mettre à zéro revient à désactiver le buffering. Cette option est utile pour générer des ECs instantanément au moment même où la ligne de log pertinente est reçue.
 -   **ezPAARSE-Predefined-Settings:** indique à ezPAARSE qu'il doit utiliser les paramètres prédéfinis correspondant à la clé donnée. Ex: `inist` pour le paramétarge de l'INIST-CNRS. ([voir liste complète](/info/predefined-settings))
+-   **ezPAARSE-Filter-Redirects:** Set false to prevent lines with HTTP status codes 301, 302 from being filtered and discarded.
 
 
 
