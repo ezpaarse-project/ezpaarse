@@ -363,4 +363,21 @@ describe('The server', function () {
       });
     });
   });
+  describe('recives a log file with lines filtered by default', function() {
+    it('and does not filter them when ezPAARSE-Filter-Redirects is false (@13)', function (done) {
+      var headers = {
+        'ezPAARSE-Filter-Redirects' : 'false',
+        'Accept' : 'text/csv'
+      };
+      helpers.post('/', filteredEC, headers, function (err, res, body) {
+        if (!res) { throw new Error('ezPAARSE is not running'); }
+        if (err)  { throw err; }
+        res.statusCode.should.equal(200, 'expected 200, got ' + res.statusCode);
+
+        body = body.trim().split('\n');
+        should.ok(body.length === 3, '2 EC should be returned, got ' + (body.length - 1));
+        done();
+      });
+    });
+  });
 });
