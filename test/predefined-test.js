@@ -25,7 +25,7 @@ describe('Sending a logfile with a non-standard format', function () {
 
     var headers = {
       'ezPAARSE-enrich': 'false',
-      'ezPAARSE-Predefined-Settings': 'ul'
+      'ezPAARSE-Predefined-Settings': '00-fr-univ-lorr'
     };
 
     helpers.post('/', upmcLogFile, headers, function (err, res, body) {
