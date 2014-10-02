@@ -70,10 +70,9 @@ module.exports = function (app) {
       var i = 0;
 
       var countEntries = function (file, callback) {
-        var count     = 0;
-        var linebreak = '\n'.charCodeAt(0);
-        var stream    = fs.createReadStream(file);
-        var buffer    = '';
+        var count  = 0;
+        var stream = fs.createReadStream(file);
+        var buffer = '';
 
         stream.on('error', function (err) { callback(err, 0); });
         stream.on('readable', function () {
