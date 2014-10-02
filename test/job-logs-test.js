@@ -16,6 +16,7 @@ var pkbmissEC              = path.join(__dirname, '/dataset/pkb-miss-ec.log');
 var duplicateEC            = path.join(__dirname, '/dataset/duplicate-ecs.log');
 var unorderedEC            = path.join(__dirname, '/dataset/unordered-ecs.log');
 var deniedEC               = path.join(__dirname, '/dataset/sd.denied.log');
+var filteredEC             = path.join(__dirname, '/dataset/filtered-ecs.log');
 
 describe('The server', function () {
   describe('receives a log file', function () {
@@ -328,6 +329,54 @@ describe('The server', function () {
             + ' got ' + logBody.length);
           done();
         });
+      });
+    });
+  });
+  describe('receives a log file with filtered lines', function () {
+    it('and correctly handles Lines-Filtered-ECs.log (@12)', function (done) {
+      var headers = {
+        'Accept' : 'text/csv',
+        'Reject-Files': 'filtered-ecs'
+      };
+      helpers.post('/', filteredEC, headers, function (err, res, body) {
+        if (!res) { throw new Error('ezPAARSE is not running'); }
+        if (err)  { throw err; }
+        res.statusCode.should.equal(200, 'expected 200, got ' + res.statusCode);
+
+        body = body.trim().split('\n');
+        should.ok(body.length === 2, '1 EC should be returned, got ' + (body.length - 1));
+        var logURL = res.headers['lines-filtered-ecs'];
+
+        should.exist(logURL,
+          'The header "Lines-Filtered-ECs" was not sent by the server');
+
+        request.get(logURL, function (error, response, logBody) {
+          if (!response) { throw new Error('ezPAARSE is not running'); }
+          if (error)     { throw error; }
+          response.statusCode.should.equal(200,
+            'couldn\'t get the logfile, server sent ' + response.statusCode);
+
+          var logLine = fs.readFileSync(filteredEC).toString().split('\n')[1].trim();
+          logBody.trim().should.equal(logLine, 'The logfile should match the second line');
+          done();
+        });
+      });
+    });
+  });
+  describe('recives a log file with lines filtered by default', function() {
+    it('and does not filter them when ezPAARSE-Filter-Redirects is false (@13)', function (done) {
+      var headers = {
+        'ezPAARSE-Filter-Redirects' : 'false',
+        'Accept' : 'text/csv'
+      };
+      helpers.post('/', filteredEC, headers, function (err, res, body) {
+        if (!res) { throw new Error('ezPAARSE is not running'); }
+        if (err)  { throw err; }
+        res.statusCode.should.equal(200, 'expected 200, got ' + res.statusCode);
+
+        body = body.trim().split('\n');
+        should.ok(body.length === 3, '2 EC should be returned, got ' + (body.length - 1));
+        done();
       });
     });
   });
