@@ -159,6 +159,10 @@
       "Output-Fields": "+fullname,-referer"
     }
   },
+  "10-us-uml": {
+    "fullName": "University of Minnesota Libraries",
+    "country": "United States"
+  },
   "00-fr-inist-lara": {
     "fullName": "INIST-CNRS - Lara",
     "country": "France",
