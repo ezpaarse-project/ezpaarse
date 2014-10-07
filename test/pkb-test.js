@@ -49,11 +49,23 @@ describe('The pkb cleaner', function () {
 
       fs.readFile(oldPkb, function (err, oldContent) {
         should.not.exist(err);
-        oldContent.toString().trim().split('\n').length.should.equal(3);
+        oldContent = oldContent.toString().trim();
+        oldContent.split('\n').length.should.equal(3);
+        oldContent.should.containEql('1');
+        oldContent.should.containEql('2');
+        oldContent.should.not.containEql('3');
+        oldContent.should.not.containEql('4');
+        oldContent.should.not.containEql('5');
 
         fs.readFile(newPkb, function (err, newContent) {
           should.not.exist(err);
-          newContent.toString().trim().split('\n').length.should.equal(6);
+          newContent = newContent.toString().trim();
+          newContent.split('\n').length.should.equal(6);
+          newContent.should.containEql('3');
+          newContent.should.containEql('4');
+          newContent.should.containEql('5');
+          newContent.should.containEql('6');
+          newContent.should.containEql('7');
 
           done();
         });
