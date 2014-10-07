@@ -51,14 +51,14 @@ if (config.EZPAARSE_TMP_CYCLE && config.EZPAARSE_TMP_LIFETIME) {
 process.title = pkg.name.toLowerCase();
 
 // write pid to ezpaarse.pid file
-var optimist = require('optimist')
+var yargs = require('yargs')
   .describe('pidFile', 'the pid file where ezpaarse pid is stored')
   .default('pidFile', __dirname + '/ezpaarse.pid')
   .boolean('lsof')
   .boolean('memory')
   .describe('lsof', 'if provided, periodically prints the number of opened file descriptors')
   .describe('memory', 'if provided, periodically prints the memory usage');
-var argv = optimist.argv;
+var argv = yargs.argv;
 
 if (argv.pidFile) {
   fs.writeFileSync(argv.pidFile, process.pid);
