@@ -24,9 +24,10 @@ Options:
   --verbose, -v    Print all duplicated entries
 ```
 
-Exemple d'utilisation:
+Exemples d'utilisation:
 ```bash
-zcat monezproxy.log.gz | ./bin/loginjector
+pkb-cleaner ./path/to/some/directory
+pkb-cleaner --platform=sd
 ```
 
 ## loginjector
