@@ -1,135 +1,135 @@
 {
-  "inist": {
+  "00-fr-inist": {
     "fullName": "INIST-CNRS",
     "country": "France",
     "headers": {}
   },
-  "ul": {
+  "00-fr-univ-lorr": {
     "fullName": "Université de Lorraine",
     "country": "France",
     "headers": {
       "Log-Format-ezproxy": "%h %{session}<[a-zA-Z0-9\\-\\+]+> %u %t \"%r\" %s %b %{user}<[a-zA-Z0-9\\-\\+,]+>"
     }
   },
-  "upda": {
+  "01-fr-univ-pda": {
     "fullName": "Université Paris Descartes Apache",
     "country": "France",
     "headers": {
       "Log-Format-apache": "%h %l %u %t \"%r\" %>s %b %<.*>"
     }
   },
-  "updb": {
+  "01-fr-univ-pdb": {
     "fullName": "Université Paris Descartes Bibliopam",
     "country": "France",
     "headers": {}
   },
-  "epfl": {
+  "10-ch-epfl": {
     "fullName": "École polytechnique fédérale de Lausanne",
     "country": "Suisse",
     "headers": {}
   },
-  "rennes-1": {
+  "01-fr-univ-rennes-1": {
     "fullName": "Université de Rennes 1",
     "country": "France",
     "headers": {
       "Log-Format-ezproxy": "%h %{session1}<[a-zA-Z0-9\\-\\+]+> %{session2}<[a-zA-Z0-9\\-\\+]+> %t \"%r\" %s %b %{user}<[a-zA-Z0-9\\-\\+]+>"
     }
   },
-  "rennes-2": {
+  "01-fr-univ-rennes-2": {
     "fullName": "Université de Rennes 2",
     "country": "France",
     "headers": {
       "Log-Format-ezproxy": "%h %l %u %t \"%r\" %s %b \"%<.*>\""
     }
   },
-  "lyon-1": {
+  "01-fr-univ-lyon-1": {
     "fullName": "Université Lyon 1",
     "country": "France",
     "headers": {}
   },
-  "lyon-3": {
+  "01-fr-univ-lyon-3": {
     "fullName": "Université Lyon 3",
     "country": "France",
     "headers": {
       "Log-Format-ezproxy": "%h %l %u %t \"%r\" %s %b"
     }
   },
-  "mir-ezproxy": {
+  "01-fr-mir-ezproxy": {
     "fullName": "Bibliothèques MIR ezproxy",
     "country": "France",
     "headers": {
       "Log-Format-ezproxy": "%h %{session}<[a-zA-Z0-9\\-]+> %u %t \"%r\" %s %b %<.*>"
     }
   },
-  "mir-squid": {
+  "01-fr-mir-squid": {
     "fullName": "Bibliothèques MIR squid",
     "country": "France",
     "headers": {
       "Log-Format-squid": "%ts.%03tu %6tr %>a %Ss/%03>Hs %<st %rm %ru %[un %Sh/%<a %mt"
     }
   },
-  "strasbourg": {
+  "01-fr-univ-strasbourg": {
     "fullName": "Université de Strasbourg",
     "country": "France",
     "headers": {
       "Log-Format-ezproxy": "%t %h %h %u %U %b %{session}<[a-zA-Z0-9]+|\\->"
     }
   },
-  "toulouse-3": {
+  "01-fr-univ-toulouse-3": {
     "fullName": "Université de Toulouse 3 BiblioPAM",
     "country": "France",
     "headers": {
       "Log-Format-apache": "%{epoch},%h,%b,%<[\"]?>%{ress-name}<[a-zA-Z0-9 \":,-]+>%<[\"]?>,%U,%>s,%<[\"]?>%{mt}<[a-zA-Z0-9-\/ \"=+;]+>%<[\"]?>,%{profil1}<[a-zA-Z0-9-\/ \"=+;]+>,%{uid},%{session-id},%{profil2}<[a-zA-Z0-9-\/ \"=+;]+>"
     }
   },
-  "limoges": {
+  "01-fr-univ-limoges": {
     "fullName": "Université de Limoges",
     "country": "France",
     "headers": {
       "Log-Format-ezproxy": "%t %h %U"
     }
   },
-  "montpellier-3": {
+  "01-fr-univ-montpellier-3": {
     "fullName": "Université de Montpellier 3",
     "country": "France",
     "headers": {
       "Log-Format-ezproxy": "%h %{session}<[a-zA-Z0-9\\-\\+]+> %<[a-zA-Z0-9]+>.%{user}<[a-zA-Z0-9]+> %t \"%r\" %s %b %<[a-zA-Z0-9\\-\\+]+>"
     }
   },
-  "inria": {
+  "01-fr-inria": {
     "fullName": "INRIA",
     "country": "France",
     "headers": {
       "Log-Format-squid": "%<A:%lp %>a %ui %[un [%tl] \"%rm %ru HTTP/%rv\" %>Hs %<st %<.*>"
     }
   },
-  "paris-1": {
+  "01-fr-univ-paris-1": {
     "fullName": "Université Paris 1",
     "country": "France",
     "headers": {
       "Log-Format-ezproxy": "%h %{session} %u %t \"%r\" %s %b"
     }
   },
-  "paris-8": {
+  "01-fr-univ-paris-8": {
     "fullName": "Université Paris 8",
     "country": "France",
     "headers": {
       "Log-Format-ezproxy": "%h - %u %{group} %{session}<[a-zA-Z0-9\\-\\+]+> %t \"%r\" %s %b %{domain}<[^ ]+>"
     }
   },
-  "paris-11": {
+  "01-fr-univ-paris-11": {
     "fullName": "Université Paris 11",
     "country": "France",
     "headers": {}
   },
-  "upec": {
+  "01-fr-univ-pec": {
     "fullName": "Université Paris-Est Créteil (UPEC)",
     "country": "France",
     "headers": {
       "Log-Format-ezproxy": "%h %l %u %t \"%r\" %s %b - -  %{revue}<[a-zA-Z0-9\\-\\+,]+> %{discipline}<[a-zA-Z0-9\\-\\+,]+> %<.*>"
     }
   },
-  "uvhc": {
+  "01-fr-univ-vhc": {
     "fullName": "Université de Valenciennes et du Hainaut-Cambrésis",
     "country": "France",
     "headers": {
@@ -137,21 +137,21 @@
       "Date-Format": "YYYY/MM/DD:HH:mm:ss"
     }
   },
-  "psu": {
+  "10-us-psu": {
     "fullName": "Lamson Library - Plymouth State University",
     "country": "United States",
     "headers": {
       "Log-Format-ezproxy": "%h %{session}<[a-zA-Z0-9\\-\\+]+> %l %u %t \"%r\" %s %b"
     }
   },
-  "bpl": {
+  "10-ca-bpl": {
     "fullName": "Burnaby Public Library",
     "country": "Canada",
     "headers": {
       "Log-Format-ezproxy": "%h %l %t \"%r\" %s %b"
     }
   },
-  "vul": {
+  "10-us-vul": {
     "fullName": "Vanderbilt University Library - Nashville",
     "country": "United States",
     "headers": {
@@ -159,7 +159,11 @@
       "Output-Fields": "+fullname,-referer"
     }
   },
-  "lara": {
+  "10-us-uml": {
+    "fullName": "University of Minnesota Libraries",
+    "country": "United States"
+  },
+  "00-fr-inist-lara": {
     "fullName": "INIST-CNRS - Lara",
     "country": "France",
     "headers": {
@@ -168,8 +172,16 @@
       "Output-Fields": "+pid,-domain"
     }
   },
-  "irevues": {
-    "fullName": "INIST-CNRS - Irevues",
+  "00-fr-inist-irevues-lodel": {
+    "fullName": "INIST-CNRS - Irevues - Lodel",
+    "country": "France",
+    "headers": {
+      "Relative-Domain": "lodel.irevues.inist.fr",
+      "Output-Fields": "+pid,-domain,-login,-platform"
+    }
+  },
+  "00-fr-inist-irevues": {
+    "fullName": "INIST-CNRS - Irevues - Dspace",
     "country": "France",
     "headers": {
       "Log-Format-apache": "%h %l %u %t %r %>s %b",
@@ -179,7 +191,7 @@
       "Geoip-Output-Fields": "all"
     }
   },
-  "ampt": {
+  "01-fr-ampt": {
     "fullName": "Archive ouverte Art et Metier ParisTech",
     "country": "France",
     "headers": {
@@ -187,7 +199,7 @@
       "Output-Fields": "+pid,-domain,-pissn,-doi,-eissn,-pisbn,-title,-identid"
     }
   },
-  "angers": {
+  "01-fr-angers": {
     "fullName": "Archive ouverte Université Angers",
     "country": "France",
     "headers": {
@@ -196,63 +208,63 @@
       "Output-Fields": "+pid,-domain,-pissn,-doi,-eissn,-pisbn,-title,-identid"
     }
   },
-  "evry": {
+  "01-fr-univ-evry": {
     "fullName": "Université d'Evry Val d'Essonne",
     "country": "France",
     "headers": {
       "Log-Format-apache": "%{epoch},%h,%b,%{ress-name}<[a-zA-Z0-9\\:\\,\\-]+>,%U,%>s,%{mt}<[\"a-zA-Z0-9\\-\\/\\=\\+; ]+>,%{profil}<[a-zA-Z0-9]*>,%{uid}<[a-zA-Z0-9]*>,%{session-id}<[a-zA-Z0-9]*>,"
     }
   },
-  "ulco": {
+  "01-fr-univ-lco": {
     "fullName": "ULCO Université Littoral Cote d'Opale",
     "country": "France",
     "headers": {
       "Log-Format-ezproxy": "%h \"%{config}<[^\"]*>\" %u %t %b %U"
     }
   },
-  "lille-2": {
+  "01-fr-univ-lille-2": {
     "fullName": "Université Lille 2",
     "country": "France",
     "headers": {
       "Log-Format-ezproxy": "%h %u %{session}<[a-zA-Z0-9\\-]+> %t \"%r\" %s %b"
     }
   },
-  "sydney": {
+  "10-au-sydney": {
     "fullName": "University of Sydney",
     "country": "Australia",
     "headers": {
       "Log-Format-ezproxy": "%h %l %u %{ezproxy-session}<.+?> %{ezproxy-spuaccess}<.+?> %t \"%r\" %s %b \"%{x-forwarded-for}<.+?>\""
     }
   },
-  "rmit": {
+  "10-au-rmit": {
     "fullName": "Melbourne - RMIT University",
     "country": "Australia",
     "headers": {
       "Log-Format-ezproxy": "%h %l %u %t \"%r\" %s %b %{referer}<.*?>"
     }
   },
-  "ujm": {
+  "01-fr-univ-jm": {
     "fullName": "Saint-Étienne - Université Jean Monnet (UJM)",
     "country": "France",
     "headers": {
       "Log-Format-squid": "%ts.%03tu %6tr %>a %Ss/%03>Hs %<st %rm %ru %[un %Sh/%{last-ip}<.*?> %mt"
     }
   },
-  "upmc": {
+  "01-fr-univ-pmc": {
     "fullName": "UPMC - Université Pierre et Marie Curie - Paris 6",
     "country": "France",
     "headers": {
       "Log-Format-ezproxy": "%h %l %u - %t \"%r\" %s %b %{website}<.*>"
     }
   },
-  "uvsq": {
+  "01-fr-univ-vsq": {
     "fullName": "UVSQ - Université de Versailles St-Quentin-en-Yvelines Bibliopam",
     "country": "France",
     "headers": {
       "Log-Format-apache": "%{epoch},%h,%b,%{ress-name}<[a-zA-Z0-9-\/ ]+>,\"%U\",%>s,%{mt}<[a-zA-Z0-9-\/ ;=]+>,%{profil}<.+>,%{uid},%{session-id}"
     }
   },
-  "mines-paristech-squid": {
+  "01-fr-mines-paristech-squid": {
     "fullName": "MINES ParisTech squid",
     "country": "France",
     "headers": {
