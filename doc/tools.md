@@ -11,6 +11,24 @@ cd ezpaarse/
 platform-init
 ```
 
+## pkb-cleaner
+
+Détecte et supprime les doublons dans les bases de connaissances.
+
+```bash
+Usage: pkb-cleaner [-nvp] [DIR_TO_CLEAN]
+
+Options:
+  --platform, -p   Name of a platform whose PKB should be cleaned.(if provided, ignore dir path)
+  --norewrite, -n  If provided, do not rewrite files once the check is complete.                
+  --verbose, -v    Print all duplicated entries
+```
+
+Exemple d'utilisation:
+```bash
+zcat monezproxy.log.gz | ./bin/loginjector
+```
+
 ## loginjector
 
 Commande permettant d'envoyer un fichier de log en streaming vers une instance locale d'ezPAARSE.
