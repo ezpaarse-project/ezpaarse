@@ -45,8 +45,8 @@ Niveaux disponibles :
   - **verbose** : plus précis qu'info, notifie plus finement les étapes du traitement.  
   - **silly** : tous détails du traitement (parseur non trouvé, ligne ignorée, recherche non fructueuse dans une PKB...).  
 
--   **Reject-Files:** liste des fichiers de rejet à générer, séparés par des virgules. (ou `none` pour les désactiver)  
-Valeurs possibles : Unknown-Formats, Ignored-Domains, Unknown-Domains, Unqualified-ECs, PKB-Miss-ECs, Duplicate-ECs, Unordered-ECs.
+-   **Reject-Files:** liste des fichiers de rejet à générer, séparés par des virgules. (aucun par défaut, `all` pour tous)  
+Valeurs possibles : Unknown-Formats, Ignored-Domains, Unknown-Domains, Unqualified-ECs, PKB-Miss-ECs, Duplicate-ECs, Unordered-ECs, Filtered-ECs.
 -   **User-fieldN-xxxx:** extraction des informations utilisateurs d'un champ des logs en entrée [(plus de détails)](./userfields.html).  
 -   **Double-Click-xxxx:** précision des paramètres utilisés pour réaliser le dédoublonnage [(plus de détails)](./doubleclick.html).  
 -   **Request-Charset:** jeu de caractères utilisé dans les données en entrée [(voir les encodages supportés)](https://github.com/ashtuchkin/iconv-lite#supported-encodings).  
