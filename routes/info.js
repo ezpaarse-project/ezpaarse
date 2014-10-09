@@ -6,7 +6,6 @@
 var fs         = require('graceful-fs');
 var path       = require('path');
 var uuid       = require('uuid');
-var pp         = require('../lib/platform-parser.js');
 var parserlist = require('../lib/parserlist.js');
 var git        = require('../lib/git-tools.js');
 var config     = require('../lib/config.js');
@@ -144,31 +143,33 @@ module.exports = function (app) {
         if (folder == 'js-parser-skeleton') { return readNextDir(callback); }
 
         var configFile = path.join(platformsFolder, folder, 'manifest.json');
-        var parser = pp.getParser(folder);
+        var parserFile = path.join(platformsFolder, folder, 'parser.js');
 
-        if (!parser || !parser.path) { return readNextDir(callback); }
+        fs.exists(parserFile, function (exists) {
+          if (!exists) { return readNextDir(callback); }
 
-        fs.readFile(configFile, function (err, content) {
-          if (err) { return readNextDir(callback); }
+          fs.readFile(configFile, function (err, content) {
+            if (err) { return readNextDir(callback); }
 
-          var manifest;
-          try {
-            manifest = JSON.parse(content);
-          } catch (e) {
-            return readNextDir(callback);
-          }
+            var manifest;
+            try {
+              manifest = JSON.parse(content);
+            } catch (e) {
+              return readNextDir(callback);
+            }
 
-          if (!manifest.name || (status && manifest.status != status)) {
-            return readNextDir(callback);
-          }
+            if (!manifest.name || (status && manifest.status != status)) {
+              return readNextDir(callback);
+            }
 
-          getPkbPackages(path.join(platformsFolder, folder, 'pkb'), function (err, packages) {
-            if (!err) { manifest['pkb-packages'] = packages; }
+            getPkbPackages(path.join(platformsFolder, folder, 'pkb'), function (err, packages) {
+              if (!err) { manifest['pkb-packages'] = packages; }
 
-            platforms.push(manifest);
-            readNextDir(callback);
+              platforms.push(manifest);
+              readNextDir(callback);
+            });
+
           });
-
         });
       })(function () {
         res.status(200).json(platforms);

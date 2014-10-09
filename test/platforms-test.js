@@ -9,7 +9,6 @@ var spawn        = require('child_process').spawn;
 var exec         = require('child_process').exec;
 var Lazy         = require('lazy');
 var csvextractor = require('../lib/csvextractor.js');
-var pp           = require('../lib/platform-parser.js');
 var assert       = require('assert');
 
 var platformsFolder = path.join(__dirname, '/../platforms');
@@ -96,39 +95,37 @@ function fetchPlatform(platform) {
 
     it('is usable', function (done) {
 
-      should.ok(fs.existsSync(configFile) && fs.statSync(configFile).isFile(),
-                "manifest.json does not exist");
+      should.ok(fs.existsSync(configFile), "manifest.json does not exist");
       var config = JSON.parse(fs.readFileSync(configFile, 'UTF-8'));
 
       should.exist(config.name, "field 'name' in manifest.json does not exist");
       should.ok(config.name.length > 0, "field 'name' in manifest.json is empty");
-      var pfile = pp.getParser(platform);
 
-      if (pfile && pfile.language !== '') {
+      var parserFile = path.join(platformPath, 'parser.js');
 
-        var parserFile = pfile.path;
-        var testFolder = path.join(platformsFolder, platform, '/test');
+      fs.exists(parserFile, function (exists) {
+        if (!exists) { return done(); }
+
+        var testFolder = path.join(platformPath, 'test');
 
         should.ok(fs.existsSync(testFolder) && fs.statSync(testFolder).isDirectory(),
                   "no test folder");
-        var files = fs.readdirSync(testFolder);
+
+        var files    = fs.readdirSync(testFolder);
         var csvFiles = [];
 
         for (var i in files) {
 
           var csvPath = path.join(testFolder, files[i]);
 
-          if (/\.csv$/.test(files[i]) && fs.statSync(csvPath).isFile()) {
-
+          if (/\.csv$/.test(files[i])) {
             csvFiles.push(csvPath);
           }
         }
         should.ok(csvFiles.length > 0, "no test file");
         testFiles(csvFiles, platform, parserFile, done);
-      } else {
+      });
 
-        done();
-      }
     });
   });
   fetchPlatform(platforms.pop());
