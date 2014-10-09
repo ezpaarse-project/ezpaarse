@@ -62,7 +62,7 @@ Il retourne en sortie un flux json contenant les éléments de consultation reco
 Son mode d'usage est affichable en l'appelant avec l'option `--help`.  
 Un [exemple de parseur](https://github.com/ezpaarse-project/ezpaarse-platforms/blob/master/js-parser-skeleton/parser.js) est disponible.
 
-### Exemple d'utilisation ###
+### Exemples d'utilisation ###
 ```bash
 echo "http://www.sciencedirect.com:80/science/bookseries/00652296" | ./parser.js
 #{"unitid":"00652296","print_identifier":"0065-2296","title_id":"00652296","rtype":"BOOKSERIE","mime":"MISC"}
