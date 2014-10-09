@@ -6,7 +6,6 @@ Documentation orientée développeur du coeur d'ezPAARSE. La documentation déve
 
 * [nodejs](http://nodejs.org/) pour le coeur d'ezPAARSE (performances et sa gestion avancée du streaming).
 * [git](http://git-scm.com/) pour gérer les bases de connaissances éditeurs et le code source.
-* [php](http://php.net), [perl](http://www.perl.org/), [python](http://www.python.org/) ou autres langages pour l'écriture des parseurs.
 
 ## Fonctionnement du moteur d'ezPAARSE
 

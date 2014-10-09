@@ -47,39 +47,39 @@ git push
 
 Remarque: à moins de disposer d'un accès privilégié (équipe ezPAARSE), vous devez tout d'abord "forker" le dépôt github d'ezPAARSE pour pouvoir ensuite travailler sur cette copie. Une fois que vous êtes satisfaits vous pouvez alors soumettre votre travail à l'équipe ezPAARSE en envoyant une ["pull request"](https://help.github.com/articles/using-pull-requests). Votre travail sera alors relu par l'équipe ezPAARSE puis intégré si aucun souci n'est repéré. L'équipe ezPAARSE fourni ensuite les droits d'accès en écriture sur le code source officiels d'ezPAARSE aux contributeurs réguliers afin de faciliter les contributions.
 
+## Fonctionnement d'un parseur ##
+
+Un parseur se présente sous la forme d'un fichier exécutable `parser.js` accompagné d'un fichier de description [manifest.json](https://github.com/ezpaarse-project/ezpaarse-parsers/blob/master/sd/manifest.json) et du nécessaire pour sa validation (contenu dans un répertoire 'test', voir ci-dessous).
+
+Il s'agit d'un programme prenant en entrée :
+  * des URLs de la plateforme qu'il sait analyser (une par ligne),
+  * ou un flux json (avec l'option --json) contenant 
+      * des URLs de la plateforme qu'il sait analyser (une par ligne),
+      * d'autres informations destinées à qualifier l'EC (comme par exemple la taille du téléchargement)
+
+Il retourne en sortie un flux json contenant les éléments de consultation reconnus.
+
+Son mode d'usage est affichable en l'appelant avec l'option `--help`.  
+Un [exemple de parseur](https://github.com/ezpaarse-project/ezpaarse-platforms/blob/master/js-parser-skeleton/parser.js) est disponible.
+
+
+
 ## Écriture d'un parseur ##
 
-* un parseur se présente sous la forme d'un fichier exécutable "parser[.xx]" ([.xx] étant l'extension facultative du fichier) accompagné d'un fichier de description [manifest.json](https://github.com/ezpaarse-project/ezpaarse-parsers/blob/master/sd/manifest.json) et du nécessaire pour sa validation (contenu dans un répertoire 'test' voir ci-dessous).
-* il peut fonctionner sous forme d'un filtre : traite l'entrée standard et produit un flux sur la sortie standard .
-* il accepte en entrée 
-    * des URLs de la plateforme qu'il sait analyser (une par ligne),
-    * ou un flux json (avec l'option --json) contenant 
-        * des URLs de la plateforme qu'il sait analyser (une par ligne),
-        * d'autres informations destinées à qualifier l'EC (comme par exemple la taille du téléchargement)
-* il retourne en sortie : les éléments de consultation reconnus sous forme d'un flux json.
-* il produit un affichage de son usage en retour à la commande --help.
-* le code retour est 0 si tout s'est bien passé et 1 en cas d'erreur.
-* [exemple en Javascript](https://github.com/ezpaarse-project/ezpaarse-parsers/blob/master/js-parser-skeleton/parser.js)
-* [exemple en PHP](https://github.com/ezpaarse-project/ezpaarse-parsers/blob/master/sd/parser.php)
+Les parseurs sont écrits en **Javascript**, cependant une bonne connaissance du langage n'est pas nécessaire pour en écrire un. La majeure partie du code étant externalisée dans un fichier commun à tous les parseurs, seule la fonction d'analyse de l'URL doit être adaptée, rendant le code court et relativement simple. La plupart des parseurs demanderont tout de même une maîtrise basique des **expressions régulières**.
 
+Écrire un nouveau parseur consiste à :
 
-
-## Écriture d'un parseur Javascript ##
-
-Le langage javascript n'est pas obligatoire pour écrire un parseur, cependant la majorité des parseurs étant écrits en javscript, une partie des fonctionnalités a été factorisée de façon à rendre plus simple cette écriture. La factorisation prend tout en charge, sauf l'analyse de l'URL écrite dans une fonction **analyseEC** à adapter.
-Un [squelettte de parseur javascript peut servir de base](https://github.com/ezpaarse-project/ezpaarse-parsers/blob/master/js-parser-skeleton).
-Ecrire un nouveau parseur en javascript consistera donc à :
-
-* copier le répertoire squelette
-* adapter le fichier manifest.json (voir plus bas)
-* adapter et enrichir le fichier test conformément à la page d'analyse de la plateforme
-* adapter et enrichir le parseur pour que sa sortie soit conforme au fichier test (voir ci-dessous)
-* lancer les tests de validation (voir ci-dessous)
+* créer le fichier manifest.json (voir plus bas)
+* créer le fichier test conformément à la page d'analyse de la plateforme
+* créer le parseur de façon à ce que sa sortie soit conforme au fichier test (voir plus bas)
+* lancer les tests de validation (voir plus bas)
 
 Une fois les tests valides, le parseur peut être intégré a github.
 
-A noter que l'écriture d'un parseur se base principalement sur l'écriture d'expressions régulières (regexp).
-Pour aider l'écriture des regexp, voici un [outil qui pourra aider à visualiser l'écriture d'une regexp](http://www.regexper.com/).
+Un [squelettte de parseur](https://github.com/ezpaarse-project/ezpaarse-parsers/blob/master/js-parser-skeleton) peut servir de base. L'arborescence, les fichiers de base et le squelette peuvent être générés automatiquement en initialisant la plateforme avec la commande [platform-init](/doc/tools.html#platform-init).
+
+Des outils sont disponibles en ligne pour [aider à visualiser l'écriture des expressions régulières](http://www.regexper.com/).
 
 Une [procédure détaillée](http://analogist.couperin.org/platforms/contribute/parser) est disponible sur AnalogIST
 
