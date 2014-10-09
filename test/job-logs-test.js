@@ -33,9 +33,43 @@ describe('The server', function () {
         done();
       });
     });
+    it('and does not generate rejects files by default (@02)', function (done) {
+      var headers = {
+        'Accept' : 'text/csv'
+      };
+      helpers.post('/', wrongSecondLineLogFile, headers, function (err, res, body) {
+        if (!res) { throw new Error('ezPAARSE is not running'); }
+        if (err)  { throw err; }
+        res.statusCode.should.equal(200, 'expected 200, got ' + res.statusCode);
+
+        var logHeaders = [];
+        for (var header in res.headers) {
+          if (header.substr(0, 6) == 'lines-') {
+            logHeaders.push(header);
+          }
+        }
+
+        logHeaders.length.should.not.equal(0);
+
+        (function check() {
+          var header = logHeaders.pop();
+          if (!header) { return done(); }
+
+          var logURL = res.headers[header];
+
+          request.get(logURL, function (error, response, logBody) {
+            if (!response) { throw new Error('ezPAARSE is not running'); }
+            if (error)     { throw error; }
+            response.statusCode.should.equal(404,
+              'the URL of ' + header + ' should return 404, got ' + response.statusCode);
+            check();
+          });
+        })();
+      });
+    });
   });
   describe('receives a log file', function () {
-    it('and correctly handles Job-Traces.log (@02)', function (done) {
+    it('and correctly handles Job-Traces.log (@03)', function (done) {
       var headers = {
         'Accept' : 'application/json'
       };
@@ -59,7 +93,7 @@ describe('The server', function () {
     });
   });
   describe('receives a log file with a bad line', function () {
-    it('and correctly handles Lines-Unknown-Formats.log (@03)', function (done) {
+    it('and correctly handles Lines-Unknown-Formats.log (@04)', function (done) {
       var headers = {
         'Accept' : 'text/csv',
         'Reject-Files': 'unknown-formats'
@@ -93,7 +127,7 @@ describe('The server', function () {
     });
   });
   describe('receives a log file with an ignored domain', function () {
-    it('and correctly handles Lines-Ignored-Domains.log (@04)', function (done) {
+    it('and correctly handles Lines-Ignored-Domains.log (@05)', function (done) {
       var headers = {
         'Accept' : 'text/csv',
         'Reject-Files': 'ignored-domains'
@@ -122,7 +156,7 @@ describe('The server', function () {
     });
   });
   describe('receives a log file with an unknown domain', function () {
-    it('and correctly handles Lines-Unknown-Domains.log (@05)', function (done) {
+    it('and correctly handles Lines-Unknown-Domains.log (@06)', function (done) {
       var headers = {
         'Accept' : 'text/csv',
         'Reject-Files': 'unknown-domains'
@@ -151,7 +185,7 @@ describe('The server', function () {
     });
   });
   describe('receives a log file with an unqualified log line', function () {
-    it('and correctly handles Lines-Unqualified-ECs.log (@06)', function (done) {
+    it('and correctly handles Lines-Unqualified-ECs.log (@07)', function (done) {
       var headers = {
         'Accept' : 'text/csv',
         'Reject-Files': 'unqualified-ecs'
@@ -180,7 +214,7 @@ describe('The server', function () {
     });
   });
   describe('receives a log file with an unknown PID', function () {
-    it('and correctly handles Lines-PKB-Miss-ECs.log (@07)', function (done) {
+    it('and correctly handles Lines-PKB-Miss-ECs.log (@08)', function (done) {
       var headers = {
         'Accept' : 'text/csv',
         'Reject-Files': 'pkb-miss-ecs'
@@ -211,7 +245,7 @@ describe('The server', function () {
     });
   });
   describe('receives a log file with duplicate consultations', function () {
-    it('and correctly handles Lines-Duplicate-ECs.log (@08)', function (done) {
+    it('and correctly handles Lines-Duplicate-ECs.log (@09)', function (done) {
       var headers = {
         'Accept' : 'text/csv',
         'Reject-Files': 'duplicate-ecs'
@@ -242,7 +276,7 @@ describe('The server', function () {
     });
   });
   describe('receives a log file with chronological errors', function () {
-    it('and correctly handles Lines-Unordered-ECs.log (@09)', function (done) {
+    it('and correctly handles Lines-Unordered-ECs.log (@10)', function (done) {
       var headers = {
         'Accept' : 'text/csv',
         'Reject-Files': 'unordered-ecs'
@@ -273,7 +307,7 @@ describe('The server', function () {
     });
   });
   describe('receives a log file with chronological errors and Reject-File at none', function () {
-    it('and does not handle Lines-Unordered-ECs.log (@10)', function (done) {
+    it('and does not handle Lines-Unordered-ECs.log (@11)', function (done) {
       var headers = {
         'Accept' : 'text/csv',
         'Reject-Files': 'none'
@@ -302,7 +336,7 @@ describe('The server', function () {
     });
   });
   describe('receives a log file with denied access', function () {
-    it('and correctly handles denied-ecs.csv (@11)', function (done) {
+    it('and correctly handles denied-ecs.csv (@12)', function (done) {
       var headers = {
         'Accept' : 'text/csv',
         'Reject-Files': 'none'
@@ -333,7 +367,7 @@ describe('The server', function () {
     });
   });
   describe('receives a log file with filtered lines', function () {
-    it('and correctly handles Lines-Filtered-ECs.log (@12)', function (done) {
+    it('and correctly handles Lines-Filtered-ECs.log (@13)', function (done) {
       var headers = {
         'Accept' : 'text/csv',
         'Reject-Files': 'filtered-ecs'
@@ -364,7 +398,7 @@ describe('The server', function () {
     });
   });
   describe('recives a log file with lines filtered by default', function() {
-    it('and does not filter them when ezPAARSE-Filter-Redirects is false (@13)', function (done) {
+    it('and does not filter them when ezPAARSE-Filter-Redirects is false (@14)', function (done) {
       var headers = {
         'ezPAARSE-Filter-Redirects' : 'false',
         'Accept' : 'text/csv'
