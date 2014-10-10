@@ -124,7 +124,7 @@ ezLanguages['fr'] = {
   "feedback+title":             "Feedback",
   "feedback+subtitle":          "Votre avis nous intéresse !",
   "feedback+give_us_opinion":   "Donnez-nous votre avis",
-  "feedback+not_available":     "Feedback non disponible",
+  "feedback+not_available":     "Feedback indisponible",
   "feedback+recipients":        "Votre feedback sera envoyé à <strong>{{ recipients }}</strong>. Une copie vous sera transmise à l'adresse indiquée ci-dessous.",
   "feedback+address":           "Votre adresse",
   "feedback+email":             "E-Mail",
