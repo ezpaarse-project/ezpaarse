@@ -36,6 +36,7 @@ if (config.EZPAARSE_TMP_CYCLE && config.EZPAARSE_TMP_LIFETIME) {
     threshold: config.EZPAARSE_TMP_LIFETIME,
     every: config.EZPAARSE_TMP_CYCLE
   }).watch(path.join(__dirname, '/tmp'))
+    .on('error', console.error)
     .start();
 } else {
   var red   = '\u001b[31m';
