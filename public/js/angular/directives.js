@@ -22,7 +22,7 @@ angular.module('ezPAARSE.directives', [])
       link: function (scope, element, attributes) {
         scope.getCurl = function () {
           var headers = settingService.getHeaders();
-          var curl    = 'curl -X POST -u "username:password" ';
+          var curl    = 'curl -v -X POST -u "username:password" ';
           curl += $location.protocol() + '://';
           curl += $location.host() + ':';
           curl += $location.port();
