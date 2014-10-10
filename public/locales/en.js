@@ -123,6 +123,8 @@ ezLanguages['en'] = {
   // Feedback
   "feedback+title":             "Feedback",
   "feedback+subtitle":          "Your opinion matters !",
+  "feedback+give_us_opinion":   "Give us your opinion",
+  "feedback+not_available":     "Feedback unavailable",
   "feedback+recipients":        "Your feedback will be sent to <strong>{{ recipients }}</strong>. A copy will be forwarded to the address indicated below.",
   "feedback+address":           "Your adress",
   "feedback+email":             "E-Mail",
@@ -137,7 +139,6 @@ ezLanguages['en'] = {
   "feedback+send_browser":      "Send my browser",
   "feedback+checking_server":   "Checking feedback server",
   "feedback+error":             "An error occured, please try again",
-
 
   // Process page
   "process+title":              "Processing",

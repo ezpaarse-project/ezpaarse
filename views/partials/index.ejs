@@ -54,7 +54,7 @@
           </div>
           <div class="ui column right aligned">
             <i class="big loading icon" ng-show="feedbackLoading" popup data-variation="inverted" title="{{ 'feedback+checking_server' | translate }}"></i>
-            <div class="ui mini icon button" ng-class="{ disabled: !feedbackAvailable }" ez-toggle-sidebar="#feedback-sidebar">
+            <div class="ui mini icon button" popup="{{ (feedbackAvailable ? 'feedback+give_us_opinion' : 'feedback+not_available') | translate }}" data-variation="inverted" ng-class="{ disabled: !feedbackAvailable }" ez-toggle-sidebar="#feedback-sidebar">
               <i class="comment icon"></i>
               {{ 'feedback+title' | translate }}
             </div>
