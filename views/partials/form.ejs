@@ -8,7 +8,7 @@
           <i class="loading icon"></i>
         </div>
         <div class="sub header" ng-show="ss.predefined">
-          <span ng-show="ss.settingsType" ng-bind="ss.settingsType"></span>
+          <span ng-show="ss.settingsType" ng-bind="ss.predefined[ss.settingsType].fullName"></span>
           <span ng-show="!ss.settingsType" translate>settings+default</span>
           <span ng-show="ss.custom"> ({{ 'settings+modified' | translate }})</span>
         </div>
