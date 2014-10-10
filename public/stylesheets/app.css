@@ -82,7 +82,7 @@ code {
   position: relative;
   width: 960px;
   margin: 0 auto;
-  padding-top: 80px;
+  padding-top: 85px;
   min-height: 40px;
   background-image: url('/assets/img/logo-white.png');
   background-repeat: no-repeat;
@@ -90,7 +90,7 @@ code {
 }
 
 #header .inner > .menu {
-  margin-left: 140px;
+  margin: 0;
 }
 
 #content {
