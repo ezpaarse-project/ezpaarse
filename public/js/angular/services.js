@@ -324,6 +324,10 @@ angular.module('ezPAARSE.services', [])
       var settings = this.settings;
       var headers  = angular.copy(settings.headers);
 
+      if (this.settingsType && !this.custom) {
+        return { 'ezPAARSE-Predefined-Settings': this.settingsType };
+      }
+
       if (settings.proxyType && settings.logFormat) {
         headers['Log-Format-' + settings.proxyType] = settings.logFormat;
       }
