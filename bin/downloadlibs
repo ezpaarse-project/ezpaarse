@@ -34,6 +34,7 @@ if [ "`git tag -l | grep $LOCAL_VERSION`" != "" ]; then
   echo "--> Getting $LOCAL_VERSION from ezpaarse-libs"
 else
   git checkout master
+  git pull
   echo "--> Getting latest ezpaarse-libs version"
 fi
 
