@@ -113,7 +113,7 @@ angular.module('ezPAARSE.services', [])
       }
     };
 
-    requestService.prototype.send = function (formData, headers) {
+    requestService.prototype.send = function (input, headers) {
       if (this.data.state == 'loading') { return false; }
 
       this.reset();
@@ -121,6 +121,21 @@ angular.module('ezPAARSE.services', [])
       this.data.jobID        = uuid.v1();
       this.data.state        = 'loading';
       this.data.errorMessage = '';
+      this.data.files        = [];
+
+      var formData;
+
+      if (typeof input == 'string') {
+        formData = input;
+      } else if (angular.isArray(input)) {
+        formData = new FormData();
+        input.forEach(function (file) {
+          formData.append("files[]", file);
+          self.data.files.push(file);
+        });
+      } else {
+        return;
+      }
 
       headers = headers || {};
       headers['Socket-ID'] = this.socketID;

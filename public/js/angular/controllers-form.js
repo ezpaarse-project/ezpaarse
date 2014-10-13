@@ -63,21 +63,22 @@ angular.module('ezPAARSE.form-controllers', [])
     };
 
     $scope.start = function () {
-      var formData;
+      var input;
 
-      if ($scope.inputType == 'text') {
+      switch ($scope.inputType) {
+      case 'text':
         if (!inputService.text) { return; }
-        formData = inputService.text;
-      } else if (inputService.files.length > 0) {
-        formData = new FormData();
-        inputService.files.forEach(function (file) {
-          formData.append("files[]", file);
-        });
-      } else {
+        input = inputService.text;
+        break;
+      case 'files':
+        if (inputService.files.length === 0) { return; }
+        input = inputService.files;
+        break;
+      default:
         return;
       }
 
-      requestService.send(formData, settingService.getHeaders());
+      requestService.send(input, settingService.getHeaders());
 
       $location.path('/process');
     };

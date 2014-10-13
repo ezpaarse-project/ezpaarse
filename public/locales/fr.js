@@ -153,6 +153,8 @@ ezLanguages['fr'] = {
   "process+cancel":             "Annuler",
   "process+new":                "Nouveau traitement",
   "process+state":              "État du traitement",
+  "process+files":              "Fichiers",
+  "process+no_files_sent":      "Pas de fichiers envoyés",
   "process+rejects":            "Rejets",
   "process+system_traces":      "Traces système",
   "process+report":             "Rapport",

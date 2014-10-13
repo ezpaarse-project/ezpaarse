@@ -29,9 +29,10 @@
 
       <div class="ui top attached tabular menu">
         <a class="item" ng-class="{true: 'active'}[tab=='metrics']" ng-click="selectTab('metrics')" translate>process+state</a>
+        <a class="item" ng-class="{true: 'active'}[tab=='files']" ng-click="selectTab('files')" translate>process+files</a>
         <a class="item" ng-class="{true: 'active'}[tab=='rejects']" ng-click="selectTab('rejects')" translate>process+rejects</a>
-        <a class="item" ng-class="{true: 'active'}[tab=='traces']" ng-click="selectTab('traces')" translate>process+system_traces</a>
         <a class="item" ng-class="{true: 'active'}[tab=='report']" ng-click="selectTab('report')" translate>process+report</a>
+        <a class="item" ng-class="{true: 'active'}[tab=='traces']" ng-click="selectTab('traces')" translate>process+system_traces</a>
       </div>
       <div class="ui bottom attached active tab segment" ng-switch on="tab">
         <div ng-switch-when="metrics" class="ui two column relaxed grid">
@@ -72,6 +73,22 @@
               </tr>
             </table>
           </div>
+        </div>
+
+        <div ng-switch-when="files">
+          <p ng-hide="request.files" translate>process+no_files_sent</p>
+          <table ng-show="request.files" class="ui compact basic table">
+            <thead><tr>
+              <th class="twelve wide"translate>form+filename</th>
+              <th class="four wide" translate>form+size</th>
+            </tr></thead>
+            <tbody>
+              <tr ng-repeat="file in request.files">
+                <td>{{ file.name }}</td>
+                <td>{{ file.size | bytesToSize }}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
 
         <div ng-switch-when="rejects" class="ui grid">
