@@ -214,6 +214,17 @@ angular.module('ezPAARSE.services', [])
       this.text  = '';
     };
 
+    inputService.prototype.has = function (type) {
+      switch (type) {
+      case 'text':
+        return (this.text.length > 0);
+      case 'files':
+        return (this.files.length > 0);
+      default:
+        return false;
+      }
+    };
+
     inputService.prototype.clearFiles = function () {
       this.files = [];
     };
