@@ -20,8 +20,8 @@ fi
 echo "--> Getting ezpaarse-libs repository"
 if [ -d $EZPAARSE_PATH/build/ezpaarse-libs/ ]; then
   cd $EZPAARSE_PATH/build/ezpaarse-libs/
-  git pull
-  git fetch --tags
+  git reset --hard
+  git fetch
 else
   cd $EZPAARSE_PATH/build/
   git clone https://github.com/ezpaarse-project/ezpaarse-libs.git --depth 1
@@ -33,6 +33,7 @@ if [ "`git tag -l | grep $LOCAL_VERSION`" != "" ]; then
   git checkout $LOCAL_VERSION
   echo "--> Getting $LOCAL_VERSION from ezpaarse-libs"
 else
+  git checkout master
   echo "--> Getting latest ezpaarse-libs version"
 fi
 
