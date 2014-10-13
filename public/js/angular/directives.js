@@ -54,6 +54,18 @@ angular.module('ezPAARSE.directives', [])
       }
     };
   })
+  .directive('ezPulse', function () {
+    return {
+      restrict: 'A',
+      link: function (scope, element, attributes) {
+        element.click(function () {
+          if (!attributes.hasOwnProperty('ezPulseIf') || scope.$eval(attributes['ezPulseIf'])) {
+            $(attributes['ezPulse']).transition('pulse');
+          }
+        });
+      }
+    };
+  })
   .directive('ezToggleSidebar', function () {
     return {
       restrict: 'A',

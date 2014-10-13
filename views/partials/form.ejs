@@ -37,7 +37,7 @@
             </div></div>
           </div>
 
-          <p class="center aligned"><button class="ui mini teal icon button" ez-trigger-click="#input-file">
+          <p class="center aligned"><button id="add-files-button" class="ui mini teal icon button" ez-trigger-click="#input-file">
             <i class="plus icon"></i>
             {{ 'form+click_to_add' | translate }}
           </button></p>
@@ -67,7 +67,7 @@
 
         <div class="ui center aligned basic segment">
           <div class="ui big buttons">
-            <button ng-click="start()" class="ui teal button" ng-class="{ disabled: !inputs.has('files') }" translate>form+process_files</button>
+            <button ng-click="start()" class="ui teal button" ng-class="{ disabled: !inputs.has('files') }" ez-pulse="#add-files-button" ez-pulse-if="!inputs.has('files')" translate>form+process_files</button>
             <button ng-click="getCurl()" class="ui icon teal button" popup data-variation="inverted" data-position="right center" title="{{ 'form+process_with_curl' | translate }}"><i class="copy small icon"></i></button>
           </div>
         </div>
@@ -81,7 +81,7 @@
 
         <div class="ui center aligned basic segment">
           <div class="ui big buttons">
-            <button ng-click="start()" class="ui teal button" ng-class="{ disabled: !inputs.has('text') }" translate>form+process_lines</button>
+            <button ng-click="start()" class="ui teal button" ng-class="{ disabled: !inputs.has('text') }" ez-pulse="#log-lines" ez-pulse-if="!inputs.has('text')" translate>form+process_lines</button>
             <button ng-click="getCurl()" class="ui icon teal button" popup data-variation="inverted" data-position="right center" title="{{ 'form+process_with_curl' | translate }}"><i class="copy small icon"></i></button>
           </div>
         </div>
