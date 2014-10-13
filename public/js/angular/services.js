@@ -4,21 +4,19 @@
 
 angular.module('ezPAARSE.services', [])
   .service('userService', function () {
-    function userService() {
-      this.user = { logged: false };
-    };
+    this.user = { logged: false };
 
-    userService.prototype.login = function (name, group) {
+    this.login = function (name, group) {
       this.user.name   = name;
       this.user.group  = group;
       this.user.logged = true;
     };
 
-    userService.prototype.logout = function () {
+    this.logout = function () {
       this.user.logged = false;
     };
 
-    userService.prototype.hasAccess = function () {
+    this.hasAccess = function () {
       if (!this.user || !this.user.group || arguments.length === 0) {
         return false;
       }
@@ -26,12 +24,10 @@ angular.module('ezPAARSE.services', [])
       return (Array.prototype.indexOf.call(arguments, this.user.group) !== -1);
     };
 
-    userService.prototype.isAuthenticated = function () {
+    this.isAuthenticated = function () {
       return this.user.logged;
     };
-
-    return new userService();
-  }).service('requestService', function ($rootScope, socket) {
+  }).factory('requestService', function ($rootScope, socket) {
     function requestService() {
       var self  = this;
       this.history  = [];
@@ -203,18 +199,16 @@ angular.module('ezPAARSE.services', [])
     return new requestService();
   })
   .service('inputService', function ($http) {
-    function inputService() {
-      this.files    = [];
-      this.text     = '';
-      this.autoSort = true;
-    }
+    this.files    = [];
+    this.text     = '';
+    this.autoSort = true;
 
-    inputService.prototype.clear = function () {
+    this.clear = function () {
       this.files = [];
       this.text  = '';
     };
 
-    inputService.prototype.has = function (type) {
+    this.has = function (type) {
       switch (type) {
       case 'text':
         return (this.text.length > 0);
@@ -225,18 +219,18 @@ angular.module('ezPAARSE.services', [])
       }
     };
 
-    inputService.prototype.clearFiles = function () {
+    this.clearFiles = function () {
       this.files = [];
     };
 
-    inputService.prototype.updateTotalSize = function () {
+    this.updateTotalSize = function () {
       this.totalSize = 0;
       for (var i = this.files.length - 1; i >= 0; i--) {
         this.totalSize += this.files[i].size;
       }
     };
 
-    inputService.prototype.sortFiles = function (file) {
+    this.sortFiles = function (file) {
       if (this.autoSort) {
         this.files.sort(function (f1, f2) {
           return (f1.name.toLowerCase() > f2.name.toLowerCase() ? 1 : -1);
@@ -244,7 +238,7 @@ angular.module('ezPAARSE.services', [])
       }
     };
 
-    inputService.prototype.addFile = function (file) {
+    this.addFile = function (file) {
       if (file) {
         this.files.push(file);
         this.updateTotalSize();
@@ -252,7 +246,7 @@ angular.module('ezPAARSE.services', [])
       }
     };
 
-    inputService.prototype.removeFile = function (filename) {
+    this.removeFile = function (filename) {
       for (var i = this.files.length - 1; i >= 0; i--) {
         if (this.files[i].name == filename) {
           this.files.splice(i, 1);
@@ -261,10 +255,8 @@ angular.module('ezPAARSE.services', [])
         }
       }
     };
-
-    return new inputService();
   })
-  .service('settingService', function (ipCookie, $http) {
+  .factory('settingService', function (ipCookie, $http) {
     function settingService() {
       var self = this;
 
