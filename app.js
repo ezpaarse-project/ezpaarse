@@ -192,7 +192,7 @@ app.all('*', function (req, res, next) {
 });
 
 // Handles delegated mails
-app.post('/mail', bodyParser.urlencoded({ extended: true }), mailer.handle);
+app.post('/mail', bodyParser.urlencoded({ extended: true }), bodyParser.json(), mailer.handle);
 
 // log related routes
 require('./routes/views')(app);
