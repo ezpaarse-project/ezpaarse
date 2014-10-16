@@ -34,6 +34,12 @@ ezLanguages['en'] = {
   "login+submitting":              "Submitting...",
   "login+inform_team_warning":     "You just installed ezPAARSE and you're going to create the administrator account. With your agreement, we would like to be informed about this installation. The e-mail address filled above and the version of ezPAARSE you installed will be sent to <strong>{{ recipients }}</strong>.",
   "login+inform_team":             "Inform the team",
+  "login+forgot_password":         "Forgot your password ?",
+  "login+reset_not_available":     "Mailing is currently unavailable, new passwords can not be sent.",
+  "login+reset_success":           "Your password has been reset. You've been sent a mail with a new password.",
+  "login+reset":                   "Reset",
+  "login+user_not_found":          "User not found.",
+  "login+an_error_occurred":       "An error occured, please try again.",
 
   // Slides on the login page
   "slider+raw_material":      "The raw material: your logs",

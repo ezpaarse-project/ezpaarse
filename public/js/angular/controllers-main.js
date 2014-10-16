@@ -115,6 +115,38 @@ angular.module('ezPAARSE.main-controllers', [])
       $rootScope.noUsers = false;
     });
   })
+  .controller('PasswordResetCtrl', function ($scope, $state, $http, userService, $element) {
+    $scope.error = null;
+
+    $element.find('form').on('reset', function () {
+      $scope.$apply(function () {
+        $scope.resetForm.$setPristine();
+        $scope.error   = null;
+        $scope.success = null;
+      });
+    });
+
+
+    $scope.resetPassword = function (valid) {
+      if (!valid || !$scope.userid) { return; }
+      $scope.loading = true;
+
+      $http.post('/users/' + $scope.userid + '/password')
+      .success(function (user) {
+
+        $scope.resetForm.$setPristine();
+        $scope.loading = false;
+        $scope.success = true;
+        $scope.userid  = '';
+        $scope.error   = null;
+      })
+      .error(function (data, status) {
+        $scope.loading = false;
+        $scope.success = false;
+        $scope.error   = status || true;
+      });
+    };
+  })
   .controller('LoginCtrl', function ($scope, $state, $http, userService, $element) {
     $scope.credentials = {};
     $scope.error       = null;

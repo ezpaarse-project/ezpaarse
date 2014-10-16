@@ -34,6 +34,12 @@ ezLanguages['fr'] = {
   "login+submitting":              "Soumission...",
   "login+inform_team_warning":     "Vous venez d'installer ezPAARSE et vous vous apprétez à créer le compte administrateur. Avec votre accord, nous souhaiterions être informés de cette installation. L'adresse e-mail entrée ci-dessus et la version d'ezPAARSE installée seront envoyées à <strong>{{ recipients }}</strong>.",
   "login+inform_team":             "Informer l'équipe",
+  "login+forgot_password":         "Mot de passe oublié ?",
+  "login+reset_not_available":     "L'envoi de mails est actuellement indisponible, les nouveaux mots de passe ne peuvent pas être envoyés.",
+  "login+reset_success":           "Votre mot de passe a été réinitialisé. Un mail contenant un nouveau mot de passe vous a été envoyé.",
+  "login+reset":                   "Réinitialiser",
+  "login+user_not_found":          "Utilisateur introuvable.",
+  "login+an_error_occurred":       "Une erreur est survenue, veuillez réessayer.",
 
   // Slides on the login page
   "slider+raw_material":      "La matière première : vos logs.",

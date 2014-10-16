@@ -20,15 +20,21 @@
       <div class="field" ng-class="{'error': loginForm.password.$invalid && !loginForm.password.$pristine}">
         <label translate>login+password</label>
         <div class="ui left labeled icon input">
-          <input type="password" name="password" ng-model="credentials.password" required>
+          <input type="password" name="password" placeholder="{{ 'login+password' | translate }}" ng-model="credentials.password" required>
           <i class="lock icon"></i>
           <div class="ui corner label"><i class="icon asterisk"></i></div>
         </div>
       </div>
-      <div class="field" ng-class="{'error': loginForm.confirm.$invalid && !loginForm.confirm.$pristine}">
-        <div class="ui checkbox">
-          <input type="checkbox" id="rememberMe" ng-model="credentials.remember">
-          <label for="rememberMe" translate>login+rememberme</label>
+
+      <div class="two fields">
+        <div class="field" ng-class="{'error': loginForm.confirm.$invalid && !loginForm.confirm.$pristine}">
+          <div class="ui checkbox">
+            <input type="checkbox" id="rememberMe" ng-model="credentials.remember">
+            <label for="rememberMe" translate>login+rememberme</label>
+          </div>
+        </div>
+        <div class="right aligned field">
+          <a ez-toggle-modal="#reset-modal" translate>login+forgot_password</a>
         </div>
       </div>
 

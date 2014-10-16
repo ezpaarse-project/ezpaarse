@@ -1,12 +1,13 @@
 'use strict';
 
 var path       = require('path');
-var crypto     = require('crypto');
 var bodyParser = require('body-parser');
 var pkbmanager = require('../lib/pkbmanager.js');
 var parserlist = require('../lib/parserlist.js');
 var execFile   = require('child_process').execFile;
+var config     = require('../lib/config.js');
 var userlist   = require('../lib/userlist.js');
+var mailer     = require('../lib/mailer.js');
 var auth       = require('../lib/auth-middlewares.js');
 
 var emailRegexp = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9-]+(\.[a-z0-9-]+)*$/i;
@@ -109,9 +110,7 @@ module.exports = function (app) {
       return;
     }
 
-    var cryptedPassword = crypto.createHmac('sha1', 'ezgreatpwd0968')
-    .update(userid + password)
-    .digest('hex');
+    var cryptedPassword = userlist.crypt(userid, password);
 
     var user = userlist.add({
       username: userid,
@@ -164,6 +163,39 @@ module.exports = function (app) {
           res.set('ezPAARSE-Status-Message', 'cet utilisateur n\'existe pas');
           res.status(404).end();
         }
+      }
+    }
+  );
+
+  /**
+   * POST route on /users/{username}/password
+   * To reset a user password
+   */
+  app.post(/^\/users\/(.+)\/password$/, function (req, res) {
+      var mail = req.params[0];
+      var user = userlist.get(mail);
+      if (!user) { return res.status(404).end(); }
+
+      var chars    = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      var password = '';
+
+      for (var i = 0; i < 10; i++) {
+        password += chars[Math.round(Math.random() * (chars.length - 1))];
+      }
+
+      var cryptedPassword = userlist.crypt(mail, password);
+
+      if (userlist.set(mail, 'password', cryptedPassword)) {
+        mailer.mail()
+          .subject('[ezPAARSE] Réinitialisation de votre mot de passe')
+          .text('Votre mot de passe est désormais : ' + password)
+          .from(config.EZPAARSE_ADMIN_MAIL)
+          .to(mail)
+          .send(function (err) {
+            res.status(err ? 500 : 200).end();
+          });
+      } else {
+        res.status(500).end();
       }
     }
   );
