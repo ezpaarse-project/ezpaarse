@@ -55,6 +55,7 @@ ezLanguages['fr'] = {
 
   // Layout
   "menu+admin":         "Administration",
+  "menu+profile":       "Mon profil",
   "menu+logout":        "Déconnexion",
   "menu+process_logs":  "Traitez vos logs",
   "menu+documentation": "Documentation",
@@ -214,6 +215,19 @@ ezLanguages['fr'] = {
   "report+fail_cause_1":   "Avez-vous précisé un identifiant ?",
   "report+fail_cause_2":   "Le traitement associé est-il récent ?",
   "report+traces_fail":    "Impossible de récupérer les traces",
+
+  // Profile page
+  "profile+title":                   "Mon profil",
+  "profile+change_password":         "Changement de mot de passe",
+  "profile+old_password":            "Ancien mot de passe",
+  "profile+new_password":            "Nouveau mot de passe",
+  "profile+confirm":                 "Confirmation",
+  "profile+submit":                  "Envoyer",
+  "profile+fill_all_fields":         "Remplissez tous les champs.",
+  "profile+password_does_not_match": "Le mot de passe de confirmation ne correspond pas.",
+  "profile+wrong_password":          "Mauvais mot de passe.",
+  "profile+bad_section":             "Pas de section fournie, ou section invalide.",
+  "profile+an_error_occurred":       "Une erreur est survenue, veuillez réessayer.",
 
   // Admin page
   "admin+title":                   "Administration",

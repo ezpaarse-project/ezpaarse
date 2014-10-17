@@ -201,6 +201,44 @@ module.exports = function (app) {
   );
 
   /**
+   * POST route on /profile
+   * To change profile settings
+   */
+  app.post('/profile', auth.ensureAuthenticated(true),
+    bodyParser.urlencoded({ extended: true }), bodyParser.json(), function (req, res) {
+      var user = userlist.get(req.user.username);
+      var body = req.body;
+
+      if (!user) { return res.status(404).end(); }
+
+      switch (body.section) {
+        case 'password':
+          if (!body.oldPassword || !body.newPassword || !body.confirm) {
+            res.set('ezPAARSE-Status-Message', 'fill_all_fields');
+            return res.status(400).end();
+          } else if (body.newPassword != body.confirm) {
+            res.set('ezPAARSE-Status-Message', 'password_does_not_match');
+            return res.status(400).end();
+          }
+
+          var oldCryptedPassword = userlist.crypt(user.username, body.oldPassword);
+
+          if (user.password != oldCryptedPassword) {
+            res.set('ezPAARSE-Status-Message', 'wrong_password');
+            return res.status(400).end();
+          }
+
+          user.password = userlist.crypt(user.username, body.newPassword);
+          userlist.save();
+          return res.status(204).end();
+        default:
+          res.set('ezPAARSE-Status-Message', 'bad_section');
+          res.status(400).end();
+      }
+    }
+  );
+
+  /**
    * GET route on /platforms/status
    * To know if there are incoming changes in the platforms directory
    */

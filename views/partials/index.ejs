@@ -32,6 +32,7 @@
               <div ng-if="user.logged" class="ui item simple dropdown">
                 <i class="user icon"></i> {{ user.name }} <i class="dropdown icon"></i>
                 <div class="menu">
+                  <a class="item" href="/profile"><i class="user icon"></i> {{ 'menu+profile' | translate }}</a>
                   <div class="item" ng-click="logout()"><i class="off icon"></i> {{ 'menu+logout' | translate }}</div>
                 </div>
               </div>

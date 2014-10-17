@@ -55,6 +55,7 @@ ezLanguages['en'] = {
 
   // Layout
   "menu+admin":         "Administration",
+  "menu+profile":       "My profile",
   "menu+logout":        "Logout",
   "menu+process_logs":  "Process your logs",
   "menu+documentation": "Documentation",
@@ -214,6 +215,19 @@ ezLanguages['en'] = {
   "report+fail_cause_1":   "Have you specified an identifier?",
   "report+fail_cause_2":   "Is the associated process recent?",
   "report+traces_fail":    "Failed to retrieve the traces",
+
+  // Profile page
+  "profile+title":                   "My profile",
+  "profile+change_password":         "Password change",
+  "profile+old_password":            "Old password",
+  "profile+new_password":            "New password",
+  "profile+confirm":                 "Confirmation",
+  "profile+submit":                  "Submit",
+  "profile+fill_all_fields":         "Fill all fields.",
+  "profile+password_does_not_match": "The confirmation password does not match.",
+  "profile+wrong_password":          "Wrong password.",
+  "profile+bad_section":             "No section or invalid section provided.",
+  "profile+an_error_occurred":       "An error occured, please try again.",
 
   // Admin page
   "admin+title":                   "Administration",

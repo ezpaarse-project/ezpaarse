@@ -12,6 +12,7 @@ angular.module('ezPAARSE', [
   'ezPAARSE.form-controllers',
   'ezPAARSE.anonymous-controllers',
   'ezPAARSE.admin-controllers',
+  'ezPAARSE.profile-controllers',
   'ezPAARSE.directives',
   'ezPAARSE.filters'
 ]).config(function ($stateProvider, $locationProvider, $urlRouterProvider, $translateProvider) {
@@ -82,6 +83,13 @@ angular.module('ezPAARSE', [
     templateUrl: '/partials/form',
     onEnter: checkAuth()
   };
+  var profile = {
+    name: 'profile',
+    url: 'profile',
+    parent: home,
+    templateUrl: '/partials/profile',
+    onEnter: checkAuth()
+  };
   var admin = {
     name: 'admin',
     url: 'admin',
@@ -100,6 +108,7 @@ angular.module('ezPAARSE', [
   $stateProvider.state(home);
   $stateProvider.state(process);
   $stateProvider.state(form);
+  $stateProvider.state(profile);
   $stateProvider.state(admin);
   $stateProvider.state(report);
 
