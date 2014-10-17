@@ -64,7 +64,7 @@ module.exports = function (app) {
         'report.json');
 
       if (fs.existsSync(reportFile)) {
-        mail.attach("report.json", fs.readFileSync(reportFile));
+        mail.attach("report.json", fs.readFileSync(reportFile).toString());
       }
     }
 
