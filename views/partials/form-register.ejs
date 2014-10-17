@@ -1,7 +1,7 @@
   <modal id="register-modal" class="ui segment small modal" ng-controller="RegisterCtrl">
     <div class="ui small error message" ng-show="error">
       <div class="header" translate>login+error</div>
-      {{ error }}
+      {{ (error || '') | translate }}
     </div>
 
     <form name="registerForm" class="ui form" ng-submit="register(registerForm.$valid)" novalidate>

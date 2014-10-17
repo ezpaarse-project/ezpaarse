@@ -169,8 +169,8 @@ angular.module('ezPAARSE.admin-controllers', [])
           adm.users.push(user);
         })
         .error(function (data, status, headers) {
-          var errorMessage  = headers('ezpaarse-status-message');
-          adm.postUserError = errorMessage || 'An error occured';
+          var err           = headers('ezPAARSE-Status-Message');
+          adm.postUserError = err ? 'admin+' + err : 'admin+an_error_occurred';
         });
     };
   })

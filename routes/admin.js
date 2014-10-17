@@ -90,23 +90,23 @@ module.exports = function (app) {
     };
 
     if (!userid || !password || !confirm) {
-      sendErr(400, 'vous devez soumettre un login et un mot de passe');
+      sendErr(400, 'fill_all_fields');
       return;
     }
 
     // Regex used by angular
     if (!emailRegexp.test(userid)) {
-      sendErr(400, 'cette adresse mail n\'est pas valide');
+      sendErr(400, 'invalid_address');
       return;
     }
 
     if (password != confirm) {
-      sendErr(400, 'le mot de passe de confirmation ne correspond pas');
+      sendErr(400, 'password_does_not_match');
       return;
     }
 
     if (userlist.get(userid)) {
-      sendErr(409, 'cet utilisateur existe');
+      sendErr(409, 'user_already_exists');
       return;
     }
 
@@ -153,14 +153,14 @@ module.exports = function (app) {
     auth.authorizeMembersOf('admin'), function (req, res) {
       var username = req.params[0];
       if (username == req.user.username) {
-        res.set('ezPAARSE-Status-Message', 'vous ne pouvez pas vous supprimer vous-même');
+        res.set('ezPAARSE-Status-Message', 'cant_delete_yourself');
         res.status(403).end();
       } else {
         var user = userlist.remove(username);
         if (user) {
           res.status(204).end();
         } else {
-          res.set('ezPAARSE-Status-Message', 'cet utilisateur n\'existe pas');
+          res.set('ezPAARSE-Status-Message', 'user_does_not_exist');
           res.status(404).end();
         }
       }

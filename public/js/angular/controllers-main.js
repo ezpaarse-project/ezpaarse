@@ -227,7 +227,7 @@ angular.module('ezPAARSE.main-controllers', [])
       .error(function (data, status, headers) {
         $scope.loading = false;
         var err        = headers('ezPAARSE-Status-Message');
-        $scope.error   = err ? err : 'Une erreur est survenue';
+        $scope.error   = err ? 'login+' + err : 'login+an_error_occurred';
       });
     };
   });

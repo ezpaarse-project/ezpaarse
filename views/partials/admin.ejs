@@ -191,7 +191,7 @@
             </td></tr>
             <tr>
               <td colspan="3">
-                <div class="ui error message" ng-show="adm.postUserError" ng-bind="adm.postUserError"></div>
+                <div class="ui error message" ng-show="adm.postUserError">{{ (adm.postUserError || '') | translate }}</div>
               </td>
             </tr>
           </table>
