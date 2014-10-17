@@ -80,6 +80,11 @@ angular.module('ezPAARSE.main-controllers', [])
     $scope.request     = requestService.data;
     $scope.jobsHistory = requestService.history;
 
+    $scope.$watch('jobsHistory.length', function (newVal, oldVal) {
+      if (newVal == oldVal || newVal < 1) { return; }
+      $scope.fb.jobID = $scope.jobsHistory[newVal - 1].id;
+    });
+
     $scope.sendFeedback = function (valid) {
       $scope.feedbackForm.comment.$pristine = false;
       $scope.feedbackForm.email.$pristine = false;
