@@ -256,7 +256,7 @@ ezLanguages['fr'] = {
   "admin+upward":                  "plus récent",
   "admin+users":                   "Utilisateurs",
   "admin+an_error_occurred":       "Une erreur est survenue, veuillez réessayer.",
-  "admin+cant_delete_yourself":    "Vous ne pouvez pas vous supprimez vous-même.",
+  "admin+cant_delete_yourself":    "Vous ne pouvez pas vous supprimer vous-même.",
   "admin+user_does_not_exist":     "Cet utilisateur n'existe pas",
   "admin+fill_all_fields":         "Remplissez tous les champs obligatoires",
   "admin+invalid_address":         "Cette adresse mail n'est pas valide",
