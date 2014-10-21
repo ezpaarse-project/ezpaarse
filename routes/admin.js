@@ -203,9 +203,7 @@ module.exports = function (app) {
 
       userlist.save();
       delete user.password;
-      setTimeout(function() {
-        res.status(200).json(user);
-      }, 1000);
+      res.status(200).json(user);
     }
   );
 
