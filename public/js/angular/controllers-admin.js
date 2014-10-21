@@ -137,14 +137,21 @@ angular.module('ezPAARSE.admin-controllers', [])
   .controller('AdminUsersCtrl', function ($scope, $http) {
     var adm = $scope.adm;
 
-    adm.credentials = {};
+    adm.credentials  = {};
+    adm.loadingUsers = true;
 
     $http.get('/users/')
-      .success(function (users) { adm.users = users; })
-      .error(function () { adm.getUsersError = true; });
+      .success(function (users) {
+        adm.users        = users;
+        adm.loadingUsers = false;
+      })
+      .error(function () {
+        adm.usersError   = 'admin+get_users_fail';
+        adm.loadingUsers = false;
+      });
 
     adm.deleteUser = function (userid) {
-      adm.postUserError = undefined;
+      adm.usersError = null;
 
       $http.delete('/users/' + userid)
         .success(function () {
@@ -157,20 +164,23 @@ angular.module('ezPAARSE.admin-controllers', [])
         })
         .error(function (data, status, headers) {
           var err = headers('ezpaarse-status-message');
-          adm.postUserError = err ? 'admin+' + err : 'admin+an_error_occurred';
+          adm.usersError = err ? 'admin+' + err : 'admin+an_error_occurred';
         });
     };
 
     adm.createUser = function () {
-      adm.postUserError       = undefined;
+      adm.creatingUser        = true;
+      adm.usersError          = null;
       adm.credentials.confirm = adm.credentials.password;
       $http.post('/users/', adm.credentials)
         .success(function (user) {
           adm.users.push(user);
+          adm.creatingUser = false;
         })
         .error(function (data, status, headers) {
-          var err           = headers('ezPAARSE-Status-Message');
-          adm.postUserError = err ? 'admin+' + err : 'admin+an_error_occurred';
+          adm.creatingUser = false;
+          var err          = headers('ezPAARSE-Status-Message');
+          adm.usersError   = err ? 'admin+' + err : 'admin+an_error_occurred';
         });
     };
   })

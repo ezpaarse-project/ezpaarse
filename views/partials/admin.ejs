@@ -167,34 +167,42 @@
         </div>
 
         <div ng-switch-when="users"  ng-controller="AdminUsersCtrl">
-          <p ng-hide="adm.users || adm.getUsersError" class="center aligned"><i class="big loading icon"></i></p>
-          <div ng-show="adm.getUsersError" class="ui error compact message" translate>admin+get_users_fail</div>
-          <table ng-show="adm.users" class="ui basic collapsing table">
-            <thead><tr>
-              <th translate>admin+name</th>
-              <th translate>admin+group</th>
-              <th></th>
-            </tr></thead>
-            <tr ng-repeat="user in adm.users | orderBy:'name'">
-              <td>{{ user.username }}</td>
-              <td>{{ user.group }}</td>
-              <td>
-                <i class="red trash link icon" title="{{ 'admin+remove' | translate }}" ng-click="adm.deleteUser(user.username)"></i>
-              </td>
-            </tr>
-            <tr><td colspan="3">
-              <form ng-submit="adm.createUser()">
-                <div class="ui mini input"><input type="text" placeholder="{{ 'admin+name' | translate }}" ng-model="adm.credentials.userid"></div>
-                <div class="ui mini input"><input type="password" placeholder="{{ 'admin+password' | translate }}" ng-model="adm.credentials.password"></div>
-                <button class="ui mini icon submit button"><i class="plus icon"></i></button>
-              </form>
-            </td></tr>
-            <tr>
-              <td colspan="3">
-                <div class="ui error message" ng-show="adm.postUserError">{{ (adm.postUserError || '') | translate }}</div>
-              </td>
-            </tr>
-          </table>
+          <p ng-show="adm.loadingUsers" class="center aligned"><i class="big loading icon"></i></p>
+          <div ng-show="adm.usersError" class="ui compact error message">{{ (adm.usersError || '') | translate }}</div>
+
+          <div ng-hide="adm.loadingUsers">
+            <form class="ui small form" ng-submit="adm.createUser()">
+              <div class="four fields">
+                <div class="field">
+                  <div class="ui mini input"><input type="text" placeholder="{{ 'admin+name' | translate }}" ng-model="adm.credentials.userid"></div>
+                </div>
+                <div class="field">
+                  <div class="ui mini input"><input type="text" placeholder="{{ 'admin+group' | translate }}" ng-model="adm.credentials.group"></div>
+                </div>
+                <div class="field">
+                  <div class="ui mini input"><input type="password" placeholder="{{ 'admin+password' | translate }}" ng-model="adm.credentials.password"></div>
+                </div>
+                <div class="field">
+                  <button class="ui tiny left labeled icon submit button" ng-class="{ loading: adm.creatingUser }" ng-disabled="adm.creatingUser"><i class="plus icon"></i> ajouter</button>
+                </div>
+              </div>
+            </form>
+
+            <table ng-show="adm.users.length" class="ui table segment">
+              <thead><tr>
+                <th style="width: 80px;"></th>
+                <th translate>admin+name</th>
+                <th translate>admin+group</th>
+              </tr></thead>
+              <tr ng-repeat="user in adm.users | orderBy:'name'">
+                <td class="center aligned">
+                  <i class="red trash link icon" title="{{ 'admin+remove' | translate }}" ng-click="adm.deleteUser(user.username)"></i>
+                </td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.group }}</td>
+              </tr>
+            </table>
+          </div>
         </div>
       </div>
 
