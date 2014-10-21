@@ -83,6 +83,10 @@ module.exports = function (app) {
     var userid   = req.body.userid;
     var password = req.body.password;
     var confirm  = req.body.confirm;
+    var group    = 'user';
+
+    var isAdmin = (req.user && req.user.group == 'admin');
+    if (isAdmin) { group = req.body.group || group; }
 
     var sendErr = function (status, message) {
       res.writeHead(status, { 'ezPAARSE-Status-Message': message });
@@ -115,7 +119,7 @@ module.exports = function (app) {
     var user = userlist.add({
       username: userid,
       password: cryptedPassword,
-      group: userlist.length() === 0 ? 'admin' : 'user'
+      group: userlist.length() === 0 ? 'admin' : group
     });
 
     if (!user) {
@@ -128,7 +132,7 @@ module.exports = function (app) {
       if (prop != 'password') { copyUser[prop] = user[prop]; }
     }
 
-    if (req.user && req.user.group == 'admin') {
+    if (isAdmin) {
       //TODO: put that in a separate route
       res.set("Content-Type", "application/json; charset=utf-8");
       res.status(201).json(copyUser);
