@@ -174,7 +174,7 @@
             <form class="ui small form" ng-submit="adm.createUser()">
               <div class="four fields">
                 <div class="field">
-                  <div class="ui mini input"><input type="text" placeholder="{{ 'admin+name' | translate }}" ng-model="adm.credentials.userid"></div>
+                  <div class="ui mini input"><input type="text" placeholder="{{ 'admin+email' | translate }}" ng-model="adm.credentials.userid"></div>
                 </div>
                 <div class="field">
                   <div class="ui mini input"><input type="text" placeholder="{{ 'admin+group' | translate }}" ng-model="adm.credentials.group"></div>
@@ -190,16 +190,44 @@
 
             <table ng-show="adm.users.length" class="ui table segment">
               <thead><tr>
-                <th style="width: 80px;"></th>
-                <th translate>admin+name</th>
-                <th translate>admin+group</th>
+                <th class="two wide"></th>
+                <th class="seven wide" translate>admin+email</th>
+                <th class="seven wide" translate>admin+group</th>
               </tr></thead>
               <tr ng-repeat="user in adm.users | orderBy:'name'">
                 <td class="center aligned">
                   <i class="red trash link icon" title="{{ 'admin+remove' | translate }}" ng-click="adm.deleteUser(user.username)"></i>
+                  <i class="pencil link icon" title="{{ 'admin+modify' | translate }}" ng-click="adm.toggleModification(user)"></i>
                 </td>
-                <td>{{ user.username }}</td>
-                <td>{{ user.group }}</td>
+
+                <td colspan="2" ng-if="adm.changed[user.username]">
+                  <form class="ui small form" ng-submit="adm.saveUser(user.username)">
+                    <div class="two fields">
+                      <div class="field">
+                        <div class="ui input">
+                          <input type="text" placeholder="{{ 'admin+email' | translate }}" ng-model="adm.changed[user.username].username">
+                        </div>
+                      </div>
+                      <div class="field">
+                        <div class="ui input">
+                          <input type="text" placeholder="{{ 'admin+group' | translate }}" ng-model="adm.changed[user.username].group">
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="two fields">
+                      <div class="right aligned field">
+                        <button class="ui left labeled mini icon green button" ng-class="{ loading: adm.changed[user.username]._saving }"><i class="checkmark icon"></i>Save</button>
+                      </div>
+                      <div class="left aligned field">
+                        <div ng-click="adm.toggleModification(user)" class="ui right labeled mini icon red button"><i class="remove icon"></i>Cancel</div>
+                      </div>
+                    </div>
+                  </form>
+                </td>
+
+                <td ng-hide="adm.changed[user.username]">{{ user.username }}</td>
+                <td ng-hide="adm.changed[user.username]">{{ user.group }}</td>
               </tr>
             </table>
           </div>

@@ -138,6 +138,7 @@ angular.module('ezPAARSE.admin-controllers', [])
     var adm = $scope.adm;
 
     adm.credentials  = {};
+    adm.changed      = {};
     adm.loadingUsers = true;
 
     $http.get('/users/')
@@ -150,12 +151,41 @@ angular.module('ezPAARSE.admin-controllers', [])
         adm.loadingUsers = false;
       });
 
+    adm.toggleModification = function (user) {
+      var mail = user.username;
+      adm.changed[mail] = adm.changed[mail] ? false : angular.copy(user);
+    };
+
+    adm.saveUser = function (userid) {
+      var changedUser = adm.changed[userid];
+      if (!changedUser) { return; }
+
+      changedUser._saving = true;
+
+      $http.post('/users/' + userid, changedUser)
+        .success(function (newUser) {
+          adm.changed[userid] = false;
+
+          for (var i = adm.users.length - 1; i >= 0; i--) {
+            if (adm.users[i].username == userid) {
+              adm.users[i] = newUser;
+              break;
+            }
+          }
+        })
+        .error(function (data, status, headers) {
+          var err             = headers('ezPAARSE-Status-Message');
+          adm.usersError      = err ? 'admin+' + err : 'admin+an_error_occurred';
+          changedUser._saving = false;
+        });
+    };
+
     adm.deleteUser = function (userid) {
       adm.usersError = null;
 
       $http.delete('/users/' + userid)
         .success(function () {
-          for (var i = adm.users.length - 1; i>=0; i--) {
+          for (var i = adm.users.length - 1; i >= 0; i--) {
             if (adm.users[i].username == userid) {
               adm.users.splice(i, 1);
               break;
