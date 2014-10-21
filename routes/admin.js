@@ -202,8 +202,11 @@ module.exports = function (app) {
       }
 
       userlist.save();
-      delete user.password;
-      res.status(200).json(user);
+      var copy = {};
+      for (var p in user) {
+        if (p != 'password') { copy[p] = user[p]; }
+      }
+      res.status(200).json(copy);
     }
   );
 
