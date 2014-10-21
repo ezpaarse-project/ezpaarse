@@ -136,7 +136,7 @@ angular.module('ezPAARSE.main-controllers', [])
       if (!valid || !$scope.userid) { return; }
       $scope.loading = true;
 
-      $http.post('/users/' + $scope.userid + '/password')
+      $http.post('/passwords/' + $scope.userid)
       .success(function (user) {
 
         $scope.resetForm.$setPristine();

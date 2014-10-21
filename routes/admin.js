@@ -172,10 +172,10 @@ module.exports = function (app) {
   );
 
   /**
-   * POST route on /users/{username}/password
+   * POST route on /password/{username}
    * To reset a user password
    */
-  app.post(/^\/users\/(.+)\/password$/, function (req, res) {
+  app.post(/^\/passwords\/(.+)$/, function (req, res) {
       var mail = req.params[0];
       var user = userlist.get(mail);
       if (!user) { return res.status(404).end(); }
