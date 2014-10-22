@@ -173,13 +173,13 @@ app.use(function (req, res, next) {
 
 // used to expose static files from the public folder
 app.use('/assets', express.static(path.join(__dirname, 'public')));
-app.use('/assets', function (req, res, next) { res.send(404); });
+app.use('/assets', function (req, res, next) { res.status(404).end(); });
 app.use('/stylesheets', express.static(path.join(__dirname, 'public/stylesheets')));
-app.use('/stylesheets', function (req, res, next) { res.send(404); });
+app.use('/stylesheets', function (req, res, next) { res.status(404).end(); });
 app.use('/img', express.static(path.join(__dirname, 'public/img')));
-app.use('/img', function (req, res, next) { res.send(404); });
+app.use('/img', function (req, res, next) { res.status(404).end(); });
 app.use('/doc', express.static(path.join(__dirname, 'public/doc')));
-app.use('/doc', function (req, res, next) { res.send(404); });
+app.use('/doc', function (req, res, next) { res.status(404).end(); });
 
 /**
  * routes handling
