@@ -24,9 +24,24 @@
   <script>
     $(document).ready(function () {
       $.reject({
-        reject: { msie: 8 },
-        display: ['firefox','chrome','opera'],
-        imagePath: '/assets/components/jreject/images/'
+        reject: {
+          msie: 9,
+          chrome: 7,
+          firefox: 4,
+          opera: 12,
+          safari: 4
+        },
+        display: ['firefox','chrome','opera','safari'],
+        imagePath: '/assets/components/jreject/images/',
+        header: "Saviez-vous que votre navigateur internet n'est pas à jour ?",
+        paragraph1: "Pour pouvoir fonctionner correctement, ezPAARSE nécessite l'utilisation d'un navigateur récent. " +
+                    "Vous trouverez ci-dessous une liste des navigateurs les plus populaires.",
+        paragraph2: "Cliquez sur une icône pour vous rendre à la page de téléchargement.",
+        close: true,
+        closeMessage: "En fermant cette fenêtre, vous reconnaissez avoir conscience que votre expérience " +
+                      "sur ce site pourrait être dégradée.",
+        closeLink: 'Fermer cette fenêtre',
+        closeCookie: true
       });
     });
   </script>
