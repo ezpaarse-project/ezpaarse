@@ -183,7 +183,7 @@ angular.module('ezPAARSE.admin-controllers', [])
     adm.deleteUser = function (userid) {
       adm.usersError = null;
 
-      $http.delete('/users/' + userid)
+      $http({ method: 'POST', url: '/users/' + userid })
         .success(function () {
           for (var i = adm.users.length - 1; i >= 0; i--) {
             if (adm.users[i].username == userid) {
