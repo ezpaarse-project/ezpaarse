@@ -9,6 +9,7 @@
 
   <link rel="stylesheet" type="text/css" href="/assets/components/semantic-ui/build/packaged/css/semantic.css">
   <link rel="stylesheet" type="text/css" href="/assets/components/bxslider-4-kallisto/jquery.bxslider.css">
+  <link rel="stylesheet" type="text/css" href="/assets/components/jreject/css/jquery.reject.css">
   <link rel="stylesheet" type="text/css" href="/assets/chosen/chosen.min.css">
   <link rel="stylesheet" type="text/css" href="/assets/stylesheets/app.css">
   <link rel="stylesheet" type="text/css" href="/assets/stylesheets/app-fixes.css">
@@ -19,6 +20,16 @@
   <div class="wrapper" ui-view></div>
 
   <script src="/assets/components/jquery/dist/jquery.min.js"></script>
+  <script src="/assets/components/jreject/js/jquery.reject.js"></script>
+  <script>
+    $(document).ready(function () {
+      $.reject({
+        reject: { msie: 8 },
+        display: ['firefox','chrome','opera'],
+        imagePath: '/assets/components/jreject/images/'
+      });
+    });
+  </script>
   <script src="/assets/components/bxslider-4-kallisto/jquery.bxslider.min.js"></script>
   <script src="/assets/components/node-uuid/uuid.js"></script>
   <script src="/assets/chosen/chosen.jquery.min.js"></script>
@@ -46,6 +57,7 @@
   <script src="/assets/js/angular/controllers-profile.js"></script>
   <script src="/assets/js/angular/directives.js"></script>
   <script src="/assets/js/angular/filters.js"></script>
+
 
   <% include partials/form-login %>
   <% include partials/form-password-reset %>

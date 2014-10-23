@@ -26,6 +26,7 @@
     "angular-chosen-localytics": "~1.0.6",
     "angular-sanitize": "~1.2.16",
     "angular-translate": "~2.1.0",
-    "angular-cookie": "~4.0.2"
+    "angular-cookie": "~4.0.2",
+    "jreject": "~1.1.4"
   }
 }
