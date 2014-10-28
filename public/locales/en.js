@@ -76,6 +76,7 @@ ezLanguages['en'] = {
   // Form page
   "form+title":             "Prepare the data to be processed",
   "form+description":       "Select the logfiles you wish to process. Your logfiles may need setting some parameters to be properly analysed with ezPAARSE. If you need help, you can <a ez-toggle-sidebar=\"{{ sidebarID }}\">contact the ezPAARSE team</a>.",
+  "form+samples":           "You need samples logs to check your installation, we <a href=\"{{ gitHubSamples }}\" target=\"_blank\">provide some on GitHub</a> ",
   "form+settings":          "Parameters",
   "form+logfiles":          "Logfiles",
   "form+copy_paste":        "Copy/Paste logs",
