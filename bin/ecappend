@@ -11,7 +11,7 @@ BIN_PATH=`dirname "$MY_PATH"`
 EZPAARSE_PATH=$BIN_PATH/..
 EZRESULT_PATH=/applis/stats/home/ezresults
 
-HEADER_LINE="domain;rtype;mime;doi;pissn;eissn;pisbn;title;platform;unitid;host;identd;login;date;url;status;size"
+HEADER_LINE=""
 
 case ${1} in
 

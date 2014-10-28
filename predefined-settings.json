@@ -196,7 +196,7 @@
     "country": "France",
     "headers": {
       "Relative-Domain": "sam.ensam.eu",
-      "Output-Fields": "+pid,-domain,-pissn,-doi,-eissn,-pisbn,-title,-identid"
+      "Output-Fields": "+pid,-domain,-doi,-eissn,-title,-identid"
     }
   },
   "01-fr-angers": {
@@ -205,7 +205,7 @@
     "headers": {
       "Log-Format-apache": "%<[a-zA-Z0-9\\+\\-.:]+> %h %l %u %t \"%r\" %>s %b \"%<[^\"]+>\" \"%<.*>\"",
       "Relative-Domain": "ao.univ-angers.fr",
-      "Output-Fields": "+pid,-domain,-pissn,-doi,-eissn,-pisbn,-title,-identid"
+      "Output-Fields": "+pid,-domain,-doi,-eissn,-title,-identid"
     }
   },
   "01-fr-univ-evry": {
