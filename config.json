@@ -13,6 +13,7 @@
     "login",
     "platform",
     "platform_name",
+    "publisher_name",
     "rtype",
     "mime",
     "print_identifier",

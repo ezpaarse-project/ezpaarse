@@ -124,6 +124,7 @@ ezLanguages['fr'] = {
   "settings+notification_mails":   "Adresse(s) mail",
   "settings+notifications_help":   "Liste d'adresses email séparées par des virgules qui recevront une notification à la fin du traitement.",
   "settings+counter_reports":      "Rapports COUNTER",
+  "settings+counter_warning":      "Les rapports ne sont pas certifiés COUNTER, cependant l'algorithme de dédoublonnage et les formats de sortie suivent les recommandations.",
   "settings+new":                  "Nouveau",
   "settings+headers":              "Headers (avancé)",
   "settings+headers_help":         "Liste de headers à ajouter à la requête. Si l'un d'eux fait doublon avec une autre option du formulaire, cette dernière est écrasée.",
