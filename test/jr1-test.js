@@ -8,9 +8,9 @@ var xmlParser = require('xml2js').Parser;
 var request   = require('request');
 var cfg       = require('../lib/config.js');
 
-var logFile = __dirname + '/dataset/sd.jr1.log';
-var xmlFile = __dirname + '/dataset/sd.jr1.xml';
-var tsvFile = __dirname + '/dataset/sd.jr1.txt';
+var logFile = __dirname + '/dataset/npg.jr1.log';
+var xmlFile = __dirname + '/dataset/npg.jr1.xml';
+var tsvFile = __dirname + '/dataset/npg.jr1.txt';
 
 describe('The server', function () {
   it('generates a correct XML JR1 report (@01)', function (done) {
