@@ -72,7 +72,7 @@ describe('The pkb cleaner', function () {
           newContent.should.containEql('7');
 
           fs.exists(oldPkb2, function (exist) {
-            exist.should.not.be.ok;
+            exist.should.equal(false, "Le fichier " + oldPkb2 + " n'a pas été supprimé");
             done();
           });
         });
