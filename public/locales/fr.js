@@ -251,6 +251,8 @@ ezLanguages['fr'] = {
   "admin+platforms_are_uptodate":     "Les plateformes sont à jour",
   "admin+migrate_to_beta":            "Migrer vers la version beta",
   "admin+back_to_stable":             "Revenir à la version stable",
+  "admin+save":                       "Sauvegarder",
+  "admin+cancel":                     "Annuler",
   "admin+error":                      "Erreur",
   "admin+system":                     "Système",
   "admin+platforms":                  "Plateformes",

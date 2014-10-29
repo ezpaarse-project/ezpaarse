@@ -217,10 +217,10 @@
 
                     <div class="two fields">
                       <div class="right aligned field">
-                        <button class="ui left labeled mini icon green button" ng-class="{ loading: adm.changed[user.username]._saving }"><i class="checkmark icon"></i>Save</button>
+                        <button class="ui left labeled mini icon green button" ng-class="{ loading: adm.changed[user.username]._saving }"><i class="checkmark icon"></i>{{ 'admin+save' | translate }}</button>
                       </div>
                       <div class="left aligned field">
-                        <div ng-click="adm.toggleModification(user)" class="ui right labeled mini icon red button"><i class="remove icon"></i>Cancel</div>
+                        <div ng-click="adm.toggleModification(user)" class="ui right labeled mini icon red button"><i class="remove icon"></i> {{ 'admin+cancel' | translate }}</div>
                       </div>
                     </div>
                   </form>
