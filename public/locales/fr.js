@@ -63,7 +63,7 @@ ezLanguages['fr'] = {
   "menu+logout":        "Déconnexion",
   "menu+process_logs":  "Traitez vos logs",
   "menu+documentation": "Documentation",
-  "footer+powered":     "Propulsé par <a href=\"{{ nodejs }}\" target=\"_blank\">Node.js</a> et <a href=\"{{ expressjs }}\" target=\"_blank\">Express 3</a>",
+  "footer+powered":     "Propulsé par <a href=\"{{ nodejs }}\" target=\"_blank\">Node.js</a> et <a href=\"{{ expressjs }}\" target=\"_blank\">Express 4</a>",
 
   // Process state button
   "state+idle":         "Aucun traitement en cours",
