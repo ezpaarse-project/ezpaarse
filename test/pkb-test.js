@@ -24,18 +24,22 @@ describe('The pkb manager', function () {
 });
 
 describe('The pkb cleaner', function () {
-  var pkbDir = path.join(__dirname, 'pkb');
-  var oldPkb = path.join(pkbDir, 'pkb_2014-03-11.txt');
-  var newPkb = path.join(pkbDir, 'pkb_2014-09-17.txt');
+  var pkbDir  = path.join(__dirname, 'pkb');
+  var oldPkb  = path.join(pkbDir, 'pkb_2014-03-11.txt');
+  var oldPkb2 = path.join(pkbDir, 'pkb_2014-05-11.txt');
+  var newPkb  = path.join(pkbDir, 'pkb_2014-09-17.txt');
 
   before(function (next) {
     fs.mkdir(pkbDir, function (err) {
       if (err && err.code != 'EEXIST') { throw err; }
       fs.writeFile(oldPkb, 'title_id\n1\n2\n3\n4\n5\n', function (err) {
         if (err) { throw err; }
-        fs.writeFile(newPkb, 'title_id\n3\n4\n5\n6\n7\n', function (err) {
+        fs.writeFile(oldPkb2, 'title_id\n3\n4\n6\n', function (err) {
           if (err) { throw err; }
-          next();
+          fs.writeFile(newPkb, 'title_id\n3\n4\n5\n6\n7\n', function (err) {
+            if (err) { throw err; }
+            next();
+          });
         });
       });
     });
@@ -67,7 +71,10 @@ describe('The pkb cleaner', function () {
           newContent.should.containEql('6');
           newContent.should.containEql('7');
 
-          done();
+          fs.exists(oldPkb2, function (exist) {
+            exist.should.not.be.ok;
+            done();
+          });
         });
       });
     });
