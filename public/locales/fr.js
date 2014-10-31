@@ -76,7 +76,7 @@ ezLanguages['fr'] = {
   // Form page
   "form+title":             "Préparation du traitement",
   "form+description":       "Indiquez ici les logs que vous désirez faire analyser par ezPAARSE. Vos logs nécessitent peut-être un paramétrage particulier pour qu'ezPAARSE les comprenne. Si nécessaire, <a ez-toggle-sidebar=\"{{ sidebarID }}\">contactez l'équipe ezPAARSE</a> pour une aide au paramétrage.",
-  "form+samples":           "Vous désirez utiliser des logs de test pour valider votre installation, nous en <a href=\"{{ gitHubSamples }}\" target=\"_blank\">mettons à disposition sur GitHub</a> ",
+  "form+samples":           "Vous désirez utiliser des logs de test pour valider votre installation, nous en <a href=\"{{ gitHubSamples }}\" target=\"_blank\">mettons à disposition sur GitHub</a>.",
   "form+settings":          "Paramètres",
   "form+logfiles":          "Fichiers de logs",
   "form+copy_paste":        "Copier/coller de logs",
