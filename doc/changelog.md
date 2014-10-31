@@ -7,6 +7,7 @@
 - Mise à jour via l'interface du logiciel
 - Outil de dédoublonnage des PKB
 - MVP de la page mon profil
+- ajout du publisher_name dans les EC
 
 ## 1.9.0  ## 
 ##### 23/06/2014 - Parsathon #####
