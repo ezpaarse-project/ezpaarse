@@ -163,6 +163,13 @@
     "fullName": "University of Minnesota Libraries",
     "country": "United States"
   },
+  "10-us-loy": {
+    "fullName": "Loyola University Chicago",
+    "country": "United States",
+    "headers": {
+      "Log-Format-ezproxy": "%h %l %u %t \"%r\" %s %b %{referer}<.*?>"
+    }
+  },
   "00-fr-inist-lara": {
     "fullName": "INIST-CNRS - Lara",
     "country": "France",
