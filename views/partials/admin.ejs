@@ -88,7 +88,7 @@
             <div ng-hide="adm.platforms.outdated" popup="{{ 'admin+platforms_are_uptodate' | translate }}" data-position="right center" class="ui small disabled button" translate>admin+update</div>
           </div>
 
-          <div class="ui icon small info message" ng-show="adm.platforms['local-commits'] || adm.platforms['local-changes']">
+          <div class="ui icon small info message" ng-show="adm.platforms.git['local-commits'] || adm.platforms.git['local-changes']">
             <i class="exclamation icon"></i>
             <div class="content">
               <div class="header" translate>admin+attention</div>
