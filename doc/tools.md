@@ -30,6 +30,26 @@ pkb-cleaner ./path/to/some/directory
 pkb-cleaner --platform=sd
 ```
 
+## scrape
+Exécute les scrapers d'une ou plusieurs plateformes.
+
+```bash
+Usage: /home/yan/ezpaarse/bin/scrape [-alvfc] [Platform] [Platform] ...
+
+Options:
+  --all, -a      Execute all scrapers.
+  --list, -l     Only list scrapers without executing them.
+  --clean, -c    Clean PKB files when all scrapers has been executed.
+  --force, -f    Overwrite PKB files if they already exist.
+  --verbose, -v  Print scrapers output into the console.
+```
+
+Exemples:
+```bash
+scrape sd cbo # exécute les scrapers de SD et CBO
+scrape -al    # liste l'intégralité des scrapers sans les exécuter
+```
+  
 ## loginjector
 
 Commande permettant d'envoyer un fichier de log en streaming vers une instance locale d'ezPAARSE.

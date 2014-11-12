@@ -4,6 +4,7 @@ La géolocalisation est basée sur l'adresse IP contenue dans le champ host des 
 
 La librairie utilisée est [geoip-lite](https://github.com/bluesmoon/node-geoip).
 
+**Réserves sur la géolocalisation** : la géolocalisation par adresse IP est une méthode qui permet de déterminer la position géographique d'un terminal connecté à internet en se basant sur son adresse IP. Un niveau de précision de l'ordre de la ville est possible, mais parfois seul le pays est trouvé. Les données de [géolocalisation sont informatives](http://fr.wikipedia.org/wiki/G%C3%A9olocalisation#G.C3.A9olocalisation_par_adresse_IP_.28sur_internet.29) du fait des aléas liés à leur determination : elles dépendent du fournisseur d'accès internet avec une gestion différente selon les pays.
 
 #### Paramètres (headers) ####
 

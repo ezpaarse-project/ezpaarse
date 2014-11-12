@@ -16,5 +16,10 @@ COUNTER Reports :
   No report generated.
 <% } %>
 Reject files :
-<% job.rejects.forEach(function (reject) { %>
-  - <%= reject %> (<%= job.report.get('rejets', 'nb-lines-' + reject) || 0 %>) : <%= job.report.get('rejets', 'url-' + reject) %><% }) %>
+<% if (job.rejects.length) { job.rejects.forEach(function (reject) { %>
+  - <%= reject %> (<%= job.report.get('rejets', 'nb-lines-' + reject) || 0 %>) : <%= job.report.get('rejets', 'url-' + reject) %>
+  <% })} else { %>
+  No report generated.
+<% } %>
+
+Something goes wrong ? You can contact us (ezpaarse@couperin.org) for any question and join this message in your mail.

@@ -1,5 +1,14 @@
 # Versions ezPAARSE #
 
+## 2.0.0  ## 
+##### 01/09/2014 - Administration des PKB #####
+- Interface de visualisation des PKB
+- Mise à jour via l'interface des PKB
+- Mise à jour via l'interface du logiciel
+- Outil de dédoublonnage des PKB
+- MVP de la page mon profil
+- ajout du publisher_name dans les EC
+
 ## 1.9.0  ## 
 ##### 23/06/2014 - Parsathon #####
 - Reconnaissance de 50 plateformes

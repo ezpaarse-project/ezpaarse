@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<ReportResponse Created="2014-09-17T12:17:56+02:00">
+<ReportResponse Created="2014-10-29T11:04:40+01:00">
     <CustomerReference>
         <ID></ID>
         <Name>ezPAARSE</Name>
@@ -12,7 +12,7 @@
             </UsageDateRange>
         </Filters>
     </ReportDefinition>
-    <Report Created="2014-09-17T12:17:56+02:00" Name="JR1" Title="Journal Report 1" Release="4">
+    <Report Created="2014-10-29T11:04:40+01:00" Name="JR1" Title="Journal Report 1" Release="4">
         <Vendor>
             <Name>platform42</Name>
         </Vendor>
@@ -24,20 +24,20 @@
             <ReportItems>
                 <ItemIdentifier>
                     <Type>Print_ISSN</Type>
-                    <Value>0896-6273</Value>
+                    <Value>0028-0836</Value>
                 </ItemIdentifier>
                 <ItemIdentifier>
                     <Type>Online_ISSN</Type>
-                    <Value>1097-4199</Value>
+                    <Value>1476-4687</Value>
                 </ItemIdentifier>
                 <ItemIdentifier>
                     <Type>Proprietary</Type>
-                    <Value>08966273</Value>
+                    <Value>nature</Value>
                 </ItemIdentifier>
-                <ItemName>Neuron</ItemName>
+                <ItemName>Nature</ItemName>
                 <ItemDataType>Journal</ItemDataType>
-                <ItemPlatform>Science Direct</ItemPlatform>
-                <ItemPublisher>Elsevier</ItemPublisher>
+                <ItemPlatform>Nature Publishing Group</ItemPlatform>
+                <ItemPublisher>Nature Publishing Group</ItemPublisher>
                 <ItemPerformance>
                     <Period>
                         <Begin>2013-10-25</Begin>
@@ -46,11 +46,11 @@
                     <Category>Requests</Category>
                     <Instance>
                         <MetricType>ft_pdf</MetricType>
-                        <Count>0</Count>
+                        <Count>1</Count>
                     </Instance>
                     <Instance>
                         <MetricType>ft_html</MetricType>
-                        <Count>1</Count>
+                        <Count>0</Count>
                     </Instance>
                     <Instance>
                         <MetricType>ft_total</MetricType>
@@ -65,11 +65,11 @@
                     <Category>Requests</Category>
                     <Instance>
                         <MetricType>ft_pdf</MetricType>
-                        <Count>0</Count>
+                        <Count>1</Count>
                     </Instance>
                     <Instance>
                         <MetricType>ft_html</MetricType>
-                        <Count>1</Count>
+                        <Count>0</Count>
                     </Instance>
                     <Instance>
                         <MetricType>ft_total</MetricType>
@@ -80,16 +80,20 @@
             <ReportItems>
                 <ItemIdentifier>
                     <Type>Print_ISSN</Type>
-                    <Value>0012-1606</Value>
+                    <Value>1061-4036</Value>
+                </ItemIdentifier>
+                <ItemIdentifier>
+                    <Type>Online_ISSN</Type>
+                    <Value>1546-1718</Value>
                 </ItemIdentifier>
                 <ItemIdentifier>
                     <Type>Proprietary</Type>
-                    <Value>00121606</Value>
+                    <Value>ng</Value>
                 </ItemIdentifier>
-                <ItemName>Developmental Biology</ItemName>
+                <ItemName>Nature Genetics</ItemName>
                 <ItemDataType>Journal</ItemDataType>
-                <ItemPlatform>Science Direct</ItemPlatform>
-                <ItemPublisher>Elsevier</ItemPublisher>
+                <ItemPlatform>Nature Publishing Group</ItemPlatform>
+                <ItemPublisher>Nature Publishing Group</ItemPublisher>
                 <ItemPerformance>
                     <Period>
                         <Begin>2013-10-25</Begin>
@@ -98,11 +102,11 @@
                     <Category>Requests</Category>
                     <Instance>
                         <MetricType>ft_pdf</MetricType>
-                        <Count>1</Count>
+                        <Count>0</Count>
                     </Instance>
                     <Instance>
                         <MetricType>ft_html</MetricType>
-                        <Count>0</Count>
+                        <Count>1</Count>
                     </Instance>
                     <Instance>
                         <MetricType>ft_total</MetricType>
@@ -117,11 +121,11 @@
                     <Category>Requests</Category>
                     <Instance>
                         <MetricType>ft_pdf</MetricType>
-                        <Count>1</Count>
+                        <Count>0</Count>
                     </Instance>
                     <Instance>
                         <MetricType>ft_html</MetricType>
-                        <Count>0</Count>
+                        <Count>1</Count>
                     </Instance>
                     <Instance>
                         <MetricType>ft_total</MetricType>

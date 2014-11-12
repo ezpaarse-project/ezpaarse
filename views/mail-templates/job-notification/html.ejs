@@ -29,11 +29,16 @@
     <% } %>
 
     <h3>Reject files :</h3>
+    <% if (job.rejects.length) { %>
     <ul>
     <% job.rejects.forEach(function (reject) { %>
       <% var nbLines   = job.report.get('rejets', 'nb-lines-' + reject) || 0; %>
       <li><a href="<%= job.report.get('rejets', 'url-' + reject) %>" style="text-decoration: none;"><%= reject %></a> (<%= nbLines %>)</li>
     <% }) %>
     </ul>
+    <% } else { %>
+      <p>No report generated.</p>
+    <% } %>
+    Something goes wrong ? You can <a href="mailto:ezpaarse@couperin.org?subject=EzPAARSE%20usage">contact us</a> for any question and join this message in your mail.
   </div>
 </body></html>

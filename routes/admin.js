@@ -83,6 +83,10 @@ module.exports = function (app) {
     var userid   = req.body.userid;
     var password = req.body.password;
     var confirm  = req.body.confirm;
+    var group    = 'user';
+
+    var isAdmin = (req.user && req.user.group == 'admin');
+    if (isAdmin) { group = req.body.group || group; }
 
     var sendErr = function (status, message) {
       res.writeHead(status, { 'ezPAARSE-Status-Message': message });
@@ -115,7 +119,7 @@ module.exports = function (app) {
     var user = userlist.add({
       username: userid,
       password: cryptedPassword,
-      group: userlist.length() === 0 ? 'admin' : 'user'
+      group: userlist.length() === 0 ? 'admin' : group
     });
 
     if (!user) {
@@ -128,7 +132,7 @@ module.exports = function (app) {
       if (prop != 'password') { copyUser[prop] = user[prop]; }
     }
 
-    if (req.user && req.user.group == 'admin') {
+    if (isAdmin) {
       //TODO: put that in a separate route
       res.set("Content-Type", "application/json; charset=utf-8");
       res.status(201).json(copyUser);
@@ -168,10 +172,49 @@ module.exports = function (app) {
   );
 
   /**
-   * POST route on /users/{username}/password
+   * POST route on /users/{username}
+   * To change a user
+   */
+  app.post(/^\/users\/(.+)$/, auth.ensureAuthenticated(true), auth.authorizeMembersOf('admin'),
+    bodyParser.urlencoded({ extended: true }), bodyParser.json(), function (req, res) {
+      var mail = req.params[0];
+      var user = userlist.get(mail);
+      if (!user) { return res.status(404).end(); }
+
+      var body = req.body;
+
+      if (body.username) {
+        // Regex used by angular
+        if (!emailRegexp.test(body.username)) {
+          res.header('ezPAARSE-Status-Message', 'invalid_address');
+          return res.status(400).end();
+        } else {
+          user.username = body.username;
+        }
+      }
+
+      if (body.group && body.group != user.group) {
+        if (mail == req.user.username) {
+          res.header('ezPAARSE-Status-Message', 'cant_change_your_own_group');
+          return res.status(400).end();
+        }
+        user.group = body.group;
+      }
+
+      userlist.save();
+      var copy = {};
+      for (var p in user) {
+        if (p != 'password') { copy[p] = user[p]; }
+      }
+      res.status(200).json(copy);
+    }
+  );
+
+  /**
+   * POST route on /password/{username}
    * To reset a user password
    */
-  app.post(/^\/users\/(.+)\/password$/, function (req, res) {
+  app.post(/^\/passwords\/(.+)$/, function (req, res) {
       var mail = req.params[0];
       var user = userlist.get(mail);
       if (!user) { return res.status(404).end(); }

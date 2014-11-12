@@ -6,6 +6,7 @@
 ;Include Modern UI
 
   !include "MUI2.nsh"
+  !include "FileFunc.nsh"
 
 ;--------------------------------
 ;Variables
@@ -14,6 +15,7 @@
   Var DefaultBrowser
   Var DefaultExcel
   Var DefaultLibreOffice
+  Var InstallDirShort
 
 ;--------------------------------
 ;Pages
@@ -63,7 +65,7 @@ LicenseLangString license ${LANG_ENGLISH} "License-CeCILL-V2-en.txt"
 ;General
 
 !define APP_NAME "ezPAARSE"
-!define APP_VERSION "1.9.1"
+!define APP_VERSION "2.0.0"
 !define APP_INST ""
 
 
@@ -72,13 +74,18 @@ Name "${APP_NAME}"
 OutFile "${APP_NAME}-${APP_VERSION}-Setup.exe"
 
 ;Default installation folder
-InstallDir "$LOCALAPPDATA\${APP_NAME}-${APP_VERSION}"
+; use "\\?\" to override windows MAX_PATH limitation to 260 car
+; http://www.sevenforums.com/general-discussion/290215-overriding-max_path.html
+
+InstallDir "\\?\$LOCALAPPDATA\${APP_NAME}-${APP_VERSION}"
+
 
 ;Get installation folder from registry if available
 InstallDirRegKey HKCU "Software\ezPAARSE-Project" "InstallDir"
 
 ;Request application privileges for Windows
 RequestExecutionLevel user
+
 
 ;--------------------------------
 ;Detecting default browser and excel for shortcuts
@@ -136,21 +143,28 @@ SectionEnd
 
 Section $(menu+ezPAARSEmenu) SecMenuEZPAARSE
 
+  ; search 
+  ${Locate} "$LOCALAPPDATA" "/M=ezpaarsestart.bat" LocateInstDir
+  StrCpy $InstallDirShort $R0
+
+  ; needed for shortcut working directory
+  SetOutPath "$InstallDirShort"
+
   !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
     
     ;Create shortcuts
     CreateDirectory "$SMPROGRAMS\$StartMenuFolder"
-    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Uninstall.lnk" "$INSTDIR\Uninstall.exe"
-    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+1_lancer)" "$INSTDIR\ezpaarsestart.bat" "" "" "" SW_SHOWMINIMIZED
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Uninstall.lnk" "$InstallDirShort\Uninstall.exe"
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+1_lancer)" "$InstallDirShort\ezpaarsestart.bat" "" "" "" SW_SHOWMINIMIZED
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+2_utiliser)" "$DefaultBrowser" $(url_start) 0 
-    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+3_tester)" "$WINDIR\explorer.exe" "$INSTDIR\test\dataset" 
-    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+4a_visualiser)" "$DefaultExcel" "$INSTDIR\excel\$(excel_render)" 0 
-    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+4b_visualiser)" "$DefaultLibreOffice" "$INSTDIR\libreoffice\$(libreoffice_render)" 0 
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+3_tester)" "$WINDIR\explorer.exe" "$InstallDirShort\test\dataset" 
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+4a_visualiser)" "$DefaultExcel" "$InstallDirShort\excel\$(excel_render)" 0 
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+4b_visualiser)" "$DefaultLibreOffice" "$InstallDirShort\libreoffice\$(libreoffice_render)" 0 
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+5_documenter)" "$DefaultBrowser" $(url_doc) 0 
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+6_doc_usage)" "$DefaultBrowser" $(url_usage) 0 
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+7_analogist)" "$DefaultBrowser" "http://analogist.couperin.org" 0 
-    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+8_traces)" "$WINDIR\notepad.exe" "$INSTDIR\ezpaarselog.txt"
-    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+9_errors)" "$WINDIR\notepad.exe" "$INSTDIR\ezpaarselogerror.txt"
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+8_traces)" "$WINDIR\notepad.exe" "$InstallDirShort\ezpaarselog.txt"
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+9_errors)" "$WINDIR\notepad.exe" "$InstallDirShort\ezpaarselogerror.txt"
   !insertmacro MUI_STARTMENU_WRITE_END
 
 SectionEnd
@@ -179,6 +193,12 @@ Section "Uninstall"
   DeleteRegKey /ifempty HKCU "Software\ezPAARSE-Project"
 
 SectionEnd
+
+
+
+Function LocateInstDir
+  StrCpy $R0 $R8
+FunctionEnd
 
 Function runEZPAARSE
   MessageBox MB_OK $(end+runMessage)
