@@ -197,7 +197,7 @@ ezLanguages['en'] = {
   "rejects+duplicates_help":       "Number of ignored accesses because identified as double-clicks",
   "rejects+chrono_anomalies_help": "Lines that were ignored because they are not chronologically ordered in the log file.",
   "rejects+ignored_domains_help":  "The ignored domains.",
-  "rejects+unknown_domains_help":  "The unknown domains.",
+  "rejects+unknown_domains_help":  "Domains that are not handle by ezPAARSE at the moment. You can download the list of all encountered unknown domains by clicking below.",
   "rejects+unknown_formats_help":  "The unknown formats",
   "rejects+unqualified_ecs_help":  "The parsers were not able to recognize bibliographical data in the URLs of those loglines. They are thus ignored by ezPAARSE.",
   "rejects+missing_pkbs_help":     "The missing PKBs.",

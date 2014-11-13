@@ -197,7 +197,7 @@ ezLanguages['fr'] = {
   "rejects+duplicates_help":       "Nombre de consultations ignorées car détectées comme des double-clics.",
   "rejects+chrono_anomalies_help": "Lignes ignorées en raison d'un mauvais ordre chronologique.",
   "rejects+ignored_domains_help":  "Les domaines ignorés.",
-  "rejects+unknown_domains_help":  "Les domaines inconnus.",
+  "rejects+unknown_domains_help":  "Domaines non gérés par ezPAARSE à l'heure actuelle. Vous pouvez télécharger la liste complète des domaines inconnus rencontrés en cliquant ci-dessous.",
   "rejects+unknown_formats_help":  "Les formats inconnus.",
   "rejects+unqualified_ecs_help":  "Les parseurs n'ont pas reconnu d'informations documentaires dans les URL de ces lignes de log. Elles sont donc ignorées par ezPAARSE.",
   "rejects+missing_pkbs_help":     "Les PKBs manquantes.",
