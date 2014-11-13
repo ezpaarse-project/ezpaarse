@@ -358,30 +358,24 @@ module.exports = function (app) {
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
 
     var domain = req.params[0];
-    var parser = parserlist.get(domain);
-    if (parser) {
-      var manifestFile = path.join(__dirname, '/../platforms/' + parser.platform + '/manifest.json');
-      fs.exists(manifestFile, function (exists) {
-        if (!exists) {
-          res.status(404).end();
-          return;
-        }
+    var parser = parserlist.get(domain, false);
 
-        fs.readFile(manifestFile, function (err, data) {
-          var manifestJSON;
-          try {
-            manifestJSON = JSON.parse(data);
-          } catch (e) {
-            res.status(500).end();
-            return;
-          }
-          parser.manifest = manifestJSON;
-          res.status(200).json(parser);
-        });
-      });
-    } else {
-      res.status(404).end();
-    }
+    if (!parser) { return res.status(404).end(); }
+
+    var manifestFile = path.join(__dirname, '/../platforms/' + parser.platform + '/manifest.json');
+    fs.readFile(manifestFile, function (err, data) {
+      if (err) { return res.status(err.code == 'ENOENT' ? 404 : 500).end(); }
+
+      var manifestJSON;
+      try {
+        manifestJSON = JSON.parse(data);
+      } catch (e) {
+        res.status(500).end();
+        return;
+      }
+      parser.manifest = manifestJSON;
+      res.status(200).json(parser);
+    });
   });
 
 
