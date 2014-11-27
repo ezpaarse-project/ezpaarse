@@ -31,6 +31,7 @@ fi
 
 LATEST=false
 REBUILD=false
+RESTART=false
 FORCE=""
 
 for i in "$@"
@@ -44,6 +45,10 @@ do
     REBUILD=true;;
   "-b")
     REBUILD=true;;
+  "--restart")
+    RESTART=true;;
+  "-s")
+    RESTART=true;;
   "--force")
     FORCE="-f";;
   "-f")
@@ -81,7 +86,9 @@ if [[ $STATUS -eq 0 ]]; then
   fi
 fi
 
-make start
+if [[ $RESTART == true ]]; then
+  make start
+fi
 
 if [[ $? -gt 0 ]]; then STATUS=$(($STATUS | 16)); fi
 exit $STATUS

@@ -45,7 +45,7 @@ module.exports = function (app) {
   app.put('/app/status', auth.ensureAuthenticated(true), auth.authorizeMembersOf('admin'),
     function (req, res) {
 
-    var args = [];
+    var args = ['--restart'];
 
     if (req.query.version === 'latest') { args.push('--latest'); }
     if (req.query.force == 'yes')       { args.push('--force'); }
