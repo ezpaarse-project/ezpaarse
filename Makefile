@@ -216,11 +216,17 @@ platforms-update:
 	else git clone https://github.com/ezpaarse-project/ezpaarse-platforms.git platforms; \
 	fi
 
-# git pull on every git repositories
+# Stop the daemon, update to last tag and rebuild
 pull: platforms-update
-	@git pull
-	@echo "ezPAARSE has been updated, changes will take effect at next restart."
+	@./bin/update-app --rebuild
+	@echo "ezPAARSE has been updated."
+
+# Stop the daemon, update to bleeding edge and rebuild
+pull-latest: platforms-update
+	@./bin/update-app --latest --rebuild
+	@echo "ezPAARSE has been updated."
 
 update: pull
+update-latest: pull-latest
 
 .PHONY: test checkconfig nodejs platforms-update deb rpm tar exe clean-for-release version tag update pull start restart status stop doc
