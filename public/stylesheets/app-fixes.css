@@ -35,6 +35,10 @@
   min-width: 0;
 }
 
+.ui.disabled.button {
+  pointer-events: all;
+}
+
 /**
  * Fix bxSlider
  */
