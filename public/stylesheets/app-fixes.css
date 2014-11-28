@@ -35,7 +35,10 @@
   min-width: 0;
 }
 
-.ui.disabled.button {
+.ui.buttons .disabled.button,
+.ui.disabled.button,
+.ui.disabled.button:active,
+.ui.disabled.button:hover {
   pointer-events: all;
 }
 
