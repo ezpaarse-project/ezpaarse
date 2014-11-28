@@ -90,7 +90,7 @@ angular.module('ezPAARSE.directives', [])
     return {
       restrict: 'E',
       link: function (scope, element, attributes) {
-        element.sidebar({ overlay: true });
+        element.sidebar({ context: attributes.context });
       }
     };
   })

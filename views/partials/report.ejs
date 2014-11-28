@@ -26,9 +26,9 @@
           {{ 'report+' + category | translate }}
         </h3>
 
-        <table class="ui basic compact table">
+        <table class="ui basic celled compact table">
           <tr ng-repeat="(key, val) in report | reportElements:category">
-            <th class="four wide">{{ key }}</th>
+            <td class="four wide">{{ key }}</td>
             <td ng-bind-html="val | toLink:'_blank'"></td>
           </tr>
         </table>

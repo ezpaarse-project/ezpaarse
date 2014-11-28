@@ -8,11 +8,18 @@
       </div>
 
       <div ng-if="request.errorMessage" ng-bind="request.errorMessage" class="ui error message"></div>
-      <div class="progress-header">
-        <div>
-          <div class="ui progress" ng-class="{'loading': 'teal active', 'finalisation': 'teal', 'success': 'green', 'error': 'failed'}[request.state]">
-            <div class="bar" ng-style="{width: request.progress + '%'}" ng-switch on="request.state">
+
+
+
+      <div class="ui grid">
+        <div class="eight wide column">
+          <div class="ui progress" ng-class="{'loading': 'teal active', 'finalisation': 'teal', 'success': 'success', 'error': 'error'}[request.state]">
+            <div class="bar" ng-style="{width: request.progress + '%'}">
+              <div class="progress">{{ request.progress }}%</div>
+            </div>
+            <div class="label" ng-switch="request.state">
               <span ng-switch-default>{{ request.progress }}%</span>
+              <span ng-switch-when="loading" translate>process+processing</span>
               <span ng-switch-when="finalisation" translate>process+finalisation</span>
               <span ng-switch-when="success" translate>process+done</span>
               <span ng-switch-when="error" translate>process+error</span>
@@ -20,10 +27,12 @@
             </div>
           </div>
         </div>
-        <div>
-          <a ng-href="/{{ request.jobID }}" target="_blank" class="ui left labeled icon teal mini button" popup data-variation="inverted" title="{{ 'process+can_start_download' | translate }}"><i class="download disk icon"></i> {{ 'process+download' | translate }}</a>
-          <div ng-show="inProgress()" ng-click="abort()" class="ui right labeled icon red mini button"><i class="basic cancel icon"></i> {{ 'process+cancel' | translate }}</div>
-          <a href="/form" ng-hide="inProgress()" class="ui right labeled icon mini button"><i class="refresh icon"></i> {{ 'process+new' | translate }}</a>
+        <div class="eight wide column">
+          <div class="two fluid small ui buttons">
+            <a ng-href="/{{ request.jobID }}" target="_blank" class="ui left labeled icon teal button" popup="{{ 'process+can_start_download' | translate }}" data-variation="inverted"><i class="download disk icon"></i> {{ 'process+download' | translate }}</a>
+            <div ng-if="inProgress()" ng-click="abort()" class="ui right labeled icon red button"><i class="basic cancel icon"></i> {{ 'process+cancel' | translate }}</div>
+            <a href="/form" ng-if="!inProgress()" class="ui right labeled icon button"><i class="refresh icon"></i> {{ 'process+new' | translate }}</a>
+          </div>
         </div>
       </div>
 
@@ -39,19 +48,19 @@
           <div class="column">
             <table class="ui basic table">
               <tr>
-                <th translate>metrics+read_lines</th>
+                <td translate>metrics+read_lines</td>
                 <td class="right aligned" ng-bind="request.report.general['nb-lines-input'] | localNumber"></td>
               </tr>
               <tr>
-                <th translate translate-compile>metrics+generated_ecs</th>
+                <td translate translate-compile>metrics+generated_ecs</td>
                 <td class="right aligned" ng-bind="request.report.general['nb-ecs'] | localNumber"></td>
               </tr>
               <tr>
-                <th translate>metrics+duration</th>
+                <td translate>metrics+duration</td>
                 <td class="right aligned" ng-bind="request.report.general['Job-Duration']"></td>
               </tr>
               <tr>
-                <th translate>metrics+speed</th>
+                <td translate>metrics+speed</td>
                 <td class="right aligned" ng-bind="request.report.general['process-speed']"></td>
               </tr>
             </table>
@@ -60,15 +69,15 @@
           <div class="column">
             <table class="ui basic table">
               <tr>
-                <th translate>metrics+platforms_count</th>
+                <td translate>metrics+platforms_count</td>
                 <td class="right aligned" ng-bind="request.report.stats['platforms'] | localNumber"></td>
               </tr>
               <tr>
-                <th translate>metrics+html_count</th>
+                <td translate>metrics+html_count</td>
                 <td class="right aligned" ng-bind="request.report.stats['mime-HTML'] | localNumber"></td>
               </tr>
               <tr>
-                <th translate>metrics+pdf_count</th>
+                <td translate>metrics+pdf_count</td>
                 <td class="right aligned" ng-bind="request.report.stats['mime-PDF'] | localNumber"></td>
               </tr>
             </table>
@@ -77,7 +86,7 @@
 
         <div ng-switch-when="files">
           <p ng-hide="request.files" translate>process+no_files_sent</p>
-          <table ng-show="request.files" class="ui compact basic table">
+          <table ng-show="request.files" class="ui small very compact table">
             <thead><tr>
               <th class="twelve wide"translate>form+filename</th>
               <th class="four wide" translate>form+size</th>
@@ -95,21 +104,21 @@
           <div class="ui ten wide column">
             <table class="ui basic compact table">
               <tr ng-mouseenter="selectHelper('nb-lines-ignored')">
-                <th translate>rejects+ignored_lines</th>
+                <td translate>rejects+ignored_lines</td>
                 <td class="right aligned">{{ request.report.rejets['nb-lines-ignored'] | localNumber}}</td>
                 <td style="width: 150px;"></td>
               </tr>
 
               <tr ng-repeat="reject in request.rejects" ng-mouseenter="selectHelper(reject.key)">
-                <th>{{ reject.title | translate }} <i class="attention red icon" ng-show="reject.percent > 25"></i></th>
+                <td>{{ reject.title | translate }} <i class="attention red icon" ng-show="reject.percent > 25"></i></td>
                 <td class="right aligned" ng-class="{true: 'bold'}[reject.percent > 25]">{{ reject.number | localNumber}}</td>
-                <td><div class="ui warning progress"><div class="bar" style="width: {{reject.percent}}%"></div></div></td>
+                <td><div class="ui mini orange progress"><div class="bar" style="width: {{reject.percent}}%"></div></div></td>
               </tr>
 
               <tfoot>
-                <tr><th colspan="3" translate translate-values="{ nb: request.nbLines }" translate-compile>
+                <tr><td colspan="3" translate translate-values="{ nb: request.nbLines }" translate-compile>
                   rejects+relevant_lines
-                </th></tr>
+                </td></tr>
               </tfoot>
             </table>
           </div>
@@ -145,9 +154,9 @@
               <p class="ui header" translate>rejects+unknown_domains</p>
               <p class="inner" style="text-align: justify" translate>rejects+unknown_domains_help</p>
 
-              <a href="/info/domains/unknown" target="_blank" class="ui mini left labeled icon button"><i class="download disk icon"></i> {{ 'rejects+unknown_domains' | translate }}</a>
+              <a href="/info/domains/unknown" target="_blank" class="ui small left labeled icon button"><i class="download disk icon"></i> {{ 'rejects+unknown_domains' | translate }}</a>
             </div>
-            <div ng-switch-when="nb-lines-unknown-format">
+            <div ng-switch-when="nb-lines-unknown-formats">
               <p class="ui header" translate>rejects+unknown_formats</p>
               <p class="inner" style="text-align: justify" translate>rejects+unknown_formats_help</p>
             </div>
@@ -173,7 +182,7 @@
             <div class="content">
               <table class="ui basic compact table">
                 <tr ng-repeat="(key, val) in request.report | reportElements:category">
-                  <th class="four wide">{{ key }}</th>
+                  <td class="four wide">{{ key }}</td>
                   <td ng-bind-html="val | toLink:'_blank'"></td>
                 </tr>
               </table>

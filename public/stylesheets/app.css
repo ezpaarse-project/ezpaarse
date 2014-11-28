@@ -5,7 +5,6 @@ html, body {
 }
 
 body {
-  font-size: 15px;
   width: 100%;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   margin: 0px;
@@ -137,8 +136,9 @@ code {
 }
 
 #footer .grid .column {
-  font-size: 0.7rem;
-  margin: 0.5rem 0;
+  font-size: 0.8rem;
+  margin: 0;
+  padding: 0.5rem;
 }
 
 #footer p {
@@ -155,11 +155,10 @@ code {
   right: 70px;
 }
 
-#language-selector {
-  padding: 5px;
-}
+.ui.mini.progress { margin: 0; }
+.ui.mini.progress .bar { height: 0.8rem; }
 
-.ui.slightly.padded.segment {
+#language-selector {
   padding: 5px;
 }
 
@@ -213,6 +212,11 @@ textarea#log-lines {
 
 #settings-modal .actions .button {
   min-width: 200px;
+}
+
+#platforms-head .column {
+  padding: 0.2rem 1rem;
+  vertical-align: middle;
 }
 
 .bottom-padded-group > div {

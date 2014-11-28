@@ -40,17 +40,17 @@
             </div></div>
           </div>
 
-          <p class="center aligned"><button id="add-files-button" class="ui mini teal icon button" ez-trigger-click="#input-file">
+          <p class="center aligned"><button id="add-files-button" class="ui small teal icon button" ez-trigger-click="#input-file">
             <i class="plus icon"></i>
             {{ 'form+click_to_add' | translate }}
           </button></p>
 
-          <p><button ng-if="inputs.files.length" class="ui mini basic button" ng-click="inputs.clearFiles()">
+          <p><button ng-if="inputs.files.length" class="ui tiny basic button" ng-click="inputs.clearFiles()">
             <i class="trash icon"></i>
             {{ 'form+clear_files' | translate }}
           </button></p>
 
-          <table ng-if="inputs.files.length" class="ui small compact basic table">
+          <table ng-if="inputs.files.length" class="ui small very compact table">
             <thead><tr>
               <th class="twelve wide"translate>form+filename</th>
               <th class="four wide" translate>form+size</th>
@@ -69,8 +69,8 @@
         </div>
 
         <div class="ui center aligned basic segment">
-          <div class="ui big buttons">
-            <button ng-click="start()" class="ui teal button" ng-class="{ disabled: !inputs.has('files') }" ez-pulse="#add-files-button" ez-pulse-if="!inputs.has('files')" translate>form+process_files</button>
+          <div class="ui big buttons" ez-pulse="#add-files-button" ez-pulse-if="!inputs.has('files')">
+            <button ng-click="start()" class="ui teal button" ng-class="{ disabled: !inputs.has('files') }" translate>form+process_files</button>
             <button ng-click="getCurl()" class="ui icon teal button" popup data-variation="inverted" data-position="right center" title="{{ 'form+process_with_curl' | translate }}"><i class="copy small icon"></i></button>
           </div>
         </div>
@@ -83,8 +83,8 @@
         </div>
 
         <div class="ui center aligned basic segment">
-          <div class="ui big buttons">
-            <button ng-click="start()" class="ui teal button" ng-class="{ disabled: !inputs.has('text') }" ez-pulse="#log-lines" ez-pulse-if="!inputs.has('text')" translate>form+process_lines</button>
+          <div class="ui big buttons" ez-pulse="#log-lines" ez-pulse-if="!inputs.has('text')">
+            <button ng-click="start()" class="ui teal button" ng-class="{ disabled: !inputs.has('text') }" translate>form+process_lines</button>
             <button ng-click="getCurl()" class="ui icon teal button" popup data-variation="inverted" data-position="right center" title="{{ 'form+process_with_curl' | translate }}"><i class="copy small icon"></i></button>
           </div>
         </div>

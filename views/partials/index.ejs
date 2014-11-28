@@ -1,10 +1,12 @@
     <a href="https://github.com/ezpaarse-project/ezpaarse" target="_blank"><div class="ribbon">GitHub</div></a>
 
-    <div class="wrapper display-table">
+    <% include feedback %>
+
+    <div class="wrapper pusher display-table">
       <div id="header" class="ui inverted teal basic segment display-row">
         <div class="inner">
           <div class="top-right">
-            <a href="/process" class="ui mini inverted basic button" ng-switch="request.state">
+            <a href="/process" class="ui tiny inverted basic button" ng-switch="request.state">
               <span ng-switch-default translate>state+idle</span>
               <span ng-switch-when="loading" translate translate-values="{ percent: request.progress }">state+loading</span>
               <span ng-switch-when="success" translate>state+success</span>
@@ -13,7 +15,7 @@
               <span ng-switch-when="aborted" translate>state+aborted</span>
             </a>
 
-            <select id="language-selector" ng-model="currentLanguage" ng-change="useLanguage(currentLanguage)">
+            <select id="language-selector" class="basic-select" ng-model="currentLanguage" ng-change="useLanguage(currentLanguage)">
               <option value="fr">Français</option>
               <option value="en">English</option>
             </select>
@@ -35,7 +37,7 @@
                 <i class="user icon"></i> {{ user.name }} <i class="dropdown icon"></i>
                 <div class="menu">
                   <a class="item" href="/profile"><i class="user icon"></i> {{ 'menu+profile' | translate }}</a>
-                  <div class="item" ng-click="logout()"><i class="off icon"></i> {{ 'menu+logout' | translate }}</div>
+                  <div class="item" ng-click="logout()"><i class="sign out icon"></i> {{ 'menu+logout' | translate }}</div>
                 </div>
               </div>
             </div>
@@ -51,23 +53,21 @@
         <div class="ui two column relaxed grid">
           <div class="ui column left aligned">
             <div>
-              <p class="ui medium header">ezPAARSE v{{ ezVersion }}</p>
+              <p class="ui inverted medium header">ezPAARSE v{{ ezVersion }}</p>
               <p translate translate-values="links">footer+powered</p>
             </div>
           </div>
           <div class="ui column right aligned">
             <i class="big loading icon" ng-show="feedbackLoading" popup data-variation="inverted" title="{{ 'feedback+checking_server' | translate }}"></i>
-            <div class="ui mini icon button" popup="{{ (feedbackAvailable ? 'feedback+give_us_opinion' : 'feedback+not_available') | translate }}" data-variation="inverted" ng-class="{ disabled: !feedbackAvailable }" ez-toggle-sidebar="#feedback-sidebar">
+            <div class="ui tiny icon button" popup="{{ (feedbackAvailable ? 'feedback+give_us_opinion' : 'feedback+not_available') | translate }}" data-variation="inverted" ng-class="{ disabled: !feedbackAvailable }" ez-toggle-sidebar="#feedback-sidebar">
               <i class="comment icon"></i>
               {{ 'feedback+title' | translate }}
             </div>
-            <a ng-href="mailto:{{ contact.mail }}" popup data-variation="inverted" title="{{ 'social+mail' | translate:contact }}" class="ui mini icon teal button"><i class="tiny mail icon"></i></a>
-            <a ng-href="{{ contact.facebook }}" target="_blank" popup data-variation="inverted" title="{{ 'social+facebook' | translate }}" class="ui mini icon facebook button"><i class="tiny facebook icon"></i></a>
-            <a ng-href="{{ contact.twitter }}" target="_blank" popup data-variation="inverted" title="{{ 'social+twitter' | translate }}" class="ui mini icon twitter button"><i class="tiny twitter icon"></i></a>
-            <a ng-href="{{ contact.googleplus }}" target="_blank" popup data-variation="inverted" title="{{ 'social+googleplus' | translate }}" class="ui mini icon google plus button"><i class="tiny google plus icon"></i></a>
+            <a ng-href="mailto:{{ contact.mail }}" popup="{{ 'social+mail' | translate:contact }}" data-variation="inverted" class="ui tiny icon teal button"><i class="tiny mail icon"></i></a>
+            <a ng-href="{{ contact.facebook }}" target="_blank" popup="{{ 'social+facebook' | translate }}" data-variation="inverted" class="ui tiny icon facebook button"><i class="tiny facebook icon"></i></a>
+            <a ng-href="{{ contact.twitter }}" target="_blank" popup="{{ 'social+twitter' | translate }}" data-variation="inverted" class="ui tiny icon twitter button"><i class="tiny twitter icon"></i></a>
+            <a ng-href="{{ contact.googleplus }}" target="_blank" popup="{{ 'social+googleplus' | translate }}" data-variation="inverted" class="ui tiny icon google plus button"><i class="tiny google plus icon"></i></a>
           </div>
         </div>
       </div>
-
-      <% include feedback %>
     </div>

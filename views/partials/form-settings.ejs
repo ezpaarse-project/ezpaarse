@@ -13,138 +13,142 @@
         </div>
       </div>
 
-    <div class="ui small form">
       <div class="ui teal dividing header" translate>settings+input</div>
-      <div class="three fields">
-        <div class="select field">
-          <label translate>settings+log_type</label>
-          <select ng-model="ss.settings.proxyType" ng-options="key as value for (key,value) in ss.selections.proxyTypes">
-            <option value="" translate>settings+auto_recognition</option>
-          </select>
-          <div ng-show="showHelp" class="ui inverted teal bottom attached segment" translate>settings+log_type_help</div>
+
+      <div class="ui form">
+        <div class="three fields">
+          <div class="select field">
+            <label translate>settings+log_type</label>
+            <select ng-model="ss.settings.proxyType" ng-options="key as value for (key,value) in ss.selections.proxyTypes">
+              <option value="" translate>settings+auto_recognition</option>
+            </select>
+            <div ng-show="showHelp" class="ui inverted teal bottom segment" translate>settings+log_type_help</div>
+          </div>
+
+          <div class="field">
+            <label translate>settings+date_format</label>
+            <input placeholder="DD/MMM/YYYY:HH:mm:ss Z" type="text" ng-model="ss.settings.headers['Date-Format']">
+            <div ng-show="showHelp" class="ui inverted teal bottom segment" translate>settings+date_format_help</div>
+          </div>
+
+          <div class="field">
+            <label translate>settings+relative_domain</label>
+            <input placeholder="www.domain.com" type="text" ng-model="ss.settings.headers['Relative-Domain']">
+            <div ng-show="showHelp" class="ui inverted teal bottom segment" translate>settings+relative_domain_help</div>
+          </div>
         </div>
 
-        <div class="field">
-          <label translate>settings+date_format</label>
-          <input placeholder="DD/MMM/YYYY:HH:mm:ss Z" type="text" ng-model="ss.settings.headers['Date-Format']">
-          <div ng-show="showHelp" class="ui inverted teal bottom attached segment" translate>settings+date_format_help</div>
+        <div class="field" ng-show="ss.settings.proxyType">
+          <label translate>settings+log_format</label>
+          <textarea placeholder="%h %t %r %s" type="text" ng-model="ss.settings.logFormat"></textarea>
+          <div ng-show="showHelp" class="ui inverted teal bottom segment" translate translate-values="{ docURL: '/doc/formats.html' }" translate>settings+log_format_help</div>
         </div>
-
-        <div class="field">
-          <label translate>settings+relative_domain</label>
-          <input placeholder="www.domain.com" type="text" ng-model="ss.settings.headers['Relative-Domain']">
-          <div ng-show="showHelp" class="ui inverted teal bottom attached segment" translate>settings+relative_domain_help</div>
-        </div>
-      </div>
-
-      <div class="field" ng-show="ss.settings.proxyType">
-        <label translate>settings+log_format</label>
-        <textarea placeholder="%h %t %r %s" type="text" ng-model="ss.settings.logFormat"></textarea>
-        <div ng-show="showHelp" class="ui inverted teal bottom attached segment" translate translate-values="{ docURL: '/doc/formats.html' }" translate>settings+log_format_help</div>
       </div>
 
       <div class="ui red dividing header" translate>settings+output</div>
-      <div class="three fields">
-        <div class="field">
-          <label translate>settings+result_format</label>
-          <select ng-model="ss.settings.headers['Accept']" ng-options="f.mime as f.type for f in ss.selections.resultFormats"></select>
-          <div ng-show="showHelp" class="ui inverted red bottom attached segment" translate>settings+result_format_help</div>
-        </div>
-
-        <div class="field">
-          <label translate>settings+system_traces</label>
-          <select ng-model="ss.settings.headers['Traces-Level']" ng-options="t.level as t.desc for t in ss.selections.tracesLevels"></select>
-          <div ng-show="showHelp" class="ui inverted red bottom attached segment" translate>settings+system_traces_help</div>
-        </div>
-
-        <div class="field">
-          <label translate>settings+output_fields</label>
-          <div class="two fields">
-            <div class="field">
-              <form ng-submit="addOutputField('plus')">
-                <div class="ui icon input">
-                  <input type="text" placeholder="{{ 'settings+output_fields_add' | translate }}" ng-model="$parent.plusField">
-                  <i class="plus link icon" ng-click="addOutputField('plus')"></i>
-                </div>
-              </form>
-            </div>
-
-            <div class="field">
-              <form ng-submit="addOutputField('minus')">
-                <div class="ui icon input">
-                  <input type="text" placeholder="{{ 'settings+output_fields_remove' | translate }}" ng-model="$parent.minusField">
-                  <i class="minus link icon" ng-click="addOutputField('minus')"></i>
-                </div>
-              </form>
-            </div>
+      <div class="ui form">
+        <div class="three fields">
+          <div class="field">
+            <label translate>settings+result_format</label>
+            <select ng-model="ss.settings.headers['Accept']" ng-options="f.mime as f.type for f in ss.selections.resultFormats"></select>
+            <div ng-show="showHelp" class="ui inverted red bottom segment" translate>settings+result_format_help</div>
           </div>
 
-          <div class="inline-labels field">
-            <div class="ui purple normalized label" ng-repeat="field in ss.settings.outputFields.minus track by $index">
-              - {{ field }}
-              <i class="delete icon" ng-click="removeOutputField(field, 'minus')"></i>
-            </div>
-
-            <div class="ui orange normalized label" ng-repeat="field in ss.settings.outputFields.plus track by $index">
-              + {{ field }}
-              <i class="delete icon" ng-click="removeOutputField(field, 'plus')"></i>
-            </div>
+          <div class="field">
+            <label translate>settings+system_traces</label>
+            <select ng-model="ss.settings.headers['Traces-Level']" ng-options="t.level as t.desc for t in ss.selections.tracesLevels"></select>
+            <div ng-show="showHelp" class="ui inverted red bottom segment" translate>settings+system_traces_help</div>
           </div>
 
-          <div ng-show="showHelp" class="ui inverted red segment" translate>settings+output_fields_help</div>
-        </div>
-      </div>
+          <div class="field">
+            <label translate>settings+output_fields</label>
+            <div class="two fields">
+              <div class="field">
+                <form ng-submit="addOutputField('plus')">
+                  <div class="ui icon input">
+                    <input type="text" placeholder="{{ 'settings+output_fields_add' | translate }}" ng-model="$parent.plusField">
+                    <i class="plus link icon" ng-click="addOutputField('plus')"></i>
+                  </div>
+                </form>
+              </div>
 
-      <div class="three fields">
-        <div class="field">
-          <label translate>settings+notifications</label>
-          <input placeholder="{{ 'settings+notification_mails' | translate }}" type="text" ng-model="ss.settings.notificationMails">
-          <div ng-show="showHelp" class="ui inverted red bottom attached segment" translate>settings+notifications_help</div>
+              <div class="field">
+                <form ng-submit="addOutputField('minus')">
+                  <div class="ui icon input">
+                    <input type="text" placeholder="{{ 'settings+output_fields_remove' | translate }}" ng-model="$parent.minusField">
+                    <i class="minus link icon" ng-click="addOutputField('minus')"></i>
+                  </div>
+                </form>
+              </div>
+            </div>
+
+            <div class="inline-labels field">
+              <div class="ui purple normalized label" ng-repeat="field in ss.settings.outputFields.minus track by $index">
+                - {{ field }}
+                <i class="delete icon" ng-click="removeOutputField(field, 'minus')"></i>
+              </div>
+
+              <div class="ui orange normalized label" ng-repeat="field in ss.settings.outputFields.plus track by $index">
+                + {{ field }}
+                <i class="delete icon" ng-click="removeOutputField(field, 'plus')"></i>
+              </div>
+            </div>
+
+            <div ng-show="showHelp" class="ui inverted red segment" translate>settings+output_fields_help</div>
+          </div>
         </div>
 
-        <div class="field">
-          <label><span translate>settings+counter_reports</span> *</label>
-          <div class="grouped fields">
-            <div class="field">
-              <div class="ui checkbox">
-                <input id="counter-JR1" type="checkbox" ng-model="ss.settings.counter.jr1">
-                <label for="counter-JR1">JR1</label>
+        <div class="three fields">
+          <div class="field">
+            <label translate>settings+notifications</label>
+            <input placeholder="{{ 'settings+notification_mails' | translate }}" type="text" ng-model="ss.settings.notificationMails">
+            <div ng-show="showHelp" class="ui inverted red bottom segment" translate>settings+notifications_help</div>
+          </div>
+
+          <div class="field">
+            <label><span translate>settings+counter_reports</span> *</label>
+            <div class="grouped fields">
+              <div class="field">
+                <div class="ui checkbox">
+                  <input id="counter-JR1" type="checkbox" ng-model="ss.settings.counter.jr1">
+                  <label for="counter-JR1">JR1</label>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <div class="field">
-        * <i translate>settings+counter_warning</i>
+        <div class="field">
+          * <i translate>settings+counter_warning</i>
+        </div>
       </div>
 
       <div class="ui purple dividing header" translate>settings+headers</div>
       <div ng-show="showHelp" class="ui inverted purple segment" translate>settings+headers_help</div>
-      <div class="ui small form">
+
+      <div class="ui form">
         <div class="field">
           <div ng-click="ss.addCustomHeader()" class="ui small icon button"><i class="plus icon"></i> {{ 'settings+new' | translate }}</div>
         </div>
 
-        <div class="five fields" ng-repeat="header in ss.settings.customHeaders">
-          <div class="field">
+        <div class="fields" ng-repeat="header in ss.settings.customHeaders">
+          <div class="five wide field">
             <input type="text" placeholder="{{ 'settings+name' | translate}}" ng-model="ss.settings.customHeaders[$index].name">
           </div>
-          <div class="three wide field">
+          <div class="ten wide field">
             <input type="text" placeholder="{{ 'settings+value' | translate }}" ng-model="ss.settings.customHeaders[$index].value">
           </div>
           <div class="field">
-            <div class="ui small icon button" ng-click="ss.removeCustomHeader($index)"><i class="red trash icon"></i></div>
+            <div class="ui icon button" ng-click="ss.removeCustomHeader($index)"><i class="red trash icon"></i></div>
           </div>
         </div>
       </div>
-    </div>
 
-    <div class="ui right aligned basic segment">
-      <p><div class="ui slider checkbox">
-        <input id="rememberToggle" type="checkbox" ng-model="ss.remember" ng-change="ss.saveRemember()">
-        <label for="rememberToggle" translate>settings+remember</label>
-      </div></p>
-      <p>
-      <div class="ui right labeled mini icon button" ng-click="ss.loadDefault()"><i class="repeat icon"></i> {{ 'settings+reset' | translate }}</div></p>
-    </div>
+      <div class="ui right aligned basic segment">
+        <p><div class="ui toggle checkbox">
+          <input id="rememberToggle" type="checkbox" ng-model="ss.remember" ng-change="ss.saveRemember()">
+          <label for="rememberToggle" translate>settings+remember</label>
+        </div></p>
+        <p>
+        <div class="ui right labeled icon button" ng-click="ss.loadDefault()"><i class="repeat icon"></i> {{ 'settings+reset' | translate }}</div></p>
+      </div>

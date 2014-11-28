@@ -157,6 +157,7 @@ ezLanguages['en'] = {
   "process+title":              "Processing",
   "process+description":        "Your logs are being processed by ezPAARSE. You can follow the processing and the different reject types in realtime",
   "process+description_done":   "ezPAARSE has finished processing your logs. <a href='https://github.com/ezpaarse-project/ezpaarse/raw/master/misc/windows/ezPAARSE-Render.xltm'>Excel</a> and <a href='https://github.com/ezpaarse-project/ezpaarse/raw/master/misc/windows/ezPAARSE-Render.ots'>LibreOffice</a> macros are available if you want to get a first glimpse of the results.",
+  "process+processing":         "Processing...",
   "process+finalisation":       "Finalisation...",
   "process+done":               "Done",
   "process+error":              "Error",

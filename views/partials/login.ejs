@@ -3,7 +3,7 @@
  <div id="container" ng-controller="LoginPageCtrl">
     <div class="ui center aligned segment">
       <div class="shifted top-right">
-        <select id="language-selector" ng-model="currentLanguage" ng-change="useLanguage(currentLanguage)">
+        <select id="language-selector" class="basic-select" ng-model="currentLanguage" ng-change="useLanguage(currentLanguage)">
           <option value="fr">Français</option>
           <option value="en">English</option>
         </select>
@@ -11,7 +11,7 @@
 
       <p><img src="/assets/img/logo.png"/></p>
 
-      <div ng-switch="noUsers">
+      <div class="ui basic segment" ng-switch="noUsers">
         <div ng-switch-when="undefined">
           <i class="loading icon"></i> {{ 'login+checking_users' | translate }}
         </div>
@@ -38,7 +38,7 @@
     <div class="ui two column page grid">
       <div class="column">
         <div class="ui huge center aligned header" translate="login+ezpaarse_is"></div>
-        <div class="ui justified segment" translate translate-values='links'>login+ezpaarse_description</div>
+        <div class="ui justify aligned segment" translate translate-values='links'>login+ezpaarse_description</div>
 
          <div class="ui segment">
           <div class="ui divided list">

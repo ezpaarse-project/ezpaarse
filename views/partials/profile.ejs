@@ -6,36 +6,27 @@
       <form name="passwordForm" class="ui form segment" ng-class="{ error: prf.password.error }" ng-submit="prf.submitPassword(passwordForm.$valid)" novalidate>
         <h3 class="ui header" translate>profile+change_password</h3>
         <div class="three fields">
-          <div class="field" ng-class="{'error': passwordForm.oldPassword.$invalid && !passwordForm.oldPassword.$pristine}">
+          <div class="required field" ng-class="{'error': passwordForm.oldPassword.$invalid && !passwordForm.oldPassword.$pristine}">
             <label translate>profile+old_password</label>
-            <div class="ui left labeled icon input">
+            <div class="ui left icon input">
               <i class="lock icon"></i>
               <input type="password" name="oldPassword" ng-model="prf.password.oldPassword" placeholder="{{ 'profile+old_password' | translate }}" required>
-              <div class="ui corner label">
-                <i class="icon asterisk"></i>
-              </div>
             </div>
           </div>
 
-          <div class="field" ng-class="{'error': passwordForm.newPassword.$invalid && !passwordForm.newPassword.$pristine}">
+          <div class="required field" ng-class="{'error': passwordForm.newPassword.$invalid && !passwordForm.newPassword.$pristine}">
             <label translate>profile+new_password</label>
-            <div class="ui left labeled icon input">
+            <div class="ui left icon input">
               <i class="lock icon"></i>
               <input type="password" name="newPassword" ng-model="prf.password.newPassword" placeholder="{{ 'profile+new_password' | translate }}" required>
-              <div class="ui corner label">
-                <i class="icon asterisk"></i>
-              </div>
             </div>
           </div>
 
-          <div class="field" ng-class="{'error': passwordForm.confirm.$invalid && !passwordForm.confirm.$pristine}">
+          <div class="required field" ng-class="{'error': passwordForm.confirm.$invalid && !passwordForm.confirm.$pristine}">
             <label translate>profile+confirm</label>
-            <div class="ui left labeled icon input">
+            <div class="ui left icon input">
               <i class="lock icon"></i>
               <input type="password" name="confirm" ng-model="prf.password.confirm" placeholder="{{ 'profile+confirm' | translate }}" required>
-              <div class="ui corner label">
-                <i class="icon asterisk"></i>
-              </div>
             </div>
           </div>
         </div>

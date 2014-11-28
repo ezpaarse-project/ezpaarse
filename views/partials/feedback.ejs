@@ -1,4 +1,4 @@
-  <sidebar id="feedback-sidebar" ng-if="feedbackAvailable" class="ui very wide feedback sidebar segment" ng-controller="FeedbackCtrl">
+  <sidebar context="body>.wrapper" id="feedback-sidebar" ng-if="feedbackAvailable" class="ui very wide feedback push sidebar segment" ng-controller="FeedbackCtrl">
     <i class="big close link icon" ez-toggle-sidebar="#feedback-sidebar"></i>
 
     <div class="ui header">
@@ -19,16 +19,15 @@
 
     <p translate translate-values="{ recipients: feedbackRecipients }">feedback+recipients</p>
     <form name="feedbackForm" ng-submit="sendFeedback(feedbackForm.$valid)" class="ui form" novalidate>
-      <div class="field" ng-class="{'error': feedbackForm.email.$invalid && !feedbackForm.email.$pristine, 'disabled': fb.mail}">
+      <div class="required field" ng-class="{'error': feedbackForm.email.$invalid && !feedbackForm.email.$pristine, 'disabled': fb.mail}">
         <label translate>feedback+address</label>
-        <div class="ui left labeled icon input">
+        <div class="ui left icon input">
           <input type="text" name="email" placeholder="{{ 'feedback+email' | translate }}" ng-model="fb.mail" ng-disabled="fb.mail" required>
           <i class="mail icon"></i>
-          <div class="ui corner label"><i class="icon asterisk"></i></div>
         </div>
       </div>
 
-      <div class="field" ng-class="{'error': feedbackForm.comment.$invalid && !feedbackForm.comment.$pristine}">
+      <div class="required field" ng-class="{'error': feedbackForm.comment.$invalid && !feedbackForm.comment.$pristine}">
         <label translate>feedback+comment</label>
         <textarea name="comment" placeholder="{{ 'feedback+what_do_you_think' | translate }}" ng-model="fb.comment" required></textarea>
       </div>

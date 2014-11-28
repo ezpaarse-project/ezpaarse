@@ -7,7 +7,7 @@
       <div class="ui top attached tabular menu">
         <a class="item" ng-click="adm.selectTab('platforms')" ng-class="{'platforms': 'active'}[adm.tab]">
           {{ 'admin+platforms' | translate }}
-          <i class="icon" ng-hide="adm.platforms.refreshing" ng-class="{'uptodate': 'green ok sign', 'outdated': 'red attention', 'error': 'question'}[adm.platforms.git['from-head']]"></i>
+          <i class="icon" ng-hide="adm.platforms.refreshing" ng-class="{'uptodate': 'green check circle', 'outdated': 'red attention', 'error': 'question'}[adm.platforms.git['from-head']]"></i>
           <i class="loading icon" ng-show="adm.platforms.refreshing"></i>
         </a>
 
@@ -15,7 +15,7 @@
 
         <a class="item" ng-click="adm.selectTab('system')" ng-class="{'system': 'active'}[adm.tab]">
           {{ 'admin+system' | translate }}
-          <i class="red attention icon" ng-show="adm.software.outdated"></i>
+          <i class="red warning circle icon" ng-show="adm.software.outdated"></i>
         </a>
       </div>
 
@@ -57,7 +57,7 @@
             <p translate>admin+soft_upward_stable</p>
           </div>
           <div class="ui icon small info message" ng-show="adm.software.git['local-commits'] || adm.software.git['local-changes']">
-            <i class="exclamation icon"></i>
+            <i class="warning circle icon"></i>
             <div class="content">
               <div class="header" translate>admin+attention</div>
               <p translate>admin+soft_local_changes</p>
@@ -89,7 +89,7 @@
           </div>
 
           <div class="ui icon small info message" ng-show="adm.platforms.git['local-commits'] || adm.platforms.git['local-changes']">
-            <i class="exclamation icon"></i>
+            <i class="warning circle icon"></i>
             <div class="content">
               <div class="header" translate>admin+attention</div>
               <p translate>admin+platforms_local_changes</p>
@@ -98,21 +98,23 @@
           </div>
 
           <p class="center aligned" ng-show="adm.platforms.refreshingList"><i class="big loading icon"></i></p>
-          <div class="ui error compact message" ng-show="adm.platforms.erroredList"><i class="attention icon"></i> {{ 'admin+get_platforms_fail' | translate }}</div>
-          <div class="ui warning compact message" ng-show="adm.platforms.erroredChanges"><i class="attention icon"></i>{{ 'admin+get_outdated_fail' | translate }}</div>
+          <div class="ui error compact message" ng-show="adm.platforms.erroredList"><i class="warning circle icon"></i> {{ 'admin+get_platforms_fail' | translate }}</div>
+          <div class="ui warning compact message" ng-show="adm.platforms.erroredChanges"><i class="warning circle icon"></i>{{ 'admin+get_outdated_fail' | translate }}</div>
 
           <div class="ui info message" ng-hide="adm.platforms.refreshingList || adm.platforms.brandNew.length == 0">
             <div class="ui small header" translate>admin+new_platforms_available</div>
             <p ng-bind="adm.platforms.brandNew | join:', '"></p>
           </div>
 
-          <div class="ui top attached slightly padded segment" ng-hide="adm.platforms.refreshingList">
-            <div class="ui small borderless left icon input">
-              <input type="text" placeholder="{{ 'admin+search' | translate }}" ng-model="overallSearch">
-              <i class="search icon"></i>
+          <div id="platforms-head" class="ui top attached grid segment" ng-hide="adm.platforms.refreshingList">
+            <div class="eight wide column">
+              <div class="ui small borderless left icon input">
+                <input type="text" placeholder="{{ 'admin+search' | translate }}" ng-model="overallSearch">
+                <i class="search icon"></i>
+              </div>
             </div>
 
-            <div class="ui right floated vertical basic segment">
+            <div class="right aligned eight wide column">
               <div class="ui checkbox">
                 <input type="checkbox" id="only-outdated" ng-model="onlyOutdated">
                 <label for="only-outdated" translate>admin+outdated_only</label>
@@ -133,19 +135,19 @@
                 <a ng-href="{{ manifest.docurl }}" title="{{ 'admin+analysis' | translate }}"><img src="/img/icon-analogist.png"></a>
                 <a ng-show="manifest['pkb-packages'].length" ng-click="adm.togglePkbOf(manifest.name)" title="{{ 'admin+knowledge_bases' | translate }}"><i class="text file link icon"></i></a>
               </td>
-              <td><i ng-if="manifest.hasChanges" class="attention icon"></i> {{ manifest.longname }}</td>
+              <td><i ng-if="manifest.hasChanges" class="warning circle icon"></i> {{ manifest.longname }}</td>
               <td ng-bind="manifest.status"></td>
               <td ng-bind="manifest.version"></td>
             </tr>
             <tr ng-repeat-end ng-if="adm.selectedPKBs[manifest.name]" ng-class="{ even: $even, odd: $odd }">
               <td></td>
               <td>
-                <table class="ui compact table segment">
-                  <tr>
+                <table class="ui very compact small table">
+                  <thead><tr>
                     <th class="ten wide" translate>admin+package</th>
                     <th class="three wide" translate>admin+entries</th>
                     <th class="three wide" translate>admin+date</th>
-                  </tr>
+                  </tr></thead>
                   <tr ng-repeat="package in manifest['pkb-packages']">
                     <td ng-bind="package.name"></td>
                     <td ng-bind="package.entries | localNumber" class="right aligned"></td>
@@ -174,16 +176,16 @@
             <form class="ui small form" ng-submit="adm.createUser()">
               <div class="four fields">
                 <div class="field">
-                  <div class="ui mini input"><input type="text" placeholder="{{ 'admin+email' | translate }}" ng-model="adm.credentials.userid"></div>
+                  <input type="text" placeholder="{{ 'admin+email' | translate }}" ng-model="adm.credentials.userid">
                 </div>
                 <div class="field">
-                  <div class="ui mini input"><input type="text" placeholder="{{ 'admin+group' | translate }}" ng-model="adm.credentials.group"></div>
+                  <input type="text" placeholder="{{ 'admin+group' | translate }}" ng-model="adm.credentials.group">
                 </div>
                 <div class="field">
-                  <div class="ui mini input"><input type="password" placeholder="{{ 'admin+password' | translate }}" ng-model="adm.credentials.password"></div>
+                  <input type="password" placeholder="{{ 'admin+password' | translate }}" ng-model="adm.credentials.password">
                 </div>
                 <div class="field">
-                  <button class="ui tiny left labeled icon submit button" ng-class="{ loading: adm.creatingUser }" ng-disabled="adm.creatingUser"><i class="plus icon"></i> {{ 'admin+add' | translate }}</button>
+                  <button class="ui left icon small submit button" ng-class="{ loading: adm.creatingUser }" ng-disabled="adm.creatingUser"><i class="plus icon"></i> {{ 'admin+add' | translate }}</button>
                 </div>
               </div>
             </form>
@@ -217,10 +219,10 @@
 
                     <div class="two fields">
                       <div class="right aligned field">
-                        <button class="ui left labeled mini icon green button" ng-class="{ loading: adm.changed[user.username]._saving }"><i class="checkmark icon"></i>{{ 'admin+save' | translate }}</button>
+                        <button class="ui left labeled icon green button" ng-class="{ loading: adm.changed[user.username]._saving }"><i class="checkmark icon"></i>{{ 'admin+save' | translate }}</button>
                       </div>
                       <div class="left aligned field">
-                        <div ng-click="adm.toggleModification(user)" class="ui right labeled mini icon red button"><i class="remove icon"></i> {{ 'admin+cancel' | translate }}</div>
+                        <div ng-click="adm.toggleModification(user)" class="ui right labeled icon red button"><i class="remove icon"></i> {{ 'admin+cancel' | translate }}</div>
                       </div>
                     </div>
                   </form>
