@@ -11,6 +11,20 @@
       "Log-Format-ezproxy": "%h %{session}<[a-zA-Z0-9\\-\\+]+> %u %t \"%r\" %s %b %{user}<[a-zA-Z0-9\\-\\+,]+>"
     }
   },
+  "00-ge-ezproxy-1": {
+    "fullName": "EZproxy (with user-agent) : %h %l %u %t \"%r\" %s %b \"%{user-agent}<.*>\"",
+    "country": "Generic",
+    "headers": {
+      "Log-Format-ezproxy": "%h %l %u %t \"%r\" %s %b \"%{user-agent}<.*>\""
+    }
+  },
+  "00-ge-ezproxy-2": {
+    "fullName": "EZproxy (with referer) : %t %h %{session} %U \"%{referer}<[^ ]+>\" %s",
+    "country": "Generic",
+    "headers": {
+      "Log-Format-ezproxy": "%t %h %{session} %U \"%{referer}<[^ ]+>\" %s"
+    }
+  },
   "01-fr-univ-pda": {
     "fullName": "Université Paris Descartes Apache",
     "country": "France",
