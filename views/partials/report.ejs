@@ -20,7 +20,7 @@
           <li translate>report+fail_cause_2</li>
         </ul>
       </div>
-      <div ng-show="reportLoading"><i class="loading icon"></i> {{ 'report+loading' | translate }}</div>
+      <div ng-show="reportLoading"><i class="loading spinner icon"></i> {{ 'report+loading' | translate }}</div>
       <div ng-repeat="category in report | reportCategories">
         <h3 id="{{ category }}" class="ui purple dividing header">
           {{ 'report+' + category | translate }}
@@ -38,7 +38,7 @@
         report+system_traces
       </h3>
       <div class="ui no-print terminal inverted segment">
-        <div ng-show="tracesLoading"><i class="loading icon"></i> {{ 'report+loading' | translate }}</div>
+        <div ng-show="tracesLoading"><i class="loading spinner icon"></i> {{ 'report+loading' | translate }}</div>
         <div ng-show="tracesError"><i class="attention icon"></i> {{ 'report+traces_fail' | translate }}</div>
         <div ng-repeat="log in traces track by $index">
           <span ng-class="log.level" ng-bind="log.level"></span>: {{ log.message }}

@@ -8,7 +8,7 @@
         <a class="item" ng-click="adm.selectTab('platforms')" ng-class="{'platforms': 'active'}[adm.tab]">
           {{ 'admin+platforms' | translate }}
           <i class="icon" ng-hide="adm.platforms.refreshing" ng-class="{'uptodate': 'green check circle', 'outdated': 'red attention', 'error': 'question'}[adm.platforms.git['from-head']]"></i>
-          <i class="loading icon" ng-show="adm.platforms.refreshing"></i>
+          <i class="loading spinner icon" ng-show="adm.platforms.refreshing"></i>
         </a>
 
         <a class="item" ng-click="adm.selectTab('users')" ng-class="{'users': 'active'}[adm.tab]" translate>admin+users</a>
@@ -97,7 +97,7 @@
             </div>
           </div>
 
-          <p class="center aligned" ng-show="adm.platforms.refreshingList"><i class="big loading icon"></i></p>
+          <p class="center aligned" ng-show="adm.platforms.refreshingList"><i class="big loading spinner icon"></i></p>
           <div class="ui error compact message" ng-show="adm.platforms.erroredList"><i class="warning circle icon"></i> {{ 'admin+get_platforms_fail' | translate }}</div>
           <div class="ui warning compact message" ng-show="adm.platforms.erroredChanges"><i class="warning circle icon"></i>{{ 'admin+get_outdated_fail' | translate }}</div>
 
@@ -169,7 +169,7 @@
         </div>
 
         <div ng-switch-when="users"  ng-controller="AdminUsersCtrl">
-          <p ng-show="adm.loadingUsers" class="center aligned"><i class="big loading icon"></i></p>
+          <p ng-show="adm.loadingUsers" class="center aligned"><i class="big loading spinner icon"></i></p>
           <div ng-show="adm.usersError" class="ui compact error message">{{ (adm.usersError || '') | translate }}</div>
 
           <div ng-hide="adm.loadingUsers">
