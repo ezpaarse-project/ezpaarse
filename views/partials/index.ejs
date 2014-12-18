@@ -6,6 +6,9 @@
       <div id="header" class="ui inverted teal basic segment display-row">
         <div class="inner">
           <div class="top-right">
+            <div class="ui tiny inverted basic button" ng-show="synchronizing"><i class="loading circle notched icon"></i> {{ 'state+synchronizing' | translate }}</div>
+            <div class="ui tiny inverted basic button" ng-hide="synchronizing" translate>state+synchronized</div>
+
             <a href="/process" class="ui tiny inverted basic button" ng-switch="request.state">
               <span ng-switch-default translate>state+idle</span>
               <span ng-switch-when="loading" translate translate-values="{ percent: request.progress }">state+loading</span>

@@ -10,6 +10,7 @@ var cookieParser  = require('cookie-parser');
 
 var pkg           = require('./package.json');
 var config        = require('./lib/config.js');
+var config        = require('./lib/config.js');
 var http          = require('http');
 var path          = require('path');
 var mkdirp        = require('mkdirp');
@@ -202,6 +203,7 @@ require('./routes/logs')(app);
 require('./routes/admin')(app);
 require('./routes/auth')(app);
 require('./routes/feedback')(app);
+require('./lib/castor.js')(app);
 
 // For angular HTML5 mode
 app.get('*', function (req, res) {
@@ -232,9 +234,11 @@ parserlist.init(function (errors, duplicates) {
 
   require('./lib/socketio.js').listen(server);
 
-  server.listen(app.get('port'), function () {
-    console.log(pkg.name + "-" + pkg.version +
-      " listening on http://localhost:" + app.get('port') + " (pid is " + process.pid + ")");
+  require('./lib/mongo.js').connect(function () {
+    server.listen(app.get('port'), function () {
+      console.log(pkg.name + "-" + pkg.version +
+        " listening on http://localhost:" + app.get('port') + " (pid is " + process.pid + ")");
+    });
   });
 });
 

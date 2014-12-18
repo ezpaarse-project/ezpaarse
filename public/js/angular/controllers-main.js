@@ -65,6 +65,18 @@ angular.module('ezPAARSE.main-controllers', [])
         $scope.feedbackAvailable = false;
       });
 
+    $http.get('/castor/state')
+      .success(function (data) {
+        $scope.synchronizing = (data == 'synchronizing');
+      });
+
+    socket.on('castor:synchronizing', function () {
+      $scope.synchronizing = true;
+    });
+    socket.on('castor:synchronized', function () {
+      $scope.synchronizing = false;
+    });
+
     /**
      * Get app version
      */

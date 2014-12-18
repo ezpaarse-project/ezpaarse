@@ -65,6 +65,9 @@ ezLanguages['fr'] = {
   "menu+documentation": "Documentation",
   "footer+powered":     "Propulsé par <a href=\"{{ nodejs }}\" target=\"_blank\">Node.js</a> et <a href=\"{{ expressjs }}\" target=\"_blank\">Express 4</a>",
 
+  // PKBs state
+  "state+synchronizing": "Synchronisation...",
+  "state+synchronized":  "Synchronisé",
   // Process state button
   "state+idle":         "Aucun traitement en cours",
   "state+loading":      "Traitement en cours... {{ percent }}%",
