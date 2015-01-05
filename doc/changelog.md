@@ -1,6 +1,13 @@
 # Versions ezPAARSE #
 
-## 2.0.0  ## 
+## 2.1.0  ## 
+##### 31/10/2014 - NoSQL embarqué #####
+- Mise à jour de semantic-UI
+- NoSQL embarqué dans la branche castor
+- Ajout des génériques dans les pré-definis
+- Ajout de nouveaux parseurs (juridique)
+- Fichier des domaines inconnus téléchargeable
+
 ##### 01/09/2014 - Administration des PKB #####
 - Interface de visualisation des PKB
 - Mise à jour via l'interface des PKB
