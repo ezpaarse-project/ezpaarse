@@ -132,6 +132,13 @@ ezLanguages['fr'] = {
   "settings+reset":                "Paramètres par défaut",
   "settings+name":                 "Nom",
   "settings+value":                "Valeur",
+  "settings+encoding":             "Encodage",
+  "settings+format":               "Format",
+  "settings+field-splitter":       "Scindeur de champ",
+  "settings+counter":              "COUNTER",
+  "settings+deduplication":        "Dédoublonnage",
+  "settings+anonymization":        "Anonymisation",
+  "settings+other":                "Autre",
 
   // Feedback
   "feedback+title":             "Feedback",
