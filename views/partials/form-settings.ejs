@@ -123,12 +123,23 @@
         </div>
       </div>
 
-      <div class="ui purple dividing header" translate>settings+headers</div>
+      <div class="ui purple dividing header">
+        {{ 'settings+headers' | translate }}
+        <a target="_blank" href="/doc/parametres.html"><i class="purple info circle link icon"></i></a>
+      </div>
       <div ng-show="showHelp" class="ui inverted purple segment" translate>settings+headers_help</div>
 
       <div class="ui form">
-        <div class="field">
-          <div ng-click="ss.addCustomHeader()" class="ui small icon button"><i class="plus icon"></i> {{ 'settings+new' | translate }}</div>
+        <div class="fields">
+          <div class="five wide field">
+            <select ng-model="header" ng-options="header.name group by ('settings+' + header.category | translate) for header in ss.selections.headers">
+              <option></option>
+            </select>
+          </div>
+          <div class="field">
+            <div ng-click="ss.addCustomHeader(header.name)" class="ui icon button"><i class="plus icon"></i></div>
+            <a ng-show="header.anchor" ng-href="/doc/parametres.html#{{ header.anchor }}" target="_blank" class="ui blue icon button"><i class="info icon"></i></a>
+          </div>
         </div>
 
         <div class="fields" ng-repeat="header in ss.settings.customHeaders">
