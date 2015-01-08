@@ -107,7 +107,7 @@
     "fullName": "Université de Montpellier 3",
     "country": "France",
     "headers": {
-      "Log-Format-ezproxy": "%h %{session}<[a-zA-Z0-9\\-\\+]+> %<[a-zA-Z0-9]+>.%{user}<[a-zA-Z0-9]+> %t \"%r\" %s %b %<[a-zA-Z0-9\\-\\+]+>"
+      "Log-Format-ezproxy": "%h %{session}<[a-zA-Z0-9\\-\\+]+> %<[a-zA-Z0-9]+>.%{login}<[a-zA-Z0-9]+> %t \"%r\" %s %b %<[a-zA-Z0-9\\-\\+]+>"
     }
   },
   "01-fr-inria": {
