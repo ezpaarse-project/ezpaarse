@@ -3,14 +3,14 @@
 ezPAARSE produit un rapport d'exécution.  
 Les différentes sections disponibles sont documentées ici.
 
--  [Général](#general) Contient toutes les informations générales liées au traitement
--  [Rejets](#rejets) Répertories tous les rejets rencontrés, leur nombre et les liens vient les fichiers contenant les lignes écartées
--  [Statistiques](#stats) Fourni les premiers chiffres 
--  [Alertes](#alerts) Alertes générées
--  [Notifications](#notifications) Concerne les notifications de fin de traitement
--  [Dédoublonnage](#dedoublonnage) Algorithme utilisé pour le dédoublonnage
--  [Fichiers](#files) Rappel du nom des fichiers de log utilisés pour le traitement
--  [Première consultation](#first_event) Contenu du premier événement de consultation
+-  [Général](#general) : contient toutes les informations générales liées au traitement
+-  [Rejets](#rejets) : répertorie tous les rejets rencontrés, leur nombre et les liens vers les fichiers contenant les lignes écartées
+-  [Statistiques](#stats) : fournit les premiers chiffres 
+-  [Alertes](#alerts) : alertes générées
+-  [Notifications](#notifications) : concerne les notifications de fin de traitement
+-  [Dédoublonnage](#dedoublonnage) : algorithme utilisé pour le dédoublonnage
+-  [Fichiers](#files) : liste des fichiers de log traités
+-  [Première consultation](#first_event) : contenu du premier événement de consultation
 
 
 
@@ -109,6 +109,11 @@ Les différentes sections disponibles sont documentées ici.
       <th class="four wide">process-speed</th>
       <td>3019 lignes/s
         <div class="comment">Vitesse du traitement (variable selon la machine)</div>
+      </td>
+    </tr><tr>
+      <th class="four wide">enhancement-errors</th>
+      <td>0
+        <div class="comment">Nombre d'ECs non-enrichis à cause d'erreurs liées à MongoDB</div>
       </td>
     </tr><tr>
       <th class="four wide">result-file-ecs</th>
