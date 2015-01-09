@@ -66,8 +66,8 @@ ezLanguages['en'] = {
   "footer+powered":     "Powered by <a href=\"{{ nodejs }}\" target=\"_blank\">Node.js</a> and <a href=\"{{ expressjs }}\" target=\"_blank\">Express 4</a>",
 
   // PKBs state
-  "state+synchronizing": "Synchronizing...",
-  "state+synchronized":  "Synchronized",
+  "state+synchronizing": "Synchronizing PKBs...",
+  "state+synchronized":  "PKBs synchronized",
   // Process state button
   "state+idle":         "No process loading",
   "state+loading":      "Ongoing process... {{ percent }}%",
