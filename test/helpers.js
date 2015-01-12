@@ -1,6 +1,6 @@
 'use strict';
 
-var request = require('request');
+var request = require('request').defaults({ proxy: null });
 var fs      = require('fs');
 var moment  = require('moment');
 var config  = require('../lib/config.js');
@@ -10,9 +10,21 @@ var port    =  config.EZPAARSE_NODEJS_PORT;
 var url     = 'http://' + host + ':' + port;
 
 exports.get = function (path, callback) {
+  var uri = url;
+
+  if (path) {
+    if (/^https?:\/\//.test(path)) {
+      uri = path;
+    } else {
+      uri += path;
+    }
+  } else {
+    uri += '/';
+  }
+
   request({
       method: 'GET',
-      url: url + (path ? path : '/')
+      url: uri
     }, callback);
 };
 
@@ -113,7 +125,7 @@ exports.equals = function (x, y, datify) {
  * @return {Boolean}
  */
 exports.equalJSONList = function (ECS1, ECS2, datify, fieldsToCheck) {
-  
+
   // by default check all the fields
   fieldsToCheck = fieldsToCheck || [];
 
@@ -141,6 +153,6 @@ exports.equalJSONList = function (ECS1, ECS2, datify, fieldsToCheck) {
       });
     });
   });
-  
+
   return isEqual;
 };

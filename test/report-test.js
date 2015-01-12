@@ -26,7 +26,7 @@ describe('The server', function () {
         should.exist(jobID,
           'The header "Job-ID" was not sent by the server');
 
-        request.get(logURL, function (error, response, reportBody) {
+        helpers.get(logURL, function (error, response, reportBody) {
           if (!response) { throw new Error('ezPAARSE is not running'); }
           if (error)     { throw error; }
           res.should.have.status(200);

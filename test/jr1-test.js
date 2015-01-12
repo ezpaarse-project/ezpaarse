@@ -28,7 +28,7 @@ describe('The server', function () {
       should.exist(logURL,
         'The header "Job-Report-JR1" was not sent by the server');
 
-      request.get(logURL, function (error, response, body) {
+      helpers.get(logURL, function (error, response, body) {
         if (!response) { throw new Error('ezPAARSE is not running'); }
         if (error)     { throw error; }
         response.should.have.status(200);
@@ -91,7 +91,7 @@ describe('The server', function () {
       should.exist(logURL,
         'The header "Job-Report-JR1" was not sent by the server');
 
-      request.get(logURL, function (error, response, body) {
+      helpers.get(logURL, function (error, response, body) {
         if (!response) { throw new Error('ezPAARSE is not running'); }
         if (error)     { throw error; }
         response.should.have.status(200);
