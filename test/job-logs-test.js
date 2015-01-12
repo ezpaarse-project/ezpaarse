@@ -57,7 +57,7 @@ describe('The server', function () {
 
           var logURL = res.headers[header];
 
-          request.get(logURL, function (error, response, logBody) {
+          helpers.get(logURL, function (error, response, logBody) {
             if (!response) { throw new Error('ezPAARSE is not running'); }
             if (error)     { throw error; }
             response.statusCode.should.equal(404,
@@ -82,7 +82,7 @@ describe('The server', function () {
         should.exist(logURL,
           'The header "Job-Traces" was not sent by the server');
 
-        request.get(logURL, function (error, response) {
+        helpers.get(logURL, function (error, response) {
           if (!response) { throw new Error('ezPAARSE is not running'); }
           if (error)     { throw error; }
           response.statusCode.should.equal(200,
@@ -110,7 +110,7 @@ describe('The server', function () {
         should.exist(logURL,
           'The header "Lines-Unknown-Formats" was not sent by the server');
 
-        request.get(logURL, function (error, response, logBody) {
+        helpers.get(logURL, function (error, response, logBody) {
           if (!response) { throw new Error('ezPAARSE is not running'); }
           if (error)     { throw error; }
           response.statusCode.should.equal(200,
@@ -142,7 +142,7 @@ describe('The server', function () {
         should.exist(logURL,
           'The header "Lines-Ignored-Domains" was not sent by the server');
 
-        request.get(logURL, function (error, response, logBody) {
+        helpers.get(logURL, function (error, response, logBody) {
           if (!response) { throw new Error('ezPAARSE is not running'); }
           if (error)     { throw error; }
           response.statusCode.should.equal(200,
@@ -171,7 +171,7 @@ describe('The server', function () {
         should.exist(logURL,
           'The header "Lines-Unknown-Domains" was not sent by the server');
 
-        request.get(logURL, function (error, response, logBody) {
+        helpers.get(logURL, function (error, response, logBody) {
           if (!response) { throw new Error('ezPAARSE is not running'); }
           if (error)     { throw error; }
           response.statusCode.should.equal(200,
@@ -200,7 +200,7 @@ describe('The server', function () {
         should.exist(logURL,
           'The header "Lines-Unqualified-ECs" was not sent by the server');
 
-        request.get(logURL, function (error, response, logBody) {
+        helpers.get(logURL, function (error, response, logBody) {
           if (!response) { throw new Error('ezPAARSE is not running'); }
           if (error)     { throw error; }
           response.statusCode.should.equal(200,
@@ -231,7 +231,7 @@ describe('The server', function () {
         should.exist(logURL,
           'The header "Lines-PKB-Miss-ECs" was not sent by the server');
 
-        request.get(logURL, function (error, response, logBody) {
+        helpers.get(logURL, function (error, response, logBody) {
           if (!response) { throw new Error('ezPAARSE is not running'); }
           if (error)     { throw error; }
           response.statusCode.should.equal(200,
@@ -262,7 +262,7 @@ describe('The server', function () {
         should.exist(logURL,
           'The header "Lines-Duplicate-ECs" was not sent by the server');
 
-        request.get(logURL, function (error, response, logBody) {
+        helpers.get(logURL, function (error, response, logBody) {
           if (!response) { throw new Error('ezPAARSE is not running'); }
           if (error)     { throw error; }
           response.statusCode.should.equal(200,
@@ -293,7 +293,7 @@ describe('The server', function () {
         should.exist(logURL,
           'The header "Lines-Unordered-ECs" was not sent by the server');
 
-        request.get(logURL, function (error, response, logBody) {
+        helpers.get(logURL, function (error, response, logBody) {
           if (!response) { throw new Error('ezPAARSE is not running'); }
           if (error)     { throw error; }
           response.statusCode.should.equal(200,
@@ -326,7 +326,7 @@ describe('The server', function () {
         should.exist(res.headers['job-id'],
           'The header "Job-ID" was not sent by the server');
 
-        request.get(logURL, function (error, response) {
+        helpers.get(logURL, function (error, response) {
           if (!response) { throw new Error('ezPAARSE is not running'); }
           if (error)     { throw error; }
           response.should.have.status(404);
@@ -352,7 +352,7 @@ describe('The server', function () {
         should.exist(logURL,
           'The header "Denied-ECs" was not sent by the server');
 
-        request.get(logURL, function (error, response, logBody) {
+        helpers.get(logURL, function (error, response, logBody) {
           if (!response) { throw new Error('ezPAARSE is not running'); }
           if (error)     { throw error; }
           response.statusCode.should.equal(200,
@@ -384,7 +384,7 @@ describe('The server', function () {
         should.exist(logURL,
           'The header "Lines-Filtered-ECs" was not sent by the server');
 
-        request.get(logURL, function (error, response, logBody) {
+        helpers.get(logURL, function (error, response, logBody) {
           if (!response) { throw new Error('ezPAARSE is not running'); }
           if (error)     { throw error; }
           response.statusCode.should.equal(200,
