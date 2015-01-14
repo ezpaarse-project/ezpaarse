@@ -65,16 +65,17 @@ angular.module('ezPAARSE.main-controllers', [])
         $scope.feedbackAvailable = false;
       });
 
-    $http.get('/castor/state')
+    $http.get('/castor/status')
       .success(function (data) {
-        $scope.synchronizing = (data == 'synchronizing');
+        if (!angular.isObject(data)) { return; }
+        $scope.castor = data;
+        $scope.castor.synchronizing = (data.state == 'synchronizing');
       });
 
-    socket.on('castor:synchronizing', function () {
-      $scope.synchronizing = true;
-    });
-    socket.on('castor:synchronized', function () {
-      $scope.synchronizing = false;
+    socket.on('castor:update', function (data) {
+      if (!angular.isObject(data)) { return; }
+      $scope.castor = data;
+      $scope.castor.synchronizing = (data.state == 'synchronizing');
     });
 
     /**
