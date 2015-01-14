@@ -15,7 +15,9 @@ if [ ! -f $EZPAARSE_PATH/build/nvm/nvm.sh ]; then
   chmod +x $EZPAARSE_PATH/build/nvm/nvm.sh
 else
   cd $EZPAARSE_PATH/build/nvm/
+  git reset --hard
   git pull
+  chmod +x nvm.sh
 fi
 
 # download/install nodejs with nvm
