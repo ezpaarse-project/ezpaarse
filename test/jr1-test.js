@@ -5,7 +5,6 @@ var helpers   = require('./helpers.js');
 var fs        = require('fs');
 var should    = require('should');
 var xmlParser = require('xml2js').Parser;
-var request   = require('request');
 var cfg       = require('../lib/config.js');
 
 var logFile = __dirname + '/dataset/npg.jr1.log';

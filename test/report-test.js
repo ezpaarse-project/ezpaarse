@@ -2,7 +2,6 @@
 'use strict';
 
 var path    = require('path');
-var request = require('request');
 var should  = require('should');
 var helpers = require('./helpers.js');
 
