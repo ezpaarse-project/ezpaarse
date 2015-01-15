@@ -58,12 +58,13 @@ ezLanguages['en'] = {
   "slider+render_example":    "LibreOffice rendering example : succssful accesses per title",
 
   // Layout
-  "menu+admin":         "Administration",
-  "menu+profile":       "My profile",
-  "menu+logout":        "Logout",
-  "menu+process_logs":  "Process your logs",
-  "menu+documentation": "Documentation",
-  "footer+powered":     "Powered by <a href=\"{{ nodejs }}\" target=\"_blank\">Node.js</a> and <a href=\"{{ expressjs }}\" target=\"_blank\">Express 4</a>",
+  "menu+admin":              "Administration",
+  "menu+profile":            "My profile",
+  "menu+logout":             "Logout",
+  "menu+process_logs":       "Process your logs",
+  "menu+documentation":      "Documentation",
+  "layout+ezpaarse_offline": "ezPAARSE is not responding. This message will automatically disappear when the connection is reestablished.",
+  "footer+powered":          "Powered by <a href=\"{{ nodejs }}\" target=\"_blank\">Node.js</a> and <a href=\"{{ expressjs }}\" target=\"_blank\">Express 4</a>",
 
   // Process state button
   "state+idle":         "No process loading",
@@ -301,7 +302,8 @@ ezLanguages['en'] = {
   "admin+soft_upward_stable":         "The current version of the software has got changes that are more recent than the latest stable release. Click the button above if you wish to get back to the latest stable release.",
   "admin+platforms_local_changes":    "It seems that local changes have been applied to the platforms directory. In that case, future updates might fail.",
   "admin+contact_deployment_service": "In case of problems, we invite you to contact the deployer.",
-  "admin+updating_software":          "ezPAARSE is being updated. This operation can take up to several minutes, please wait...",
+  "admin+update_warning":             "Updating ezPAARSE can take up to several minutes. The server will go offline during the operation.",
+  "admin+updating_software":          "ezPAARSE is being updated...",
   "admin+elapsed_time":               "Elapsed time",
   "admin+long_update":                "This update seems to take a lot of time, ezPAARSE might have failed to be restarded."
 };

@@ -53,6 +53,14 @@ angular.module('ezPAARSE.main-controllers', [])
       $http.get('/logout').then(cb, cb);
     };
 
+    socket.on('disconnect', function () {
+      $scope.disconnected = true;
+    });
+    socket.on('reconnect', function () {
+      $scope.disconnected = false;
+    });
+
+
     $scope.feedbackLoading = true;
     $http.get('/feedback/status')
       .success(function (data) {

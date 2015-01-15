@@ -46,7 +46,14 @@
       </div>
 
       <div id="container" class="display-row">
-        <div id="content" ui-view></div>
+        <div id="content">
+          <div ng-if="disconnected" class="ui warning message">
+            <i class="notched circle loading icon"></i>
+            {{ 'layout+ezpaarse_offline' | translate }}
+          </div>
+
+          <div ui-view></div>
+        </div>
       </div>
 
       <div id="footer" class="ui inverted basic segment display-row">

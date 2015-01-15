@@ -58,12 +58,13 @@ ezLanguages['fr'] = {
   "slider+render_example":    "Exemple de rendu LibreOffice : nombre de consultation par revue",
 
   // Layout
-  "menu+admin":         "Administration",
-  "menu+profile":       "Mon profil",
-  "menu+logout":        "Déconnexion",
-  "menu+process_logs":  "Traitez vos logs",
-  "menu+documentation": "Documentation",
-  "footer+powered":     "Propulsé par <a href=\"{{ nodejs }}\" target=\"_blank\">Node.js</a> et <a href=\"{{ expressjs }}\" target=\"_blank\">Express 4</a>",
+  "menu+admin":              "Administration",
+  "menu+profile":            "Mon profil",
+  "menu+logout":             "Déconnexion",
+  "menu+process_logs":       "Traitez vos logs",
+  "menu+documentation":      "Documentation",
+  "layout+ezpaarse_offline": "ezPAARSE ne répond pas. Ce message disparaîtra automatiquement lorsque la connexion sera de nouveau établie.",
+  "footer+powered":          "Propulsé par <a href=\"{{ nodejs }}\" target=\"_blank\">Node.js</a> et <a href=\"{{ expressjs }}\" target=\"_blank\">Express 4</a>",
 
   // Process state button
   "state+idle":         "Aucun traitement en cours",
@@ -301,7 +302,8 @@ ezLanguages['fr'] = {
   "admin+soft_upward_stable":         "La version actuelle du logiciel présente des changements ultérieurs à la dernière version stable. Cliquez sur le boutton ci-dessus si vous souhaitez revenir à la dernière version stable.",
   "admin+platforms_local_changes":    "Des modifications locales semblent avoir été apportées au répertoire des plateformes. Dans ce cas, il est possible que les prochaines mises à jour échouent.",
   "admin+contact_deployment_service": "En cas de problème, nous vous invitons à contacter le service en charge du déploiement.",
-  "admin+updating_software":          "ezPAARSE est en cours de mise à jour. Cette opération peut prendre plusieurs minutes, veuillez patienter...",
+  "admin+update_warning":             "Mettre à jour ezPAARSE peut prendre plusieurs minutes. Le serveur sera mis hors-ligne le temps de l'opération.",
+  "admin+updating_software":          "ezPAARSE est en cours de mise à jour...",
   "admin+elapsed_time":               "Temps écoulé",
   "admin+long_update":                "La mise à jour semble prendre beaucoup de temps, il est possible qu'ezPAARSE n'ait pas pu être redémarré."
 };
