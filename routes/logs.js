@@ -15,11 +15,12 @@ module.exports = function (app) {
   app.get(new RegExp(jobidPattern + '/job-report\\.(html|json)$'), function (req, res) {
     var requestID  = req.params[0];
     var format     = req.params[1];
-    var logPath    = path.join(__dirname, '/../tmp/jobs/',
+    var reportFile = path.join(__dirname, '/../tmp/jobs/',
     requestID.charAt(0),
     requestID.charAt(1),
-    requestID);
-    var reportFile = path.join(logPath, '/report.json');
+    requestID,
+    'report.json');
+
     fs.exists(reportFile, function (exists) {
       if (!exists) {
         res.status(404);
@@ -29,13 +30,7 @@ module.exports = function (app) {
 
       switch (format) {
       case 'json':
-        res.sendFile('report.json', { root: logPath }, function (err) {
-          if (err) {
-            res.status(500);
-            res.end();
-            return;
-          }
-        });
+        res.download(reportFile, requestID.substr(0, 8) + '_report.json');
         break;
       case 'html':
         fs.readFile(reportFile, function (err, data) {
@@ -70,7 +65,7 @@ module.exports = function (app) {
    * GET route on /:rid/:logfile
    * Used to get a logfile
    */
-  app.get(new RegExp(jobidPattern + '/([a-zA-Z0-9\\-]+\\.(?:[a-z]{3,4}))$'), function (req, res) {
+  app.get(new RegExp(jobidPattern + '/([a-zA-Z0-9\\-_]+\\.(?:[a-z]{3,4}))$'), function (req, res) {
     var requestID = req.params[0];
     var filename  = req.params[1];
     var logFile   = path.join(__dirname, '/../tmp/jobs/',
@@ -78,24 +73,18 @@ module.exports = function (app) {
       requestID.charAt(1),
       requestID,
       filename);
-    if (fs.existsSync(logFile)) {
-      fs.stat(logFile, function (err, stats) {
-        if (err) {
-          res.status(500);
-          res.end();
-          return;
-        }
-        // download as an attachment if file size is >500ko
-        // open it in directly in the browser if file size is <500ko
-        if (stats.size > 500 * 1024) {
-          res.download(logFile, requestID + '-' + filename);
-        } else {
-          res.sendFile(logFile);
-        }
-      });
-    } else {
-      res.status(404);
-      res.end();
-    }
+
+    fs.stat(logFile, function (err, stats) {
+      if (err) { return res.status(err.code == 'ENOENT' ? 404 : 500).end(); }
+
+      // download as an attachment if file size is >500ko
+      // open it in directly in the browser if file size is <500ko
+      if (stats.size > 500 * 1024) {
+        res.download(logFile, requestID.substr(0, 8) + '_' + filename);
+      } else {
+        res.set('Content-Disposition', 'inline');
+        res.sendFile(logFile);
+      }
+    });
   });
 };

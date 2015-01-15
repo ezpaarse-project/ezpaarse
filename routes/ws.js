@@ -20,16 +20,20 @@ module.exports = function (app) {
    * Example: /3e167f80-aa9f-11e2-b9c5-c7c7ad0be3cd
    */
   app.get(uuidRegExp, function (req, res) {
-    var rid  = req.params[0];
-    var name = req.query.filename ? req.query.filename : rid;
-    var job  = ezJobs[rid];
+    var rid           = req.params[0];
+    var job           = ezJobs[rid];
+    var requestedName = req.query.filename;
 
     // check if this job exists
     if (job && job.ecsPath && job.ecsStream) {
       console.log('Serving growing result file');
+
+      var name = path.basename(job.ecsPath);
+      if (requestedName) { name = requestedName + '.' + job.fileExtension; }
+
       res.writeHead(200, {
         'Content-Type': job.contentType,
-        'Content-Disposition': 'attachment; filename="' + name + '.' + job.fileExtension + '"'
+        'Content-Disposition': 'attachment; filename="' + name + '"'
       });
 
       console.log('Requesting deferred result ECs file (while response is generated)');
@@ -60,19 +64,22 @@ module.exports = function (app) {
       fs.readdir(jobDir, function (err, files) {
         if (err) {
           res.status(500);
-          res.end();
+          return res.end();
         }
-        var reg = /^job-ecs\.([a-z]+)$/;
+        var reg = /.*\.job-ecs\.([a-z]+)$/;
         var filename;
-        for (var i in files) {
+        for (var i = files.length - 1; i >= 0; i--) {
           filename = files[i];
 
           if (reg.test(filename)) {
-            var ext = filename.split('.').pop();
+            var ext  = filename.split('.').pop();
+            var name;
+            if (requestedName) { name = requestedName + '.' + ext; }
+            else               { name = rid.substr(0, 8) + '_' + filename; }
 
             res.writeHead(200, {
               'Content-Type': mime.lookup(ext),
-              'Content-Disposition': 'attachment; filename="' + name + '.' + ext + '"'
+              'Content-Disposition': 'attachment; filename="' + name + '"'
             });
             fs.createReadStream(path.join(jobDir, filename)).pipe(res);
             return;
