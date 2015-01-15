@@ -33,25 +33,27 @@
             </span>
           </p>
 
-          <div ng-show="adm.software.refreshing">
-            <div class="ui small loading button" translate>admin+update</div>
-          </div>
+          <p ng-show="adm.software.refreshing">
+            <a class="ui small loading button" translate>admin+update</a>
+          </p>
 
-          <div ng-show="adm.software.errored">
-            <div class="ui small red button" translate>admin+error</div>
-          </div>
+          <p ng-show="adm.software.errored">
+            <a class="ui small red button" translate>admin+error</a>
+          </p>
 
-          <div ng-hide="adm.software.refreshing || adm.software.errored">
-            <div ng-show="adm.software.outdated" popup="{{ 'admin+update_to_x' | translate:{ version: adm.software.latest } }}" data-position="right center" ng-click="adm.updateSoftware()" class="ui small orange button" translate>admin+update</div>
+          <p ng-hide="adm.software.refreshing || adm.software.errored">
+            <a ng-show="adm.software.outdated" popup="{{ 'admin+update_to_x' | translate:{ version: adm.software.latest } }}" data-position="right center" ng-click="adm.updateSoftware()" class="ui small orange button" translate>admin+update</a>
 
-            <div ng-hide="adm.software.outdated" popup="{{ 'admin+ezpaarse_is_uptodate' | translate }}" data-position="right center" class="ui small disabled button" translate>admin+update</div>
-          </div>
+            <a ng-hide="adm.software.outdated" popup="{{ 'admin+ezpaarse_is_uptodate' | translate }}" data-position="right center" class="ui small disabled button" translate>admin+update</a>
+          </p>
 
           <div ng-show="adm.software.updating">
-            <p><span translate>admin+elapsed_time</span> : {{ adm.software.elapsed }}</p>
-            <p translate>admin+updating_software</p>
+            <p>{{ 'admin+updating_software' | translate }}
+            <br><span translate>admin+elapsed_time</span> : {{ adm.software.elapsed }}</p>
             <div ng-show="adm.software.longUpdate" class="ui small message"><i class="warning icon"></i> {{ 'admin+long_update' | translate }}</div>
           </div>
+
+          <p translate>admin+update_warning</p>
 
           <div class="ui icon small info message" ng-show="adm.software.status == 'upward'">
             <p translate>admin+soft_upward_stable</p>
