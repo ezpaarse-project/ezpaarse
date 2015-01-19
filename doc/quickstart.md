@@ -13,9 +13,36 @@ Voici les outils dont vous avez besoin pour faire fonctionner ezPAARSE :
 * curl (utilisé par nvm)
 * unzip
 * git >= 1.7.10 (demandé par github)
+* MongoDB >= 2.4
 
-ezPAARSE embarque tous les éléments nécessaires à son fonctionnement. 
 Lorsque les pré-requis sont remplis, le lancement de la commande **make** (voir ci-dessous) **réalise toutes les opérations d'installation**.
+
+### Installation de MongoDB ###
+
+Nous résumons ici la procédure pour les systèmes basés sur Debian ou Ubuntu. Les instructions d'installation pour les autres plateformes sont disponibles dans la [documentation officielle](http://docs.mongodb.org/manual/installation/) de MongoDB.
+
+#### Ubuntu 14.04 ou ultérieur ####
+```
+sudo apt-get install mongodb
+```
+
+#### Ubuntu 9.10 ou ultérieur ####
+```
+sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
+echo 'deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' | sudo tee /etc/apt/sources.list.d/mongodb.list
+sudo apt-get update
+sudo apt-get install -y mongodb-org
+sudo service mongod start
+```
+
+#### Debian ou Ubuntu antérieur à 9.10 ####
+```
+sudo apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10
+echo 'deb http://downloads-distro.mongodb.org/repo/debian-sysvinit dist 10gen' | sudo tee /etc/apt/sources.list.d/mongodb.list
+sudo apt-get update
+sudo apt-get install -y mongodb-org
+sudo service mongod start
+```
 
 ## Installation ##
 
