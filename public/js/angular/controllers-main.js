@@ -11,7 +11,7 @@ angular.module('ezPAARSE.main-controllers', [])
       facebook: 'https://www.facebook.com/Ezpaarse',
       googleplus: 'https://plus.google.com/113684662646843807159',
       twitter: 'https://twitter.com/ezpaarse',
-      mail: 'ezpaarse@gmail.com'
+      mail: 'ezpaarse@couperin.org'
     };
 
     $scope.links = {
