@@ -90,10 +90,7 @@ angular.module('ezPAARSE.services', [])
       socket.removeListener('report', this.reportListener);
       socket.removeListener('logging', this.loggingListener);
 
-      for (var i in this.data) {
-        delete this.data[i];
-      }
-      angular.extend(this.data, this.baseData);
+      angular.copy(this.baseData, this.data);
     };
 
     requestService.prototype.isLoading = function () {
