@@ -2,6 +2,8 @@ language: node_js
 node_js:
   - "0.10"
 install: true
+services:
+  - mongodb
 notifications:
   recipients:
     - ezpaarse@couperin.org
