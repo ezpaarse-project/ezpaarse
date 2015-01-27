@@ -191,6 +191,7 @@ ezLanguages['fr'] = {
   "metrics+pdf_count": "Consultations PDF",
 
   // Process page -> rejects tab
+  "rejects+how_to_generate":       "Les lignes rejetées ne sont pas consultables par défaut. Pour générer les fichiers de rejets, ajoutez le header <strong>Reject-Files</strong> avec la valeur <strong>all</strong> dans les paramètres.",
   "rejects+ignored_lines":         "Lignes ignorées",
   "rejects+denied_ecs":            "ECs en accès refusé",
   "rejects+duplicates":            "Doublons filtrés",

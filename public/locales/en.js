@@ -191,6 +191,7 @@ ezLanguages['en'] = {
   "metrics+pdf_count":       "PDF accesses",
 
   // Process page -> rejects tab
+  "rejects+how_to_generate":       "Rejected lines are not accessible by default. To generate the reject files, set the <strong>Reject-Files</strong> header to <strong>all</strong> in the settings.",
   "rejects+ignored_lines":         "Ignored Lines",
   "rejects+denied_ecs":            "Denied access CEs",
   "rejects+duplicates":            "Duplicates",
