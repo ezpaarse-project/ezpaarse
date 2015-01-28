@@ -185,13 +185,14 @@ ezLanguages['fr'] = {
   "process+report":             "Rapport",
 
   // Process page -> metrics tab
-  "metrics+read_lines": "Lignes lues",
-  "metrics+generated_ecs": "<popup data-variation=\"inverted\" data-content=\"Événements de consultation\">ECs</popup> générés",
-  "metrics+duration": "Durée du traitement",
-  "metrics+speed": "Vitesse",
+  "metrics+read_lines":      "Lignes lues",
+  "metrics+generated_ecs":   "<popup data-variation=\"inverted\" data-content=\"Événements de consultation\">ECs</popup> générés",
+  "metrics+duration":        "Durée du traitement",
+  "metrics+lines_speed":     "Vitesse de traitement des logs",
+  "metrics+ecs_speed":       "Vitesse de génération des ECs",
   "metrics+platforms_count": "Plateformes reconnues",
-  "metrics+html_count": "Consultations HTML",
-  "metrics+pdf_count": "Consultations PDF",
+  "metrics+html_count":      "Consultations HTML",
+  "metrics+pdf_count":       "Consultations PDF",
 
   // Process page -> rejects tab
   "rejects+how_to_generate":       "Les lignes rejetées ne sont pas consultables par défaut. Pour générer les fichiers de rejets, ajoutez le header <strong>Reject-Files</strong> avec la valeur <strong>all</strong> dans les paramètres.",
