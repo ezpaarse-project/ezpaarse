@@ -70,12 +70,13 @@
     "yargs": "^1.3.2"
   },
   "devDependencies": {
-    "should": "*",
-    "jshint": "*",
-    "mocha": "*",
     "coffee-script": "*",
+    "jshint": "*",
+    "lsof": "0.1.0",
+    "mocha": "*",
     "mocha-jshint": "0.0.9",
-    "lsof": "0.1.0"
+    "should": "*",
+    "zombie": "^2.5.1"
   },
   "scripts": {
     "test": "export EZPAARSE_ENV=\"production\" ; export EZPAARSE_DEBUG_LEVEL=\"pkb\" ; make && make start && sleep 1 ; make test-pkb ; make test"
