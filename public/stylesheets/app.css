@@ -64,6 +64,10 @@ a:hover {
   text-decoration: underline;
 }
 
+.prewrap {
+  white-space: pre-wrap;
+}
+
 code {
   padding: 2px 4px;
   color: #D14;
