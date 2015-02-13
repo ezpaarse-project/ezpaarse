@@ -82,4 +82,76 @@ angular.module('ezPAARSE.form-controllers', [])
 
       $location.path('/process');
     };
+  }).controller('FormatCtrl', function ($scope, settingService, inputService, $timeout) {
+    var logParser = require('logparser');
+    var settings  = settingService.settings;
+    var promise;
+    $scope.test = {
+      loading: false
+    };
+
+    $scope.test = function () {
+      $timeout.cancel(promise);
+
+      var logLine     = inputService.text.split('\n')[0];
+      var proxy       = settings.proxyType;
+      var format      = settings.logFormat;
+      var fullFormat  = format;
+      var strictMatch = true;
+      var fullRegexp;
+      var ec;
+
+      if (!logLine) { return $scope.test.result = null; }
+
+      $scope.test.loading = true;
+
+      (function retry() {
+        var parser = logParser({
+          proxy: proxy,
+          format: format,
+          dateFormat: settings.dateFormat,
+          relativeDomain: settings.relativeDomain,
+          laxist: !strictMatch
+        });
+
+        var ec = parser.parse(logLine);
+
+        if (strictMatch && parser.getRegexp()) {
+          fullRegexp = parser.getRegexp().toString();
+        }
+
+        if (ec) {
+          $scope.test.loading = false;
+
+          return $scope.test.result = {
+            autoDetect: parser.autoDetect(),
+            strictMatch: strictMatch,
+            proxy: parser.getProxy(),
+            matched: parser.getFormat(),
+            unmatched: fullFormat.substr(format.length),
+            regexp: parser.getRegexp().toString(),
+            fullRegexp: fullRegexp,
+            ec: ec
+          };
+        }
+
+        if (!strictMatch) { format = format.substr(0, format.length - 1); }
+        strictMatch = false;
+
+        if (format) {
+          promise = $timeout(retry);
+        } else {
+          $scope.test.loading = false;
+          $scope.test.result  = {
+            autoDetect: parser.autoDetect(),
+            proxy: parser.getProxy(),
+            strictMatch: false,
+            fullRegexp: fullRegexp,
+            unmatched: fullFormat
+          };
+        }
+      })();
+    };
+
+    if (inputService.text) { $scope.test(); }
   });

@@ -5,7 +5,7 @@
       <p translate translate-values="{gitHubSamples: 'https://github.com/ezpaarse-project/ezpaarse-dataset-samples'}">form+samples</p>
     </div>
 
-      <div class="ui bottom-spaced tiny header">
+      <div class="ui tiny header">
         {{ 'settings+parameters' | translate }}
         <div class="sub header" ng-hide="ss.predefined">
           <i class="loading spinner icon"></i>
@@ -76,10 +76,104 @@
         </div>
       </div>
 
-      <div ng-switch-when="text">
-        <div class="ui form field">
-          <label for="log-lines" translate>form+paste_your_logs</label>
-          <textarea id="log-lines" ng-model="inputs.text"></textarea>
+      <div ng-switch-when="text" ng-controller="FormatCtrl">
+        <div class="ui form">
+          <div class="field">
+            <label for="log-lines" translate>form+paste_your_logs</label>
+            <textarea id="log-lines" ng-model="inputs.text" ng-change="test()"></textarea>
+          </div>
+
+          <div class="select field">
+            <label translate>settings+log_type</label>
+            <select ng-model="ss.settings.proxyType" ng-options="key as value for (key,value) in ss.selections.proxyTypes" ng-change="test()">
+              <option value="" translate>settings+auto_recognition</option>
+            </select>
+          </div>
+
+          <div class="field" ng-show="ss.settings.proxyType">
+            <label translate>settings+log_format</label>
+            <input placeholder="%h %t %r %s" type="text" ng-model="ss.settings.logFormat" ng-change="test()"></input>
+          </div>
+
+          <div class="ui labelled {{ test.loading ? 'loading' : '' }} segment" ng-class="{ true: 'green', false: 'red' }[test.result.strictMatch]">
+            <div class="ui header">
+              {{ 'form+format_analysis' | translate }}
+              <div class="sub header" translate>form+based_on_first_line</div>
+            </div>
+
+            <div ng-show="test.result">
+              <div class="ui big right green corner label" ng-show="test.result.strictMatch">
+                <i class="checkmark icon"></i>
+              </div>
+              <div class="ui big right red corner label" ng-hide="test.result.strictMatch">
+                <i class="remove icon"></i>
+              </div>
+
+              <div class="ui compact positive message" ng-show="test.result.autoDetect && test.result.strictMatch" translate>form+autodetect_success</div>
+              <div class="ui compact negative message" ng-show="test.result.autoDetect && !test.result.strictMatch" translate>form+autodetect_fail</div>
+
+              <div class="ui vertical segment">
+                <div class="ui small header">
+                  {{ 'form+format' | translate }}
+                  <div class="sub header" ng-bind="test.result.proxy"></div>
+                </div>
+                <span ng-bind="test.result.matched" class="matching"></span><span ng-bind="test.result.unmatched" class="unmatching"></span>
+              </div>
+
+              <div class="ui vertical segment">
+                <div class="ui small header" translate>form+regular_expression</div>
+
+                <table class="ui basic compact table">
+                  <tr>
+                    <td class="collapsing" translate>form+partial_format</td>
+                    <td ng-bind="test.result.regexp"></td>
+                  </tr>
+                  <tr>
+                    <td class="collapsing" translate>form+full_format</td>
+                    <td>
+                      <span ng-show="test.result.fullRegexp" ng-bind="test.result.fullRegexp"></span>
+                      <span ng-hide="test.result.fullRegexp" translate>form+full_regexp_failed</span>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+
+              <div class="ui vertical segment">
+                <div class="ui small header">
+                  {{ 'form+generated_ec' | translate }}
+                  <div class="sub header" translate>form+no_enrichment</div>
+                </div>
+                <div ng-show="test.result.ec">
+                  <div>
+                    <div ng-hide="test.result.ec.timestamp">
+                      <i class="red warning sign icon"></i> {{ 'form+no_date_detected' | translate }}
+                    </div>
+                    <div ng-hide="test.result.ec.url">
+                      <i class="red warning sign icon"></i> {{ 'form+no_url_detected' | translate }}
+                    </div>
+                    <div ng-hide="test.result.ec.domain">
+                      <i class="red warning sign icon"></i> {{ 'form+no_domain_detected' | translate }}
+                    </div>
+                  </div>
+
+                  <table class="ui very compact celled table">
+                    <thead>
+                      <tr>
+                        <th translate>form+field</th>
+                        <th translate>form+value</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr ng-repeat="(name,value) in test.result.ec">
+                        <td class="collapsing" ng-bind="name"></td>
+                        <td ng-bind="value"></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div class="ui center aligned basic segment">

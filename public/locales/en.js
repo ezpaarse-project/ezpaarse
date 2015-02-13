@@ -95,6 +95,24 @@ ezLanguages['en'] = {
   "form+process_lines":     "Process the lines",
   "form+curl_instructions": "Copy the following command to run the query with cURL using the current setting of the form. You may need to change the file path or add options like <code>--proxy</code> or <code>--no-buffer</code>.",
 
+  // Format conception
+  "form+format_analysis":     "Format analysis",
+  "form+based_on_first_line": "Based on the first log line",
+  "form+autodetect_success":  "The format of your log lines has been detected",
+  "form+autodetect_fail":     "The format of your log lines has not been detected",
+  "form+format":              "Format",
+  "form+regular_expression":  "Regular expression",
+  "form+partial_format":      "Partial format",
+  "form+full_format":         "Full format",
+  "form+full_regexp_failed":  "No regular expression could be built from the full format",
+  "form+generated_ec":        "Generated consultation event",
+  "form+no_enrichment":       "Basic, no enrichment",
+  "form+no_date_detected":    "No date detected",
+  "form+no_url_detected":     "No URL detected",
+  "form+no_domain_detected":  "No domain detected",
+  "form+field":               "Field",
+  "form+value":               "Value",
+
   // Settings tab
   "settings+parameters":           "Current parameters",
   "settings+loading_predefined":   "Load a predefined set of parameters",

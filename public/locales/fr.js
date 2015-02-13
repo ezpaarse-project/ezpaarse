@@ -95,6 +95,24 @@ ezLanguages['fr'] = {
   "form+process_lines":     "Traiter les lignes",
   "form+curl_instructions": "Copiez la commande ci-dessous pour exécuter la requête avec cURL en utilisant le paramétrage actuel du formulaire. Vous devrez peut-être modifier le chemin des fichiers ou ajouter des options telles que <code>--proxy</code> ou <code>--no-buffer</code>.",
 
+  // Format conception
+  "form+format_analysis":     "Analyse du format",
+  "form+based_on_first_line": "Basée sur la première ligne de log",
+  "form+autodetect_success":  "Le format de vos lignes de log a été détecté",
+  "form+autodetect_fail":     "Le format de vos lignes de log n'a pas été détecté",
+  "form+format":              "Format",
+  "form+regular_expression":  "Expression régulière",
+  "form+partial_format":      "Format partiel",
+  "form+full_format":         "Format complet",
+  "form+full_regexp_failed":  "Aucune expression régulière n'a pu être construite à partir du format entier",
+  "form+generated_ec":        "Événement de consultation généré",
+  "form+no_enrichment":       "Basique, sans enrichissement",
+  "form+no_date_detected":    "Pas de date détectée",
+  "form+no_url_detected":     "Pas d'URL détectée",
+  "form+no_domain_detected":  "Pas de domaine détecté",
+  "form+field":               "Champ",
+  "form+value":               "Valeur",
+
   // Settings tab
   "settings+parameters":           "Paramétrage actuel",
   "settings+loading_predefined":   "Chargement des paramètres prédéfinis",
