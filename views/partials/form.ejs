@@ -80,7 +80,7 @@
         <div class="ui form">
           <div class="field">
             <label for="log-lines" translate>form+paste_your_logs</label>
-            <textarea id="log-lines" ng-model="inputs.text" ng-change="test()"></textarea>
+            <textarea id="log-lines" ng-model="inputs.text" ng-trim="false" ng-change="test()"></textarea>
           </div>
 
           <div class="select field">

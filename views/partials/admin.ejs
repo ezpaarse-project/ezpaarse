@@ -132,7 +132,7 @@
               <th ng-click="adm.sortBy('version')" ng-class="{ '-version': 'descending', '+version': 'ascending' }[adm.platforms.sort]" translate>admin+version</th>
             </tr></thead>
             <tbody>
-            <tr ng-repeat-start="manifest in adm.platforms.list | filter:overallSearch | filter:{ hasChanges: onlyOutdated || undefined } | orderBy:adm.platforms.sort" ng-class="{ warning: manifest.hasChanges, even: $even, odd: $odd }">
+            <tr ng-repeat-start="manifest in adm.platforms.list | filter:overallSearch | filter: onlyOutdated ? { hasChanges: true } : undefined | orderBy:adm.platforms.sort" ng-class="{ warning: manifest.hasChanges, even: $even, odd: $odd }">
               <td>
                 <a ng-href="{{ manifest.docurl }}" title="{{ 'admin+analysis' | translate }}"><img src="/img/icon-analogist.png"></a>
                 <a ng-show="manifest['pkb-packages'].length" ng-click="adm.togglePkbOf(manifest.name)" title="{{ 'admin+knowledge_bases' | translate }}"><i class="text file link icon"></i></a>
