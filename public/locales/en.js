@@ -107,9 +107,9 @@ ezLanguages['en'] = {
   "form+full_regexp_failed":  "No regular expression could be built from the full format",
   "form+generated_ec":        "Generated consultation event",
   "form+no_enrichment":       "Basic, no enrichment",
-  "form+no_date_detected":    "No date detected",
-  "form+no_url_detected":     "No URL detected",
-  "form+no_domain_detected":  "No domain detected",
+  "form+no_date_detected":    "No date detected. The date is necessary in order to deduplicate the consultation events.",
+  "form+no_url_detected":     "No URL detected. The URL is necessary in order to identify the consulted ressources.",
+  "form+no_domain_detected":  "No domain detected. The domain is necessary in order to determine the parser to use to analyze the URL.",
   "form+field":               "Field",
   "form+value":               "Value",
 

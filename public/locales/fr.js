@@ -107,9 +107,9 @@ ezLanguages['fr'] = {
   "form+full_regexp_failed":  "Aucune expression régulière n'a pu être construite à partir du format entier",
   "form+generated_ec":        "Événement de consultation généré",
   "form+no_enrichment":       "Basique, sans enrichissement",
-  "form+no_date_detected":    "Pas de date détectée",
-  "form+no_url_detected":     "Pas d'URL détectée",
-  "form+no_domain_detected":  "Pas de domaine détecté",
+  "form+no_date_detected":    "Pas de date détectée. La date est nécessaire afin de pouvoir dédoublonner les événements de consultation.",
+  "form+no_url_detected":     "Pas d'URL détectée. L'URL est nécessaire afin de pouvoir identifier les ressources consultées.",
+  "form+no_domain_detected":  "Pas de domaine détecté. Le domaine est nécessaire afin de déterminer le parseur à utiliser pour analyser l'URL.",
   "form+field":               "Champ",
   "form+value":               "Valeur",
 
