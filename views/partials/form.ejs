@@ -91,7 +91,7 @@
           </div>
 
           <div class="field" ng-show="ss.settings.proxyType">
-            <label translate>settings+log_format</label>
+            <label>{{ 'settings+log_format' | translate }} <a href="/doc/formats.html" target="_blank"><i class="help circle link icon"></i></a></label>
             <input placeholder="%h %t %r %s" type="text" ng-model="ss.settings.logFormat" ng-change="test()"></input>
           </div>
 
