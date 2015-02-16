@@ -95,7 +95,7 @@ angular.module('ezPAARSE.form-controllers', [])
 
       var logLine     = inputService.text.split('\n')[0];
       var proxy       = settings.proxyType;
-      var format      = settings.logFormat;
+      var format      = settings.logFormat || '';
       var fullFormat  = format;
       var strictMatch = true;
       var fullRegexp;
