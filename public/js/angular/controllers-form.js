@@ -94,7 +94,6 @@ angular.module('ezPAARSE.form-controllers', [])
       $timeout.cancel(promise);
 
       var logLine     = inputService.text.split('\n')[0];
-      var proxy       = settings.proxyType;
       var format      = settings.logFormat || '';
       var fullFormat  = format;
       var strictMatch = true;
@@ -107,10 +106,10 @@ angular.module('ezPAARSE.form-controllers', [])
 
       (function retry() {
         var parser = logParser({
-          proxy: proxy,
+          proxy: settings.proxyType,
           format: format,
           dateFormat: settings.dateFormat,
-          relativeDomain: settings.relativeDomain,
+          relativeDomain: settings.headers['Relative-Domain'],
           laxist: !strictMatch
         });
 
