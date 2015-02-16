@@ -83,11 +83,23 @@
             <textarea id="log-lines" ng-model="inputs.text" ng-trim="false" ng-change="test()"></textarea>
           </div>
 
-          <div class="select field">
-            <label translate>settings+log_type</label>
-            <select ng-model="ss.settings.proxyType" ng-options="key as value for (key,value) in ss.selections.proxyTypes" ng-change="test()">
-              <option value="" translate>settings+auto_recognition</option>
-            </select>
+          <div class="three fields">
+            <div class="select field">
+              <label translate>settings+log_type</label>
+              <select ng-model="ss.settings.proxyType" ng-options="key as value for (key,value) in ss.selections.proxyTypes" ng-change="test()">
+                <option value="" translate>settings+auto_recognition</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label translate>settings+relative_domain</label>
+              <input placeholder="www.domain.com" type="text" ng-model="ss.settings.headers['Relative-Domain']" ng-change="test()">
+            </div>
+
+            <div class="field" ng-show="ss.settings.proxyType">
+              <label translate>settings+date_format</label>
+              <input placeholder="DD/MMM/YYYY:HH:mm:ss Z" type="text" ng-model="ss.settings.headers['Date-Format']" ng-change="test()">
+            </div>
           </div>
 
           <div class="field" ng-show="ss.settings.proxyType">

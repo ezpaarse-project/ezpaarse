@@ -108,7 +108,7 @@ angular.module('ezPAARSE.form-controllers', [])
         var parser = logParser({
           proxy: settings.proxyType,
           format: format,
-          dateFormat: settings.dateFormat,
+          dateFormat: settings.headers['Date-Format'],
           relativeDomain: settings.headers['Relative-Domain'],
           laxist: !strictMatch
         });
