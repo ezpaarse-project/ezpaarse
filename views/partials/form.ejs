@@ -93,18 +93,18 @@
 
             <div class="field">
               <label translate>settings+relative_domain</label>
-              <input placeholder="www.domain.com" type="text" ng-model="ss.settings.headers['Relative-Domain']" ng-change="test()">
+              <input placeholder="{{ 'form+example' | translate:{value:'www.domain.com'} }}" type="text" ng-model="ss.settings.headers['Relative-Domain']" ng-change="test()">
             </div>
 
             <div class="field" ng-show="ss.settings.proxyType">
               <label translate>settings+date_format</label>
-              <input placeholder="DD/MMM/YYYY:HH:mm:ss Z" type="text" ng-model="ss.settings.headers['Date-Format']" ng-change="test()">
+              <input placeholder="{{ 'form+example' | translate:{value:'DD/MMM/YYYY:HH:mm:ss Z'} }}" type="text" ng-model="ss.settings.headers['Date-Format']" ng-change="test()">
             </div>
           </div>
 
           <div class="field" ng-show="ss.settings.proxyType">
             <label>{{ 'settings+log_format' | translate }} <a href="/doc/formats.html" target="_blank"><i class="help circle link icon"></i></a></label>
-            <input placeholder="%h %t %r %s" type="text" ng-model="ss.settings.logFormat" ng-change="test()"></input>
+            <input placeholder="{{ 'form+example' | translate:{value:'%h %u %t &quot;%r&quot; %s %b'} }}" type="text" ng-model="ss.settings.logFormat" ng-change="test()"></input>
           </div>
 
           <div class="ui labelled {{ test.loading ? 'loading' : '' }} segment" ng-class="{ true: 'green', false: 'red' }[test.result.strictMatch]">

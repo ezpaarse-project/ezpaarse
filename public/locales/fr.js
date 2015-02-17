@@ -112,6 +112,7 @@ ezLanguages['fr'] = {
   "form+no_domain_detected":  "Pas de domaine détecté. Le domaine est nécessaire afin de déterminer le parseur à utiliser pour analyser l'URL.",
   "form+field":               "Champ",
   "form+value":               "Valeur",
+  "form+example":             "Exemple: {{ value }}",
 
   // Settings tab
   "settings+parameters":           "Paramétrage actuel",

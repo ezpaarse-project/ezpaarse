@@ -112,6 +112,7 @@ ezLanguages['en'] = {
   "form+no_domain_detected":  "No domain detected. The domain is necessary in order to determine the parser to use to analyze the URL.",
   "form+field":               "Field",
   "form+value":               "Value",
+  "form+example":             "Example: {{ value }}",
 
   // Settings tab
   "settings+parameters":           "Current parameters",
