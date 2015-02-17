@@ -98,7 +98,7 @@ angular.module('ezPAARSE.form-controllers', [])
       var fullFormat  = format;
       var strictMatch = true;
       var regexp;
-      var ec;
+      var regexpBreak;
 
       if (!logLine) { return $scope.test.result = null; }
 
@@ -116,20 +116,29 @@ angular.module('ezPAARSE.form-controllers', [])
         var ec = parser.parse(logLine);
 
         if (strictMatch && parser.getRegexp()) {
-          regexp = parser.getRegexp().toString();
+          regexp = parser.getRegexp().source;
+
+          for (regexpBreak = regexp.length; regexpBreak >= 0; regexpBreak--) {
+            try {
+              var reg = new RegExp(regexp.substr(0, regexpBreak));
+            } catch (e) { continue; }
+
+            if (reg.test(logLine)) { break; }
+          }
         }
 
         if (ec) {
           $scope.test.loading = false;
 
           return $scope.test.result = {
-            autoDetect: parser.autoDetect(),
+            autoDetect:  parser.autoDetect(),
             strictMatch: strictMatch,
-            proxy: parser.getProxy(),
-            matched: parser.getFormat(),
-            unmatched: fullFormat.substr(format.length),
-            regexp: regexp,
-            ec: ec
+            proxy:       parser.getProxy(),
+            format:      fullFormat,
+            formatBreak: format.length,
+            regexp:      regexp,
+            regexpBreak: regexpBreak,
+            ec:          ec
           };
         }
 
@@ -141,11 +150,13 @@ angular.module('ezPAARSE.form-controllers', [])
         } else {
           $scope.test.loading = false;
           $scope.test.result  = {
-            autoDetect: parser.autoDetect(),
-            proxy: parser.getProxy(),
+            autoDetect:  parser.autoDetect(),
+            proxy:       parser.getProxy(),
             strictMatch: false,
-            regexp: regexp,
-            unmatched: fullFormat
+            regexp:      regexp,
+            regexpBreak: regexpBreak,
+            format:      fullFormat,
+            formatBreak: 0
           };
         }
       })();

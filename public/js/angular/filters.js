@@ -21,6 +21,16 @@ angular.module('ezPAARSE.filters', [])
       }
     };
   })
+  .filter('from', function() {
+    return function (str, index) {
+      var i = parseInt(index, 10);
+      if (typeof str !== 'string' || isNaN(i)) {
+        return '';
+      } else {
+        return str.substr(index);
+      }
+    };
+  })
   .filter('toLink', function ($filter) {
     return function (text, target) {
       if (text === 0) { return '0'; }

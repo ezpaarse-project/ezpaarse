@@ -129,14 +129,14 @@
                   {{ 'form+format' | translate }}
                   <div class="sub header" ng-bind="test.result.proxy"></div>
                 </div>
-                <span ng-bind="test.result.matched" class="matching"></span><span ng-bind="test.result.unmatched" class="unmatching"></span>
+                <span ng-bind="test.result.format | limitTo:test.result.formatBreak" class="prewrap matching"></span><span ng-bind="test.result.format | from:test.result.formatBreak" class="prewrap unmatching"></span>
               </div>
 
               <div class="ui vertical segment">
                 <div class="ui small header" translate>form+regular_expression</div>
-
-                <span ng-show="test.result.regexp" ng-bind="test.result.regexp"></span>
                 <span ng-hide="test.result.regexp" translate>form+regexp_failed</span>
+
+                <span ng-bind="test.result.regexp | limitTo:test.result.regexpBreak" class="prewrap matching"></span><span ng-bind="test.result.regexp | from:test.result.regexpBreak" class="prewrap unmatching"></span>
               </div>
 
               <div class="ui vertical segment">
