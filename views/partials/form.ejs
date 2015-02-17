@@ -125,6 +125,17 @@
               <div class="ui compact negative message" ng-show="test.result.autoDetect && !test.result.strictMatch" translate>form+autodetect_fail</div>
 
               <div ng-hide="test.result.autoDetect && !test.result.strictMatch">
+                <div ng-show="test.result.ec">
+                  <div ng-hide="test.result.ec.timestamp">
+                    <i class="red warning sign icon"></i> {{ 'form+no_date_detected' | translate }}
+                  </div>
+                  <div ng-hide="test.result.ec.url">
+                    <i class="red warning sign icon"></i> {{ 'form+no_url_detected' | translate }}
+                  </div>
+                  <div ng-hide="test.result.ec.domain">
+                    <i class="red warning sign icon"></i> {{ 'form+no_domain_detected' | translate }}
+                  </div>
+                </div>
 
                 <div class="ui vertical segment">
                   <div class="ui small header">
@@ -145,18 +156,6 @@
                   <div class="ui small header" translate>form+generated_ec</div>
                   <p ng-hide="test.result.ec" translate>form+no_ec_generated</p>
                   <div ng-show="test.result.ec">
-                    <div>
-                      <div ng-hide="test.result.ec.timestamp">
-                        <i class="red warning sign icon"></i> {{ 'form+no_date_detected' | translate }}
-                      </div>
-                      <div ng-hide="test.result.ec.url">
-                        <i class="red warning sign icon"></i> {{ 'form+no_url_detected' | translate }}
-                      </div>
-                      <div ng-hide="test.result.ec.domain">
-                        <i class="red warning sign icon"></i> {{ 'form+no_domain_detected' | translate }}
-                      </div>
-                    </div>
-
                     <table class="ui very compact celled table">
                       <thead>
                         <tr>
