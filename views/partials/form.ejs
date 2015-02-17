@@ -125,32 +125,37 @@
               <div class="ui compact negative message" ng-show="test.result.autoDetect && !test.result.strictMatch" translate>form+autodetect_fail</div>
 
               <div ng-hide="test.result.autoDetect && !test.result.strictMatch">
-                <div ng-show="test.result.ec">
-                  <div ng-hide="test.result.ec.timestamp">
-                    <i class="red warning sign icon"></i> {{ 'form+no_date_detected' | translate }}
-                  </div>
-                  <div ng-hide="test.result.ec.url">
-                    <i class="red warning sign icon"></i> {{ 'form+no_url_detected' | translate }}
-                  </div>
-                  <div ng-hide="test.result.ec.domain">
-                    <i class="red warning sign icon"></i> {{ 'form+no_domain_detected' | translate }}
+                <div class="ui icon message" ng-show="test.result.missing.length > 0">
+                  <i class="warning sign icon"></i>
+                  <div class="content">
+                    <ul class="list">
+                      <li ng-repeat="miss in test.result.missing">
+                        {{ 'form+no_' + miss + '_detected' | translate }}
+                      </li>
+                    </ul>
                   </div>
                 </div>
 
-                <div class="ui vertical segment">
-                  <div class="ui small header">
-                    {{ 'form+format' | translate }}
-                    <div class="sub header" ng-bind="test.result.proxy"></div>
+
+                <div class="ui top attached tabular menu">
+                  <a class="item" ng-class="{ active: test.tab == 'format' }" ng-click="test.tab = 'format'" translate>form+format</a>
+                  <a class="item" ng-class="{ active: test.tab == 'regex' }" ng-click="test.tab = 'regex'" translate>form+regular_expression</a>
+                </div>
+
+                <div class="ui bottom attached segment" ng-switch="test.tab">
+
+                  <div ng-switch-when="format">
+                    <div class="ui small header" ng-bind="test.result.proxy"></div>
+                    <span ng-bind="test.result.format | limitTo:test.result.formatBreak" class="prewrap matching"></span><span ng-bind="test.result.format | from:test.result.formatBreak" class="prewrap unmatching"></span>
                   </div>
-                  <span ng-bind="test.result.format | limitTo:test.result.formatBreak" class="prewrap matching"></span><span ng-bind="test.result.format | from:test.result.formatBreak" class="prewrap unmatching"></span>
+
+                  <div ng-switch-when="regex">
+                    <span ng-hide="test.result.regexp" translate>form+regexp_failed</span>
+
+                    <span ng-bind="test.result.regexp | limitTo:test.result.regexpBreak" class="prewrap matching"></span><span ng-bind="test.result.regexp | from:test.result.regexpBreak" class="prewrap unmatching"></span>
+                  </div>
                 </div>
 
-                <div class="ui vertical segment">
-                  <div class="ui small header" translate>form+regular_expression</div>
-                  <span ng-hide="test.result.regexp" translate>form+regexp_failed</span>
-
-                  <span ng-bind="test.result.regexp | limitTo:test.result.regexpBreak" class="prewrap matching"></span><span ng-bind="test.result.regexp | from:test.result.regexpBreak" class="prewrap unmatching"></span>
-                </div>
 
                 <div class="ui vertical segment">
                   <div class="ui small header" translate>form+generated_ec</div>

@@ -87,7 +87,8 @@ angular.module('ezPAARSE.form-controllers', [])
     var settings  = settingService.settings;
     var promise;
     $scope.test = {
-      loading: false
+      loading: false,
+      tab: 'format'
     };
 
     $scope.parse = function () {
@@ -130,6 +131,11 @@ angular.module('ezPAARSE.form-controllers', [])
         if (ec) {
           $scope.test.loading = false;
 
+          var missing = [];
+          if (!ec.hasOwnProperty('timestamp')) { missing.push('date'); }
+          if (!ec.hasOwnProperty('url'))       { missing.push('url'); }
+          if (!ec.hasOwnProperty('domain'))    { missing.push('domain'); }
+
           return $scope.test.result = {
             autoDetect:  parser.autoDetect(),
             strictMatch: strictMatch,
@@ -138,6 +144,7 @@ angular.module('ezPAARSE.form-controllers', [])
             formatBreak: parser.autoDetect() ? parser.getFormat().length : format.length,
             regexp:      regexp,
             regexpBreak: regexpBreak,
+            missing:     missing,
             ec:          ec
           };
         }
