@@ -134,8 +134,8 @@ angular.module('ezPAARSE.form-controllers', [])
             autoDetect:  parser.autoDetect(),
             strictMatch: strictMatch,
             proxy:       parser.getProxy(),
-            format:      fullFormat,
-            formatBreak: format.length,
+            format:      parser.autoDetect() ? parser.getFormat() : fullFormat,
+            formatBreak: parser.autoDetect() ? parser.getFormat().length : format.length,
             regexp:      regexp,
             regexpBreak: regexpBreak,
             ec:          ec
@@ -155,7 +155,7 @@ angular.module('ezPAARSE.form-controllers', [])
             strictMatch: false,
             regexp:      regexp,
             regexpBreak: regexpBreak,
-            format:      fullFormat,
+            format:      parser.autoDetect() ? parser.getFormat() : fullFormat,
             formatBreak: 0
           };
         }
