@@ -169,5 +169,5 @@ angular.module('ezPAARSE.form-controllers', [])
       })();
     };
 
-    if (inputService.text) { $scope.test(); }
+    if (inputService.text) { $scope.parse(); }
   });
