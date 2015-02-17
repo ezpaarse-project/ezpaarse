@@ -90,7 +90,7 @@ angular.module('ezPAARSE.form-controllers', [])
       loading: false
     };
 
-    $scope.test = function () {
+    $scope.parse = function () {
       $timeout.cancel(promise);
 
       var logLine     = inputService.text.split('\n')[0];
