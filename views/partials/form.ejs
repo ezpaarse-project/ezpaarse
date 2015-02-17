@@ -124,51 +124,54 @@
               <div class="ui compact positive message" ng-show="test.result.autoDetect && test.result.strictMatch" translate>form+autodetect_success</div>
               <div class="ui compact negative message" ng-show="test.result.autoDetect && !test.result.strictMatch" translate>form+autodetect_fail</div>
 
-              <div class="ui vertical segment">
-                <div class="ui small header">
-                  {{ 'form+format' | translate }}
-                  <div class="sub header" ng-bind="test.result.proxy"></div>
-                </div>
-                <span ng-bind="test.result.format | limitTo:test.result.formatBreak" class="prewrap matching"></span><span ng-bind="test.result.format | from:test.result.formatBreak" class="prewrap unmatching"></span>
-              </div>
+              <div ng-hide="test.result.autoDetect && !test.result.strictMatch">
 
-              <div class="ui vertical segment">
-                <div class="ui small header" translate>form+regular_expression</div>
-                <span ng-hide="test.result.regexp" translate>form+regexp_failed</span>
-
-                <span ng-bind="test.result.regexp | limitTo:test.result.regexpBreak" class="prewrap matching"></span><span ng-bind="test.result.regexp | from:test.result.regexpBreak" class="prewrap unmatching"></span>
-              </div>
-
-              <div class="ui vertical segment">
-                <div class="ui small header" translate>form+generated_ec</div>
-                <p ng-hide="test.result.ec" translate>form+no_ec_generated</p>
-                <div ng-show="test.result.ec">
-                  <div>
-                    <div ng-hide="test.result.ec.timestamp">
-                      <i class="red warning sign icon"></i> {{ 'form+no_date_detected' | translate }}
-                    </div>
-                    <div ng-hide="test.result.ec.url">
-                      <i class="red warning sign icon"></i> {{ 'form+no_url_detected' | translate }}
-                    </div>
-                    <div ng-hide="test.result.ec.domain">
-                      <i class="red warning sign icon"></i> {{ 'form+no_domain_detected' | translate }}
-                    </div>
+                <div class="ui vertical segment">
+                  <div class="ui small header">
+                    {{ 'form+format' | translate }}
+                    <div class="sub header" ng-bind="test.result.proxy"></div>
                   </div>
+                  <span ng-bind="test.result.format | limitTo:test.result.formatBreak" class="prewrap matching"></span><span ng-bind="test.result.format | from:test.result.formatBreak" class="prewrap unmatching"></span>
+                </div>
 
-                  <table class="ui very compact celled table">
-                    <thead>
-                      <tr>
-                        <th translate>form+field</th>
-                        <th translate>form+value</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr ng-repeat="(name,value) in test.result.ec">
-                        <td class="collapsing" ng-bind="name"></td>
-                        <td ng-bind="value"></td>
-                      </tr>
-                    </tbody>
-                  </table>
+                <div class="ui vertical segment">
+                  <div class="ui small header" translate>form+regular_expression</div>
+                  <span ng-hide="test.result.regexp" translate>form+regexp_failed</span>
+
+                  <span ng-bind="test.result.regexp | limitTo:test.result.regexpBreak" class="prewrap matching"></span><span ng-bind="test.result.regexp | from:test.result.regexpBreak" class="prewrap unmatching"></span>
+                </div>
+
+                <div class="ui vertical segment">
+                  <div class="ui small header" translate>form+generated_ec</div>
+                  <p ng-hide="test.result.ec" translate>form+no_ec_generated</p>
+                  <div ng-show="test.result.ec">
+                    <div>
+                      <div ng-hide="test.result.ec.timestamp">
+                        <i class="red warning sign icon"></i> {{ 'form+no_date_detected' | translate }}
+                      </div>
+                      <div ng-hide="test.result.ec.url">
+                        <i class="red warning sign icon"></i> {{ 'form+no_url_detected' | translate }}
+                      </div>
+                      <div ng-hide="test.result.ec.domain">
+                        <i class="red warning sign icon"></i> {{ 'form+no_domain_detected' | translate }}
+                      </div>
+                    </div>
+
+                    <table class="ui very compact celled table">
+                      <thead>
+                        <tr>
+                          <th translate>form+field</th>
+                          <th translate>form+value</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="(name,value) in test.result.ec">
+                          <td class="collapsing" ng-bind="name"></td>
+                          <td ng-bind="value"></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
             </div>
