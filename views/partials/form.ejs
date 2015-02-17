@@ -135,19 +135,8 @@
               <div class="ui vertical segment">
                 <div class="ui small header" translate>form+regular_expression</div>
 
-                <table class="ui basic compact table">
-                  <tr>
-                    <td class="collapsing" translate>form+partial_format</td>
-                    <td ng-bind="test.result.regexp"></td>
-                  </tr>
-                  <tr>
-                    <td class="collapsing" translate>form+full_format</td>
-                    <td>
-                      <span ng-show="test.result.fullRegexp" ng-bind="test.result.fullRegexp"></span>
-                      <span ng-hide="test.result.fullRegexp" translate>form+full_regexp_failed</span>
-                    </td>
-                  </tr>
-                </table>
+                <span ng-show="test.result.regexp" ng-bind="test.result.regexp"></span>
+                <span ng-hide="test.result.regexp" translate>form+regexp_failed</span>
               </div>
 
               <div class="ui vertical segment">

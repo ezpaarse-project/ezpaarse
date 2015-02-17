@@ -97,7 +97,7 @@ angular.module('ezPAARSE.form-controllers', [])
       var format      = settings.logFormat || '';
       var fullFormat  = format;
       var strictMatch = true;
-      var fullRegexp;
+      var regexp;
       var ec;
 
       if (!logLine) { return $scope.test.result = null; }
@@ -106,7 +106,7 @@ angular.module('ezPAARSE.form-controllers', [])
 
       (function retry() {
         var parser = logParser({
-          proxy: settings.proxyType,
+          proxy: format ? settings.proxyType : null,
           format: format,
           dateFormat: settings.headers['Date-Format'],
           relativeDomain: settings.headers['Relative-Domain'],
@@ -116,7 +116,7 @@ angular.module('ezPAARSE.form-controllers', [])
         var ec = parser.parse(logLine);
 
         if (strictMatch && parser.getRegexp()) {
-          fullRegexp = parser.getRegexp().toString();
+          regexp = parser.getRegexp().toString();
         }
 
         if (ec) {
@@ -128,8 +128,7 @@ angular.module('ezPAARSE.form-controllers', [])
             proxy: parser.getProxy(),
             matched: parser.getFormat(),
             unmatched: fullFormat.substr(format.length),
-            regexp: parser.getRegexp().toString(),
-            fullRegexp: fullRegexp,
+            regexp: regexp,
             ec: ec
           };
         }
@@ -145,7 +144,7 @@ angular.module('ezPAARSE.form-controllers', [])
             autoDetect: parser.autoDetect(),
             proxy: parser.getProxy(),
             strictMatch: false,
-            fullRegexp: fullRegexp,
+            regexp: regexp,
             unmatched: fullFormat
           };
         }
