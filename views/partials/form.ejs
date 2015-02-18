@@ -31,7 +31,7 @@
     <div class="ui top attached tabular menu">
       <a class="right item" ng-click="selectTab('settings')" ng-class="{'settings': 'active'}[inputType]"><i class="settings icon"></i> {{ 'form+settings' | translate }}</a>
       <a class="item" ng-click="selectTab('files')" ng-class="{'files': 'active'}[inputType]"><i class="open folder icon"></i> {{ 'form+logfiles' | translate }}</a>
-      <a class="item" ng-click="selectTab('text')" ng-class="{'text': 'active'}[inputType]"><i class="text file icon"></i> {{ 'form+copy_paste' | translate }}</a>
+      <a class="item" ng-click="selectTab('text')" ng-class="{'text': 'active'}[inputType]"><i class="text file icon"></i> {{ 'form+design_format' | translate }}</a>
     </div>
     <div class="ui bottom attached active tab segment" ng-switch on="inputType">
       <div ng-switch-when="files">

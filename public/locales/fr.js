@@ -80,7 +80,7 @@ ezLanguages['fr'] = {
   "form+samples":           "Vous désirez utiliser des logs de test pour valider votre installation, nous en <a href=\"{{ gitHubSamples }}\" target=\"_blank\">mettons à disposition sur GitHub</a>.",
   "form+settings":          "Paramètres",
   "form+logfiles":          "Fichiers de logs",
-  "form+copy_paste":        "Copier/coller de logs",
+  "form+design_format":     "Concevoir mon format de log",
   "form+autosort":          "tri automatique",
   "form+clear_files":       "Vider les fichiers",
   "form+drop_files_here":   "Déposez les fichiers ici",
