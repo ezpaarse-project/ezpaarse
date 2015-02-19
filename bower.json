@@ -16,17 +16,17 @@
     "tests"
   ],
   "dependencies": {
-    "angular": "~1.2.16",
-    "semantic-ui": "~1.7.2",
+    "angular": "~1.3.13",
+    "semantic-ui": "~1.8.1",
     "jquery": "~1.11.0",
-    "angular-ui-router": "~0.2.10",
-    "bxslider-4-kallisto": "~4.1.2",
-    "node-uuid": "~1.4.1",
-    "angular-socket-io": "~0.4.1",
-    "angular-chosen-localytics": "~1.0.6",
-    "angular-sanitize": "~1.2.16",
-    "angular-translate": "~2.1.0",
-    "angular-cookie": "~4.0.2",
-    "jreject": "~1.1.4"
+    "angular-ui-router": "~0.2.13",
+    "node-uuid": "~1.4.2",
+    "angular-socket-io": "~0.7.0",
+    "angular-chosen-localytics": "~1.0.7",
+    "angular-sanitize": "~1.3.13",
+    "angular-translate": "~2.6.0",
+    "angular-cookie": "~4.0.6",
+    "jreject": "~1.1.4",
+    "bx-slider.js": "~4.2.2"
   }
 }
