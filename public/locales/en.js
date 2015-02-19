@@ -67,8 +67,10 @@ ezLanguages['en'] = {
   "footer+powered":          "Powered by <a href=\"{{ nodejs }}\" target=\"_blank\">Node.js</a> and <a href=\"{{ expressjs }}\" target=\"_blank\">Express 4</a>",
 
   // PKBs state
-  "state+synchronizing": "Synchronizing PKBs...",
-  "state+synchronized":  "PKBs synchronized",
+  "castor+synchronizing": "Synchronizing PKBs...",
+  "castor+synchronized":  "PKBs synchronized",
+  "castor+unavailable":   "Failed to connect to MongoDB. To enable data enrichment, please check that MongoDB is installed and running.",
+  "castor+error":         "Unknown PKBs state",
   // Process state button
   "state+idle":         "No process loading",
   "state+loading":      "Ongoing process... {{ percent }}%",

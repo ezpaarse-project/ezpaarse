@@ -73,17 +73,17 @@ angular.module('ezPAARSE.main-controllers', [])
         $scope.feedbackAvailable = false;
       });
 
+    $scope.castor = { loading: true };
     $http.get('/castor/status')
       .success(function (data) {
-        if (!angular.isObject(data)) { return; }
-        $scope.castor = data;
-        $scope.castor.synchronizing = (data.state == 'synchronizing');
+        $scope.castor = angular.isObject(data) ? data : { state: 'error' };
+      })
+      .error(function () {
+        $scope.castor = { state: 'error' };
       });
 
     socket.on('castor:update', function (data) {
-      if (!angular.isObject(data)) { return; }
-      $scope.castor = data;
-      $scope.castor.synchronizing = (data.state == 'synchronizing');
+      $scope.castor = angular.isObject(data) ? data : { state: 'error' };
     });
 
     /**
