@@ -18,7 +18,7 @@ browser.resources.mock(/googleapis/, { statusCode: 200 });
 
 describe('The browser', function () {
   it('should correctly load the main page (@01)', function (done) {
-    this.timeout(5000);
+    this.timeout(10000);
 
     browser.visit('/', function () {
       browser.assert.success("Failed to visit the main page");
