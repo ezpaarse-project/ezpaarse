@@ -10,7 +10,7 @@ module.exports = function (app) {
   /**
    *  Get a browserified version of the log parser
    */
-  app.get('/logparser', function (req, res) {
+  app.get('/logparser.js', function (req, res) {
     res.type('text/javascript');
 
     if (bundle) { return res.status(200).send(bundle); }
