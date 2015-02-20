@@ -5,22 +5,33 @@
       <p translate translate-values="{gitHubSamples: 'https://github.com/ezpaarse-project/ezpaarse-dataset-samples'}">form+samples</p>
     </div>
 
-      <div class="ui bottom-spaced tiny header">
-        {{ 'settings+parameters' | translate }}
-        <div class="sub header" ng-hide="ss.predefined">
-          <i class="loading spinner icon"></i>
-        </div>
-        <div class="sub header" ng-show="ss.predefined">
-          <span ng-show="ss.settingsType" ng-bind="ss.predefined[ss.settingsType].fullName"></span>
-          <span ng-show="!ss.settingsType" translate>settings+default</span>
-          <span ng-show="ss.custom"> ({{ 'settings+modified' | translate }})</span>
+    <div class="ui two columns vertically padded grid">
+      <div class="column">
+        <div class="ui tiny header">
+          {{ 'settings+parameters' | translate }}
+          <div class="sub header" ng-hide="ss.predefined">
+            <i class="loading spinner icon"></i>
+          </div>
+          <div class="sub header" ng-show="ss.predefined">
+            <span ng-show="ss.settingsType" ng-bind="ss.predefined[ss.settingsType].fullName"></span>
+            <span ng-show="!ss.settingsType" translate>settings+default</span>
+            <span ng-show="ss.custom"> ({{ 'settings+modified' | translate }})</span>
+          </div>
         </div>
       </div>
+
+      <div class="right aligned column">
+        <div class="ui checkbox">
+          <input id="rememberToggle" type="checkbox" ng-model="ss.remember" ng-change="ss.saveRemember()">
+          <label for="rememberToggle" translate>settings+remember</label>
+        </div>
+      </div>
+    </div>
 
     <div class="ui top attached tabular menu">
       <a class="right item" ng-click="selectTab('settings')" ng-class="{'settings': 'active'}[inputType]"><i class="settings icon"></i> {{ 'form+settings' | translate }}</a>
       <a class="item" ng-click="selectTab('files')" ng-class="{'files': 'active'}[inputType]"><i class="open folder icon"></i> {{ 'form+logfiles' | translate }}</a>
-      <a class="item" ng-click="selectTab('text')" ng-class="{'text': 'active'}[inputType]"><i class="text file icon"></i> {{ 'form+copy_paste' | translate }}</a>
+      <a class="item" ng-click="selectTab('text')" ng-class="{'text': 'active'}[inputType]"><i class="text file icon"></i> {{ 'form+design_format' | translate }}</a>
     </div>
     <div class="ui bottom attached active tab segment" ng-switch on="inputType">
       <div ng-switch-when="files">
@@ -76,10 +87,109 @@
         </div>
       </div>
 
-      <div ng-switch-when="text">
-        <div class="ui form field">
-          <label for="log-lines" translate>form+paste_your_logs</label>
-          <textarea id="log-lines" ng-model="inputs.text"></textarea>
+      <div ng-switch-when="text" ng-controller="FormatCtrl">
+        <div class="ui form">
+          <div class="field">
+            <label for="log-lines" translate>form+paste_your_logs</label>
+            <textarea id="log-lines" ng-model="inputs.text" ng-trim="false" ng-change="parse()"></textarea>
+          </div>
+
+          <div class="three fields">
+            <div class="select field">
+              <label translate>settings+log_type</label>
+              <select ng-model="ss.settings.proxyType" ng-options="key as value for (key,value) in ss.selections.proxyTypes" ng-change="parse()">
+                <option value="" translate>settings+auto_recognition</option>
+              </select>
+            </div>
+
+            <div class="field">
+              <label translate>settings+relative_domain</label>
+              <input placeholder="{{ 'form+example' | translate:{value:'www.domain.com'} }}" type="text" ng-model="ss.settings.headers['Relative-Domain']" ng-change="parse()">
+            </div>
+
+            <div class="field" ng-show="ss.settings.proxyType">
+              <label translate>settings+date_format</label>
+              <input placeholder="{{ 'form+example' | translate:{value:'DD/MMM/YYYY:HH:mm:ss Z'} }}" type="text" ng-model="ss.settings.headers['Date-Format']" ng-change="parse()">
+            </div>
+          </div>
+
+          <div class="field" ng-show="ss.settings.proxyType">
+            <label>{{ 'settings+log_format' | translate }} <a href="/doc/formats.html" target="_blank"><i class="large help circle link icon"></i></a></label>
+            <input placeholder="{{ 'form+example' | translate:{value:'%h %u %t &quot;%r&quot; %s %b'} }}" type="text" ng-model="ss.settings.logFormat" ng-change="parse()"></input>
+          </div>
+
+          <div class="ui labelled {{ test.loading ? 'loading' : '' }} segment" ng-class="{ true: 'green', false: 'red' }[test.result.strictMatch]">
+            <div class="ui header">
+              {{ 'form+format_analysis' | translate }}
+              <div class="sub header" translate>form+based_on_first_line</div>
+            </div>
+
+            <div ng-show="test.result">
+              <div class="ui big right green corner label" ng-show="test.result.strictMatch">
+                <i class="checkmark icon"></i>
+              </div>
+              <div class="ui big right red corner label" ng-hide="test.result.strictMatch">
+                <i class="remove icon"></i>
+              </div>
+
+              <div class="ui compact positive message" ng-show="test.result.autoDetect && test.result.strictMatch" translate>form+autodetect_success</div>
+              <div class="ui compact negative message" ng-show="test.result.autoDetect && !test.result.strictMatch" translate>form+autodetect_fail</div>
+
+              <div ng-hide="test.result.autoDetect && !test.result.strictMatch">
+                <div class="ui yellow icon message" ng-show="test.result.missing.length > 0">
+                  <i class="warning sign icon"></i>
+                  <div class="content">
+                    <ul class="list">
+                      <li ng-repeat="miss in test.result.missing">
+                        {{ 'form+no_' + miss + '_detected' | translate }}
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+
+                <div class="ui top attached tabular menu">
+                  <a class="item" ng-class="{ active: test.tab == 'format' }" ng-click="test.tab = 'format'" translate>form+format</a>
+                  <a class="item" ng-class="{ active: test.tab == 'regex' }" ng-click="test.tab = 'regex'" translate>form+regular_expression</a>
+                </div>
+
+                <div class="ui bottom attached segment" ng-switch="test.tab">
+
+                  <div ng-switch-when="format">
+                    <div class="ui small header" ng-bind="test.result.proxy"></div>
+                    <span ng-bind="test.result.format | limitTo:test.result.formatBreak" class="prewrap matching"></span><span ng-bind="test.result.format | from:test.result.formatBreak" class="prewrap unmatching"></span>
+                  </div>
+
+                  <div ng-switch-when="regex">
+                    <span ng-hide="test.result.regexp" translate>form+regexp_failed</span>
+
+                    <span ng-bind="test.result.regexp | limitTo:test.result.regexpBreak" class="prewrap matching"></span><span ng-bind="test.result.regexp | from:test.result.regexpBreak" class="prewrap unmatching"></span>
+                  </div>
+                </div>
+
+
+                <div class="ui vertical segment">
+                  <div class="ui small header" translate>form+generated_ec</div>
+                  <p ng-hide="test.result.ec" translate>form+no_ec_generated</p>
+                  <div ng-show="test.result.ec">
+                    <table class="ui very compact celled table">
+                      <thead>
+                        <tr>
+                          <th translate>form+field</th>
+                          <th translate>form+value</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr ng-repeat="(name,value) in test.result.ec">
+                          <td class="collapsing" ng-bind="name"></td>
+                          <td ng-bind="value"></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
 
         <div class="ui center aligned basic segment">

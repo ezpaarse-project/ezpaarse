@@ -11,7 +11,7 @@ body {
   padding: 0px;
   color: #555555;
   background-color: #FAFAFA;
-  /*background-image: url('/assets/img/geometry.png');*/
+  overflow: auto;
 }
 
 .ribbon {
@@ -62,6 +62,10 @@ a {
 
 a:hover {
   text-decoration: underline;
+}
+
+.link.icon {
+  text-decoration: none;
 }
 
 .prewrap {
@@ -186,14 +190,6 @@ code {
   pointer-events: none;
 }
 
-.bottom-spaced {
-  margin-bottom: 10px;
-}
-
-.ui.segment.no-radius {
-  border-radius: 0;
-}
-
 .ui.modal.scrollable {
   max-height: 90%;
   overflow: auto;
@@ -204,9 +200,7 @@ textarea#log-lines {
   word-break: break-all;
 }
 
-.inverted.popup a {
-  color: inherit;
-}
+.inverted.popup a { color: inherit; }
 
 .progress > .bar {
   text-align: center;
@@ -223,18 +217,18 @@ textarea#log-lines {
   vertical-align: middle;
 }
 
-.bottom-padded-group > div {
-  padding-bottom: 10px;
-}
-
-.ui.label.normalized {
-  text-transform: none;
-}
 
 .inline-labels .ui.label {
   word-break: break-all;
   margin: 2px;
 }
+
+.ui.label.normalized { text-transform: none; }
+
+.ui.labelled.segment { overflow: hidden; }
+
+.matching   { color: green; }
+.unmatching { color: red; }
 
 .justify.aligned { text-align: justify !important; }
 .right.aligned   { text-align: right !important; }
