@@ -5,6 +5,9 @@
 #
 
 EZPAARSE_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
+REPO_URL="https://github.com/ezpaarse-project/ezpaarse-libs.git"
+
+cd $EZPAARSE_PATH
 
 # detect local version
 LOCAL_VERSION=`git describe --tags`
@@ -12,32 +15,43 @@ if [ "$?" != "0" ]; then
   LOCAL_VERSION=`cat $EZPAARSE_PATH/VERSION`
 fi
 
+REMOTE_TAG=""
+if [ "$LOCAL_VERSION" != "" ]; then
+  REMOTE_TAG=`git ls-remote --tags $REPO_URL $LOCAL_VERSION`
+fi
+
 if [ ! -d $EZPAARSE_PATH/build ]; then
   mkdir $EZPAARSE_PATH/build
 fi
 
 # pull modification of clone from ezpaarse-libs
-echo "--> Getting ezpaarse-libs repository"
 if [ -d $EZPAARSE_PATH/build/ezpaarse-libs/ ]; then
   cd $EZPAARSE_PATH/build/ezpaarse-libs/
   git reset --hard
-  git fetch
+
+  # sync local ezpaarse version and the ezpaarse-libs repository
+  if [ "$REMOTE_TAG" != "" ]; then
+    echo "--> Updating ezpaarse-libs to $LOCAL_VERSION"
+    git fetch --depth 1 origin tag $LOCAL_VERSION
+  else
+    echo "--> Updating ezpaarse-libs to latest"
+    git fetch --depth 1 origin master
+  fi
+
+  git checkout FETCH_HEAD
 else
   cd $EZPAARSE_PATH/build/
-  git clone https://github.com/ezpaarse-project/ezpaarse-libs.git --depth 1
+
+  if [ "$REMOTE_TAG" != "" ]; then
+    echo "--> Downloading ezpaarse-libs [$LOCAL_VERSION]"
+    git clone $REPO_URL ezpaarse-libs --depth 1 --branch $LOCAL_VERSION
+  else
+    echo "--> Downloading ezpaarse-libs [latest]"
+    git clone $REPO_URL ezpaarse-libs --depth 1
+  fi
+
   cd $EZPAARSE_PATH/build/ezpaarse-libs/
 fi
-
-# sync local ezpaarse version and the ezpaarse-libs repository
-if [ "`git tag -l | grep $LOCAL_VERSION`" != "" ]; then
-  git checkout $LOCAL_VERSION
-  echo "--> Getting $LOCAL_VERSION from ezpaarse-libs"
-else
-  git checkout master
-  git pull
-  echo "--> Getting latest ezpaarse-libs version"
-fi
-
 
 # cleanup ezpaarse node_modules and bower_components
 rm -rf $EZPAARSE_PATH/node_modules
