@@ -7,6 +7,8 @@ ezPAARSE is an open-source software that can ingest your (proxy) log files and s
 It filters, extracts and enriches the consultation events that were spotted and produces a CSV file following [COUNTER](http://www.projectcounter.org/) codes of practice.
 This document describes how to install and run ezPAARSE on your computer.
 
+Moreover, **have a look to the [ezpaarse demo](http://ezpaarse.couperin.org)**, it will show you a nice user interface where you can register and test to inject your proxy logs.
+
 Built-in proxies supported log formats are:
 
 * [ezproxy](http://www.oclc.org/ezproxy.en.html)
