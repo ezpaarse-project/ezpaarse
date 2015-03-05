@@ -11,6 +11,14 @@
       "Log-Format-ezproxy": "%h %{session}<[a-zA-Z0-9\\-\\+]+> %u %t \"%r\" %s %b %{user}<[a-zA-Z0-9\\-\\+,]+>"
     }
   },
+  "00-fr-univ-lorr-docnum": {
+    "fullName": "Université de Lorraine - PETALE",
+    "country": "France",
+    "headers": {
+      "Relative-Domain": "docnum.univ-lorraine.fr",
+      "Output-Fields": "+year,+institution,-login,-platform,-platform_name,-publisher_name,-rtype,-mime,-online_identifier,-print_identifier,-doi,-publication_title,-identd,-domain"
+    }
+  },
   "00-ge-ezproxy-1": {
     "fullName": "EZproxy (with user-agent) : %h %l %u %t \"%r\" %s %b \"%{user-agent}<.*>\"",
     "country": "Generic",
