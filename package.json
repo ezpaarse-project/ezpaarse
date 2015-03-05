@@ -17,6 +17,7 @@
     "beautiful-docs": "~1.0.3",
     "body-parser": "^1.6.7",
     "bower": "^1.3.9",
+    "browserify": "^8.1.3",
     "castor-load": "^4.2.0",
     "castor-load-csv": "^2.1.1",
     "cheerio": "^0.17.0",

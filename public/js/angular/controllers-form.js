@@ -82,4 +82,92 @@ angular.module('ezPAARSE.form-controllers', [])
 
       $location.path('/process');
     };
+  }).controller('FormatCtrl', function ($scope, settingService, inputService, $timeout) {
+    var logParser = require('logparser');
+    var settings  = settingService.settings;
+    var promise;
+    $scope.test = {
+      loading: false,
+      tab: 'format'
+    };
+
+    $scope.parse = function () {
+      $timeout.cancel(promise);
+
+      var logLine     = inputService.text.split('\n')[0];
+      var format      = settings.logFormat || '';
+      var fullFormat  = format;
+      var strictMatch = true;
+      var regexp;
+      var regexpBreak;
+
+      if (!logLine) { return $scope.test.result = null; }
+
+      $scope.test.loading = true;
+
+      (function retry() {
+        var parser = logParser({
+          proxy: format ? settings.proxyType : null,
+          format: format,
+          dateFormat: settings.headers['Date-Format'],
+          relativeDomain: settings.headers['Relative-Domain'],
+          laxist: !strictMatch
+        });
+
+        var ec = parser.parse(logLine);
+
+        if (strictMatch && parser.getRegexp()) {
+          regexp = parser.getRegexp().source;
+
+          for (regexpBreak = regexp.length; regexpBreak >= 0; regexpBreak--) {
+            try {
+              var reg = new RegExp(regexp.substr(0, regexpBreak));
+            } catch (e) { continue; }
+
+            if (reg.test(logLine)) { break; }
+          }
+        }
+
+        if (ec) {
+          $scope.test.loading = false;
+
+          var missing = [];
+          if (!ec.hasOwnProperty('timestamp')) { missing.push('date'); }
+          if (!ec.hasOwnProperty('url'))       { missing.push('url'); }
+          if (!ec.hasOwnProperty('domain'))    { missing.push('domain'); }
+
+          return $scope.test.result = {
+            autoDetect:  parser.autoDetect(),
+            strictMatch: strictMatch,
+            proxy:       parser.getProxy(),
+            format:      parser.autoDetect() ? parser.getFormat() : fullFormat,
+            formatBreak: parser.autoDetect() ? parser.getFormat().length : format.length,
+            regexp:      regexp,
+            regexpBreak: regexpBreak,
+            missing:     missing,
+            ec:          ec
+          };
+        }
+
+        if (!strictMatch) { format = format.substr(0, format.length - 1); }
+        strictMatch = false;
+
+        if (format) {
+          promise = $timeout(retry);
+        } else {
+          $scope.test.loading = false;
+          $scope.test.result  = {
+            autoDetect:  parser.autoDetect(),
+            proxy:       parser.getProxy(),
+            strictMatch: false,
+            regexp:      regexp,
+            regexpBreak: regexpBreak,
+            format:      parser.autoDetect() ? parser.getFormat() : fullFormat,
+            formatBreak: 0
+          };
+        }
+      })();
+    };
+
+    if (inputService.text) { $scope.parse(); }
   });
