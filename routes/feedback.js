@@ -2,10 +2,13 @@
 
 var fs         = require('graceful-fs');
 var path       = require('path');
+var os         = require('os');
 var bodyParser = require('body-parser');
 var request    = require('request');
 var mailer     = require('../lib/mailer.js');
+var git        = require('../lib/git-tools.js');
 var config     = require('../lib/config.js');
+var pkg        = require('../package.json');
 
 module.exports = function (app) {
 
@@ -43,6 +46,8 @@ module.exports = function (app) {
     var text = "Utilisateur : " + (usermail ? usermail : "anonyme");
 
     if (feedback.browser) { text += '\nNavigateur : ' + feedback.browser; }
+
+    text += '\nezPAARSE ' + pkg.version + ' / ' + os.platform() + ' ' + os.release() + ' (' + os.arch() + ')';
     text += "\n===============================\n\n";
     text += feedback.comment;
 
@@ -88,7 +93,6 @@ module.exports = function (app) {
       return;
     }
 
-    res.header('Content-Type', 'application/json; charset=utf-8');
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'X-Requested-With');
 
@@ -97,18 +101,24 @@ module.exports = function (app) {
       return;
     }
 
-    var text = "Une nouvelle instance d'ezPAARSE vient d'être installée.";
-    text    += "\n\nPremier compte : " + req.body.mail;
-    text    += "\nVersion installée : " + req.body.ezversion || 'inconnue';
+    git.exec('describe', function (err, stdout) {
 
-    mailer.mail()
-    .subject('[ezPAARSE] Nouvelle installation')
-    .text(text)
-    .from(config.EZPAARSE_ADMIN_MAIL)
-    .to(config.EZPAARSE_FEEDBACK_RECIPIENTS)
-    .send(function (error, response) {
-      if (error) { res.status(500).end(); }
-      else       { res.status(200).end(); }
+      var text = "Une nouvelle instance d'ezPAARSE vient d'être installée.";
+      text += "\n\nPremier compte : " + req.body.mail;
+      text += "\nPlateforme : " + os.platform() + ' ' + os.release() + ' (' + os.arch() + ')';
+      text += "\nVersion :";
+      text += "\n- package : " + pkg.version || 'inconnue';
+      text += "\n- git : " + (!err && stdout ? stdout : 'inconnue');
+
+      mailer.mail()
+      .subject('[ezPAARSE] Nouvelle installation')
+      .text(text)
+      .from(config.EZPAARSE_ADMIN_MAIL)
+      .to(config.EZPAARSE_FEEDBACK_RECIPIENTS)
+      .send(function (error, response) {
+        if (error) { res.status(500).end(); }
+        else       { res.status(200).end(); }
+      });
     });
   });
 

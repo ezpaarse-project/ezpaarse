@@ -236,10 +236,7 @@ angular.module('ezPAARSE.main-controllers', [])
         userService.login(user.username, user.group);
 
         if ($scope.feedbackAvailable && $scope.formData.informTeam && $scope.noUsers === true) {
-          $http.post('/feedback/freshinstall', {
-            mail: user.username,
-            ezversion: $scope.ezVersion
-          });
+          $http.post('/feedback/freshinstall', { mail: user.username });
         }
 
         $scope.registerForm.$setPristine();

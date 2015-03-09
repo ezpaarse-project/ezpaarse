@@ -66,7 +66,7 @@ Utiliser des paramètres personnalisés permet de récupérer des informations p
 
 Un paramètre peut être formulé de trois façons :  
 - %{**propriété**}<**regexp**> : récupère le champ correspondant à l'expression régulière entre <...> et l'ajoute à l'événement de consultation sous le nom défini entre {...}.  
-- %{**propriété**} : récupère une chaîne alphanumérique et l'ajoute à l'événement de consultation sous le nom défini entre {...}.  
+- %{**propriété**} : récupère une chaîne alphanumérique pouvant contenir des tirets, et l'ajoute à l'événement de consultation sous le nom défini entre {...}.  
 - %<**regexp**> : ignore le morceau de ligne de log correspondant à l'expression régulière entre <...>.
 
 **NB:** pour les expressions régulières complexes, utilisez des parenthèses non capturantes : **(?:x)**.
