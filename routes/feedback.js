@@ -46,6 +46,8 @@ module.exports = function (app) {
     var text = "Utilisateur : " + (usermail ? usermail : "anonyme");
 
     if (feedback.browser) { text += '\nNavigateur : ' + feedback.browser; }
+
+    text += '\nezPAARSE ' + pkg.version + ' / ' + os.platform() + ' ' + os.release() + ' (' + os.arch() + ')';
     text += "\n===============================\n\n";
     text += feedback.comment;
 
