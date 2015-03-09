@@ -65,7 +65,7 @@ LicenseLangString license ${LANG_ENGLISH} "License-CeCILL-V2-en.txt"
 ;General
 
 !define APP_NAME "ezPAARSE"
-!define APP_VERSION "2.1.0"
+!define APP_VERSION "2.2.0"
 !define APP_INST ""
 
 
