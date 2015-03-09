@@ -47,7 +47,8 @@ module.exports = function (app) {
 
     if (feedback.browser) { text += '\nNavigateur : ' + feedback.browser; }
 
-    text += '\nezPAARSE ' + pkg.version + ' / ' + os.platform() + ' ' + os.release() + ' (' + os.arch() + ')';
+    text += '\nezPAARSE ' + pkg.version + ' / ' + os.platform() + ' ' + os.release();
+    text += ' (' + os.arch() + ')';
     text += "\n===============================\n\n";
     text += feedback.comment;
 
