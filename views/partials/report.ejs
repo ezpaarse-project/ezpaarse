@@ -21,7 +21,7 @@
         </ul>
       </div>
       <div ng-show="reportLoading"><i class="loading spinner icon"></i> {{ 'report+loading' | translate }}</div>
-      <div ng-repeat="category in report | reportCategories">
+      <div class="ui segment" ng-repeat="category in report | reportCategories">
         <h3 id="{{ category }}" class="ui purple dividing header">
           {{ 'report+' + category | translate }}
         </h3>

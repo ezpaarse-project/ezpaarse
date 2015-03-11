@@ -68,9 +68,7 @@ a:hover {
   text-decoration: none;
 }
 
-.prewrap {
-  white-space: pre-wrap;
-}
+.prewrap    { white-space: pre-wrap; }
 
 code {
   padding: 2px 4px;
@@ -84,6 +82,10 @@ code {
   font-weight: bold;
 }
 
+.ui.table td {
+  word-wrap: break-word;
+  word-break: break-word;
+}
 .ui.table tr.odd {
   background-color: rgba(0, 0, 50, 0.02) !important;
 }
