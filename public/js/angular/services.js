@@ -49,13 +49,6 @@ angular.module('ezPAARSE.services', [])
       };
       this.data = angular.copy(this.baseData);
 
-      /**
-       * Give socket ID to the request service
-       */
-      socket.on('connected', function (socketID) {
-        self.socketID = socketID;
-      });
-
       this.loggingListener = function (log) {
         self.data.logs.push(log);
       };
@@ -135,7 +128,7 @@ angular.module('ezPAARSE.services', [])
       }
 
       headers = headers || {};
-      headers['Socket-ID'] = this.socketID;
+      headers['Socket-ID'] = socket._id;
 
       var currentJob = {
         id: this.data.jobID,
@@ -601,5 +594,11 @@ angular.module('ezPAARSE.services', [])
     return new settingService();
   })
   .factory('socket', function (socketFactory) {
-    return socketFactory();
+    var socket = socketFactory();
+
+    socket.on('connected', function (socketID) {
+      socket._id = socketID;
+    });
+
+    return socket;
   });

@@ -9,10 +9,27 @@ var config     = require('../lib/config.js');
 var userlist   = require('../lib/userlist.js');
 var mailer     = require('../lib/mailer.js');
 var auth       = require('../lib/auth-middlewares.js');
+var ezJobs     = require('../lib/jobs.js');
+var io         = require('../lib/socketio.js').io;
 
 var emailRegexp = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9-]+(\.[a-z0-9-]+)*$/i;
 
 module.exports = function (app) {
+
+  /**
+   * GET route on /jobs
+   * Get IDs of current jobs
+   */
+  app.get('/jobs', auth.ensureAuthenticated(true), auth.authorizeMembersOf('admin'),
+    function (req, res) {
+
+    res.status(200).json(Object.keys(ezJobs));
+
+    var socket = io().sockets.connected[req.query.socket];
+    if (socket) {
+      socket.join('admin');
+    }
+  });
 
   /**
    * GET route on /app/status

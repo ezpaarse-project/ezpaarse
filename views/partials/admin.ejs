@@ -13,6 +13,8 @@
 
         <a class="item" ng-click="adm.selectTab('users')" ng-class="{'users': 'active'}[adm.tab]" translate>admin+users</a>
 
+        <a class="item" ng-click="adm.selectTab('jobs')" ng-class="{'jobs': 'active'}[adm.tab]" translate>admin+jobs</a>
+
         <a class="item" ng-click="adm.selectTab('system')" ng-class="{'system': 'active'}[adm.tab]">
           {{ 'admin+system' | translate }}
           <i class="red warning circle icon" ng-show="adm.software.outdated"></i>
@@ -68,7 +70,7 @@
           </div>
         </div>
 
-        <div ng-switch-when="platforms"  ng-controller="AdminPlatformsCtrl">
+        <div ng-switch-when="platforms" ng-controller="AdminPlatformsCtrl">
           <h4 class="ui header" translate>admin+updates</h4>
 
 
@@ -170,7 +172,7 @@
           </table>
         </div>
 
-        <div ng-switch-when="users"  ng-controller="AdminUsersCtrl">
+        <div ng-switch-when="users" ng-controller="AdminUsersCtrl">
           <p ng-show="adm.loadingUsers" class="center aligned"><i class="big loading spinner icon"></i></p>
           <div ng-show="adm.usersError" class="ui compact error message">{{ (adm.usersError || '') | translate }}</div>
 
@@ -234,6 +236,18 @@
                 <td ng-hide="adm.changed[user.username]">{{ user.group }}</td>
               </tr>
             </table>
+          </div>
+        </div>
+
+        <div ng-switch-when="jobs" ng-controller="AdminJobsCtrl">
+          <div class="ui error message" ng-show="adm.jobs.error" translate>admin+jobs_error</div>
+          <div ng-show="adm.jobs.loading"><i class="big loading spinner icon"></i></div>
+
+          <div ng-show="adm.jobs.list">
+            <p translate translate-values="{ nbJobs: adm.jobs.list.length || 0 }">admin+current_jobs</p>
+            <div ng-repeat="job in adm.jobs.list">
+              <a ng-href="/report/{{ job }}" ng-bind="job"></a>
+            </div>
           </div>
         </div>
       </div>

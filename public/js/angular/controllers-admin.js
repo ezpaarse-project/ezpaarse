@@ -281,4 +281,31 @@ angular.module('ezPAARSE.admin-controllers', [])
           adm.software.refreshing = false;
         });
     };
+  })
+  .controller('AdminJobsCtrl', function ($scope, $http, socket) {
+    var jobs = $scope.adm.jobs = {};
+
+    var getJobs = function () {
+      jobs.loading = true;
+      jobs.error   = false;
+
+      $http.get('/jobs?socket=' + socket._id)
+      .success(function (data) {
+        jobs.list    = data;
+        jobs.loading = false;
+      })
+      .error(function () {
+        jobs.loading = false;
+        jobs.error   = true;
+      });
+    };
+
+    getJobs();
+    if (!socket._id) {
+      socket.once('connected', getJobs);
+    }
+
+    socket.on('jobs', function (jobs) {
+      $scope.adm.jobs = jobs;
+    });
   });
