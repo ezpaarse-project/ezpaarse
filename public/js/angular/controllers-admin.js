@@ -306,6 +306,6 @@ angular.module('ezPAARSE.admin-controllers', [])
     }
 
     socket.on('jobs', function (jobs) {
-      $scope.adm.jobs = jobs;
+      $scope.adm.jobs.list = jobs;
     });
   });
