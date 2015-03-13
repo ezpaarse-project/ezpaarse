@@ -7,8 +7,6 @@ var helpers = require('./helpers.js');
 
 var logFile = path.join(__dirname, '/dataset/geolocalize.log');
 
-
-
 describe('The server', function () {
   describe('receives a log file', function () {
     it('and correctly handles geolocalization (@01)', function (done) {
@@ -24,7 +22,7 @@ describe('The server', function () {
         var result = JSON.parse(body);
         result[0].should.have.property('geoip-country');
         result[0]['geoip-country'].should.equal('US');
-        result[0]['geoip-region'].should.equal('CA');
+        result[0]['geoip-region'].should.equal('NY');
         done();
       });
     });
@@ -43,7 +41,7 @@ describe('The server', function () {
         var result = JSON.parse(body);
         result[0].should.not.have.property('geoip-country');
         result[0].should.have.property('host');
-        result[0]['host'].should.equal('66.249.65.107');
+        result[0]['host'].should.equal('66.65.65.107');
         done();
       });
     });
