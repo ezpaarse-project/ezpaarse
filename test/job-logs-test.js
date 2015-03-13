@@ -16,6 +16,7 @@ var duplicateEC            = path.join(__dirname, '/dataset/duplicate-ecs.log');
 var unorderedEC            = path.join(__dirname, '/dataset/unordered-ecs.log');
 var deniedEC               = path.join(__dirname, '/dataset/sd.denied.log');
 var filteredEC             = path.join(__dirname, '/dataset/filtered-ecs.log');
+var robotEC                = path.join(__dirname, '/dataset/robot-ec.log');
 
 describe('The server', function () {
   describe('receives a log file', function () {
@@ -410,6 +411,35 @@ describe('The server', function () {
         body = body.trim().split('\n');
         should.ok(body.length === 3, '2 EC should be returned, got ' + (body.length - 1));
         done();
+      });
+    });
+  });
+  describe('receives a log file with a robot host', function () {
+    it('and correctly handles Lines-Robots.log (@15)', function (done) {
+      var headers = {
+        'Accept' : 'text/csv',
+        'Reject-Files': 'robots-ecs'
+      };
+      helpers.post('/', robotEC, headers, function (err, res, body) {
+        if (!res) { throw new Error('ezPAARSE is not running'); }
+        if (err)  { throw err; }
+        res.statusCode.should.equal(200, 'expected 200, got ' + res.statusCode);
+        should.ok(body === '', 'The body is not empty');
+
+        var logURL = res.headers['lines-robots-ecs'];
+        should.exist(logURL,
+          'The header "Lines-Robots-ECs" was not sent by the server');
+
+        helpers.get(logURL, function (error, response, logBody) {
+          if (!response) { throw new Error('ezPAARSE is not running'); }
+          if (error)     { throw error; }
+          response.statusCode.should.equal(200,
+            'couldn\'t get the logfile, server sent ' + response.statusCode);
+
+          var logLine = fs.readFileSync(robotEC).toString().trim();
+          logBody.trim().should.equal(logLine, 'The logfile and the input should be identical');
+          done();
+        });
       });
     });
   });
