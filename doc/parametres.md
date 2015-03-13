@@ -43,7 +43,7 @@ Niveaux disponibles :
 
 ### Reject-Files ###
 Liste des fichiers de rejet à générer, séparés par des virgules. (aucun par défaut, `all` pour tous)  
-Valeurs possibles : Unknown-Formats, Ignored-Domains, Unknown-Domains, Unqualified-ECs, PKB-Miss-ECs, Duplicate-ECs, Unordered-ECs, Filtered-ECs.
+Valeurs possibles : Unknown-Formats, Ignored-Domains, Unknown-Domains, Unqualified-ECs, PKB-Miss-ECs, Duplicate-ECs, Unordered-ECs, Filtered-ECs, Ignored-Hosts, Robots-ECs.
 
 ### User-field[n]-xxx ###
 Extraction des informations utilisateurs d'un champ des logs en entrée [(plus de détails)](./userfields.html).  
@@ -89,3 +89,8 @@ Indique à ezPAARSE qu'il doit utiliser les paramètres prédéfinis corresponda
 
 ### ezPAARSE-Filter-Redirects ###
 Set false to prevent lines with HTTP status codes 301, 302 from being filtered and discarded.
+
+### ezPAARSE-Include ###
+Disable filters applying to robots or arbitrary hosts/domains. (defaults to `none`).  
+Possible values (separated by commas) : `robots`, `ignored-hosts`, `ignored-domains`.  
+Set to `all` to disable all above filters.
