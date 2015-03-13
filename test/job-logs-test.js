@@ -442,5 +442,22 @@ describe('The server', function () {
         });
       });
     });
+    it('and produce an EC if the filter is disabled (@16)', function (done) {
+      var headers = {
+        'Accept' : 'text/csv',
+        'Reject-Files': 'robots-ecs',
+        'ezPAARSE-Include': 'robots'
+      };
+      helpers.post('/', robotEC, headers, function (err, res, body) {
+        if (!res) { throw new Error('ezPAARSE is not running'); }
+        if (err)  { throw err; }
+        res.statusCode.should.equal(200, 'expected 200, got ' + res.statusCode);
+
+        body = body.trim().split('\n');
+        should.ok(body.length === 2, '1 EC should be returned, got ' + (body.length - 1));
+
+        done();
+      });
+    });
   });
 });
