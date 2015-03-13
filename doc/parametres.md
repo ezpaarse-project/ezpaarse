@@ -90,7 +90,7 @@ Indique à ezPAARSE qu'il doit utiliser les paramètres prédéfinis corresponda
 ### ezPAARSE-Filter-Redirects ###
 Set false to prevent lines with HTTP status codes 301, 302 from being filtered and discarded.
 
-### ezPAARSE-Include ###
+### Disable-Filters ###
 Disable filters applying to robots or arbitrary hosts/domains. (defaults to `none`).  
 Possible values (separated by commas) : `robots`, `ignored-hosts`, `ignored-domains`.  
 Set to `all` to disable all above filters.

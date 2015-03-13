@@ -319,7 +319,7 @@ angular.module('ezPAARSE.services', [])
           { category: 'other',          name: 'ezPAARSE-Enrich',              anchor: 'ezpaarse-enrich' },
           { category: 'other',          name: 'ezPAARSE-Predefined-Settings', anchor: 'ezpaarse-predefined-settings' },
           { category: 'other',          name: 'ezPAARSE-Filter-Redirects',    anchor: 'ezpaarse-filter-redirects' },
-          { category: 'other',          name: 'ezPAARSE-Include',             anchor: 'ezpaarse-include' }
+          { category: 'other',          name: 'Disable-Filters',              anchor: 'disable-filters' }
         ]
       };
 

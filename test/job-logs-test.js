@@ -446,7 +446,7 @@ describe('The server', function () {
       var headers = {
         'Accept' : 'text/csv',
         'Reject-Files': 'robots-ecs',
-        'ezPAARSE-Include': 'robots'
+        'Disable-Filters': 'robots'
       };
       helpers.post('/', robotEC, headers, function (err, res, body) {
         if (!res) { throw new Error('ezPAARSE is not running'); }
