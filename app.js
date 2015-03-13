@@ -10,7 +10,6 @@ var cookieParser  = require('cookie-parser');
 
 var pkg           = require('./package.json');
 var config        = require('./lib/config.js');
-var config        = require('./lib/config.js');
 var http          = require('http');
 var path          = require('path');
 var mkdirp        = require('mkdirp');
@@ -215,30 +214,36 @@ if (env == 'development') {
   app.use(errorHandler());
 }
 
-console.log('Building domains matching list...');
-parserlist.init(function (errors, duplicates) {
-  if (errors) {
-    errors.forEach(function (err) { console.error(err); });
-  }
+console.log('Indexing robot hosts...');
+require('./lib/ecfilter.js').init(function (err, nbRobots) {
+  if (err) { throw err; }
 
-  if (duplicates) {
-    duplicates.forEach(function (d) {
-      var msg = '[Warning] The domain %s is used twice in %s and %s, %s will be ignored';
-      console.error(msg, d.domain, d.first, d.ignored, d.ignored);
-    });
-  }
+  console.log('Robot hosts indexed. (%d hosts registered)', nbRobots);
+  console.log('Building domains matching list...');
+  parserlist.init(function (errors, duplicates) {
+    if (errors) {
+      errors.forEach(function (err) { console.error(err); });
+    }
 
-  console.log('Matching list built. (%d domains registered for %d platforms)\n',
-    parserlist.sizeOf('domains'), parserlist.sizeOf('platforms'));
+    if (duplicates) {
+      duplicates.forEach(function (d) {
+        var msg = '[Warning] The domain %s is used twice in %s and %s, %s will be ignored';
+        console.error(msg, d.domain, d.first, d.ignored, d.ignored);
+      });
+    }
 
-  var server = http.createServer(app);
+    console.log('Matching list built. (%d domains registered for %d platforms)\n',
+      parserlist.sizeOf('domains'), parserlist.sizeOf('platforms'));
 
-  require('./lib/socketio.js').listen(server);
+    var server = http.createServer(app);
 
-  require('./lib/mongo.js').connect(function () {
-    server.listen(app.get('port'), function () {
-      console.log(pkg.name + "-" + pkg.version +
-        " listening on http://localhost:" + app.get('port') + " (pid is " + process.pid + ")");
+    require('./lib/socketio.js').listen(server);
+
+    require('./lib/mongo.js').connect(function () {
+      server.listen(app.get('port'), function () {
+        console.log(pkg.name + "-" + pkg.version +
+          " listening on http://localhost:" + app.get('port') + " (pid is " + process.pid + ")");
+      });
     });
   });
 });
