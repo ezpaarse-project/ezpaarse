@@ -226,6 +226,8 @@ ezLanguages['fr'] = {
   "rejects+unknown_formats":       "Formats inconnus",
   "rejects+unqualified_ecs":       "ECs non qualifiés",
   "rejects+missing_pkbs":          "PKBs manquantes",
+  "rejects+ignored_hosts":         "Hosts ignorés",
+  "rejects+robots_ecs":            "Robots",
   "rejects+relevant_lines":        "Lignes de log pertinentes lues : {{ nb | localNumber }}",
   "rejects+ignored_lines_help":    "Nombre de requêtes non pertinentes. Il s'agit principalement de téléchargements d'images, css ou scripts web sans rapport direct avec une ressource. Dans un log brut, ce chiffre est souvent élevé.",
   "rejects+denied_ecs_help":       "Liste des accès qui ont été refusés à l'utilisateur au moment du clic.<br/>Exemple : tentative d'accès à un article non négocié dans le bouquet de l'établissement.",
@@ -236,6 +238,8 @@ ezLanguages['fr'] = {
   "rejects+unknown_formats_help":  "Les formats inconnus.",
   "rejects+unqualified_ecs_help":  "Les parseurs n'ont pas reconnu d'informations documentaires dans les URL de ces lignes de log. Elles sont donc ignorées par ezPAARSE.",
   "rejects+missing_pkbs_help":     "Les PKBs manquantes.",
+  "rejects+ignored_hosts_help":    "Hosts volontairement ignorés.",
+  "rejects+robots_ecs_help":       "Consultations engendrées par des robots.",
 
   // Report (tab and fullpage)
   "report+title":          "Rapport de traitement",

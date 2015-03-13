@@ -226,6 +226,8 @@ ezLanguages['en'] = {
   "rejects+unknown_formats":       "Unknown formats",
   "rejects+unqualified_ecs":       "Unqualified CEs",
   "rejects+missing_pkbs":          "Missing PKBs",
+  "rejects+ignored_hosts":         "Ignored hosts",
+  "rejects+robots_ecs":            "Robots",
   "rejects+relevant_lines":        "Relevant log lines read: {{ nb | localNumber }}",
   "rejects+ignored_lines_help":    "Number of non relevant requests. They are mainly downloaded images, css or web scripts that are not directly related to a resource. In a raw log, this figure is often high.",
   "rejects+denied_ecs_help":       "List of accesses that were denied to the user when a click was performed.<br/>Example: a user tried to access a resource that is not included in the package negociated by its instituion.",
@@ -236,6 +238,8 @@ ezLanguages['en'] = {
   "rejects+unknown_formats_help":  "The unknown formats",
   "rejects+unqualified_ecs_help":  "The parsers were not able to recognize bibliographical data in the URLs of those loglines. They are thus ignored by ezPAARSE.",
   "rejects+missing_pkbs_help":     "The missing PKBs.",
+  "rejects+ignored_hosts_help":    "Hosts that were deliberately ignored.",
+  "rejects+robots_ecs_help":       "Robot-generated consultations.",
 
   // Report (tab and fullpage)
   "report+title":          "Processing report",
