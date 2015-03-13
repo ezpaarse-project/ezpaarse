@@ -13,7 +13,7 @@ DOC_OUTPUT=$(shell pwd)/public/doc
 DOC_HTML=$(DOC_OUTPUT)/index.html
 
 # Run every steps needed to start ezpaarse
-all: nodejs node-modules platforms-update doc checkconfig
+all: nodejs node-modules platforms-update exclusions-update doc checkconfig
 
 # Application section
 # # # # # # # # # # # #
@@ -219,8 +219,15 @@ platforms-update:
 	else git clone https://github.com/ezpaarse-project/ezpaarse-platforms.git platforms; \
 	fi
 
+# Clone or update exclusions directory
+exclusions-update:
+	@if test -d exclusions; \
+	then cd exclusions; git pull; \
+	else git clone https://github.com/ezpaarse-project/ezpaarse-exclusions.git exclusions; \
+	fi
+
 # Stop the daemon, update to last tag and rebuild
-pull: platforms-update
+pull: platforms-update exclusions-update
 	@./bin/update-app --rebuild
 	@echo "ezPAARSE has been updated."
 
