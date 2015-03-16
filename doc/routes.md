@@ -58,6 +58,8 @@ Headers contenant des URLs d'accès aux logs :
 -   **Lines-PKB-Miss-ECs:** lignes ayant généré des identifiants introuvables dans la PKB de la plateforme associée.  
 -   **Lines-Duplicate-ECs:** lignes filtrées par l'algorithme de détection des doubles-clics.  
 -   **Lines-Unordered-ECs:** lignes rejetées pour cause de rupture de l'ordre chronologique.  
+-   **Lines-Robots-ECs:** lignes générées par des robots.  
+-   **Lines-Ignored-Hosts:** lignes dont l'adresse IP a été filtrée.  
 
 #### Body ####
 
