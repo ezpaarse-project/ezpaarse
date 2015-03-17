@@ -24,8 +24,8 @@ git push --tags
 # tag the ezpaarse-libs repository
 if [ -d $EZPAARSE_PATH/build/ezpaarse-libs/ ]; then
   cd $EZPAARSE_PATH/build/ezpaarse-libs/
-  git pull
-  git fetch --tags
+  git fetch origin master
+  git checkout FETCH_HEAD
 else
   cd $EZPAARSE_PATH/build/
   git clone git@github.com:ezpaarse-project/ezpaarse-libs.git --depth 1
