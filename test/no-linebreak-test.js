@@ -27,8 +27,8 @@ describe('The server receives data with no line breaks', function () {
       done();
     });
 
-    // Try to send 100000 bytes of text
-    var i = 5000;
+    // Try to send 200kb of text
+    var i = 10000;
     (function writeSomedata() {
       if (gotResponse || --i < 0) { return; }
 
