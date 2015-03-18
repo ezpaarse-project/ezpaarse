@@ -81,7 +81,7 @@
     "fullName": "Université Lyon 3",
     "country": "France",
     "headers": {
-      "Log-Format-ezproxy": "%t %h %l %u %{sessionid}<[a-zA-Z0-9\\-]+> \"%r\" %s %b"
+      "Log-Format-ezproxy": "%t %h - %u %l \"%r\" %s %b"
     }
   },
   "01-fr-mir-ezproxy": {
