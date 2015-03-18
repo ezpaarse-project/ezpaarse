@@ -20,5 +20,7 @@
   "4019": "Geoip: bad field",
   "4020": "Header-Fields: bad value",
   "4021": "Unsupported notification type",
+  "4022": "No line breaks detected",
+  "5000": "Internal error",
   "5001": "A problem occured when trying to format the results"
 }
