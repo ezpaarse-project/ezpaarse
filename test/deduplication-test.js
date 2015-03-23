@@ -16,6 +16,7 @@ var manyclickLogFile2    = path.join(__dirname, '/dataset/sd.duplicates-manyclic
 var manyclickResultFile2 = path.join(__dirname, '/dataset/sd.duplicates-manyclick2.result.json');
 var sessionResultFile    = path.join(__dirname, '/dataset/sd.duplicates-session.result.json');
 var loginResultFile      = path.join(__dirname, '/dataset/sd.duplicates-login.result.json');
+var mixedLoginResultFile = path.join(__dirname, '/dataset/sd.duplicates-mixed-login.result.json');
 var ipResultFile         = path.join(__dirname, '/dataset/sd.duplicates-ip.result.json');
 
 describe('The server', function () {
@@ -197,5 +198,33 @@ describe('The server', function () {
       });
     });
   });
+  describe('receives a log with redundant consultations', function () {
+    it('and deduplicates them into the same window (@06)', function (done) {
+      var headers = {
+        'Accept'               : 'application/json',
+        'Log-Format-ezproxy'   : logFormat,
+        'Double-Click-Strategy': 'LCI',
+        'Double-Click-MIXED'   : 10
+      };
+      helpers.post('/', redundantLogFile, headers, function (err, res, body) {
+        if (!res) { throw new Error('ezPAARSE is not running'); }
+        if (err)  { throw err; }
+        res.should.have.status(200);
 
+        fs.writeFileSync('res.json', body);
+        var correctOutput = fs.readFileSync(mixedLoginResultFile, 'UTF-8');
+        var correctJson   = JSON.parse(correctOutput);
+        var bodyJson      = JSON.parse(body);
+
+        correctJson.should.be.an.instanceOf(Array);
+        bodyJson.should.be.an.instanceOf(Array);
+        should.equal(correctJson.length, bodyJson.length);
+        should.ok(helpers.equalJSONList(bodyJson, correctJson, true,
+          ['timestamp', 'rtype', 'mime', 'unitid']),
+          'Server\'s answer do not match the intended result');
+
+        done();
+      });
+    });
+  });
 });
