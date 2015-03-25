@@ -46,7 +46,7 @@ angular.module('ezPAARSE', [
         var deferred = $q.defer();
         $http.get('/session').success(function (user) {
           if (user) {
-            userService.login(user.username, user.group);
+            userService.login(user);
           }
 
           deferred.resolve(user ? true : false);

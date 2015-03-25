@@ -304,6 +304,14 @@ module.exports = function (app) {
               return res.status(err ? 500 : 204).end();
             });
             break;
+          case 'notifications':
+            if (typeof body.notifiate === 'string') {
+              body.notifiate = (body.notifiate.toLowerCase() !== 'false');
+            }
+            userlist.set(user.username, 'notifiate', !!body.notifiate, function (err) {
+              return res.status(err ? 500 : 204).end();
+            });
+            break;
           default:
             res.set('ezPAARSE-Status-Message', 'bad_section');
             res.status(400).end();

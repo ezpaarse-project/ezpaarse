@@ -263,6 +263,8 @@ ezLanguages['fr'] = {
 
   // Profile page
   "profile+title":                   "Mon profil",
+  "profile+notifications":           "Notifications",
+  "profile+receive_a_mail":          "Recevoir un mail à la fin des traitements",
   "profile+change_password":         "Changement de mot de passe",
   "profile+old_password":            "Ancien mot de passe",
   "profile+new_password":            "Nouveau mot de passe",

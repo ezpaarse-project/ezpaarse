@@ -34,11 +34,7 @@ angular.module('ezPAARSE.main-controllers', [])
     $scope.useLanguage(querylang || ipCookie('lang') || 'fr');
     $location.search('lang', null);
 
-    $scope.user = userService.user;
-
-    $scope.hasAccess = function () {
-      return userService.hasAccess('admin');
-    };
+    $scope.auth = userService;
 
     $scope.logout = function () {
       var cb = function () {
@@ -95,7 +91,7 @@ angular.module('ezPAARSE.main-controllers', [])
   })
   .controller('FeedbackCtrl', function ($scope, $http, userService, requestService) {
     $scope.fb = {
-      mail: userService.user ? userService.user.name : undefined
+      mail: userService.user ? userService.user.username : undefined
     };
     $scope.sendBrowser = true;
     $scope.request     = requestService.data;
@@ -193,7 +189,7 @@ angular.module('ezPAARSE.main-controllers', [])
 
       $http.post('/login', $scope.credentials)
       .success(function (user) {
-        userService.login(user.username, user.group);
+        userService.login(user);
 
         $scope.loginForm.$setPristine();
         $scope.loading     = false;
@@ -233,7 +229,7 @@ angular.module('ezPAARSE.main-controllers', [])
 
       $http.post('/users/', $scope.formData)
       .success(function (user) {
-        userService.login(user.username, user.group);
+        userService.login(user);
 
         if ($scope.feedbackAvailable && $scope.formData.informTeam && $scope.noUsers === true) {
           $http.post('/feedback/freshinstall', { mail: user.username });

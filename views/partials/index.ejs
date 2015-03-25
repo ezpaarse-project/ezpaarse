@@ -31,7 +31,7 @@
           </div>
 
           <div class="ui inverted teal menu">
-            <a ng-if="user.logged" href="/form" class="item" translate>menu+process_logs</a>
+            <a ng-if="auth.isAuthenticated()" href="/form" class="item" translate>menu+process_logs</a>
             <div class="ui simple dropdown item">
               {{ 'menu+documentation' | translate }} <i class="dropdown icon"></i>
               <div class="menu">
@@ -39,11 +39,11 @@
                 <a href="http://analogist.couperin.org/" target="_blank" class="item">AnalogIST</a>
               </div>
             </div>
-            <a href="/admin" class="item" ng-if="user.logged && hasAccess('admin')" translate>menu+admin</a>
+            <a href="/admin" class="item" ng-if="auth.isAuthenticated() && auth.hasAccess('admin')" translate>menu+admin</a>
 
             <div class="right menu">
-              <div ng-if="user.logged" class="ui item simple dropdown">
-                <i class="user icon"></i> {{ user.name }} <i class="dropdown icon"></i>
+              <div ng-if="auth.isAuthenticated()" class="ui item simple dropdown">
+                <i class="user icon"></i> {{ auth.user.username }} <i class="dropdown icon"></i>
                 <div class="menu">
                   <a class="item" href="/profile"><i class="user icon"></i> {{ 'menu+profile' | translate }}</a>
                   <div class="item" ng-click="logout()"><i class="sign out icon"></i> {{ 'menu+logout' | translate }}</div>

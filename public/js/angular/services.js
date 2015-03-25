@@ -4,16 +4,14 @@
 
 angular.module('ezPAARSE.services', [])
   .service('userService', function () {
-    this.user = { logged: false };
+    this.user = null;
 
-    this.login = function (name, group) {
-      this.user.name   = name;
-      this.user.group  = group;
-      this.user.logged = true;
+    this.login = function (user) {
+      this.user = user;
     };
 
     this.logout = function () {
-      this.user.logged = false;
+      this.user = null;
     };
 
     this.hasAccess = function () {
@@ -25,7 +23,7 @@ angular.module('ezPAARSE.services', [])
     };
 
     this.isAuthenticated = function () {
-      return this.user.logged;
+      return (this.user !== null);
     };
   }).factory('requestService', function ($rootScope, socket) {
     function requestService() {

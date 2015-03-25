@@ -5,15 +5,19 @@
 
 var bodyParser = require('body-parser');
 var auth       = require('../lib/auth-middlewares.js');
+var userlist   = require('../lib/userlist.js');
 var passport   = require('passport');
 
 module.exports = function (app) {
 
   /**
-   * Retrieve current session
+   * Retrieve current logged
    */
   app.get('/session', auth.ensureAuthenticated(false), function (req, res) {
-    res.status(200).json(req.user);
+    userlist.get(req.user.username, function (err, user) {
+      if (err) { return res.status(500).end(); }
+      res.status(200).json(user);
+    });
   });
 
   /**

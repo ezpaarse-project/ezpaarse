@@ -3,6 +3,21 @@
         profile+title
       </h2>
 
+      <div class="ui segment">
+        <h3 class="ui header" translate>profile+notifications</h3>
+
+        <div class="ui checkbox">
+          <input id="notifToggle" type="checkbox" ng-model="prf.notifiate.val" ng-change="prf.submitNotifications()">
+          <label for="notifToggle">
+            <span translate>profile+receive_a_mail</span>
+            <i class="loading spinner icon" ng-show="prf.notifiate.saving"></i>
+            <i class="green checkmark icon" ng-show="prf.notifiate.success"></i>
+          </label>
+        </div>
+
+        <div class="ui small error message" ng-show="prf.notifiate.error"><i class="big remove icon"></i>{{ (prf.notifiate.error || '') | translate }}</div>
+      </div>
+
       <form name="passwordForm" class="ui form segment" ng-class="{ error: prf.password.error }" ng-submit="prf.submitPassword(passwordForm.$valid)" novalidate>
         <h3 class="ui header" translate>profile+change_password</h3>
         <div class="three fields">
