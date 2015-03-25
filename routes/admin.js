@@ -80,10 +80,13 @@ module.exports = function (app) {
    * To get the user list
    */
   app.get('/users', auth.ensureAuthenticated(true), function (req, res) {
-    var users = userlist.getAll();
-    res.set("Content-Type", "application/json; charset=utf-8");
-    res.set("ezPAARSE-Logged-User", req.user.username);
-    res.status(200).json(users);
+    userlist.getAll(function (err, users) {
+      if (err) { return res.status(500).end(); }
+
+      res.set("Content-Type", "application/json; charset=utf-8");
+      res.set("ezPAARSE-Logged-User", req.user.username);
+      res.status(200).json(users);
+    });
   });
 
   /**
@@ -91,7 +94,11 @@ module.exports = function (app) {
    * To get the number of registered users
    */
   app.get('/usersnumber', function (req, res) {
-    res.status(200).send(userlist.length().toString());
+    userlist.length(function (err, length) {
+      if (err) { return res.status(500).end(); }
+
+      res.status(200).send(length.toString());
+    });
   });
 
   /**
@@ -114,58 +121,56 @@ module.exports = function (app) {
     };
 
     if (!userid || !password || !confirm) {
-      sendErr(400, 'fill_all_fields');
-      return;
+      return sendErr(400, 'fill_all_fields');
     }
 
     // Regex used by angular
     if (!emailRegexp.test(userid)) {
-      sendErr(400, 'invalid_address');
-      return;
+      return sendErr(400, 'invalid_address');
     }
 
     if (password != confirm) {
-      sendErr(400, 'password_does_not_match');
-      return;
+      return sendErr(400, 'password_does_not_match');
     }
 
-    if (userlist.get(userid)) {
-      sendErr(409, 'user_already_exists');
-      return;
-    }
+    userlist.get(userid, function (err, user) {
+      if (err) { res.status(500).end(); }
+      if (user) { return sendErr(409, 'user_already_exists'); }
 
-    var cryptedPassword = userlist.crypt(userid, password);
+      var cryptedPassword = userlist.crypt(userid, password);
 
-    var user = userlist.add({
-      username: userid,
-      password: cryptedPassword,
-      group: userlist.length() === 0 ? 'admin' : group
-    });
+      userlist.add({
+        username: userid,
+        password: cryptedPassword
+      }, function (err, user) {
 
-    if (!user) {
-      res.status(500).end();
-      return;
-    }
+        if (!user) {
+          res.status(500).end();
+          return;
+        }
 
-    var copyUser = {};
-    for (var prop in user) {
-      if (prop != 'password') { copyUser[prop] = user[prop]; }
-    }
+        var copyUser = {};
+        for (var prop in user) {
+          if (prop != 'password') { copyUser[prop] = user[prop]; }
+        }
 
-    if (isAdmin) {
-      //TODO: put that in a separate route
-      res.set("Content-Type", "application/json; charset=utf-8");
-      res.status(201).json(copyUser);
-      return;
-    }
+        if (isAdmin) {
+          //TODO: put that in a separate route
+          res.set("Content-Type", "application/json; charset=utf-8");
+          res.status(201).json(copyUser);
+          return;
+        }
 
-    req.logIn(user, function (err) {
-      if (err) {
-        res.status(500).end();
-        return;
-      }
-      res.set("Content-Type", "application/json; charset=utf-8");
-      res.status(201).json(copyUser);
+        req.logIn(user, function (err) {
+          if (err) {
+            res.status(500).end();
+            return;
+          }
+          res.set("Content-Type", "application/json; charset=utf-8");
+          res.status(201).json(copyUser);
+        });
+      });
+
     });
   });
 
@@ -180,13 +185,10 @@ module.exports = function (app) {
         res.set('ezPAARSE-Status-Message', 'cant_delete_yourself');
         res.status(403).end();
       } else {
-        var user = userlist.remove(username);
-        if (user) {
+        userlist.remove(username, function (err) {
+          if (err) { res.status(500).end(); }
           res.status(204).end();
-        } else {
-          res.set('ezPAARSE-Status-Message', 'user_does_not_exist');
-          res.status(404).end();
-        }
+        });
       }
     }
   );
@@ -198,35 +200,38 @@ module.exports = function (app) {
   app.post(/^\/users\/(.+)$/, auth.ensureAuthenticated(true), auth.authorizeMembersOf('admin'),
     bodyParser.urlencoded({ extended: true }), bodyParser.json(), function (req, res) {
       var mail = req.params[0];
-      var user = userlist.get(mail);
-      if (!user) { return res.status(404).end(); }
+      userlist.get(mail, function (err, user) {
+        if (err) { return res.status(500).end(); }
+        if (!user) { return res.status(404).end(); }
 
-      var body = req.body;
+        var body   = req.body;
+        var change = {};
 
-      if (body.username) {
-        // Regex used by angular
-        if (!emailRegexp.test(body.username)) {
-          res.header('ezPAARSE-Status-Message', 'invalid_address');
-          return res.status(400).end();
-        } else {
-          user.username = body.username;
+        if (body.username) {
+          // Regex used by angular
+          if (!emailRegexp.test(body.username)) {
+            res.header('ezPAARSE-Status-Message', 'invalid_address');
+            return res.status(400).end();
+          } else {
+            change.username = body.username;
+          }
         }
-      }
 
-      if (body.group && body.group != user.group) {
-        if (mail == req.user.username) {
-          res.header('ezPAARSE-Status-Message', 'cant_change_your_own_group');
-          return res.status(400).end();
+        if (body.group && body.group != user.group) {
+          if (mail == req.user.username) {
+            res.header('ezPAARSE-Status-Message', 'cant_change_your_own_group');
+            return res.status(400).end();
+          }
+          change.group = body.group;
         }
-        user.group = body.group;
-      }
 
-      userlist.save();
-      var copy = {};
-      for (var p in user) {
-        if (p != 'password') { copy[p] = user[p]; }
-      }
-      res.status(200).json(copy);
+        userlist.set(user.username, change, function (err, newUser) {
+          if (err) { return res.status(500).end(); }
+
+          delete newUser.password;
+          res.status(200).json(newUser);
+        });
+      });
     }
   );
 
@@ -236,30 +241,32 @@ module.exports = function (app) {
    */
   app.post(/^\/passwords\/(.+)$/, function (req, res) {
       var mail = req.params[0];
-      var user = userlist.get(mail);
-      if (!user) { return res.status(404).end(); }
+      userlist.get(mail, function (err, user) {
+        if (err) { return res.status(500).end(); }
+        if (!user) { return res.status(404).end(); }
 
-      var chars    = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-      var password = '';
+        var chars    = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        var password = '';
 
-      for (var i = 0; i < 10; i++) {
-        password += chars[Math.round(Math.random() * (chars.length - 1))];
-      }
+        for (var i = 0; i < 10; i++) {
+          password += chars[Math.round(Math.random() * (chars.length - 1))];
+        }
 
-      var cryptedPassword = userlist.crypt(mail, password);
+        var cryptedPassword = userlist.crypt(mail, password);
 
-      if (userlist.set(mail, 'password', cryptedPassword)) {
-        mailer.mail()
-          .subject('[ezPAARSE] Réinitialisation de votre mot de passe')
-          .text('Votre mot de passe est désormais : ' + password)
-          .from(config.EZPAARSE_ADMIN_MAIL)
-          .to(mail)
-          .send(function (err) {
-            res.status(err ? 500 : 200).end();
-          });
-      } else {
-        res.status(500).end();
-      }
+        userlist.set(mail, 'password', cryptedPassword, function (err) {
+          if (err) { return res.status(500).end(); }
+
+          mailer.mail()
+            .subject('[ezPAARSE] Réinitialisation de votre mot de passe')
+            .text('Votre mot de passe est désormais : ' + password)
+            .from(config.EZPAARSE_ADMIN_MAIL)
+            .to(mail)
+            .send(function (err) {
+              res.status(err ? 500 : 200).end();
+            });
+        });
+      });
     }
   );
 
@@ -269,35 +276,39 @@ module.exports = function (app) {
    */
   app.post('/profile', auth.ensureAuthenticated(true),
     bodyParser.urlencoded({ extended: true }), bodyParser.json(), function (req, res) {
-      var user = userlist.get(req.user.username);
-      var body = req.body;
+      userlist.get(req.user.username, function (err, user) {
+        if (err) { return res.status(500).end(); }
+        if (!user) { return res.status(404).end(); }
 
-      if (!user) { return res.status(404).end(); }
+        var body = req.body;
 
-      switch (body.section) {
-        case 'password':
-          if (!body.oldPassword || !body.newPassword || !body.confirm) {
-            res.set('ezPAARSE-Status-Message', 'fill_all_fields');
-            return res.status(400).end();
-          } else if (body.newPassword != body.confirm) {
-            res.set('ezPAARSE-Status-Message', 'password_does_not_match');
-            return res.status(400).end();
-          }
+        switch (body.section) {
+          case 'password':
+            if (!body.oldPassword || !body.newPassword || !body.confirm) {
+              res.set('ezPAARSE-Status-Message', 'fill_all_fields');
+              return res.status(400).end();
+            } else if (body.newPassword != body.confirm) {
+              res.set('ezPAARSE-Status-Message', 'password_does_not_match');
+              return res.status(400).end();
+            }
 
-          var oldCryptedPassword = userlist.crypt(user.username, body.oldPassword);
+            var oldCryptedPassword = userlist.crypt(user.username, body.oldPassword);
 
-          if (user.password != oldCryptedPassword) {
-            res.set('ezPAARSE-Status-Message', 'wrong_password');
-            return res.status(400).end();
-          }
+            if (user.password != oldCryptedPassword) {
+              res.set('ezPAARSE-Status-Message', 'wrong_password');
+              return res.status(400).end();
+            }
 
-          user.password = userlist.crypt(user.username, body.newPassword);
-          userlist.save();
-          return res.status(204).end();
-        default:
-          res.set('ezPAARSE-Status-Message', 'bad_section');
-          res.status(400).end();
-      }
+            var newPassword = userlist.crypt(user.username, body.newPassword);
+            userlist.set(user.username, 'password', newPassword, function (err) {
+              return res.status(err ? 500 : 204).end();
+            });
+            break;
+          default:
+            res.set('ezPAARSE-Status-Message', 'bad_section');
+            res.status(400).end();
+        }
+      });
     }
   );
 
