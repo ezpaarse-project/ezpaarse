@@ -8,7 +8,7 @@ Par défaut, une base d'adresses IPs est utilisée pour détecter les consulatio
 Pour ajouter des adresses à considérer comme des robots, créez un fichier dans le répertoire `exclusions`. Son nom doit commencer par `robots.`, et doit contenir une adresse par ligne.
 
 ## Exclusions d'IPs arbitraires ##
-Il est possible de filtrer volontairement des adresses pouvant être à l'origine de véritable consultations. Les lignes concernées sont rejetées dans un fichier différent de celui des robots.
+Il est possible de filtrer volontairement des adresses pouvant être à l'origine de véritables consultations. Les lignes concernées sont rejetées dans un fichier différent de celui des robots.
 
 Pour ajouter des adresses à filtrer, créez un fichier dans le répertoire `exclusions`. Son nom doit commencer par `hosts.`, et doit contenir une adresse par ligne.
 
