@@ -282,7 +282,7 @@ angular.module('ezPAARSE.services', [])
           { level: 'info',    desc: 'Informations générales' }
         ],
         headers: [
-          { category: 'encoding',       name: 'Content-Encoding',             anchor: 'content-encoding' },
+          { category: 'encoding',       name: 'Response-Encoding',            anchor: 'response-encoding' },
           { category: 'encoding',       name: 'Accept-Encoding',              anchor: 'accept-encoding' },
           { category: 'encoding',       name: 'Request-Charset',              anchor: 'request-charset' },
           { category: 'encoding',       name: 'Response-Charset',             anchor: 'response-charset' },

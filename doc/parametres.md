@@ -6,7 +6,7 @@ Les traitements d'ezPAARSE sont configurables en utilisant des headers HTTP. Vou
 ### Content-Encoding ###
 Encodage des données envoyées. *(supportés : gzip, deflate)*  
 
-### Accept-Encoding ###
+### Response-Encoding ###
 Encodage des données renvoyées par le serveur. *(supportés : gzip, deflate)*  
 
 ### Accept ###

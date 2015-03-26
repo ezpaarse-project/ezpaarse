@@ -66,7 +66,8 @@ module.exports = function (app) {
           res.status(500);
           return res.end();
         }
-        var reg = /.*\.job-ecs\.([a-z]+)$/;
+
+        var reg = /.*\.job-ecs(\.[a-z]+){1,2}$/;
         var filename;
         for (var i = files.length - 1; i >= 0; i--) {
           filename = files[i];
