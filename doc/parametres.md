@@ -93,4 +93,6 @@ Set false to prevent lines with HTTP status codes 301, 302 from being filtered a
 ### Disable-Filters ###
 Disable filters applying to robots or arbitrary hosts/domains. (defaults to `none`).  
 Possible values (separated by commas) : `robots`, `ignored-hosts`, `ignored-domains`.  
-Set to `all` to disable all above filters.
+Set to `all` to disable all above filters.  
+
+**NB**: when robots are not filtered, add the `robot` field to the output in order to know which consultations were made by robots.
