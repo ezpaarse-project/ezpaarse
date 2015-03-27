@@ -1,39 +1,39 @@
-#Installation Multi-OS
+#Multi-OS Installation
 
-ezPAARSE peut être installé sur différents OS Linux.
+ezPAARSE can be installed on many Linux flavours.
 
-Selon les OS des pré-requis sont nécessaires avant le lancement de la [procédure d'installation](https://github.com/ezpaarse-project/ezpaarse/blob/master/doc/quickstart.md)
+Depending on the flavour, prerequisites are needed before starting the [main installation](https://github.com/ezpaarse-project/ezpaarse/blob/master/doc/quickstart.md)
 
-##Pré-requis sur Ubuntu
+##Ubuntu prerequisites
 
-A partir d'une [image ubuntu](http://www.ubuntu.com/download) chargée dans une machine virtuelle, avec les droits root ou via sudo.
+Starting from a [ubuntu image](http://www.ubuntu.com/download) loaded in a virtual machine, with root privileges or via sudo.
 
 ```
 apt-get install perl git make curl python gcc build-essential libldap2-dev nsis
 ```
 
-##Pré-requis sur Fedora
+##Fedora prerequisites
 
-A partir d'une [image fedora](http://fedoraproject.org/get-fedora) chargée dans une machine virtuelle, avec les droits root ou via sudo.
+Starting from a [fedora image](http://fedoraproject.org/get-fedora) loaded in a virtual machine, with root privileges or via sudo.
 
 ```
 yum install perl git make python gcc-c++ nsis
 ```
 
-##Pré-requis sur SUSE
+##SUSE prerequisites
  
- (à vérifier)
+(to be verified)
 ```
 yum install perl git make python gcc-c++ nsis
 ```
 
-##Pré-requis sur Mac OS X
+##Mac OS X prerequisites
 
-Sur votre Mac, installer xCode et git
+On your Mac, install xCode and git
 
-##Usage sous Windows
+##Usage on Windows
 
-ezPAARSE peut être utilisé sous windows, mais de façon partielle.
-Seul le coeur d'ezPAARSE et les parseurs écrits en nodejs sont fonctionnels (les outils en ligne de commande sont disponibles sur les systèmes à base d'Unix).
-Cet usage est réservé pour des tests de fonctionnement ou de compatibilité des formats de log.
-Un installeur est disponible sur [la page de téléchargement](http://analogist.couperin.org/ezpaarse/download).
+ezPAARSE can be used on Windows, but will suffer some limitations.
+Only the heart of ezPAARSE and the parsers written in Nodejs will work (the command line tools are only available on Unix-based systems).
+Using a windows version should be reserved for running tests and demos.
+An install program is available on [the download page](http://analogist.couperin.org/ezpaarse/download).
