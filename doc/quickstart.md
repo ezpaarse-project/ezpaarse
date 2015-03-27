@@ -1,32 +1,33 @@
-# Démarrage rapide #
+# Quickstart #
 
-ezPAARSE se présente sous la forme d'un Web service dans lequel vous pouvez
-injecter vos logs et récupérer les événements de consultation correspondants.
-Cette procédure décrit comment installer ezPAARSE sur votre ordinateur.
+ezPAARSE is a webservice where you can inject your logs and get
+filtered and enriched access events as a result.
+Please follow the instructions below to install the software.
 
-## Pré-requis ##
+## Prerequisites ##
 
-Voici les outils dont vous avez besoin pour faire fonctionner ezPAARSE :
+Here are the tools you'll need to let ezPAARSE work:
 
-* Système d'exploitation Linux : [voir les pré-requis par systèmes](https://github.com/ezpaarse-project/ezpaarse/blob/master/doc/multi-os.md)
-* Outils standards Linux : bash, make, grep, sed ... 
-* curl (utilisé par nvm)
+* Linux OS: [see the special prerequesites](https://github.com/ezpaarse-project/ezpaarse/blob/master/doc/multi-os.md)
+* Unix standard tools: bash, make, grep, sed ... 
+* curl (used by nvm)
 * unzip
-* git >= 1.7.10 (demandé par github)
+* git >= 1.7.10 (needed by github)
 * MongoDB >= 2.4
 
-Lorsque les pré-requis sont remplis, le lancement de la commande **make** (voir ci-dessous) **réalise toutes les opérations d'installation**.
+When the prerequisites are fulfilled, launching the **make** command (see below) **automatically completes all the installation steps**.
 
-### Installation de MongoDB ###
+### MongoDB Installation ###
 
-Nous résumons ici la procédure pour les systèmes basés sur Debian ou Ubuntu. Les instructions d'installation pour les autres plateformes sont disponibles dans la [documentation officielle](http://docs.mongodb.org/manual/installation/) de MongoDB.
+We only cover the procedure for Debian and Ubuntu based systems (see below).
+The installation instructions for other OSes are available in the [official MongoDB documentation](http://docs.mongodb.org/manual/installation/).
 
-#### Ubuntu 14.04 ou ultérieur ####
+#### Ubuntu 14.04 or newer ####
 ```
 sudo apt-get install mongodb
 ```
 
-#### Ubuntu 9.10 ou ultérieur ####
+#### Ubuntu 9.10 or older ####
 ```
 sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
 echo 'deb http://downloads-distro.mongodb.org/repo/ubuntu-upstart dist 10gen' | sudo tee /etc/apt/sources.list.d/mongodb.list
@@ -35,7 +36,7 @@ sudo apt-get install -y mongodb-org
 sudo service mongod start
 ```
 
-#### Debian ou Ubuntu antérieur à 9.10 ####
+#### Debian ou Ubuntu older than 9.10 ####
 ```
 sudo apt-key adv --keyserver keyserver.ubuntu.com --recv 7F0CEB10
 echo 'deb http://downloads-distro.mongodb.org/repo/debian-sysvinit dist 10gen' | sudo tee /etc/apt/sources.list.d/mongodb.list
@@ -46,10 +47,10 @@ sudo service mongod start
 
 ## Installation ##
 
-Si vous êtes utilisateur du système d'exploitation Windows, vous pouvez
-installer ezPAARSE sur votre ordinateur en [téléchargeant le setup](http://analogist.couperin.org/ezpaarse/download) et en lançant l'installation comme n'importe quel autre programme.
+For an ezPAARSE installation on a Windows OS, you only have to [download the setup.exe](http://analogist.couperin.org/ezpaarse/download)
+and launch the install process like for any other program.
 
-Pour installer la dernière version stable d'ezPAARSE sur un système de type Unix, ouvrez un terminal et tapez :
+To install the last stable version on a Unix system, open a console and enter:
 ```console
 git clone https://github.com/ezpaarse-project/ezpaarse.git
 cd ezpaarse
@@ -57,29 +58,29 @@ git checkout `git describe --tags --abbrev=0`
 make
 ```
 
-Vous pouvez également télécharger une version stable au format [tar.gz](http://analogist.couperin.org/ezpaarse/download) et entrer dans un terminal :
+You can also download a stable version in the [tar.gz](http://analogist.couperin.org/ezpaarse/download) format, open a console and enter:
 ```console
 tar -xzvf ezpaarse-X.X.X.tar.gz
 cd ezpaarse-X.X.X
 make
 ```
 
-Si vous souhaitez installer la version de développement, tapez :
+If you wish to install the development version, enter:
 ```console
 git clone https://github.com/ezpaarse-project/ezpaarse.git
 cd ezpaarse
 make
 ```
 
-Vous avez également la possibilité de [télécharger une archive .deb](http://analogist.couperin.org/ezpaarse/download) et de l'installer sur votre système Debian/Ubuntu de cette façon :
+You can also [download a .deb archive](http://analogist.couperin.org/ezpaarse/download) and install it on your Debian/Ubuntu system:
 ```console
 sudo -E dpkg -i ezpaarse-X.X.X.deb
 sudo /etc/init.d/ezpaarse start
 ```
 
-## Tester l'installation ##
+## Test your installation ##
 
-Cette étape vous permettra de valider que votre installation est fonctionnelle.
+This step tests if your installation is correctly working:
 
 ```console
 make start
@@ -88,31 +89,31 @@ make test
 
 ## Usage ##
 
-Des [fichiers de logs d'exemple anonymisés](https://raw.github.com/ezpaarse-project/ezpaarse/master/test/dataset/sd.2012-11-30.300.log)
-sont disponibles dans les répertoires d'ezPAARSE.
+[Anonymised example log files](https://raw.github.com/ezpaarse-project/ezpaarse/master/test/dataset/sd.2012-11-30.300.log)
+are available in the ezPAARSE repository.
 
-Vous devez tout d'abord démarrer ezPAARSE en lançant la commande suivante :
+You have to start ezPAARSE first by launching the following command:
 ```console
 make start
 ```
 
-Vous pouvez vérifier à tout moment l'état du programme en lançant la commande :
+You can always check the program status by issueing the following command:
 ```console
 make status
 ```
 
-Pour arrêter ezPAARSE, utilisez la commande :
+To stop ezPAARSE, type the following command:
 ```console
 make stop
 ```
 
-Si vous n'êtes pas informaticien, la méthode la plus simple pour utiliser ezPAARSE est de
-passer par son formulaire HTML directement accessible depuis votre navigateur Web favori.
-Il suffit pour cela d'ouvrir cette adresse : [http://localhost:59599/](http://localhost:59599/)
+If you are not computer savvy, the easiest method to use ezPAARSE is to go through its HTML form
+that is accessible with your favourite web browser.
+You just have to open this URL: [http://localhost:59599/](http://localhost:59599/)
 
-Si vous êtes informaticien, vous pouvez utiliser un client HTTP (ici curl) pour envoyer un
-fichier de données de log (ici ./test/dataset/sd.2012-11-30.300.log) sur le Web service
-d'ezPAARSE et obtenir en réponse un flux CSV d'événements de consultation :
+If you are an IT person, you can use an HTTP client (we'll use curl) to send a logfile
+(in this case: ./test/dataset/sd.2012-11-30.300.log) to the ezPAARSE web service
+and get a CSV stream of access events back.
 
 ```console
 curl -X POST http://127.0.0.1:59599 \
@@ -120,24 +121,24 @@ curl -X POST http://127.0.0.1:59599 \
              --data-binary @./test/dataset/sd.2012-11-30.300.log
 ```
 
-Alternativement, vous pouvez utiliser la commande ``./bin/loginjector`` fournie par ezPAARSE
-pour injecter plus simplement le fichier de log dans le Web service d'ezPAARSE :
+As an alternative, you could also use the ``./bin/loginjector`` command that ezPAARSE provides you with
+to more simply inject the logfile in the web service:
 
 ```console
 . ./bin/env
 cat ./test/dataset/sd.2012-11-30.300.log | ./bin/loginjector
 ```
-Vous pouvez également réaliser des comptages rapides en rajoutant
-la commande ``./bin/csvtotalizer`` à la suite de la ligne de commande.
-Vous aurez entre autre un aperçu des événements de consultation reconnus
-par ezPAARSE sur vos logs :
+
+You can also run quick calculations by adding the ``./bin/csvtotalizer`` command at the end of
+your command line.
+You will get an overview of access events that have been spotted in your logs by ezPAARSE:
 
 ```console
 . ./bin/env
 cat ./test/dataset/sd.2012-11-30.300.log | ./bin/loginjector | ./bin/csvtotalizer
 ```
 
-## Paramétrage avancé ##
+## Advanced Parameters ##
 
-* Le port d'écoute du Web service d'ezPAARSE peut être réglé en modifiant la variable ``EZPAARSE_NODEJS_PORT``
-dans le fichier ``config.json`` (par défaut 59599)
+* The listening port for the web service (by default: 59599) can be modified through the ``EZPAARSE_NODEJS_PORT`` variable
+in the ``config.json`` file
