@@ -1,49 +1,47 @@
-# Utilisation du makefile #
+# Using the makefile #
 
-Le makefile situé dans le répertoire racine d'ezpaarse autorise un certain nombre d'actions, 
-dont l’exécution des tests de comportement, la génération de la documentation 
-ou la vérification du respect des règles de codage.
+The makefile is located in the root directory and is used, among others, to launch tests,
+to generate the documentation, to check that the coding rules are respected.
 
-## Installation des modules node ##
+## Node modules installation ##
 
 ```console
 make nodejs
 ```
 
-Télécharge, compile, et configure les modules nécessaires au fonctionnement de l'application.
+Download, compile and configure the modules that are necessary for the application to run.
 
-## Tests mocha ##
+## Mocha tests ##
 
 ```console
 make test
 ```
 
-Lance l'intégralité des tests de non régression. Lancer cette commande est également un moyen simple
-de s'assurer qu'ezPAARSE est opérationnel.
+Runs all the non-regression tests. It is a simple way to ensure that ezPAARSE is correctly working.
 
-Les fichiers de test sont situés dans le dossier ``test/`` et le nom des fichiers contenant les tests se terminent par ``-test.js``.
+The test files are located in the ``test/`` folder and all the filenames follow the pattern, finishing with ``-test.js``.
 
-Remarque : n'oubliez pas de relancer l'application si vous avez modifié le code source.
+Note : don't forget to restart the application if the source code has been modified.
 
 ```console
 make test-platforms
 ```
-Vérifie le bon fonctionnement des parseurs disponibles
+Checks that the available parsers are functional.
 
 ```console
 make test-platforms-verbose
 ```
-Propose une vérification avec la liste des parseurs testés
+Checks that the available parsers are functional with a detailed output.
 
 ```console
 make test-pkb
 ```
-Vérifie la cohérence des fichiers base de connaissance des parseurs
+Checks that the knowledge base files used by the parsers are well formed and coherent.
 
 ```console
 make test-pkb-verbose
 ```
-Vérifie la cohérence des fichiers base de connaissance des parseurs et affiche les erreurs potentielles
+Checks that the knowledge base files used by the parsers are well formed and coherent with a detailed output.
 
 
 ## Vérification syntaxique ##
@@ -52,29 +50,29 @@ Vérifie la cohérence des fichiers base de connaissance des parseurs et affiche
 make jshint
 ```
 
-Vérifie la syntaxe des fichiers javascript à l'aide du programme ``jshint``.
+Checks the syntax for the javascript files with the ``jshint`` utility.
 
-La précision de JSHint peut être modifiée au besoin via un fichier de configuration (``.jshintrc``). Le détail des différentes options peut être trouvé sur [le site de JSHint](http://www.jshint.com/options/).
+The precision for JSHint can be modified with a configuration file (``.jshintrc``). All the options are documented on [the JSHint page](http://www.jshint.com/options/).
 
-## Gestion de la documentation ##
+## Managing the documentation ##
 
 ```console
 make doc
 ```
 
-Génère une documentation au format html à l'aide des fichiers markdown présents 
-dans le dossier ``doc/``. La documentation HTML est placée dans le dossier ``public/doc/``.
+Generates an HTML formatted documentation with the markdown files found in the ``doc/`` folder.
+The HTML documentation is made available in the ``public/doc/`` folder.
 
 ```console
 make docclean
 ```
 
-Nettoie la documentation HTML générée en supprimant le dossier ``public/doc/``.
+Cleans the generated HTML documentation by deleting the ``public/doc/`` folder.
 
 ```console
 make docopen
 ```
 
-Ouvre la documentation dans le navigateur Google Chrome. (via le protocole ``file://``)
+Opens the documentation in the Google Chrome browser. (through the ``file://`` protocol)
   
-Lorsque l'application est lancée, la documentation est également consultable depuis le serveur Web d'ezPAARSE.
+When the application is started, the documentation is also available on the ezPAARSE built-in web server.
