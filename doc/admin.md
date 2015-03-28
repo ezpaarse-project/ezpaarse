@@ -1,4 +1,4 @@
-# Documentation administrateur #
+# Administrator's documentation #
 
 Every function listed in this page may be used directly from the administration section in the application.
 
@@ -10,8 +10,8 @@ To create an administrator account without the help of the form, please use the 
 <table>
   <tr>
       <th style="text-align:left;width:140px;">Path</th>
-      <th>Méthode</th>
-      <th>Paramètres</th>
+      <th>Method</th>
+      <th>Parameters</th>
   </tr>
   <tr>
     <td>/register</td>
@@ -124,7 +124,7 @@ curl -X DELETE -u "admin:password" http://localhost:59599/users/foo
 - **200 OK** : Checking normally completed.
 - **500 Internal Server Error** : Chercling failed.
 
-In case of success, the answer contains **uptodate** or **outdated**.
+In case of success, the feedback contains **uptodate** or **outdated**.
 
 
 #### Example curl ####
@@ -176,37 +176,37 @@ curl -X PUT -u "admin:password" --data "uptodate" http://localhost:59599/pkb/sta
 
 #### Possible feedbacks #### 
 
-- **200 OK** : la vérification s'est terminé correctement.
-- **500 Internal Server Error** : la vérification a échoué.
+- **200 OK** : Checking normally completed.
+- **500 Internal Server Error** : Checking failed.
 
-En cas de succès, le corps de la réponse contient **uptodate** ou **outdated**.
+In case of success, the feedback contains **uptodate** or **outdated**.
 
-#### Exemple curl ####
+#### Example curl ####
 ```bash
 curl -X GET -u "admin:password" http://localhost:59599/parsers/status
 ```
 
-### Mettre à jour ###
+### Update ###
 <table>
   <tr>
       <th style="text-align:left;width:140px;">Path</th>
-      <th>Méthode</th>
-      <th>Paramètres</th>
+      <th>Method</th>
+      <th>Parameters</th>
   </tr>
   <tr>
     <td>/parsers/status</td>
     <td>PUT</td>
-    <td>**uptodate** dans le corps de la requête</td>
+    <td>**uptodate** in the query string</td>
   </tr>
 </table>
 
-#### Réponses possibles #### 
+#### Possible feedbacks #### 
 
-- **200 OK** : les parseurs ont été mis à jour.
-- **400 Bad Request** : le corps de la requête n'est pas **uptodate**.
-- **500 Internal Server Error** : la mise à jour a échoué.
+- **200 OK** : Parsers have been updated.
+- **400 Bad Request** : Query string does not include **uptodate**.
+- **500 Internal Server Error** : Update failed.
 
-#### Exemple curl ####
+#### Example curl ####
 ```bash
 curl -X PUT -u "admin:password" --data "uptodate" http://localhost:59599/parsers/status
 ```
