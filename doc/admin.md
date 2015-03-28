@@ -1,12 +1,12 @@
 # Documentation administrateur #
 
-L'ensemble des fonctions décrites dans cette page peuvent être utilisées directement depuis la zone d'administration de l'application.
+Every function listed in this page may be used directly from the administration section in the application.
 
-## Création de l'administrateur ##
+## Create an administrator ##
 
-Lorsqu'aucun utilisateur n'est encore enregistré, une tentative de connexion débouche sur un formulaire permettant de créer l'administrateur de l'application.  
+If no user has been registered yet, any attempt to connect triggers an admin creation form.
 
-Pour créer l'administrateur sans le formulaire, utiliser la route suivante :  
+To create an administrator account without the help of the form, please use the following route : 
 <table>
   <tr>
       <th style="text-align:left;width:140px;">Path</th>
@@ -20,21 +20,21 @@ Pour créer l'administrateur sans le formulaire, utiliser la route suivante :
   </tr>
 </table>
 
-#### Réponses possibles ####
+#### Possible feedbacks ####
 
-- **201 Created** : l'administrateur a été créé.
-- **400 Bad Request** : un paramètre est manquant.
-- **409 Conflict** : un administrateur existe déjà.
-- **500 Internal Server Error** : la création a échoué.
+- **201 Created** : The admin has been created.
+- **400 Bad Request** : Missing parameter.
+- **409 Conflict** : There's already an admin.
+- **500 Internal Server Error** : Creation failed.
 
 #### Exemple curl ####
 ```bash
 curl -X POST --data "username=foo&password=bar" http://localhost:59599/register
 ```
 
-## Gestion des utilisateurs ##
+## Users management ##
 
-### Lister les utilisateurs ###
+### List users ###
 <table>
   <tr>
       <th style="text-align:left;width:140px;">Path</th>
@@ -48,9 +48,9 @@ curl -X POST --data "username=foo&password=bar" http://localhost:59599/register
   </tr>
 </table>
 
-Retourne un tableau JSON contenant l'ensemble des utilisateurs.
+Outputs a JSON table with the complete list of users.
 
-### Ajouter un utilisateur ###
+### Add a user ###
 <table>
   <tr>
       <th style="text-align:left;width:140px;">Path</th>
@@ -64,26 +64,26 @@ Retourne un tableau JSON contenant l'ensemble des utilisateurs.
   </tr>
 </table>
 
-#### Réponses possibles ####
+#### Possible feedbacks ####
 
-- **201 Created** : l'utilisateur a été créé.
-- **400 Bad Request** : un paramètre est manquant.
-- **409 Conflict** : le nom d'utilisateur existe déjà.
-- **500 Internal Server Error** : la création a échoué.
+- **201 Created** : User has been created.
+- **400 Bad Request** : Missing parameter.
+- **409 Conflict** : User name already exists.
+- **500 Internal Server Error** : Creation failed.
 
-En cas de succès, le corps de la réponse contient une représention JSON de l'utilisateur créé.
+When the creation succeeds, the feedback contains a complete information about the user in JSON format. 
 
 #### Exemple curl ####
 ```bash
 curl -X POST -u "admin:password" --data "username=foo&password=bar" http://localhost:59599/users/
 ```
 
-### Supprimer un utilisateur ###
+### Delete a user ###
 <table>
   <tr>
       <th style="text-align:left;width:140px;">Path</th>
-      <th>Méthode</th>
-      <th>Paramètres</th>
+      <th>Method</th>
+      <th>Parameters</th>
   </tr>
   <tr>
     <td>/users/{username}</td>
@@ -92,25 +92,25 @@ curl -X POST -u "admin:password" --data "username=foo&password=bar" http://local
   </tr>
 </table>
 
-#### Réponses possibles #### 
+#### Possible feedbacks #### 
 
-- **204 No Content** : l'utilisateur a été supprimé.
-- **404 Not Found** : l'utilisateur est introuvable.
-- **403 Forbidden** : l'administrateur a essayé de se supprimer lui-même.
+- **204 No Content** : User has been deleted.
+- **404 Not Found** : User not found.
+- **403 Forbidden** : The admin has tried to delete the admin account.
 
-#### Exemple curl ####
+#### Example curl ####
 ```bash
 curl -X DELETE -u "admin:password" http://localhost:59599/users/foo
 ```
 
-## Gestion des bases de connaissances ##
+## Knowledge bases management ##
 
-### Vérifier l'état ###
+### Check state ###
 <table>
   <tr>
       <th style="text-align:left;width:140px;">Path</th>
-      <th>Méthode</th>
-      <th>Paramètres</th>
+      <th>Method</th>
+      <th>Parameters</th>
   </tr>
   <tr>
     <td>/pkb/status</td>
@@ -119,52 +119,53 @@ curl -X DELETE -u "admin:password" http://localhost:59599/users/foo
   </tr>
 </table>
 
-#### Réponses possibles #### 
+#### Possible fedbacks #### 
 
-- **200 OK** : la vérification s'est terminé correctement.
-- **500 Internal Server Error** : la vérification a échoué.
+- **200 OK** : Checking normally completed.
+- **500 Internal Server Error** : Chercling failed.
 
-En cas de succès, le corps de la réponse contient **uptodate** ou **outdated**.
+In case of success, the answer contains **uptodate** or **outdated**.
 
-#### Exemple curl ####
+
+#### Example curl ####
 ```bash
 curl -X GET -u "admin:password" http://localhost:59599/pkb/status
 ```
 
-### Mettre à jour ###
+### Update ###
 <table>
   <tr>
       <th style="text-align:left;width:140px;">Path</th>
-      <th>Méthode</th>
-      <th>Paramètres</th>
+      <th>Method</th>
+      <th>Parameters</th>
   </tr>
   <tr>
     <td>/pkb/status</td>
     <td>PUT</td>
-    <td>**uptodate** dans le corps de la requête</td>
+    <td>**uptodate** in query string</td>
   </tr>
 </table>
 
-#### Exemple curl ####
+#### Example curl ####
 ```bash
 curl -X PUT -u "admin:password" --data "uptodate" http://localhost:59599/pkb/status
 ```
 
-#### Réponses possibles #### 
+#### Possible feedbacks #### 
 
-- **200 OK** : les PKBs ont été mises à jour.
-- **400 Bad Request** : le corps de la requête n'est pas **uptodate**.
-- **500 Internal Server Error** : la mise à jour a échoué.
+- **200 OK** : PKBs have been updated
+- **400 Bad Request** : No **uptodate** in query string.
+- **500 Internal Server Error** : Update failed.
 
 
-## Gestion des parseurs ##
+## Parsers management ##
 
-### Vérifier l'état ###
+### Check state ###
 <table>
   <tr>
       <th style="text-align:left;width:140px;">Path</th>
-      <th>Méthode</th>
-      <th>Paramètres</th>
+      <th>Method</th>
+      <th>Parameters</th>
   </tr>
   <tr>
     <td>/parsers/status</td>
@@ -173,7 +174,7 @@ curl -X PUT -u "admin:password" --data "uptodate" http://localhost:59599/pkb/sta
   </tr>
 </table>
 
-#### Réponses possibles #### 
+#### Possible feedbacks #### 
 
 - **200 OK** : la vérification s'est terminé correctement.
 - **500 Internal Server Error** : la vérification a échoué.
