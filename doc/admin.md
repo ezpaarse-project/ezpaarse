@@ -20,7 +20,7 @@ To create an administrator account without the help of the form, please use the 
   </tr>
 </table>
 
-#### Possible feedbacks ####
+#### Possible outputs ####
 
 - **201 Created** : The admin has been created.
 - **400 Bad Request** : Missing parameter.
@@ -64,14 +64,14 @@ Outputs a JSON table with the complete list of users.
   </tr>
 </table>
 
-#### Possible feedbacks ####
+#### Possible outputs ####
 
 - **201 Created** : User has been created.
 - **400 Bad Request** : Missing parameter.
 - **409 Conflict** : User name already exists.
 - **500 Internal Server Error** : Creation failed.
 
-When the creation succeeds, the feedback contains a complete information about the user in JSON format. 
+When the creation succeeds, the output contains a complete information about the user in JSON format. 
 
 #### Exemple curl ####
 ```bash
@@ -92,7 +92,7 @@ curl -X POST -u "admin:password" --data "username=foo&password=bar" http://local
   </tr>
 </table>
 
-#### Possible feedbacks #### 
+#### Possible output #### 
 
 - **204 No Content** : User has been deleted.
 - **404 Not Found** : User not found.
@@ -124,7 +124,7 @@ curl -X DELETE -u "admin:password" http://localhost:59599/users/foo
 - **200 OK** : Checking normally completed.
 - **500 Internal Server Error** : Chercling failed.
 
-In case of success, the feedback contains **uptodate** or **outdated**.
+In case of success, the output contains **uptodate** or **outdated**.
 
 
 #### Example curl ####
@@ -151,7 +151,7 @@ curl -X GET -u "admin:password" http://localhost:59599/pkb/status
 curl -X PUT -u "admin:password" --data "uptodate" http://localhost:59599/pkb/status
 ```
 
-#### Possible feedbacks #### 
+#### Possible outputs #### 
 
 - **200 OK** : PKBs have been updated
 - **400 Bad Request** : No **uptodate** in query string.
@@ -174,12 +174,12 @@ curl -X PUT -u "admin:password" --data "uptodate" http://localhost:59599/pkb/sta
   </tr>
 </table>
 
-#### Possible feedbacks #### 
+#### Possible outputs #### 
 
 - **200 OK** : Checking normally completed.
 - **500 Internal Server Error** : Checking failed.
 
-In case of success, the feedback contains **uptodate** or **outdated**.
+In case of success, the output contains **uptodate** or **outdated**.
 
 #### Example curl ####
 ```bash
@@ -200,7 +200,7 @@ curl -X GET -u "admin:password" http://localhost:59599/parsers/status
   </tr>
 </table>
 
-#### Possible feedbacks #### 
+#### Possible outputs #### 
 
 - **200 OK** : Parsers have been updated.
 - **400 Bad Request** : Query string does not include **uptodate**.
