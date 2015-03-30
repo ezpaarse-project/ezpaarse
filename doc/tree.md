@@ -1,4 +1,4 @@
-# Arborescence ezPAARSE #
+# ezPAARSE folder structure #
 
 
 <pre>
@@ -13,7 +13,7 @@
 │   ├── logformats
 │   ├── outputformats
 │   └── proxyformats
-├── locales [multilinguisme]
+├── locales [i18n]
 │   ├── en.json
 │   └── fr.json
 ├── logs
@@ -35,7 +35,7 @@
 │   ├── <.platform.>
 │   │   ├── test
 │   │   ├── pkb [KBART files]
-│   │   │   ├── <.platform.>_AllTitles_<.AAAA-MM-DD.>.txt
+│   │   │   ├── <.platform.>_AllTitles_<.YYYY-MM-DD.>.txt
 │   │   │   └── <...>
 │   │   └── scrapers [KBART files generators]
 │   │       ├── scrape_<.platform.>_<.file.>.js
