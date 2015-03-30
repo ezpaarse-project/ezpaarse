@@ -1,28 +1,26 @@
-# Gestion du multilinguisme
+# Internationalization and localization
 
-ezPAARSE est diponible en français et en anglais.
+ezPAARSE is available in french and in english.
 
-Les langues sont gérées grâce au module node [i18n-2](https://github.com/jeresig/i18n-node-2). 
-Ce module est intégrable facilement à [Express.js](https://github.com/visionmedia/express) utilisé pour générer les pages HTML d'ezPAARSE.
+The [i18n-2](https://github.com/jeresig/i18n-node-2) NodeJS module was chosen because it integrates well with [Express.js](https://github.com/visionmedia/express) that is used to generate the HTML pages of ezPAARSE.
 
-Les fichiers de langues sont déposés dans le [repertoire "locales"](./tree.html) sous la forme de fichiers json. Le nom des fichiers suit la syntaxe : *code_pays.json* ( ex : [fr.json](https://raw.github.com/ezpaarse-project/ezpaarse/master/locales/fr.json) ou en.json)
+The language files are located in the ["locales" folder](./tree.html) in the form od json files. Those filenames follow the pattern :  *country_code.json* (eg: [fr.json](https://raw.github.com/ezpaarse-project/ezpaarse/master/locales/fr.json) or en.json)
 
-Le contenu des fichiers de langues est constitué d'une clé et de sa traduction dans la langue concernée.
+The language files contain series of keys. Each key is followed by a translation in the target language.
 
-La clé est consituée d'un contexte et du libellé dans la langue française : *contexte+libellé_dans_la_langue_française*.
+The key is composed of a context and a french label : *context+french_label*.
 
-Le contexte correspond au nom de la page dans laquelle se trouve le libellé.
+The context matches the name of the HTML page in which the label appears.
 
-#### Version windows #### 
+#### Windows Version #### 
 
-Pour la version windows, l'installeur comprend un certain nombre de pages traduites.
-Les traductions sont gérées dans des fichiers séparés.
+For the Windows version, the installer contains a number of translated pages.
+The translations are in distincts files.
 
-Les fichiers de langues sont déposés dans le [repertoire "misc/windows"](./tree.html) sous la forme de fichiers nsh. Le nom des fichiers suit la syntaxe : *Langue.nsh* ( ex : [French.nsh](https://raw.github.com/ezpaarse-project/ezpaarse/master/misc/windows/French.nsh) ou English.nsh)
+The languages files are located in the ["misc/windows" folder](./tree.html) and they are nsh formatted. The filenames follow the pattern: *Language.nsh* (eg: [French.nsh](https://raw.github.com/ezpaarse-project/ezpaarse/master/misc/windows/French.nsh) or English.nsh)
 
-Le contenu des fichiers de langues est constitué d'une macro, une clé et de sa traduction dans la langue concernée.
+Thoses file contain a macro, a series of keys and their translation to the target language.
 
-La clé est consituée d'un contexte et du libellé dans la langue française : *contexte+libellé_dans_la_langue_française*.
+The key is composed of a context and a french label : *context+french_label*.
 
-Le contexte correspond au nom de la page dans laquelle se trouve le libellé.
-
+The context matches the name of the HTML page in which the label appears.
