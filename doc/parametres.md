@@ -49,43 +49,43 @@ Possible values : Unknown-Formats, Ignored-Domains, Unknown-Domains, Unqualified
 Extacts user information from a field of the imput logfile [(More information)](./userfields.html).
 
 ### Double-Click-xxx ###
-Précision des paramètres utilisés pour réaliser le dédoublonnage [(plus de détails)](./doubleclick.html).  
+Parameters used for deduplication. [(More information)](./doubleclick.html).
 
 ### Request-Charset ###
-Jeu de caractères utilisé dans les données en entrée [(voir les encodages supportés)](https://github.com/ashtuchkin/iconv-lite#supported-encodings).  
+Character map used for input. [(see supported encodings)](https://github.com/ashtuchkin/iconv-lite#supported-encodings).
 
 ### Response-Charset ###
-Jeu de caractères utilisé pour le résultat. [(voir les encodages supportés)](https://github.com/ashtuchkin/iconv-lite#supported-encodings).  
+Character map used for output. [(see supported encodings)](https://github.com/ashtuchkin/iconv-lite#supported-encodings).
 
 ### Clean-Only ###
-Si placé à `true`, ezPAARSE se contentera de filtrer les lignes de log inutiles, et retournera les lignes pertinentes.  
+If set to `true`, ezPAARSE will just filter out the irrelevant lines and output the relevant ones.
 
 ### Relative-Domain ###
-Si des URLs relatives sont rencontrées, elle seront considérées comme appartenant à ce domaine (et seront donc traitées par le parseur correspondant).  
+If relative URLs are found they'll be considered as belonging to this domain (and will be treated by the relevant parser).
 
 ### COUNTER-Reports ###
-Liste des rapports COUNTER à générer (ex: JR1,BR2). Les liens de téléchargement sont accessibles dans la section `stats` du raport de traitement. [(plus de détails)](./counter.html) 
+List of COUNTER reports to create (ex: JR1, BR2). Download links are accessible in the `stats` section of the treatment report. [(More information)](./counter.html) 
 
 ### COUNTER-Format ###
-Format des rapports COUNTER : `XML` (par défaut) ou `CSV`.  
+COUNTER report formats : `XML` (by default) ou `CSV`.  
 
 ### COUNTER-Customer ###
-Nom et/ou email du client à renseigner dans les rapports, sous la forme `nom`, `<email>` ou `nom<email>`. (Par défaut `ezPAARSE<mail de l'administrateur>`)  
+Name and/or email of the customer to include in the COUNTER reports, following the form `name`, `<email>` or `name<email>`. (By default :`ezPAARSE<admin email>`)  
 
 ### COUNTER-Vendor ###
-Nom et/ou email de l'éditeur à renseigner dans les rapports, sous la forme `nom`, `<email>` ou `nom<email>`. (Par défaut `platform42`, sans mail)  
+Name and/or email of the publisher  to include in the COUNTER reports, following the form `name`, `<email>` or `name<email>`. (By default :`platform42`, without email)  
 
 ### Geoip ###
-Liste d'informations de géolocalisation à ajouter aux résultats. Par défaut `geoip-longitude, geoip-latitude, geoip-country`. `all` peut être utilisé pour renvoyer tous les champs possibles, ou `none` pour désactiver la géolocalisation. [(plus de détails)](./geolocalisation.html)
+Listing of the geolocation informations to be added to the results. Bu default `geoip-longitude, geoip-latitude, geoip-country`. `all` can be used to include every fiel available, or `none` to deactivate geolocation altogether. [(More information)](./geolocalisation.html)
 
 ### ezPAARSE-Job-Notifications ###
-Liste de notifications à envoyer en fin de traitement, sous la forme `action<cible>` et séparées par des virgules. Actuellement disponible : `mail<adresse>`
+Listing of notifications to send when treatment is done, written as `action<cible>` et separated by commas. Currently available : `mail<adresse>`
 
 ### ezPAARSE-Enrich ###
-Indiquer `false` pour désactiver l'enrichissement (geoip et bases de connaissances). Toute autre valeur laisse l'enrichissement actif.
+Set to `false` to deactivate data enrichment (geoip and knowledge bases). Any other value will leave the data enrichment active.
 
 ### ezPAARSE-Predefined-Settings ###
-Indique à ezPAARSE qu'il doit utiliser les paramètres prédéfinis correspondant à la clé donnée. Ex: `inist` pour le paramétarge de l'INIST-CNRS. ([voir liste complète](/info/predefined-settings))
+Tells ezPAARSE to use a predefined set of parameters. Ex : `inist` for INIST-CNRS parameters. ([see the full list](/info/predefined-settings))
 
 ### ezPAARSE-Filter-Redirects ###
 Set false to prevent lines with HTTP status codes 301, 302 from being filtered and discarded.
