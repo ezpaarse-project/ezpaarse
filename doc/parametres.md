@@ -1,52 +1,52 @@
-# Paramètres de traitement #
+# Parameters #
 
-Les traitements d'ezPAARSE sont configurables en utilisant des headers HTTP. Vous trouverez ci-dessous la liste des headers disponibles.
+The ezPAARSE treatments can be congured using HTTP headers. Please find below the list of available headers.
 
 
 ### Content-Encoding ###
-Encodage des données envoyées. *(supportés : gzip, deflate)*  
+Encoding of the data sent  *(supported : gzip, deflate)*  
 
 ### Response-Encoding ###
-Encodage des données renvoyées par le serveur. *(supportés : gzip, deflate)*  
+Encoding of the data sent back by server. *(supported : gzip, deflate)*  
 
 ### Accept ###
-Format de sortie. Sont supportés :  
-  - text/csv (par défaut)
-  - text/tab-separated-values (pour une sortie TSV : comme CSV mais avec tabulations)
+Output format. Supported :
+  - text/csv (by default)
+  - text/tab-separated-values (for a TSV output : as CSV but tab-delimited)
   - application/json
-  - application/jsonstream (un objet json par ligne)
+  - application/jsonstream (one JSON object per line)
 
 ### Log-Format-xxx ###
-Format des lignes de log en entrée, dépend du proxy *xxx* utilisé. [Voir les formats disponibles](./formats.html).
+Format of the log lines in input, depend on the proxy *xxx* used. [See the available formats](./formats.html)
 
 ### Date-Format ###
-Format de date utilisé dans les logs envoyés. Par défaut : 'DD/MMM/YYYY:HH:mm:ss Z'.  
+Date format used in the logs sent. Default is : 'DD/MMM/YYYY:HH:mm:ss Z'.  
 
 ### Anonymize-host ###
-Anonymise la valeur du host des lignes de log. Par défaut : 'none'. *(supportés : md5, none)*.  
+Anonymizes the values found as 'host' in the logfile. By default : 'none'. *(supported : md5, none)*
 
 ### Anonymize-login ###
-Anonymise la valeur du login des lignes de log. Par défaut : 'none'. *(supportés : md5, none)*.  
+Anynymizes the values found as 'login' in the logfile. By default : 'none'. *(supported : md5, none)*
 
 ### Output-Fields ###
-Champs à retrouver dans les données en sortie (si le format le permet). [(Plus de détails)](./outputfields.html)  
+To specify the fields to include in the output (if the format allows it). [(More information)](./outputfields.html)  
 
 ### Traces-Level ###
-Détermine le niveau de verbosité des traces liées au fonctionnement d'ezPAARSE. Les niveaux les plus bas incluent les plus élevés.  
+Allows to specify the verbosity level desired for ezPAARSE's feedback. The higher levels include the lower ones.
 Niveaux disponibles :
-  - **error** : erreurs bloquantes entraînant une interruption anormale du traitement.  
-  - **warn** : erreurs sans incidence sur le traitement.  
-  - **info** : informations générales (format demandé, notification de fin de réponse, nombre d'ECs générés...).  
-  - **verbose** : plus précis qu'info, notifie plus finement les étapes du traitement.  
-  - **silly** : tous détails du traitement (parseur non trouvé, ligne ignorée, recherche non fructueuse dans une PKB...).  
+  - **error** : blocking errors, abnormal treatment termination.  
+  - **warn** : errors not fatal to the treatment.  
+  - **info** : general informations (requested format, ending notification, number of ECs generated...).  
+  - **verbose** : more precise than info, gives more information about each stage of the treatment.  
+  - **silly** : every detail of the treatment (parser not found, line ignored, unsuccessful search in a pkb...).  
 
 
 ### Reject-Files ###
-Liste des fichiers de rejet à générer, séparés par des virgules. (aucun par défaut, `all` pour tous)  
-Valeurs possibles : Unknown-Formats, Ignored-Domains, Unknown-Domains, Unqualified-ECs, PKB-Miss-ECs, Duplicate-ECs, Unordered-ECs, Filtered-ECs, Ignored-Hosts, Robots-ECs.
+List of the reject files to create, separated by commas. (`none` by default, `all`)
+Possible values : Unknown-Formats, Ignored-Domains, Unknown-Domains, Unqualified-ECs, PKB-Miss-ECs, Duplicate-ECs, Unordered-ECs, Filtered-ECs, Ignored-Hosts, Robots-ECs.
 
 ### User-field[n]-xxx ###
-Extraction des informations utilisateurs d'un champ des logs en entrée [(plus de détails)](./userfields.html).  
+Extacts user information from a field of the imput logfile [(More information)](./userfields.html).
 
 ### Double-Click-xxx ###
 Précision des paramètres utilisés pour réaliser le dédoublonnage [(plus de détails)](./doubleclick.html).  
