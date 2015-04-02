@@ -20,7 +20,7 @@ When the prerequisites are fulfilled, launching the **make** command (see below)
 ### MongoDB Installation ###
 
 We only cover the procedure for Debian and Ubuntu based systems (see below).
-The installation instructions for other OSes are available in the [official MongoDB documentation](http://docs.mongodb.org/manual/installation/).
+The installation instructions for other OSes are available in the [official MongoDB documentation](http://docs.mongodb.org/manual/installation/#tutorial-installation).
 
 #### Ubuntu 14.04 or newer ####
 ```

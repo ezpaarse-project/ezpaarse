@@ -60,8 +60,12 @@
             <i class="notched circle loading icon"></i>
             {{ 'layout+ezpaarse_offline' | translate }}
           </div>
-          <div ng-if="castor.state == 'unavailable'" class="ui warning message">
-            <i class="warning sign icon"></i> {{ 'castor+unavailable' | translate }}
+          <div ng-if="castor.state == 'unavailable'" class="ui icon justify aligned warning message">
+            <i class="warning sign icon"></i>
+            <div class="content">
+              {{ 'castor+unavailable' | translate }}
+              <br><a href="/doc/quickstart.html#installation-de-mongodb" target="_blank" translate>castor+doc_install</a>
+            </div>
           </div>
 
           <div ui-view></div>
