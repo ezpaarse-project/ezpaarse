@@ -70,6 +70,7 @@ ezLanguages['en'] = {
   "castor+synchronizing": "Synchronizing PKBs...",
   "castor+synchronized":  "PKBs synchronized",
   "castor+unavailable":   "Failed to connect to MongoDB. To enable data enrichment, please check that MongoDB is installed and running.",
+  "castor+doc_install":   "How to install MongoDB ?",
   "castor+error":         "Unknown PKBs state",
   // Process state button
   "state+idle":         "No process loading",
