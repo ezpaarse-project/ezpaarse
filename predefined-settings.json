@@ -175,7 +175,7 @@
     }
   },
   "10-ie-trinity": {
-    "fullName": "Trinity College Library",
+    "fullName": "Trinity College Library Dublin",
     "country": "Ireland",
     "headers": {
       "Log-Format-ezproxy": "%h %l %u %t \"%r\" %s %b %{ezproxy-protocol}"
