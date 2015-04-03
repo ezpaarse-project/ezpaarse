@@ -174,6 +174,13 @@
       "Log-Format-ezproxy": "%h %{session}<[a-zA-Z0-9\\-\\+]+> %l %u %t \"%r\" %s %b"
     }
   },
+  "10-ie-trinity": {
+    "fullName": "Trinity College Library",
+    "country": "Ireland",
+    "headers": {
+      "Log-Format-ezproxy": "%h %l %u %t \"%r\" %s %b %{ezproxy-protocol}"
+    }
+  },
   "10-ca-bpl": {
     "fullName": "Burnaby Public Library",
     "country": "Canada",
