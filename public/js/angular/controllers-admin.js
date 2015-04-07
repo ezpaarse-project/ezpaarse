@@ -14,6 +14,9 @@ angular.module('ezPAARSE.admin-controllers', [])
         refreshing: false,
         sort: '+longname'
       },
+      resources: {
+        refreshing: false
+      },
       selectedPKBs: {}
     };
 
@@ -96,6 +99,26 @@ angular.module('ezPAARSE.admin-controllers', [])
           });
       }
 
+      if (!what || what == 'resources') {
+        adm.resources.refreshing        = true;
+        adm.resources.refreshingList    = true;
+        adm.resources.errored           = false;
+        adm.resources.erroredList       = false;
+        adm.resources.erroredChanges    = false;
+
+        $http.get('/resources/status')
+          .success(function (data) {
+            adm.resources.git            = data;
+            adm.resources.refreshing     = false;
+            adm.resources.currentVersion = data.current;
+            adm.resources.outdated       = data['from-head'] == 'outdated';
+          })
+          .error(function ()       {
+            adm.resources.errored    = true;
+            adm.resources.refreshing = false;
+          });
+      }
+
       if (!what || what == 'software') {
         adm.software.refreshing = true;
         adm.software.errored    = false;
@@ -131,6 +154,20 @@ angular.module('ezPAARSE.admin-controllers', [])
         .error(function ()   {
           adm.platforms.refreshing = false;
           adm.platforms.errored    = true;
+        });
+    };
+  })
+  .controller('AdminResourcesCtrl', function ($scope, $http) {
+    var adm = $scope.adm;
+
+    adm.updateResources = function () {
+      adm.resources.refreshing = true;
+
+      $http.put('/resources/status', 'uptodate')
+        .success(function () { adm.refreshStatus('resources'); })
+        .error(function ()   {
+          adm.resources.refreshing = false;
+          adm.resources.errored    = true;
         });
     };
   })

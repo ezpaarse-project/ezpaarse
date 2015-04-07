@@ -13,6 +13,11 @@
 
         <a class="item" ng-click="adm.selectTab('users')" ng-class="{'users': 'active'}[adm.tab]" translate>admin+users</a>
 
+        <a class="item" ng-click="adm.selectTab('resources')" ng-class="{'resources': 'active'}[adm.tab]">
+          {{ 'admin+resources' | translate }}
+          <i class="red warning circle icon" ng-show="adm.resources.outdated"></i>
+        </a>
+
         <a class="item" ng-click="adm.selectTab('jobs')" ng-class="{'jobs': 'active'}[adm.tab]" translate>admin+jobs</a>
 
         <a class="item" ng-click="adm.selectTab('system')" ng-class="{'system': 'active'}[adm.tab]">
@@ -170,6 +175,39 @@
             </tr>
             </tbody>
           </table>
+        </div>
+
+        <div ng-switch-when="resources" ng-controller="AdminResourcesCtrl">
+          <h4 class="ui header" translate>admin+resources</h4>
+
+          <p translate>admin+resources_description</p>
+
+          <p>
+            <strong translate>admin+current_version</strong> : {{ adm.resources.currentVersion }}<br>
+          </p>
+
+          <div ng-show="adm.resources.refreshing">
+            <div class="ui small loading button" translate>admin+update</div>
+          </div>
+
+          <div ng-show="adm.resources.errored">
+            <div class="ui small red button" translate>admin+error</div>
+          </div>
+
+          <div ng-hide="adm.resources.refreshing || adm.resources.errored">
+            <div ng-show="adm.resources.outdated" popup="{{ 'admin+update_to_x' | translate:{ version: adm.resources.git['head'] } }}" data-position="right center" ng-click="adm.updateResources()" class="ui small orange button" translate>admin+update</div>
+
+            <div ng-hide="adm.resources.outdated" popup="{{ 'admin+resources_are_uptodate' | translate }}" data-position="right center" class="ui small disabled button" translate>admin+update</div>
+          </div>
+
+          <div class="ui icon small info message" ng-show="adm.resources.git['local-commits'] || adm.resources.git['local-changes']">
+            <i class="warning circle icon"></i>
+            <div class="content">
+              <div class="header" translate>admin+attention</div>
+              <p translate>admin+resources_local_changes</p>
+              <p translate>admin+contact_deployment_service</p>
+            </div>
+          </div>
         </div>
 
         <div ng-switch-when="users" ng-controller="AdminUsersCtrl">

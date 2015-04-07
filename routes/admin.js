@@ -32,29 +32,41 @@ module.exports = function (app) {
   });
 
   /**
-   * GET route on /app/status
-   * To know if there are incoming changes
+   * GET route on /.../status
+   * To know if there are incoming changes in a repository
    */
-  app.get('/app/status', auth.ensureAuthenticated(true), function (req, res) {
-    var gitscript = path.join(__dirname, '../bin/git-status');
+  app.get(/^\/(app|platforms|resources)\/status$/, auth.ensureAuthenticated(true),
+    function (req, res) {
+      var gitscript = path.join(__dirname, '../bin/git-status');
+      var directory;
 
-    var args = [];
-
-    execFile(gitscript, args, { cwd: __dirname }, function (error, stdout) {
-      if (error || !stdout) {
-        res.status(500).end();
-        return;
+      switch (req.params[0]) {
+        case 'platforms':
+        case 'resources':
+          directory = path.join(__dirname, '..', req.params[0]);
+          break;
+        case 'app':
+          directory = path.join(__dirname, '..');
+          break;
+        default:
+          return res.status(500).end();
       }
 
-      try {
-        var result = JSON.parse(stdout);
-        res.status(200).json(result);
-      } catch (e) {
-        res.status(500).end();
-      }
+      execFile(gitscript, { cwd: directory }, function (error, stdout) {
+        if (error || !stdout) {
+          res.status(500).end();
+          return;
+        }
 
-    });
-  });
+        try {
+          var result = JSON.parse(stdout);
+          res.status(200).json(result);
+        } catch (e) {
+          res.status(500).end();
+        }
+      });
+    }
+  );
 
   /**
    * Auto-update
@@ -321,30 +333,7 @@ module.exports = function (app) {
   );
 
   /**
-   * GET route on /platforms/status
-   * To know if there are incoming changes in the platforms directory
-   */
-  app.get('/platforms/status', auth.ensureAuthenticated(true), function (req, res) {
-    var platformsFolder = path.join(__dirname, '../platforms');
-    var gitscript = path.join(__dirname, '../bin/git-status');
-
-    execFile(gitscript, {cwd: platformsFolder}, function (error, stdout) {
-      if (error || !stdout) {
-        res.status(500).end();
-        return;
-      }
-
-      try {
-        var result = JSON.parse(stdout);
-        res.status(200).json(result);
-      } catch (e) {
-        res.status(500).end();
-      }
-    });
-  });
-
-  /**
-   * PUT route on /pkb/status
+   * PUT route on /platforms/status
    * To update the platforms folder
    */
   app.put('/platforms/status', auth.ensureAuthenticated(true), auth.authorizeMembersOf('admin'),
@@ -360,25 +349,39 @@ module.exports = function (app) {
     });
 
     req.on('end', function () {
-      if (bodyString.trim() == 'uptodate') {
-        var platformsFolder = path.join(__dirname, '../platforms');
-        var gitscript = path.join(__dirname, '../bin/git-update');
-
-        execFile(gitscript, {cwd: platformsFolder}, function (error) {
-          if (error) {
-            res.status(500).end();
-            return;
-          }
-
-          pkbmanager.clearCache();
-          parserlist.clearCachedParsers();
-          parserlist.init(function () {
-            res.status(200).end();
-          });
-        });
-      } else {
-        res.status(400).end();
+      if (bodyString.trim() !== 'uptodate') {
+        return res.status(400).end();
       }
+
+      var platformsFolder = path.join(__dirname, '../platforms');
+      var gitscript = path.join(__dirname, '../bin/git-update');
+
+      execFile(gitscript, {cwd: platformsFolder}, function (error) {
+        if (error) {
+          return res.status(500).end();
+        }
+
+        pkbmanager.clearCache();
+        parserlist.clearCachedParsers();
+        parserlist.init(function () {
+          res.status(200).end();
+        });
+      });
     });
   });
+
+  /**
+   * PUT route on /resources/status
+   * To update the resources folder
+   */
+  app.put('/resources/status', auth.ensureAuthenticated(true), auth.authorizeMembersOf('admin'),
+    function (req, res) {
+      var directory = path.join(__dirname, '../resources');
+      var gitscript = path.join(__dirname, '../bin/git-update');
+
+      execFile(gitscript, { cwd: directory }, function (error) {
+        res.status(error ? 500 : 200).end();
+      });
+    }
+  );
 };

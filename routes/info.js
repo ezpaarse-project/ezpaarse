@@ -309,7 +309,7 @@ module.exports = function (app) {
    * GET route on /info/predefined-settings
    */
   app.get('/info/predefined-settings', function (req, res) {
-    var settingsFile = path.join(__dirname, '/../predefined-settings.json');
+    var settingsFile = path.join(__dirname, '/../resources/predefined-settings.json');
 
     fs.exists(settingsFile, function (exists) {
       if (!exists) {

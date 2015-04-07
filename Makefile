@@ -13,7 +13,7 @@ DOC_OUTPUT=$(shell pwd)/public/doc
 DOC_HTML=$(DOC_OUTPUT)/index.html
 
 # Run every steps needed to start ezpaarse
-all: nodejs node-modules platforms-update exclusions-update doc checkconfig
+all: nodejs node-modules platforms-update exclusions-update resources-update doc checkconfig
 
 # Application section
 # # # # # # # # # # # #
@@ -212,6 +212,13 @@ upload:
 	./bin/uploadversion
 
 
+# Clone or update resources directory
+resources-update:
+	@if test -d resources; \
+	then cd resources; git pull; \
+	else git clone https://github.com/ezpaarse-project/ezpaarse-resources.git resources; \
+	fi
+
 # Clone or update platforms directory
 platforms-update:
 	@if test -d platforms; \
@@ -227,16 +234,16 @@ exclusions-update:
 	fi
 
 # Stop the daemon, update to last tag and rebuild
-pull: platforms-update exclusions-update
+pull: platforms-update exclusions-update resources-update
 	@./bin/update-app --rebuild
 	@echo "ezPAARSE has been updated."
 
 # Stop the daemon, update to bleeding edge and rebuild
-pull-latest: platforms-update
+pull-latest: platforms-update exclusions-update resources-update
 	@./bin/update-app --latest --rebuild
 	@echo "ezPAARSE has been updated."
 
 update: pull
 update-latest: pull-latest
 
-.PHONY: test checkconfig nodejs platforms-update deb rpm tar exe clean-for-release version tag update pull start restart status stop doc
+.PHONY: test checkconfig nodejs platforms-update exclusions-update resources-update deb rpm tar exe clean-for-release version tag update pull start restart status stop doc
