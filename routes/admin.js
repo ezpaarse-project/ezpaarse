@@ -2,7 +2,6 @@
 
 var path       = require('path');
 var bodyParser = require('body-parser');
-var pkbmanager = require('../lib/pkbmanager.js');
 var parserlist = require('../lib/parserlist.js');
 var execFile   = require('child_process').execFile;
 var config     = require('../lib/config.js');
@@ -361,7 +360,6 @@ module.exports = function (app) {
           return res.status(500).end();
         }
 
-        pkbmanager.clearCache();
         parserlist.clearCachedParsers();
         parserlist.init(function () {
           res.status(200).end();
@@ -380,7 +378,10 @@ module.exports = function (app) {
       var gitscript = path.join(__dirname, '../bin/git-update');
 
       execFile(gitscript, { cwd: directory }, function (error) {
-        res.status(error ? 500 : 200).end();
+        if (error) { return res.status(500).end(); }
+
+        delete require.cache[require.resolve('../resources/predefined-settings.json')];
+        res.status(200).end();
       });
     }
   );
