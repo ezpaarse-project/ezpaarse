@@ -302,6 +302,7 @@ angular.module('ezPAARSE.services', [])
           { category: 'deduplication',  name: 'Double-Click-HTML',            anchor: 'double-click-xxx' },
           { category: 'deduplication',  name: 'Double-Click-PDF',             anchor: 'double-click-xxx' },
           { category: 'deduplication',  name: 'Double-Click-MISC',            anchor: 'double-click-xxx' },
+          { category: 'deduplication',  name: 'Double-Click-MIXED',           anchor: 'double-click-xxx' },
           { category: 'deduplication',  name: 'Double-Click-Strategy',        anchor: 'double-click-xxx' },
           { category: 'deduplication',  name: 'Double-Click-C-Field',         anchor: 'double-click-xxx' },
           { category: 'deduplication',  name: 'Double-Click-L-Field',         anchor: 'double-click-xxx' },
