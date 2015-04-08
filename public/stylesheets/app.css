@@ -64,6 +64,10 @@ a:hover {
   text-decoration: underline;
 }
 
+img.icon {
+  width: 17px;
+  vertical-align: middle;
+}
 .link.icon {
   text-decoration: none;
 }
