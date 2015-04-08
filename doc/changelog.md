@@ -1,5 +1,11 @@
 # Versions ezPAARSE #
 
+## 2.2.0  ## 
+##### 05/02/2015 - Gestion des PKB de gros volumes #####
+- optimisation de la gestion NoSQL des PKB via castor-js
+- amélioration des temps d'initialisation de l'application
+- Améliorations ergonomiques du formulaire (nom de fichiers, headers avancés, messages d'alerte)
+
 ## 2.1.0  ## 
 ##### 31/10/2014 - NoSQL embarqué #####
 - Mise à jour de semantic-UI
@@ -8,6 +14,7 @@
 - Ajout de nouveaux parseurs (juridique)
 - Fichier des domaines inconnus téléchargeable
 
+## 2.0.0  ## 
 ##### 01/09/2014 - Administration des PKB #####
 - Interface de visualisation des PKB
 - Mise à jour via l'interface des PKB
