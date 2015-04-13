@@ -1,5 +1,12 @@
 # Versions ezPAARSE #
 
+## 2.3.0  ## 
+##### 09/04/2015 - MVP Open Access #####
+- Gestion de l'exclusion des adresses IP des robots
+- Nouvel outil d'aide à la détermination du format de log
+- Dédoublonnage inter-format
+- mémorisation des prédéfinis dans les instances locales
+
 ## 2.2.0  ## 
 ##### 05/02/2015 - Gestion des PKB de gros volumes #####
 - optimisation de la gestion NoSQL des PKB via castor-js
