@@ -1,19 +1,18 @@
-### Rapports COUNTER ###
+### COUNTER Reports ###
 
-Il est possible de demander à ezPAARSE la génération de rapports COUNTER à partir des données à traiter dans les fichiers de log.
-Il suffit pour cela d'ajouter dans la requête le paramètre **COUNTER-Reports** en précisant le type de rapport (actuellement seul JR1 est disponible) avec éventuellement un format dans le paramètre **COUNTER-Format**.
+ezPAARSE can generate COUNTER reports based on the data collected in its results.
+To that effect, you use the parameter **COUNTER-Reports** and specify the type of report (JR1 is the only one available for now) as well as the output format with **COUNTER-Format**.
 
 
-#### Paramètres (headers) ####
+#### Parameters (headers) ####
 
--   **COUNTER-Reports:** liste des rapports COUNTER à générer (ex: JR1,BR2). Les liens de téléchargement sont accessibles dans la section `stats` du raport de traitement.
--   **COUNTER-Format:** format des rapports COUNTER : `XML` (par défaut) ou `TSV`.  
--   **COUNTER-Customer:** nom et/ou email du client à renseigner dans les rapports, sous la forme `nom`, `<email>` ou `nom<email>`. (Par défaut `ezPAARSE<mail de l'administrateur>`)  
--   **COUNTER-Vendor:** nom et/ou email de l'éditeur à renseigner dans les rapports, sous la forme `nom`, `<email>` ou `nom<email>`. (Par défaut `platform42`, sans mail)  
+-   **COUNTER-Reports:** lists the COUNTER reports you want to generate (eg: JR1,BR2). The download links are accessible in the `stats` section from the processing report.
+-   **COUNTER-Format:** COUNTER reports output format : `XML` (by default) or `TSV`.  
+-   **COUNTER-Customer:** client's name and/or email address that will appear in the reports, either `name`, `<email>` or `name<email>`. (`ezPAARSE<mail de l'administrateur>` by default)  
+-   **COUNTER-Vendor:** vendor's name and/or email address that will appear in the reports, either `name`, `<email>` or `name<email>`. (`platform42` by default)  
 
-#### Usage en mode commande ####
+#### CLI Usage ####
 
-Exemple d'usage :
 ```shell
 curl -X POST http://localhost:59599 \
  -H "Accept:text/csv" \
@@ -22,23 +21,23 @@ curl -X POST http://localhost:59599 \
  -H "COUNTER-Format:csv" \
  -F "files[]=@fede.bibliovie.ezproxy.2014.06.10.log.gz;type=application/x-gzip"```
 
-En mode commande avec cURL, le rapport généré peut être téléchargé à l'adresse renvoyée dans le header **Job-Report-jr1** (comme ci-dessous) ou dans la section statistiques du rapport de traitement avec le contenu du champ **url-counter-jr1** (voir plus bas) :
+With cURL, the generated report can be downloaded at the URL given in the **Job-Report-jr1** header (see below).
 
 <img src="images/ezPAARSE-SR18-04.jpg" alt="Commande cURL pour JR1" style="width: 750px"/>
 
 #### Usage via le formulaire ####
 
-La génération de rapports COUNTER peut être demandée via l'onglet **Paramètres** du formulaire de traitement de log, en complètant la section **Headers (avancé)** et en ajoutant les headers relatifs à COUNTER comme ci-dessous :
+Using the online form, you can ask for the creation of COUNTER reports by adding specific headers in the **Headers (advanced)** section (see below):
 
 <img src="images/ezPAARSE-SR18-01.jpg" alt="COUNTER via formulaire" style="width: 750px"/>
 
-A la fin du traitement le(s) rapport(s) COUNTER peut être téléchargé via le(s) lien(s) présent dans le rapport du traitement à la section **statistiques** dans le champ **url-counter-jr1**
+When the processing of logs is finished, the COUNTER reports can be downloaded via the link(s) in the stats section of the processing report, look for the **url-counter-jr1** line (see below):
 
 <img src="images/ezPAARSE-SR18-02.jpg" alt="COUNTER via formulaire" style="width: 750px"/>
 
-#### Rapport COUNTER ####
+#### COUNTER reports ####
 
-Selon le format de sortie demandée, le(s) rapport(s) COUNTER peut être chargé dans un tableur. Ci-dessous, un fichier CSV importé dans excel.
+The COUNTER report(s) can be directly used in a spreadsheet program, depending on the specified output format. You can see below a TSV file imported in Excel:
 
 <img src="images/ezPAARSE-SR18-03.jpg" alt="COUNTER via formulaire" style="width: 750px"/>
 
