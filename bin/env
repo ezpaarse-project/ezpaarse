@@ -12,6 +12,7 @@ declare -a EZ_PATHS=(
   "/bin"
   "$EZPAARSE_PATH/bin"
   "$EZPAARSE_PATH/node_modules/.bin"
+  "$EZPAARSE_PATH/build/nvm/bin/bin/"
   "$EZPAARSE_PATH/build/nvm/bin/latest/"
 )
 
