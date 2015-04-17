@@ -381,6 +381,7 @@ module.exports = function (app) {
         if (error) { return res.status(500).end(); }
 
         delete require.cache[require.resolve('../resources/predefined-settings.json')];
+        app.locals.bundle = null;
         res.status(200).end();
       });
     }
