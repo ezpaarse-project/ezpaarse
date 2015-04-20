@@ -302,6 +302,7 @@ ezLanguages['fr'] = {
   "admin+platforms":                  "Plateformes",
   "admin+resources":                  "Ressources",
   "admin+resources_description":      "Paramètres prédéfinis et autres ressources indépendantes de la version d'ezPAARSE.",
+  "admin+resources_refresh_notice":   "Après une mise à jour, pensez à recharger la page (F5) pour que tous les changements soient effectifs.",
   "admin+uptodate":                   "à jour",
   "admin+upward":                     "plus récent",
   "admin+users":                      "Utilisateurs",
