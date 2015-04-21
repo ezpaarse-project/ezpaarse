@@ -39,7 +39,6 @@
     "lines-skipper": "0.0.4",
     "mime": "~1.2.11",
     "mkdirp": "^0.5.0",
-    "mocha": "^1.18.2",
     "moment": "^2.8.2",
     "mongodb": "^1.4.23",
     "morgan": "^1.2.3",
@@ -77,7 +76,7 @@
     "mocha": "*",
     "mocha-jshint": "0.0.9",
     "should": "*",
-    "zombie": "^2.5.1"
+    "zombie": "^4.0.8"
   },
   "scripts": {
     "test": "export EZPAARSE_ENV=\"production\" ; export EZPAARSE_DEBUG_LEVEL=\"pkb\" ; make && make start && sleep 1 ; make test-pkb ; make test"

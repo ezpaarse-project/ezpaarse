@@ -5,38 +5,32 @@ var Browser = require('zombie');
 var assert  = require('assert');
 var config  = require('../lib/config.js');
 
-Browser.localhost('ezpaarse.test.com', config.EZPAARSE_NODEJS_PORT);
-var browser = Browser.create({
+var browser = new Browser({
+  silent: true,
   proxy: null,
-  features: "scripts css img",
-  silent: true
+  features: "scripts css img"
 });
 
-browser.resources.mock('/feedback/status', { statusCode: 200 });
-browser.resources.mock('/session', { statusCode: 200 });
-browser.resources.mock(/googleapis/, { statusCode: 200 });
+var host = 'http://localhost:' + config.EZPAARSE_NODEJS_PORT;
 
 describe('The browser', function () {
-  it('should correctly load the main page (@01)', function (done) {
+
+  it('should correctly download the main page', function () {
     this.timeout(10000);
+    return browser.visit(host);
+  });
+  it('should correctly load all resources', function (done) {
 
-    browser.visit('/', function () {
-      browser.assert.success("Failed to visit the main page");
+    browser.resources.forEach(function (resource) {
+      var url = resource.request.url;
 
-      browser.wait(function (err) {
-        browser.assert.evaluate('angular');
-        browser.assert.element('#container', 'the main view was not loaded (#container not found)');
+      assert(resource.response, url + ' did not return');
 
-        browser.resources.forEach(function (resource) {
-          var url = resource.request.url;
-          assert(resource.response, url + ' did not return');
-
-          var statusCode = resource.response.statusCode;
-          assert([200,304].indexOf(statusCode) !== -1,
-            url + ' returned with a code ' + statusCode);
-        });
-        done();
-      });
+      var statusCode = resource.response.status;
+      assert([200,304,401,501].indexOf(statusCode) !== -1,
+        url + ' returned with a code ' + statusCode);
     });
+
+    done();
   });
 });
