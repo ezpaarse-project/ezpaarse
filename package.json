@@ -8,7 +8,7 @@
     "url": "https://github.com/ezpaarse-project/ezpaarse.git"
   },
   "engines": {
-    "node": ">=0.10.29"
+    "iojs": ">=1.8.1"
   },
   "dependencies": {
     "Faker": "~0.7.2",
