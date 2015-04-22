@@ -125,7 +125,7 @@ describe('ezPAARSE processes', function () {
 
             if (lsofAfter.length == lsofBefore.length) {
               callback(null);
-            } else if (tries > 5) {
+            } else if (tries > 10) {
 
               var unclosedFiles = [];
               lsofBefore = lsofBefore.map(function (file) { return file.name; });
