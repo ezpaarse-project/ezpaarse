@@ -57,7 +57,7 @@ module.exports = function (app) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
 
-    var status = req.param('status', null);
+    var status = req.query.status;
 
     var platformsFolder = path.join(__dirname, '/../platforms');
 
