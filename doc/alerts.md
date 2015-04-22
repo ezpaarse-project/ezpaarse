@@ -1,36 +1,35 @@
-# Les alertes #
+# Alerts #
 
-## Principe ##
-Lorsque vous traitez des logs avec ezPAARSE, un certain nombre de chiffres sont générés (nombre de lignes lues, de rejets, de plateformes reconnues...). Les statistiques issues de ces chiffres sont utilisées afin de détecter la présence d'anomalies durant le traitement, en se basant sur des valeurs considérées comme normales.
+## Principles ##
+When you process log files with ezPAARSE, a number of processing indicators are generated: number of log lines read, of rejects, of recognized platforms, etc.). Those indicators can be used to detect anomalies during the processing, based on figures considered as "normal".
 
-## Comment savoir si des alertes ont été générées ? ##
-La liste des alertes est consultable dans le [rapport de traitement](./report.html#alerts). Si la notification par mail est activée, vous pourrez également la visionner dans le mail envoyé à l'issue du traitement.
+## How to know if alerts have been generated? ##
+The list of alerts is available in the [processing report](./report.html#alerts). If the mail notification is activated, you'll also be able to access this list in the mail sent when the processing is finished.
 
-**NB**: l'activation du système d'alerte nécessite de traiter suffisamment de lignes de log pertinentes. Le seuil d'activation est défini dans le fichier `config.json` sous la clé `activationThreshold`. Il peut être modifié via le header **Alerts-Activation-Threshold**.
+**NB**: the activation of the alert system needs a sufficient quantity of relevant log lines. The activation threshold is set in the `config.json` file, with the `activationThreshold` key. It can also be modified with the **Alerts-Activation-Threshold** header.
 
-## Liste des alertes disponibles ##
+## Available alerts ##
 
-### Domaines inconnus ###
-Générée lorsqu'un domaine sans parseur associé apparaît fréquemment dans les logs. Le taux d'apparition est calculé sur la base des lignes de log pertinentes.
+### Unknown domains ###
+Generated when a domain frequently appears in the log lines but no associated parser has been found. The presence rate is calculated with the sum of relevant log lines.
 
 ```
-  taux_apparition = nombre_apparitions / (total_des_lignes - lignes_ignorées) * 100
+  appearance_rate = appearance_sum / (total_of_loglines - ignored_lines) * 100
 ```
 
-Le seuil d'alerte est défini dans le fichier `config.json` sous la clé `unknownDomainsRate`, et modifiable via le header **Alerts-Unknown-Domains-Rate**.
+The activation threshold is set in the `config.json` file, with the `unknownDomainsRate` key. It can also be modified with the **Alerts-Unknown-Domains-Rate** header.
 
-### Manques dans les bases de connaissance ###
+### Holes in the knowledges bases ###
 
-#### Absence de base de connaissance ####
-Générée lorsque qu'une PKB absente empêche l'enrichissement d'événements de consultations pourvus d'un identifiant éditeur (title_id).
+#### Lack of a knowledge base ####
+An alert is generated when the absence of a PKB prevents the enrichment of Consultation Events carrying a provider' identifier (title_id).
 
-#### Absence d'un identifiant ####
-Générée lorsqu'un identifiant absent d'une PKB a été recherché un grand nombre de fois.
+#### Lack of an identifier  ####
+An alert is generated when an identifier is lacking and has been repeatedly requested.
 
-Le taux d'apparition toléré est défini dans le fichier `config.json` sous la clé `titleIdOccurrenceRate`, et modifiable via le header **Alerts-TitleID-Occurrence-Rate**.
+The activation threshold is set in the `config.json` file, with the `titleIdOccurrenceRate` key. It can also be modified with the **Alerts-TitleID-Occurrence-Rate** header.
 
+#### General lack ####
+An alert is generated when a large number of searches in a PKB have proved unsuccessful..
 
-#### Manque généralisé ####
-Générée lorsqu'un grand nombre de recherches dans une PKB se sont révélées infructueuses.
-
-Le taux de requêtes infructueuses toléré est défini dans le fichier `config.json` sous la clé `pkbFailRate`, et modifiable via le header **Alerts-PKB-Fail-Rate**.
+The tolerated rate of unsuccessful searches is set in the `config.json` file, with the `pkbFailRate` key. It can also be modified with the **Alerts-PKB-Fail-Rate** header.
