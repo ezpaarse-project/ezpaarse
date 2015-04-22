@@ -17,6 +17,7 @@ function filterTypes(element) {
 
 describe('The server receives a log but network is cut during the transfer', function () {
   it('should stop the job process and free file descriptors (@01)', function (done) {
+    this.timeout(10000);
 
     var lsofBefore  = [];
     var lsofAfter   = [];
@@ -47,7 +48,7 @@ describe('The server receives a log but network is cut during the transfer', fun
 
                 if (lsofAfter.length == lsofBefore.length) {
                   callback(null);
-                } else if (tries > 5) {
+                } else if (tries > 10) {
 
                   var unclosedFiles = [];
                   lsofBefore = lsofBefore.map(function (file) { return file.name; });
