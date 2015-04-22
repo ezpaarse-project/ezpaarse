@@ -151,8 +151,7 @@ node-modules: libs
 bower: libs
 
 libs:
-	npm install
-	bower install
+	@./bin/downloadlibs
 
 # make deb v=0.0.3
 deb:
