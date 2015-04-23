@@ -33,7 +33,7 @@ function getTrelloBoardLists(cb) {
 
 function getTrelloPlatformsList(cb) {
   var boardID    = getTrelloBoardId();
-  var listsURL   = 'https://api.trello.com/1/boards/' + boardID + '/lists?cards=all&key=' + getTrelloApiKey();
+  var listsURL   = 'https://api.trello.com/1/boards/' + boardID + '/lists?cards=open&key=' + getTrelloApiKey();
   var membersURL = 'https://api.trello.com/1/boards/' + boardID + '/members?key=' + getTrelloApiKey();
 
   $.get(listsURL)
