@@ -1,22 +1,24 @@
 ### User-fields headers ###
 
-Les headers user-fields permettent d'extraire d'un champ présent dans les logs les informations utilisateur et de les répartir dans d'autres champs à l'aide d'expressions régulières.
-Ils peuvent s'écrire par <span style="color: blue">bloc de header numérotés</span> *(en couleur les zones variables)* de la façon suivante :
+The user-fields headers can extract user data from a specified log field and explode it in other fields, thanks to regular expressions.
+They can be specified with <span style="color: blue">numbered header blocks</span> *(in blue the editable zones)* like follows :
 
-User-field<span style="color: blue">0</span>-src: <span style="color: red">nomDuChampSource</span></br>
-User-field<span style="color: blue">0</span>-sep: <span style="color: green">Séparateur</span></br>
-User-field<span style="color: blue">0</span>-dest-<span style="color: red">nomDuChampDestination1</span>: <span style="color: magenta">expressionRégulière1</span></br>
-User-field<span style="color: blue">0</span>-dest-<span style="color: red">nomDuChampDestination2</span>: <span style="color: magenta">expressionRégulière2</span></br>
-User-field<span style="color: blue">0</span>-residual: <span style="color: red">nomDuChampRestes</span></br>
+User-field<span style="color: blue">0</span>-src: <span style="color: red">SourceFieldName</span></br>
+User-field<span style="color: blue">0</span>-sep: <span style="color: green">Separator</span></br>
+User-field<span style="color: blue">0</span>-dest-<span style="color: red">TargetFieldName1</span>: <span style="color: magenta">RegExp1</span></br>
+User-field<span style="color: blue">0</span>-dest-<span style="color: red">TargetFieldName2</span>: <span style="color: magenta">RegExp2</span></br>
+User-field<span style="color: blue">0</span>-residual: <span style="color: red">ResidualFieldName</span></br>
 
-#### Paramètres (headers) ####
+#### Parameters (headers) ####
 
--   **User-field<span style="color: blue">0</span>-src:** nom du champ source utilisé pour extraire les informations utilisateur *(le champ doit être présent dans les logs)* .
--   **User-field<span style="color: blue">0</span>-sep:** caractère séparateur présent dans le champ source des informations utilisateur et qui sépare ces informations *(on utilisera le mot **space** pour invoquer l'espace)*
--   **User-field<span style="color: blue">0</span>-dest-<span style="color: red">nomDuChampDestination1</span>:** <span>définition du champ destination à mettre dans les données en sortie, comprenant le nom du champ après la chaîne **User-field<span style="color: blue">0</span>-dest-** et l'expression régulière correspondante aux données.</br> Il peut y avoir plusieurs noms de champ *(avec chacun son header correspondant)*. Les expressions régulières sont évaluées dans l'ordre. Le séparateur est utilisé en sortie si le champ est multivalué.</br> Les chaînes de caractères ne matchant pas les expressions régulières sont laissées dans le champ **User-field<span style="color: blue">0</span>-residual** s'il est présent.</span>
--   **User-field<span style="color: blue">0</span>-residual: ** Facultatif. Nom du champ destination utilisé pour recevoir les informations utilisateur non reconnues par les expressions régulières des champs destination.
+-   **User-field<span style="color: blue">0</span>-src:** name of the field that will be used to extract user information *(the field must be present in the logs)* .
+-   **User-field<span style="color: blue">0</span>-sep:** separator character found in the user information source field *(we will use the the **space** word if a space is used as separator)*
 
-Exemple d'usage :
+-   **User-field<span style="color: blue">0</span>-dest-<span style="color: red">TargetFieldName1</span>:** <span>target field definition containing the name of the field after the **User-field<span style="color: blue">0</span>-dest-** string and the regexp corresponding to the data.</br> There can be more than one field name *(each with its corresponding header)*. The regular expressions are evaluated in the order of declaration. The separator is used in the output if the field contains many values.</br> The strings that don't match are sent to the **User-field<span style="color: blue">0</span>-residual** if it's specified.</span>
+
+-   **User-field<span style="color: blue">0</span>-residual: ** Optional. Target field name used to receive the user information that was not recognized by the regexps used for the previous target fields.
+
+Example:
 ```shell
 curl -v -X POST --proxy "" --no-buffer \
   -F "file=@test/dataset/user-mono-plus.log" \
