@@ -1,68 +1,66 @@
-# Documentation développeur: parseurs, pkb, scrapers #
+# Developer's Documentation: parsers, pkb, scrapers #
 
-## Pré-requis pour le développement : guide d'utilisation de git(hub) ##
+## Prerequisites for the development: git(hub) user's guide  ##
 
-Pour pouvoir contribuer à ezPAARSE en tant que développeur :
+As a developer, you first have to sign up to [Github](https://github.com/) to be able to contribute to ezPAARSE and:
 
-* pour l'écriture d'un parseur
-* ou pour la maintenance d'un parseur existant
-* ou pour proposer des améliorations dans le coeur d'ezPAARSE.
+* write a new parser
+* maintain an existing parser
+* contribute to improvements in the core of ezPAARSE's code
 
-Il est nécessaire tout d'abord, de s'enregistrer sur [Github](https://github.com/).
-
-Vous avez ensuite besoin de maîtriser quelques commandes [git](http://git-scm.com/) :
+You then need to know a few [git](http://git-scm.com/) commands:
 
 ```bash
-#récupérer une version du dépôt github en local
+#get a local version of the github 
 git clone https://github.com/ezpaarse-project/ezpaarse.git
 
-#si vous aviez déjà récupéré le projet, le mettre à jour
+#if you already had the project, update it
 cd ezpaarse/
 git pull
 
-#modifier un fichier
+#edit a file
 cd ezpaarse/
-echo "// ma modification" >> ./app.js
+echo "// my modification" >> ./app.js
 
-#regarder quels sont les fichiers qui on été modifiés/ajoutés/supprimés (avant commit)
+#get an overview of which files have been modified/added/deleted (before a commit)
 git status
 
-#comparer ligne par ligne les modifications locales avec la version du dépôt locale avant modification
+#compare the local modifications with the local repository, line by line, before saving the modifications
 git diff
 
-#envoyer la modification dans son dépôt local
-git commit ./app.js -m "mon commentaire expliquant ma modification"
+#send the modifications to you local repository
+git commit ./app.js -m "a comment explaining my modification""
 
-#afficher la liste des commits
+#display the list of commits
 git log
 
-#ajouter un fichier
-touch ./monfichiertest
-git add ./monfichiertest
-git commit ./monfichiertest -m "ajout d'un fichier test"
+#add a new file
+touch ./myexamplefile
+git add ./myexamplefile
+git commit ./myexamplefile -m "add an example file"
 
-#envoyer les modifications (commit) sur le dépôt distant (nécessite une autorisation sur le dépôt distant)
+#send the (commmitted) modifications to the distant repository (authorization from the distant repo needed). 
 git push
 ```
 
-Remarque: à moins de disposer d'un accès privilégié (équipe ezPAARSE), vous devez tout d'abord "forker" le dépôt github d'ezPAARSE pour pouvoir ensuite travailler sur cette copie. Une fois que vous êtes satisfaits vous pouvez alors soumettre votre travail à l'équipe ezPAARSE en envoyant une ["pull request"](https://help.github.com/articles/using-pull-requests). Votre travail sera alors relu par l'équipe ezPAARSE puis intégré si aucun souci n'est repéré. L'équipe ezPAARSE fourni ensuite les droits d'accès en écriture sur le code source officiels d'ezPAARSE aux contributeurs réguliers afin de faciliter les contributions.
+Note: unless you have a privileged access (from the ezPAARSE team), you must first "fork" the ezPAARSE github repository in order to work on that copy. Once you are satisfied with your changes, you can submit your work to the team by sending a ["pull request"](https://help.github.com/articles/using-pull-requests). Your job will be reviewed and integrated by the team, if no problem is detected. The team then provides write access rights to regular contributors, in order to facilitate contributions.
 
 ## Fonctionnement d'un parseur ##
 
-Un parseur se présente sous la forme d'un fichier exécutable `parser.js` accompagné d'un fichier de description [manifest.json](https://github.com/ezpaarse-project/ezpaarse-parsers/blob/master/sd/manifest.json) et du nécessaire pour sa validation (contenu dans un répertoire 'test', voir ci-dessous).
+A parser takes the form of an executable `parser.js` file accompanied by a description file [manifest.json](https://github.com/ezpaarse-project/ezpaarse-platforms/blob/master/sd/manifest.json) and a validation structure (contained in the 'test' directory, see below).
 
-Il s'agit d'un programme prenant en entrée :
-  * des URLs de la plateforme qu'il sait analyser (une par ligne),
-  * ou un flux json (avec l'option --json) contenant 
-      * des URLs de la plateforme qu'il sait analyser (une par ligne),
-      * d'autres informations destinées à qualifier l'EC (comme par exemple la taille du téléchargement)
+This is program, taking as input:
+   * the platform's URLs that the parser can analyze (one per line)
+   * or a JSON stream (with the --json option) containing
+       * the platform's URLs that the parser can analyze (one per line)
+       * Other information to qualify the Access Events (such as the size of the download)
 
-Il retourne en sortie un flux json contenant les éléments de consultation reconnus.
+The parser outputs a JSON stream containing the recognized access events.
 
-Son mode d'usage est affichable en l'appelant avec l'option `--help`.  
-Un [exemple de parseur](https://github.com/ezpaarse-project/ezpaarse-platforms/blob/master/js-parser-skeleton/parser.js) est disponible.
+Its usage is documented when you call it with the `--help` option.
+An [example parser](https://github.com/ezpaarse-project/ezpaarse-platforms/blob/master/js-parser-skeleton/parser.js) is available.
 
-### Exemples d'utilisation ###
+### Usage Examples ###
 ```bash
 echo "http://www.sciencedirect.com:80/science/bookseries/00652296" | ./parser.js
 #{"unitid":"00652296","print_identifier":"0065-2296","title_id":"00652296","rtype":"BOOKSERIE","mime":"MISC"}
@@ -72,101 +70,99 @@ echo '{ "url": "http://www.sciencedirect.com:80/science/bookseries/00652296", "s
 ```
 
 
-## Écriture d'un parseur ##
+## Writing a Parser ##
 
-Les parseurs sont écrits en **Javascript**, cependant une bonne connaissance du langage n'est pas nécessaire pour en écrire un. La majeure partie du code étant externalisée dans un fichier commun à tous les parseurs, seule la fonction d'analyse de l'URL doit être adaptée, rendant le code court et relativement simple. La plupart des parseurs demanderont tout de même une maîtrise basique des **expressions régulières**.
+Parsers are written in **Javascript**. A good knowledge of the language is however not necessary to write a parser. Most of the code being outsourced in a common file for all parsers, only the URL analysis function must be adapted, making the code short and relatively simple. Most parsers still require a basic knowledge of **regular expressions**.
 
-Écrire un nouveau parseur consiste à :
+Writing a new parser consists of:
+* creating the manifest.json file (see below)
+* creating the test file, according to what is documented on the plaftform analysis page
+* creating the parser so that its output is conform to the test file (see below)
+* launch the validation tests (see below)
 
-* créer le fichier manifest.json (voir plus bas)
-* créer le fichier test conformément à la page d'analyse de la plateforme
-* créer le parseur de façon à ce que sa sortie soit conforme au fichier test (voir plus bas)
-* lancer les tests de validation (voir plus bas)
+Once the tests have been validated, the parser can be integrated to the github repo.
 
-Une fois les tests valides, le parseur peut être intégré a github.
+A [parser skeleton](https://github.com/ezpaarse-project/ezpaarse-parsers/blob/master/js-parser-skeleton) can be used as a starting point. The folder structure, the files and the skeleton can be automatically generated by launching the [platform-init](/doc/tools.html#platform-init) command.
 
-Un [squelettte de parseur](https://github.com/ezpaarse-project/ezpaarse-parsers/blob/master/js-parser-skeleton) peut servir de base. L'arborescence, les fichiers de base et le squelette peuvent être générés automatiquement en initialisant la plateforme avec la commande [platform-init](/doc/tools.html#platform-init).
+Tools are available online to [help you visualize the writing of regular expressions](http://www.regexper.com/).
 
-Des outils sont disponibles en ligne pour [aider à visualiser l'écriture des expressions régulières](http://www.regexper.com/).
+A [detailed procedure](http://analogist.couperin.org/platforms/contribute/parser) is available on AnalogIST
 
-Une [procédure détaillée](http://analogist.couperin.org/platforms/contribute/parser) est disponible sur AnalogIST
+## Validation tests for a parser
 
-## Tests de validation du parseur
+Each parser is accompanied by what it needs to be tested: one or more files in the subdirectory `test` parser package. These files are in CSV format and follow the ``platform.version.csv`` pattern.
 
-Chaque parseur est accompagné du nécessaire pour être testé. Il s'agit d'un ou plusieurs fichiers présents dans le sous-repertoire `test` du package du parseur. Ces fichiers sont au format CSV et suivent la nomenclature ``platform.version.csv``.  
+The test principle is represented by the following diagram:
+![Parsers' test](images/ezPAARSE-Test-des-Parseurs.png "Test des parseurs")
 
-Le principe du test est représenté par le schéma suivant :  
-![Schéma de test des parseurs](images/ezPAARSE-Test-des-Parseurs.png "Test des parseurs")
+For each row, column data prefixed by ``in-`` are sent to the parser, and the result is compared with the columns prefixed by ``out-``. These must be strictly identical.
 
-Pour chaque ligne, les données des colonnes préfixées par `in-` sont envoyées au parseur, et le résultat est comparé avec les colonnes préfixées par `out-`. Ces derniers doivent être strictement identiques.  
+More details on the identifiers returned by parsers are available on [this page](./ ec-attributes.html).
 
-Plus de détails concernant les identifiants retournés par les parseurs sont disponibles sur [cette page](./ec-attributes.html).
-
-Dans le cas où le parseur prend uniquement une URL en entrée (i.e. pas d'autres champs préfixés par `in-`), il est possible de l'exécuter manuellement sur le fichier de test avec la commande suivante (à partir du répertoire de la plateforme):
+In case the parser takes only an input URL (ie no other fields prefixed by ``in-``), it is possible to manually run the test file with the following command (from the directory the platform):
 
 ```bash
-#platform.version.csv correspond au fichier de test
+#platform.version.csv is the test file
 cat test/platform.version.csv | ../../bin/csvextractor --fields="in-url" -c --noheader | ./parser.js
 ```
 
-Le test est automatiquement intégré à ezPAARSE, la commande suivante permettant de tester l'intégralité des parseurs :
+The test is automatically integrated into ezPAARSE, the following command is used to test all the parsers:
 
 ```
 make test-platforms-verbose
 ```
 
-## Description du parseur
+## Description of a parser
 
-Le parseur est décrit par un fichier ``manifest.json`` présent dans le répertoire du parseur.
-Ce fichier contient les informations suivantes :
+The parser is described by a ``manifest.json`` file, located in the parser directory.
+This file contains the following information:
 
-* **name** : le nom court du parseur qui est utilisé comme préfixe dans les noms de fichier. On veillera à ne pas utiliser un nom déjà utilisé,
-* **version** : la version en cours du parseur. Elle est utilisée dans les noms de fichier de validation des parseurs,
-* **longname** : le nom long du parseur, utilisé dans la documentation,
-* **describe** : la description du parseur, peut être un paragraphe,
-* **docurl** : l'URL de la documentation sur le site analogist (se termine par /),
-* **domains** : un tableau de domaines que le parseur est capable de prendre en charge,
-* **pkb-domains** : si la plateforme possède une PKB et que des domaines y sont présents, ce champ correspond à la colonne qui les contient,
-* **recognize** : un tableau faisant correspondre à chaque type de consultation (à true) les capacités de reconnaissance du parseur.
+* **name**: the short name of the parser, used as a prefix to the file names. Care should be taken not to use a name already used.
+* **version**: the current version of the parser. It is used in the validation file names parsers.
+* **longname**: the long name of the parser, used in the documentation.
+* **describe**: the description for the parser, can be a paragraph.
+* **docurl**: the URL of the documentation on the analogist website (must end by /).
+* **domains**: an array of domains that the parser can handle.
+* **pkb-domains**: if the platform has a PKB and if domains are present, this field is the column that contains them,
+* **recognize**: a table matching each type of consultation (true) to the parser recognition capabilities.
 
-Le fichier manifest.json est utilisé pour afficher dynamiquement les [caractéristiques de tous les parseurs](http://analogist.couperin.org/platforms/start#capacites-des-parseurs).
+The manifest.json file is used to dynamically display the [characteristics of all parsers](http://analogist.couperin.org/platforms/start#capacites-des-parseurs).
 
 
-## Principe de gestion des bases de connaissance éditeur
+## Vendors' PKBs management principles
 
-Les bases de connaissance éditeur sont utilisées pour :
+Knowledge bases are used to:
 
-* faire la correspondance entre les identifiants des plateformes éditeurs (qui peuvent être spécifiques) et des identifiants normalisés (de type ISSN)
-* inclure les titres des ressources consultées dans les résultats
+* match the identifiers found on publishers platforms (which can be specific and proprietary) and standardized identifiers (like ISSNs)
+* include the titles of accessed resources in the results
 
-Les bases de connaissance éditeur sont enregistrées sous forme de fichier texte au [format KBART](http://www.uksg.org/kbart/s1/summary) et sont propres à chaque plateforme.
-Le fichier ``platform_AllTitles.txt`` contient les correspondances entre les identifiants de la plateforme en question et un ISSN ou autre identifiant normalisé. Le champ KBART appelé ``title_id`` est utilisé pour faire cette correspondance avec le champ ``print_identifier`` (cas du papier) ou ``online_identifier`` (cas électronique). La [liste des champs KBART](http://www.uksg.org/kbart/s5/guidelines/data_field_labels) et leur signification est consultable.
+Knowledge bases are saved as text file [KBART format](http://www.uksg.org/kbart/s1/summary) and are specific to each platform.
+The ``platform_AllTitles.txt`` file contains the mappings between identifiers of a specific platform and ISSN (or other standardized identifier). The KBART field called ``title_id`` is used to establish this correspondence with the ``print_identifier`` field (for paper resources) or `online_identifier`` (electronic resources). The [list of KBART fields](http://www.uksg.org/kbart/s5/guidelines/data_field_labels) and their meaning is available.
 
-Les bases de connaissances sont chargées par ezPAARSE et leur structure doit être préalablement contrôlée par la [commande pkbvalidator](/doc/tools.html#pkbvalidator)
+Knowledge bases are loaded by ezPAARSE and their structure must be previously controlled by the [pkbvalidator tool](/doc/tools.html#pkbvalidator)
 
-[Plus de détails sur AnalogIST](http://analogist.couperin.org/platforms/contribute/parser)
+[More on AnalogIST](http://analogist.couperin.org/platforms/contribute/parser)
 
-## Effectuer un test en particulier ##
+## Running a specific test ##
 
-Pour effectuer les tests d'une fonctionnalité précise, il faut utiliser mocha et indiquer en paramètre le chemin du fichier de tests.
-
-Par exemple pour le test de formats personnalisés :
+For testing a specific feature, use mocha and give the path of the test file as a parameter.
+For example, to test custom formats:
 ```console
 . ./bin/env
 mocha ./test/custom-formats-test
 ```
 
-Pour effectuer un seul des tests d'une fonctionnalité, il faut utiliser mocha et indiquer en paramètre le chemin du fichier de tests puis, via un ``-g``, préciser le numéro du test en deux chiffres sous la forme ``@xx``.
+For running only one feature test, use mocha and give the path of the test file and the two-digit number (``@xx``) of the test (with ``-g``) as parameters.
 
-Par exemple pour le deuxième test de formats personnalisés :
+For example, running only the second test of personalized formats will look like: 
 ```console
 . ./bin/env
 mocha ./test/custom-formats-test -g @02
 ```
 
-Pour effectuer le test d'une seule plate-forme, il faut utiliser mocha et indiquer en paramètre le chemin du fichier de tests des plate-formes puis, via un ``-g``, préciser le nom de la plate-forme.
+To test a single platform, use mocha and give the path of the test file and the platform name (with ``-g``) as parameters.
 
-Par exemple pour le test de Science Direct :
+For example, testing only the ScienceDirect platform will look like:
 ```console
 . ./bin/env
 mocha ./test/platforms-test -g sd
