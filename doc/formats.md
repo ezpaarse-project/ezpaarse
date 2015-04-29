@@ -1,23 +1,24 @@
-# Formats de logs #
-ezPAARSE permet aux utilisateurs de préciser le format des lignes de logs générées par leur proxy en utilisant le header HTTP *Log-Format-xxx*, où *xxx* correspond au nom du proxy.  
+# Log formats #
+ezPAARSE allows its users to specify their proxy log format by using the HTTP header *Log-Format-xxx*, where *xxx* is the name of the proxy.
 
-Les différentes syntaxes sont calquées sur celles utilisées par les proxy, de sorte qu'il suffise de coller le format présent dans la configuration du proxy afin que les lignes soient reconnues. Attention cependant, **les paramètres ne sont pas repris dans leur globalité**.
+The different syntaxes mirror those used by the proxy. It is thus often as easy as copying and pasting the format found in the proxy configuration. Beware though, **settings are not included in their entirety.**
 
-## Syntaxe EZproxy ##
 
-- %h : hôte à l'origine de la requête.
-- %u : login utilisé pour l'authentification.
-- %l : nom d'utilisateur distant obtenu par identd. (toujours "-")
-- %b : nombre d'octets transférés.
-- %U : URL demandée *(e.g. http://www.somedb.com/)*.
-- %m : méthode de la requête *(e.g. GET, POST)*.
-- %r : requête complète *(e.g. GET http://www.somedb.com HTTP/1.0)*.
-- %t : date/heure de la requête. Le format peut être précisé dans le header *Date-Format*.
-- %s : statut numérique HTTP de la requête.
+## EZProxy syntax ##
 
-### Expressions régulières générées pour les champs EZproxy ###
+- %h : host IP, from where the request originates 
+- %u : login used during authentication
+- %l : distant user name, obtained with identd (always "-")
+- %b : bytes transfered
+- %U : requested URL *(e.g. http://www.somedb.com/)*.
+- %m : request's method *(e.g. GET, POST)*.
+- %r : complete request *(e.g. GET http://www.somedb.com HTTP/1.0)*.
+- %t : date/time of the request. The format can be specified in the *Date-Format* request.
+- %s : HTTP request status code
 
-Chacun des paramètres ci-dessus est transformé en une expression régulière :
+### Regular expressions generated for the EZProxy fields ###
+
+Each of the above parameters is converted into a regular expression:
 - %h (host)     : ([a-zA-Z0-9\\.\\-]+(?:, ?[a-zA-Z0-9\\.\\-]+)*)
 - %u (login)    : ([a-zA-Z0-9@\\.\\-_%,=]+)
 - %l (identd)   : ([a-zA-Z0-9\\-]+|\\-)
@@ -28,56 +29,56 @@ Chacun des paramètres ci-dessus est transformé en une expression régulière :
 - %t (datetime) : \\[([^\\]]+)\\]
 - %s (status)   : ([0-9]+)
 
-## Syntaxe Apache ##
+## Apache Syntax ##
 
-- %h  : hôte à l'origine de la requête.
-- %u  : login utilisé pour l'authentification.
-- %l  : nom d'utilisateur distant obtenu par identd. (toujours "-")
-- %b  : nombre d'octets transférés.
-- %U  : URL demandée *(e.g. http://www.somedb.com/)*.
-- %r  : requête complète *(e.g. GET http://www.somedb.com HTTP/1.0)*.
-- %t  : date/heure de la requête. Le format peut être précisé dans le header *Date-Format*.
-- %>s : statut numérique HTTP de la requête.
+- %h  : host IP, from where the request originates
+- %u  : login used during authentication
+- %l  : distant user name, obtained with identd (always "-")
+- %b  : bytes transfered
+- %U  : requested URL *(e.g. http://www.somedb.com/)*.
+- %r  : complete request *(e.g. GET http://www.somedb.com HTTP/1.0)*.
+- %t  : date/time of the request. The format can be specified in the *Date-Format* request.
+- %>s : HTTP request status code
 
-## Syntaxe Squid ##
+## Squid Syntax ##
 
-- %ts  : timestamp de la requête (en secondes).
-- %tu  : nombre de millisecondes (du timestamp).
-- %tr  : temps de réponse du serveur.
-- %tl  : date/heure de la requête. Le format peut être précisé dans le header *Date-Format*.
-- %>a  : hôte à l'origine de la requête.
-- %<a  : adresse IP de la dernière connexion.
-- %<A  : nom de domaine demandé dans la requête.
-- %lp  : port demandé dans la requête.
-- %Ss  : statut squid de la requête *(TCP_MISS, ..)*.
-- %>Hs : statut numérique HTTP de la requête.
-- %<st : taille de la réponse (headers inclus).
-- %rm  : méthode de la requête *(e.g. GET, POST)*.
-- %rv  : version du protocole utilisé.
-- %ru  : URL demandée *(e.g. http://www.somedb.com/)*.
-- %[un : login utilisé pour l'authentification.
-- %Sh  : statut hiérarchique squid *(DEFAULT_PARENT, ..)*.
-- %mt  : type MIME du contenu.
-- %ui  : nom d'utilisateur distant obtenu par identd.
+- %ts  : resquest's timestamp (in seconds).
+- %tu  : timestamp's milliseconds
+- %tr  : server's response time
+- %tl  : date/time of the request. The format can be specified in the *Date-Format* request.
+- %>a  : host IP, from where the request originates
+- %<a  : IP address for the last connection
+- %<A  : domain name from the request
+- %lp  : port number from the request
+- %Ss  : squid status for the request *(TCP_MISS, ..)*.
+- %>Hs : HTTP request status code for the request
+- %<st : response size (headers included).
+- %rm  : request method *(e.g. GET, POST)*.
+- %rv  : protocol version number 
+- %ru  : requested URL *(e.g. http://www.somedb.com/)*.
+- %[un : login used to authenticate
+- %Sh  : squid hierarchical status *(DEFAULT_PARENT, ..)*.
+- %mt  : MIME type of the content
+- %ui  : distant user name, obtained with identd
 
-## Paramètres personnalisés ##
+## Personalized parameters ##
 
-Utiliser des paramètres personnalisés permet de récupérer des informations présentes dans les lignes de logs qui ne répondent pas au standard EZproxy. A l'inverse, il est possible d'ignorer certaines informations, qui ne seront pas retrouvées dans les événements de consultation générés par ezPAARSE.  
+Using custom settings allows the retrieval of information from the log lines that do not match with EZProxy standards. Conversely, it is possible to ignore some information that you don't want to see appear in the consultation events generated by ezPAARSE.
 
-Un paramètre peut être formulé de trois façons :  
-- %{**propriété**}<**regexp**> : récupère le champ correspondant à l'expression régulière entre <...> et l'ajoute à l'événement de consultation sous le nom défini entre {...}.  
-- %{**propriété**} : récupère une chaîne alphanumérique pouvant contenir des tirets, et l'ajoute à l'événement de consultation sous le nom défini entre {...}.  
-- %<**regexp**> : ignore le morceau de ligne de log correspondant à l'expression régulière entre <...>.
+There are three ways of expressing a parameter:
+- %{**field_name**}<**regexp**>: retrieves the field corresponding to the specified regexp and adds it to the consultation event with the given field name
+- %{**field_name**} : retrieves an alphanumeric string (hyphens permitted) and adds it to the consultation event with the specified field name
+- %<**regexp**> : ignores the part of the log line that matches the corresponding regexp.
 
-**NB:** pour les expressions régulières complexes, utilisez des parenthèses non capturantes : **(?:x)**.
+**NB:** you should use non-capturing parentheses **(?:x)** for complex regexps.
 
-### Exemples de champs particuliers ###
+### Some examples of specific fields ###
 
 <table>
   <tr>
-    <th>Champ</th>
-    <th style="text-align:left;">Formes</th>
-    <th>Format à indiquer</th>
+    <th>Field</th>
+    <th style="text-align:left;">Forms</th>
+    <th>Format</th>
   </tr>
   <tr>
     <td>%{X-FORWARDED-FOR}i</td>
@@ -97,23 +98,23 @@ Un paramètre peut être formulé de trois façons :
     <td><span style="color: red">pvJ0HWGo6eWhhVv</span>
       <br /><span style="color: green">UX0Yi0agVZQwHNs</span></td>
     <td>%{ezproxy-session}
-      <br />**ou**
+      <br />**or**
       <br />%{ezproxy-session}&lt;[a-zA-Z0-9]+&gt;</td>
   </tr>
 </table>
 
-### Exemple de requête ###
+### Example of a request ###
 ```shell
 curl -X POST --proxy "" --no-buffer -H 'Log-Format-ezproxy: %h %<[-]> %u [%t] "%r" %s %b' --data-binary @test/dataset/sd.2012-11-30.300.log  http://127.0.0.1:59599 -v
 ```
 
-### Cas concrets ###
+### Some concrete cases ###
 
 <table>
   <tr>
     <th>Proxy</th>
-    <th style="text-align:left;">Type de ligne</th>
-    <th>Format possible</th>
+    <th style="text-align:left;">Line type</th>
+    <th>Possible format</th>
   </tr>
   <tr>
     <td rowspan="2">EZproxy</td>
