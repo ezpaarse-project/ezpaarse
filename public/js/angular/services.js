@@ -312,13 +312,14 @@ angular.module('ezPAARSE.services', [])
           { category: 'other',          name: 'Traces-Level',                 anchor: 'traces-level' },
           { category: 'other',          name: 'Reject-Files',                 anchor: 'reject-files' },
           { category: 'other',          name: 'Clean-Only',                   anchor: 'clean-only' },
-          { category: 'other',          name: 'Relative-Domain',              anchor: 'relative-domain' },
+          { category: 'other',          name: 'Force-Parser',                 anchor: 'force-parser' },
           { category: 'other',          name: 'Geoip',                        anchor: 'geoip' },
           { category: 'other',          name: 'ezPAARSE-Job-Notifications',   anchor: 'ezpaarse-job-notifications' },
           { category: 'other',          name: 'ezPAARSE-Enrich',              anchor: 'ezpaarse-enrich' },
           { category: 'other',          name: 'ezPAARSE-Predefined-Settings', anchor: 'ezpaarse-predefined-settings' },
           { category: 'other',          name: 'ezPAARSE-Filter-Redirects',    anchor: 'ezpaarse-filter-redirects' },
-          { category: 'other',          name: 'Disable-Filters',              anchor: 'disable-filters' }
+          { category: 'other',          name: 'Disable-Filters',              anchor: 'disable-filters' },
+          { category: 'other',          name: 'Force-ECField-Publisher',      anchor: 'force-ecfield-publisher' }
         ]
       };
 
@@ -332,7 +333,7 @@ angular.module('ezPAARSE.services', [])
           'Accept':          'text/csv',
           'Traces-Level':    'info',
           'Date-Format':     '',
-          'Relative-Domain': ''
+          'Force-Parser': ''
         }
       };
 

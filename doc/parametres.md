@@ -60,8 +60,10 @@ Character map used for output. [(see supported encodings)](https://github.com/as
 ### Clean-Only ###
 If set to `true`, ezPAARSE will just filter out the irrelevant lines and output the relevant ones.
 
-### Relative-Domain ###
-If relative URLs are found they'll be considered as belonging to this domain (and will be treated by the relevant parser).
+### Force-Parser ###
+If URLs don't have 'domain' part, use this parameter to force right parser to be used. Usefull for Open Access log analysis which don't have domain part in URL (all URLs comes form the same domain). 
+For example : Force-Parser: 'dspace'. 
+Can be use in conjonction with Force-ECField-Publisher.
 
 ### COUNTER-Reports ###
 List of COUNTER reports to create (ex: JR1, BR2). Download links are accessible in the `stats` section of the treatment report. [(More information)](./counter.html) 
@@ -96,3 +98,7 @@ Possible values (separated by commas) : `robots`, `ignored-hosts`, `ignored-doma
 Set to `all` to disable all above filters.  
 
 **NB**: when robots are not filtered, add the `robot` field to the output in order to know which consultations were made by robots.
+
+### Force-ECField-Publisher ###
+Set the publisher_name field to a predefined value. 
+For example : Force-ECField-Publisher: 'IRevues'.

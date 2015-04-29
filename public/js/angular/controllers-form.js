@@ -110,7 +110,7 @@ angular.module('ezPAARSE.form-controllers', [])
           proxy: format ? settings.proxyType : null,
           format: format,
           dateFormat: settings.headers['Date-Format'],
-          relativeDomain: settings.headers['Relative-Domain'],
+          forceParser: settings.headers['Force-Parser'],
           laxist: !strictMatch
         });
 
