@@ -25,7 +25,7 @@ With cURL, the generated report can be downloaded at the URL given in the **Job-
 
 <img src="images/ezPAARSE-SR18-04.jpg" alt="Commande cURL pour JR1" style="width: 750px"/>
 
-#### Usage via le formulaire ####
+#### Usage through the online form ####
 
 Using the online form, you can ask for the creation of COUNTER reports by adding specific headers in the **Headers (advanced)** section (see below):
 
