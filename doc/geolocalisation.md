@@ -1,30 +1,32 @@
-### Geolocalisation ###
+### Geolocation ###
 
-La géolocalisation est basée sur l'adresse IP contenue dans le champ host des fichiers de log. Le header `Geoip` permet de choisir les données à ajouter aux résultats, ou de désactiver la géolocalisation.
+The geolocation is based on the IP address found in the host field from the log files. The `Geoip` header allows to choose which data to add to the results, or to deactivate the geolocation altogether.
 
-La librairie utilisée est [geoip-lite](https://github.com/bluesmoon/node-geoip).
+The library used for this is [geoip-lite](https://github.com/bluesmoon/node-geoip).
 
-**Réserves sur la géolocalisation** : la géolocalisation par adresse IP est une méthode qui permet de déterminer la position géographique d'un terminal connecté à internet en se basant sur son adresse IP. Un niveau de précision de l'ordre de la ville est possible, mais parfois seul le pays est trouvé. Les données de [géolocalisation sont informatives](http://fr.wikipedia.org/wiki/G%C3%A9olocalisation#G.C3.A9olocalisation_par_adresse_IP_.28sur_internet.29) du fait des aléas liés à leur determination : elles dépendent du fournisseur d'accès internet avec une gestion différente selon les pays.
+**Geolocation Caveats** : IP address geolocation is a method that links the IP address of a terminal connected to the internet with a geographical position. The precision level is not always the same: city in the best of cases, country otherwise.
+The [geolocation data are informative](http://en.wikipedia.org/wiki/Geolocation_software) and depend on the country as well as the internet access provider.
 
-#### Paramètres (headers) ####
+#### Parameters (headers) ####
 
-* **Geoip:** liste des informations de géolocalisation à ajouter aux résultats. Par défaut `geoip-longitude, geoip-latitude, geoip-country`. `all` peut être utilisé pour renvoyer tous les champs possibles, ou `none` pour désactiver la géolocalisation. Champs possibles : `geoip-host`, `geoip-addr`, `geoip-family`, `geoip-country`, `geoip-region`, `geoip-city`, `geoip-latitude`, `geoip-longitude`.
+* **Geoip:** geolocation data that can be added to the results. By default: `geoip-longitude, geoip-latitude, geoip-country`. `all` can be used to include all possible fields, or `none` to deactivate the geolocation. The available fields are: `geoip-host`, `geoip-addr`, `geoip-family`, `geoip-country`, `geoip-region`, `geoip-city`, `geoip-latitude`, `geoip-longitude`.
 
-Exemple d'usage :
+Usage example:
 ```shell
 curl -v -X POST --proxy "" --no-buffer \
   -F "file=@test/dataset/geolocalize.log" \
   -H 'Geoip: all' \
  	http://127.0.0.1:59599
 ```
-Exemple d'usage évolué :
+Advanced usage example:
 
-Cet exemple utilise les librairies ''csv2geojson'' et ''geojsonio-cli''.
+This example uses the ''csv2geojson'' and ''geojsonio-cli'' librairies.
 
 ```shell
 npm install csv2geojson geojsonio-cli
 ```
-Par la suite il est possible de visualiser directement sur une carte le résultat du traitement 
+It is then possible to directly visualize the results on a map.
+
 ```shell
 curl -X POST http://127.0.0.1:59599 \
   --proxy "" \
@@ -36,7 +38,6 @@ curl -X POST http://127.0.0.1:59599 \
   | geojsonio
 ```
 
-Qui ouvre votre navigateur avec la visualisation suivante :
+That opens a web browser with the following graphical representation : 
 
 <img src="images/ezPAARSE-SR16-02.jpg" alt="EDP Sciences Anonyme" style="width: 600px"/>
-
