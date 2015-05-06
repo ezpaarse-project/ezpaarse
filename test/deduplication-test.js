@@ -9,7 +9,7 @@ var helpers = require('./helpers.js');
 
 var logFormat            = '%h %u %{session}<[a-zA-Z0-9\\-]+> %t "%r" %s';
 var multipleStatus       = path.join(__dirname, '/dataset/sd.multiple-status.log');
-var redundantLogFile     = path.join(__dirname, '/dataset/sd.duplicates.log');
+var redundantLogFile     = path.join(__dirname, '/dataset/sd.duplicreates.log');
 var manyclickLogFile     = path.join(__dirname, '/dataset/sd.duplicates-manyclick.log');
 var manyclickResultFile  = path.join(__dirname, '/dataset/sd.duplicates-manyclick.result.json');
 var manyclickLogFile2    = path.join(__dirname, '/dataset/sd.duplicates-manyclick2.log');
@@ -211,7 +211,6 @@ describe('The server', function () {
         if (err)  { throw err; }
         res.should.have.status(200);
 
-        fs.writeFileSync('res.json', body);
         var correctOutput = fs.readFileSync(mixedLoginResultFile, 'UTF-8');
         var correctJson   = JSON.parse(correctOutput);
         var bodyJson      = JSON.parse(body);
