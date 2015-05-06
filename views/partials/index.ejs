@@ -10,7 +10,7 @@
             <i ng-show="castor.loading" class="large loading spinner icon"></i>
 
             <span ng-switch="castor.state">
-              <div ng-switch-when="synchronizing" class="ui tiny inverted basic button"><i class="loading circle notched icon"></i> {{ 'castor+synchronizing' | translate }} [{{ castor.progress }}%]</div>
+              <div ng-switch-when="synchronizing" class="ui tiny inverted basic button"><i class="loading circle notched icon"></i> {{ 'castor+synchronizing' | translate:{remaining: castor.remaining.length} }}</div>
               <div ng-switch-when="synchronized" class="ui tiny inverted basic button" translate>castor+synchronized</div>
               <div ng-switch-when="error" class="ui tiny inverted basic button" translate>castor+error</div>
             </span>

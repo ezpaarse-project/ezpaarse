@@ -67,7 +67,7 @@ ezLanguages['en'] = {
   "footer+powered":          "Powered by <a href=\"{{ nodejs }}\" target=\"_blank\">Node.js</a> and <a href=\"{{ expressjs }}\" target=\"_blank\">Express 4</a>",
 
   // PKBs state
-  "castor+synchronizing": "Synchronizing PKBs...",
+  "castor+synchronizing": "Synchronizing PKBs... [{{ remaining }} files remaining]",
   "castor+synchronized":  "PKBs synchronized",
   "castor+unavailable":   "Failed to connect to MongoDB. To enable data enrichment, please check that MongoDB is installed and running.",
   "castor+doc_install":   "How to install MongoDB ?",
