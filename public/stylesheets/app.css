@@ -66,7 +66,7 @@ a:hover {
 
 img.icon {
   width: 17px;
-  vertical-align: middle;
+  vertical-align: top;
 }
 .link.icon {
   text-decoration: none;
