@@ -22,7 +22,9 @@ cairn/cairn_journals_part1_2014-02-13.txt
 When a resource carrying a vendor identifier (_title_id_) is met, the associated knowledge base is built from the KBART files and loaded to memory. ezPAARSE can then link the proprietary identifier with all the metadata available and add it to the access event generated.
 
 ### ezPAARSE since 2.1.0 ###
-FIXME : explanations for Castor, MongoDB, noslq?
+As knowledge bases are growing and take too much place in RAM, ezPAARSE stores them in a mongoDB database and uses it to query the metadata associated with the proprietary identifiers. For that purpose, it runs [CastorJS](https://github.com/castorjs/castor-load) in the background to keep the database and PKB files synchronized. This keeps the memory footprint of ezPAARSE at a minimum, but also requires some time to perform the synchronization, especially on first startup.
+
+Please note that processing logs without waiting for the synchronization to be over may result in incomplete enrichment of the access events.
 
 **Warning** : some ezPAARSE output formats will force you to explicitely ask for some information you are interested in. If you don't, you will only get a minimal set of information as a result. This is the case with the CSV output.
 Other output formats, like JSON, will automatically return all the data available.
