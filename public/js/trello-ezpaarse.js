@@ -62,7 +62,7 @@ function getTrelloPlatformsList(cb) {
           });
 
           // exclut la carte modèle et la carte invitation au parsathon
-          if (card.id !== '53fc86672dbb930194716829' || card.id !== '5548ddd74bda25ef74ad84e3') {
+          if (card.id !== '53fc86672dbb930194716829' && card.id !== '5548ddd74bda25ef74ad84e3') {
             platforms.push(createPlatform(card, list));
           }
         });
