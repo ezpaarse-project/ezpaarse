@@ -9,7 +9,7 @@ Depending on the flavour, prerequisites are needed before starting the [main ins
 Starting from a [ubuntu image](http://www.ubuntu.com/download) loaded in a virtual machine, with root privileges or via sudo.
 
 ```
-apt-get install git make curl python gcc build-essential libldap2-dev nsis
+apt-get install git make curl python gcc build-essential nsis
 ```
 
 ##Fedora prerequisites
@@ -17,14 +17,14 @@ apt-get install git make curl python gcc build-essential libldap2-dev nsis
 Starting from a [fedora image](http://fedoraproject.org/get-fedora) loaded in a virtual machine, with root privileges or via sudo.
 
 ```
-yum install git make python gcc-c++ nsis
+yum install git make curl python gcc-c++ nsis
 ```
 
 ##SUSE prerequisites
  
 (to be verified)
 ```
-yum install git make python gcc-c++ nsis
+yum install git make curl python gcc-c++ nsis
 ```
 
 ##Mac OS X prerequisites
