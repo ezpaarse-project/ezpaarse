@@ -11,7 +11,6 @@ Here are the tools you'll need to let ezPAARSE work:
 * Linux OS: [see the special prerequesites](https://github.com/ezpaarse-project/ezpaarse/blob/master/doc/multi-os.md)
 * Unix standard tools: bash, make, grep, sed ... 
 * curl (used by nvm)
-* unzip
 * git >= 1.7.10 (needed by github)
 * MongoDB >= 2.4
 
