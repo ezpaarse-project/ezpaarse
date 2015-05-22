@@ -85,6 +85,7 @@ make rpm
 
 - Créer une archive windows (.exe) :
 ```console
+#nécessite le paquet : nsis
 make exe
 ```
 
