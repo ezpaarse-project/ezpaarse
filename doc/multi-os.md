@@ -24,7 +24,7 @@ yum install git make curl python gcc-c++
  
 (to be verified)
 ```
-yum install git make curl python gcc-c++
+zypper install git make curl python gcc-c++
 ```
 
 ##Mac OS X prerequisites
