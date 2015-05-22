@@ -6,17 +6,16 @@
 #          [--rebuild][-b]  Call 'make' once updated
 #          [--force][-f]    Overwrite any existing change in the working tree (use it carefully)
 #
-# Status flags :  [1]  Another instance of the script is already running
-#                 [2]  Failed to stop ezPAARSE
-#                 [4]  Failed to update the core
-#                 [8]  Failed to rebuild
-#                 [16] Failed to restart ezPAARSE
+# Status flags :  [1] Another instance of the script is already running
+#                 [2] Failed to update the core
+#                 [4] Failed to rebuild
+#                 [8] Failed to restart ezPAARSE
 #
 # Status code is a bitwise flags enumeration
 # [failed to update] + [failed to restart] = 4|16 = 20
 #
-# [20 & 16 == 16] => [failed to restart]
-#   [20 & 4 != 4] => [No rebuild or rebuild successful]
+# [12 & 8 == 8] => [Failed to restart]
+# [12 & 2 != 2] => [Updated core successfuly]
 
 STATUS=0
 
@@ -26,7 +25,7 @@ if ( set -o noclobber; echo "$$" > update.lock) 2> /dev/null ; then
   trap 'rm -f update.lock; exit $STATUS' INT TERM EXIT
 else
   echo "Another instance is already running" >&2
-  exit 16
+  exit 1
 fi
 
 LATEST=false
@@ -64,9 +63,6 @@ if [[ $CURRENT_BRANCH == 'HEAD' ]]; then
   CURRENT_BRANCH='master'
 fi
 
-make stop
-if [[ $? -gt 0 ]]; then STATUS=2; fi
-
 if [[ $STATUS -eq 0 ]]; then
   if [[ $LATEST == true ]]; then
     echo "Updating to the bleeding edge of $CURRENT_BRANCH"
@@ -78,17 +74,17 @@ if [[ $STATUS -eq 0 ]]; then
     git checkout $LATEST_TAG $FORCE
   fi
 
-  if [[ $? -gt 0 ]]; then STATUS=4; fi
+  if [[ $? -gt 0 ]]; then STATUS=2; fi
 
   if [[ $STATUS -eq 0 && $REBUILD == true ]]; then
     make
-    if [[ $? -gt 0 ]]; then STATUS=8; fi
+    if [[ $? -gt 0 ]]; then STATUS=4; fi
   fi
 fi
 
 if [[ $RESTART == true ]]; then
-  make start
+  make restart
+  if [[ $? -gt 0 ]]; then STATUS=$(($STATUS | 8)); fi
 fi
 
-if [[ $? -gt 0 ]]; then STATUS=$(($STATUS | 16)); fi
 exit $STATUS
