@@ -82,9 +82,7 @@ module.exports = function (app) {
     res.on('finish', function () {
       app.locals.updating = true;
       
-      execFile('../lib/bin/update-app.js', args, { cwd: __dirname }, function (err) {
-        app.locals.updating = false;
-      });
+      execFile('../lib/bin/update-app.js', args, { cwd: __dirname });
     });
 
     res.status(200).end();

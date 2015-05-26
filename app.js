@@ -129,7 +129,14 @@ app.use(favicon(path.join(__dirname, 'public/img/favicon.ico')));
 app.use(function (req, res, next) {
   if (!app.locals.updating) { return next(); }
   
-  res.status(503).send('ezPAARSE is being updated, it should be back in a few minutes');
+  fs.exists(path.join(__dirname, 'update.lock'), function (exist) {
+    if (exist) {
+      res.status(503).send('ezPAARSE is being updated, it should be back in a few minutes');
+    } else {
+      app.locals.updating = false;
+      next();
+    }
+  });
 });
 
 /**
