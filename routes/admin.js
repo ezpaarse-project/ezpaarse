@@ -80,7 +80,11 @@ module.exports = function (app) {
     if (req.query.rebuild !== 'no')     { args.push('--rebuild'); }
 
     res.on('finish', function () {
-      execFile('../lib/bin/update-app.js', args, { cwd: __dirname });
+      app.locals.updating = true;
+      
+      execFile('../lib/bin/update-app.js', args, { cwd: __dirname }, function (err) {
+        app.locals.updating = false;
+      });
     });
 
     res.status(200).end();

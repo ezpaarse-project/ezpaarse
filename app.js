@@ -124,6 +124,15 @@ app.use(favicon(path.join(__dirname, 'public/img/favicon.ico')));
 
 
 /**
+ * Send 503 if ezPAARSE is being updated
+ */
+app.use(function (req, res, next) {
+  if (!app.locals.updating) { return next(); }
+  
+  res.status(503).send('ezPAARSE is being updated, it should be back in a few minutes');
+});
+
+/**
  * Middleware to allow method override
  * either using _method in query
  * or the header X-HTTP-Method-Override
@@ -137,6 +146,7 @@ app.use(function (req, res, next) {
   }
   next();
 });
+
 app.use(cookieParser('ezpaarseappoftheYEAR'));
 app.use(cookieSession({ //should not be used in PROD
   key: 'ezpaarse',
