@@ -125,3 +125,16 @@ For example, to change the ezPAARSE listening port (59599 by default), you can o
   "EZPAARSE_NODEJS_PORT": 45000
 }
 ```
+
+## Use with docker ##
+
+ezPAARSE is now available as a [docker image](https://registry.hub.docker.com/u/ezpaarseproject/ezpaarse/). It exposes port `59599` and needs to be linked with a mongodb container in order to be fully functionnal.  
+
+Typical use :
+
+    docker pull mongo:latest
+    docker pull ezpaarseproject/ezpaarse:latest
+    docker run -d --name mongodb mongo
+    docker run -d --name ezpaarse --link mongodb:mongodb -p 59599:59599 ezpaarseproject/ezpaarse
+
+Behind a proxy : use `docker run -e http_proxy[=...] -e https_proxy[=...]`
