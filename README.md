@@ -15,6 +15,14 @@ Built-in proxies supported log formats are:
 * [bibliopam](http://mioga.alixen.fr/Mioga2/bibliopam/public/club/)
 * [squid](http://www.squid-cache.org/)
 
+**Table of content**
+- [Prerequisites](#prerequisites)
+- [Installation quickstart](#installation-quickstart)
+- [Test the installation](#test-the-installation)
+- [Usage](#usage)
+- [Advanced parameters](#advanced-parameters)
+- [Use with docker](#use-with-docker)
+
 ## Prerequisites ##
 
 The tools you need to let ezPAARSE run are:
