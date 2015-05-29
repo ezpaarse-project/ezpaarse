@@ -9,6 +9,7 @@
     "browser"       : false,   // Standard browser globals e.g. `window`, `document`.
 
     "node"          : true,
+    "esnext"        : true,
     "rhino"         : false,
     "couch"         : false,
     "wsh"           : false,   // Windows Scripting Host.
