@@ -16,6 +16,9 @@
   Var DefaultExcel
   Var DefaultLibreOffice
   Var InstallDirShort
+  Var SampleURLPath
+  Var SampleFile
+  Var BTDURLPath
 
 ;--------------------------------
 ;Pages
@@ -86,6 +89,10 @@ InstallDirRegKey HKCU "Software\ezPAARSE-Project" "InstallDir"
 ;Request application privileges for Windows
 RequestExecutionLevel user
 
+!define SAMPLE_FILE "multiplatforms.ezproxy.2014.04.01-09.log.gz"
+!define SAMPLE_URL "http://analogist.couperin.org/ezpaarse/dataset/${SAMPLE_FILE}"
+
+!define BTDURLPATH "http://analogist.couperin.org/ezpaarse/docker/docker-install.exe"
 
 ;--------------------------------
 ;Detecting default browser and excel for shortcuts
@@ -144,7 +151,7 @@ SectionEnd
 Section $(menu+ezPAARSEmenu) SecMenuEZPAARSE
 
   ; search 
-  ${Locate} "$LOCALAPPDATA" "/M=ezpaarsestart.bat" LocateInstDir
+  ${Locate} "$LOCALAPPDATA" "/M=ezpaarse-docker-start.sh" LocateInstDir
   StrCpy $InstallDirShort $R0
 
   ; needed for shortcut working directory
@@ -155,9 +162,9 @@ Section $(menu+ezPAARSEmenu) SecMenuEZPAARSE
     ;Create shortcuts
     CreateDirectory "$SMPROGRAMS\$StartMenuFolder"
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Uninstall.lnk" "$InstallDirShort\Uninstall.exe"
-    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+1_lancer)" "$InstallDirShort\ezpaarsestart.bat" "" "" "" SW_SHOWMINIMIZED
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+1_lancer)" "$InstallDirShort\ezpaarse-docker-start.sh" "" "" "" SW_SHOWMINIMIZED
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+2_utiliser)" "$DefaultBrowser" $(url_start) 0 
-    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+3_tester)" "$WINDIR\explorer.exe" "$InstallDirShort\test\dataset" 
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+3_tester)" "$WINDIR\explorer.exe" "$InstallDirShort\dataset" 
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+4a_visualiser)" "$DefaultExcel" "$InstallDirShort\excel\$(excel_render)" 0 
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+4b_visualiser)" "$DefaultLibreOffice" "$InstallDirShort\libreoffice\$(libreoffice_render)" 0 
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+5_documenter)" "$DefaultBrowser" $(url_doc) 0 
@@ -167,6 +174,14 @@ Section $(menu+ezPAARSEmenu) SecMenuEZPAARSE
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+9_errors)" "$WINDIR\notepad.exe" "$InstallDirShort\ezpaarselogerror.txt"
   !insertmacro MUI_STARTMENU_WRITE_END
 
+SectionEnd
+
+Section "Samples" SecSampleEZPAARSE
+  Call downloadSample
+SectionEnd
+
+Section "Boot2docker" SecBTDEZPAARSE
+  Call downloadBTD
 SectionEnd
 
 ;--------------------------------
@@ -194,6 +209,28 @@ Section "Uninstall"
 
 SectionEnd
 
+Function downloadSample
+  nsisdl::download \
+       /TIMEOUT=30000 "$SampleURLPath" "$INSTDIR\dataset\$SampleFile"
+    Pop $0
+    StrCmp "$0" "success" lbl_ds_continue
+    DetailPrint "Telechargement echoue : $0"
+    Abort
+    lbl_ds_continue:
+FunctionEnd
+
+Function downloadBTD
+  nsisdl::download \
+       /TIMEOUT=30000 "$BTDURLPath" "$INSTDIR\docker-install.exe"
+    Pop $0
+    StrCmp "$0" "success" lbl_dbtd_continue
+    DetailPrint "Telechargement echoue : $0"
+    Abort
+  lbl_dbtd_continue:
+  ExecWait '"$INSTDIR\docker-install.exe" /q /norestart'
+  DetailPrint "Code retour installation : $EXIT_CODE"
+
+FunctionEnd
 
 
 Function LocateInstDir
@@ -210,10 +247,15 @@ FunctionEnd
 
 Function .onInit
   !insertmacro MUI_LANGDLL_DISPLAY
+  ; detect previous install
   ReadRegStr $R0 HKCU \
   "Software\ezPAARSE-Project" "InstallDir"
   StrCmp $R0 "" done
+  StrCpy $SampleURLPath "${SAMPLE_URL}"
+  StrCpy $SampleFile "${SAMPLE_FILE}"
+  StrCpy $BTDURLPath "${BTDURLPATH}"
 
+  ; ask for uninstall previous installation
   MessageBox MB_OKCANCEL|MB_ICONEXCLAMATION \
   $(preinstall+already_installed) \
   IDOK uninst

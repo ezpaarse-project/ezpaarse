@@ -14,47 +14,17 @@ EZPAARSE_NODEJS_VERSION="`$BIN_PATH/readconfig -k EZPAARSE_NODEJS_VERSION`"
 source $BIN_PATH/buildcommon
 
 
-# a temp folder to clone the git
+# a temp folder 
 TMP_DIR=$EZPAARSE_PATH/tmp
+rm -rf $TMP_DIR
 mkdir -p $TMP_DIR
-
-
-# clone the git with the correct name
-rm -rf $TMP_DIR/$EZPAARSE_NAME
-git clone file://$EZPAARSE_PATH $TMP_DIR/$EZPAARSE_NAME
-cd $TMP_DIR/$EZPAARSE_NAME
-git checkout $VERSION
-cp -f $EZPAARSE_PATH/Makefile $TMP_DIR/$EZPAARSE_NAME/
-touch $TMP_DIR/$EZPAARSE_NAME/clean-for-release-flag
-make version v=$VERSION_PREFIX$VERSION
-make clean-for-release
-
-
-mkdir -p $TMP_DIR/$EZPAARSE_NAME/build
-
-make
-
-# build cleanup
-rm -rf ./build
-
-# git cleanup
-rm -rf ./platforms/.git/
-
-# test cleanup
-rm -rf $TMP_DIR/$EZPAARSE_NAME/test/dataset/*.*
-
-# we don't need forever on windows and it's making errors for a path > 255
-rm -rf $TMP_DIR/$EZPAARSE_NAME/node_modules/forever
-
-# download node version for windows
-# http://nodejs.org/dist/v0.8.22/node.exe
-curl -L http://nodejs.org/dist/v$EZPAARSE_NODEJS_VERSION/node.exe > node.exe
-echo "node.exe app.js > ezpaarselog.txt 2>> ezpaarselogerror.txt" > ezpaarsestart.bat
+mkdir -p $TMP_DIR/$EZPAARSE_NAME
+mkdir -p $TMP_DIR/$EZPAARSE_NAME/dataset
 
 # download sample log
-curl -L http://analogist.couperin.org/ezpaarse/dataset/small-sample.log.gz > $TMP_DIR/$EZPAARSE_NAME/test/dataset/small-sample.log.gz
-curl -L http://analogist.couperin.org/ezpaarse/dataset/medium-sample.log.gz > $TMP_DIR/$EZPAARSE_NAME/test/dataset/medium-sample.log.gz
-curl -L http://analogist.couperin.org/ezpaarse/dataset/big-sample.log.gz > $TMP_DIR/$EZPAARSE_NAME/test/dataset/big-sample.log.gz
+curl -L http://analogist.couperin.org/ezpaarse/dataset/small-sample.log.gz > $TMP_DIR/$EZPAARSE_NAME/dataset/small-sample.log.gz
+curl -L http://analogist.couperin.org/ezpaarse/dataset/medium-sample.log.gz > $TMP_DIR/$EZPAARSE_NAME/dataset/medium-sample.log.gz
+curl -L http://analogist.couperin.org/ezpaarse/dataset/big-sample.log.gz > $TMP_DIR/$EZPAARSE_NAME/dataset/big-sample.log.gz
 
 cd $TMP_DIR
 # compile with ezpaarse nsis script file
@@ -66,6 +36,7 @@ cp $EZPAARSE_PATH/misc/windows/English.nsh .
 cp $EZPAARSE_PATH/misc/windows/Licence-CeCILL-V2-fr.txt .
 cp $EZPAARSE_PATH/misc/windows/License-CeCILL-V2-en.txt .
 cp $EZPAARSE_PATH/misc/windows/ezPAARSE-HeaderPageNSIS.bmp .
+cp $EZPAARSE_PATH/misc/windows/ezpaarse-docker-start.sh $TMP_DIR/$EZPAARSE_NAME
 mkdir $TMP_DIR/$EZPAARSE_NAME/excel
 mkdir $TMP_DIR/$EZPAARSE_NAME/libreoffice
 cp $EZPAARSE_PATH/misc/windows/ezPAARSE-Render.xltm $TMP_DIR/$EZPAARSE_NAME/excel/.
