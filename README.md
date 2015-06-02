@@ -1,5 +1,7 @@
 # ezPAARSE #
 
+[![Join the chat at https://gitter.im/ezpaarse-project/ezpaarse](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/ezpaarse-project/ezpaarse?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 [![Build Status](https://secure.travis-ci.org/ezpaarse-project/ezpaarse.png?branch=master)](http://travis-ci.org/ezpaarse-project/ezpaarse)
 [![Dependencies Status](https://david-dm.org/ezpaarse-project/ezpaarse.png)](https://david-dm.org/ezpaarse-project/ezpaarse)
 
