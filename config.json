@@ -26,6 +26,8 @@
     "domain"
   ],
   "EZPAARSE_MIDDLEWARES": [
+    "filter",
+    "parser",
     "deduplicator",
     "enhancer",
     "geolocalizer",
