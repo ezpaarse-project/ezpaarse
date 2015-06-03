@@ -30,7 +30,8 @@
     "enhancer",
     "geolocalizer",
     "field-splitter",
-    "qualifier"
+    "qualifier",
+    "anonymizer"
   ],
   "EZPAARSE_QUALIFYING_LEVEL": 1,
   "EZPAARSE_QUALIFYING_FACTORS": {
