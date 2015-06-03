@@ -25,6 +25,13 @@
     "unitid",
     "domain"
   ],
+  "EZPAARSE_MIDDLEWARES": [
+    "deduplicator",
+    "enhancer",
+    "geolocalizer",
+    "field-splitter",
+    "qualifier"
+  ],
   "EZPAARSE_QUALIFYING_LEVEL": 1,
   "EZPAARSE_QUALIFYING_FACTORS": {
     "internal": {
