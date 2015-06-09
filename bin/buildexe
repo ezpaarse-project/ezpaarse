@@ -36,7 +36,7 @@ cp $EZPAARSE_PATH/misc/windows/English.nsh .
 cp $EZPAARSE_PATH/misc/windows/Licence-CeCILL-V2-fr.txt .
 cp $EZPAARSE_PATH/misc/windows/License-CeCILL-V2-en.txt .
 cp $EZPAARSE_PATH/misc/windows/ezPAARSE-HeaderPageNSIS.bmp .
-cp $EZPAARSE_PATH/misc/windows/ezpaarse-docker-start.sh $TMP_DIR/$EZPAARSE_NAME/.
+cp $EZPAARSE_PATH/misc/windows/ezpaarse-docker-*.sh $TMP_DIR/$EZPAARSE_NAME/.
 mkdir $TMP_DIR/$EZPAARSE_NAME/excel
 mkdir $TMP_DIR/$EZPAARSE_NAME/libreoffice
 cp $EZPAARSE_PATH/misc/windows/ezPAARSE-Render.xltm $TMP_DIR/$EZPAARSE_NAME/excel/.

@@ -1,29 +1,35 @@
 #!/bin/bash
-set -e
+set +e
 
 # clear the MSYS MOTD
 clear
 
-cd "$(dirname "$BASH_SOURCE")"
+WORKDIR="$(dirname "$BASH_SOURCE")"
+
+cd "$WORKDIR"
 
 ISO="$HOME/.boot2docker/boot2docker.iso"
 BOOT2DOCKERPATH="/c/Program Files/Boot2Docker for Windows"
 GITPATH="/c/Program Files (x86)/Git/bin"
 DOCKERIPFILE="$HOME/.boot2docker/boot2dockerIP.txt"
-LOGMSG="$HOME/.boot2docker/start-msg.log"
-LOGMSGERR="$HOME/.boot2docker/start-msg-err.log"
-BTDCMD="boot2docker.exe ssh docker" 
+LOGMSG="$WORKDIR/ezpaarse-log.txt"
+LOGMSGERR="$WORKDIR/ezpaarse-error-log.txt"
+BTDCMD="boot2docker.exe ssh docker"
+EZHOME="ezpaarse-home.html"
+EZPORT="59599"
+EZSTARTUPTIME="10"
+HTTP_PROXY="http://proxyout.inist.fr:8080"
 
 export PATH="$PATH:$GITPATH"
 export HTTP_PROXY="http://proxyout.inist.fr:8080"
 export HTTPS_PROXY="http://proxyout.inist.fr:8080"
 
 function pull_mongo {
-  $BTDCMD pull mongo
+  $BTDCMD pull mongo >> $LOGMSG 2>> $LOGMSGERR
 }
 
 function pull_ezpaarse {
-  $BTDCMD pull ezpaarseproject/ezpaarse:latest
+  $BTDCMD pull ezpaarseproject/ezpaarse:latest >> $LOGMSG 2>> $LOGMSGERR
 }
 
 function start_container {
@@ -33,12 +39,12 @@ function start_container {
    
   if [ $? -eq 1 ]; then
     echo "UNKNOWN - $CONTAINER does not exist."
-    run_$CONTAINER
+    run_$CONTAINER  >> $LOGMSG 2>> $LOGMSGERR
     exit 3
   fi
    
   if [ "$RUNNING" == "false" ]; then
-    $BTDCMD start $CONTAINER
+    $BTDCMD start $CONTAINER  >> $LOGMSG 2>> $LOGMSGERR
   fi
 }
 
@@ -50,60 +56,48 @@ function load_container {
 
 
 function run_mongo {
-  $BTDCMD run -d --name  mongo 
+  $BTDCMD run -d --name  mongo  >> $LOGMSG 2>> $LOGMSGERR
 }
 
 function run_ezpaarse {
-  $BTDCMD run -d --name ezpaarse --link mongo:mongodb -p 59599:59599 ezpaarseproject/ezpaarse
+  $BTDCMD run -d --name ezpaarse --link mongo:mongodb -p 59599:59599 ezpaarseproject/ezpaarse  >> $LOGMSG 2>> $LOGMSGERR
 }
 
 function stop_ezpaarse {
-  $BTDCMD stop ezpaarse
+  $BTDCMD stop ezpaarse  >> $LOGMSG 2>> $LOGMSGERR
 }
 
 function stop_mongo {
-  $BTDCMD stop mongo
+  $BTDCMD stop mongo  >> $LOGMSG 2>> $LOGMSGERR
 }
 
+function build_profile {
+  cat > profile << EOPT
+HTTP_PROXY=$HTTP_PROXY
+HTTPS_PROXY=$HTTP_PROXY
+EOPT
 
-if [ ! -e "$ISO" ]; then
-	echo 'copying initial boot2docker.iso (run "boot2docker.exe download" to update)'
-	mkdir -p "$(dirname "$ISO")"
-	cp "$BOOT2DOCKERPATH/boot2docker.iso" "$ISO"
-fi
+boot2docker ssh sudo cp $WORKDIR/profile /var/lib/boot2docker/profile.sample  >> $LOGMSG 2>> $LOGMSGERR
+}
 
-echo 'initializing...'
-boot2docker.exe init
-echo
+function build_ezpaarse_home {
+  EZLOCAL=$(boot2docker.exe ip)
+  cat > $EZHOME << EOT
+<!DOCTYPE HTML>
+ 
+<meta charset="UTF-8">
+<meta http-equiv="refresh" content="1; url=$EZLOCAL:$EZPORT">
+ 
+<script>
+  window.location.href = "http://$EZLOCAL:$EZPORT"
+</script>
+ 
+<title>Page Redirection</title>
+ 
+<!-- Note: don't tell people to `click` the link, just tell them that it is a link. -->
+If you are not redirected automatically, follow the <a href='http://$EZLOCAL:$EZPORT'>link to ezPAARSE</a>
 
-echo 'starting...'
-boot2docker.exe start
-echo
+EOT
 
-# regler les paramètres proxy
+}
 
-echo 'IP address of docker VM:'
-boot2docker.exe ip 1> "$DOCKERIPFILE"
-cat "$DOCKERIPFILE"
-
-echo 'setting environment variables ...'
-boot2docker.exe shellinit | sed  's,\\,\\\\,g' # eval swallows single backslashes in windows style path
-eval "$(./boot2docker.exe shellinit 2>/dev/null | sed  's,\\,\\\\,g')"
-echo
-
-
-#set Path=%Path%;C:\Program Files (x86)\Git\bin
-
-export TEST="mon test"
-#export PATH="$PATH"
-
-echo "$PATH"
-echo "$TEST"
-echo "$PATH"
-
-set +e
-
-load_container mongo
-load_container ezpaarse
-
-$BTDCMD ps
