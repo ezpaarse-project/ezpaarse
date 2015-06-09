@@ -50,11 +50,11 @@ function load_container {
 
 
 function run_mongo {
-  $BTDCMD run -d --name  mongo 
+  $BTDCMD run -d --name mongo mongo 
 }
 
 function run_ezpaarse {
-  $BTDCMD run -d --name ezpaarse --link mongo:mongodb -p 59599:59599 ezpaarseproject/ezpaarse
+  $BTDCMD run -d --name ezpaarse --link mongo:mongo -p 59599:59599 ezpaarseproject/ezpaarse
 }
 
 function stop_ezpaarse {
