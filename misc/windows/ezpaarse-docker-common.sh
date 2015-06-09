@@ -56,7 +56,7 @@ function load_container {
 
 
 function run_mongo {
-  $BTDCMD run -d --name  mongo  >> $LOGMSG 2>> $LOGMSGERR
+  $BTDCMD run -d --name mongo  >> $LOGMSG 2>> $LOGMSGERR
 }
 
 function run_ezpaarse {
