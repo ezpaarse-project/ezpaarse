@@ -56,11 +56,11 @@ function load_container {
 
 
 function run_mongo {
-  $BTDCMD run -d --name mongo  >> $LOGMSG 2>> $LOGMSGERR
+  $BTDCMD run -d --name mongo mongo >> $LOGMSG 2>> $LOGMSGERR
 }
 
 function run_ezpaarse {
-  $BTDCMD run -d --name ezpaarse --link mongo:mongodb -p 59599:59599 ezpaarseproject/ezpaarse  >> $LOGMSG 2>> $LOGMSGERR
+  $BTDCMD run -d --name ezpaarse --link mongo:mongo -p 59599:59599 ezpaarseproject/ezpaarse  >> $LOGMSG 2>> $LOGMSGERR
 }
 
 function stop_ezpaarse {
