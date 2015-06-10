@@ -377,34 +377,4 @@ module.exports = function (app) {
       res.status(200).json(parser);
     });
   });
-
-
-  /**
-   * GET route on /info/usage
-   */
-  app.get('/info/usage.json', function (req, res) {
-    var usageFile = path.join(__dirname, '/../usage.json');
-
-    fs.exists(usageFile, function (exists) {
-      if (!exists) {
-        res.status(404).end();
-        return;
-      }
-
-      fs.readFile(usageFile, function (err, data) {
-        var usage;
-        try {
-          usage = JSON.parse(data);
-        } catch (e) {
-          res.status(500).end();
-          return;
-        }
-
-        res.header('Content-Type', 'application/json; charset=utf-8');
-        res.header("Access-Control-Allow-Origin", "*");
-        res.header("Access-Control-Allow-Headers", "X-Requested-With");
-        res.status(200).json(usage);
-      });
-    });
-  });
 };

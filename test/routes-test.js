@@ -13,7 +13,6 @@ var infoRoutes = [
   '/info/codes/4003',
   '/info/uuid',
   '/info/form-predefined',
-  '/info/usage.json',
   '/info/config'
 ];
 
