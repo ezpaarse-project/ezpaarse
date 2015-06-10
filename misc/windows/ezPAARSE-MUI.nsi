@@ -77,10 +77,8 @@ Name "${APP_NAME}"
 OutFile "${APP_NAME}-${APP_VERSION}-Setup.exe"
 
 ;Default installation folder
-; use "\\?\" to override windows MAX_PATH limitation to 260 car
-; http://www.sevenforums.com/general-discussion/290215-overriding-max_path.html
 
-InstallDir "\\?\$LOCALAPPDATA\${APP_NAME}-${APP_VERSION}"
+InstallDir "$LOCALAPPDATA\${APP_NAME}-${APP_VERSION}"
 
 
 ;Get installation folder from registry if available
@@ -144,6 +142,7 @@ Section $(install+ezPAARSErequired) secEZPAARSE
   
   ;Create uninstaller
   WriteUninstaller "$INSTDIR\Uninstall.exe"
+  DetailPrint "Uninstaller created"
 
 SectionEnd
 
@@ -162,16 +161,16 @@ Section $(menu+ezPAARSEmenu) SecMenuEZPAARSE
     ;Create shortcuts
     CreateDirectory "$SMPROGRAMS\$StartMenuFolder"
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Uninstall.lnk" "$InstallDirShort\Uninstall.exe"
-    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+1_lancer)" "$InstallDirShort\ezpaarse-docker-start.sh" "" "" "" SW_SHOWMINIMIZED
-    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+2_utiliser)" "$DefaultBrowser" $(url_start) 0 
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+1_lancer)" "$InstallDirShort\ezpaarse-docker-init.sh" "" "" "" SW_SHOWMINIMIZED
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+2_utiliser)" "$InstallDirShort\ezpaarse-docker-start.sh" "" "" "" SW_SHOWMINIMIZED
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+3_tester)" "$WINDIR\explorer.exe" "$InstallDirShort\dataset" 
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+4a_visualiser)" "$DefaultExcel" "$InstallDirShort\excel\$(excel_render)" 0 
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+4b_visualiser)" "$DefaultLibreOffice" "$InstallDirShort\libreoffice\$(libreoffice_render)" 0 
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+4c_arreter)" "$InstallDirShort\ezpaarse-docker-stop.sh" "" "" "" SW_SHOWMINIMIZED
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+5_documenter)" "$DefaultBrowser" $(url_doc) 0 
-    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+6_doc_usage)" "$DefaultBrowser" $(url_usage) 0 
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+7_analogist)" "$DefaultBrowser" "http://analogist.couperin.org" 0 
-    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+8_traces)" "$WINDIR\notepad.exe" "$InstallDirShort\ezpaarselog.txt"
-    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+9_errors)" "$WINDIR\notepad.exe" "$InstallDirShort\ezpaarselogerror.txt"
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+8_traces)" "$WINDIR\notepad.exe" "$InstallDirShort\ezpaarse-log.txt"
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+9_errors)" "$WINDIR\notepad.exe" "$InstallDirShort\ezpaarse-error-log.txt"
   !insertmacro MUI_STARTMENU_WRITE_END
 
 SectionEnd
@@ -217,6 +216,7 @@ Function downloadSample
     DetailPrint "Telechargement echoue : $0"
     Abort
     lbl_ds_continue:
+    DetailPrint "Telechargement reussi : $0"
 FunctionEnd
 
 Function downloadBTD
@@ -241,19 +241,19 @@ Function runEZPAARSE
   MessageBox MB_OK $(end+runMessage)
   ExecShell "" "$SMPROGRAMS\$StartMenuFolder\$(menu+1_lancer)"
   ExecShell "open" $(url_usage)
-  Sleep 7000 ; wait for node startup
-  ExecShell "open" $(url_start)
 FunctionEnd
 
 Function .onInit
   !insertmacro MUI_LANGDLL_DISPLAY
+
+  StrCpy $SampleURLPath "${SAMPLE_URL}"
+  StrCpy $SampleFile "${SAMPLE_FILE}"
+  StrCpy $BTDURLPath "${BTDURLPATH}"
+
   ; detect previous install
   ReadRegStr $R0 HKCU \
   "Software\ezPAARSE-Project" "InstallDir"
   StrCmp $R0 "" done
-  StrCpy $SampleURLPath "${SAMPLE_URL}"
-  StrCpy $SampleFile "${SAMPLE_FILE}"
-  StrCpy $BTDURLPath "${BTDURLPATH}"
 
   ; ask for uninstall previous installation
   MessageBox MB_OKCANCEL|MB_ICONEXCLAMATION \
