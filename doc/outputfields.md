@@ -1,16 +1,16 @@
 ### Output-Fields headers ###
-Le header Output-Fields permet d'ajouter ou retirer (quand le format de sortie le permet) des champs à ceux retournés par ezPAARSE lors de la génération des événements de consultation (ECs).  
+The Output-Fields header adds or removes fields to those returned by ezPAARSE by default when generating Consultation Events (CEs).
 
-Par défaut, les champs retournés sont ceux présents dans le paramètre EZPAARSE_OUTPUT_FIELDS du fichier de configuration ([config.json](https://github.com/ezpaarse-project/ezpaarse/blob/master/config.json#L9)), auxquels sont ajoutés ceux extraits du format de log.
+By default, the fields returned are those present in the EZPAARSE_OUTPUT_FIELDS parameter configuration file ([config.json](https://github.com/ezpaarse-project/ezpaarse/blob/master/config.json#L9)) to which are added the ones already present in the log format triggered for the processing.
 
-Ce paramètre peut permettre de rajouter des champs personnalisés que certains parseurs seraient suceptibles de retourner. Par exemple, le champ "btype" n'est pas ajouté par défaut par ezpaarse et permet de remonter des informations avancées sur les consultations de base de données.
-Il peut également permettre de rajouter des champs interne à ezPAARSE comme :
-- datetime : pour avoir la date complète (heure, minute et seconde comprises) de l'évènement de consultation
-- timestamp : pour avoir la date au format informatique de l'évènement de consultation
+This parameter can be used to add custom fields (that some parsers would be able to extract and return). For example, the "btype" field is not added by default and can be used to trace back advanced information on some database consultations.
+It can also allow you to add internal ezPAARSE fields as:
+- Datetime: for the full date (hour, minute and second included) of the consultation event
+- Timestamp: the date in a computer format for the consultation event
 
-A noter que les champs personnalisés dans le [format de log](./formats.html) seront automatiquement ajoutés dans la listes des "Output-Fields".
+Please not that the personalized fields in the [log format](./formats.html) will automatically be added to the "Output-Fields" list: there is no need to declare them with this Output-Fields header.
 
-Le header Output-Fields est composé d'une liste de champs séparés par des virgules, chacun précédé d'un signe **+** ou **-** selon qu'il doive être ajouté ou enlevé.
+The Output-Fields header is composed with a list of comma separated fields, each one preceded with a **+** or **-** signs, depending on whether it has to be added or removed.
 
 #### Exemple ####
 ```shell
