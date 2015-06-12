@@ -1,4 +1,4 @@
-### Qualification des ECs ###
-Les ECs sont dit **qualifiés** lorsqu'ils présentent suffisamment d'informations pour être jugés utiles. Le niveau de qualification est basé sur la présence de champs dits **"qualifiants"**, pondérés selon leur importance. Un EC est considéré comme qualifié lorsque le poids cumulé de ses champs qualifiants atteint un seuil maximum.
+### Consulation Events' Qualification ###
+The CEs are considered **qualified** when they present enough information to be useful. The qualification level is based on the presence of so-called **qualifying** fields, weighted according to their importance. A CE is considered qualified when the cumulative weight of its qualifying fields reaches a fixed threshold.
 
-![Schéma qualification](images/ezPAARSE-Qualification-des-ECs.png "Qualification des ECs")
+![Qualification schema](images/ezPAARSE-Qualification-des-ECs.png "CEs' Qualification")
