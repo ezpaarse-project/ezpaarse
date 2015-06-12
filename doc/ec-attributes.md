@@ -1,14 +1,14 @@
-# Attributs d'un EC #
+# Attributes of a Consultation Event #
 
-## Identifiants de ressources ##
+## Resources' identifiers ##
 
-L'identifiant d'une ressource permet de caractériser les événements de consultations qui lui sont associés, il peut prendre les valeurs définies dans le tableau ci-dessous (chargées depuis [le paramétrage d'ezPAARSE](https://github.com/ezpaarse-project/ezpaarse-platforms/blob/master/rid.json)). Il est possible qu'une ressource soit caractérisée par plusieurs identifiants (par exemple un identifiant interne de l'éditeur et un ISBN).
+The identifier of a resource allows to characterize the events of consultations associated with it. It can take the values defined in the table below (loaded from [the settings of ezPAARSE](https://github.com/ezpaarse-project/ezpaarse-platforms/blob/master/rid.json)). A resource can also be characterized by several identifiers at the same time (eg. a proprietary identifier and an ISBN).
 
 <div>
   <table class="inline">
     <tbody id="ridTable">
       <tr class="row0">
-        <th class="col0">Code</th><th class="col1">Description</th><th class="col2">Commentaires</th>
+        <th class="col0">Code</th><th class="col1">Description</th><th class="col2">Comments</th>
       </tr>
     </tbody>
   </table>
@@ -26,28 +26,28 @@ jQuery(document).ready(function($) {
       dom_ec.append(line);
     });
   }).error(function() {
-    var line = '<tr class="row1"><td class="col0" colspan="3" style="color: red">Erreur lors de la récupération des données</td></tr>';
+    var line = '<tr class="row1"><td class="col0" colspan="3" style="color: red">Error while retrieving the data</td></tr>';
     dom_ec.append(line);
   });
 
 });
 </script>
 
-### Description de unitid ###
+### unitid ###
 
-Le unitid contient l'identifiant le plus précis (qui décrit la granularité la plus fine) pour un événement de consultation sur une plateforme. Cet identifiant n'exclut pas l'usage d'autres identifiants. Il est utilisé pour le dédoublonnage des EC selon la norme [COUNTER](http://www.projectcounter.org/) en vigueur et permet d'obtenir des indicateurs utiles pour les documentalistes.
+The unitid contains the most accurate identifier for a consultation event on a platform (ie. which describes it with the finest granularity). This identifier does not exclude the use of other identifiers. It is used for the deduplication of EC according to the [COUNTER](http://www.projectcounter.org/) standard in use and provides librarians with useful indicators.
 
-Il peut s'agir du DOI ou d'un identifiant plus complexe permettant de savoir le plus précisément possible ce qui a été consulté (par exemple : un paragraphe d'un article d'une page d'un livre).
+This may be the DOI or a more complex identifier that will spot as precisely as possible what has been consulted (eg. a paragraph of an article of a page of a book).
 
-## Types de ressources (rtype) ##
+## Resources Types (rtype) ##
 
-Le type d'une ressource permet de connaître la forme de la ressource et de caractériser les EC associés, il peut prendre les valeurs définies dans le tableau ci-dessous (chargées depuis [le paramétrage d'ezPAARSE](https://github.com/ezpaarse-project/ezpaarse-platforms/blob/master/rtype.json)).
+The type of a resource allows to know the nature of a resource and characterize the associated EC. It can take one of the values defined in the table below (loaded from [setting of ezPAARSE](https://github.com/ezpaarse-project/ezpaarse-platforms/blob/master/rtype.json)).
 
 <div>
   <table class="inline">
     <tbody id="rtypeTable">
       <tr class="row0">
-        <th class="col0">Code</th><th class="col1">Description</th><th class="col2">Commentaires</th>
+        <th class="col0">Code</th><th class="col1">Description</th><th class="col2">Comments</th>
       </tr>
     </tbody>
   </table>
@@ -65,22 +65,22 @@ jQuery(document).ready(function($) {
       dom_ec.append(line);
     });
   }).error(function() {
-    var line = '<tr class="row1"><td class="col0" colspan="3" style="color: red">Erreur lors de la récupération des données</td></tr>';
+    var line = '<tr class="row1"><td class="col0" colspan="3" style="color: red">Error while retrieving the data</td></tr>';
     dom_ec.append(line);
   });
 
 });
 </script>
 
-## Formats de ressources (mime) ##
+## Resources Formats (mime) ##
 
-Le format d'une ressource permet de caractériser les EC associés, il peut prendre les valeurs définies dans le tableau ci-dessous (chargées depuis [le paramétrage d'ezPAARSE](https://github.com/ezpaarse-project/ezpaarse-platforms/blob/master/mime.json)).
+The format of a resource allows to characterize the associated EC. It can take one of the values defined in the table below (loaded from the [settings of ezPAARSE](https://github.com/ezpaarse-project/ezpaarse-platforms/blob/master/mime.json)).
 
 <div>
   <table class="inline">
     <tbody id="mimeTable">
       <tr class="row0">
-        <th class="col0">Code</th><th class="col1">Description</th><th class="col2">Commentaires</th>
+        <th class="col0">Code</th><th class="col1">Description</th><th class="col2">Comments</th>
       </tr>
     </tbody>
   </table>
@@ -98,7 +98,7 @@ jQuery(document).ready(function($) {
       dom_ec.append(line);
     });
   }).error(function() {
-    var line = '<tr class="row1"><td class="col0" colspan="3" style="color: red">Erreur lors de la récupération des données</td></tr>';
+    var line = '<tr class="row1"><td class="col0" colspan="3" style="color: red">Error while retrieving the data</td></tr>';
     dom_ec.append(line);
   });
 
