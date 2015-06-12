@@ -2,78 +2,78 @@
 
 ## 2.3.0  ## 
 ##### 2015/04/09 - Minimal Viable Product for Open Access repositories #####
-- Gestion de l'exclusion des adresses IP des robots
-- Nouvel outil d'aide à la détermination du format de log
-- Dédoublonnage inter-format
-- mémorisation des prédéfinis dans les instances locales
+- IP addresses exclusion for indexing robots and spiders
+- New form tab for a log format helper tool
+- Multi-format deduplication
+- Storing predefined parameters in the local instances
 
 ## 2.2.0  ## 
 ##### 2015/02/05 - Large volume PKB management #####
-- optimisation de la gestion NoSQL des PKB via castor-js
-- amélioration des temps d'initialisation de l'application
-- Améliorations ergonomiques du formulaire (nom de fichiers, headers avancés, messages d'alerte)
+- Optimizing the management of NoSQL PKB via castor-js
+- Improving the initialization time of the application
+- Ergonomic improvements in the angular form (file name, advanced headers, alert messages)
 
 ## 2.1.0  ## 
 ##### 2014/10/31 - embedded NoSQL #####
-- Mise à jour de semantic-UI
-- NoSQL embarqué dans la branche castor
-- Ajout des génériques dans les pré-definis
-- Ajout de nouveaux parseurs (juridique)
-- Fichier des domaines inconnus téléchargeable
+- Update of semantic-UI
+- NoSQL embedded in the castor branch
+- Added generic profiles in the pre-defined parameters
+- Added new parsers (for legal resources)
+- Downloading a deduplicated unknown-domains file now possible
 
 ## 2.0.0  ## 
 ##### 2014/09/01 - PKB Administration #####
-- Interface de visualisation des PKB
-- Mise à jour via l'interface des PKB
-- Mise à jour via l'interface du logiciel
-- Outil de dédoublonnage des PKB
-- MVP de la page mon profil
-- ajout du publisher_name dans les EC
+- Visualization interface for the PKBs
+- PKB updates possible in the admin section
+- Software update in the admin section
+- Deduplicating the PKBs tool
+- MVP of a "my profile" page
+- Addition of publisher_name in ECs (for COUNTER reports exports)
 
 ## 1.9.0  ## 
 ##### 2014/06/23 - Parsathon #####
-- Reconnaissance de 50 plateformes
-- Debut de travail Open Access
+- 50 parsers are now available
+- Open Access repositories first approach
 
 ## 1.8.0  ## 
 ##### 2014/03/13 - Minimal Viable Product for anomalies alerts #####
-- Notification de fin de traitement
-- Alerte sur domaine inconnu dans le traitement
+- End of processing notification
+- Alert on the unknown-domains while processing
 
 ## 1.7.0  ## 
 ##### 2014/03/13 - Web interface Validation #####
-- Validation de l'interface Web
-- Refactoring platform-plugin
+- New Web interface validation
+- Platform-plugin Refactoring
 
 ## 1.6.0  ## 
 ##### 2014/03/13 - Web interface redesign #####
-- Refonte de l'interface Web avec AngularJS
-- Geolocalisation des ECs
+- Web interface redesign with AngularJS
+- ECs Geolocation
 
 ## 1.5.0  ## 
 ##### 2014/02/01 - KBART standardization #####
-- normalisation KBART des PKB
-- version Libre Office de la macro de rendu
+- PKBs' KBART standardization
+- LibreOffice macro rendering
 
 ## 1.4.0  ## 
 ##### 2014/01/30 - COUNTER Export #####
-- export COUNTER JR1
-- gestion des informations de non-usage
+- COUNTER JR1 export
+- non-usage information (denied accesses) now taken in account
 
 ## 1.3.0  ## 
 ##### 2013/12/19 - Multilingualism #####
-- multilinguisme (interface, version windows)
-- MVP export COUNTER
+- multilingualism (web interface, windows installer)
+- MVP COUNTER export
 
 ## 1.2.0  ## 
 ##### 2013/11/14 - Security #####
-- sécurisation des accès aux pages (possiblité de protection par mot de passe)
+- securing access to the web form (password protection possibility)
 
 ## 1.1.0  ## 
 ##### 2013/10/10 - Minimal Viable Product for synchronising the Platform Knowledge Bases #####
-- réorganisation des modules de dépôt
-- apport des scrapers (génération automatique de PKB)
-- gestion de la synchronisation automatique des PKB
+- Reorganization of the git repos
+- new repo for scrapers
+- Automatic synchronization of the PKBs
 
 ## 1.0.0  ## 
 ##### 2013/09/09 - Version 1.0 #####
