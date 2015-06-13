@@ -44,7 +44,7 @@ make test-pkb-verbose
 Checks that the knowledge base files used by the parsers are well formed and coherent with a detailed output.
 
 
-## Vérification syntaxique ##
+## Checking coding rules ##
 
 ```console
 make jshint
