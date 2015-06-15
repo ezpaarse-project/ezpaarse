@@ -1,102 +1,104 @@
-# Documentation développeur: coeur d'ezPAARSE #
+# Developper Documentation: the core of ezPAARSE #
 
-Documentation orientée développeur du coeur d'ezPAARSE. La documentation développeur concernant la contribution aux parseurs, pkb et scrapers peut être consulté dans [cette rubrique](./developer-plateforms.html).
+Developper-oriented documentation for ezPAARSE's core.
+The documentation on contributions to parsers, pkbs and scrapers can be read in [this section](./developer-plateforms.html).
 
-## Technologies utilisées par ezPAARSE
+## Technologies used by ezPAARSE
 
-* [nodejs](http://nodejs.org/) pour le coeur d'ezPAARSE (performances et sa gestion avancée du streaming).
-* [git](http://git-scm.com/) pour gérer les bases de connaissances éditeurs et le code source.
+* [nodejs](http://nodejs.org/) for the core of ezPAARSE (advanced streaming capabilities and performance).
+* [git](http://git-scm.com/) to manage knowledge bases and source code.
 
-## Fonctionnement du moteur d'ezPAARSE
+## How does the ezPAARSE engine work?
 
-![Schema du fonctionnement du moteur ezPAARSE](images/ezPAARSE-Moteur.png "Moteur ezPAARSE")
+![ezpaarse's engine working Schema](images/ezPAARSE-Moteur.png "ezPAARSE's engine")
 
-## Monitoring système d'ezPAARSE
+## ezPAARSE's monitoring
 
-Les options suivantes peuvent être utilisées pour exécuter ezPAARSE.
+The following options can be used to run ezPAARSE.
 
-* ``--memory`` :  affiche la consommation mémoire du processus ezPAARSE toutes les 5 secondes
-* ``--lsof`` : affiche le nombre de descripteurs de fichiers ouverts toutes les 5 secondes
+* ``--memory``: shows the memory consumption of the ezPAARSE process every 5 seconds
+* ``--lsof``: displays the number of open file descriptors every 5 seconds
 
-Exemple :
+Example :
 ```console
 . ./bin/env
 node app.js --memory
 ```
 
-## Lancer les tests unitaires d'ezPAARSE
+## Launching the ezPAARSE's unit tests
 
-Pour effectuer les tests d'une fonctionnalité précise, il faut utiliser mocha et indiquer en paramètre le chemin du fichier de tests.
+For testing a specific function, use mocha and indicate the path of the test file as a parameter
 
-Par exemple pour le test de formats personnalisés :
+Eg for testing custom formats:
 ```console
 . ./bin/env
 mocha ./test/custom-formats-test
 ```
 
-Pour effectuer un seul des tests d'une fonctionnalité, il faut utiliser mocha et indiquer en paramètre le chemin du fichier de tests puis, via un ``-g``, préciser le numéro du test en deux chiffres sous la forme ``@xx``.
 
-Par exemple pour le deuxième test de formats personnalisés :
+To perform only one functionality test, use mocha and set the path of the test file as a parameter and then specify (with ``-g``) the test number (two figures) like ``@xx``.
+
+For example, for the second test about the custom formats:
 ```console
 . ./bin/env
 mocha ./test/custom-formats-test -g @02
 ```
 
-Pour effectuer le test d'une seule plate-forme, il faut utiliser mocha et indiquer en paramètre le chemin du fichier de tests des plate-formes puis, via un ``-g``, préciser le nom de la plate-forme.
+To test a single platform, use mocha and set the path to the platforms test file. Specify the name of the platform with ``-g``.
 
-Par exemple pour le test de Science Direct :
+For example, testing Science Direct:
 ```console
 . ./bin/env
 mocha ./test/platforms-test -g sd
 ```
 
-## Générer une version d'ezPAARSE ##
+## Generate a new ezPAARSE version ##
 
-Pour générer une nouvelle version d'ezPAARSE plusieurs étapes semi-automatiques sont nécessaires :
+To generate a new version of ezPAARSE several semi-automatic steps are necessary:
 
-- S'assurer de ne pas avoir de modification locales en attente: `git status` permet de s'en assurer.
+- Make sure not to have local modifications pending: run a `git status`.
 
-- Modifier le numéro de version des différents fichiers concernés (bien entendu, remplacez `0.0.3` par le numéro souhaité) :
+- Change the version number of the various relevant files (of course, replace `0.0.3` by the desired number):
 ```console
 make version v=0.0.3
 git commit -a -m "Version 0.0.3"
 git push
 ```
 
-- Créer un tag git correspondant à la version précédemment créée :
+- Create a git tag, matching the new version:
 ```console
 make tag
 ```
 
-- Créer une archive tar.gz :
+- Create a tar.gz archive :
 ```
 make tar
 ```
 
-- Créer une archive debian (.deb) :
+- Create a debian archive (.deb) :
 ```console
 make deb
 ```
 
-- Créer une archive rpm (.rpm) :
+- Create a rpm archive (.rpm) :
 ```console
 make rpm
 ```
 
-- Créer une archive windows (.exe) :
+- Creat a windows archive (.exe) :
 ```console
-#nécessite le paquet : nsis
+#the nsis package is needed
 make exe
 ```
 
-- Envoyer le tout sur le serveur [AnalogIST](http://analogist.couperin.org) pour mettre la version à disposition de la communauté :
+- Send the results on the [AnalogIST](http://analogist.couperin.org) server to publish this new version to the community:
 ```console
 make upload
 ```
 
-## Générer une archive snapshot d'ezPAARSE ##
+## Generate an ezPAARSE snapshot archive ##
 
-Le numéro de version `latest` doit être utilisé pour générer un snapshot (une archive de la version de développement).
+The `latest` version number is used to generate a snapshot (a developpment version archive).
 
 ```
 make tar v=latest
@@ -106,27 +108,27 @@ make exe v=latest
 make upload v=latest
 ```
 
-Le numéro de version aura cette forme : `AAAAMMJJ<commitid>`  
-Exemple: `201303240bc258f` (24 mars 2013 commit id = 0bc258f)
+The version number will look like: `YYYYMMDD<commitid>`  
+Example: `201303240bc258f` (March 24th, 2013 commit id = 0bc258f)
 
-## Contributions à ezPAARSE-arborescence ezPAARSE
+## Contributions to ezPAARSE - the tree structure
 
-Lors d'une contribution, se référer à [l'arborescence ezPAARSE](/doc/tree.html) pour savoir où déposer vos fichiers
+When you contribute, please refer to the [tree structure](/doc/tree.html) to find where you should put your files
 
-## Mettre à jour les version des librairies d'ezPAARSE ##
+## Updating the ezPAARSE's libraries versions ##
 
-Les librairies d'ezPAARSE sont les différents modules npm et bower.
-Elles sont présentes dans les répertoires suivants :
+EzPAARSE's librairies are the npm and bower modules.
+They are in the following repositories:
 - ezpaarse/node_modules/
 - ezpaarse/public/components/
 
-Un [dépôt github](https://github.com/ezpaarse-project/ezpaarse-libs) est dédié à la mise à disposition des snapshots de ces librairies.
+The [github repository](https://github.com/ezpaarse-project/ezpaarse-libs) is there to make snapshots of those libraries available.
 
-Le script [upgrade-ezpaarse-libs](https://github.com/ezpaarse-project/ezpaarse-libs/blob/master/upgrade-ezpaarse-libs) permet de mettre à jour les paquets npm et bower présents dans ce dépôt en respectant les dépendances exprimées dans les dépôts github d'ezpaarse :
-- [package.json](https://github.com/ezpaarse-project/ezpaarse/blob/master/package.json) d'ezpaarse
-- [bower.json](https://github.com/ezpaarse-project/ezpaarse/blob/master/bower.json) d'ezpaarse
+The [upgrade-ezpaarse-libs](https://github.com/ezpaarse-project/ezpaarse-libs/blob/master/upgrade-ezpaarse-libs) script will update the npm and bower modules in this repository and respect the dependencies expressed in the github repositories of ezPAARSE:
+- [package.json](https://github.com/ezpaarse-project/ezpaarse/blob/master/package.json) for ezpaarse
+- [bower.json](https://github.com/ezpaarse-project/ezpaarse/blob/master/bower.json) for ezpaarse
 
-Pour mettre à jour ces librairies, il est donc dans un premier temps nécessaire de mettre à jour les package.json et bower.json de la distribution d'ezPAARSE (utilisation de l'utilitaire npm-check-updates) puis de tester qu'ezPAARSE fonctionne correctement :
+To update these libraries, it is necessary to update the package.json and bower.json files from the ezpaarse distribution (use of npm-check-updates utility) then test that ezPAARSE working properly:
 ```bash
 cd ezpaarse/
 npm install npm-check-updates
@@ -137,18 +139,18 @@ make restart
 make test
 ```
 
-Concernant bower :
+As to bower :
 ```bash
 cd ezpaarse/
 bower update
 ```
-Puis il faut tester manuellement l'interface Web d'ezPAARSE.
+Then, you have to manually test the web interface.
 
-Quand les tests sont au vert, on peut alors commiter/pusher les package.json et bower.json dans le git.
+When all tests pass, you can commit/push the package.json and bower.json files to the git repository.
 
-On peut ensuite cloner le dépôt [ezpaarse-libs](https://github.com/ezpaarse-project/ezpaarse-libs) puis exécuter le script upgrade-ezpaarse-libs qui se chargera de télécharger les bonnes versions des paquets depuis les packages.json et bower.json présents dans le code source d'ezpaarse.
+You can then clone the deposit [ezpaarse-libs](https://github.com/ezpaarse-project/ezpaarse-libs) and run the upgrade-ezpaarse-libs script that will download the correct packages versions declared in packages.json and bower.json
 
-Il reste ensuite à commiter/pusher les changements dans le dépôt ezpaarse-libs :
+The only thing remaining is to commit/push the changes in the ezpaarse-libs repository:
 ```bash
 cd ezpaarse-libs/
 ./upgrade-ezpaarse-libs
