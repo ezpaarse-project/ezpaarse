@@ -124,7 +124,7 @@ make stop
 
 ## Advanced parameters ##
 
-The default ezPAARSE parameters can be found in the ``config.json`` file. All these parameters can be changed. A good practice is to define a new file called ``config.local.json`` containing just the parameters you need to override.
+The default ezPAARSE parameters can be found in the [``config.json``](https://github.com/ezpaarse-project/ezpaarse/blob/master/config.json) file. All these parameters can be changed. A good practice is to define a new file called ``config.local.json`` containing just the parameters you need to override.
 
 For example, to change the ezPAARSE listening port (59599 by default), you can override the ``EZPAARSE_NODEJS_PORT`` by defining a new ``config.local.json`` file this way:
 
