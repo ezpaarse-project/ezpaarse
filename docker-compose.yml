@@ -1,0 +1,8 @@
+ezpaarse:
+  image: ezpaarseproject/ezpaarse
+  links:
+   - mongodb:mongodb
+  ports:
+   - "59599:59599"
+mongodb:
+  image: mongo:latest
