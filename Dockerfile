@@ -1,4 +1,4 @@
-FROM debian:jessie
+FROM debian:wheezy
 MAINTAINER ezPAARSE Team<ezpaarse@couperin.org>
 
 RUN apt-get -y update && \
