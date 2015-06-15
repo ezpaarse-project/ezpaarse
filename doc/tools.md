@@ -1,10 +1,10 @@
-# Outils #
+# Tools #
 
 
 ## platform-init
-Commande servant à créer la structure de base d'une plateforme. Pose une série de questions puis crée l'arborescence de la plateforme avec le fichier manifest.json, un squelette de parseur et un fichier de test vide. La commande est interactive et ne nécessite aucun paramètre.
+This command creates the structure for a platform's parser. It is a CLI tool that asks a series of questions and generates the repository structure for the parser with a manifest.json file, a parser's skeleton and an empty test file. The command is interactive and doesn't take any parameter.
 
-Usage:
+Example:
 ```
 cd ezpaarse/
 . ./bin/env
@@ -13,7 +13,7 @@ platform-init
 
 ## pkb-cleaner
 
-Détecte et supprime les doublons dans les bases de connaissances.
+Detects and deletes duplicates in the knowledge bases.
 
 ```bash
 Usage: pkb-cleaner [-nvp] [DIR_TO_CLEAN]
@@ -24,14 +24,14 @@ Options:
   --verbose, -v    Print all duplicated entries
 ```
 
-Exemples d'utilisation:
+Example:
 ```bash
 pkb-cleaner ./path/to/some/directory
 pkb-cleaner --platform=sd
 ```
 
 ## scrape
-Exécute les scrapers d'une ou plusieurs plateformes.
+Launches the scrapers for one or more platforms. The scrapers are little utility programs to assemble a knowledge base by scraping a publisher's website.
 
 ```bash
 Usage: /home/yan/ezpaarse/bin/scrape [-alvfc] [Platform] [Platform] ...
@@ -44,24 +44,24 @@ Options:
   --verbose, -v  Print scrapers output into the console.
 ```
 
-Exemples:
+Example:
 ```bash
-scrape sd cbo # exécute les scrapers de SD et CBO
-scrape -al    # liste l'intégralité des scrapers sans les exécuter
+scrape sd cbo # launches the scrapers for SD (ScienceDirect) and CBO
+scrape -al    # lists all the existing scrapers without launching them
 ```
   
 ## loginjector
 
-Commande permettant d'envoyer un fichier de log en streaming vers une instance locale d'ezPAARSE.
+Stream a log file to a local instance of ezPAARSE.
 
-Exemple d'utilisation:
+Example:
 ```bash
 zcat monezproxy.log.gz | ./bin/loginjector
 ```
 
 Usage:
 ```
-Inject data into ezPAARSE and gets the response
+Injects data into ezPAARSE and gets the response
 Usage: node ./loginjector
 
 Options:
@@ -74,13 +74,13 @@ Options:
   --accept, -a    wanted type for the response (text/csv, application/json)
 ```
 
-Cette commande simplifie l'envoi des logs vers l'instance d'ezPAARSE par rapport à l'utilisation de la commande cURL.
+This command eases the sending of log files to an ezPAARSE instance, compared to the cURL utility.
 
 ## loganonymizer
 
-Commande permettant d'anonymiser un fichier de log. Les éléments sensibles comme le login identifié ou le nom de machine sont remplacés par des valeurs aléatoires. Le fichier de log doit être envoyé sur l'entrée système (stdin) de la commande.
+Anonymize a log file. The sensitive elements, like the login or the machine name are replaced with random values. The log file should be sent to the system input (stdin) of the command.
 
-Exemple d'utilisation:
+Example:
 ```bash
 zcat monezproxy.log.gz | ./bin/loganonymizer
 ```
@@ -97,14 +97,13 @@ Options:
   --format, -f  the format of log lines (ex: %h %u [%t] "%r")
 ```
 
-Cette commande est utile pour constituer des fichiers de test en y retirant les éléments sensibles liés à la protection des données personnelles. Chaque valeur est remplacée par la même valeur aléatoire de façon à pouvoir faire les associations et dédoublonnages nécessaires aux traitements.
-
+This is useful for generating test files by removing sensitive items (related to the protection of personal data). Each value is replaced by the same random value so keeping associations and be able to deduplicate.
 
 ## logextractor
 
-Commande permettant d'extraire un ou des champs d'un fichier de log. Le fichier de log doit être envoyé sur l'entrée système (stdin) de la commande.
+Retrieve one or more fields in a log file. The log file should be sent to the system input (stdin) of the command.
 
-Exemples d'utilisation:
+Examples:
 ```bash
 zcat monezproxy.log.gz | ./bin/logextractor --fields=url
 zcat monezproxy.log.gz | ./bin/logextractor --fields=login,url --separator="|"
@@ -125,16 +124,16 @@ Options:
 
 ```
 
-Cette commande est utile pour manipuler les fichiers de logs. Un usage récurrent est l'extraction des URL d'un fichier de log pour pouvoir analyser une plate-forme d'un éditeur. Voici par exemple comment procéder pour récupérer les URL concernant la plate-forme sciencedirect en les triant alphabétiquement et en les dédoublonnant :
+This is useful for manipulating log files. A common use is extracting URLs from a log file in order to analyze a platform for a publisher. For example, here's how to get the URL for the sciencedirect platform by sorting alphabetically and deduplicating them:
 ```bash
 zcat monezproxy.log.gz | ./bin/logextractor --field=url | grep "sciencedirect" | sort | uniq
 ```
 
 ## csvextractor
 
-Commande permettant du contenu d'un fichier CSV. Le fichier CSV doit être envoyé sur l'entrée système (stdin) de la commande.
+Extract content from a CSV file. The CSV file must be sent to the system input (stdin) of the command.
 
-Exemple d'utilisation:
+Example:
 ```bash
 cat monfichier.csv | ./bin/csvextractor
 ```
@@ -152,25 +151,25 @@ Options:
   --csv, -c     If provided, the result will be a csv.                                          
 ```
 
-Cette commande est utile pour tester le parseur directement à partir du fichier de test en extrayant la colonne URL du fichier.
+This command is useful for testing the parser directly from the test file by extracting the URL column of the file.
 
-Exemple de test direct du parseur:
+Example (parser test):
 ```bash
 cat ./test/npg.2013-01-16.csv | ../../bin/csvextractor --fields='url' -c | ./parser.js 
 ```
 
 ## csvtotalizer
 
-Commande permettant de produire un résumé du contenu d'un fichier CSV résultat d'un traitement d'ezPAARSE. Le fichier CSV doit être envoyé sur l'entrée système (stdin) de la commande.
+Produce a summary on the content of a CSV file resulting from a processing of ezPAARSE. The CSV file must be sent to the system input (stdin) of the command.
 
-Exemple d'utilisation:
+Example:
 ```bash
 cat monresultat.csv | ./bin/csvtotalizer
 ```
 
 Usage:
 ```
-Totalize fields from a CSV stream
+Summarize fields from a CSV stream
 Usage: node ./bin/csvtotalizer --fields=[string] --output="text|json"
 
 Options:
@@ -179,18 +178,18 @@ Options:
   --fields, -f  fields to compute from the CSV (ex: domain;host;login;type)  [required]  [default: "domain;host;login;type"]
 ```
 
-Cette commande est utile pour avoir un aperçu rapide du résultat du traitement d'un fichier de log par ezPAARSE.
-Par défaut, les champs domain,host,login et type sont proposés en format texte.
-Voici par exemple comment savoir combien d'événements de consultation différents ont été reconnu dans un fichier exemple :
+This is useful for getting a quick overview of a processing outcome of a log file ezPAARSE.
+By default, domain fields, host, login and type are available in text format.
+Here is how to know how many different consultation events have been recognized in a sample file:
 ```bash
 cat ./test/dataset/sd.2012-11-30.300.log | ./bin/loginjector | ./bin/csvtotalizer
 ```
 
 ## logfaker
 
-Commande permettant de produire sur stdout un flux correspondant à des lignes de log d'une plateforme donnée en paramètre.
+Generate an output stream matching with log lines of a platform on stdout.
 
-Exemple d'utilisation:
+Example:
 ```bash
 ./logfaker | ./loginjector
 ```
@@ -206,19 +205,18 @@ Options:
   --duration, -d  stop log generation after a specific number of seconds           [required]  [default: "nolimit"]
 ```
 
-Cette commande est utile pour tester les performances d'ezPAARSE.
+Useful to test the performance of ezPAARSE.
 
 ## pkbvalidator
 
-Commande permettant de vérifier la validité des informations présentes dans un fichier de base de connaissance d'une plateforme.
-Ce fichier doit être conforme au format KBART.
+Check the validity of a knowledge base for a publisher's platform.
+This file must conform to the KBART format.
 
-Cette commande vérifie les points suivants :
-
-- présence de l'extension du nom de fichier .txt
-- unicité du title_id
-- information minimale d'identification disponible
-- contrôle syntaxique de l'écriture des identifiants normalisés (ISSN, ISBN, DOI)
+This command checks the following:
+- The presence of the .txt extension
+- Uniqueness of title_id
+- Minimal identification information available
+- Syntax check of standardized identifiers (ISSN, ISBN, DOI)
 
 Usage:
 ```
@@ -234,9 +232,9 @@ Options:
 
 ## ecmaker
 
-Commande permettant de lancer un traitement batch d'un fichier de log sur l'instance ezPAARSE locale.
+This starts a batch processing a log file on the local instance of ezPAARSE.
 
-Exemple d'utilisation test via logfaker avec l'entrée standard :
+Example Usage with logfaker on the standard input:
 ```bash
 ./logfaker -d 5 | ./ecmaker
 
@@ -244,9 +242,10 @@ ll tmp
 ecmake-2014-01-29_11-08-15.ec.csv
 ecmake-2014-01-29_11-08-15.report.html
 ```
-Par defaut un fichier résultat et un fichier rapport statique sont générés dans le repertoire destination.
 
-Exemple d'utilisation réelle avec un fichier de log :
+A result file and a static report file are generated by default in the destination directory.
+
+Example of actual use with a log file:
 ```bash
 ./ecmaker --input=/home/ubuntu/ezpaarse/test/dataset/sd.2012-11-30.300.log --outpath=tmp/test
 
@@ -254,7 +253,7 @@ ll tmp/test
 sd.2012-11-30.300.ec.csv
 sd.2012-11-30.300.report.html
 ```
-Par defaut un fichier résultat (extension ec.csv) et un fichier rapport statique (extension report.html) sont générés dans le repertoire destination.
+The result file (with the ec.csv extension) and a static report file (with the report.html extension) are generated in the output directory.
 
 ```
 Usage:
@@ -271,16 +270,17 @@ Options:
 
 ## ecbulkmaker
 
-Commande permettant de lancer un traitement batch de fichiers de log contenus dans un répertoire sur l'instance ezPAARSE locale.  
+This starts a batch processing for log files in a directory on the local instance.
 
 Exemple d'utilisation :
 ```bash
 ./ecbulkmaker -r /applis/stats/home/archives/fede/bibliovie/2013 /applis/stats/home/ezresults/fede/bibliovie/2013
 
 ```
-Un fichier résultat (extension `.ec.csv`) et un rapport au format HTML (extension `.report.html`) sont générés dans le repertoire de destination pour chaque fichier de log. Si le répertoire de destination n'est pas présicé, ils sont générés au même endroit que le fichier traité.  
-Si une erreur survient lors du traitement d'un fichier, le fichier résultat incomplet est renommé avec l'extension `.ko`.  
-Les fichiers de rejets ne sont pas conservés par ezPAARSE.  
+
+A result file (`.ec.csv` extension) and a report in HTML format (extension` .report.html`) are generated in the output directory for each log file. If the destination directory is not specified, they are generated in the same directory as the file being processed.
+If an error occurs when processing a file, the incomplete result file is named with the `.ko` extension.
+Rejects files are not retained by ezPAARSE.
 
 ```
 Inject files to ezPAARSE (for batch purpose)
@@ -296,14 +296,13 @@ Options:
 ```
 ## hostlocalize
 
-Commande permettant d'enrichir un fichier résultat ezpaarse csv contenant un nom d'hôte avec la localisation issue de l'adresse IP
+Enrich a csv result file containing a host name with the geolocation of the IP address
 
-Exemple d'utilisation :
+Example:
 ```bash
 ./hostlocalize -f ezpaarsedata.csv > ezpaarsedatalocalised.csv 
-
 ```
-Le fichier en entrée est supposé comporter un champ contenant l'adresse ip à utiliser pour la localisation
+The input file is assumed to contain a field with the ip address for the location
 ```
 Enrich a csv with geolocalisation from host ip.
   Usage: node ./bin/hostlocalize [-s] [-f string | -k string]
@@ -311,5 +310,4 @@ Enrich a csv with geolocalisation from host ip.
 Options:
   --hostkey, -k  the field name containing host ip (default "host").           
   --file, -f     A csv file to parse. If absent, will read from standard input.
-
 ```
