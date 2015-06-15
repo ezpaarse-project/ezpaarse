@@ -1,54 +1,54 @@
-# Contenu du rapport #
+# Report content #
 
-ezPAARSE produit un rapport d'exécution.  
-Les différentes sections disponibles sont documentées ici.
 
--  [Général](#general) : contient toutes les informations générales liées au traitement
--  [Rejets](#rejets) : répertorie tous les rejets rencontrés, leur nombre et les liens vers les fichiers contenant les lignes écartées
--  [Statistiques](#stats) : fournit les premiers chiffres 
--  [Alertes](#alerts) : alertes générées
--  [Notifications](#notifications) : concerne les notifications de fin de traitement
--  [Dédoublonnage](#dedoublonnage) : algorithme utilisé pour le dédoublonnage
--  [Fichiers](#files) : liste des fichiers de log traités
--  [Première consultation](#first_event) : contenu du premier événement de consultation
+ezPAARSE produces an execution report.
+The various sections are documented here.
 
+- [General](#general): contains general information related to the processing
+- [Rejects](#rejets): lists all rejects, how much they are and the links to the files containing the rejected lines
+- [Statistics](#stats): provides the first global figures
+- [Alerts](#alerts): the generated alerts
+- [Notifications](#notifications): for end of processing notifications
+- [Duplicates](#dedoublonnage): algorithm used for deduplication
+- [File](#files): list of processed log files
+- [First consultation](#first_event): content of the first consultation event
 
 
 <div>
   <h3 id="general" class="ui purple dividing header">
-    Général
+    General
   </h3>
 
   <table class="ui basic compact table">
     <tbody><tr>
       <th class="four wide">Job-Date</th>
       <td>2014-06-16T14:55:04+02:00
-        <div class="comment">Date d'execution du traitement</div>
+        <div class="comment">Processing date</div>
       </td>
     </tr><tr>
       <th class="four wide">Job-Done</th>
       <td>true
-        <div class="comment">Le traitement s'est-il bien terminé ?</div>
+        <div class="comment">Has the processing correctly completed ?</div>
       </td>
     </tr><tr>
       <th class="four wide">Job-Duration</th>
       <td>4 m 22 s 
-        <div class="comment">Durée du traitement</div>
+        <div class="comment">Processing duration</div>
       </td>
     </tr><tr>
       <th class="four wide">Job-ID</th>
       <td>6f601540-f555-11e3-b477-758199fa5dc1
-        <div class="comment">Identifiant unique du traitement</div>
+        <div class="comment">Unique Identifier for the processing</div>
       </td>
     </tr><tr>
       <th class="four wide">Rejection-Rate</th>
       <td>96.74 %
-        <div class="comment">Taux de lignes rejetées (ie. domaines inconnus, doublons...) parmi les lignes pertinentes.</div>
+        <div class="comment">Rejected lines rate (ie. unknown domains, duplicates,etc.) among the relevant lines</div>
       </td>
     </tr><tr>
       <th class="four wide">URL-Traces</th>
       <td><a target="_blank" href="http://localhost:59599/6f601540-f555-11e3-b477-758199fa5dc1/job-traces.log">http://localhost:59599/6f601540-f555-11e3-b477-758199fa5dc1/job-traces.log</a>
-      <div class="comment">Accès aux traces d'exécution du traitement</div>
+      <div class="comment">Access to the execution traces for the processing</div>
       </td>
     </tr><tr>
       <th class="four wide">client-user-agent</th>
@@ -56,12 +56,12 @@ Les différentes sections disponibles sont documentées ici.
       </td>
     </tr><tr>
       <th class="four wide">ezPAARSE-version</th>
-      <td>ezPAARSE 1.7.0
+      <td>ezPAARSE 2.3.0
       </td>
     </tr><tr>
       <th class="four wide">geolocalization</th>
       <td>all
-        <div class="comment">Champs de géolocalisation demandés</div>
+        <div class="comment">Requested geo-location fields</div>
       </td>
     </tr><tr>
       <th class="four wide">git-branch</th>
@@ -78,136 +78,136 @@ Les différentes sections disponibles sont documentées ici.
     </tr><tr>
       <th class="four wide">input-first-line</th>
       <td>rate-limited-proxy-72-14-199-16.google.com - - [19/Nov/2013:00:11:05 +0100] "GET http://gate1.inist.fr:50162/login?url=http://www.nature.com/rss/feed?doi=10.1038/465529d HTTP/1.1" 302 0
-      <div class="comment">Première ligne trouvée dans le fichier de log soumis</div>
+      <div class="comment">First log line found in a submitted log file</div>
       </td>
     </tr><tr>
       <th class="four wide">input-format-literal</th>
       <td>%h %l %u %t "%r" %s %b (ezproxy)
-        <div class="comment">Format utilisé pour identifier les éléments des lignes de log</div>
+        <div class="comment">Format used to identify the elements found in a log file</div>
       </td>
     </tr><tr>
       <th class="four wide">input-format-regex</th>
       <td>^([a-zA-Z0-9\.\-]+(?:, ?[a-zA-Z0-9\.\-]+)*) ([a-zA-Z0-9\-]+|\-) ([a-zA-Z0-9@\.\-_%,=]+) \[([^\]]+)\] "[A-Z]+ ([^ ]+) [^ ]+" ([0-9]+) ([0-9]+)$
-        <div class="comment">Expression régulière correspondant au format de reconnaissance des lignes de log</div>
+        <div class="comment">Regular expression corresponding to the given format for log lines</div>
       </td>
     </tr><tr>
       <th class="four wide">nb-denied-ecs</th>
       <td>104
-        <div class="comment">Nombre d'événements de consultation en accès refusé (ressources non souscrites)</div>
+        <div class="comment">Number of denied consultation events (access to not subscribed resources)</div>
       </td>
     </tr><tr>
       <th class="four wide">nb-ecs</th>
       <td>14224
-        <div class="comment">Nombre total d'événements de consultation</div>
+        <div class="comment">Total number of consultation events found in the log file</div>
       </td>
     </tr><tr>
       <th class="four wide">nb-lines-input</th>
       <td>792049
-        <div class="comment">Nombre de lignes de log en entrée</div>
+        <div class="comment">Number of log lines found in the file given as input</div>
       </td>
     </tr><tr>
       <th class="four wide">process-speed</th>
       <td>3019 lignes/s
-        <div class="comment">Vitesse du traitement (variable selon la machine)</div>
+        <div class="comment">Processing speed</div>
       </td>
     </tr><tr>
       <th class="four wide">enhancement-errors</th>
       <td>0
-        <div class="comment">Nombre d'ECs non-enrichis à cause d'erreurs liées à MongoDB</div>
+        <div class="comment">Number of consultation events that could not be enriched because of MongoDB errors</div>
       </td>
     </tr><tr>
       <th class="four wide">result-file-ecs</th>
       <td><a target="_blank" href="http://localhost:59599/6f601540-f555-11e3-b477-758199fa5dc1">http://localhost:59599/6f601540-f555-11e3-b477-758199fa5dc1</a>
-        <div class="comment">Lien d'accès au fichier résultat</div>
+        <div class="comment">URL for accessing the result file</div>
       </td>
     </tr><tr>
       <th class="four wide">url-denied-ecs</th>
       <td><a target="_blank" href="http://localhost:59599/6f601540-f555-11e3-b477-758199fa5dc1/denied-ecs.csv">http://localhost:59599/6f601540-f555-11e3-b477-758199fa5dc1/denied-ecs.csv</a>
-        <div class="comment">Lien d'accès au fichier des événements de consultation en accès refusé (ressources non-souscrites)</div>
+        <div class="comment">URL for accessing the file containing denied consultations (for non subscribed resources)</div>
       </td>
     </tr>
   </tbody></table>
 </div>
 <div>
   <h3 id="rejets" class="ui purple dividing header">
-    Rejets
+    Rejects
   </h3>
 
   <table class="ui basic compact table">
     <tbody><tr>
       <th class="four wide">nb-lines-duplicate-ecs</th>
       <td>1893
-        <div class="comment">Nombre d'EC dédoublonnés selon la stratégie COUNTER</div>
+        <div class="comment">Number of deduplicated CEs (following the COUNTER algorithm)</div>
       </td>
     </tr><tr>
       <th class="four wide">nb-lines-ignored</th>
       <td>351891
-        <div class="comment">Nombre de lignes ignorées (non pertinentes)</div>
+        <div class="comment">Number of ignored lines (not relevant)</div>
       </td>
     </tr><tr>
       <th class="four wide">nb-lines-ignored-domains</th>
       <td>4
-        <div class="comment">Nombre de lignes dont le domaine est ignoré (ie. présent dans EZPAARSE_IGNORED_DOMAINS) </div>
+      <div class="comment">Number of lines for which the domain has been ignored (ie declared in EZPAARSE_IGNORED_DOMAINS)</div>
       </td>
     </tr><tr>
       <th class="four wide">nb-lines-pkb-miss-ecs</th>
       <td>2107
-        <div class="comment">Nombre de lignes avec identifiants éditeur sans correspondance</div>
+        <div class="comment">Number of lines with unknwon vendors identifiers</div>
       </td>
     </tr><tr>
       <th class="four wide">nb-lines-unknown-domains</th>
       <td>335068
-        <div class="comment">Nombre de lignes ayant un domaine inconnu</div>
+        <div class="comment">Number of lines with an unknown domain</div>
       </td>
     </tr><tr>
       <th class="four wide">nb-lines-unknown-formats</th>
       <td>1891
-        <div class="comment">Nombre de lignes ayant un format inconnu</div>
+        <div class="comment">Number of lines with an unknown format</div>
       </td>
     </tr><tr>
       <th class="four wide">nb-lines-unordered-ecs</th>
       <td>0
-        <div class="comment">Nombre de lignes chronologiquement désordonnées (l'ordre chronologique est nécessaire au dédoublonnage)</div>
+      <div class="comment">Number of lines chronologically disordered (the chronological order is necessary for deduplication)</div>
       </td>
     </tr><tr>
       <th class="four wide">nb-lines-unqualified-ecs</th>
       <td>86974
-        <div class="comment">Nombre de lignes non qualifiées (trop pauvres en informations)</div>
+        <div class="comment">Number of unqualified lines (because they don't contain enough information)</div>
       </td>
     </tr><tr>
       <th class="four wide">url-duplicate-ecs</th>
       <td><a target="_blank" href="http://localhost:59599/6f601540-f555-11e3-b477-758199fa5dc1/lines-duplicate-ecs.log">http://localhost:59599/6f601540-f555-11e3-b477-758199fa5dc1/lines-duplicate-ecs.log</a>
-        <div class="comment">Lien vers le fichier contenant les lignes écartées par le dédoublonage</div>
+        <div class="comment">URL to the file containing the deduplicated lines</div>
       </td>
     </tr><tr>
       <th class="four wide">url-ignored-domains</th>
       <td><a target="_blank" href="http://localhost:59599/6f601540-f555-11e3-b477-758199fa5dc1/lines-ignored-domains.log">http://localhost:59599/6f601540-f555-11e3-b477-758199fa5dc1/lines-ignored-domains.log</a>
-        <div class="comment">Lien vers le fichier contenant les lignes ayant un domaine ignoré</div>
+        <div class="comment">URL to the file containing the lines with an ignored domain</div>
       </td>
     </tr><tr>
       <th class="four wide">url-pkb-miss-ecs</th>
       <td><a target="_blank" href="http://localhost:59599/6f601540-f555-11e3-b477-758199fa5dc1/lines-pkb-miss-ecs.log">http://localhost:59599/6f601540-f555-11e3-b477-758199fa5dc1/lines-pkb-miss-ecs.log</a>
-        <div class="comment">Lien vers le fichier contenant les lignes écartées avec identifiants éditeur sans correspondance</div>
+        <div class="comment">URL to the file containing the lines with an unknown vendor's identifier</div>
       </td>
     </tr><tr>
       <th class="four wide">url-unknown-domains</th>
       <td><a target="_blank" href="http://localhost:59599/6f601540-f555-11e3-b477-758199fa5dc1/lines-unknown-domains.log">http://localhost:59599/6f601540-f555-11e3-b477-758199fa5dc1/lines-unknown-domains.log</a>
-        <div class="comment">Lien vers le fichier contenant les lignes écartées avec un domaine ignoré</div>
+        <div class="comment">URL to the file containing the lines with an ignored domain</div>
       </td>
     </tr><tr>
       <th class="four wide">url-unknown-formats</th>
       <td><a target="_blank" href="http://localhost:59599/6f601540-f555-11e3-b477-758199fa5dc1/lines-unknown-formats.log">http://localhost:59599/6f601540-f555-11e3-b477-758199fa5dc1/lines-unknown-formats.log</a>
-        <div class="comment">Lien vers le fichier contenant les lignes écartées avec un format inconnu</div>
+        <div class="comment">URL to the file containing the lines with an unknown format</div>
       </td>
     </tr><tr>
       <th class="four wide">url-unordered-ecs</th>
       <td>
-        <div class="comment">Lien vers le fichier contenant les lignes écartées avec une anomalie chronologique</div>
+        <div class="comment">URL to the file containing the lines with a chronological anomaly</div>
       </td>
     </tr><tr>
       <th class="four wide">url-unqualified-ecs</th>
       <td><a target="_blank" href="http://localhost:59599/6f601540-f555-11e3-b477-758199fa5dc1/lines-unqualified-ecs.log">http://localhost:59599/6f601540-f555-11e3-b477-758199fa5dc1/lines-unqualified-ecs.log
-        <div class="comment">Lien vers le fichier contenant les lignes écartées car trop pauvres en informations</div>
+        <div class="comment">URL to the file containing the lines containing too few information</div>
       </a>
       </td>
     </tr>
@@ -215,14 +215,14 @@ Les différentes sections disponibles sont documentées ici.
 </div>
 <div>
   <h3 id="stats" class="ui purple dividing header">
-    Statistiques
+    Statistics
   </h3>
 
   <table class="ui basic compact table">
     <tbody><tr>
       <th class="four wide">mime-HTML</th>
       <td>4540
-        <div class="comment">Nombre d'EC des principaux types mime rencontrés (nom préfixé par mime-)</div>
+        <div class="comment">Numbers of CEs for the main mime-types (names prefixed with mime-)</div>
       </td>
     </tr><tr>
       <th class="four wide">mime-MISC</th>
@@ -234,7 +234,7 @@ Les différentes sections disponibles sont documentées ici.
       <th class="four wide">platform-acs
       </th>
       <td>538
-        <div class="comment">Nombre d'EC des plateformes rencontrées (nom préfixé par platform-nom_court de la plateforme)</div>
+        <div class="comment">Number of CEs for recognized platforms (names prefixed with platform-platform_shortname)</div>
       </td>
     </tr><tr>
       <th class="four wide">platform-ar</th>
@@ -278,12 +278,12 @@ Les différentes sections disponibles sont documentées ici.
     </tr><tr>
       <th class="four wide">platforms</th>
       <td>14
-        <div class="comment">Nombre de platformes différentes rencontrées pour ce traitement</div>
+        <div class="comment">Number of distinct platforms recognized during the processing</div>
       </td>
     </tr><tr>
       <th class="four wide">rtype-ABS</th>
       <td>1142
-        <div class="comment">Nombre d'EC des principaux types de ressource rencontrés (nom préfixé par rtype-)</div>
+        <div class="comment">Number of CEs for the main resources types (name prefixed with rtype-)</div>
       </td>
     </tr><tr>
       <th class="four wide">rtype-ARTICLE</th>
@@ -305,19 +305,19 @@ Les différentes sections disponibles sont documentées ici.
 </div>
 <div>
   <h3 id="alerts" class="ui purple dividing header">
-    Alertes
+    Alerts
   </h3>
 
   <table class="ui basic compact table">
     <tbody><tr>
       <th class="four wide">active-alerts</th>
       <td>unknown-domains
-        <div class="comment">Liste des alertes qui peuvent être levées</div>
+        <div class="comment">List of alerts that can be thrown</div>
       </td>
     </tr><tr>
       <th class="four wide">alert-1</th>
       <td>www.ncbi.nlm.nih.gov is unknown but represents 64% of the log lines
-        <div class="comment">Contenu d'une alerte</div>
+        <div class="comment">Alert content</div>
       </td>
     </tr>
   </tbody></table>
@@ -331,19 +331,19 @@ Les différentes sections disponibles sont documentées ici.
     <tbody><tr>
       <th class="four wide">mailto</th>
       <td>someone@somewhere.com
-        <div class="comment">Destinataires du mail de fin de traitement</div>
+        <div class="comment">Receiver of the mail at the end of the processing</div>
       </td>
     </tr><tr>
       <th class="four wide">mail-status</th>
       <td>success
-        <div class="comment">Réussite ou non de l'envoi du mail.</div>
+        <div class="comment">Status of the mail sending.</div>
       </td>
     </tr>
   </tbody></table>
 </div>
 <div>
   <h3 id="dedoublonnage" class="ui purple dividing header">
-    Dédoublonnage
+    Deduplicating
   </h3>
 
   <table class="ui basic compact table">
@@ -365,24 +365,26 @@ Les différentes sections disponibles sont documentées ici.
     </tr><tr>
       <th class="four wide">window-html</th>
       <td>10
-        <div class="comment">Nombre de secondes utilisées pour la fenêtre de dédoublonnage des consultations HTML (les consultations d'une ressource avec la même identification sont regroupées en une seule, cf COUNTER)</div>
+        <div class="comment">
+Number of seconds used for the deduplication timeframe of HTML consultations (ie. consultations of a resource with the same ID are grouped together in a single event, cf COUNTER)
+        </div>
       </td>
     </tr><tr>
       <th class="four wide">window-misc</th>
       <td>30
-         <div class="comment">Nombre de secondes utilisées pour la fenêtre de dédoublonnage des consultations MISC</div>
+      <div class="comment">Number of seconds used for the deduplication timeframe of MISC consultations</div>
      </td>
     </tr><tr>
       <th class="four wide">window-pdf</th>
       <td>30
-        <div class="comment">Nombre de secondes utilisées pour la fenêtre de dédoublonnage des consultations PDF</div>
+      <div class="comment">Number of seconds used for the deduplication tiemframe of PDF consultations</div>
       </td>
     </tr>
   </tbody></table>
 </div>
 <div>
   <h3 id="files" class="ui purple dividing header">
-    Fichiers
+    Files
   </h3>
 
   <table class="ui basic compact table">
@@ -394,7 +396,7 @@ Les différentes sections disponibles sont documentées ici.
 </div>
 <div>
   <h3 id="first_event" class="ui purple dividing header">
-    Première consultation
+    First consultation event
   </h3>
 
   <table class="ui basic compact table">
@@ -410,22 +412,22 @@ Les différentes sections disponibles sont documentées ici.
     </tr><tr>
       <th class="four wide">geoip-addr</th>
       <td>
-        <div class="comment">Adresse extraite à partir de l'adresse IP de l'hôte consultant</div>
+        <div class="comment">GeoIP Address extracted from the IP address of the consulting host</div>
       </td>
     </tr><tr>
       <th class="four wide">geoip-city</th>
       <td>
-        <div class="comment">Ville extraite à partir de l'adresse IP de l'hôte consultant</div>
+        <div class="comment">City, extracted from the IP address of the consulting host</div>
       </td>
     </tr><tr>
       <th class="four wide">geoip-coordinates</th>
       <td>
-        <div class="comment">Coordonnées (logitude+lattitude) extraites à partir de l'adresse IP de l'hôte consultant</div>
+        <div class="comment">Coordinates (longitude and latitude) extracted from the IP address of the consulting host</div>
       </td>
     </tr><tr>
       <th class="four wide">geoip-country</th>
       <td>
-        <div class="comment">Code pays extrait à partir de l'adresse IP de l'hôte consultant</div>
+        <div class="comment">Country code extracted from the IP address of the consulting host</div>
       </td>
     </tr><tr>
       <th class="four wide">geoip-family</th>
@@ -434,7 +436,7 @@ Les différentes sections disponibles sont documentées ici.
     </tr><tr>
       <th class="four wide">geoip-host</th>
       <td>
-        <div class="comment">Host correspondant à l'adresse IP de l'hôte consultant</div>
+        <div class="comment">GeoIP Host extracted from the IP address of the consulting host</div>
       </td>
     </tr><tr>
       <th class="four wide">geoip-latitude</th>
@@ -449,37 +451,37 @@ Les différentes sections disponibles sont documentées ici.
     </tr><tr>
       <th class="four wide">host</th>
       <td>test.proxad.net
-        <div class="comment">Host original l'hôte consultant</div>
+        <div class="comment">Original host</div>
       </td>
     </tr><tr>
       <th class="four wide">login</th>
       <td>MYLOGIN
-        <div class="comment">Login d'identification utilisé pour accèder aux ressources</div>
+        <div class="comment">Login used for accessing the resource</div>
       </td>
     </tr><tr>
       <th class="four wide">mime</th>
       <td>MISC
-        <div class="comment">Type mime de la ressource déterminée par le parseur</div>
+        <div class="comment">Mime-type of the ressource, as recognized by the parser</div>
       </td>
     </tr><tr>
       <th class="four wide">platform</th>
       <td>npg
-        <div class="comment">Nom court de la plateforme consultée (=nom du parseur utilisé pour décomposer l'URL de la ressource)</div>
+        <div class="comment">Short name for the consulted platform (ie name of the parser used to analyse the resource's URL)</div>
       </td>
     </tr><tr>
       <th class="four wide">rtype</th>
       <td>TOC
-        <div class="comment">Type de la ressource consultée déterminée par le parseur</div>
+        <div class="comment">Reousrce type for the consulted resource, as recognized by the parser</div>
       </td>
     </tr><tr>
       <th class="four wide">size</th>
       <td>40054
-        <div class="comment">Taille de la requête http délivrant la ressource</div>
+        <div class="comment">HTTP Request size</div>
       </td>
     </tr><tr>
       <th class="four wide">status</th>
       <td>200
-        <div class="comment">Code HTTP renvoyé par le serveur lors de l'accès à la ressource</div>
+        <div class="comment">HTTP code sent by the server when the resource is accessed</div>
       </td>
     </tr><tr>
       <th class="four wide">timestamp</th>
@@ -487,12 +489,12 @@ Les différentes sections disponibles sont documentées ici.
     </tr><tr>
       <th class="four wide">title_id</th>
       <td>siteindex
-        <div class="comment">Identifiant éditeur déterminé par le parseur</div>
+        <div class="comment">Vendor identifier, as determined by the parser</div>
       </td>
     </tr><tr>
       <th class="four wide">unitid</th>
       <td>siteindex
-        <div class="comment">Identifiant unique de la ressource déterminé par le parseur (dédoublonnage de ressources identiques)</div>
+        <div class="comment">Unique identifier for the resource, as determined by the parser (used for deduplicating identical resources)</div>
       </td>
     </tr><tr>
       <th class="four wide">url</th>
