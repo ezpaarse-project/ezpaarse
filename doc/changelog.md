@@ -1,5 +1,12 @@
 # ezPAARSE Versions #
 
+
+## 2.4.0  ## 
+##### 2015/06/11 - Optimized Installation - Docker #####
+- Introduction of Docker for deploiment process
+- New Windows version
+- Filtering by middleware functionality
+
 ## 2.3.0  ## 
 ##### 2015/04/09 - Minimal Viable Product for Open Access repositories #####
 - IP addresses exclusion for indexing robots and spiders
