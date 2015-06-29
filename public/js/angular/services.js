@@ -330,9 +330,9 @@ angular.module('ezPAARSE.services', [])
         customHeaders: [],
         notificationMails: "",
         headers: {
-          'Accept':          'text/csv',
-          'Traces-Level':    'info',
-          'Date-Format':     '',
+          'Accept':       'text/csv',
+          'Traces-Level': 'info',
+          'Date-Format':  '',
           'Force-Parser': ''
         }
       };
