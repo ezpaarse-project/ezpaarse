@@ -2,6 +2,8 @@
 
 [![Build Status](https://secure.travis-ci.org/ezpaarse-project/ezpaarse.png?branch=master)](http://travis-ci.org/ezpaarse-project/ezpaarse)
 [![Dependencies Status](https://david-dm.org/ezpaarse-project/ezpaarse.png)](https://david-dm.org/ezpaarse-project/ezpaarse)
+[![Join the chat at https://gitter.im/ezpaarse-project/ezpaarse](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/ezpaarse-project/ezpaarse?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)  
+[![Docker status](http://dockeri.co/image/ezpaarseproject/ezpaarse)](https://registry.hub.docker.com/u/ezpaarseproject/ezpaarse/)
 
 ezPAARSE is an open-source software that can ingest your (proxy) log files and show how users access suscribed electronic ressources.
 It filters, extracts and enriches the consultation events that were spotted and produces a CSV file following [COUNTER](http://www.projectcounter.org/) codes of practice.

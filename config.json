@@ -30,6 +30,7 @@
     "parser",
     "deduplicator",
     "enhancer",
+    "hal",
     "geolocalizer",
     "field-splitter",
     "qualifier",
