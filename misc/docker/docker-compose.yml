@@ -1,0 +1,11 @@
+ezpaarse:
+  image: ezpaarseproject/ezpaarse
+  links:
+   - ezdb:mongodb
+  ports:
+   - 59599:59599
+
+ezdb:
+  image: mongo:latest
+  volumes:
+    - ./data/mongodb:/data/db
