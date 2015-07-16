@@ -140,18 +140,29 @@ For example, to change the ezPAARSE listening port (59599 by default), you can o
 
 ezPAARSE is now available as a [docker image](https://registry.hub.docker.com/u/ezpaarseproject/ezpaarse/). It exposes port `59599` and needs to be linked with a mongodb container in order to be fully functionnal.  
 
-Typical use :
+Typical use:
 
-    docker pull mongo:latest
-    docker pull ezpaarseproject/ezpaarse:latest
     docker run -d --name ezdb mongo
     docker run -d --name ezpaarse --link ezdb:mongodb -p 59599:59599 ezpaarseproject/ezpaarse
+    
+    # to stop the containers
+    docker stop ezpaarse ezdb
+    # to start again
+    docker start ezdb ezpaarse
+    # to have a look to the logs
+    docker logs -f ezpaarse
 
 Behind a proxy : use `docker run -e http_proxy[=...] -e https_proxy[=...]`
 
+In order to have a better control on the ezpaarse persistent data, you can also map mongodb binary data and the ezpaarse jobs folder to local folders thanks to the [-v option](https://docs.docker.com/userguide/dockervolumes/#mount-a-host-file-as-a-data-volume):
+
+    mkdir /tmp/ezpaarse ; cd /tmp/ezpaarse
+    docker run -d --name ezdb -v $(pwd)/ezdb-data:/data/db mongo
+    docker run -d --name ezpaarse --link ezdb:mongodb -p 59599:59599 -v $(pwd)/ezpaarse-jobs:/root/ezpaarse/tmp/jobs ezpaarseproject/ezpaarse
+
 You can also use [docker-compose](https://docs.docker.com/compose/) to run ezpaarse (experimental).
 
-Typical use :
+Typical use:
 
     cd ezpaarse/mise/docker/
     docker-compose up
