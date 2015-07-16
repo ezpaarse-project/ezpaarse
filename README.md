@@ -144,7 +144,14 @@ Typical use :
 
     docker pull mongo:latest
     docker pull ezpaarseproject/ezpaarse:latest
-    docker run -d --name mongodb mongo
-    docker run -d --name ezpaarse --link mongodb:mongodb -p 59599:59599 ezpaarseproject/ezpaarse
+    docker run -d --name ezdb mongo
+    docker run -d --name ezpaarse --link ezdb:mongodb -p 59599:59599 ezpaarseproject/ezpaarse
 
 Behind a proxy : use `docker run -e http_proxy[=...] -e https_proxy[=...]`
+
+You can also use [docker-compose](https://docs.docker.com/compose/) to run ezpaarse (experimental).
+
+Typical use :
+
+    cd ezpaarse/mise/docker/
+    docker-compose up
