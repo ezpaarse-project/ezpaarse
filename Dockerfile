@@ -1,12 +1,15 @@
 FROM debian:wheezy
-MAINTAINER ezPAARSE Team<ezpaarse@couperin.org>
+MAINTAINER ezPAARSE Team <ezpaarse@couperin.org>
 
-RUN apt-get -y update && \
-	apt-get -y install git curl make python gcc build-essential && \
-	apt-get -y upgrade && \
-	apt-get -y clean && \
-	git clone https://github.com/ezpaarse-project/ezpaarse.git /root/ezpaarse && \
-	cd /root/ezpaarse && make
+ENV DEBIAN_FRONTEND noninteractive
+
+RUN set -x \
+  && apt-get -y update \
+	&& apt-get -y install git curl python build-essential \
+	&& apt-get -y upgrade \
+	&& apt-get -y clean && rm -rf /var/lib/apt/lists/* \
+	&& git clone https://github.com/ezpaarse-project/ezpaarse.git /root/ezpaarse \
+	&& cd /root/ezpaarse && make
 
 # tells jobs and logs folder is a volume cause lot of temporary data are written
 # cf "when to use volumes"  http://www.projectatomic.io/docs/docker-image-author-guidance/
