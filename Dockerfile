@@ -5,8 +5,13 @@ ENV DEBIAN_FRONTEND noninteractive
 
 RUN set -x \
   && apt-get -y update \
-	&& apt-get -y install git curl python build-essential \
-	&& apt-get -y upgrade \
+  && apt-get -y upgrade \
+  # used by nvm for nodejs & npm install
+  && apt-get -y install curl \
+  # used by ezpaarse for updates
+	&& apt-get -y install git \
+  # used by npm rebuild
+  && apt-get -y install python make g++ \
 	&& apt-get -y clean && rm -rf /var/lib/apt/lists/* \
 	&& git clone https://github.com/ezpaarse-project/ezpaarse.git /root/ezpaarse \
 	&& cd /root/ezpaarse && make
