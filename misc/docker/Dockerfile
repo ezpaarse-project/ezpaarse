@@ -31,8 +31,7 @@ RUN set -x \
 VOLUME /root/ezpaarse/tmp/jobs
 VOLUME /root/ezpaarse/logs
 
+# run ezpaarse process
 ENV PATH /root/ezpaarse/build/nvm/bin/latest:/root/ezpaarse/bin:/root/ezpaarse/node_modules/.bin:$PATH
-
 CMD ["ezpaarse", "start", "--no-daemon"]
-
 EXPOSE 59599
