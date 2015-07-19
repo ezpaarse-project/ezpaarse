@@ -152,7 +152,7 @@ Typical use:
     # to have a look to the logs
     docker logs -f ezpaarse
 
-Behind a proxy : use `docker run -e http_proxy[=...] -e https_proxy[=...]`
+Behind a proxy: use `docker run -e http_proxy[=...] -e https_proxy[=...]`
 
 In order to have a better control on the ezpaarse persistent data, you can also map mongodb binary data and the ezpaarse jobs folder to local folders thanks to the [-v option](https://docs.docker.com/userguide/dockervolumes/#mount-a-host-file-as-a-data-volume):
 
