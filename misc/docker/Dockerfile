@@ -7,13 +7,13 @@ ENV DEBIAN_FRONTEND noninteractive
 USER root
 RUN set -x \
   && apt-get -y update \
-  && apt-get -y upgrade \
+  && apt-get -y --no-install-recommends upgrade \
   # used by nvm for nodejs & npm install
-  && apt-get -y install curl \
+  && apt-get -y --no-install-recommends install curl ca-certificates \
   # used by ezpaarse for updates
-	&& apt-get -y install git \
+	&& apt-get -y --no-install-recommends install git \
   # used by npm rebuild
-  && apt-get -y install python make g++ \
+  && apt-get -y --no-install-recommends install python make g++ \
   # clean apt-get cache to gain a few MB
 	&& apt-get -y clean && rm -rf /var/lib/apt/lists/*
 
