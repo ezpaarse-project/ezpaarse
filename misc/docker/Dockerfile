@@ -6,7 +6,7 @@ ENV DEBIAN_FRONTEND noninteractive
 # install debian dependencies
 USER root
 RUN set -x \
-  && apt-get -y update \
+  && apt-get update \
   && apt-get -y --no-install-recommends upgrade \
   # used by nvm for nodejs & npm install
   && apt-get -y --no-install-recommends install curl ca-certificates \
@@ -24,6 +24,7 @@ RUN set -x \
   && mkdir -p /opt/ezpaarse && chown -R ezpaarse:ezpaarse /opt/ezpaarse
 
 # install ezpaarse
+ENV PATH /opt/ezpaarse/build/nvm/bin/latest:/opt/ezpaarse/bin:/opt/ezpaarse/node_modules/.bin:$PATH
 USER ezpaarse
 RUN set -x \
   # git clone ezpaarse source code so the source code will be able to auto-upgrade itself
@@ -32,7 +33,9 @@ RUN set -x \
 	&& cd /opt/ezpaarse && make \
   # to free a few MB in the docker image
   # (ezpaarse-libs will be downladed again at next update from the admin->system menu)
-  && rm -rf /opt/ezpaarse/build/ezpaarse-libs/
+  && rm -rf /opt/ezpaarse/build/ezpaarse-libs/ \
+  # clear the npm cache
+  && cd /opt/ezpaarse/node_modules && npm cache clear
 
 # tells "jobs" and "logs" folders are volumes cause lot of temporary data are written there
 # cf "when to use volumes"  http://www.projectatomic.io/docs/docker-image-author-guidance/
@@ -41,5 +44,4 @@ VOLUME /opt/ezpaarse/logs
 
 # run ezpaarse process
 EXPOSE 59599
-ENV PATH /opt/ezpaarse/build/nvm/bin/latest:/opt/ezpaarse/bin:/opt/ezpaarse/node_modules/.bin:$PATH
 CMD ["ezpaarse", "start", "--no-daemon"]
