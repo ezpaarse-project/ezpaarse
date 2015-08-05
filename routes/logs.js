@@ -23,9 +23,7 @@ module.exports = function (app) {
 
     fs.exists(reportFile, function (exists) {
       if (!exists) {
-        res.status(404);
-        res.end();
-        return;
+        return res.status(404).end();
       }
 
       switch (format) {
@@ -34,17 +32,16 @@ module.exports = function (app) {
         break;
       case 'html':
         fs.readFile(reportFile, function (err, data) {
-          if (err) {
-            res.status(500);
-            res.end();
-            return;
-          }
-          var report = {};
+          if (err) { return res.status(500).end(); }
+
+          var report;
+
           try {
             report = JSON.parse(data);
           } catch (e) {
-            res.status(500).end();
+            return res.status(500).end();
           }
+
           var title = "Rapport d'exécution";
           if (report.general && report.general['Job-Date']) {
             title += " (" + moment(report.general['Job-Date']).format('DD-MM-YYYY hh[h]mm') + ')';
@@ -55,8 +52,7 @@ module.exports = function (app) {
         });
         break;
       default:
-        res.status(406);
-        res.end();
+        res.status(406).end();
       }
     });
   });
