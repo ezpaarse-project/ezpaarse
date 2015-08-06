@@ -29,6 +29,7 @@
     "filter",
     "parser",
     "deduplicator",
+    "crossref",
     "enhancer",
     "hal",
     "geolocalizer",
