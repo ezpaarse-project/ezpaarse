@@ -29,6 +29,7 @@
     "filter",
     "parser",
     "deduplicator",
+    "elsevier",
     "crossref",
     "enhancer",
     "hal",
