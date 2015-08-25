@@ -31,6 +31,10 @@
                     <Value>1476-4687</Value>
                 </ItemIdentifier>
                 <ItemIdentifier>
+                    <Type>DOI</Type>
+                    <Value>10.1038/nature10398</Value>
+                </ItemIdentifier>
+                <ItemIdentifier>
                     <Type>Proprietary</Type>
                     <Value>nature</Value>
                 </ItemIdentifier>
@@ -85,6 +89,10 @@
                 <ItemIdentifier>
                     <Type>Online_ISSN</Type>
                     <Value>1546-1718</Value>
+                </ItemIdentifier>
+                <ItemIdentifier>
+                    <Type>DOI</Type>
+                    <Value>10.1038/ng.2759</Value>
                 </ItemIdentifier>
                 <ItemIdentifier>
                     <Type>Proprietary</Type>
