@@ -164,5 +164,5 @@ You can also use [docker-compose](https://docs.docker.com/compose/) to run ezpaa
 
 Typical use:
 
-    cd ezpaarse/mise/docker-compose/
+    cd ezpaarse/misc/docker-compose/
     docker-compose up
