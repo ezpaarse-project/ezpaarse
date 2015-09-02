@@ -18,12 +18,19 @@ Built-in proxies supported log formats are:
 * [squid](http://www.squid-cache.org/)
 
 **Table of content**
+- [Recommended system requirements](#recommended-system-requirements)
 - [Prerequisites](#prerequisites)
 - [Installation quickstart](#installation-quickstart)
 - [Test the installation](#test-the-installation)
 - [Usage](#usage)
 - [Advanced parameters](#advanced-parameters)
 - [Use with docker](#use-with-docker)
+
+## Recommended system requirements ##
+- a linux box or VM (eg: Ubuntu)
+- 50Gb disk space (to be adjusted, depending on the quantity and size of logfiles to be simultaneously processed)
+- 2 cores of CPU
+- 2 to 4 Gb of RAM space
 
 ## Prerequisites ##
 
