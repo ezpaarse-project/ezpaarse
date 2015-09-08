@@ -1,6 +1,11 @@
 # ezPAARSE Versions #
 
 
+## 2.5.0  ## 
+##### 2015/06/11 - EC enrichment via APIs #####
+- Automatic ECs enrichment with crossref and elsevier
+- Light Windows version
+
 ## 2.4.0  ## 
 ##### 2015/06/11 - Optimized Installation - Docker #####
 - Introduction of Docker for deploiment process
