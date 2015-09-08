@@ -161,26 +161,18 @@ Section $(menu+ezPAARSEmenu) SecMenuEZPAARSE
     ;Create shortcuts
     CreateDirectory "$SMPROGRAMS\$StartMenuFolder"
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Uninstall.lnk" "$InstallDirShort\Uninstall.exe"
-    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+1_lancer)" "$InstallDirShort\ezpaarse-docker-init.sh" "" "" "" SW_SHOWMINIMIZED
-    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+2_utiliser)" "$InstallDirShort\ezpaarse-docker-start.sh" "" "" "" SW_SHOWMINIMIZED
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+2_utiliser)" "$DefaultBrowser" "http://ezpaarse.couperin.org" 0
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+3_tester)" "$WINDIR\explorer.exe" "$InstallDirShort\dataset" 
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+4a_visualiser)" "$DefaultExcel" "$InstallDirShort\excel\$(excel_render)" 0 
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+4b_visualiser)" "$DefaultLibreOffice" "$InstallDirShort\libreoffice\$(libreoffice_render)" 0 
-    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+4c_arreter)" "$InstallDirShort\ezpaarse-docker-stop.sh" "" "" "" SW_SHOWMINIMIZED
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+5_documenter)" "$DefaultBrowser" $(url_doc) 0 
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+7_analogist)" "$DefaultBrowser" "http://analogist.couperin.org" 0 
-    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+8_traces)" "$WINDIR\notepad.exe" "$InstallDirShort\ezpaarse-log.txt"
-    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+9_errors)" "$WINDIR\notepad.exe" "$InstallDirShort\ezpaarse-error-log.txt"
   !insertmacro MUI_STARTMENU_WRITE_END
 
 SectionEnd
 
 Section "Samples" SecSampleEZPAARSE
   Call downloadSample
-SectionEnd
-
-Section "Boot2docker" SecBTDEZPAARSE
-  Call downloadBTD
 SectionEnd
 
 ;--------------------------------
@@ -219,20 +211,6 @@ Function downloadSample
     DetailPrint "Telechargement reussi : $0"
 FunctionEnd
 
-Function downloadBTD
-  nsisdl::download \
-       /TIMEOUT=30000 "$BTDURLPath" "$INSTDIR\docker-install.exe"
-    Pop $0
-    StrCmp "$0" "success" lbl_dbtd_continue
-    DetailPrint "Telechargement echoue : $0"
-    Abort
-  lbl_dbtd_continue:
-  ExecWait '"$INSTDIR\docker-install.exe" /q /norestart'
-  DetailPrint "Code retour installation : $EXIT_CODE"
-
-FunctionEnd
-
-
 Function LocateInstDir
   StrCpy $R0 $R8
 FunctionEnd
@@ -248,7 +226,6 @@ Function .onInit
 
   StrCpy $SampleURLPath "${SAMPLE_URL}"
   StrCpy $SampleFile "${SAMPLE_FILE}"
-  StrCpy $BTDURLPath "${BTDURLPATH}"
 
   ; detect previous install
   ReadRegStr $R0 HKCU \
