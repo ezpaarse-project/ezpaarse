@@ -2,7 +2,7 @@
 
 
 ## 2.5.0  ## 
-##### 2015/06/11 - EC enrichment via APIs #####
+##### 2015/09/03 - EC enrichment via APIs #####
 - Automatic ECs enrichment with crossref and elsevier
 - Light Windows version
 
