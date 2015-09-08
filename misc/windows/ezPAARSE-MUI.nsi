@@ -18,7 +18,6 @@
   Var InstallDirShort
   Var SampleURLPath
   Var SampleFile
-  Var BTDURLPath
 
 ;--------------------------------
 ;Pages
@@ -90,8 +89,6 @@ RequestExecutionLevel user
 !define SAMPLE_FILE "multiplatforms.ezproxy.2014.04.01-09.log.gz"
 !define SAMPLE_URL "http://analogist.couperin.org/ezpaarse/dataset/${SAMPLE_FILE}"
 
-!define BTDURLPATH "http://analogist.couperin.org/ezpaarse/docker/docker-install.exe"
-
 ;--------------------------------
 ;Detecting default browser and excel for shortcuts
 
@@ -161,10 +158,11 @@ Section $(menu+ezPAARSEmenu) SecMenuEZPAARSE
     ;Create shortcuts
     CreateDirectory "$SMPROGRAMS\$StartMenuFolder"
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\Uninstall.lnk" "$InstallDirShort\Uninstall.exe"
-    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+2_utiliser)" "$DefaultBrowser" "http://ezpaarse.couperin.org" 0
-    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+3_tester)" "$WINDIR\explorer.exe" "$InstallDirShort\dataset" 
-    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+4a_visualiser)" "$DefaultExcel" "$InstallDirShort\excel\$(excel_render)" 0 
-    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+4b_visualiser)" "$DefaultLibreOffice" "$InstallDirShort\libreoffice\$(libreoffice_render)" 0 
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+1_utiliser)" "$DefaultBrowser" $(url_ezpaarse) 0
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+1b_utiliser)" "$DefaultBrowser" $(url_ezpaarse_beta) 0
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+2_tester)" "$WINDIR\explorer.exe" "$InstallDirShort\dataset" 
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+3a_visualiser)" "$DefaultExcel" "$InstallDirShort\excel\$(excel_render)" 0 
+    CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+3b_visualiser)" "$DefaultLibreOffice" "$InstallDirShort\libreoffice\$(libreoffice_render)" 0 
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+5_documenter)" "$DefaultBrowser" $(url_doc) 0 
     CreateShortCut "$SMPROGRAMS\$StartMenuFolder\$(menu+7_analogist)" "$DefaultBrowser" "http://analogist.couperin.org" 0 
   !insertmacro MUI_STARTMENU_WRITE_END
@@ -217,8 +215,8 @@ FunctionEnd
 
 Function runEZPAARSE
   MessageBox MB_OK $(end+runMessage)
-  ExecShell "" "$SMPROGRAMS\$StartMenuFolder\$(menu+1_lancer)"
   ExecShell "open" $(url_usage)
+  ExecShell "" "$SMPROGRAMS\$StartMenuFolder\$(menu+1_utiliser)"
 FunctionEnd
 
 Function .onInit
