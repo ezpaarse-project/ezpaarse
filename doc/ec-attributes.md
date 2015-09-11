@@ -1,5 +1,7 @@
 # Attributes of a Consultation Event #
 
+A consultation event (CE in english and EC in french) is the data that ezpaarse will produce thanks to one line of significant log line. The log line contains basic and generic data as for example the date of the user's consultation, the login of the user, the url downloaded, the status code ... Then ezpaarse process this log line. The URL will be parsed and enriched with KBART knowledge base (publisher knowledge base: PKB) or API (eg. Crossref). The result will be called a consultation event that will contains a liste of key/value. The possible key (attributes) are listed bellow:
+
 ## Typical Attributes found in a Consultation Event##
 <table>
   <tr>
