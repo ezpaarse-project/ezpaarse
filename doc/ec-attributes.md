@@ -31,7 +31,7 @@ A consultation event (CE in english and EC in french) is the data that ezpaarse 
   </tr>
   <tr>
     <td>Publisher_name</td>
-    <td>Long name of the editor (can be different from the platform name)</td>
+    <td>Long name of the publisher (can be different from the platform name)</td>
     <td>American Physiological Society</td>
   </tr>
   <tr>
@@ -101,7 +101,7 @@ A consultation event (CE in english and EC in french) is the data that ezpaarse 
   </tr>
   <tr>
     <td>Host</td>
-    <td>IP address</td>
+    <td>IP address of the user</td>
     <td>62.247.28.26</td>
   </tr>
   <tr>
