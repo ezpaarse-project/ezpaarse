@@ -1,5 +1,7 @@
 # Attributes of a Consultation Event #
 
+A consultation event (CE in english and EC in french) is the data that ezpaarse will produce thanks to one line of significant log line. The log line contains basic and generic data as for example the date of the user's consultation, the login of the user, the url downloaded, the status code ... Then ezpaarse process this log line. The URL will be parsed and enriched with KBART knowledge base (publisher knowledge base: PKB) or API (eg. Crossref). The result will be called a consultation event that will contains a liste of key/value. The possible key (attributes) are listed bellow:
+
 ## Typical Attributes found in a Consultation Event##
 <table>
   <tr>
@@ -8,112 +10,112 @@
     <th>Example</th>
   </tr>
   <tr>
-    <td>Date</td>
+    <td>date</td>
     <td>Date of the consultation event</td>
     <td>2014-12-16</td>
   </tr>
   <tr>
-    <td>Login</td>
+    <td>login</td>
     <td>Login, encrypted or not</td>
     <td>8olq8</td>
   </tr>
   <tr>
-    <td>Platform</td>
-    <td>ezPAARSE Platform's code (ie. parser's name)</td>
+    <td>platform</td>
+    <td>ezPAARSE Platform's short code (ie. parser's name) eg: sd for siencedirect</td>
     <td>hw</td>
   </tr>
   <tr>
-    <td>Platform_name</td>
+    <td>platform_name</td>
     <td>long name of the vendor's platform</td>
     <td>Highwire</td>
   </tr>
   <tr>
-    <td>Publisher_name</td>
-    <td>Long name of the editor (can be different from the platform name)</td>
+    <td>publisher_name</td>
+    <td>Long name of the publisher (can be different from the platform name)</td>
     <td>American Physiological Society</td>
   </tr>
   <tr>
-    <td>Rtype</td>
+    <td>rtype</td>
     <td>Resource type</td>
     <td>ARTICLE</td>
   </tr>
   <tr>
-    <td>Mime</td>
-    <td>Mime type</td>
+    <td>mime</td>
+    <td>Mime type of the ressource</td>
     <td>PDF</td>
   </tr>
   <tr>
-    <td>Print_identifier</td>
-    <td>usually ISSN</td>
+    <td>print_identifier</td>
+    <td>usually ISSN (paper)</td>
     <td>0021-9797</td>
   </tr>
   <tr>
-    <td>Online_identifier</td>
-    <td>usually eISSN</td>
+    <td>online_identifier</td>
+    <td>usually eISSN (electronic)</td>
     <td>0021-9898</td>
   </tr>
   <tr>
-    <td>Title_id</td>
+    <td>title_id</td>
     <td>Title identifier (see KBART specification)</td>
     <td>ACHRE</td>
   </tr>
   <tr>
-    <td>Doi</td>
+    <td>doi</td>
     <td></td>
     <td>10.1007/s10557-015-6582-9</td>
   </tr>
   <tr>
-    <td>Publication_Title</td>
+    <td>publication_Title</td>
     <td>Book or journal title</td>
     <td>Journal of Pediatric Surgery</td>
   </tr>
   <tr>
-    <td>UnitId</td>
+    <td>unitid</td>
     <td>see below</td>
     <td>SOO21979714009205</td>
   </tr>
   <tr>
-    <td>Domain</td>
+    <td>domain</td>
     <td>domain name as found in the requested URL</td>
     <td>ac.els-cdn.com</td>
   </tr>
   <tr>
-    <td>Geoip-Country</td>
+    <td>geoip-country</td>
     <td>Country abbrev. found for the host's IP address</td>
     <td>FR</td>
   </tr>
   <tr>
-    <td>Geoip-Latitude</td>
+    <td>geoip-latitude</td>
     <td>Latitude found for the host's IP address</td>
     <td>62</td>
   </tr>
   <tr>
-    <td>Geoip-Longitude</td>
+    <td>geoip-longitude</td>
     <td>Longitude found for the host's IP address</td>
     <td>15</td>
   </tr>
   <tr>
-    <td>Datetime</td>
+    <td>datetime</td>
     <td>Time for the consultation event</td>
     <td>2014-12-16T09:58:43</td>
   </tr>
   <tr>
-    <td>Host</td>
-    <td>IP address</td>
+    <td>host</td>
+    <td>IP address of the user</td>
     <td>62.247.28.26</td>
   </tr>
   <tr>
-    <td>Url</td>
+    <td>url</td>
     <td>URL requested by the user to access a resource</td>
     <td>http://link.springer.com:80/article/10.1007/s10557-015-6582-9</td>
   </tr>
   <tr>
-    <td>Status</td>
+    <td>status</td>
     <td>HTTP status</td>
     <td>200</td>
   </tr>
   <tr>
-    <td>Size</td>
+    <td>size</td>
     <td>Request size (in bytes)</td>
     <td>65816</td>
   </tr>
