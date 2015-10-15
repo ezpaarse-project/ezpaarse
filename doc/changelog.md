@@ -1,5 +1,9 @@
 # ezPAARSE Versions #
 
+## 2.6.0  ## 
+##### 2015/10/08 - New BACON scraper tool #####
+- Minor doc updates
+- New BACON scraper tool
 
 ## 2.5.0  ## 
 ##### 2015/09/03 - EC enrichment via APIs #####
