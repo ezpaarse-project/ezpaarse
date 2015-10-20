@@ -58,7 +58,8 @@ Character map used for input. [(see supported encodings)](https://github.com/ash
 Character map used for output. [(see supported encodings)](https://github.com/ashtuchkin/iconv-lite#supported-encodings).
 
 ### Clean-Only ###
-If set to `true`, ezPAARSE will just filter out the irrelevant lines and output the relevant ones.
+If set to `true`, ezPAARSE will just filter out the lines we are sure are irrelevant and output only the relevant ones.
+The goal when using this parameter is to reduce the size of the log file, if you need to store it for further treatment.
 
 ### Force-Parser ###
 If URLs don't have 'domain' part, use this parameter to force right parser to be used. Usefull for Open Access log analysis which don't have domain part in URL (all URLs comes form the same domain). 
