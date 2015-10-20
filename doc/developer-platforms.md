@@ -45,7 +45,7 @@ git push
 
 Note: unless you have a privileged access (from the ezPAARSE team), you must first "fork" the ezPAARSE github repository in order to work on that copy. Once you are satisfied with your changes, you can submit your work to the team by sending a ["pull request"](https://help.github.com/articles/using-pull-requests). Your job will be reviewed and integrated by the team, if no problem is detected. The team then provides write access rights to regular contributors, in order to facilitate contributions.
 
-## Fonctionnement d'un parseur ##
+## How does a parser work? ##
 
 A parser takes the form of an executable `parser.js` file accompanied by a description file [manifest.json](https://github.com/ezpaarse-project/ezpaarse-platforms/blob/master/sd/manifest.json) and a validation structure (contained in the 'test' directory, see below).
 
