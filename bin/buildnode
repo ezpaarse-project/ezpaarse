@@ -23,10 +23,10 @@ fi
 # download/install nodejs with nvm
 export NVM_DIR=$EZPAARSE_PATH/build/nvm
 . $EZPAARSE_PATH/build/nvm/nvm.sh
-nvm install "iojs-$NODEJS_VERSION"
-nvm use "iojs-$NODEJS_VERSION"
-nvm alias default "iojs-$NODEJS_VERSION"
+nvm install "$NODEJS_VERSION"
+nvm use "$NODEJS_VERSION"
+nvm alias default "$NODEJS_VERSION"
 
 # create a symlink to be able to adjust the PATH easily
 rm -f $EZPAARSE_PATH/build/nvm/bin/latest
-ln -s  $EZPAARSE_PATH/build/nvm/versions/io.js/v$NODEJS_VERSION/bin/ $EZPAARSE_PATH/build/nvm/bin/latest
+ln -s  $EZPAARSE_PATH/build/nvm/versions/node/v$NODEJS_VERSION/bin/ $EZPAARSE_PATH/build/nvm/bin/latest
