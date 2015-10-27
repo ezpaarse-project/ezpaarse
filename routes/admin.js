@@ -179,7 +179,7 @@ module.exports = function (app) {
           .subject('[ezPAARSE] Nouvelle inscription')
           .text(`Mail: ${user.username}\nSignup date: ${user.createdAt}`)
           .from(config.EZPAARSE_ADMIN_MAIL)
-          .to(config.EZPAARSE_ADMIN_MAIL)
+          .to(config.EZPAARSE_FEEDBACK_RECIPIENTS)
           .send();
       });
 
