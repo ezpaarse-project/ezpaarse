@@ -81,7 +81,7 @@ module.exports = function (app) {
 
     res.on('finish', function () {
       app.locals.updating = true;
-      
+
       execFile('../lib/bin/update-app.js', args, { cwd: __dirname });
     });
 
@@ -157,31 +157,29 @@ module.exports = function (app) {
         password: cryptedPassword
       }, function (err, user) {
 
-        if (!user) {
-          res.status(500).end();
-          return;
-        }
+        if (err || !user) { return res.status(500).end(); }
 
         var copyUser = {};
         for (var prop in user) {
           if (prop != 'password') { copyUser[prop] = user[prop]; }
         }
 
-        if (isAdmin) {
-          //TODO: put that in a separate route
-          res.set("Content-Type", "application/json; charset=utf-8");
-          res.status(201).json(copyUser);
-          return;
-        }
+        if (isAdmin) { return res.status(201).json(copyUser); }
 
         req.logIn(user, function (err) {
           if (err) {
             res.status(500).end();
             return;
           }
-          res.set("Content-Type", "application/json; charset=utf-8");
           res.status(201).json(copyUser);
         });
+
+        mailer.mail()
+          .subject('[ezPAARSE] Nouvelle inscription')
+          .text(`Mail: ${user.username}`)
+          .from(config.EZPAARSE_ADMIN_MAIL)
+          .to(config.EZPAARSE_ADMIN_MAIL)
+          .send();
       });
 
     });
