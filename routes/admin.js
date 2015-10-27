@@ -154,7 +154,8 @@ module.exports = function (app) {
 
       userlist.add({
         username: userid,
-        password: cryptedPassword
+        password: cryptedPassword,
+        createdAt: new Date()
       }, function (err, user) {
 
         if (err || !user) { return res.status(500).end(); }
@@ -176,7 +177,7 @@ module.exports = function (app) {
 
         mailer.mail()
           .subject('[ezPAARSE] Nouvelle inscription')
-          .text(`Mail: ${user.username}`)
+          .text(`Mail: ${user.username}\nSignup date: ${user.createdAt}`)
           .from(config.EZPAARSE_ADMIN_MAIL)
           .to(config.EZPAARSE_ADMIN_MAIL)
           .send();
