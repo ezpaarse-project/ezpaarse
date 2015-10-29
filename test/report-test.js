@@ -46,7 +46,7 @@ describe('The server', function () {
           should.ok(report.general['Job-Done'] === true,
             'The flag "Job-Done" has not be set to TRUE');
           report.general['nb-lines-input'].should.equal(2,
-            'nb-lines-input should equal 2');
+            'nb-lines-input should equal 2, got ' + report.general['nb-lines-input']);
 
           done();
         });
