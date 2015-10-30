@@ -20,7 +20,7 @@ describe('The server', function () {
     + 'and multiple downloads of results (@01)', function (done) {
     var jobid = uuid.v1();
 
-    logF.logFaker({ rate: 900, duration: 4 }, function (stream) {
+    logF.logFaker({ rate: 900, duration: 2 }, function (stream) {
       helpers.postPiped('/' + jobid + '/?_method=PUT', headers, stream, function (err, res, body) {
 
         if (!res) { throw new Error('ezPAARSE is not running'); }
@@ -28,7 +28,8 @@ describe('The server', function () {
 
         // For a deferred result, the data must be written in a file and not in the body
         res.should.have.status(200);
-        should.ok(body === '', 'The body is not empty');
+
+        should.ok(/^\.*$/.test(body), 'The body should contain dots only');
 
         helpers.get('/' + jobid + '/', function (error1, response1, defBody1) {
 
@@ -36,7 +37,7 @@ describe('The server', function () {
           if (error1) { throw error1; }
 
           should.exist(defBody1);
-          should.ok(defBody1.length, 'The second differed download is empty');
+          should.ok(defBody1.length, 'The first differed download is empty');
           var body1 = JSON.parse(defBody1);
 
           setTimeout(function () {
@@ -50,10 +51,10 @@ describe('The server', function () {
               var body2 = JSON.parse(defBody2);
 
               should.ok(helpers.equals(body1, body2, true),
-                'The server sent two different deferred results for the same upload');
+                'The server sent two different results for the same upload');
               done();
             });
-          }, 4500);
+          }, 2000);
         });
       });
     });
