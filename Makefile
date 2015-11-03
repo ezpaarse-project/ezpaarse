@@ -179,7 +179,6 @@ release: tar deb rpm exe
 
 clean-for-release:
 	test -f ./clean-for-release-flag || ( echo "Warning: do no run this command on your ezpaarse used for devlopements" ; exit 1 )
-	rm -rf ./.git/
 	rm -f ./test/injection-*-test.js
 	rm -f ./test/custom-formats-test.js
 	rm -f ./test/deduplication-test.js
