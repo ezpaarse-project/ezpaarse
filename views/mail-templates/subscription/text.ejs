@@ -2,5 +2,7 @@ Someone subscribed to ezPAARSE.
 
 Signup date: <%= user.createdAt %>
 Mail: <%= user.username %>
-IP: <%= req.ip %>
-Hostname: <%= req.hostname %>
+IP: <%= userIP %>
+Hostname: <%= hostname %>
+Country: <%= geoip.country %>
+City: <%= geoip.city %>

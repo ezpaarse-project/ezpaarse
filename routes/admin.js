@@ -2,8 +2,9 @@
 
 var path       = require('path');
 var bodyParser = require('body-parser');
-var parserlist = require('../lib/parserlist.js');
 var execFile   = require('child_process').execFile;
+var geoip      = require('geoip-lite');
+var parserlist = require('../lib/parserlist.js');
 var config     = require('../lib/config.js');
 var userlist   = require('../lib/userlist.js');
 var mailer     = require('../lib/mailer.js');
@@ -176,9 +177,14 @@ module.exports = function (app) {
         });
 
         if (config.EZPAARSE_SUBSCRIPTION_MAIL) {
+          // Extract IPv4 from IPv4-mapped IPv6
+          var ipMatch = /([0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3})/.exec(req.ip);
+
           var locals = {
             user: user,
-            req: req
+            userIP: req.ip,
+            hostname: req.hostname,
+            geoip: geoip.lookup(ipMatch ? ipMatch[1] : req.ip) || {}
           };
 
           mailer.generate('subscription', locals, function (err, html, text) {
