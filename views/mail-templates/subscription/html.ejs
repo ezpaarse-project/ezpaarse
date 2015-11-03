@@ -1,0 +1,26 @@
+<html><body style="color: #666666;"><div id="content" style="width: 80%; border: 1px solid #DADADA; padding: 10px; margin: 0 auto; position: relative;">
+  <div id="header" style="position: absolute; top: 5px; right: 5px; font-size: 0.9em; color: #979797;">
+    ezPAARSE - New subscription
+  </div>
+
+  <h2>Someone subscribed to ezPAARSE.</h2>
+
+  <table>
+    <tr>
+      <th style="text-align: right; padding: 3px 5px 3px 0px;">Signup date</th>
+      <td><%= user.createdAt %></td>
+    </tr>
+    <tr>
+      <th style="text-align: right; padding: 3px 5px 3px 0px;">Mail</th>
+      <td><%= user.username %></td>
+    </tr>
+    <tr>
+      <th style="text-align: right; padding: 3px 5px 3px 0px;">IP</th>
+      <td><%= req.ip %></td>
+    </tr>
+    <tr>
+      <th style="text-align: right; padding: 3px 5px 3px 0px;">Hostname</th>
+      <td><%= req.hostname %></td>
+    </tr>
+  </table>
+</body></html>

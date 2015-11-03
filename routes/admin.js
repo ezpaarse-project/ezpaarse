@@ -176,12 +176,24 @@ module.exports = function (app) {
         });
 
         if (config.EZPAARSE_SUBSCRIPTION_MAIL) {
-          mailer.mail()
-            .subject('[ezPAARSE] Nouvelle inscription')
-            .text(`Mail: ${user.username}\nSignup date: ${user.createdAt}`)
-            .from(config.EZPAARSE_ADMIN_MAIL)
-            .to(config.EZPAARSE_FEEDBACK_RECIPIENTS)
-            .send();
+          var locals = {
+            user: user,
+            req: req
+          };
+
+          mailer.generate('subscription', locals, function (err, html, text) {
+            if (err) {
+              text = `Mail: ${user.username}\nSignup date: ${user.createdAt}`;
+            }
+
+            mailer.mail()
+              .subject('[ezPAARSE] New subscription')
+              .html(html)
+              .text(text)
+              .from(config.EZPAARSE_ADMIN_MAIL)
+              .to(config.EZPAARSE_FEEDBACK_RECIPIENTS)
+              .send();
+          });
         }
       });
 
