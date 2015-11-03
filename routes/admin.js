@@ -175,12 +175,14 @@ module.exports = function (app) {
           res.status(201).json(copyUser);
         });
 
-        mailer.mail()
-          .subject('[ezPAARSE] Nouvelle inscription')
-          .text(`Mail: ${user.username}\nSignup date: ${user.createdAt}`)
-          .from(config.EZPAARSE_ADMIN_MAIL)
-          .to(config.EZPAARSE_FEEDBACK_RECIPIENTS)
-          .send();
+        if (config.EZPAARSE_SUBSCRIPTION_MAIL) {
+          mailer.mail()
+            .subject('[ezPAARSE] Nouvelle inscription')
+            .text(`Mail: ${user.username}\nSignup date: ${user.createdAt}`)
+            .from(config.EZPAARSE_ADMIN_MAIL)
+            .to(config.EZPAARSE_FEEDBACK_RECIPIENTS)
+            .send();
+        }
       });
 
     });

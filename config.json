@@ -3,6 +3,7 @@
   "EZPAARSE_PARENT_URL": "http://ezpaarse-preprod.couperin.org",
   "EZPAARSE_MONGO_URL": "mongodb://localhost:27017/ezpaarse",
   "EZPAARSE_FEEDBACK_RECIPIENTS": "ezpaarse@couperin.org",
+  "EZPAARSE_SUBSCRIPTION_MAIL": false,
   "EZPAARSE_ENV": "production",
   "EZPAARSE_NODEJS_PORT": "59599",
   "EZPAARSE_NODEJS_VERSION": "4.2.1",
