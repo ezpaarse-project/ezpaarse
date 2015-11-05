@@ -1,5 +1,10 @@
 # ezPAARSE Versions #
 
+## 2.7.0  ## 
+##### 2015/11/05 - Cash Enrichment  #####
+- Data caching of API requests from middlewares
+- Enrichment activated by default
+
 ## 2.6.0  ## 
 ##### 2015/10/08 - New BACON scraper tool #####
 - Minor doc updates
