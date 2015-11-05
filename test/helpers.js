@@ -1,6 +1,9 @@
 'use strict';
 
-var request = require('request').defaults({ proxy: null });
+var request = require('request').defaults({
+  proxy: null,
+  headers: { 'Crossref-Enrich': 'false' }
+});
 var fs      = require('fs');
 var moment  = require('moment');
 var config  = require('../lib/config.js');
