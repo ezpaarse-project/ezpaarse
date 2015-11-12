@@ -6,6 +6,7 @@ ezpaarse:
    - 59599:59599
 
 ezdb:
-  image: mongo:latest
+  image: mongo:3.0.7
   volumes:
     - ./data/mongodb:/data/db
+  command: --smallfiles
