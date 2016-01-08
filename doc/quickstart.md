@@ -71,6 +71,17 @@ You can also [download a .deb archive](http://analogist.couperin.org/ezpaarse/do
 sudo -E dpkg -i ezpaarse-X.X.X.deb
 sudo /etc/init.d/ezpaarse start
 ```
+## Uninstall ezPAARSE ##
+
+To uninstall ezpaarse two steps:
+
+1) remove the ezpaarse folder: ``rm -rf ezpaarse``
+
+2) remove database data (ezpaarse user accounts):
+```bash
+mongo ezpaarse
+db.dropDatabase()
+```
 
 ## Test your installation ##
 
