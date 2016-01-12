@@ -178,22 +178,38 @@ module.exports = function (app) {
   });
 
   /**
-   * GET route on /info/rtype
+   * GET route on /info/fields.json
    */
-  app.get('/info/rtype', function (req, res) {
-    res.header('Content-Type', 'application/json; charset=utf-8');
+  app.get(/^\/info\/(fields|rid|mime|rtype)(?:\.json)?$/, function (req, res) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header("Access-Control-Allow-Headers", "X-Requested-With");
 
-    var file = path.join(__dirname, '/../platforms/rtype.json');
-    if (fs.existsSync(file)) {
-      var types = require(file);
-      res.status(200);
-      res.write(JSON.stringify(types, null, 2));
-    } else {
-      res.status(404);
-    }
-    res.end();
+    var file = path.join(__dirname, '/../platforms/fields.json');
+
+    fs.readFile(file, function (err, content) {
+      if (err) { return res.status(500).end(); }
+
+      var name = req.params[0];
+      if (name == 'fields') {
+        return res.status(200).json(content);
+      }
+
+      try {
+        content = JSON.parse(content)[name];
+      } catch (e) {
+        return res.status(500).end();
+      }
+
+      if (req.query.sort) {
+        content.sort(function (a, b) {
+          var comp = a.code < b.code ? -1 : 1;
+          if (req.query.sort === 'desc') { comp *= -1; }
+          return comp;
+        });
+      }
+
+      res.status(200).json(content);
+    });
   });
 
   /**
@@ -213,44 +229,6 @@ module.exports = function (app) {
       cfg[field] = config[field];
     });
     res.status(200).json(cfg);
-  });
-
-  /**
-   * GET route on /info/mime
-   */
-  app.get('/info/mime', function (req, res) {
-    res.header('Content-Type', 'application/json; charset=utf-8');
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
-
-    var file = path.join(__dirname, '/../platforms/mime.json');
-    if (fs.existsSync(file)) {
-      var types = require(file);
-      res.status(200);
-      res.write(JSON.stringify(types, null, 2));
-    } else {
-      res.status(404);
-    }
-    res.end();
-  });
-
-  /**
-   * GET route on /info/rid
-   */
-  app.get('/info/rid', function (req, res) {
-    res.header('Content-Type', 'application/json; charset=utf-8');
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
-
-    var file = path.join(__dirname, '/../platforms/rid.json');
-    if (fs.existsSync(file)) {
-      var types = require(file);
-      res.status(200);
-      res.write(JSON.stringify(types, null, 2));
-    } else {
-      res.status(404);
-    }
-    res.end();
   });
 
   /**
