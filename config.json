@@ -47,7 +47,8 @@
     },
     "external": [
       {
-        "file": "platforms/rid.json",
+        "file": "platforms/fields.json",
+        "sublist": "rid",
         "attribute": "code",
         "weight": 1
       }
