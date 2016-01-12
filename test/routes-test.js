@@ -9,6 +9,7 @@ var infoRoutes = [
   '/info/rtype',
   '/info/mime',
   '/info/rid',
+  '/info/fields.json',
   '/info/codes',
   '/info/codes/4003',
   '/info/uuid',
