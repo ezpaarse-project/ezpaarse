@@ -205,27 +205,15 @@ These routes are used to administrate ezPAARSE. For the most part, they can be u
         <br/>Parameters: <strong>username</strong>, <strong>password</strong></td>
     </tr>
     <tr>
-      <td>/pkb/status</td>
+      <td>/platforms/status</td>
       <td>GET</td>
-      <td>Reports on the states for the knowledge bases (PKBs)
+      <td>Reports on the platforms' state
         <br/>Returns: <strong>uptodate</strong> or <strong>outdated</strong></td>
     </tr>
     <tr>
-      <td>/pkb/status</td>
+      <td>/platforms/status</td>
       <td>PUT</td>
-      <td>Updates the knowledge bases (PKBs)
-        <br/>The body must contain <strong>uptodate</strong></td>
-    </tr>
-    <tr>
-      <td>/parsers/status</td>
-      <td>GET</td>
-      <td>Reports on the parsers' state
-        <br/>Returns: <strong>uptodate</strong> or <strong>outdated</strong></td>
-    </tr>
-    <tr>
-      <td>/parsers/status</td>
-      <td>PUT</td>
-      <td>Updates the parsers
+      <td>Updates the platforms
         <br/>The body must contain <strong>uptodate</strong></td>
     </tr>
     <tr>
