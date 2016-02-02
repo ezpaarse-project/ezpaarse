@@ -103,7 +103,9 @@ curl -X POST -u "admin:password" --data "username=foo&password=bar" http://local
 curl -X DELETE -u "admin:password" http://localhost:59599/users/foo
 ```
 
-## Knowledge bases management ##
+## Platforms Management ##
+A platform is composed of a parser, one or more knowledge bases and one or more scrapers. 
+The commands listed below act on the platform level, you don't have to worry about separately updating its elements.
 
 ### Check state ###
 <table>
@@ -113,23 +115,23 @@ curl -X DELETE -u "admin:password" http://localhost:59599/users/foo
       <th>Parameters</th>
   </tr>
   <tr>
-    <td>/pkb/status</td>
+    <td>/platforms/status</td>
     <td>GET</td>
     <td></td>
   </tr>
 </table>
 
-#### Possible fedbacks #### 
+#### Possible feedbacks #### 
 
 - **200 OK** : Checking normally completed.
-- **500 Internal Server Error** : Chercling failed.
+- **500 Internal Server Error** : Checking failed.
 
 In case of success, the output contains **uptodate** or **outdated**.
 
 
 #### Example curl ####
 ```bash
-curl -X GET -u "admin:password" http://localhost:59599/pkb/status
+curl -X GET -u "admin:password" http://localhost:59599/platforms/status
 ```
 
 ### Update ###
@@ -148,65 +150,11 @@ curl -X GET -u "admin:password" http://localhost:59599/pkb/status
 
 #### Example curl ####
 ```bash
-curl -X PUT -u "admin:password" --data "uptodate" http://localhost:59599/pkb/status
+curl -X PUT -u "admin:password" --data "uptodate" http://localhost:59599/platforms/status
 ```
 
 #### Possible outputs #### 
 
-- **200 OK** : PKBs have been updated
+- **200 OK** : Platforms have been updated
 - **400 Bad Request** : No **uptodate** in query string.
 - **500 Internal Server Error** : Update failed.
-
-
-## Parsers management ##
-
-### Check state ###
-<table>
-  <tr>
-      <th style="text-align:left;width:140px;">Path</th>
-      <th>Method</th>
-      <th>Parameters</th>
-  </tr>
-  <tr>
-    <td>/parsers/status</td>
-    <td>GET</td>
-    <td></td>
-  </tr>
-</table>
-
-#### Possible outputs #### 
-
-- **200 OK** : Checking normally completed.
-- **500 Internal Server Error** : Checking failed.
-
-In case of success, the output contains **uptodate** or **outdated**.
-
-#### Example curl ####
-```bash
-curl -X GET -u "admin:password" http://localhost:59599/parsers/status
-```
-
-### Update ###
-<table>
-  <tr>
-      <th style="text-align:left;width:140px;">Path</th>
-      <th>Method</th>
-      <th>Parameters</th>
-  </tr>
-  <tr>
-    <td>/parsers/status</td>
-    <td>PUT</td>
-    <td>**uptodate** in the query string</td>
-  </tr>
-</table>
-
-#### Possible outputs #### 
-
-- **200 OK** : Parsers have been updated.
-- **400 Bad Request** : Query string does not include **uptodate**.
-- **500 Internal Server Error** : Update failed.
-
-#### Example curl ####
-```bash
-curl -X PUT -u "admin:password" --data "uptodate" http://localhost:59599/parsers/status
-```
