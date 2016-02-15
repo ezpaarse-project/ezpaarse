@@ -50,6 +50,11 @@ curl -X POST --data "username=foo&password=bar" http://localhost:59599/register
 
 Outputs a JSON table with the complete list of users.
 
+#### Exemple curl ####
+```bash
+curl -X GET --proxy "" -u "admin:password" http://localhost:59599/users
+```
+
 ### Add a user ###
 <table>
   <tr>
@@ -75,7 +80,7 @@ When the creation succeeds, the output contains a complete information about the
 
 #### Exemple curl ####
 ```bash
-curl -X POST -u "admin:password" --data "username=foo&password=bar" http://localhost:59599/users/
+curl -X POST --proxy "" -u "admin:password" --data "username=foo&password=bar" http://localhost:59599/users/
 ```
 
 ### Delete a user ###
