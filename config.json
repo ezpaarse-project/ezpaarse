@@ -30,6 +30,7 @@
     "filter",
     "parser",
     "deduplicator",
+    "istex",
     "elsevier",
     "crossref",
     "enhancer",
