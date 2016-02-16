@@ -11,7 +11,8 @@ var logFile = path.join(__dirname, 'dataset/es.sudoc.log');
 function testSudoc(callback){
   var headers = {
       'Accept': 'application/json',
-      'sudoc-Enrich': 'true'
+      'sudoc-Enrich': 'true',
+      'traces-level': 'silly'
     };
 
     helpers.post('/', logFile, headers, function (err, res, body) {
@@ -20,7 +21,7 @@ function testSudoc(callback){
       res.statusCode.should.equal(200, 'expected 200, got ' + res.statusCode);
 
       var result = JSON.parse(body);
-      result.should.have.length(2);
+      result.should.have.length(3);
       var ec = result[0];
 
       // 1879-2065 => 83506357
@@ -41,7 +42,7 @@ function testSudoc(callback){
         report.should.have.property('general');
         report.general.should.have.property('sudoc-queries');
         report.general['sudoc-queries'].should.be.type('number');
-        report.general['sudoc-queries'].should.be.below(2,
+        report.general['sudoc-queries'].should.be.below(3,
           'too many sudoc requests, one at least should be cached');
 
         callback();
