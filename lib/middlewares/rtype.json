@@ -25,5 +25,6 @@
   "research-article" : "ARTICLE",
   "chapter" : "BOOK SECTION",
   "chapitre" :  "BOOK SECTION",
-  "book chapter" :  "BOOK SECTION"
+  "book chapter" :  "BOOK SECTION",
+  "Book Chapter" :  "BOOK SECTION"
 }
