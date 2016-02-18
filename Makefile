@@ -13,7 +13,7 @@ DOC_OUTPUT=$(shell pwd)/public/doc
 DOC_HTML=$(DOC_OUTPUT)/index.html
 
 # Run every steps needed to start ezpaarse
-all: nodejs node-modules platforms-update exclusions-update resources-update doc checkconfig
+all: nodejs node-modules platforms-update exclusions-update resources-update doc hooks checkconfig
 
 # Application section
 # # # # # # # # # # # #
@@ -120,6 +120,9 @@ tdd-verbose:
 
 lint:
 	@. ./bin/env; npm run lint
+
+hooks:
+	@ln -s ../../../.git/hooks/pre-commit platforms/.git/hooks/pre-commit
 
 clean-tmp:
 	@rm -rf ./tmp/*
