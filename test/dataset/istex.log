@@ -1,0 +1,2 @@
+193.52.64.244 - - [30/Sep/2015:22:01:21 +0000] "GET /document/?output=%2A&facet=corpusName&size=10&from=40&q=%22Hans+Hagen%22 HTTP/1.1" 200 40235 "-" "Drupal (+http://drupal.org/)"
+172.16.103.97 - - [30/Sep/2015:22:15:39 +0000] "GET /document/?q=germination%20AND%20host.subject.value%3Alife%20sciences&amp%3Boutput=* HTTP/1.1" 200 1923 "-" "-"
