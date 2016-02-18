@@ -5,12 +5,13 @@ var path    = require('path');
 var should  = require('should');
 var helpers = require('./helpers.js');
 
-var logFile = path.join(__dirname, 'dataset/es.sudoc.log');
 
-function testSudoc(callback) {
+var logFile = path.join(__dirname, 'dataset/istex.log');
+
+function testistex(callback) {
   var headers = {
     'Accept': 'application/json',
-    'sudoc-Enrich': 'true'
+    'Force-Parser': 'istex'
   };
 
   helpers.post('/', logFile, headers, function (err, res, body) {
@@ -19,13 +20,12 @@ function testSudoc(callback) {
     res.statusCode.should.equal(200, 'expected 200, got ' + res.statusCode);
 
     var result = JSON.parse(body);
-    result.should.have.length(3);
+    result.should.have.length(2);
+
     var ec = result[0];
 
-    // 1879-2065 => 83506357
-    should.equal(ec['sudoc-ppn'], '083506357');
-    //should.equal(ec['sudoc-publisher'], 'The Endocrine Society');
-
+    should.equal(ec['rtype'], 'QUERY');
+    should.equal(ec['platform_name'], 'Istex');
 
     var reportURL = res.headers['job-report'];
     should.exist(reportURL, 'The header "Job-Report" was not sent by the server');
@@ -38,20 +38,19 @@ function testSudoc(callback) {
 
       var report = JSON.parse(reportBody);
       report.should.have.property('general');
-      report.general.should.have.property('sudoc-queries');
-      report.general['sudoc-queries'].should.be.type('number');
-      report.general['sudoc-enriched-ecs'].should.be.equal(3,
-        'sudoc requests may be exactly 3');
+      report.general.should.have.property('Job-Done');
+      report.general['Job-Done'].should.not.equal(false, 'Istex has not completed treatment');
+
       callback();
     });
   });
 }
 
 
-describe('sudoc consultations', function () {
-  it('should be correctly enriched (@01)', function (done) {
-    testSudoc(function () {
-      testSudoc(done);
+describe('istex consultations', function () {
+  it('should be istex enriched (@01)', function (done) {
+    testistex(function () {
+      testistex(done);
     });
   });
 });
