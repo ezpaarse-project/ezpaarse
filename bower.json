@@ -27,6 +27,7 @@
     "angular-translate": "~2.6.1",
     "angular-cookie": "~4.0.6",
     "jreject": "~1.1.4",
-    "bx-slider.js": "~4.2.3"
+    "bx-slider.js": "~4.2.3",
+    "chosen": "^1.4.2"
   }
 }
