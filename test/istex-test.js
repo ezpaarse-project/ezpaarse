@@ -39,7 +39,8 @@ function testistex(callback){
 
         var report = JSON.parse(reportBody);
         report.should.have.property('general');
-     
+        report.general.should.have.property('Job-Done');
+        report.general['Job-Done'].should.not.equal(false, 'Istex has not completed treatment');
 
         callback();
       });
