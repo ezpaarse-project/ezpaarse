@@ -1,4 +1,5 @@
-/*global describe, it*/
+/* eslint no-sync: 0 */
+/* global describe, it */
 'use strict';
 
 var fs      = require('fs');

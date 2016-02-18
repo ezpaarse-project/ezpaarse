@@ -1,12 +1,13 @@
 /*global describe, it*/
 'use strict';
 
-var helpers       = require('./helpers.js');
-var should        = require('should');
+var helpers = require('./helpers.js');
+var should  = require('should');
+var path    = require('path');
 
-var logFile               = __dirname + '/dataset/sd.mini.log';
-var gzipLogFile           = __dirname + '/dataset/sd.mini.log.gz';
-var wrongFirstLineLogFile = __dirname + '/dataset/sd.wrong-first-line.log';
+var logFile               = path.resolve(__dirname, 'dataset/sd.mini.log');
+var gzipLogFile           = path.resolve(__dirname, 'dataset/sd.mini.log.gz');
+var wrongFirstLineLogFile = path.resolve(__dirname, 'dataset/sd.wrong-first-line.log');
 
 describe('The server', function () {
   describe('receives a log file whose first line is incorrect', function () {

@@ -1,4 +1,5 @@
 /*global describe, it*/
+/*eslint no-sync:0*/
 'use strict';
 
 var helpers      = require('./helpers.js');
@@ -20,9 +21,9 @@ function testFiles(files, platformName, parserFile, done) {
 
   var test = exec(parserFile);
   test.on('exit', function (code) {
-    assert.ok(code !== 126, "Platform " + platformName + " : the parser is not executable");
-    assert.ok(code === 0, "Platform " + platformName
-      + " : the parser exited with code " + code);
+    assert.ok(code !== 126, 'Platform ' + platformName + ' : the parser is not executable');
+    assert.ok(code === 0, 'Platform ' + platformName
+      + ' : the parser exited with code ' + code);
 
     csvextractor.extract(files, { silent: true }, function (err, records) {
       assert.ok(err === null);
@@ -95,11 +96,11 @@ function fetchPlatform(platform) {
 
     it('is usable', function (done) {
 
-      should.ok(fs.existsSync(configFile), "manifest.json does not exist");
+      should.ok(fs.existsSync(configFile), 'manifest.json does not exist');
       var config = JSON.parse(fs.readFileSync(configFile, 'UTF-8'));
 
-      should.exist(config.name, "field 'name' in manifest.json does not exist");
-      should.ok(config.name.length > 0, "field 'name' in manifest.json is empty");
+      should.exist(config.name, 'field \'name\' in manifest.json does not exist');
+      should.ok(config.name.length > 0, 'field \'name\' in manifest.json is empty');
 
       var parserFile = path.join(platformPath, 'parser.js');
 
@@ -109,7 +110,7 @@ function fetchPlatform(platform) {
         var testFolder = path.join(platformPath, 'test');
 
         should.ok(fs.existsSync(testFolder) && fs.statSync(testFolder).isDirectory(),
-                  "no test folder");
+                  'no test folder');
 
         var files    = fs.readdirSync(testFolder);
         var csvFiles = [];
@@ -122,7 +123,7 @@ function fetchPlatform(platform) {
             csvFiles.push(csvPath);
           }
         }
-        should.ok(csvFiles.length > 0, "no test file");
+        should.ok(csvFiles.length > 0, 'no test file');
         testFiles(csvFiles, platform, parserFile, done);
       });
 
