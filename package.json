@@ -73,6 +73,7 @@
   "devDependencies": {
     "coffee-script": "*",
     "eslint": "^2.1.0",
+    "ghooks": "^1.0.3",
     "lsof": "0.1.0",
     "mocha": "*",
     "should": "*",
@@ -82,5 +83,10 @@
   "scripts": {
     "test": "export EZPAARSE_ENV=\"production\" ; export EZPAARSE_DEBUG_LEVEL=\"pkb\" ; make && make start && sleep 1 ; make test-pkb ; make test",
     "lint": "eslint *.js lib/ test/ routes/ platforms/"
+  },
+  "config": {
+    "ghooks": {
+      "pre-commit": "npm run lint"
+    }
   }
 }
