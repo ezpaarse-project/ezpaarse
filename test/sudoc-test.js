@@ -11,8 +11,7 @@ var logFile = path.join(__dirname, 'dataset/es.sudoc.log');
 function testSudoc(callback){
   var headers = {
       'Accept': 'application/json',
-      'sudoc-Enrich': 'true',
-      'traces-level': 'silly'
+      'sudoc-Enrich': 'true'
     };
 
     helpers.post('/', logFile, headers, function (err, res, body) {
@@ -25,7 +24,7 @@ function testSudoc(callback){
       var ec = result[0];
 
       // 1879-2065 => 83506357
-      should.equal(ec['ppn'], '083506357');
+      should.equal(ec['sudoc-ppn'], '083506357');
       //should.equal(ec['sudoc-publisher'], 'The Endocrine Society');
    
 
@@ -42,9 +41,8 @@ function testSudoc(callback){
         report.should.have.property('general');
         report.general.should.have.property('sudoc-queries');
         report.general['sudoc-queries'].should.be.type('number');
-        report.general['sudoc-queries'].should.be.below(3,
-          'too many sudoc requests, one at least should be cached');
-
+        report.general['sudoc-enriched-ecs'].should.be.equal(3,
+          'sudoc requests may be exactly 3');
         callback();
       });
     });
