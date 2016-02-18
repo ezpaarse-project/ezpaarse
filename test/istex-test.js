@@ -27,7 +27,6 @@ function testistex(callback){
       should.equal(ec['rtype'], 'QUERY');
       should.equal(ec['platform_name'], 'Istex');
    
-      console.log(res.headers['job-report']);
       var reportURL = res.headers['job-report'];
       should.exist(reportURL, 'The header "Job-Report" was not sent by the server');
 
