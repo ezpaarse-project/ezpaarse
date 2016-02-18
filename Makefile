@@ -49,10 +49,7 @@ docopen: doc $(DOC_HMTL)
 # # # # # # # # #
 
 EZPATH = $(shell pwd)
-JSFILES=$(wildcard $(EZPATH)/*.js) $(wildcard $(EZPATH)/lib/*.js) $(wildcard $(EZPATH)/lib/*/*.js) $(wildcard $(EZPATH)/test/*.js)  $(wildcard $(EZPATH)/routes/*.js) $(wildcard $(EZPATH)/platforms/*/*.js $(EZPATH)/platforms/*/*/*.js)
-JSONFILES=$(wildcard $(EZPATH)/*.json) $(wildcard $(EZPATH)/platforms/*.json $(EZPATH)/platforms/*/*.json)
 PKBFILES=$(shell ls $(EZPATH)/platforms/*/pkb/*.txt | grep -v miss)
-
 
 ## Runs all tests (*-test.js) in the test folder except big and tdd
 test:
@@ -121,10 +118,8 @@ tdd-verbose:
 	else echo 'No test folder found'; \
 	fi
 
-jsonhint:
-	@. ./bin/env; jshint $(JSONFILES) --config .jsonhintrc
-jshint:
-	@. ./bin/env; jshint $(JSFILES) --config .jshintrc
+lint:
+	@. ./bin/env; npm run lint
 
 clean-tmp:
 	@rm -rf ./tmp/*
