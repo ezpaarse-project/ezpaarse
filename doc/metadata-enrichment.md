@@ -19,8 +19,9 @@ The crossref middleware use the doi found in the ECs to request metadatas using 
 ### Headers ###
 **crossref-Enrich** : set to `true` to enable crossref enrichment. Enable by default.  
 **crossref-TTL** : lifetime of cached documents, in seconds. Defaults to `7 days (3600 * 24 * 7)`.  
-**crossref-paquet-size** :
-**crossref-buffer-size** :
+**crossref-throttle** : minimum time to wait between queries, in milliseconds. Defaults to `200` ms
+**crossref-paquet-size** : maximum number of identifier to query in a single request. Defaults to `50` 
+**crossref-buffer-size** : maximum number of memorised ECs before sending a request. Defaults to `1000`
 
 
 ## Configuring elsevier middleware call ##
@@ -41,7 +42,7 @@ The sudoc middleware use the print_identifier found in the ECs to request metada
 ### Headers ###
 **sudoc-Enrich** : set to `true` to enable crossref enrichment. Disabled by default.  
 **sudoc-TTL** : lifetime of cached documents, in seconds. Defaults to `7 days (3600 * 24 * 7)`.  
-
+**sudoc-Throttle** : minimum time to wait between queries, in milliseconds. Defaults to `500`.  
 
 ## Configuring HAL middleware call ##
 
