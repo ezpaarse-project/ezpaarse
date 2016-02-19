@@ -122,7 +122,7 @@ lint:
 	@. ./bin/env; npm run lint
 
 hooks:
-	@ln -s ../../../.git/hooks/pre-commit platforms/.git/hooks/pre-commit
+	@ln -sf ../../../.git/hooks/pre-commit platforms/.git/hooks/pre-commit
 
 clean-tmp:
 	@rm -rf ./tmp/*
