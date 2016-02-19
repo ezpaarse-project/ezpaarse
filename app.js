@@ -1,3 +1,4 @@
+/* eslint no-console: 0, no-sync: 0 */
 'use strict';
 
 var express       = require('express');
@@ -10,6 +11,8 @@ var cookieParser  = require('cookie-parser');
 
 var pkg           = require('./package.json');
 var config        = require('./lib/config.js');
+var socketIO      = require('./lib/socketio.js');
+var mongo         = require('./lib/mongo.js');
 var http          = require('http');
 var path          = require('path');
 var mkdirp        = require('mkdirp');
@@ -54,7 +57,7 @@ process.title = pkg.name.toLowerCase();
 // write pid to ezpaarse.pid file
 var yargs = require('yargs')
   .describe('pidFile', 'the pid file where ezpaarse pid is stored')
-  .default('pidFile', __dirname + '/ezpaarse.pid')
+  .default('pidFile', path.resolve(__dirname, 'ezpaarse.pid'))
   .boolean('lsof')
   .boolean('memory')
   .describe('lsof', 'if provided, periodically prints the number of opened file descriptors')
@@ -78,7 +81,7 @@ if (argv.lsof) {
 
 if (argv.memory) {
   (function checkMemory() {
-    console.log("Memory usage: %d MiB",
+    console.log('Memory usage: %d MiB',
       Math.round(process.memoryUsage().rss / 1024 / 1024 * 100) / 100);
     setTimeout(checkMemory, 5000);
   })();
@@ -126,16 +129,15 @@ app.use(favicon(path.join(__dirname, 'public/img/favicon.ico')));
 /**
  * Send 503 if ezPAARSE is being updated
  */
-app.use(function (req, res, next) {
+app.use(function (req, res, next) {
   if (!app.locals.updating) { return next(); }
-  
+
   fs.exists(path.join(__dirname, 'update.lock'), function (exist) {
     if (exist) {
-      res.status(503).send('ezPAARSE is being updated, it should be back in a few minutes');
-    } else {
-      app.locals.updating = false;
-      next();
+      return res.status(503).send('ezPAARSE is being updated, it should be back in a few minutes');
     }
+    app.locals.updating = false;
+    next();
   });
 });
 
@@ -144,7 +146,7 @@ app.use(function (req, res, next) {
  * either using _method in query
  * or the header X-HTTP-Method-Override
  */
-app.use(function (req, res, next) {
+app.use(function (req, res, next) {
   var key = '_method';
   if (req.query && req.query[key]) {
     req.method = req.query[key].toUpperCase();
@@ -202,9 +204,9 @@ app.use('/doc', function (req, res, next) { res.status(404).end(); });
  * routes handling
  */
 app.all('*', function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "X-Requested-With");
-  res.header("Access-Control-Allow-Methods", "POST, GET, PUT, DELETE, OPTIONS");
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'X-Requested-With');
+  res.header('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, OPTIONS');
   next();
 });
 
@@ -254,12 +256,12 @@ require('./lib/ecfilter.js').init(function (err, nbRobots) {
 
     var server = http.createServer(app);
 
-    require('./lib/socketio.js').listen(server);
+    socketIO.listen(server);
 
-    require('./lib/mongo.js').connect(function () {
+    mongo.connect(function () {
       server.listen(app.get('port'), function () {
-        console.log(pkg.name + "-" + pkg.version +
-          " listening on http://localhost:" + app.get('port') + " (pid is " + process.pid + ")");
+        console.log(pkg.name + '-' + pkg.version +
+          ' listening on http://localhost:' + app.get('port') + ' (pid is ' + process.pid + ')');
       });
     });
   });

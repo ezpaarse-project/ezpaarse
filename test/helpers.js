@@ -26,35 +26,34 @@ exports.get = function (path, callback) {
   }
 
   request({
-      method: 'GET',
-      url: uri
-    }, callback);
+    method: 'GET',
+    url: uri
+  }, callback);
 };
 
 exports.post = function (path, filePath, headers, callback) {
   var opt = {
     method: 'POST',
-    url: url + (path ? path : '/'),
+    url: url + (path || '/')
   };
 
   if (headers) {
     opt.headers = headers;
   }
 
-  if (fs.existsSync(filePath)) {
-    var fileContent = fs.readFileSync(filePath);
-    if (fileContent) { opt.body = fileContent; }
-  } else {
-    opt.body = filePath;
-  }
+  fs.readFile(filePath, function (err, fileContent) {
+    if (err && err.code !== 'ENOENT') { return callback(err); }
 
-  request(opt, callback);
+    opt.body = fileContent || filePath;
+
+    request(opt, callback);
+  });
 };
 
 exports.postPiped = function (path, headers, stream, callback) {
   var opt = {
     method: 'POST',
-    url: url + (path ? path : '/'),
+    url: url + (path || '/')
   };
 
   if (headers) {
@@ -105,7 +104,7 @@ exports.equals = function (x, y, datify) {
       // allows to compare x[p] and y[p] when set to undefined
     if (x[p] === y[p]) { continue; }
       // if they have the same strict value or identity then they are equal
-    if (typeof(x[p]) !== "object") { return false; }
+    if (typeof(x[p]) !== 'object') { return false; }
       // Numbers, Strings, Functions, Booleans must be strictly equal
     if (!exports.equals(x[p], y[p], datify)) { return false; }
       // Objects and Arrays must be tested recursively

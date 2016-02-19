@@ -8,7 +8,7 @@ var config  = require('../lib/config.js');
 var browser = new Browser({
   silent: true,
   proxy: null,
-  features: "scripts css img"
+  features: 'scripts css img'
 });
 
 var host = 'http://localhost:' + config.EZPAARSE_NODEJS_PORT;
@@ -27,7 +27,7 @@ describe('The browser', function () {
       assert(resource.response, url + ' did not return');
 
       var statusCode = resource.response.status;
-      assert([200,304,401,501].indexOf(statusCode) !== -1,
+      assert([200, 304, 401, 501].indexOf(statusCode) !== -1,
         url + ' returned with a code ' + statusCode);
     });
 

@@ -1,15 +1,12 @@
-/* jshint maxlen: 260 */
+/* eslint max-len: 0 */
 /* global describe, it */
 'use strict';
 
 var path  = require('path');
 var spawn = require('child_process').spawn;
 
-
-var noHeaderLineFile = "no-header-line.validator.pkb.txt";
-// var ridFile          = "rid.validator.pkb.txt";
-var invalidSyntax    = "invalid-syntax.pkb.txt";
-
+var noHeaderLineFile = 'no-header-line.validator.pkb.txt';
+var invalidSyntax    = 'invalid-syntax.pkb.txt';
 
 describe('The pkbvalidator command', function () {
 
@@ -21,7 +18,6 @@ describe('The pkbvalidator command', function () {
       code.should.be.equal(2);
       done();
     });
-
   });
 
   it('should not crash if parsing a not syntaxicaly valid CSV file (@02)', function (done) {

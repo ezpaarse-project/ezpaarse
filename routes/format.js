@@ -16,7 +16,7 @@ module.exports = function (app) {
     var b = browserify();
     b.require(path.join(__dirname, '../lib/logparser.js'), { expose: 'logparser' });
     b.bundle(function (err, content) {
-      if (err) { return res.status(500).end(); }
+      if (err) { return res.status(500).end(); }
 
       app.locals.bundle = content;
       res.status(200).send(content);

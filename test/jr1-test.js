@@ -1,24 +1,26 @@
+/* eslint no-sync: 0 */
 /*global describe, it*/
 'use strict';
 
 var helpers   = require('./helpers.js');
 var fs        = require('fs');
+var path      = require('path');
 var should    = require('should');
 var xmlParser = require('xml2js').Parser;
 var cfg       = require('../lib/config.js');
 
-var logFile = __dirname + '/dataset/npg.jr1.log';
-var xmlFile = __dirname + '/dataset/npg.jr1.xml';
-var tsvFile = __dirname + '/dataset/npg.jr1.txt';
+var logFile = path.resolve(__dirname, 'dataset/npg.jr1.log');
+var xmlFile = path.resolve(__dirname, 'dataset/npg.jr1.xml');
+var tsvFile = path.resolve(__dirname, 'dataset/npg.jr1.txt');
 
 describe('The server', function () {
   it('generates a correct XML JR1 report (@01)', function (done) {
     var headers = {
       'COUNTER-Reports': 'JR1',
-      'COUNTER-Format': 'XML',
+      'COUNTER-Format': 'XML'
     };
-    helpers.post('/', logFile, headers,
-    function (err, res) {
+
+    helpers.post('/', logFile, headers, function (err, res) {
       if (!res) { throw new Error('ezPAARSE is not running'); }
       if (err)  { throw err; }
       res.should.have.status(200);
@@ -80,8 +82,7 @@ describe('The server', function () {
       'COUNTER-Reports': 'JR1',
       'COUNTER-Format': 'TSV'
     };
-    helpers.post('/', logFile, headers,
-    function (err, res) {
+    helpers.post('/', logFile, headers, function (err, res) {
       if (!res) { throw new Error('ezPAARSE is not running'); }
       if (err)  { throw err; }
       res.should.have.status(200);

@@ -42,9 +42,9 @@ module.exports = function (app) {
             return res.status(500).end();
           }
 
-          var title = "Rapport d'exécution";
+          var title = 'Rapport d\'exécution';
           if (report.general && report.general['Job-Date']) {
-            title += " (" + moment(report.general['Job-Date']).format('DD-MM-YYYY hh[h]mm') + ')';
+            title += ' (' + moment(report.general['Job-Date']).format('DD-MM-YYYY hh[h]mm') + ')';
           }
           title += ' - ezPAARSE';
           // Rapport d’exécution (25-06-2013 11h25) - ezPAARSE
@@ -63,25 +63,25 @@ module.exports = function (app) {
    */
   app.get(new RegExp(jobidPattern + '/([a-zA-Z0-9\\-_]+(?:\\.[a-z]{2,4}){1,2})$'),
     function (req, res) {
-    var requestID = req.params[0];
-    var filename  = req.params[1];
-    var logFile   = path.join(__dirname, '/../tmp/jobs/',
+      var requestID = req.params[0];
+      var filename  = req.params[1];
+      var logFile   = path.join(__dirname, '/../tmp/jobs/',
       requestID.charAt(0),
       requestID.charAt(1),
       requestID,
       filename);
 
-    fs.stat(logFile, function (err, stats) {
-      if (err) { return res.status(err.code == 'ENOENT' ? 404 : 500).end(); }
+      fs.stat(logFile, function (err, stats) {
+        if (err) { return res.status(err.code == 'ENOENT' ? 404 : 500).end(); }
 
-      // download as an attachment if file size is >500ko
-      // open it in directly in the browser if file size is <500ko
-      if (stats.size > 500 * 1024) {
-        res.download(logFile, requestID.substr(0, 8) + '_' + filename);
-      } else {
-        res.set('Content-Disposition', 'inline');
-        res.sendFile(logFile);
-      }
+        // download as an attachment if file size is >500ko
+        // open it in directly in the browser if file size is <500ko
+        if (stats.size > 500 * 1024) {
+          res.download(logFile, requestID.substr(0, 8) + '_' + filename);
+        } else {
+          res.set('Content-Disposition', 'inline');
+          res.sendFile(logFile);
+        }
+      });
     });
-  });
 };

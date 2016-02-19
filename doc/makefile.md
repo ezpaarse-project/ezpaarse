@@ -47,12 +47,12 @@ Checks that the knowledge base files used by the parsers are well formed and coh
 ## Checking coding rules ##
 
 ```console
-make jshint
+make lint
 ```
 
-Checks the syntax for the javascript files with the ``jshint`` utility.
+Checks the syntax of the javascript files with the ``eslint`` utility.
 
-The precision for JSHint can be modified with a configuration file (``.jshintrc``). All the options are documented on [the JSHint page](http://www.jshint.com/options/).
+The coding rules can be modified with a configuration file (``.eslintrc``). All the options are documented on [the ESLint page](http://eslint.org/docs/rules/).
 
 ## Managing the documentation ##
 

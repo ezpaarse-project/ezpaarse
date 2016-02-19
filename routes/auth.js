@@ -1,6 +1,5 @@
 // ##EZPAARSE
 
-/*jshint maxlen: 180*/
 'use strict';
 
 var bodyParser = require('body-parser');
@@ -25,13 +24,13 @@ module.exports = function (app) {
    */
   app.post('/login', bodyParser.urlencoded({ extended: true }), bodyParser.json(),
     passport.authenticate('local'), function (req, res) {
-    if (req.body.remember) {
-      req.sessionCookies.maxAge = 15778462980; //6 months
-    } else {
-      req.sessionCookies.expires = false;
-    }
-    res.status(200).json(req.user);
-  });
+      if (req.body.remember) {
+        req.sessionCookies.maxAge = 15778462980; //6 months
+      } else {
+        req.sessionCookies.expires = false;
+      }
+      res.status(200).json(req.user);
+    });
 
   /**
    * Logout

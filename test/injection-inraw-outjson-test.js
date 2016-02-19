@@ -22,16 +22,19 @@ describe('The server', function () {
         if (err)  { throw err; }
         res.should.have.status(200);
 
-        var correctOutput = fs.readFileSync(resultFile, 'UTF-8');
-        var correctJson   = JSON.parse(correctOutput);
-        var bodyJson      = JSON.parse(body);
+        fs.readFile(resultFile, function (err, correctOutput) {
+          if (err) { throw err; }
 
-        correctJson.should.be.an.instanceOf(Array);
-        bodyJson.should.be.an.instanceOf(Array);
-        should.ok(helpers.equalJSONList(bodyJson, correctJson, true, ['datetime']),
-          'Server\'s answer do not match the intended result');
+          var correctJson = JSON.parse(correctOutput);
+          var bodyJson    = JSON.parse(body);
 
-        done();
+          correctJson.should.be.an.instanceOf(Array);
+          bodyJson.should.be.an.instanceOf(Array);
+          should.ok(helpers.equalJSONList(bodyJson, correctJson, true, ['datetime']),
+            'Server\'s answer do not match the intended result');
+
+          done();
+        });
       });
     });
   });

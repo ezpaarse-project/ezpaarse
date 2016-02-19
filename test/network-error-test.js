@@ -1,15 +1,16 @@
 /*global describe, it*/
+/*eslint no-sync:0*/
 'use strict';
 
-var helpers       = require('./helpers.js');
-var fs            = require('fs');
-var should        = require('should');
-var logF          = require('../lib/logfaker.js');
-var lsof          = require('lsof');
+var helpers = require('./helpers.js');
+var fs      = require('fs');
+var logF    = require('../lib/logfaker.js');
+var lsof    = require('lsof');
+var path    = require('path');
 
 // to check the number of open file descriptors by the ezpaarse process
 // we need to know the pid of the process
-var ezpaarsePid = fs.readFileSync(__dirname + '/../ezpaarse.pid', 'utf8');
+var ezpaarsePid = fs.readFileSync(path.resolve(__dirname, '../ezpaarse.pid'), 'utf8');
 
 function filterTypes(element) {
   return /^(?:DIR|REG)$/i.test(element.type);
@@ -47,33 +48,30 @@ describe('The server receives a log but network is cut during the transfer', fun
                 lsofAfter.should.be.instanceof(Array);
 
                 if (lsofAfter.length == lsofBefore.length) {
-                  callback(null);
-                } else if (tries > 10) {
-
-                  var unclosedFiles = [];
-                  lsofBefore = lsofBefore.map(function (file) { return file.name; });
-
-                  lsofAfter.forEach(function (file) {
-                    if (lsofBefore.indexOf(file.name) == -1) {
-                      unclosedFiles.push(file.name);
-                    }
-                  });
-
-                  // add a trace to help to understand which file descriptor is still open
-                  console.error(JSON.stringify(unclosedFiles, null, 2));
-
-                  callback(false);
-                  return;
-                } else {
-                  setTimeout(function() {
-                    test(tries, callback);
-                  }, 200);
+                  return callback(null);
                 }
+
+                if (tries <= 10) {
+                  return setTimeout(function() { test(tries, callback); }, 200);
+                }
+
+                var unclosedFiles = [];
+                lsofBefore = lsofBefore.map(function (file) { return file.name; });
+
+                lsofAfter.forEach(function (file) {
+                  if (lsofBefore.indexOf(file.name) == -1) {
+                    unclosedFiles.push(file.name);
+                  }
+                });
+
+                var msg = 'Some file descriptors were not properly closed: \n';
+                msg += unclosedFiles.join('\n');
+                callback(new Error(msg));
               });
             };
 
-            test(0, function (fail) {
-              should.not.exist(fail, 'some file descriptors were not closed correctly');
+            test(0, function (err) {
+              if (err) { throw err; }
               done();
             });
           });
