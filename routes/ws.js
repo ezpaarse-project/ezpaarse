@@ -26,7 +26,6 @@ module.exports = function (app) {
 
     // check if this job exists
     if (job && job.ecsPath && job.ecsStream) {
-      console.log('Serving growing result file');
 
       var name = path.basename(job.ecsPath);
       if (requestedName) { name = requestedName + '.' + job.fileExtension; }
@@ -36,34 +35,20 @@ module.exports = function (app) {
         'Content-Disposition': 'attachment; filename="' + name + '"'
       });
 
-      console.log('Requesting deferred result ECs file (while response is generated)');
       // if job is still running (ECs are still writen in the temp file)
       // use the GrowingFile module to stream the result to the HTTP response
       rgf.readGrowingFile({
         sourceFilePath: job.ecsPath,
-        onData: function (data) {
-          console.log('Data added to ECs temp file (' + data.length + ' bytes)');
-          res.write(data);
-        },
-        isStillGrowing: function () {
-          return (job.ecsStream != null);
-        },
-        endCallback: function () {
-          console.log('ECs temp file completed');
-          res.end();
-        }
+        onData: function (data) { res.write(data); },
+        isStillGrowing: function () { return (job.ecsStream != null); },
+        endCallback: function () { res.end(); }
       });
     } else {
-      console.log('Serving full result file');
       var jobDir = path.join(__dirname, '/../tmp/jobs/', rid.charAt(0), rid.charAt(1), rid);
-      if (!fs.existsSync(jobDir)) {
-        res.status(404);
-        res.end();
-        return;
-      }
+
       fs.readdir(jobDir, function (err, files) {
         if (err) {
-          res.status(500);
+          res.status(err.code == 'ENOENT' ? 404 : 500);
           return res.end();
         }
 
@@ -94,7 +79,7 @@ module.exports = function (app) {
 
   function startJob(req, res) {
     var jobID = req.params[0] || uuid.v1();
-    new Job(req, res, jobID, { resIsDeferred: req.params[0] ? true : false })._run();
+    new Job(req, res, jobID, { resIsDeferred: !!req.params[0] })._run();
   }
 
   /**
@@ -115,74 +100,4 @@ module.exports = function (app) {
     app.post('/', startJob);
     app.put(uuidRegExp, startJob);
   }
-
-  /**
-   * GET route on /datasets/
-   * Returns a list of all datasets
-   */
-  app.get(/^\/datasets(\/)?$/, function (req, res) {
-    res.type('application/json');
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
-
-    var fillTree = function (tree, rootFolder, folder) {
-      var absFolder = path.join(rootFolder, folder);
-      var files = fs.readdirSync(absFolder);
-      if (!files) {
-        res.status(500);
-        res.end();
-        return tree;
-      }
-
-      files.forEach(function (f) {
-        var file = path.join(folder, f);
-        var absFile = path.join(rootFolder, file);
-        var stats = fs.statSync(absFile);
-        if (!stats) {
-          return;
-        }
-        if (stats.isDirectory()) {
-          tree = fillTree(tree, rootFolder, file);
-        } else {
-          // only list log files (.log or .log.gz)
-          if (! /\.log$/.test(f) && ! /\.log\.gz$/.test(f)) {
-            return;
-          }
-          var size  = stats.size;
-          var unit  = '';
-          if (size < 1024) {
-            unit = 'octets';
-          } else if ((size /= 1024).toFixed(2) < 1024) {
-            unit = 'Ko';
-          } else if ((size /= 1024).toFixed(2) < 1024) {
-            unit = 'Mo';
-          } else if ((size /= 1024).toFixed(2) < 1024) {
-            unit = 'Go';
-          }
-          size = (Math.floor(size * 100) / 100) + ' ' + unit;
-          tree[f] = {
-            location: file,
-            size: size
-          };
-        }
-      });
-      return tree;
-    };
-    if (config.EZPAARSE_LOG_FOLDER) {
-      var rootFolder = path.join(__dirname, '..', config.EZPAARSE_LOG_FOLDER);
-      if (fs.existsSync(rootFolder)) {
-        var tree = {};
-        tree = fillTree(tree, rootFolder, '.');
-        res.status(200);
-        res.write(JSON.stringify(tree, null, 2));
-        res.end();
-      } else {
-        res.status(404);
-        res.end();
-      }
-    } else {
-      res.status(500);
-      res.end();
-    }
-  });
 };

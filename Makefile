@@ -13,7 +13,7 @@ DOC_OUTPUT=$(shell pwd)/public/doc
 DOC_HTML=$(DOC_OUTPUT)/index.html
 
 # Run every steps needed to start ezpaarse
-all: nodejs node-modules platforms-update exclusions-update resources-update doc checkconfig
+all: nodejs node-modules platforms-update exclusions-update resources-update doc hooks checkconfig
 
 # Application section
 # # # # # # # # # # # #
@@ -49,10 +49,7 @@ docopen: doc $(DOC_HMTL)
 # # # # # # # # #
 
 EZPATH = $(shell pwd)
-JSFILES=$(wildcard $(EZPATH)/*.js) $(wildcard $(EZPATH)/lib/*.js) $(wildcard $(EZPATH)/lib/*/*.js) $(wildcard $(EZPATH)/test/*.js)  $(wildcard $(EZPATH)/routes/*.js) $(wildcard $(EZPATH)/platforms/*/*.js $(EZPATH)/platforms/*/*/*.js)
-JSONFILES=$(wildcard $(EZPATH)/*.json) $(wildcard $(EZPATH)/platforms/*.json $(EZPATH)/platforms/*/*.json)
 PKBFILES=$(shell ls $(EZPATH)/platforms/*/pkb/*.txt | grep -v miss)
-
 
 ## Runs all tests (*-test.js) in the test folder except big and tdd
 test:
@@ -121,10 +118,11 @@ tdd-verbose:
 	else echo 'No test folder found'; \
 	fi
 
-jsonhint:
-	@. ./bin/env; jshint $(JSONFILES) --config .jsonhintrc
-jshint:
-	@. ./bin/env; jshint $(JSFILES) --config .jshintrc
+lint:
+	@. ./bin/env; npm run lint
+
+hooks:
+	@ln -s ../../../.git/hooks/pre-commit platforms/.git/hooks/pre-commit
 
 clean-tmp:
 	@rm -rf ./tmp/*
@@ -146,12 +144,14 @@ nodejs:
 	@test -f /usr/bin/git || sudo apt-get install --yes git
 	@./bin/buildnode
 
-node-modules: libs
+node-modules:
+	@. ./bin/env; npm install
 
-bower: libs
+bower:
+	@. ./bin/env; npm run bower
 
 libs:
-	@./bin/downloadlibs
+	@. ./bin/env; npm install
 
 # make deb v=0.0.3
 deb:

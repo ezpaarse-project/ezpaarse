@@ -18,50 +18,61 @@ module.exports = function (app) {
    */
   app.post('/feedback', bodyParser.urlencoded({ extended: true }), bodyParser.json(),
     function (req, res) {
-    if (!config.EZPAARSE_ADMIN_MAIL || !config.EZPAARSE_FEEDBACK_RECIPIENTS) {
-      res.status(500).end();
-      return;
-    }
+      if (!config.EZPAARSE_ADMIN_MAIL || !config.EZPAARSE_FEEDBACK_RECIPIENTS) {
+        res.status(500).end();
+        return;
+      }
 
-    res.header('Content-Type', 'application/json; charset=utf-8');
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'X-Requested-With');
+      res.header('Content-Type', 'application/json; charset=utf-8');
+      res.header('Access-Control-Allow-Origin', '*');
+      res.header('Access-Control-Allow-Headers', 'X-Requested-With');
 
-    var feedback = req.body;
+      var feedback = req.body;
 
-    if (!feedback || !feedback.comment) {
-      res.status(400).end();
-      return;
-    }
+      if (!feedback || !feedback.comment) {
+        res.status(400).end();
+        return;
+      }
 
-    var usermail;
-    if (req.user) {
-      usermail = req.user.username;
-    } else if (feedback.mail) {
-      usermail = feedback.mail;
-    }
+      var usermail;
+      if (req.user) {
+        usermail = req.user.username;
+      } else if (feedback.mail) {
+        usermail = feedback.mail;
+      }
 
-    var subject = '[ezPAARSE] Feedback ';
-    subject += usermail ? 'de ' + usermail : 'anonyme';
-    var text = "Utilisateur : " + (usermail ? usermail : "anonyme");
+      var subject = '[ezPAARSE] Feedback ';
+      subject += usermail ? 'de ' + usermail : 'anonyme';
+      var text = 'Utilisateur : ' + (usermail || 'anonyme');
 
-    if (feedback.browser) { text += '\nNavigateur : ' + feedback.browser; }
+      if (feedback.browser) { text += '\nNavigateur : ' + feedback.browser; }
 
-    text += '\nezPAARSE ' + pkg.version + ' / ' + os.platform() + ' ' + os.release();
-    text += ' (' + os.arch() + ')';
-    text += "\n===============================\n\n";
-    text += feedback.comment;
+      text += '\nezPAARSE ' + pkg.version + ' / ' + os.platform() + ' ' + os.release();
+      text += ' (' + os.arch() + ')';
+      text += '\n===============================\n\n';
+      text += feedback.comment;
 
-    var mail = mailer.mail();
-    mail.subject(subject)
+      var mail = mailer.mail();
+      mail.subject(subject)
         .text(text)
         .from(config.EZPAARSE_ADMIN_MAIL)
         .to(config.EZPAARSE_FEEDBACK_RECIPIENTS)
         .cc(feedback.mail);
 
-    if (feedback.report) {
-      mail.attach("report.json", feedback.report);
-    } else if (req.body.jobID) {
+      var sendMail = function () {
+        mail.send(function (error) {
+          if (error) { res.status(500).end(); }
+          else { res.status(200).end(); }
+        });
+      };
+
+      if (feedback.report) {
+        mail.attach('report.json', feedback.report);
+        return sendMail();
+      }
+
+      if (!req.body.jobID) { return sendMail(); }
+
       var jobID      = req.body.jobID;
       var reportFile = path.join(__dirname, '/../tmp/jobs/',
         jobID.charAt(0),
@@ -69,19 +80,13 @@ module.exports = function (app) {
         jobID,
         'report.json');
 
-      if (fs.existsSync(reportFile)) {
-        mail.attach("report.json", fs.readFileSync(reportFile).toString());
-      }
-    }
+      fs.readFile(reportFile, function (err, content) {
+        if (err && err.code !== 'ENOENT') { return res.status(500).end(); }
 
-    mail.send(function (error) {
-      if (error) {
-        res.status(500).end();
-      } else {
-        res.status(200).end();
-      }
+        mail.attach('report.json', content.toString());
+        sendMail();
+      });
     });
-  });
 
   /**
    * POST route on /feedback/freshinstall
@@ -89,39 +94,39 @@ module.exports = function (app) {
    */
   app.post('/feedback/freshinstall', bodyParser.urlencoded({ extended: true }), bodyParser.json(),
     function (req, res) {
-    if (!config.EZPAARSE_FEEDBACK_RECIPIENTS || !config.EZPAARSE_ADMIN_MAIL) {
-      res.status(500).end();
-      return;
-    }
+      if (!config.EZPAARSE_FEEDBACK_RECIPIENTS || !config.EZPAARSE_ADMIN_MAIL) {
+        res.status(500).end();
+        return;
+      }
 
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'X-Requested-With');
+      res.header('Access-Control-Allow-Origin', '*');
+      res.header('Access-Control-Allow-Headers', 'X-Requested-With');
 
-    if (!req.body.mail) {
-      res.status(400).end();
-      return;
-    }
+      if (!req.body.mail) {
+        res.status(400).end();
+        return;
+      }
 
-    git.exec('describe', function (err, stdout) {
+      git.exec('describe', function (err, stdout) {
 
-      var text = "Une nouvelle instance d'ezPAARSE vient d'être installée.";
-      text += "\n\nPremier compte : " + req.body.mail;
-      text += "\nPlateforme : " + os.platform() + ' ' + os.release() + ' (' + os.arch() + ')';
-      text += "\nVersion :";
-      text += "\n- package : " + pkg.version || 'inconnue';
-      text += "\n- git : " + (!err && stdout ? stdout : 'inconnue');
+        var text = 'Une nouvelle instance d\'ezPAARSE vient d\'être installée.';
+        text += '\n\nPremier compte : ' + req.body.mail;
+        text += '\nPlateforme : ' + os.platform() + ' ' + os.release() + ' (' + os.arch() + ')';
+        text += '\nVersion :';
+        text += '\n- package : ' + pkg.version || 'inconnue';
+        text += '\n- git : ' + (!err && stdout ? stdout : 'inconnue');
 
-      mailer.mail()
-      .subject('[ezPAARSE] Nouvelle installation')
-      .text(text)
-      .from(config.EZPAARSE_ADMIN_MAIL)
-      .to(config.EZPAARSE_FEEDBACK_RECIPIENTS)
-      .send(function (error, response) {
-        if (error) { res.status(500).end(); }
-        else       { res.status(200).end(); }
+        mailer.mail()
+        .subject('[ezPAARSE] Nouvelle installation')
+        .text(text)
+        .from(config.EZPAARSE_ADMIN_MAIL)
+        .to(config.EZPAARSE_FEEDBACK_RECIPIENTS)
+        .send(function (error, response) {
+          if (error) { res.status(500).end(); }
+          else       { res.status(200).end(); }
+        });
       });
     });
-  });
 
   /**
    * GET route on /feedback/status

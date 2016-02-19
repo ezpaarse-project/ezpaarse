@@ -1,4 +1,4 @@
-/* jshint maxlen: 260 */
+/* eslint max-len: 0 */
 /* global describe, it */
 'use strict';
 
@@ -19,9 +19,9 @@ describe('Alert', function () {
     var i = 0;
     while (i < 1100) {
       if (i % 8 === 0) { // write about 13% of www.unknowndomain.com
-        stream.write(unknownDomainLog + "\n");
+        stream.write(unknownDomainLog + '\n');
       } else {
-        stream.write(knownDomainLog + "\n");
+        stream.write(knownDomainLog + '\n');
       }
       i++;
     }
@@ -59,16 +59,16 @@ describe('Alert', function () {
     var i = 0;
     while (i < 1100) {
       if (i % 8 === 0) { // write about 13% of www.unknowndomain.com
-        stream.write(unknownDomainLog + "\n");
+        stream.write(unknownDomainLog + '\n');
       } else {
-        stream.write(knownDomainLog + "\n");
+        stream.write(knownDomainLog + '\n');
       }
       i++;
     }
     stream.end();
 
     // send the logs to ezPAARSE
-    helper.postPiped('/', { "Alerts-Unknown-Domains-Rate": 50 }, stream, function (err, res) {
+    helper.postPiped('/', { 'Alerts-Unknown-Domains-Rate': 50 }, stream, function (err, res) {
 
       res.should.have.status(200);
       res.headers.should.have.property('job-id');

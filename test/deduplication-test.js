@@ -1,4 +1,4 @@
-/*jshint maxlen: 130*/
+/*eslint max-len: 0*/
 /*global describe, it*/
 'use strict';
 
@@ -62,17 +62,18 @@ describe('The server', function () {
         if (err)  { throw err; }
         res.should.have.status(200);
 
-        var correctOutput = fs.readFileSync(sessionResultFile, 'UTF-8');
-        var correctJson   = JSON.parse(correctOutput);
-        var bodyJson      = JSON.parse(body);
+        fs.readFile(sessionResultFile, 'utf8', function (err, correctOutput) {
+          var correctJson   = JSON.parse(correctOutput);
+          var bodyJson      = JSON.parse(body);
 
-        correctJson.should.be.an.instanceOf(Array);
-        bodyJson.should.be.an.instanceOf(Array);
-        should.equal(bodyJson.length, correctJson.length);
-        should.ok(helpers.equalJSONList(bodyJson, correctJson, true, ['date', 'rtype', 'mime']),
-          'Server\'s answer do not match the intended result');
+          correctJson.should.be.an.instanceOf(Array);
+          bodyJson.should.be.an.instanceOf(Array);
+          should.equal(bodyJson.length, correctJson.length);
+          should.ok(helpers.equalJSONList(bodyJson, correctJson, true, ['date', 'rtype', 'mime']),
+            'Server\'s answer do not match the intended result');
 
-        done();
+          done();
+        });
       });
     });
   });
@@ -92,17 +93,18 @@ describe('The server', function () {
         if (err)  { throw err; }
         res.should.have.status(200);
 
-        var correctOutput = fs.readFileSync(loginResultFile, 'UTF-8');
-        var correctJson   = JSON.parse(correctOutput);
-        var bodyJson      = JSON.parse(body);
+        fs.readFile(loginResultFile, 'utf8', function (err, correctOutput) {
+          var correctJson   = JSON.parse(correctOutput);
+          var bodyJson      = JSON.parse(body);
 
-        correctJson.should.be.an.instanceOf(Array);
-        bodyJson.should.be.an.instanceOf(Array);
-        should.equal(bodyJson.length, correctJson.length);
-        should.ok(helpers.equalJSONList(bodyJson, correctJson, true, ['date', 'rtype', 'mime']),
-          'Server\'s answer do not match the intended result');
+          correctJson.should.be.an.instanceOf(Array);
+          bodyJson.should.be.an.instanceOf(Array);
+          should.equal(bodyJson.length, correctJson.length);
+          should.ok(helpers.equalJSONList(bodyJson, correctJson, true, ['date', 'rtype', 'mime']),
+            'Server\'s answer do not match the intended result');
 
-        done();
+          done();
+        });
       });
     });
   });
@@ -122,17 +124,18 @@ describe('The server', function () {
         if (err)  { throw err; }
         res.should.have.status(200);
 
-        var correctOutput = fs.readFileSync(ipResultFile, 'UTF-8');
-        var correctJson   = JSON.parse(correctOutput);
-        var bodyJson      = JSON.parse(body);
+        fs.readFile(ipResultFile, 'utf8', function (err, correctOutput) {
+          var correctJson   = JSON.parse(correctOutput);
+          var bodyJson      = JSON.parse(body);
 
-        correctJson.should.be.an.instanceOf(Array);
-        bodyJson.should.be.an.instanceOf(Array);
-        should.equal(bodyJson.length, correctJson.length);
-        should.ok(helpers.equalJSONList(bodyJson, correctJson, true, ['date', 'rtype', 'mime']),
-          'Server\'s answer do not match the intended result');
+          correctJson.should.be.an.instanceOf(Array);
+          bodyJson.should.be.an.instanceOf(Array);
+          should.equal(bodyJson.length, correctJson.length);
+          should.ok(helpers.equalJSONList(bodyJson, correctJson, true, ['date', 'rtype', 'mime']),
+            'Server\'s answer do not match the intended result');
 
-        done();
+          done();
+        });
       });
     });
   });
@@ -153,17 +156,18 @@ describe('The server', function () {
         if (err)  { throw err; }
         res.should.have.status(200);
 
-        var correctOutput = fs.readFileSync(manyclickResultFile, 'UTF-8');
-        var correctJson   = JSON.parse(correctOutput);
-        var bodyJson      = JSON.parse(body);
+        fs.readFile(manyclickResultFile, 'utf8', function (err, correctOutput) {
+          var correctJson   = JSON.parse(correctOutput);
+          var bodyJson      = JSON.parse(body);
 
-        correctJson.should.be.an.instanceOf(Array);
-        bodyJson.should.be.an.instanceOf(Array);
-        should.equal(bodyJson.length, correctJson.length);
-        should.ok(helpers.equalJSONList(bodyJson, correctJson, true, ['date', 'rtype', 'mime']),
-          'Server\'s answer do not match the intended result');
+          correctJson.should.be.an.instanceOf(Array);
+          bodyJson.should.be.an.instanceOf(Array);
+          should.equal(bodyJson.length, correctJson.length);
+          should.ok(helpers.equalJSONList(bodyJson, correctJson, true, ['date', 'rtype', 'mime']),
+            'Server\'s answer do not match the intended result');
 
-        done();
+          done();
+        });
       });
     });
   });
@@ -184,17 +188,18 @@ describe('The server', function () {
         if (err)  { throw err; }
         res.should.have.status(200);
 
-        var correctOutput = fs.readFileSync(manyclickResultFile2, 'UTF-8');
-        var correctJson   = JSON.parse(correctOutput);
-        var bodyJson      = JSON.parse(body);
+        fs.readFile(manyclickResultFile2, 'utf8', function (err, correctOutput) {
+          var correctJson   = JSON.parse(correctOutput);
+          var bodyJson      = JSON.parse(body);
 
-        correctJson.should.be.an.instanceOf(Array);
-        bodyJson.should.be.an.instanceOf(Array);
-        should.equal(bodyJson.length, correctJson.length);
-        should.ok(helpers.equalJSONList(bodyJson, correctJson, true, ['date', 'rtype', 'mime']),
-          'Server\'s answer do not match the intended result');
+          correctJson.should.be.an.instanceOf(Array);
+          bodyJson.should.be.an.instanceOf(Array);
+          should.equal(bodyJson.length, correctJson.length);
+          should.ok(helpers.equalJSONList(bodyJson, correctJson, true, ['date', 'rtype', 'mime']),
+            'Server\'s answer do not match the intended result');
 
-        done();
+          done();
+        });
       });
     });
   });
@@ -211,17 +216,18 @@ describe('The server', function () {
         if (err)  { throw err; }
         res.should.have.status(200);
 
-        var correctOutput = fs.readFileSync(mixedLoginResultFile, 'UTF-8');
-        var correctJson   = JSON.parse(correctOutput);
-        var bodyJson      = JSON.parse(body);
+        fs.readFile(mixedLoginResultFile, 'utf8', function (err, correctOutput) {
+          var correctJson   = JSON.parse(correctOutput);
+          var bodyJson      = JSON.parse(body);
 
-        correctJson.should.be.an.instanceOf(Array);
-        bodyJson.should.be.an.instanceOf(Array);
-        should.equal(bodyJson.length, correctJson.length);
-        should.ok(helpers.equalJSONList(bodyJson, correctJson, true,
-          ['timestamp', 'rtype', 'mime', 'unitid']),
-          'Server\'s answer do not match the intended result');
+          correctJson.should.be.an.instanceOf(Array);
+          bodyJson.should.be.an.instanceOf(Array);
+          should.equal(bodyJson.length, correctJson.length);
+          should.ok(helpers.equalJSONList(bodyJson, correctJson, true,
+            ['timestamp', 'rtype', 'mime', 'unitid']),
+            'Server\'s answer do not match the intended result');
 
+        });
         done();
       });
     });

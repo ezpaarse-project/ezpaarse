@@ -1,6 +1,5 @@
 // ##EZPAARSE
 
-/*jshint maxlen: 180*/
 'use strict';
 
 var fs         = require('graceful-fs');
@@ -10,6 +9,8 @@ var parserlist = require('../lib/parserlist.js');
 var git        = require('../lib/git-tools.js');
 var config     = require('../lib/config.js');
 var pkg        = require('../package.json');
+
+var statusCodes = require(path.join(__dirname, '/../statuscodes.json'));
 
 module.exports = function (app) {
 
@@ -54,8 +55,8 @@ module.exports = function (app) {
    * GET route on /info/platforms
    */
   app.get('/info/platforms', function (req, res) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'X-Requested-With');
 
     var status = req.query.status;
 
@@ -95,13 +96,13 @@ module.exports = function (app) {
         fs.readdir(pkbDir, function (err, files) {
           if (err && err.code != 'ENOENT') { return callback(err); }
 
-          files = files || [];
+          files = files || [];
           var dates = {};
 
           (function nextFile(cb) {
 
             var file = files.pop();
-            if (!file) { return cb(); }
+            if (!file) { return cb(); }
 
             var match = kbartReg.exec(file);
             if (!match) { return nextFile(cb); }
@@ -181,8 +182,8 @@ module.exports = function (app) {
    * GET route on /info/fields.json
    */
   app.get(/^\/info\/(fields|rid|mime|rtype)(?:\.json)?$/, function (req, res) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'X-Requested-With');
 
     var file = path.join(__dirname, '/../platforms/fields.json');
 
@@ -203,7 +204,7 @@ module.exports = function (app) {
       if (req.query.sort) {
         content.sort(function (a, b) {
           var comp = a.code < b.code ? -1 : 1;
-          if (req.query.sort === 'desc') { comp *= -1; }
+          if (req.query.sort === 'desc') { comp *= -1; }
           return comp;
         });
       }
@@ -217,8 +218,8 @@ module.exports = function (app) {
    */
   app.get('/info/config', function (req, res) {
     res.header('Content-Type', 'application/json; charset=utf-8');
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'X-Requested-With');
 
     var cfg = {};
     var fieldsToReturn = [
@@ -236,18 +237,10 @@ module.exports = function (app) {
    */
   app.get('/info/codes', function (req, res) {
     res.header('Content-Type', 'application/json; charset=utf-8');
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'X-Requested-With');
 
-    var file = path.join(__dirname, '/../statuscodes.json');
-    if (fs.existsSync(file)) {
-      var statusCodes = require(file);
-      res.status(200);
-      res.write(JSON.stringify(statusCodes, null, 2));
-    } else {
-      res.status(404);
-    }
-    res.end();
+    res.status(200).json(statusCodes);
   });
 
   /**
@@ -255,24 +248,16 @@ module.exports = function (app) {
    */
   app.get(/\/info\/codes\/([0-9]+)$/, function (req, res) {
     res.header('Content-Type', 'application/json; charset=utf-8');
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'X-Requested-With');
 
     var code = req.params[0];
-    var file = path.join(__dirname, '/../statuscodes.json');
-    if (fs.existsSync(file)) {
-      var statusCodes = require(file);
-      var status      = statusCodes[code];
-      if (status) {
-        res.status(200);
-        res.write(JSON.stringify(status, null, 2));
-      } else {
-        res.status(404);
-      }
+
+    if (statusCodes[code]) {
+      res.status(200).json(statusCodes[code]);
     } else {
-      res.status(404);
+      res.status(404).end();
     }
-    res.end();
   });
 
   /**
@@ -305,8 +290,8 @@ module.exports = function (app) {
         }
 
         res.header('Content-Type', 'application/json; charset=utf-8');
-        res.header("Access-Control-Allow-Origin", "*");
-        res.header("Access-Control-Allow-Headers", "X-Requested-With");
+        res.header('Access-Control-Allow-Origin', '*');
+        res.header('Access-Control-Allow-Headers', 'X-Requested-With');
         res.status(200).json(settings);
       });
     });
@@ -317,8 +302,8 @@ module.exports = function (app) {
    */
   app.get('/info/domains/unknown', function (req, res) {
     res.header('Content-Type', 'application/json; charset=utf-8');
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'X-Requested-With');
 
     fs.readFile(path.join(__dirname, '../domains.miss.csv'), function (err, data) {
       if (err) { return res.status(err.code == 'ENOENT' ? 404 : 500).end(); }
@@ -332,8 +317,8 @@ module.exports = function (app) {
    */
   app.get(/\/info\/domains\/([a-zA-Z0-9\-\.]+)/, function (req, res) {
     res.header('Content-Type', 'application/json; charset=utf-8');
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'X-Requested-With');
 
     var domain = req.params[0];
     var parser = parserlist.get(domain, false);

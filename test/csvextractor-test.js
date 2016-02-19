@@ -1,4 +1,4 @@
-/* jshint maxlen: 260 */
+/* eslint max-len: 0 */
 /* global describe, it */
 'use strict';
 
