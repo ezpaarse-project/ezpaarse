@@ -14,7 +14,7 @@ ezPAARSE is configured for using 5 enrichment middleware : crossref, elsevier, s
 
 ## Configuring crossref middleware call ##
 
-The crossref middleware use the doi found in the ECs to request metadatas
+The crossref middleware use the doi found in the ECs to request metadatas using the [node-crossref](https://www.npmjs.com/package/meta-doi) module.
 
 ### Headers ###
 **crossref-Enrich** : set to `true` to enable crossref enrichment. Enable by default.  
@@ -25,18 +25,36 @@ The crossref middleware use the doi found in the ECs to request metadatas
 
 ## Configuring elsevier middleware call ##
 
-The elsevier middleware use the pii found in the ECs to request metadatas.
+The elsevier middleware use the pii found in the ECs to request metadatas using the [node-elsevier](https://www.npmjs.com/package/meta-els) module.
 
 The elsevier middleware needs an APIkey (http://dev.elsevier.com/myapikey.html) to be configured in the EZPAARSE_ELS_APIKEY of the config.local.json file 
 
 ### Headers ###
-**elsevier-Enrich** : set to `true` to enable crossref enrichment. Enable by default.  
+**elsevier-Enrich** : set to `true` to enable crossref enrichment. Disabled by default.  
 **elsevier-TTL** : lifetime of cached documents, in seconds. Defaults to `7 days (3600 * 24 * 7)`.  
 **elsevier-Throttle** : minimum time to wait between queries, in milliseconds. Defaults to `500`.  
 
+## Configuring sudoc middleware call ##
+
+The sudoc middleware use the print_identifier found in the ECs to request metadatas using the [node-sudoc](https://www.npmjs.com/package/sudoc)
+
+### Headers ###
+**sudoc-Enrich** : set to `true` to enable crossref enrichment. Disabled by default.  
+**sudoc-TTL** : lifetime of cached documents, in seconds. Defaults to `7 days (3600 * 24 * 7)`.  
+
+
 ## Configuring HAL middleware call ##
+
+The HAL middleware use the hal-identifier found in the ECs to request metadatas using the [node-hal](https://www.npmjs.com/package/methal)
 
 ### Headers ###
 **HAL-Enrich** : set to `true` to enable HAL enrichment. Disable by default.  
 **HAL-TTL** : lifetime of cached documents, in seconds. Defaults to `7 days (3600 * 24 * 7)`.  
 **HAL-Throttle** : minimum time to wait between queries, in milliseconds. Defaults to `500`.  
+
+## Configuring ISTEX middleware call ##
+
+The ISTEX middleware use the istex-identifier found in the ECs to request metadatas using the [node-istex](hhttps://www.npmjs.com/package/node-istex)
+
+ISTEX middleware is automatically activated on ISTEX logs
+
