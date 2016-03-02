@@ -84,7 +84,7 @@
     "postinstall": "bower install",
     "bower": "bower install",
     "test": "export EZPAARSE_ENV=\"production\" ; export EZPAARSE_DEBUG_LEVEL=\"pkb\" ; make && make start && sleep 1 ; make test-pkb ; make test",
-    "lint": "eslint *.js lib/ test/ routes/ platforms/"
+    "lint": "eslint --no-ignore *.js lib/ test/ routes/ platforms/ platforms/.lib"
   },
   "config": {
     "ghooks": {
