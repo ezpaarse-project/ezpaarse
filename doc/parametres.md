@@ -57,6 +57,9 @@ Character map used for input. [(see supported encodings)](https://github.com/ash
 ### Response-Charset ###
 Character map used for output. [(see supported encodings)](https://github.com/ashtuchkin/iconv-lite#supported-encodings).
 
+### Max-Parse-Attempts ###
+Maximum number of lines that ezPAARSE will attempt to parse in order to check the log format.
+
 ### Clean-Only ###
 If set to `true`, ezPAARSE will just filter out the lines we are sure are irrelevant and output only the relevant ones.
 The goal when using this parameter is to reduce the size of the log file, if you need to store it for further treatment.

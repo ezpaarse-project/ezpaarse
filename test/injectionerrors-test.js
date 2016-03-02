@@ -5,33 +5,15 @@ var helpers = require('./helpers.js');
 var should  = require('should');
 var path    = require('path');
 
-var logFile               = path.resolve(__dirname, 'dataset/sd.mini.log');
-var gzipLogFile           = path.resolve(__dirname, 'dataset/sd.mini.log.gz');
-var wrongFirstLineLogFile = path.resolve(__dirname, 'dataset/sd.wrong-first-line.log');
+var logFile     = path.resolve(__dirname, 'dataset/sd.mini.log');
+var gzipLogFile = path.resolve(__dirname, 'dataset/sd.mini.log.gz');
 
 describe('The server', function () {
-  describe('receives a log file whose first line is incorrect', function () {
-    it('and sends back an empty body with an error 4003 (@01)', function (done) {
-      var headers = {};
-      helpers.post('/', wrongFirstLineLogFile, headers,
-      function (err, res, body) {
-        if (!res) { throw new Error('ezPAARSE is not running'); }
-        if (err)  { throw err; }
-        should.ok(body === '', 'The body is not empty');
-        res.should.have.status(400);
-        res.headers.should.have.property('ezpaarse-status');
-        res.headers.should.have.property('ezpaarse-status-message');
-        var status = res.headers['ezpaarse-status'];
-        status.should.equal('4003', 'ezPAARSE returned a wrong status header');
-        done();
-      });
-    });
-  });
   describe('receives a gzipped log file with no content-encoding', function () {
     it('and sends back an empty body with an error 4003 (@02)', function (done) {
       var headers = {};
-      helpers.post('/', gzipLogFile, headers,
-      function (err, res, body) {
+
+      helpers.post('/', gzipLogFile, headers, function (err, res, body) {
         if (!res) { throw new Error('ezPAARSE is not running'); }
         if (err)  { throw err; }
         should.ok(body === '', 'The body is not empty');
@@ -49,8 +31,8 @@ describe('The server', function () {
       var headers = {
         'content-encoding': 'gzip'
       };
-      helpers.post('/', logFile, headers,
-      function (err, res, body) {
+
+      helpers.post('/', logFile, headers, function (err, res, body) {
         if (!res) { throw new Error('ezPAARSE is not running'); }
         if (err)  { throw err; }
         should.ok(body === '', 'The body is not empty');
@@ -68,8 +50,8 @@ describe('The server', function () {
       var headers = {
         'content-encoding': 'unsupported/encoding'
       };
-      helpers.post('/', gzipLogFile, headers,
-      function (err, res, body) {
+
+      helpers.post('/', gzipLogFile, headers, function (err, res, body) {
         if (!res) { throw new Error('ezPAARSE is not running'); }
         if (err)  { throw err; }
         should.ok(body === '', 'The body is not empty');
@@ -87,8 +69,8 @@ describe('The server', function () {
       var headers = {
         'Anonymize-Host': 'unsupported/hash'
       };
-      helpers.post('/', logFile, headers,
-      function (err, res, body) {
+
+      helpers.post('/', logFile, headers, function (err, res, body) {
         if (!res) { throw new Error('ezPAARSE is not running'); }
         if (err)  { throw err; }
         should.ok(body === '', 'The body is not empty');
@@ -106,8 +88,8 @@ describe('The server', function () {
       var headers = {
         'Accept': 'unsupported/format'
       };
-      helpers.post('/', logFile, headers,
-      function (err, res, body) {
+
+      helpers.post('/', logFile, headers, function (err, res, body) {
         if (!res) { throw new Error('ezPAARSE is not running'); }
         if (err)  { throw err; }
         should.ok(body === '', 'The body is not empty');

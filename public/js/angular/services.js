@@ -290,6 +290,7 @@ angular.module('ezPAARSE.services', [])
           { category: 'format',         name: 'Log-Format-xxx',               anchor: 'log-format-xxx' },
           { category: 'format',         name: 'Date-Format',                  anchor: 'date-format' },
           { category: 'format',         name: 'Output-Fields',                anchor: 'output-fields' },
+          { category: 'format',         name: 'Max-Parse-Attempts',           anchor: 'max-parse-attempts' },
           { category: 'field-splitter', name: 'User-field[n]-src',            anchor: 'user-field-n-xxx' },
           { category: 'field-splitter', name: 'User-field[n]-sep',            anchor: 'user-field-n-xxx' },
           { category: 'field-splitter', name: 'User-field[n]-residual',       anchor: 'user-field-n-xxx' },
