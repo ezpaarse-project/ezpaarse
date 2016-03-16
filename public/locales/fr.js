@@ -306,6 +306,8 @@ ezLanguages['fr'] = {
   "admin+uptodate":                   "à jour",
   "admin+upward":                     "plus récent",
   "admin+users":                      "Utilisateurs",
+  "admin+user":                       "Utilisateur",
+  "admin+admin":                      "Administrateur",
   "admin+jobs":                       "Traitements en cours",
   "admin+current_jobs":               "Il y a <strong>{{ nbJobs }}</strong> traitement(s) en cours",
   "admin+jobs_error":                 "La liste des traitements en cours n'a pas pu être récupérée.",

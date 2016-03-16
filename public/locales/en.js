@@ -306,6 +306,8 @@ ezLanguages['en'] = {
   "admin+uptodate":                   "up-to-date",
   "admin+upward":                     "newer",
   "admin+users":                      "Users",
+  "admin+user":                       "User",
+  "admin+admin":                      "Administrator",
   "admin+jobs":                       "Current processes",
   "admin+current_jobs":               "There are <strong>{{ nbJobs }}</strong> ongoing processes.",
   "admin+jobs_error":                 "The list of ongoing processes could not be retrieved.",

@@ -174,7 +174,7 @@ angular.module('ezPAARSE.admin-controllers', [])
   .controller('AdminUsersCtrl', function ($scope, $http) {
     var adm = $scope.adm;
 
-    adm.credentials  = {};
+    adm.credentials  = { group: 'user' };
     adm.changed      = {};
     adm.loadingUsers = true;
 

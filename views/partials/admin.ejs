@@ -222,7 +222,10 @@
                   <input type="text" placeholder="{{ 'admin+email' | translate }}" ng-model="adm.credentials.userid">
                 </div>
                 <div class="field">
-                  <input type="text" placeholder="{{ 'admin+group' | translate }}" ng-model="adm.credentials.group">
+                  <select ng-model="adm.credentials.group">
+                    <option value="user" translate>admin+user</option>
+                    <option value="admin" translate>admin+admin</option>
+                  </select>
                 </div>
                 <div class="field">
                   <input type="password" placeholder="{{ 'admin+password' | translate }}" ng-model="adm.credentials.password">
@@ -254,9 +257,10 @@
                         </div>
                       </div>
                       <div class="field">
-                        <div class="ui input">
-                          <input type="text" placeholder="{{ 'admin+group' | translate }}" ng-model="adm.changed[user.username].group">
-                        </div>
+                        <select ng-model="adm.changed[user.username].group">
+                          <option value="user" translate>admin+user</option>
+                          <option value="admin" translate>admin+admin</option>
+                        </select>
                       </div>
                     </div>
 
@@ -272,7 +276,7 @@
                 </td>
 
                 <td ng-hide="adm.changed[user.username]">{{ user.username }}</td>
-                <td ng-hide="adm.changed[user.username]">{{ user.group }}</td>
+                <td ng-hide="adm.changed[user.username]">{{ 'admin+' + user.group | translate }}</td>
               </tr>
             </table>
           </div>
