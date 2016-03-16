@@ -17,13 +17,12 @@ var cfgFilename     = 'manifest.json';
 
 var platforms       = fs.readdirSync(platformsFolder);
 
-function testFiles(files, platformName, parserFile, done) {
+function testFiles(files, parserFile, done) {
 
   var test = exec(parserFile);
   test.on('exit', function (code) {
-    assert.ok(code !== 126, 'Platform ' + platformName + ' : the parser is not executable');
-    assert.ok(code === 0, 'Platform ' + platformName
-      + ' : the parser exited with code ' + code);
+    assert.ok(code !== 126, 'the parser is not executable');
+    assert.ok(code === 0, 'the parser exited with code ' + code);
 
     csvextractor.extract(files, { silent: true }, function (err, records) {
       assert.ok(err === null);
@@ -53,7 +52,10 @@ function testFiles(files, platformName, parserFile, done) {
         .map(function (line) {
           var parsedLine = JSON.parse(line);
           should.ok(helpers.equals(parsedLine, record.out, true),
-            'result does not match\nresult: ' + line + '\nexpected: ' + JSON.stringify(record.out));
+            `result does not match
+            input: ${JSON.stringify(record.in, null, 2)}
+            result: ${JSON.stringify(parsedLine, null, 2)}
+            expected: ${JSON.stringify(record.out, null, 2)}`);
           record = records.pop();
           if (record) {
             assert(record.in.url, 'some entries in the test file have no URL');
@@ -124,7 +126,7 @@ function fetchPlatform(platform) {
           }
         }
         should.ok(csvFiles.length > 0, 'no test file');
-        testFiles(csvFiles, platform, parserFile, done);
+        testFiles(csvFiles, parserFile, done);
       });
 
     });
