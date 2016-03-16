@@ -72,6 +72,7 @@ exports.postPiped = function (path, headers, stream, callback) {
  * @return {Object}     a datified EC
  */
 exports.datify = function (ec) {
+  if (!ec) { return; }
   if (ec.datetime) { ec.datetime = moment(ec.datetime).unix(); }
   delete ec.date;
   return ec;
