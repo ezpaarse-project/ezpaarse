@@ -153,6 +153,7 @@ module.exports = function (app) {
         userlist.add({
           username: userid,
           password: cryptedPassword,
+          group: group,
           createdAt: new Date()
         }, function (err, user) {
 
