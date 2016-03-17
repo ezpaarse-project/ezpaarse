@@ -22,11 +22,10 @@ Format of the log lines in input, depend on the proxy *xxx* used. [See the avail
 ### Date-Format ###
 Date format used in the logs sent. Default is : 'DD/MMM/YYYY:HH:mm:ss Z'.  
 
-### Anonymize-host ###
-Anonymizes the values found as 'host' in the logfile. By default : 'none'. *(supported : md5, none)*
+### Crypted-Fields ###
+Comma-separated list of fields that will be crypted in the results, or `none` to disable crypting. Defaults to `host,login`.
 
-### Anonymize-login ###
-Anynymizes the values found as 'login' in the logfile. By default : 'none'. *(supported : md5, none)*
+**Caution**: each job uses a random salt for crypting, so crypted values from different jobs are not comparable.
 
 ### Output-Fields ###
 To specify the fields to include in the output (if the format allows it). [(More information)](./outputfields.html)  
@@ -65,12 +64,12 @@ If set to `true`, ezPAARSE will just filter out the lines we are sure are irrele
 The goal when using this parameter is to reduce the size of the log file, if you need to store it for further treatment.
 
 ### Force-Parser ###
-If URLs don't have 'domain' part, use this parameter to force right parser to be used. Usefull for Open Access log analysis which don't have domain part in URL (all URLs comes form the same domain). 
-For example : Force-Parser: 'dspace'. 
+If URLs don't have 'domain' part, use this parameter to force right parser to be used. Usefull for Open Access log analysis which don't have domain part in URL (all URLs comes form the same domain).
+For example : Force-Parser: 'dspace'.
 Can be use in conjonction with Force-ECField-Publisher.
 
 ### COUNTER-Reports ###
-List of COUNTER reports to create (ex: JR1, BR2). Download links are accessible in the `stats` section of the treatment report. [(More information)](./counter.html) 
+List of COUNTER reports to create (ex: JR1, BR2). Download links are accessible in the `stats` section of the treatment report. [(More information)](./counter.html)
 
 ### COUNTER-Format ###
 COUNTER report formats : `XML` (by default) ou `CSV`.  
@@ -104,5 +103,5 @@ Set to `all` to disable all above filters.
 **NB**: when robots are not filtered, add the `robot` field to the output in order to know which consultations were made by robots.
 
 ### Force-ECField-Publisher ###
-Set the publisher_name field to a predefined value. 
+Set the publisher_name field to a predefined value.
 For example : Force-ECField-Publisher: 'IRevues'.

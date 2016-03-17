@@ -64,25 +64,6 @@ describe('The server', function () {
       });
     });
   });
-  describe('receives a log file with an unsupported hash for anonymization', function () {
-    it('and sends back an empty body with an error 4004 (@05)', function (done) {
-      var headers = {
-        'Anonymize-Host': 'unsupported/hash'
-      };
-
-      helpers.post('/', logFile, headers, function (err, res, body) {
-        if (!res) { throw new Error('ezPAARSE is not running'); }
-        if (err)  { throw err; }
-        should.ok(body === '', 'The body is not empty');
-        res.should.have.status(400);
-        res.headers.should.have.property('ezpaarse-status');
-        res.headers.should.have.property('ezpaarse-status-message');
-        var status = res.headers['ezpaarse-status'];
-        status.should.equal('4004', 'ezPAARSE returned a wrong status header');
-        done();
-      });
-    });
-  });
   describe('receives a log file with an unsupported output format requested', function () {
     it('and sends back an empty body with an error 4006 (@06)', function (done) {
       var headers = {

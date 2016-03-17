@@ -13,6 +13,7 @@ describe('The server', function () {
         function (done) {
           var headers = {
             'Accept'             : 'text/csv',
+            'Crypted-Fields'     : 'disabled',
             'Log-Format-ezproxy' : '%u %{col1}<[0-9]+> %t "%r" %{col2}<[A-Z]+>'
           };
           helpers.post('/', logFile, headers, function (err, res, body) {
@@ -41,6 +42,7 @@ describe('The server', function () {
         function (done) {
           var headers = {
             'Accept'             : 'text/csv',
+            'Crypted-Fields'     : 'disabled',
             'Log-Format-ezproxy' : '%u %{col1}<[0-9]+> %t "%r" %{col2}<[A-Z]+>',
             'Output-Fields'      : '-url,+newCol'
           };

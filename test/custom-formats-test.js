@@ -50,7 +50,6 @@ function check(testSet, formatHeader, callback) {
 
   var headers = {
     'Accept': 'application/json',
-    'Anonymize-host': 'md5',
     'Double-Click-Removal': 'false',
     'ezPAARSE-enrich': 'false'
   };

@@ -16,7 +16,7 @@ describe('The server', function () {
       var headers = {
         'Accept'              : 'text/csv',
         'Content-encoding'    : 'gzip',
-        'Anonymize-host'      : 'md5',
+        'Crypted-Fields'      : 'disabled',
         'Double-Click-Removal': 'false'
       };
 

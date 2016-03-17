@@ -14,7 +14,7 @@ describe('The server', function () {
     it('and sends back a well formatted output file (@01)', function (done) {
       var headers = {
         'Accept'              : 'application/json',
-        'Anonymize-host'      : 'md5',
+        'Crypted-Fields'      : 'disabled',
         'Double-Click-Removal': false
       };
       helpers.post('/', logFile, headers, function (err, res, body) {

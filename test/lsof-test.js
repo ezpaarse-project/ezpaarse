@@ -15,14 +15,7 @@ describe('ezPAARSE processes', function () {
   describe('a basic log file', function () {
     it('should have closed all the used file descriptors (@00)', function (done) {
       var log = path.resolve(__dirname, '/dataset/sd.mini.log');
-      processLogAndTestLsof(log, { }, done);
-    });
-  });
-
-  describe('a log file with an unsupported hash for anonymization', function () {
-    it('should have closed all the used file descriptors (@01)', function (done) {
-      var log = path.resolve(__dirname, '/dataset/sd.mini.log');
-      processLogAndTestLsof(log, { 'Anonymize-Host': 'unsupported/hash' }, done);
+      processLogAndTestLsof(log, {}, done);
     });
   });
 

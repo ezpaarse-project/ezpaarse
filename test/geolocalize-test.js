@@ -20,7 +20,6 @@ describe('The server', function () {
         res.should.have.status(200);
 
         var result = JSON.parse(body);
-        result[0].should.have.property('geoip-country');
         result[0]['geoip-country'].should.equal('US');
         result[0]['geoip-region'].should.equal('NY');
         done();
@@ -40,8 +39,7 @@ describe('The server', function () {
 
         var result = JSON.parse(body);
         result[0].should.not.have.property('geoip-country');
-        result[0].should.have.property('host');
-        result[0]['host'].should.equal('66.65.65.107');
+        result[0].should.not.have.property('geoip-region');
         done();
       });
     });
