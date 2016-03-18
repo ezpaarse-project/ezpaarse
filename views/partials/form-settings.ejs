@@ -1,5 +1,5 @@
       <div class="ui two column grid">
-        <div class="column">
+        <div class="fifteen wide column">
           <div ng-hide="ss.predefined"><i class="large loading spinner icon"></i> {{ 'settings+loading_predefined' | translate }}</div>
           <div ng-show="ss.predefined">
             <select chosen ng-model="predefined" ng-change="ss.defineSettings(predefined)" data-placeholder="{{ 'settings+predefined_choice' | translate }}" no-results-text="'{{ 'settings+no_result_for' | translate }}'" allow-single-deselect="true" ng-options="key as (val.country + ' - ' + val.fullName) for (key, val) in ss.predefined">
@@ -8,7 +8,7 @@
           </div>
         </div>
 
-        <div class="right aligned column">
+        <div class="right aligned one wide column">
           <i class="big help link icon" ng-class="{true: 'black', false: 'teal'}[showHelp]" ng-click="toggleHelp()"></i>
         </div>
       </div>
