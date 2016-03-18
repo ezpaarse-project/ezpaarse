@@ -85,12 +85,12 @@
             <div class="inline-labels field">
               <div class="ui purple normalized label" ng-repeat="field in ss.settings.outputFields.minus track by $index">
                 - {{ field }}
-                <i class="delete icon" ng-click="removeOutputField(field, 'minus')"></i>
+                <i class="delete icon" ng-click="ss.removeOutputField(field, 'minus')"></i>
               </div>
 
               <div class="ui orange normalized label" ng-repeat="field in ss.settings.outputFields.plus track by $index">
                 + {{ field }}
-                <i class="delete icon" ng-click="removeOutputField(field, 'plus')"></i>
+                <i class="delete icon" ng-click="ss.removeOutputField(field, 'plus')"></i>
               </div>
             </div>
 
@@ -115,6 +115,27 @@
                 </div>
               </div>
             </div>
+          </div>
+
+          <div class="field">
+            <label translate>settings+crypted_fields</label>
+            <div class="field">
+              <form ng-submit="addCryptedField()">
+                <div class="ui icon input">
+                  <input type="text" placeholder="{{ 'settings+crypted_fields_add' | translate }}" ng-model="$parent.cryptedField">
+                  <i class="plus link icon" ng-click="addCryptedField()"></i>
+                </div>
+              </form>
+            </div>
+
+            <div class="inline-labels field">
+              <div class="ui blue normalized label" ng-repeat="field in ss.settings.cryptedFields track by $index">
+                {{ field }}
+                <i class="delete icon" ng-click="ss.removeCryptedField(field)"></i>
+              </div>
+            </div>
+
+            <div ng-show="showHelp" class="ui inverted red segment" translate>settings+crypted_fields_help</div>
           </div>
         </div>
 

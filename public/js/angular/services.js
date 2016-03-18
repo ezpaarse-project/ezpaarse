@@ -328,6 +328,7 @@ angular.module('ezPAARSE.services', [])
       this.defaults = {
         counter: { jr1: false },
         outputFields: { plus: [], minus: [] },
+        cryptedFields: ['host', 'login'],
         customHeaders: [],
         notificationMails: "",
         headers: {
@@ -404,6 +405,14 @@ angular.module('ezPAARSE.services', [])
         headers['ezPAARSE-Job-Notifications'] = notifications.replace(/,$/, '');
       }
 
+      if (settings.cryptedFields) {
+        if (settings.cryptedFields.length) {
+          headers['Crypted-Fields'] = settings.cryptedFields.join(',');
+        } else {
+          headers['Crypted-Fields'] = 'none';
+        }
+      }
+
       // Create Output-Fields headers
       if (settings.outputFields) {
         var outputFields = '';
@@ -461,6 +470,23 @@ angular.module('ezPAARSE.services', [])
         if (index !== -1) {
           this.settings.outputFields[type].splice(index, 1);
         }
+      }
+    };
+    /**
+     * Add a crypted field
+     * @param {String} name name of the field
+     */
+    settingService.prototype.addCryptedField = function (name) {
+      this.settings.cryptedFields.push(name);
+    };
+    /**
+     * Remove an output field
+     * @param  {Integer} index index in the array
+     */
+    settingService.prototype.removeCryptedField = function (name) {
+      var index = this.settings.cryptedFields.indexOf(name);
+      if (index !== -1) {
+        this.settings.cryptedFields.splice(index, 1);
       }
     };
 

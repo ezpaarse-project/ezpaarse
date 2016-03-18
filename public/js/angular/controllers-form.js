@@ -26,6 +26,12 @@ angular.module('ezPAARSE.form-controllers', [])
       $location.search('tab', type);
     };
 
+    $scope.addCryptedField = function () {
+      if ($scope.cryptedField) {
+        settingService.addCryptedField($scope.cryptedField);
+        $scope.cryptedField = '';
+      }
+    };
     $scope.addOutputField = function (type) {
       var input = (type == 'plus') ? 'plusField' : 'minusField';
 
@@ -33,9 +39,6 @@ angular.module('ezPAARSE.form-controllers', [])
         settingService.addOutputField($scope[input], type);
         $scope[input] = '';
       }
-    };
-    $scope.removeOutputField = function (name, type) {
-      settingService.removeOutputField(name, type);
     };
 
     var updateTotalSize = function () {
