@@ -141,21 +141,24 @@ cat monfichier.csv | ./bin/csvextractor
 Usage:
 ```
 Parse a csv source into json.
-  Usage: node csvextractor [-sc] [-f string | -d string | -k string]
+  Usage: csvextractor [-sc] [-f string | -d string | -k string] [--no-header]
 
 Options:
-  --file, -f    A csv file to parse. If absent, will read from standard input.                  
-  --fields, -d  A list of fields to extract. Default extract all fields. (Ex: --fields issn,pid)
-  --key, -k     If provided, the matching field will be used as a key in the resulting json.    
-  --silent, -s  If provided, empty values or unexisting fields won't be showed in the results.  
-  --csv, -c     If provided, the result will be a csv.                                          
+  --file, -f          A csv file to parse. If absent, will read from standard input.
+  --fields, -d        A list of fields to extract. Default extract all fields. (Ex: --fields issn,pid)
+  --key, -k           If provided, the matching field will be used as a key in the resulting json.
+  --silent, -s        If provided, empty values or unexisting fields won't be showed in the results.
+  --csv, -c           If provided, the result will be a csv.
+  --json, -j          If provided, the result will be a JSON.
+  --jsonstream, --js  If provided, the result will be a JSON stream (one JSON per line).
+  --noheader          If provided, the result won't have a header line. (if csv output)
 ```
 
 This command is useful for testing the parser directly from the test file by extracting the URL column of the file.
 
 Example (parser test):
 ```bash
-cat ./test/npg.2013-01-16.csv | ../../bin/csvextractor --fields='url' -c | ./parser.js 
+cat ./test/npg.2013-01-16.csv | ../../bin/csvextractor --fields='url' -c --noheader | ./parser.js 
 ```
 
 ## csvtotalizer
