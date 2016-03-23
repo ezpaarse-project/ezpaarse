@@ -1,7 +1,5 @@
-# Knowledge Bases #
-
 ## What is a knowledge base? ##
-A **PKB** (read _Publisher Knowledge Base_) is a list making the link between normaized metadata (eg. ISSN, DOI, journal title, etc.) and proprietary resource identifier used by a vendor. 
+A **PKB** (read _Publisher Knowledge Base_) is a list making the link between normaized metadata (eg. ISSN, DOI, journal title, etc.) and proprietary resource identifier used by a vendor.
 
 A **PKB** is composed of one or more [tab separed value](http://en.wikipedia.org/wiki/Tab-separated_values) text files and conform to the [KBART format](http://www.niso.org/workrooms/kbart)
 
