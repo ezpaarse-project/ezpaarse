@@ -152,7 +152,7 @@ The various sections are documented here.
     </tr><tr>
       <th class="four wide">nb-lines-pkb-miss-ecs</th>
       <td>2107
-        <div class="comment">Number of lines with unknwon vendors identifiers</div>
+        <div class="comment">Number of lines with unknown vendors identifiers</div>
       </td>
     </tr><tr>
       <th class="four wide">nb-lines-unknown-domains</th>
@@ -192,7 +192,7 @@ The various sections are documented here.
     </tr><tr>
       <th class="four wide">url-unknown-domains</th>
       <td><a target="_blank" href="http://localhost:59599/6f601540-f555-11e3-b477-758199fa5dc1/lines-unknown-domains.log">http://localhost:59599/6f601540-f555-11e3-b477-758199fa5dc1/lines-unknown-domains.log</a>
-        <div class="comment">URL to the file containing the lines with an ignored domain</div>
+        <div class="comment">URL to the file containing the lines with an unknwon domain (ie no parser has been triggered by ezPAARSE)</div>
       </td>
     </tr><tr>
       <th class="four wide">url-unknown-formats</th>
