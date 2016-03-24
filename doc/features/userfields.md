@@ -1,4 +1,4 @@
-### User-fields headers ###
+### Field splitter ###
 
 The user-fields headers can extract user data from a specified log field and explode it in other fields, thanks to regular expressions.
 They can be specified with <span style="color: blue">numbered header blocks</span> *(in blue the editable zones)* like follows :

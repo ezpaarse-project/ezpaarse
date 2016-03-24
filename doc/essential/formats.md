@@ -1,12 +1,11 @@
-# Log formats #
+# Set your log format #
 ezPAARSE allows its users to specify their proxy log format by using the HTTP header *Log-Format-xxx*, where *xxx* is the name of the proxy.
 
 The different syntaxes mirror those used by the proxy. It is thus often as easy as copying and pasting the format found in the proxy configuration. Beware though, **settings are not included in their entirety.**
 
-
 ## EZProxy syntax ##
 
-- %h : host IP, from where the request originates 
+- %h : host IP, from where the request originates
 - %u : login used during authentication
 - %l : distant user name, obtained with identd (always "-")
 - %b : bytes transfered
@@ -54,7 +53,7 @@ Each of the above parameters is converted into a regular expression:
 - %>Hs : HTTP request status code for the request
 - %<st : response size (headers included).
 - %rm  : request method *(e.g. GET, POST)*.
-- %rv  : protocol version number 
+- %rv  : protocol version number
 - %ru  : requested URL *(e.g. http://www.somedb.com/)*.
 - %[un : login used to authenticate
 - %Sh  : squid hierarchical status *(DEFAULT_PARENT, ..)*.
@@ -75,32 +74,36 @@ There are three ways of expressing a parameter:
 ### Some examples of specific fields ###
 
 <table>
-  <tr>
-    <th>Field</th>
-    <th style="text-align:left;">Forms</th>
-    <th>Format</th>
-  </tr>
-  <tr>
-    <td>%{X-FORWARDED-FOR}i</td>
-    <td><span style="color: red">61.117.43.242</span>
-      <br /><span style="color: green">209.85.238.58, 10.0.0.99</span>
-    </td>
-    <td>%{X-FORWARDED-FOR}&lt;[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}(?:, [0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3})\*&gt;</td>
-  </tr>
-  <tr>
-    <td>%{ezproxy-groups}i</td>
-    <td><span style="color: red">Default+inpl</span>
-      <br /><span style="color: green">Default+915</span></td>
-    <td>%{ezproxy-groups}&lt;[a-zA-Z0-9\\+]+&gt;</td>
-  </tr>
-  <tr>
-    <td>%{ezproxy-session}i</td>
-    <td><span style="color: red">pvJ0HWGo6eWhhVv</span>
-      <br /><span style="color: green">UX0Yi0agVZQwHNs</span></td>
-    <td>%{ezproxy-session}
-      <br />**or**
-      <br />%{ezproxy-session}&lt;[a-zA-Z0-9]+&gt;</td>
-  </tr>
+  <thead>
+    <tr>
+      <th>Field</th>
+      <th style="text-align:left;">Forms</th>
+      <th>Format</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>%{X-FORWARDED-FOR}i</td>
+      <td><span style="color: red">61.117.43.242</span>
+        <br /><span style="color: green">209.85.238.58, 10.0.0.99</span>
+      </td>
+      <td>%{X-FORWARDED-FOR}&lt;[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}(?:, [0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3}\\.[0-9]{1,3})\*&gt;</td>
+    </tr>
+    <tr>
+      <td>%{ezproxy-groups}i</td>
+      <td><span style="color: red">Default+inpl</span>
+        <br /><span style="color: green">Default+915</span></td>
+      <td>%{ezproxy-groups}&lt;[a-zA-Z0-9\\+]+&gt;</td>
+    </tr>
+    <tr>
+      <td>%{ezproxy-session}i</td>
+      <td><span style="color: red">pvJ0HWGo6eWhhVv</span>
+        <br /><span style="color: green">UX0Yi0agVZQwHNs</span></td>
+      <td>%{ezproxy-session}
+        <br />**or**
+        <br />%{ezproxy-session}&lt;[a-zA-Z0-9]+&gt;</td>
+    </tr>
+  </tbody>
 </table>
 
 ### Example of a request ###
@@ -111,33 +114,37 @@ curl -X POST --proxy "" --no-buffer -H 'Log-Format-ezproxy: %h %<[-]> %u [%t] "%
 ### Some concrete cases ###
 
 <table>
-  <tr>
-    <th>Proxy</th>
-    <th style="text-align:left;">Line type</th>
-    <th>Possible format</th>
-  </tr>
-  <tr>
-    <td rowspan="2">EZproxy</td>
-    <td>80.80.80.80 - oBzrStkEVAeUDeA [20/Nov/2011:17:45:50 +0100] "GET http://www.sciencedirect.com:80/science/journal/aip/00121606 HTTP/1.1" 200 162009</td>
-    <td>%h %l %u %t "%r" %s %b</td>
-  </tr>
-  <tr>
-    <td>[18/Nov/2012:00:00:34 +0100] 40.30.25.122 40.30.25.122 5mpcyan6 http://link.springer.com:80/article/10.1007/s00262-008-0620-4/fulltext.html 116636 liV9RqGobWNKrdD</td>
-    <td>%t %h %u %U %b %{session}</td>
-  </tr>
-  <tr>
-    <td>Apache</td>
-    <td>50.50.50.50 - uid=aaa2561c,ou=people,dc=uep-tlfy,dc=fr [27/Mar/2012:06:52:44 +0200] "GET /http/www.sciencedirect.com/science/article/pii/S1875389212003823 HTTP/1.1" 200 45022 "-" "Mozilla/5.0 (Windows NT 5.1) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.79 Safari/535.11"
-    </td>
-    <td>%h %l %u %t "%r" %&gt;s %b %&lt;.\*&gt;</td>
-  </tr>
-  <tr>
-    <td rowspan="2">Squid</td>
-    <td>1319061710.284   2102 90.90.90.90 TCP_MISS/200 309401 GET http://www.sciencedirect.com/science/article/pii/S0166218X11003477 cousteau DIRECT/198.81.200.2 text/html</td>
-    <td>%ts.%03tu %6tr %>a %Ss/%03&gt;Hs %&lt;st %rm %ru %[un %Sh/%&lt;a %mt</td>
-  </tr>
-  <tr>
-    <td>istproxy.inrialpes.fr:443 123.123.123.123 - tartempion [10/Apr/2012:09:38:21 +0200] "GET http://www.sciencedirect.com/science/article/pii/S0166218X11003477 HTTP/1.1" 302 20 "-" "Mozilla/5.0 (Windows NT 6.1; rv:11.0) Gecko/20100101 Firefox/11.0"</td>
-    <td>%&lt;A:%lp %&gt;a %ui %[un [%tl] "%rm %ru HTTP/%rv" %&gt;Hs %&lt;st %&lt;.\*&gt;</td>
-  </tr>
+  <thead>
+    <tr>
+      <th>Proxy</th>
+      <th style="text-align:left;">Line type</th>
+      <th>Possible format</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td rowspan="2">EZproxy</td>
+      <td>80.80.80.80 - oBzrStkEVAeUDeA [20/Nov/2011:17:45:50 +0100] "GET http://www.sciencedirect.com:80/science/journal/aip/00121606 HTTP/1.1" 200 162009</td>
+      <td>%h %l %u %t "%r" %s %b</td>
+    </tr>
+    <tr>
+      <td>[18/Nov/2012:00:00:34 +0100] 40.30.25.122 40.30.25.122 5mpcyan6 http://link.springer.com:80/article/10.1007/s00262-008-0620-4/fulltext.html 116636 liV9RqGobWNKrdD</td>
+      <td>%t %h %u %U %b %{session}</td>
+    </tr>
+    <tr>
+      <td>Apache</td>
+      <td>50.50.50.50 - uid=aaa2561c,ou=people,dc=uep-tlfy,dc=fr [27/Mar/2012:06:52:44 +0200] "GET /http/www.sciencedirect.com/science/article/pii/S1875389212003823 HTTP/1.1" 200 45022 "-" "Mozilla/5.0 (Windows NT 5.1) AppleWebKit/535.11 (KHTML, like Gecko) Chrome/17.0.963.79 Safari/535.11"
+      </td>
+      <td>%h %l %u %t "%r" %&gt;s %b %&lt;.\*&gt;</td>
+    </tr>
+    <tr>
+      <td rowspan="2">Squid</td>
+      <td>1319061710.284   2102 90.90.90.90 TCP_MISS/200 309401 GET http://www.sciencedirect.com/science/article/pii/S0166218X11003477 cousteau DIRECT/198.81.200.2 text/html</td>
+      <td>%ts.%03tu %6tr %>a %Ss/%03&gt;Hs %&lt;st %rm %ru %[un %Sh/%&lt;a %mt</td>
+    </tr>
+    <tr>
+      <td>istproxy.inrialpes.fr:443 123.123.123.123 - tartempion [10/Apr/2012:09:38:21 +0200] "GET http://www.sciencedirect.com/science/article/pii/S0166218X11003477 HTTP/1.1" 302 20 "-" "Mozilla/5.0 (Windows NT 6.1; rv:11.0) Gecko/20100101 Firefox/11.0"</td>
+      <td>%&lt;A:%lp %&gt;a %ui %[un [%tl] "%rm %ru HTTP/%rv" %&gt;Hs %&lt;st %&lt;.\*&gt;</td>
+    </tr>
+  </tbody>
 </table>

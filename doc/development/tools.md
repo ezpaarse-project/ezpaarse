@@ -1,4 +1,4 @@
-# Tools #
+# Ecosystem #
 
 
 ## platform-init
@@ -49,7 +49,7 @@ Example:
 scrape sd cbo # launches the scrapers for SD (ScienceDirect) and CBO
 scrape -al    # lists all the existing scrapers without launching them
 ```
-  
+
 ## loginjector
 
 Stream a log file to a local instance of ezPAARSE.
@@ -158,7 +158,7 @@ This command is useful for testing the parser directly from the test file by ext
 
 Example (parser test):
 ```bash
-cat ./test/npg.2013-01-16.csv | ../../bin/csvextractor --fields='url' -c --noheader | ./parser.js 
+cat ./test/npg.2013-01-16.csv | ../../bin/csvextractor --fields='url' -c --noheader | ./parser.js
 ```
 
 ## csvtotalizer
@@ -303,7 +303,7 @@ Enrich a csv result file containing a host name with the geolocation of the IP a
 
 Example:
 ```bash
-./hostlocalize -f ezpaarsedata.csv > ezpaarsedatalocalised.csv 
+./hostlocalize -f ezpaarsedata.csv > ezpaarsedatalocalised.csv
 ```
 The input file is assumed to contain a field with the ip address for the location
 ```

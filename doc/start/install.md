@@ -1,3 +1,5 @@
+# Installation #
+
 Make sure you fulfilled the [requirements](requirements.md) before going any further.
 
 For an ezPAARSE installation on a Windows OS, you only have to [download the setup.exe](http://analogist.couperin.org/ezpaarse/download)

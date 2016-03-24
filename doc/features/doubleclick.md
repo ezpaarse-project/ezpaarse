@@ -1,4 +1,4 @@
-### DoubleClick headers ###
+### Double-click deduplication ###
 
 The Double-Click headers are optional. They set the deduplication applied to ECs. By default, the deduplication is performed following the COUNTER algorithm (available on [page 4 of Annex D](http://couperin.org/images/stories/documents/Statistiques/COUNTER/V4_FR/appd_fr.pdf))
 
@@ -6,7 +6,7 @@ They are written like follows *(in red: the editable zones)*:
 
 Double-Click-Removal: <span style="color: red">true</span>
 Double-Click-HTML: <span style="color: red">10</span>
-Double-Click-PDF: <span style="color: red">30</span> 
+Double-Click-PDF: <span style="color: red">30</span>
 Double-Click-MISC: <span style="color: red">20</span>
 Double-Click-Strategy: <span style="color: red">CLI</span>
 Double-Click-C-field: <span style="color: red">NomDuChampCookie</span>

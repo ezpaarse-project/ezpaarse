@@ -1,4 +1,5 @@
-### Output-Fields headers ###
+### Output fields ###
+
 The Output-Fields header adds or removes fields to those returned by ezPAARSE by default when generating Consultation Events (CEs).
 
 By default, the fields returned are those present in the EZPAARSE_OUTPUT_FIELDS parameter configuration file ([config.json](https://github.com/ezpaarse-project/ezpaarse/blob/master/config.json#L9)) to which are added the ones already present in the log format triggered for the processing.
@@ -12,7 +13,7 @@ Please not that the personalized fields in the [log format](./formats.html) will
 
 The Output-Fields header is composed with a list of comma separated fields, each one preceded with a **+** or **-** signs, depending on whether it has to be added or removed.
 
-#### Exemple ####
+#### Example ####
 ```shell
 curl -X POST --proxy "" --no-buffer -H 'Output-Fields: -host,-login,+datetime' --data-binary @test/dataset/sd.2012-11-30.300.log  http://127.0.0.1:59599 -v
 ```

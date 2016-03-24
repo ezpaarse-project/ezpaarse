@@ -1,4 +1,4 @@
-# Internationalization and localization
+# Website languages #
 
 ezPAARSE is available in french and in english.
 
@@ -12,7 +12,7 @@ The key is composed of a context and a french label : *context+french_label*.
 
 The context matches the name of the HTML page in which the label appears.
 
-#### Windows Version #### 
+#### Windows Version ####
 
 For the Windows version, the installer contains a number of translated pages.
 The translations are in distincts files.

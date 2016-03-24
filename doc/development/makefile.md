@@ -1,4 +1,4 @@
-# Using the makefile #
+# Makefile #
 
 The makefile is located in the root directory and is used, among others, to launch tests,
 to generate the documentation, to check that the coding rules are respected.
@@ -74,5 +74,5 @@ make docopen
 ```
 
 Opens the documentation in the Google Chrome browser. (through the ``file://`` protocol)
-  
+
 When the application is started, the documentation is also available on the ezPAARSE built-in web server.

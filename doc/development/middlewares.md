@@ -1,4 +1,4 @@
-# Developer's Documentation: middlewares #
+# Middlewares #
 
 ## What's a middleware ? ##
 
@@ -39,7 +39,7 @@ module.exports = function init(req, res, job, saturate, drain) {
    */
   return function process(ec, next) {
     if (!mandatoryField || !ec) { return next(); }
-    
+
     if (ec[mandatoryField]) {
       next();
     } else {

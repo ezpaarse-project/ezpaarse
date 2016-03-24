@@ -1,4 +1,4 @@
-# Developer's Documentation: parsers, pkb, scrapers #
+# Platforms #
 
 ## Prerequisites for the development: git(hub) user's guide  ##
 
@@ -11,7 +11,7 @@ As a developer, you first have to sign up to [Github](https://github.com/) to be
 You then need to know a few [git](http://git-scm.com/) commands:
 
 ```bash
-#get a local version of the github 
+#get a local version of the github
 git clone https://github.com/ezpaarse-project/ezpaarse.git
 
 #if you already had the project, update it
@@ -39,7 +39,7 @@ touch ./myexamplefile
 git add ./myexamplefile
 git commit ./myexamplefile -m "add an example file"
 
-#send the (commmitted) modifications to the distant repository (authorization from the distant repo needed). 
+#send the (commmitted) modifications to the distant repository (authorization from the distant repo needed).
 git push
 ```
 
@@ -154,7 +154,7 @@ mocha ./test/custom-formats-test
 
 For running only one feature test, use mocha and give the path of the test file and the two-digit number (``@xx``) of the test (with ``-g``) as parameters.
 
-For example, running only the second test of personalized formats will look like: 
+For example, running only the second test of personalized formats will look like:
 ```console
 . ./bin/env
 mocha ./test/custom-formats-test -g @02
@@ -167,4 +167,3 @@ For example, testing only the ScienceDirect platform will look like:
 . ./bin/env
 mocha ./test/platforms-test -g sd
 ```
-

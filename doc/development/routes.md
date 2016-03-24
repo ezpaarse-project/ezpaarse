@@ -1,4 +1,4 @@
-# Routes #
+# Process API #
 
 ezPAARSE is a RESTful application.
 **REST**: Representational State Transfer
@@ -20,7 +20,7 @@ The submitted files are parsed and access events are sent back, as a resulting s
   </tr>
 </table>
 
- 
+
 ### The detailed POST request ###
 
 *POST / HTTP/1.1*

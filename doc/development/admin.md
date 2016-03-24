@@ -1,4 +1,4 @@
-# Administrator's documentation #
+# Administration API #
 
 Every function listed in this page may be used directly from the administration section in the application.
 
@@ -6,7 +6,7 @@ Every function listed in this page may be used directly from the administration 
 
 If no user has been registered yet, any attempt to connect triggers an admin creation form.
 
-To create an administrator account without the help of the form, please use the following route : 
+To create an administrator account without the help of the form, please use the following route :
 <table>
   <tr>
       <th style="text-align:left;width:140px;">Path</th>
@@ -76,7 +76,7 @@ curl -X GET --proxy "" -u "admin:password" http://localhost:59599/users
 - **409 Conflict** : User name already exists.
 - **500 Internal Server Error** : Creation failed.
 
-When the creation succeeds, the output contains a complete information about the user in JSON format. 
+When the creation succeeds, the output contains a complete information about the user in JSON format.
 
 #### Exemple curl ####
 ```bash
@@ -97,7 +97,7 @@ curl -X POST --proxy "" -u "admin:password" --data "username=foo&password=bar" h
   </tr>
 </table>
 
-#### Possible output #### 
+#### Possible output ####
 
 - **204 No Content** : User has been deleted.
 - **404 Not Found** : User not found.
@@ -109,7 +109,7 @@ curl -X DELETE -u "admin:password" http://localhost:59599/users/foo
 ```
 
 ## Platforms Management ##
-A platform is composed of a parser, one or more knowledge bases and one or more scrapers. 
+A platform is composed of a parser, one or more knowledge bases and one or more scrapers.
 The commands listed below act on the platform level, you don't have to worry about separately updating its elements.
 
 ### Check state ###
@@ -126,7 +126,7 @@ The commands listed below act on the platform level, you don't have to worry abo
   </tr>
 </table>
 
-#### Possible feedbacks #### 
+#### Possible feedbacks ####
 
 - **200 OK** : Checking normally completed.
 - **500 Internal Server Error** : Checking failed.
@@ -158,7 +158,7 @@ curl -X GET -u "admin:password" http://localhost:59599/platforms/status
 curl -X PUT -u "admin:password" --data "uptodate" http://localhost:59599/platforms/status
 ```
 
-#### Possible outputs #### 
+#### Possible outputs ####
 
 - **200 OK** : Platforms have been updated
 - **400 Bad Request** : No **uptodate** in query string.

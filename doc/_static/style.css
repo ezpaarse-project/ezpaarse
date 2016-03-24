@@ -1,0 +1,37 @@
+.comment { color: green; }
+
+p { text-align: justify; }
+
+table {
+  border: 1px solid #e1e4e5;
+  border-collapse: collapse;
+  border-spacing: 0;
+  empty-cells: show;
+  font-size: 80%;
+  margin-bottom: 20px;
+}
+
+table thead {
+  color: #000;
+  text-align: left;
+  vertical-align: bottom;
+}
+
+table th {
+  margin: 0;
+  padding: 8px 16px;
+  text-align: center;
+  font-weight: bold;
+  border-bottom: solid 2px #e1e4e5;
+}
+
+table td {
+  border-bottom: 1px solid #e1e4e5;
+  border-left: 1px solid #e1e4e5;
+  padding: 8px 16px;
+  vertical-align: middle;
+}
+
+table tbody tr:nth-child(even) {
+  background-color: #f3f6f6
+}

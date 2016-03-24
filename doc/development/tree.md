@@ -1,4 +1,4 @@
-# ezPAARSE folder structure #
+# Tree structure #
 
 
 <pre>
@@ -17,7 +17,7 @@
 │   ├── en.json
 │   └── fr.json
 ├── logs
-├── misc 
+├── misc
 │   ├── deb [debian stuff]
 │   │   ├── DEBIAN
 │   │   └── etc

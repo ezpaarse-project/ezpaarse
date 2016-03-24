@@ -1,4 +1,4 @@
-# Developper Documentation: the core of ezPAARSE #
+# Application core #
 
 Developper-oriented documentation for ezPAARSE's core.
 The documentation on contributions to parsers, pkbs and scrapers can be read in [this section](./developer-plateforms.html).
