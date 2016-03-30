@@ -70,6 +70,16 @@ There are three ways of expressing a parameter:
 - %{**field_name**} : retrieves an alphanumeric string (hyphens permitted) and adds it to the consultation event with the specified field name
 - %<**regexp**> : ignores the part of the log line that matches the corresponding regexp.
 
+### Some examples with regular expressions ###
+The following example would capture a datetime formatted as YYYY/MM/DD:hh:mm:ss
+```shell
+%{datetime}<\d{4}/\d{2}/\d{2}:\d{2}:\d{2}:\d{2}>
+```
+The following example would recognize a tabulation used as a separator between two fields(%h and %u) 
+```shell
+%h%<\t>%u
+```
+
 **NB:** you should use non-capturing parentheses **(?:x)** for complex regexps.
 
 ### Some examples of specific fields ###
