@@ -2,7 +2,7 @@
 
 The Output-Fields header adds or removes fields to those returned by ezPAARSE by default when generating Consultation Events (CEs).
 
-By default, the fields returned are those present in the EZPAARSE_OUTPUT_FIELDS parameter configuration file ([config.json](https://github.com/ezpaarse-project/ezpaarse/blob/master/config.json#L9)) to which are added the ones already present in the log format triggered for the processing.
+By default, the fields returned are those present in the EZPAARSE_OUTPUT_FIELDS parameter configuration file ([config.json](https://github.com/ezpaarse-project/ezpaarse/blob/master/config.json#L12)) to which are added the ones already present in the log format triggered for the processing.
 
 This parameter can be used to add custom fields (that some parsers would be able to extract and return). For example, the "btype" field is not added by default and can be used to trace back advanced information on some database consultations.
 It can also allow you to add internal ezPAARSE fields as:
