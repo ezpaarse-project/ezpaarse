@@ -2,10 +2,11 @@
 #
 
 # You can set these variables from the command line.
-SPHINXOPTS    =
-SPHINXBUILD   = sphinx-build
-PAPER         =
-BUILDDIR      = _build
+SPHINXOPTS      =
+SPHINXBUILD     = sphinx-build
+SPHINXAUTOBUILD = sphinx-autobuild
+PAPER           =
+BUILDDIR        = _build
 
 # User-friendly check for sphinx-build
 ifeq ($(shell which $(SPHINXBUILD) >/dev/null 2>&1; echo $$?), 1)
@@ -48,6 +49,9 @@ help:
 
 clean:
 	rm -rf $(BUILDDIR)/*
+
+serve:
+	$(SPHINXAUTOBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html
 
 html:
 	$(SPHINXBUILD) -b html $(ALLSPHINXOPTS) $(BUILDDIR)/html

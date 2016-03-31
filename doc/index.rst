@@ -19,7 +19,7 @@ This documentation is organized into a few main sections :
 
   start/requirements.md
   start/install.md
-  start/start.md
+  start/usage.md
 
 .. toctree::
   :maxdepth: 2
@@ -30,6 +30,7 @@ This documentation is organized into a few main sections :
   essential/formats.md
   essential/knowledge-base.md
   essential/report.md
+  essential/updates.md
   essential/ec-attributes.md
 
 .. toctree::
@@ -60,6 +61,7 @@ This documentation is organized into a few main sections :
   development/platforms.md
   development/middlewares.md
   development/tools.md
+  development/doc.md
   development/tree.md
   development/multilinguisme.md
   development/changelog.md
