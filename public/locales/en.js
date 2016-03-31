@@ -15,7 +15,7 @@ ezLanguages['en'] = {
   "login+set_admin_account":       "Sign up now to set administrator account.",
   "login+register_quick_and_easy": "Sign up before processing your logs, it's quick and easy.<br/>Then you'll be able to track your jobs and communicate more easily with the ezPAARSE team.",
   "login+ezpaarse_is":             "ezPAARSE, it's...",
-  "login+ezpaarse_description":    "an <a href=\"{{ github }}\">open-source software</a> that can ingest and analyse your (proxy) log files and show how users access suscribed electronic ressources. It filters, extracts and enriches the consultation events that were spotted and produces a CSV file following COUNTER codes of practice.",
+  "login+ezpaarse_description":    "an <a href=\"{{ github }}\">open-source software</a> that can ingest and analyse your (proxy) log files and show how users access subscribed electronic resources. It filters, extracts and enriches the consultation events that were spotted and produces a CSV file following COUNTER codes of practice.",
   "login+simple_tool":             "A simple and effective tool",
   "login+few_clic_enough":         "A few clicks are enough to install it and start analyzing your logs.",
   "login+responsive_team":         "A highly available and responsive team",
