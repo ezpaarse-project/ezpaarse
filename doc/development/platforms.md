@@ -93,7 +93,7 @@ A [detailed procedure](http://analogist.couperin.org/platforms/contribute/parser
 Each parser is accompanied by what it needs to be tested: one or more files in the subdirectory `test` parser package. These files are in CSV format and follow the ``platform.version.csv`` pattern.
 
 The test principle is represented by the following diagram:
-![Parsers' test](images/ezPAARSE-Test-des-Parseurs.png "Test des parseurs")
+![Parsers' test](../_static/images/ezPAARSE-Test-des-Parseurs.png "Test des parseurs")
 
 For each row, column data prefixed by ``in-`` are sent to the parser, and the result is compared with the columns prefixed by ``out-``. These must be strictly identical.
 

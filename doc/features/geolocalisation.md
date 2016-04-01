@@ -40,4 +40,4 @@ curl -X POST http://127.0.0.1:59599 \
 
 That opens a web browser with the following graphical representation : 
 
-<img src="images/ezPAARSE-SR16-02.jpg" alt="EDP Sciences Anonyme" style="width: 600px"/>
+<img src="../_static/images/ezPAARSE-SR16-02.jpg" alt="EDP Sciences Anonyme" style="width: 600px"/>

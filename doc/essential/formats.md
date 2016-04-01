@@ -74,7 +74,7 @@ The following example would capture a datetime formatted as YYYY/MM/DD:hh:mm:ss
 ```shell
 %{datetime}<\d{4}/\d{2}/\d{2}:\d{2}:\d{2}:\d{2}>
 ```
-The following example would recognize a tabulation used as a separator between two fields(%h and %u) 
+The following example would recognize a tabulation used as a separator between two fields(%h and %u)
 ```shell
 %h%<\t>%u
 ```

@@ -10,7 +10,7 @@ The documentation on contributions to parsers, pkbs and scrapers can be read in 
 
 ## How does the ezPAARSE engine work?
 
-![ezpaarse's engine working Schema](images/ezPAARSE-Moteur.png "ezPAARSE's engine")
+![ezpaarse's engine working Schema](../_static/images/ezPAARSE-Moteur.png "ezPAARSE's engine")
 
 ## ezPAARSE's monitoring
 
