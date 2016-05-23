@@ -59,3 +59,7 @@ The ISTEX middleware use the istex-identifier found in the ECs to request metada
 
 ISTEX middleware is automatically activated on ISTEX logs
 
+### Headers ###
+**istex-enrich** : set to `true` to enable ISTEX enrichment. Disable by default.  
+**istex-ttl** : lifetime of cached documents, in seconds. Defaults to `7 days (3600 * 24 * 7)`.  
+**istex-throttle** : minimum time to wait between queries, in milliseconds. Defaults to `500`. 
