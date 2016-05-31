@@ -1,5 +1,10 @@
 # ezPAARSE Versions #
 
+## 2.8.0  ## 
+##### 2016/05/31 - ezMESURE - Halte ! Kibana  #####
+- Bug fixes
+- New ISTEX and cut middleware
+
 ## 2.7.0  ## 
 ##### 2015/11/05 - Cash Enrichment  #####
 - Data caching of API requests from middlewares
