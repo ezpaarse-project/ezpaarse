@@ -144,13 +144,13 @@ nodejs:
 	@test -f /usr/bin/git || sudo apt-get install --yes git
 	@./bin/buildnode
 
-node-modules:
-	@. ./bin/env; npm install
+node-modules: libs
 
 bower:
 	@. ./bin/env; npm run bower
 
 libs:
+	@./bin/downloadlibs
 	@. ./bin/env; npm install
 
 # make deb v=0.0.3
