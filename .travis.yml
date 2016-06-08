@@ -6,7 +6,7 @@ services:
   - mongodb
 notifications:
   recipients:
-    - ezpaarse@couperin.org
+    - ezpaarse-team@googlegroups.com
   webhooks:
     urls:
       - https://webhooks.gitter.im/e/2644f77c080c05ce0ccf
