@@ -34,48 +34,52 @@ describe('The server', function () {
         if (error)     { throw error; }
         response.should.have.status(200);
 
-        var parser = new xmlParser({ explicitArray: false });
-        parser.parseString(body, function (err, result) {
-          if (err) { throw err; }
-
-          var xmlModel = fs.readFileSync(xmlFile);
-          parser.parseString(xmlModel, function (err, expected) {
-            if (err) { throw err; }
-
-            // Remove all dates, because they can differ depending on locale
-            delete expected.ReportResponse.$.Created;
-            delete result.ReportResponse.$.Created;
-
-            delete expected.ReportResponse.Report.$.Created;
-            delete result.ReportResponse.Report.$.Created;
-
-            delete expected.ReportResponse.ReportDefinition.Filters.UsageDateRange;
-            delete result.ReportResponse.ReportDefinition.Filters.UsageDateRange;
-
-            result.ReportResponse.Report.Customer.ReportItems.map(function (item) {
-              return item.ItemPerformance.map(function (subitem) {
-                delete subitem.Period;
-                return subitem;
-              });
-            });
-            expected.ReportResponse.Report.Customer.ReportItems.map(function (item) {
-              return item.ItemPerformance.map(function (subitem) {
-                delete subitem.Period;
-                return subitem;
-              });
-            });
-
-            // Admin mail in the model could have been changed
-            expected.ReportResponse.Report.Customer.Contact['E-mail'] = cfg.EZPAARSE_ADMIN_MAIL;
-
-            should.ok(helpers.equals(result, expected), 'The result does not match the model');
-
-            done();
-          });
-        });
+        checkXml(body, done);
       });
     });
   });
+
+  function checkXml(body, done) {
+    var parser = new xmlParser({ explicitArray: false });
+    parser.parseString(body, function (err, result) {
+      if (err) { throw err; }
+
+      var xmlModel = fs.readFileSync(xmlFile);
+      parser.parseString(xmlModel, function (err, expected) {
+        if (err) { throw err; }
+
+        // Remove all dates, because they can differ depending on locale
+        delete expected.ReportResponse.$.Created;
+        delete result.ReportResponse.$.Created;
+
+        delete expected.ReportResponse.Report.$.Created;
+        delete result.ReportResponse.Report.$.Created;
+
+        delete expected.ReportResponse.ReportDefinition.Filters.UsageDateRange;
+        delete result.ReportResponse.ReportDefinition.Filters.UsageDateRange;
+
+        result.ReportResponse.Report.Customer.ReportItems.map(function (item) {
+          return item.ItemPerformance.map(function (subitem) {
+            delete subitem.Period;
+            return subitem;
+          });
+        });
+        expected.ReportResponse.Report.Customer.ReportItems.map(function (item) {
+          return item.ItemPerformance.map(function (subitem) {
+            delete subitem.Period;
+            return subitem;
+          });
+        });
+
+        // Admin mail in the model could have been changed
+        expected.ReportResponse.Report.Customer.Contact['E-mail'] = cfg.EZPAARSE_ADMIN_MAIL;
+
+        should.ok(helpers.equals(result, expected), 'The result does not match the model');
+
+        done();
+      });
+    });
+  }
 
   it('generates a correct TSV JR1 report (@02)', function (done) {
     var headers = {
