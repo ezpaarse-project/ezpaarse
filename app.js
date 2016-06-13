@@ -266,4 +266,3 @@ require('./lib/ecfilter.js').init(function (err, nbRobots) {
     });
   });
 });
-

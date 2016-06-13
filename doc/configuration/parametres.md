@@ -105,3 +105,14 @@ Set to `all` to disable all above filters.
 ### Force-ECField-Publisher ###
 Set the publisher_name field to a predefined value.
 For example : Force-ECField-Publisher: 'IRevues'.
+
+
+### cut ###
+Set to `true` to activate middleware. Any other value will leave the middleware deactive.
+
+### cut-fields ###
+it's feilds to cut, initializes with name of feilds to want a cut.
+### cut-regex ###
+régulairie expression to match with feilds to cut.
+### cut-fields_creat ###
+new feilds to create with result to cutting feilds.

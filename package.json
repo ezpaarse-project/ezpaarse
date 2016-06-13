@@ -1,7 +1,7 @@
 {
   "name": "ezPAARSE",
   "main": "app.js",
-  "version": "2.7.0",
+  "version": "2.8.1",
   "private": true,
   "repository": {
     "type": "git",
@@ -79,8 +79,8 @@
     "zombie": "^4.0.8"
   },
   "scripts": {
-    "postinstall": "bower install",
-    "bower": "bower install -F",
+    "postinstall": "bower install -F --allow-root",
+    "bower": "bower install -F --allow-root",
     "test": "export EZPAARSE_ENV=\"production\" ; export EZPAARSE_DEBUG_LEVEL=\"pkb\" ; make && make start && sleep 1 ; make test-pkb ; make test",
     "lint": "eslint --no-ignore *.js lib/ test/ routes/ platforms/ platforms/.lib"
   },

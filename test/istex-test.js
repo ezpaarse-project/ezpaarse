@@ -12,7 +12,8 @@ describe('istex consultations', function () {
   it('should be correctly enriched (@01)', function (done) {
     var headers = {
       'Accept': 'application/json',
-      'Force-Parser': 'istex'
+      'Force-Parser': 'istex',
+      'Istex-Enrich': true
     };
 
     helpers.post('/', logFile, headers, function (err, res, body) {

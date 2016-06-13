@@ -39,6 +39,7 @@
     "geolocalizer",
     "field-splitter",
     "qualifier",
+    "cut",
     "anonymizer"
   ],
   "EZPAARSE_QUALIFYING_LEVEL": 1,
