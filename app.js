@@ -197,8 +197,9 @@ app.use('/stylesheets', express.static(path.join(__dirname, 'public/stylesheets'
 app.use('/stylesheets', function (req, res, next) { res.status(404).end(); });
 app.use('/img', express.static(path.join(__dirname, 'public/img')));
 app.use('/img', function (req, res, next) { res.status(404).end(); });
-app.use('/doc', express.static(path.join(__dirname, 'public/doc')));
-app.use('/doc', function (req, res, next) { res.status(404).end(); });
+app.use('/doc', function (req, res, next) {
+  res.redirect('http://ezpaarse.readthedocs.io/');
+});
 
 /**
  * routes handling
