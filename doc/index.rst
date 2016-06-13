@@ -26,12 +26,11 @@ This documentation is organized into a few main sections :
   :name: essential-docs
   :caption: Essential things to know
 
-  essential/glossary.md
+  essential/ec-attributes.md
   essential/formats.md
   essential/knowledge-base.md
   essential/report.md
   essential/updates.md
-  essential/ec-attributes.md
 
 .. toctree::
   :maxdepth: 2

@@ -1,6 +1,10 @@
 # Consultation events #
 
-A consultation event (CE in english and EC in french) is the data that ezpaarse will produce thanks to one line of significant log line. The log line contains basic and generic data as for example the date of the user's consultation, the login of the user, the url downloaded, the status code ... Then ezpaarse process this log line. The URL will be parsed and enriched with KBART knowledge base (publisher knowledge base: PKB) or API (eg. Crossref). The result will be called a consultation event that will contains a liste of key/value. The possible key (attributes) are listed bellow:
+A consultation event (abbreviated `EC`) is what ezPAARSE produces when it detects an actual consultation of e-resource in the logs. Each EC is generated with some generic data found in the original log line (date, user login, URL of the resource...), and is enriched with various methods.
+
+By default, ezPAARSE produces a CSV output with a limited amount of fields. You can add or remove some fields by using the [Output-Fields](../features/outputfields.html) header. You can also choose a [JSON output](../configuration/parametres.html#accept) to get ECs with all their properties.
+
+Here is a list of fields that can be found in the consultation events :
 
 ## Typical properties of an EC ##
 <table>
@@ -121,6 +125,11 @@ A consultation event (CE in english and EC in french) is the data that ezpaarse 
       <td>size</td>
       <td>Request size (in bytes)</td>
       <td>65816</td>
+    </tr>
+    <tr>
+      <td>id</td>
+      <td>Unique ID calculated by applying a SHA1 on the log line</td>
+      <td>f9c2c138f4998573b893696c3de3341cdabd1fb0</td>
     </tr>
   </tbody>
 </table>
