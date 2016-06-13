@@ -109,10 +109,19 @@ For example : Force-ECField-Publisher: 'IRevues'.
 
 ### cut ###
 Set to `true` to activate middleware. Any other value will leave the middleware deactive.
+Add ohter headers. 
+     - ### cut-fields ### : it's feilds to cut, initializes with name of feilds to want a cut.
+     - ### cut-regex ### : régulairie expression to match with feilds to cut.
+     - ### cut-fields_creat ### : new feilds to create with result to cutting feilds.
 
-### cut-fields ###
-it's feilds to cut, initializes with name of feilds to want a cut.
-### cut-regex ###
-régulairie expression to match with feilds to cut.
-### cut-fields_creat ###
-new feilds to create with result to cutting feilds.
+Usage example:
+
+```shell
+curl -v -X POST --proxy "" --no-buffer \
+  -F "file=@test/dataset/cut.log" \
+  -H 'cut: true' \
+  -H 'cut-fields: doi' \
+  -H 'cut-regex: ([0-9\.]+)\/([0-9\-]+)' \
+  -H 'cut-fields_creat: prefix,suffix' \
+ 	http://127.0.0.1:59599
+```

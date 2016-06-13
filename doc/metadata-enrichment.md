@@ -18,11 +18,13 @@ The crossref middleware use the doi found in the ECs to request metadatas using 
 
 ### Headers ###
 **crossref-Enrich** : set to `true` to enable crossref enrichment. Enable by default.  
-**crossref-TTL** : lifetime of cached documents, in seconds. Defaults to `7 days (3600 * 24 * 7)`.  
+**crossref-TTL** : lifetime of cached documents, in seconds. Defaults to `7 days (3600 * 24 * 7)`
+.  
 **crossref-throttle** : minimum time to wait between queries, in milliseconds. Defaults to `200` ms
 **crossref-paquet-size** : maximum number of identifier to query in a single request. Defaults to `50` 
 **crossref-buffer-size** : maximum number of memorised ECs before sending a request. Defaults to `1000`
-
+**enrich-overwrite** : set to `true` to enable crossref aggregate. Enable by default.  
+**enrich-overwrite-feilds** : feilds to aggregate and priority of aggregation, the field must be the priority process symbol `> | <`
 
 ## Configuring elsevier middleware call ##
 
