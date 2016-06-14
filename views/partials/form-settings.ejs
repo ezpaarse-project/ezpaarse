@@ -41,7 +41,7 @@
         <div class="field" ng-show="ss.settings.proxyType">
           <label translate>settings+log_format</label>
           <textarea placeholder="%h %u %t &quot;%r&quot; %s %b" type="text" ng-model="ss.settings.logFormat"></textarea>
-          <div ng-show="showHelp" class="ui inverted teal bottom segment" translate translate-values="{ docURL: 'https://ezpaarse.readthedocs.io/en/latest/essential/formats.html' }" translate>settings+log_format_help</div>
+          <div ng-show="showHelp" class="ui inverted teal bottom segment" translate translate-values="{ docURL: 'https://ezpaarse.readthedocs.io/en/master/essential/formats.html' }" translate>settings+log_format_help</div>
         </div>
       </div>
 
@@ -146,7 +146,7 @@
 
       <div class="ui purple dividing header">
         {{ 'settings+headers' | translate }}
-        <a target="_blank" href="http://ezpaarse.readthedocs.io/en/latest/configuration/parametres.html"><i class="purple info circle link icon"></i></a>
+        <a target="_blank" href="http://ezpaarse.readthedocs.io/en/master/configuration/parametres.html"><i class="purple info circle link icon"></i></a>
       </div>
       <div ng-show="showHelp" class="ui inverted purple segment" translate>settings+headers_help</div>
 
@@ -159,7 +159,7 @@
           </div>
           <div class="field">
             <div ng-click="ss.addCustomHeader(header.name)" class="ui icon button"><i class="plus icon"></i></div>
-            <a ng-show="header.anchor" ng-href="http://ezpaarse.readthedocs.io/en/latest/configuration/parametres.html#{{ header.anchor }}" target="_blank" class="ui blue icon button"><i class="info icon"></i></a>
+            <a ng-show="header.anchor" ng-href="http://ezpaarse.readthedocs.io/en/master/configuration/parametres.html#{{ header.anchor }}" target="_blank" class="ui blue icon button"><i class="info icon"></i></a>
           </div>
         </div>
 
