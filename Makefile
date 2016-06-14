@@ -2,18 +2,8 @@
 
 SHELL:=/bin/bash
 
-# Doc section
-# # # # # # # # #
-
-DOC_DIR:=$(shell pwd)/doc
-DOC_MD=$(DOC_DIR)
-DOC=$(wildcard $(DOC_MD)/*.md)
-DOC_TPL=$(wildcard $(DOC_MD)/templates/*.html)
-DOC_OUTPUT=$(shell pwd)/public/doc
-DOC_HTML=$(DOC_OUTPUT)/index.html
-
 # Run every steps needed to start ezpaarse
-all: nodejs node-modules platforms-update exclusions-update resources-update doc hooks checkconfig
+all: nodejs node-modules platforms-update exclusions-update resources-update hooks checkconfig
 
 # Application section
 # # # # # # # # # # # #
@@ -29,21 +19,6 @@ restart:
 	@./bin/ezpaarse restart
 status:
 	@./bin/ezpaarse status
-
-# Doc section
-# # # # # # # # # # # #
-
-# Generate doc with beautiful-docs
-$(DOC_HTML): $(DOC) $(DOC_TPL) $(DOC_MD)/theme/_layout.html
-	@. ./bin/env; bfdocs --base-url='.' --theme=$(DOC_MD)/theme $(DOC_MD)/manifest.json $(DOC_OUTPUT) 1> /dev/null
-
-doc: $(DOC_HTML)
-
-docclean:
-	@rm -rf $(DOC_OUTPUT)
-
-docopen: doc $(DOC_HMTL)
-	@google-chrome file://$(DOC_HTML) 2>/dev/null &
 
 # Tests section
 # # # # # # # # #
@@ -245,4 +220,4 @@ pull-latest: platforms-update exclusions-update resources-update
 update: pull
 update-latest: pull-latest
 
-.PHONY: test checkconfig nodejs platforms-update exclusions-update resources-update deb rpm tar exe clean-for-release version tag update pull start restart status stop doc
+.PHONY: test checkconfig nodejs platforms-update exclusions-update resources-update deb rpm tar exe clean-for-release version tag update pull start restart status stop

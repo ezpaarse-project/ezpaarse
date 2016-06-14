@@ -29,7 +29,7 @@
     "keyword-spacing": 2,
     "block-spacing": [2, "always"],
     "strict": [2, "global"],
-    "max-nested-callbacks": [1, 4],
+    "max-nested-callbacks": [1, 5],
     "camelcase": [1, {"properties": "always"}],
     "no-warning-comments": [1, { "terms": ["todo", "fixme"], "location": "anywhere" }],
     "prefer-template": 0,
