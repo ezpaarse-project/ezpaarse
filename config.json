@@ -11,6 +11,7 @@
   "EZPAARSE_REQUIRE_AUTH": false,
   "EZPAARSE_OUTPUT_FIELDS":
   [
+    "datetime",
     "date",
     "login",
     "platform",
