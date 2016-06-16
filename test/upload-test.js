@@ -17,7 +17,7 @@ describe('The server', function () {
   this.timeout(20000);
 
   it('correctly handle a browser-like upload '
-    + 'and multiple downloads of results (@01)', function (done) {
+    + 'and multiple downloads of results (@01 @big)', function (done) {
     var jobid = uuid.v1();
 
     logF.logFaker({ rate: 900, duration: 2 }, function (stream) {

@@ -12,7 +12,7 @@ var headers = {};
 
 describe('The server', function () {
   this.timeout(15000);
-  it('correctly handles short concurrent requests (@01)', function (done) {
+  it('correctly handles short concurrent requests (@01 @big)', function (done) {
     var nbRequests  = 3;
     var maxDuration = 5;
     var minDuration = 3;
