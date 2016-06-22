@@ -19,7 +19,8 @@ describe('crossref consultations', function () {
       'Accept': 'application/json',
       'crossref-Enrich': 'true',
       'enrich-overwrite': 'true',
-      'enrich-overwrite-fields': enrichOverwriteFields1
+      'enrich-overwrite-fields': enrichOverwriteFields1,
+      'crossref-buffer-size' : '0'
     };
     helpers.post('/', logFile, headers, function (err, res, body) {
       if (!res) { throw new Error('ezPAARSE is not running'); }
@@ -64,6 +65,7 @@ describe('crossref consultations', function () {
       'crossref-Enrich': 'true',
       'enrich-overwrite': 'true',
       'enrich-enabled-fields': 'false',
+      'crossref-buffer-size' : '0',
       'enrich-overwrite-fields': enrichOverwriteFields2
     };
     helpers.post('/', logFile, headers, function (err, res, body) {
@@ -106,6 +108,7 @@ describe('crossref consultations', function () {
       'Accept': 'application/json',
       'crossref-Enrich': 'true',
       'enrich-overwrite': 'true',
+      'crossref-buffer-size' : '0',
       'enrich-overwrite-fields': enrichOverwriteFields3
     };
     helpers.post('/', logFile, headers, function (err, res, body) {
@@ -148,6 +151,7 @@ describe('crossref consultations', function () {
       'Accept': 'application/json',
       'crossref-Enrich': 'true',
       'enrich-overwrite': 'true',
+      'crossref-buffer-size' : '0',
       'enrich-overwrite-fields': enrichOverwriteFields4
     };
     helpers.post('/', logFile, headers, function (err, res, body) {
