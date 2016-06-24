@@ -10,7 +10,7 @@ var logFile = path.join(__dirname, 'dataset/es.doi.log');
 
 describe('crossref consultations', function () {
   this.timeout(5000);
-  it('should be correctly enriched (@01)', function (done) {
+  it('should be correctly enriched (@01 @tdd)', function (done) {
     var headers = {
       'Accept': 'application/json',
       'crossref-Enrich': 'true',
