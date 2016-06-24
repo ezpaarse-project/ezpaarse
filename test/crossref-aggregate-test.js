@@ -15,13 +15,13 @@ var enrichOverwriteFields4 = '>publisher_name,<publication_title,print_identifie
 
 describe('crossref consultations', function () {
   this.timeout(15000);
-  it('should be correctly enriched (@01)', function (done) {
+  it('should be correctly overwrited (@01 @big)', function (done) {
     var headers = {
       'Accept': 'application/json',
       'crossref-Enrich': 'true',
       'enrich-overwrite': 'true',
       'enrich-overwrite-fields': enrichOverwriteFields1,
-      'crossref-buffer-size' : '0'
+      'crossref-buffer-size' : '1'
     };
     helpers.post('/', logFile, headers, function (err, res, body) {
       if (!res) { throw new Error('ezPAARSE is not running'); }
@@ -61,13 +61,13 @@ describe('crossref consultations', function () {
 
 describe('crossref consultations', function () {
   this.timeout(15000);
-  it('should be correctly enriched (@02)', function (done) {
+  it('should be correctly overwrited (@02  @big)', function (done) {
     var headers = {
       'Accept': 'application/json',
       'crossref-Enrich': 'true',
       'enrich-overwrite': 'true',
       'enrich-enabled-fields': 'false',
-      'crossref-buffer-size' : '0',
+      'crossref-buffer-size' : '1',
       'enrich-overwrite-fields': enrichOverwriteFields2
     };
     helpers.post('/', logFile, headers, function (err, res, body) {
@@ -106,12 +106,12 @@ describe('crossref consultations', function () {
 
 describe('crossref consultations', function () {
   this.timeout(15000);
-  it('should be correctly enriched (@03)', function (done) {
+  it('should be correctly overwrited (@03 @big)', function (done) {
     var headers = {
       'Accept': 'application/json',
       'crossref-Enrich': 'true',
       'enrich-overwrite': 'true',
-      'crossref-buffer-size' : '0',
+      'crossref-buffer-size' : '1',
       'enrich-overwrite-fields': enrichOverwriteFields3
     };
     helpers.post('/', logFile, headers, function (err, res, body) {
@@ -150,12 +150,12 @@ describe('crossref consultations', function () {
 
 describe('crossref consultations', function () {
   this.timeout(15000);
-  it('should be correctly enriched (@04)', function (done) {
+  it('should be correctly overwrited (@04  @big)', function (done) {
     var headers = {
       'Accept': 'application/json',
       'crossref-Enrich': 'true',
       'enrich-overwrite': 'true',
-      'crossref-buffer-size' : '0',
+      'crossref-buffer-size' : '1',
       'enrich-overwrite-fields': enrichOverwriteFields4
     };
     helpers.post('/', logFile, headers, function (err, res, body) {
