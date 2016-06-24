@@ -52,6 +52,7 @@ function testCrossref(callback) {
 
 
 describe('crossref consultations', function () {
+  this.timeout(15000);
   it('should be correctly enriched (@01)', function (done) {
     testCrossref(function() {
       testCrossref(done);
