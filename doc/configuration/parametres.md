@@ -110,9 +110,9 @@ For example : Force-ECField-Publisher: 'IRevues'.
 ### cut ###
 Set to `true` to activate middleware. Any other value will leave the middleware deactive.
 Add ohter headers. 
-     - ### cut-fields ### : it's feilds to cut, initializes with name of feilds to want a cut.
-     - ### cut-regex ### : régulairie expression to match with feilds to cut.
-     - ### cut-fields_creat ### : new feilds to create with result to cutting feilds.
+     - ### cut-fields ### : it's fields to cut, initializes with name of fields to want a cut.
+     - ### cut-regex ### : régulairie expression to match with fields to cut.
+     - ### cut-fields_creat ### : new fields to create with result to cutting fields.
 
 Usage example:
 
