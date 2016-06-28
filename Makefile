@@ -126,7 +126,7 @@ bower:
 
 libs:
 	@./bin/downloadlibs
-	@. ./bin/env; npm install
+	@. ./bin/env; npm install -q
 
 # make deb v=0.0.3
 deb:
