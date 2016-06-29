@@ -112,7 +112,7 @@ Set to `true` to activate middleware. Any other value will leave the middleware 
 Add ohter headers. 
      - ### cut-fields ### : it's fields to cut, initializes with name of fields to want a cut.
      - ### cut-regex ### : régulairie expression to match with fields to cut.
-     - ### cut-fields_creat ### : new fields to create with result to cutting fields.
+     - ### cut-fields-creat ### : new fields to create with result to cutting fields.
 
 Usage example:
 
@@ -122,6 +122,6 @@ curl -v -X POST --proxy "" --no-buffer \
   -H 'cut: true' \
   -H 'cut-fields: doi' \
   -H 'cut-regex: ([0-9\.]+)\/([0-9\-]+)' \
-  -H 'cut-fields_creat: prefix,suffix' \
+  -H 'cut-fields-creat: prefix,suffix' \
  	http://127.0.0.1:59599
 ```
