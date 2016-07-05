@@ -125,7 +125,6 @@ bower:
 	@. ./bin/env; npm run bower
 
 libs:
-	@./bin/downloadlibs
 	@. ./bin/env; npm install -q
 
 # make deb v=0.0.3
