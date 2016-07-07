@@ -308,8 +308,7 @@ angular.module('ezPAARSE.services', [])
           { category: 'deduplication',  name: 'Double-Click-C-Field',         anchor: 'double-click-xxx' },
           { category: 'deduplication',  name: 'Double-Click-L-Field',         anchor: 'double-click-xxx' },
           { category: 'deduplication',  name: 'Double-Click-I-Field',         anchor: 'double-click-xxx' },
-          { category: 'anonymization',  name: 'Anonymize-host',               anchor: 'anonymize-host' },
-          { category: 'anonymization',  name: 'Anonymize-login',              anchor: 'anonymize-login' },
+          { category: 'anonymization',  name: 'Crypted-Fields',               anchor: 'crypted-fields' },
           { category: 'other',          name: 'Traces-Level',                 anchor: 'traces-level' },
           { category: 'other',          name: 'Reject-Files',                 anchor: 'reject-files' },
           { category: 'other',          name: 'Clean-Only',                   anchor: 'clean-only' },
@@ -544,6 +543,18 @@ angular.module('ezPAARSE.services', [])
         });
 
         delete headers['Output-Fields'];
+      }
+
+      if (headers['Crypted-Fields']) {
+        var fields = headers['Crypted-Fields'];
+
+        if (fields.toLowerCase() === 'none') {
+          settings.cryptedFields = [];
+        } else {
+          settings.cryptedFields = fields.split(',').map(function (f) { return f.trim(); });
+        }
+
+        delete headers['Crypted-Fields'];
       }
 
       for (var name in headers) {
