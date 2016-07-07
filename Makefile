@@ -39,18 +39,6 @@ test-verbose: test-pkb-verbose
 	else echo 'No test folder found'; \
 	fi
 
-test-platforms:
-	@if test -d test; \
-	then . ./bin/env; mocha -g platform; \
-	else echo 'No test folder found'; \
-	fi
-
-test-platforms-verbose:
-	@if test -d test; \
-	then . ./bin/env; mocha -R list -g platform; \
-	else echo 'No test folder found'; \
-	fi
-
 test-pkb:
 	@if test -d platforms; \
 	then . ./bin/env; ./bin/pkbvalidator --nowarnings $(PKBFILES); \

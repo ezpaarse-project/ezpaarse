@@ -27,7 +27,12 @@ node app.js --memory
 
 ## Launching the ezPAARSE's unit tests
 
-For testing a specific function, use mocha and indicate the path of the test file as a parameter
+Use the makefile to launch the tests:
+```console
+  make test
+```
+
+To test a specific function, use mocha and indicate the path of the test file as a parameter
 
 Eg for testing custom formats:
 ```console
@@ -35,21 +40,12 @@ Eg for testing custom formats:
 mocha ./test/custom-formats-test
 ```
 
-
 To perform only one functionality test, use mocha and set the path of the test file as a parameter and then specify (with ``-g``) the test number (two figures) like ``@xx``.
 
 For example, for the second test about the custom formats:
 ```console
 . ./bin/env
 mocha ./test/custom-formats-test -g @02
-```
-
-To test a single platform, use mocha and set the path to the platforms test file. Specify the name of the platform with ``-g``.
-
-For example, testing Science Direct:
-```console
-. ./bin/env
-mocha ./test/platforms-test -g sd
 ```
 
 ## Generate a new ezPAARSE version ##
