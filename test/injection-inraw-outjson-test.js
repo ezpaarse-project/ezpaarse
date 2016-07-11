@@ -14,7 +14,8 @@ describe('The server', function () {
     it('and sends back a well formatted output file (@01)', function (done) {
       var headers = {
         'Accept'              : 'application/json',
-        'Crypted-Fields'      : 'disabled',
+        'Crypted-Fields'      : 'none',
+        'Crossref-Enrich'     : false,
         'Double-Click-Removal': false
       };
       helpers.post('/', logFile, headers, function (err, res, body) {
