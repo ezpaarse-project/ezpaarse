@@ -1,0 +1,21 @@
+115.87.23.43 - 15SCBUMR5554 [01/Jan/2016:05:21:52 +0100] "GET http://onlinelibrary.wiley.com:80/doi/10.1002/jez.1990/pdf HTTP/1.1" 200 16961
+115.87.23.43 - 15SCBUMR5554 [01/Jan/2016:05:21:52 +0100] "GET http://onlinelibrary.wiley.com:80/journal/10.1111/(ISSN)1365-294X/issues HTTP/1.1" 200 31285
+115.87.23.43 - 15SCBUMR5554 [01/Jan/2016:05:21:52 +0100] "GET http://onlinelibrary.wiley.com:80/doi/10.1111/jav.00619/abstract HTTP/1.1" 200 38206
+115.87.23.43 - 15SCBUMR5554 [01/Jan/2016:05:21:52 +0100] "GET http://onlinelibrary.wiley.com:80/journal/10.1111/(ISSN)1463-6409/issues HTTP/1.1" 200 34462
+115.87.23.43 - 15SCBUMR5554 [01/Jan/2016:05:21:52 +0100] "GET http://onlinelibrary.wiley.com:80/doi/10.1111/zsc.12117/pdf HTTP/1.1" 200 21168
+91.69.7.48 - 15SCBUMR8251 [01/Jan/2016:05:21:52 +0100] "GET http://link.springer.com:80/article/10.1007/s00125-002-0828-3 HTTP/1.1" 200 39169
+91.69.7.48 - 15SCBUMR8251 [01/Jan/2016:05:21:52 +0100] "GET http://link.springer.com:80/social/10.1007/s00125-002-0828-3 HTTP/1.1" 200 626
+89.86.4.188 - 15SCBUMR5105 [01/Jan/2016:05:21:52 +0100] "GET http://www.sciencedirect.com:80/science/altmetric/10.1016/j.neuron.2015.10.040 HTTP/1.1" 200 20125
+85.68.31.161 - 15SCBUMR8576 [01/Jan/2016:05:21:52 +0100] "GET http://link.springer.com:80/article/10.1007/s10719-015-9625-3 HTTP/1.1" 200 104825
+78.192.89.104 - 15SCBUMR7654 [01/Jan/2016:05:21:52 +0100] "GET http://www.sciencedirect.com:80/science/altmetric/10.1016/j.brainres.2015.10.005 HTTP/1.1" 200 9593
+172.28.4.47, 195.221.0.34 - 15SMPUR1 [01/Jan/2016:05:21:52 +0100] "GET http://pubs.acs.org:80/doi/pdf/10.1021/nn901499c HTTP/1.1" 200 2981936
+247.63.228.176 - THEODORE_MCCLURE [01/Jan/2016:05:21:52 +0100] "GET http://link.springer.com.gate1.inist.fr/content/pdf/10.1007/s00359-010-0615-4 HTTP/1.1" 200 224846
+180.180.180.180 - GRAPEFRUIT [01/Jan/2016:05:21:52 +0100] "GET http://press.endocrine.org/doi/10.1210/MN1.9781936704842 HTTP/1.1" 200 1211509
+180.180.180.180 - GRAPEFRUIT [01/Jan/2016:05:21:52 +0100] "GET http://press.endocrine.org/doi/suppl/10.1210/jc.2014-3282 HTTP/1.1" 200 1211509
+89.137.108.27 - 15SMPUPR2940 [01/Jan/2016:05:21:52 +0100] "GET http://link.springer.com:80/article/10.1007/BF01597009 HTTP/1.1" 200 39623
+82.243.141.54 - 15TITUMR5822 [01/Jan/2016:05:21:52 +0100] "GET http://link.springer.com:80/article/10.1140/epjc/s10052-014-2981-5 HTTP/1.1" 200 1571117
+62.34.170.149 - 15TITUMR8601 [01/Jan/2016:05:21:52 +0100] "GET http://link.springer.com:80/protocol/10.1007/978-1-61779-148-2_7 HTTP/1.1" 200 71801
+82.247.135.110 - 15SCBUMR7216 [01/Jan/2016:05:21:52 +0100] "GET http://link.springer.com:80/article/10.1007/s10620-015-3966-4 HTTP/1.1" 200 80307
+115.87.23.43 - 15SCBUMR5554 [01/Jan/2016:05:21:52 +0100] "GET http://onlinelibrary.wiley.com:80/journal/10.1111/(ISSN)1463-6409/issues HTTP/1.1" 200 34838
+115.87.23.43 - 15SCBUMR5554 [01/Jan/2016:05:21:52 +0100] "GET http://onlinelibrary.wiley.com:80/journal/10.1111/(ISSN)1461-0248/issues HTTP/1.1" 200 30012
+115.87.23.43 - 15SCBUMR5554 [01/Jan/2016:05:21:52 +0100] "GET http://onlinelibrary.wiley.com:80/journal/10.1002/(ISSN)1932-5231 HTTP/1.1" 200 36890
