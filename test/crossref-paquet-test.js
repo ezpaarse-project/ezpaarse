@@ -32,7 +32,6 @@ describe('crossref consultations', function () {
       result.should.have.length(16);
 
       var ec = result[4];
-    console.error(ec);
       should.equal(ec['doi-publication-title'][0], 'Diabetologia');
       should.equal(ec['doi-publisher'], 'Springer Science + Business Media');
       should.equal(ec['doi-type'], 'journal-article');
