@@ -13,6 +13,8 @@ cd ezpaarse
 git checkout `git describe --tags --abbrev=0`
 make
 ```
+### Video Demonstration ###
+This [screencast](https://www.youtube.com/watch?v=W77vPsgC1A8) demonstrates the previous instructions
 
 ## Development version ##
 If you wish to install the development version, enter:
@@ -22,11 +24,6 @@ cd ezpaarse
 make
 ```
 
-You can also [download a .deb archive](http://analogist.couperin.org/ezpaarse/download) and install it on your Debian/Ubuntu system:
-```console
-sudo -E dpkg -i ezpaarse-X.X.X.deb
-sudo /etc/init.d/ezpaarse start
-```
 ## Uninstall ezPAARSE ##
 
 Remove the ezpaarse folder:
