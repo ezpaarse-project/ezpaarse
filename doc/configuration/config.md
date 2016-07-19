@@ -36,7 +36,7 @@ The default value is set to `false`
 Contains an array of field names that are going to be present in the result file produced by ezPAARSE. 
 The default array contains the following fields: 
 
-```javascript
+```json
 [
 "datetime",
 "date",
@@ -60,7 +60,7 @@ The default array contains the following fields:
 Contains an array of middleware names, in the order they are going to be launched by ezPAARSE during a process.
 The default array contains the following middlewares: 
 
-```javascript
+```json
 [
   "filter",
   "parser",
@@ -83,7 +83,7 @@ This sets the minimal value, under which ezPAARSE considers an EC is not qualifi
 The default value is set to `1`
 
 ### EZPAARSE_QUALIFYING_FACTORS
-```javascript
+```json
 {
     "internal": {
       "rtype": 0.5,
@@ -108,7 +108,7 @@ The default value is set to `1day`
 
 ### EZPAARSE_IGNORED_DOMAINS
 Contains an array of domains to be ignored (ie filtered out) by ezPAARSE.
-```javascript
+```json
 [
   "www.google.fr",
   "www.google.com"
@@ -123,9 +123,9 @@ The default value is set to `geoip-lookup`
 ### EZPAARSE_GEOLOCALIZE_SEPARATOR
 The default value is set to `.`
 
-### EZPAARSE_ALERTS"
-
-```javascript
+### EZPAARSE_ALERTS
+Contains an object with 4 member properties, listed here:
+```json
 {
   "activationThreshold": 1000,
   "unknownDomainsRate": 10,
