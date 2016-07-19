@@ -1,6 +1,6 @@
 # Configuration options #
 
-ezPAARSE comes with a config.json file (located at the root of the /ezpaarse directory).
+ezPAARSE comes with a `config.json` file (located at the root of the /ezpaarse directory) where some the configuration options for your instance can be set or modified.
 
 ### EZPAARSE_ADMIN_MAIL
 The default value is set to `ezpaarse@couperin.org`
@@ -15,7 +15,7 @@ The default value is set to `mongodb://localhost:27017/ezpaarse`
 The default value is set to `ezpaarse@couperin.org`
 
 ### EZPAARSE_SUBSCRIPTION_MAIL
-The default value is set to `false
+The default value is set to `false`
 
 ### EZPAARSE_ENV
 The default value is set to `production`
@@ -121,7 +121,7 @@ To avoid declaring too long a list, you can also declare unrelevant domains in d
 The default value is set to `geoip-lookup`
 
 ### EZPAARSE_GEOLOCALIZE_SEPARATOR
-The default value is set to `.`
+The default value is set to `.` (dot)
 
 ### EZPAARSE_ALERTS
 Contains an object with 4 member properties, listed here:
@@ -133,3 +133,4 @@ Contains an object with 4 member properties, listed here:
   "pkbFailRate": 20
 }
 ```
+The properties and their values are documented in further details in the [relevant section](http://ezpaarse.readthedocs.io/en/master/features/alerts.html)
