@@ -62,6 +62,8 @@ Maximum number of lines that ezPAARSE will attempt to parse in order to check th
 ### Clean-Only ###
 If set to `true`, ezPAARSE will just filter out the lines we are sure are irrelevant and output only the relevant ones.
 The goal when using this parameter is to reduce the size of the log file, if you need to store it for further treatment.
+#### Video Demonstration ####
+This [screencast](https://www.youtube.com/watch?v=I3D6lO4wDZo) demonstrates the usage of the Clean-Only parameter (ie the cleaning of a log file for size reduction and ease of storage)
 
 ### Force-Parser ###
 If URLs don't have 'domain' part, use this parameter to force right parser to be used. Usefull for Open Access log analysis which don't have domain part in URL (all URLs comes form the same domain).

@@ -158,3 +158,6 @@ curl -X POST --proxy "" --no-buffer -H 'Log-Format-ezproxy: %h %<[-]> %u [%t] "%
     </tr>
   </tbody>
 </table>
+
+### Video Demonstration ###
+This [screencast](https://www.youtube.com/watch?v=x5Xx0VNSKsQ) demonstrate how to use the GUI to discover the log file format in order to let ezPAARSE correctly process your log files
