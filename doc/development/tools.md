@@ -297,6 +297,9 @@ Options:
   --verbose, -v    Shows detailed operations.
 
 ```
+### Video Demonstration
+This [screencast](https://www.youtube.com/watch?v=5Tlk6GECSTI) demonstrates the usage of ecbulkmaker (ie process a directory containing log files and outputting a mirror directory with the results)
+
 ## hostlocalize
 
 Enrich a csv result file containing a host name with the geolocation of the IP address

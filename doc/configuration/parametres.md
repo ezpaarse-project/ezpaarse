@@ -4,10 +4,10 @@ The ezPAARSE treatments can be congured using HTTP headers. Please find below th
 
 
 ### Content-Encoding ###
-Encoding of the data sent  *(supported : gzip, deflate)*  
+Encoding of the data sent  *(supported : gzip, deflate)*
 
 ### Response-Encoding ###
-Encoding of the data sent back by server. *(supported : gzip, deflate)*  
+Encoding of the data sent back by server. *(supported : gzip, deflate)*
 
 ### Accept ###
 Output format. Supported :
@@ -20,7 +20,7 @@ Output format. Supported :
 Format of the log lines in input, depend on the proxy *xxx* used. [See the available formats](./formats.html)
 
 ### Date-Format ###
-Date format used in the logs sent. Default is : 'DD/MMM/YYYY:HH:mm:ss Z'.  
+Date format used in the logs sent. Default is : 'DD/MMM/YYYY:HH:mm:ss Z'.
 
 ### Crypted-Fields ###
 Comma-separated list of fields that will be crypted in the results, or `none` to disable crypting. Defaults to `host,login`.
@@ -28,16 +28,16 @@ Comma-separated list of fields that will be crypted in the results, or `none` to
 **Caution**: each job uses a random salt for crypting, so crypted values from different jobs are not comparable.
 
 ### Output-Fields ###
-To specify the fields to include in the output (if the format allows it). [(More information)](./outputfields.html)  
+To specify the fields to include in the output (if the format allows it). [(More information)](./outputfields.html)
 
 ### Traces-Level ###
 Allows to specify the verbosity level desired for ezPAARSE's feedback. The higher levels include the lower ones.
 Niveaux disponibles :
-  - **error** : blocking errors, abnormal treatment termination.  
-  - **warn** : errors not fatal to the treatment.  
-  - **info** : general informations (requested format, ending notification, number of ECs generated...).  
-  - **verbose** : more precise than info, gives more information about each stage of the treatment.  
-  - **silly** : every detail of the treatment (parser not found, line ignored, unsuccessful search in a pkb...).  
+  - **error** : blocking errors, abnormal treatment termination.
+  - **warn** : errors not fatal to the treatment.
+  - **info** : general informations (requested format, ending notification, number of ECs generated...).
+  - **verbose** : more precise than info, gives more information about each stage of the treatment.
+  - **silly** : every detail of the treatment (parser not found, line ignored, unsuccessful search in a pkb...).
 
 
 ### Reject-Files ###
@@ -62,6 +62,8 @@ Maximum number of lines that ezPAARSE will attempt to parse in order to check th
 ### Clean-Only ###
 If set to `true`, ezPAARSE will just filter out the lines we are sure are irrelevant and output only the relevant ones.
 The goal when using this parameter is to reduce the size of the log file, if you need to store it for further treatment.
+#### Video Demonstration ####
+This [screencast](https://www.youtube.com/watch?v=I3D6lO4wDZo) demonstrates the usage of the Clean-Only parameter (ie the cleaning of a log file for size reduction and ease of storage)
 
 ### Force-Parser ###
 If URLs don't have 'domain' part, use this parameter to force right parser to be used. Usefull for Open Access log analysis which don't have domain part in URL (all URLs comes form the same domain).
@@ -72,13 +74,13 @@ Can be use in conjonction with Force-ECField-Publisher.
 List of COUNTER reports to create (ex: JR1, BR2). Download links are accessible in the `stats` section of the treatment report. [(More information)](./counter.html)
 
 ### COUNTER-Format ###
-COUNTER report formats : `XML` (by default) ou `CSV`.  
+COUNTER report formats : `XML` (by default) ou `CSV`.
 
 ### COUNTER-Customer ###
-Name and/or email of the customer to include in the COUNTER reports, following the form `name`, `<email>` or `name<email>`. (By default :`ezPAARSE<admin email>`)  
+Name and/or email of the customer to include in the COUNTER reports, following the form `name`, `<email>` or `name<email>`. (By default :`ezPAARSE<admin email>`)
 
 ### COUNTER-Vendor ###
-Name and/or email of the publisher  to include in the COUNTER reports, following the form `name`, `<email>` or `name<email>`. (By default :`platform42`, without email)  
+Name and/or email of the publisher  to include in the COUNTER reports, following the form `name`, `<email>` or `name<email>`. (By default :`platform42`, without email)
 
 ### Geoip ###
 Listing of the geolocation informations to be added to the results. Bu default `geoip-longitude, geoip-latitude, geoip-country`. `all` can be used to include every fiel available, or `none` to deactivate geolocation altogether. [(More information)](./geolocalisation.html)
@@ -96,9 +98,9 @@ Tells ezPAARSE to use a predefined set of parameters. Ex : `inist` for INIST-CNR
 Set false to prevent lines with HTTP status codes 301, 302 from being filtered and discarded.
 
 ### Disable-Filters ###
-Disable filters applying to robots or arbitrary hosts/domains. (defaults to `none`).  
-Possible values (separated by commas) : `robots`, `ignored-hosts`, `ignored-domains`.  
-Set to `all` to disable all above filters.  
+Disable filters applying to robots or arbitrary hosts/domains. (defaults to `none`).
+Possible values (separated by commas) : `robots`, `ignored-hosts`, `ignored-domains`.
+Set to `all` to disable all above filters.
 
 **NB**: when robots are not filtered, add the `robot` field to the output in order to know which consultations were made by robots.
 
