@@ -10,6 +10,7 @@ This documentation is organized into a few main sections :
 * :ref:`user-docs`
 * :ref:`essential-docs`
 * :ref:`feature-docs`
+* :ref:`config-docs`
 * :ref:`dev-docs`
 
 .. toctree::
@@ -46,6 +47,13 @@ This documentation is organized into a few main sections :
   features/geolocalisation.md
   features/doubleclick.md
   features/qualification.md
+
+.. toctree::
+  :maxdepth: 2
+  :name: config-docs
+  :caption: Configuration
+
+  configuration/config.md
   configuration/parametres.md
 
 .. toctree::
