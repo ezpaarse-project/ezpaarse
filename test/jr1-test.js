@@ -14,6 +14,7 @@ var xmlFile = path.resolve(__dirname, 'dataset/npg.jr1.xml');
 var tsvFile = path.resolve(__dirname, 'dataset/npg.jr1.txt');
 
 describe('The server', function () {
+  this.timeout(25000);
   it('generates a correct XML JR1 report (@01)', function (done) {
     var headers = {
       'COUNTER-Reports': 'JR1',
@@ -23,7 +24,7 @@ describe('The server', function () {
     helpers.post('/', logFile, headers, function (err, res) {
       if (!res) { throw new Error('ezPAARSE is not running'); }
       if (err)  { throw err; }
-      res.should.have.status(200);
+      res.statusCode.should.equal(200, 'expected 200, got ' + res.statusCode);
 
       var logURL = res.headers['job-report-jr1'];
       should.exist(logURL,
@@ -32,7 +33,7 @@ describe('The server', function () {
       helpers.get(logURL, function (error, response, body) {
         if (!response) { throw new Error('ezPAARSE is not running'); }
         if (error)     { throw error; }
-        response.should.have.status(200);
+        response.statusCode.should.equal(200, 'expected 200, got ' + response.statusCode);
 
         checkXml(body, done);
       });
@@ -89,7 +90,7 @@ describe('The server', function () {
     helpers.post('/', logFile, headers, function (err, res) {
       if (!res) { throw new Error('ezPAARSE is not running'); }
       if (err)  { throw err; }
-      res.should.have.status(200);
+      res.statusCode.should.equal(200, 'expected 200, got ' + res.statusCode);
 
       var logURL = res.headers['job-report-jr1'];
       should.exist(logURL,
@@ -98,7 +99,7 @@ describe('The server', function () {
       helpers.get(logURL, function (error, response, body) {
         if (!response) { throw new Error('ezPAARSE is not running'); }
         if (error)     { throw error; }
-        response.should.have.status(200);
+        response.statusCode.should.equal(200, 'expected 200, got ' + response.statusCode);
 
         var expected = fs.readFileSync(tsvFile).toString().split('\n');
         body = (body || '').split('\n');
