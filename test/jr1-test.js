@@ -14,8 +14,6 @@ var xmlFile = path.resolve(__dirname, 'dataset/npg.jr1.xml');
 var tsvFile = path.resolve(__dirname, 'dataset/npg.jr1.txt');
 
 describe('The server', function () {
-  var e = new Date().getTime() + (50 * 2000);
-  while (new Date().getTime() <= e) {};
   it('generates a correct XML JR1 report (@01)', function (done) {
     var headers = {
       'COUNTER-Reports': 'JR1',
