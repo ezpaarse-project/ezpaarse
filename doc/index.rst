@@ -52,6 +52,7 @@ This documentation is organized into a few main sections :
   :maxdepth: 2
   :name: config-docs
   :caption: Configuration
+
   configuration/config.md
   configuration/parametres.md
 
