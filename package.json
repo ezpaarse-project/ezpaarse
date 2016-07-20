@@ -81,7 +81,7 @@
   "scripts": {
     "postinstall": "npm run bower",
     "bower": "bower install -F --allow-root --config.interactive=false",
-    "test": "export EZPAARSE_ENV=\"production\" ; export EZPAARSE_DEBUG_LEVEL=\"pkb\" ; make && make start && sleep 3 ; make test-pkb ; make test",
+    "test": "export EZPAARSE_ENV=\"production\" ; export EZPAARSE_DEBUG_LEVEL=\"pkb\" ; make && make start && sleep 4 ; make test-pkb ; make test",
     "lint": "eslint --no-ignore *.js lib/ test/ routes/ platforms/ platforms/.lib"
   },
   "config": {
