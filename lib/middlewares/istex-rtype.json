@@ -23,6 +23,8 @@
   "brief report" :  "ARTICLE",
   "brief communication" : "ARTICLE",
   "research-article" : "ARTICLE",
+  "book reviews" : "ARTICLE",
+  "book-reviews" : "ARTICLE",
   "chapter" : "BOOK_SECTION",
   "chapitre" :  "BOOK_SECTION",
   "book chapter" :  "BOOK_SECTION",
