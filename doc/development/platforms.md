@@ -124,6 +124,8 @@ For example, if you want to test the parsers for Nature and ScienceDirect:
 make test sd npg
 ```
 
+See the [ezpaarse-platforms README](https://github.com/ezpaarse-project/ezpaarse-platforms/blob/master/README.md) for more information.
+
 ## Description of a parser
 
 The parser is described by a ``manifest.json`` file, located in the parser directory.
