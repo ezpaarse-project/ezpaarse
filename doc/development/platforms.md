@@ -90,24 +90,25 @@ A [detailed procedure](http://analogist.couperin.org/platforms/contribute/parser
 
 ## Testing Parsers
 
-Each parser is accompanied by what it needs to be tested: one or more files in the subdirectory `test` parser package. These files are in CSV format and follow the ``platform.version.csv`` pattern.
+Each parser comes with what it needs to be tested: one or more files located in the `test` subdirectory from the parser package. These files are in CSV format and follow the ``platform.version.csv`` pattern.
 
 The test principle is represented by the following diagram:
 ![Parsers' test](../_static/images/ezPAARSE-Test-des-Parseurs.png "Test des parseurs")
 
-For each row, column data prefixed by ``in-`` are sent to the parser, and the result is compared with the columns prefixed by ``out-``. These must be strictly identical.
+For each row, column data prefixed with ``in-`` are sent to the parser, and the result is compared with the columns prefixed with ``out-``. These must be strictly identical.
 
 More details on the identifiers returned by parsers are available on [this page](./ ec-attributes.html).
 
-In case the parser takes only an input URL (ie no other fields prefixed by ``in-``), it is possible to manually run the test file with the following command (from the directory the platform):
+When the parser only takes an input URL (ie. no other fields prefixed with ``in-``), it is possible to manually run the test file with the following command (from the directory the platform):
 
 ```bash
 #platform.version.csv is the test file
 cat test/platform.version.csv | ../../bin/csvextractor --fields="in-url" -c --noheader | ./parser.js
 ```
 
-The tests are integrated into ezPAARSE's platforms folder.
-To launch them, you need to setup the environment first (ezPAARSE doesn't need to be running as the parsers' tests are now autonomous):
+The tests are now integrated into ezPAARSE's platforms folder (instead of coming with the core of ezPAARSE).
+It means that ezPAARSE doesn't need to be running as the parsers' tests are now autonomous.
+To launch the platforms' tests, you need to setup the environment first:
 ```
 cd platforms/
 make install
@@ -117,7 +118,6 @@ You can then either test all parsers:
 ```
 make test
 ```
-
 or test only a selection, by naming them (use the shortnames).
 For example, if you want to test the parsers for Nature and ScienceDirect:
 ```
@@ -170,12 +170,4 @@ For example, running only the second test of personalized formats will look like
 ```console
 . ./bin/env
 mocha ./test/custom-formats-test -g @02
-```
-
-To test a single platform, use mocha and give the path of the test file and the platform name (with ``-g``) as parameters.
-
-For example, testing only the ScienceDirect platform will look like:
-```console
-. ./bin/env
-mocha ./test/platforms-test -g sd
 ```
