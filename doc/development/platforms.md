@@ -88,7 +88,7 @@ Tools are available online to [help you visualize the writing of regular express
 
 A [detailed procedure](http://analogist.couperin.org/platforms/contribute/parser) is available on AnalogIST
 
-## Validation tests for a parser
+## Testing Parsers
 
 Each parser is accompanied by what it needs to be tested: one or more files in the subdirectory `test` parser package. These files are in CSV format and follow the ``platform.version.csv`` pattern.
 
@@ -106,10 +106,22 @@ In case the parser takes only an input URL (ie no other fields prefixed by ``in-
 cat test/platform.version.csv | ../../bin/csvextractor --fields="in-url" -c --noheader | ./parser.js
 ```
 
-The test is automatically integrated into ezPAARSE, the following command is used to test all the parsers:
-
+The tests are integrated into ezPAARSE's platforms folder.
+To launch them, you need to setup the environment first (ezPAARSE doesn't need to be running as the parsers' tests are now autonomous):
 ```
-make test-platforms-verbose
+cd platforms/
+make install
+```
+
+You can then either test all parsers:
+```
+make test
+```
+
+or test only a selection, by naming them (use the shortnames).
+For example, if you want to test the parsers for Nature and ScienceDirect:
+```
+make test sd npg
 ```
 
 ## Description of a parser
