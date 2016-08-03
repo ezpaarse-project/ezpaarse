@@ -15,8 +15,6 @@ describe('crossref consultations', function () {
   it('should correctly return  doi/pii package (@01 @big)', function (done) {
     var headers = {
       'Accept': 'application/json',
-      'crossref-Enrich': 'true',
-      'enrich-overwrite': 'true',
       'crossref-buffer-size' : '20'
     };
     helpers.post('/', logFile, headers, function (err, res, body) {

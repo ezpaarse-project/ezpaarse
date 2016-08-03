@@ -12,9 +12,7 @@ describe('crossref consultations', function () {
   this.timeout(5000);
   it('should be correctly enriched (@01 @tdd)', function (done) {
     var headers = {
-      'Accept': 'application/json',
-      'crossref-Enrich': 'true',
-      'crossref-buffer-size' : '1'
+      'Accept': 'application/json'
     };
     helpers.post('/', logFile, headers, function (err, res, body) {
       if (!res) { throw new Error('ezPAARSE is not running'); }
