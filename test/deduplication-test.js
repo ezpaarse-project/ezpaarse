@@ -51,6 +51,7 @@ describe('The server', function () {
     it('and sends back a deduplicated output file using session (@02)', function (done) {
       var headers = {
         'Accept'               : 'application/json',
+        'crossref-enrich'      : 'false',
         'Log-Format-ezproxy'   : logFormat,
         'Double-Click-HTML'    : 10,
         'Double-Click-MISC'    : 20,
@@ -82,6 +83,7 @@ describe('The server', function () {
     it('and sends back a deduplicated output file using login (@03)', function (done) {
       var headers = {
         'Accept'              : 'application/json',
+        'crossref-enrich'     : 'false',
         'Log-Format-ezproxy'  : '%h %u %{session}<[a-zA-Z0-9\\-]+> %t "%r" %s',
         'Double-Click-HTML'   : 10,
         'Double-Click-MISC'   : 20,
@@ -113,6 +115,7 @@ describe('The server', function () {
     it('and sends back a deduplicated output file using IP (@04)', function (done) {
       var headers = {
         'Accept'              : 'application/json',
+        'crossref-enrich'     : 'false',
         'Log-Format-ezproxy'  : '%h %u %{session}<[a-zA-Z0-9\\-]+> %t "%r" %s',
         'Double-Click-HTML'   : 10,
         'Double-Click-MISC'   : 20,
@@ -145,6 +148,7 @@ describe('The server', function () {
     it('and sends back a deduplicated output file (@05)', function (done) {
       var headers = {
         'Accept'               : 'application/json',
+        'crossref-enrich'      : 'false',
         'Log-Format-ezproxy'   : logFormat,
         'Double-Click-HTML'    : 10,
         'Double-Click-MISC'    : 20,
@@ -177,6 +181,7 @@ describe('The server', function () {
     it('and sends back a deduplicated output file (@05)', function (done) {
       var headers = {
         'Accept'               : 'application/json',
+        'crossref-enrich'      : 'false',
         'Log-Format-ezproxy'   : logFormat,
         'Double-Click-HTML'    : 10,
         'Double-Click-MISC'    : 20,
@@ -208,6 +213,7 @@ describe('The server', function () {
     it('and deduplicates them into the same window (@06)', function (done) {
       var headers = {
         'Accept'               : 'application/json',
+        'crossref-enrich' : 'false',
         'Log-Format-ezproxy'   : logFormat,
         'Double-Click-Strategy': 'LCI',
         'Double-Click-MIXED'   : 10
