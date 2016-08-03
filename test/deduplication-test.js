@@ -23,7 +23,8 @@ describe('The server', function () {
   describe('receives a log with multiple HTTP status codes', function () {
     it('and correctly filter them (@01)', function (done) {
       var headers = {
-        'Accept' : 'application/json'
+        'Accept' : 'application/json',
+        'crossref-enrich' : 'false'
       };
       helpers.post('/', multipleStatus, headers, function (err, res, body) {
         if (!res) { throw new Error('ezPAARSE is not running'); }
