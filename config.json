@@ -24,6 +24,7 @@
     "title_id",
     "doi",
     "publication_title",
+    "publication_date",
     "unitid",
     "domain"
   ],
