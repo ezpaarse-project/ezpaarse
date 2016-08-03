@@ -30,24 +30,17 @@ describe('crossref consultations', function () {
       var result = JSON.parse(body);
 
 
-      should.equal(result[0]['doi-ISSN'], '1932-5223');
-      should.equal(result[1]['doi-ISSN'], '0962-1083');/* changer le title pub
-     // should.equal(result[2]['doi-publication-title'], 'Journal of Avian Biology');
-      //should.equal(result[3]['doi-publication-title'], 'Zoologica Scripta');
-      should.equal(result[4]['doi-publication-title'], 'Diabetologia');
-      //should.equal(result[5]['doi-publication-title'], 'Glycoconjugate Journal');
-     // should.equal(result[6]['doi-publication-title'], 'ACS Nano');
-     // should.equal(result[7]['doi-publisher'], 'The Endocrine Society');
+      should.equal(result[0]['type'], 'journal-article');
+      should.equal(result[1]['type'], 'journal');
+      should.equal(result[2]['type'], 'journal-article');
+      should.equal(result[3]['type'], 'journal-article');
+      should.equal(result[4]['type'], 'journal-article');
+      should.equal(result[5]['type'], 'journal-article');
+      should.equal(result[6]['type'], 'journal-article');
+      should.equal(result[7]['type'], 'book');
+      should.equal(result[8]['type'], 'journal-article');
+      should.equal(result[9]['type'], 'journal-article');
 
-     console.error(result[9]);
-      should.equal(result[9]['doi-publication-title'], 'Czechoslovak Journal of Physics');
-      should.equal(result[10]['doi-publisher'], '');
-      should.equal(result[11]['doi-publication-title'], 'Methods in Molecular Biology');
-      should.equal(result[12]['doi-publication-title'], 'Digestive Diseases and Sciences');
-      should.equal(result[13]['doi-ISSN'], '1463-6409');
-      should.equal(result[14]['doi-ISSN'], '1461-023X');
-      should.equal(result[15]['doi-ISSN'], '1932-5223');
-*/
       var reportURL = res.headers['job-report'];
       should.exist(reportURL, 'The header "Job-Report" was not sent by the server');
       helpers.get(reportURL, function (error, response, reportBody) {
