@@ -7,6 +7,7 @@ services:
 notifications:
   recipients:
     - ezpaarse-team@googlegroups.com
+    - dominique.lechaudel@gmail.com
   webhooks:
     urls:
       - https://webhooks.gitter.im/e/2644f77c080c05ce0ccf
