@@ -26,8 +26,8 @@ describe('crossref consultations', function () {
 
       var ec = result[0];
 
-      should.equal(ec['doi-DOI'], '10.1210/mn1.9781936704842');
-      should.equal(ec['doi-publisher'], 'The Endocrine Society');
+      should.equal(ec['DOI'], '10.1210/mn1.9781936704842');
+      should.equal(ec['publisher'], 'The Endocrine Society');
 
       var reportURL = res.headers['job-report'];
       should.exist(reportURL, 'The header "Job-Report" was not sent by the server');

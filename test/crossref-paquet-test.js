@@ -12,7 +12,7 @@ var enrichOverwriteFields1 = '<publisher_name,<publication_title,<print_identifi
 
 
 describe('crossref consultations', function () {
-  this.timeout(15000);
+  this.timeout(25000);
   it('should be correctly overwrited (@01 @big)', function (done) {
     var headers = {
       'Accept': 'application/json',
@@ -29,13 +29,25 @@ describe('crossref consultations', function () {
 
       var result = JSON.parse(body);
 
-      result.should.have.length(16);
 
-      var ec = result[4];
-      should.equal(ec['doi-publication-title'][0], 'Diabetologia');
-      should.equal(ec['doi-publisher'], 'Springer Science + Business Media');
-      should.equal(ec['doi-type'], 'journal-article');
-      should.equal(ec['doi-publication-date-year'], '2002');
+      should.equal(result[0]['doi-ISSN'], '1932-5223');
+      should.equal(result[1]['doi-ISSN'], '0962-1083');/* changer le title pub
+     // should.equal(result[2]['doi-publication-title'], 'Journal of Avian Biology');
+      //should.equal(result[3]['doi-publication-title'], 'Zoologica Scripta');
+      should.equal(result[4]['doi-publication-title'], 'Diabetologia');
+      //should.equal(result[5]['doi-publication-title'], 'Glycoconjugate Journal');
+     // should.equal(result[6]['doi-publication-title'], 'ACS Nano');
+     // should.equal(result[7]['doi-publisher'], 'The Endocrine Society');
+
+     console.error(result[9]);
+      should.equal(result[9]['doi-publication-title'], 'Czechoslovak Journal of Physics');
+      should.equal(result[10]['doi-publisher'], '');
+      should.equal(result[11]['doi-publication-title'], 'Methods in Molecular Biology');
+      should.equal(result[12]['doi-publication-title'], 'Digestive Diseases and Sciences');
+      should.equal(result[13]['doi-ISSN'], '1463-6409');
+      should.equal(result[14]['doi-ISSN'], '1461-023X');
+      should.equal(result[15]['doi-ISSN'], '1932-5223');
+*/
       var reportURL = res.headers['job-report'];
       should.exist(reportURL, 'The header "Job-Report" was not sent by the server');
       helpers.get(reportURL, function (error, response, reportBody) {
