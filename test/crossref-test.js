@@ -11,8 +11,10 @@ var logFile = path.join(__dirname, 'dataset/es.doi.log');
 describe('crossref consultations', function () {
   this.timeout(5000);
   it('should be correctly enriched (@01 @tdd)', function (done) {
+    // crossref-enrich has to be explicitly set due to helpers configuration
     var headers = {
-      'Accept': 'application/json'
+      'Accept': 'application/json',
+      'Crossref-enrich': 'true'
     };
     helpers.post('/', logFile, headers, function (err, res, body) {
       if (!res) { throw new Error('ezPAARSE is not running'); }
@@ -20,7 +22,7 @@ describe('crossref consultations', function () {
       res.statusCode.should.equal(200, 'expected 200, got ' + res.statusCode);
 
       var result = JSON.parse(body);
-      result.should.have.length(2);
+      result.should.be.an.instanceOf(Array).and.have.lengthOf(2);
 
       var ec = result[0];
 

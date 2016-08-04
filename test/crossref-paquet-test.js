@@ -12,10 +12,13 @@ var logFile = path.join(__dirname, 'dataset/crossref-paquet.log');
 
 describe('crossref consultations', function () {
   this.timeout(25000);
-  it('should correctly return  doi/pii package (@01 @big)', function (done) {
+  it('should correctly return  doi/pii package (@01 @tdd @big)', function (done) {
+    // crossref-enrich has to be explicitly set due to helpers configuration
     var headers = {
       'Accept': 'application/json',
-      'crossref-buffer-size' : '20'
+      'Crossref-enrich': 'true',
+      'Crossref-buffer-size' : '20',
+      'Traces-level': 'verbose'
     };
     helpers.post('/', logFile, headers, function (err, res, body) {
       if (!res) { throw new Error('ezPAARSE is not running'); }
@@ -24,6 +27,7 @@ describe('crossref consultations', function () {
 
       var result = JSON.parse(body);
 
+      result.should.be.an.instanceOf(Array).and.have.lengthOf(61);
 
       should.equal(result[0]['type'], 'journal-article');
       should.equal(result[0]['doi'], '10.1002/jez.1990');

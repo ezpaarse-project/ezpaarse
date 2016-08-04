@@ -8,11 +8,12 @@ var helpers = require('./helpers.js');
 
 var logFile = path.join(__dirname, 'dataset/cut.log');
 
-
 describe('crossref consultations', function () {
   this.timeout(15000);
-  it('should be correctly overwrited (@01 @big)', function (done) {
+  it('should be correctly overwrited (@01 @big @tdd)', function (done) {
+    // crossref-enrich has to be explicitly set due to helpers configuration
     var headers = {
+      'Crossref-enrich': 'true',
       'Accept': 'application/json'
     };
     helpers.post('/', logFile, headers, function (err, res, body) {
@@ -21,7 +22,7 @@ describe('crossref consultations', function () {
       res.statusCode.should.equal(200, 'expected 200, got ' + res.statusCode);
 
       var result = JSON.parse(body);
-      result.should.have.length(1);
+      result.should.be.an.instanceOf(Array).and.have.lengthOf(1);
 
       var ec = result[0];
 

@@ -2,6 +2,7 @@
 
 var request = require('request').defaults({
   proxy: null,
+  // all tests doesn't needs crossref default enrichment except crossref
   headers: { 'Crossref-Enrich': 'false' }
 });
 var fs      = require('fs');

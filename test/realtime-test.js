@@ -15,9 +15,8 @@ describe('Real time ECs', function () {
 
     var opt = {
       'Double-Click-Removal': false,
-      'crossref-enrich': false
+      'crossref-enrich': false // crossref-enrich has to be explicitly set to false (true by default)
     };
-
     // send the logs to ezPAARSE
     var jobStream = helper.postPiped('/', opt, stream, function (err, res) {
       if (!res) { throw new Error('ezPAARSE is not running'); }
