@@ -67,7 +67,6 @@ The default array contains the following middlewares:
   "deduplicator",
   "enhancer",
   "istex",
-  "elsevier",
   "crossref",
   "sudoc",
   "hal",

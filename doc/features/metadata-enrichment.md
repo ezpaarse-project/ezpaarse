@@ -17,29 +17,13 @@ ezPAARSE is configured for using 5 enrichment middleware : crossref, elsevier, s
 The crossref middleware use the doi found in the ECs to request metadatas using the [node-crossref](https://www.npmjs.com/package/meta-doi) module.
 
 ### Headers ###
-**crossref-Enrich** : set to `true` to enable crossref enrichment. Enable by default.  
+**crossref-Enrich** : set to `false` to desable crossref enrichment. Enable by default.  
 **crossref-TTL** : lifetime of cached documents, in seconds. Defaults to `7 days (3600 * 24 * 7)`
 .  
 **crossref-throttle** : minimum time to wait between queries, in milliseconds. Defaults to `200` ms
 **crossref-paquet-size** : maximum number of identifier to query in a single request. Defaults to `50` 
 **crossref-buffer-size** : maximum number of memorised ECs before sending a request. Defaults to `1000`
-**enrich-overwrite** : set to `true` to enable crossref aggregate. Enable by default.  
-**enrich-overwrite-fields** : feilds to aggregate and priority of aggregation, the field must be the priority process symbol `> | <`
 
-## Configuring elsevier middleware call ##
-
-The elsevier middleware use the pii found in the ECs to request metadatas using the [node-elsevier](https://www.npmjs.com/package/meta-els) module.
-
-The elsevier middleware needs an APIkey (http://dev.elsevier.com/myapikey.html) to be configured in the EZPAARSE_ELS_APIKEY of the config.local.json file 
-
-### Headers ###
-**elsevier-Enrich** : set to `true` to enable crossref enrichment. Disabled by default.  
-**elsevier-TTL** : lifetime of cached documents, in seconds. Defaults to `7 days (3600 * 24 * 7)`.  
-**elsevier-Throttle** : minimum time to wait between queries, in milliseconds. Defaults to `500`.  
-
-## Configuring sudoc middleware call ##
-
-The sudoc middleware use the print_identifier found in the ECs to request metadatas using the [node-sudoc](https://www.npmjs.com/package/sudoc)
 
 ### Headers ###
 **sudoc-Enrich** : set to `true` to enable crossref enrichment. Disabled by default.  
