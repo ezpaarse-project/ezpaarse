@@ -12,6 +12,8 @@
   "review" :  "ARTICLE",
   "analysis" :  "ARTICLE",
   "research report" : "ARTICLE",
+  "brief-communication" : "ARTICLE",
+  "Short communication" : "ARTICLE",
   "descriptive article" : "ARTICLE",
   "case study" :  "ARTICLE",
   "original paper" :  "ARTICLE",
