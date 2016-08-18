@@ -101,7 +101,7 @@ bower:
 	@. ./bin/env; npm run bower
 
 libs:
-	@. ./bin/env; npm install -q
+	@. ./bin/env; npm install -q --unsafe-perm
 
 version: ## Create a version, example: make version v=0.0.3
 	@. ./bin/env; ./bin/patch-version-number --version $(v)
