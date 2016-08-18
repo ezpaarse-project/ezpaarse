@@ -8,7 +8,7 @@
 "review-article" : "ARTICLE",
 "conference" : "BOOK",
 "editorial" : "ARTICLE",
-"case-report" : "OTHER",
+"case-report" : "ARTICLE",
 "collected-courses" : "BOOK",
 "chapter" : "BOOK_SECTION",
 "book" : "BOOK",
