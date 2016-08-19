@@ -12,11 +12,7 @@ This document describes how to install and run ezPAARSE on your computer.
 
 Moreover, **have a look to the [ezpaarse demo](http://ezpaarse.couperin.org)**, it will show you a nice user interface where you can register and test to process your own proxy logs.
 
-Built-in proxies supported log formats are:
-
-* [ezproxy](http://www.oclc.org/ezproxy.en.html)
-* [bibliopam](http://mioga.alixen.fr/Mioga2/bibliopam/public/club/)
-* [squid](http://www.squid-cache.org/)
+Built-in proxies supported log formats are: [ezproxy](http://www.oclc.org/ezproxy.en.html), [bibliopam](http://mioga.alixen.fr/Mioga2/bibliopam/public/club/), and [squid](http://www.squid-cache.org/)
 
 **Table of content**
 - [Recommended system requirements](#recommended-system-requirements)
