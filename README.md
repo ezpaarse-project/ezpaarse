@@ -86,7 +86,7 @@ You need to make sure that ezPAARSE is started. To do so, type the following com
 make start
 ```
 
-If you are not computer-savvy, the easiest way to work with ezPAARSE is to use its hmtl form, accessible from your favorite webbrowser and open the following URL: [http://localhost:59599/](http://localhost:59599/)
+If you are not computer-savvy, the easiest way to work with ezPAARSE is to use its HTML form, accessible from your favorite webbrowser and open the following URL: [http://localhost:59599/](http://localhost:59599/)
 
 If you are computer-savvy, you can use an HTTP client (like curl) to send a logfile
 (for this example, we will use ./test/dataset/sd.2012-11-30.300.log) to ezPAARSE's Web service
