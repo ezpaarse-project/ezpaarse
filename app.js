@@ -9,6 +9,9 @@ var favicon       = require('serve-favicon');
 var cookieSession = require('cookie-session');
 var cookieParser  = require('cookie-parser');
 
+// Set the global var "ezpaarse"
+require('./lib/global.js');
+
 var pkg           = require('./package.json');
 var config        = require('./lib/config.js');
 var socketIO      = require('./lib/socketio.js');

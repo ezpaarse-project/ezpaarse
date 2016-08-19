@@ -2,7 +2,7 @@
 
 SHELL:=/bin/bash
 
-all: nodejs node-modules platforms-update exclusions-update resources-update hooks checkconfig ## Runs every steps needed to start ezpaarse
+all: nodejs node-modules platforms-update middlewares-update exclusions-update resources-update hooks checkconfig ## Runs every steps needed to start ezpaarse
 
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
@@ -10,7 +10,7 @@ help:
 # Application section
 # # # # # # # # # # # #
 
-checkconfig: ## Check node configuration 
+checkconfig: ## Check node configuration
 	@. ./bin/env; if which node > /dev/null; then ./bin/checkconfig; else echo "Node.js was not found" >&2; fi
 
 start: ## Start ezPAARSE in deamon mode
@@ -31,7 +31,7 @@ status: ## Get status of ezPAARSE deamon
 EZPATH = $(shell pwd)
 PKBFILES=$(shell ls $(EZPATH)/platforms/*/pkb/*.txt | grep -v miss)
 
-test: ## Runs all tests (*-test.js) in the test folder except big and tdd 
+test: ## Runs all tests (*-test.js) in the test folder except big and tdd
 	@if test -d test; \
 	then . ./bin/env; mocha -g '@big|@tdd' -i; \
 	else echo 'No test folder found'; \
@@ -110,6 +110,12 @@ version: ## Create a version, example: make version v=0.0.3
 tag: ## Tag a version
 	./bin/tagversion
 
+middlewares-update: ## Clone or update middelwares directory
+	@if test -d middlewares; \
+	then cd middlewares; git pull; \
+	else git clone https://github.com/ezpaarse-project/ezpaarse-middlewares.git middlewares; \
+	fi
+
 resources-update: ## Clone or update resources directory
 	@if test -d resources; \
 	then cd resources; git pull; \
@@ -128,15 +134,15 @@ exclusions-update: ## Clone or update exclusions directory
 	else git clone https://github.com/ezpaarse-project/ezpaarse-exclusions.git exclusions; \
 	fi
 
-pull: platforms-update exclusions-update resources-update ## Stop the daemon, update to last tag and rebuild
+pull: platforms-update middlewares-update exclusions-update resources-update ## Stop the daemon, update to last tag and rebuild
 	@./bin/update-app --rebuild
 	@echo "ezPAARSE has been updated."
 
-pull-latest: platforms-update exclusions-update resources-update ## Stop the daemon, update to bleeding edge and rebuild
+pull-latest: platforms-update middlewares-update exclusions-update resources-update ## Stop the daemon, update to bleeding edge and rebuild
 	@./bin/update-app --latest --rebuild
 	@echo "ezPAARSE has been updated."
 
 update: pull
 update-latest: pull-latest
 
-.PHONY: help test checkconfig nodejs platforms-update exclusions-update resources-update version tag update pull start restart status stop
+.PHONY: help test checkconfig nodejs platforms-update middlewares-update exclusions-update resources-update version tag update pull start restart status stop
