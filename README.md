@@ -2,9 +2,8 @@
 
 [![Build Status](https://secure.travis-ci.org/ezpaarse-project/ezpaarse.png?branch=master)](http://travis-ci.org/ezpaarse-project/ezpaarse)
 [![Dependencies Status](https://david-dm.org/ezpaarse-project/ezpaarse.png)](https://david-dm.org/ezpaarse-project/ezpaarse)
-[![Join the chat at https://gitter.im/ezpaarse-project/ezpaarse](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/ezpaarse-project/ezpaarse?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 [![bitHound Overall Score](https://www.bithound.io/github/ezpaarse-project/ezpaarse/badges/score.svg)](https://www.bithound.io/github/ezpaarse-project/ezpaarse)
-  
+
 [![Docker status](http://dockeri.co/image/ezpaarseproject/ezpaarse)](https://registry.hub.docker.com/u/ezpaarseproject/ezpaarse/)
 
 ezPAARSE is an open-source software that can ingest your (proxy) log files and show how users access subscribed electronic resources.
@@ -39,7 +38,7 @@ Built-in proxies supported log formats are:
 The tools you need to let ezPAARSE run are:
 
 * Linux OS: [See the prerequisites for those OSes](https://github.com/ezpaarse-project/ezpaarse/blob/master/doc/multi-os.md)
-* Standard Linux tools: bash, make, grep, sed ... 
+* Standard Linux tools: bash, make, grep, sed ...
 * curl (used by nvm)
 * git >= 1.7.10 (required from github)
 
@@ -63,7 +62,7 @@ tar -xzfv ezpaarse-X.X.X.tar.gz
 cd ezpaarse-X.X.X
 make
 ```
-If you want to install the version in development (unstable), 
+If you want to install the version in development (unstable),
 open a terminal and type:
 ```shell
 git clone https://github.com/ezpaarse-project/ezpaarse.git
@@ -110,7 +109,7 @@ to send the logfile to the web service in a simpler way:
 . ./bin/env
 cat ./test/dataset/sd.2012-11-30.300.log | ./bin/loginjector
 ```
-You can also see quick countings on your data if you add the command 
+You can also see quick countings on your data if you add the command
 ``./bin/csvtotalizer`` at the end of the command line.
 Doing so, you will get an overview of the consultation events extracted
 from your logs by ezPAARSE:
@@ -146,7 +145,7 @@ Typical use:
 
     docker run -d --name ezdb mongo
     docker run -d --name ezpaarse --link ezdb:mongodb -p 59599:59599 ezpaarseproject/ezpaarse
-    
+
     # to stop the containers
     docker stop ezpaarse ezdb
     # to start again
