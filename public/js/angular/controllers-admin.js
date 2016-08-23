@@ -6,21 +6,21 @@ angular.module('ezPAARSE.admin-controllers', [])
   .controller('AdminCtrl', function ($scope, $http, $location) {
     $scope.adm = {
       tab: $location.search().tab || 'platforms',
-      software: {
-        refreshing: false,
-        updating: false
-      },
       platforms: {
         refreshing: false,
         sort: '+longname'
       },
-      resources: {
-        refreshing: false
-      },
+      software: { refreshing: false },
+      resources: { refreshing: false },
+      middlewares: { refreshing: false },
       selectedPKBs: {}
     };
 
     var adm = $scope.adm;
+
+    adm.isOutdated = function () {
+      return adm.software.outdated || adm.resources.outdated || adm.middlewares.outdated;
+    };
 
     adm.sortBy = function (name) {
       var sort  = adm.platforms.sort.substr(1);
@@ -100,11 +100,8 @@ angular.module('ezPAARSE.admin-controllers', [])
       }
 
       if (!what || what == 'resources') {
-        adm.resources.refreshing        = true;
-        adm.resources.refreshingList    = true;
-        adm.resources.errored           = false;
-        adm.resources.erroredList       = false;
-        adm.resources.erroredChanges    = false;
+        adm.resources.refreshing = true;
+        adm.resources.errored    = false;
 
         $http.get('/resources/status')
           .success(function (data) {
@@ -116,6 +113,23 @@ angular.module('ezPAARSE.admin-controllers', [])
           .error(function ()       {
             adm.resources.errored    = true;
             adm.resources.refreshing = false;
+          });
+      }
+
+      if (!what || what == 'middlewares') {
+        adm.middlewares.refreshing = true;
+        adm.middlewares.errored    = false;
+
+        $http.get('/middlewares/status')
+          .success(function (data) {
+            adm.middlewares.git            = data;
+            adm.middlewares.refreshing     = false;
+            adm.middlewares.currentVersion = data.current;
+            adm.middlewares.outdated       = data['from-head'] == 'outdated';
+          })
+          .error(function ()       {
+            adm.middlewares.errored    = true;
+            adm.middlewares.refreshing = false;
           });
       }
 
@@ -168,6 +182,20 @@ angular.module('ezPAARSE.admin-controllers', [])
         .error(function ()   {
           adm.resources.refreshing = false;
           adm.resources.errored    = true;
+        });
+    };
+  })
+  .controller('AdminMiddlewaresCtrl', function ($scope, $http) {
+    var adm = $scope.adm;
+
+    adm.updateMiddlewares = function () {
+      adm.middlewares.refreshing = true;
+
+      $http.put('/middlewares/status', 'uptodate')
+        .success(function () { adm.refreshStatus('middlewares'); })
+        .error(function ()   {
+          adm.middlewares.refreshing = false;
+          adm.middlewares.errored    = true;
         });
     };
   })
