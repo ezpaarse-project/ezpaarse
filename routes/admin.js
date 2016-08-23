@@ -1,5 +1,6 @@
 'use strict';
 
+var fs         = require('fs');
 var path       = require('path');
 var bodyParser = require('body-parser');
 var execFile   = require('child_process').execFile;
@@ -35,12 +36,13 @@ module.exports = function (app) {
    */
   app.get(/^\/(app|platforms|resources)\/status$/, auth.ensureAuthenticated(true),
     function (req, res) {
-      var gitscript = path.join(__dirname, '../bin/git-status');
+      var gitScript = path.join(__dirname, '../bin/git-status');
       var directory;
 
       switch (req.params[0]) {
       case 'platforms':
       case 'resources':
+      case 'middlewares':
         directory = path.join(__dirname, '..', req.params[0]);
         break;
       case 'app':
@@ -50,7 +52,7 @@ module.exports = function (app) {
         return res.status(500).end();
       }
 
-      execFile(gitscript, { cwd: directory }, function (error, stdout) {
+      execFile(gitScript, { cwd: directory }, function (error, stdout) {
         if (error || !stdout) {
           res.status(500).end();
           return;
@@ -351,59 +353,95 @@ module.exports = function (app) {
   );
 
   /**
-   * PUT route on /platforms/status
-   * To update the platforms folder
+   * Update a git folder
    */
-  app.put('/platforms/status', auth.ensureAuthenticated(true), auth.authorizeMembersOf('admin'),
+  app.put('/:repo/status', auth.ensureAuthenticated(true), auth.authorizeMembersOf('admin'),
     function (req, res) {
-      var bodyString = '';
+      const repo = req.params.repo;
+      const repos = ['resources', 'middlewares', 'platforms'];
 
-      req.on('readable', function () {
-        bodyString += req.read() || '';
-      });
+      if (repos.indexOf(repo) === -1) {
+        return res.status(406).json({ error: `valid repos : ${repos.join(', ')}` });
+      }
 
-      req.on('error', function () {
-        res.status(500).end();
-      });
+      const directory = path.join(__dirname, '..', repo);
+      const gitScript = path.join(__dirname, '../bin/git-update');
 
-      req.on('end', function () {
-        if (bodyString.trim() !== 'uptodate') {
-          return res.status(400).end();
-        }
+      execFile(gitScript, { cwd: directory }, function (error) {
+        if (error) { return res.status(500).end(); }
 
-        var platformsFolder = path.join(__dirname, '../platforms');
-        var gitscript = path.join(__dirname, '../bin/git-update');
-
-        execFile(gitscript, {cwd: platformsFolder}, function (error) {
-          if (error) {
-            return res.status(500).end();
-          }
-
+        switch (repo) {
+        case 'resources':
+          clearCache('../resources/predefined-settings.json').then(() => {
+            app.locals.bundle = null;
+            res.status(200).end();
+          }).catch(err => {
+            res.status(200).end();
+          });
+          break;
+        case 'middlewares':
+          clearCache('../middlewares').then(() => {
+            res.status(200).end();
+          }).catch(err => {
+            res.status(200).end();
+          });
+          break;
+        case 'platforms':
           parserlist.clearCachedParsers();
           parserlist.init(function () {
             res.status(200).end();
           });
-        });
-      });
-    }
-  );
-
-  /**
-   * PUT route on /resources/status
-   * To update the resources folder
-   */
-  app.put('/resources/status', auth.ensureAuthenticated(true), auth.authorizeMembersOf('admin'),
-    function (req, res) {
-      var directory = path.join(__dirname, '../resources');
-      var gitscript = path.join(__dirname, '../bin/git-update');
-
-      execFile(gitscript, { cwd: directory }, function (error) {
-        if (error) { return res.status(500).end(); }
-
-        delete require.cache[require.resolve('../resources/predefined-settings.json')];
-        app.locals.bundle = null;
-        res.status(200).end();
+          break;
+        default:
+          res.status(500).end();
+        }
       });
     }
   );
 };
+
+/**
+ * Clear a file (JS or JSON) or a whole directory from the require cache
+ * @param {String} filePath  file or dir
+ */
+function clearCache(filePath) {
+  if (!filePath) { return Promise.resolve(); }
+
+  return new Promise((resolve, reject) => {
+    fs.stat(filePath, (err, stat) => {
+      if (err) {
+        if (err.code === 'ENOENT') { return resolve(); }
+        return reject(err);
+      }
+
+      if (stat.isFile()) {
+        if (!filePath.endsWith('.js') && !filePath.endsWith('.json')) {
+          return resolve();
+        }
+
+        try {
+          delete require.cache[require.resolve(filePath)];
+          return resolve();
+        } catch (e) {
+          return reject(err);
+        }
+      }
+
+      if (!stat.isDirectory()) { return resolve(); }
+
+      fs.readdir(filePath, (err, files) => {
+        if (err) { return reject(err); }
+
+        (function nextFile() {
+          const file = files.pop();
+
+          if (!file) { return resolve(); }
+
+          clearCache(path.resolve(filePath, file))
+            .then(nextFile)
+            .catch(reject);
+        })();
+      });
+    });
+  });
+}
