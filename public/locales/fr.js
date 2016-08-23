@@ -350,6 +350,7 @@ ezLanguages['fr'] = {
   "admin+soft_upward_stable":         "La version actuelle du logiciel présente des changements ultérieurs à la dernière version stable. Cliquez sur le boutton ci-dessus si vous souhaitez revenir à la dernière version stable.",
   "admin+platforms_local_changes":    "Des modifications locales semblent avoir été apportées au répertoire des plateformes. Dans ce cas, il est possible que les prochaines mises à jour échouent.",
   "admin+resources_local_changes":    "Des modifications locales semblent avoir été apportées au répertoire des ressources. Dans ce cas, il est possible que les prochaines mises à jour échouent.",
+  "admin+middlewares_local_changes":  "Des modifications locales semblent avoir été apportées au répertoire des middlewares. Dans ce cas, il est possible que les prochaines mises à jour échouent.",
   "admin+contact_deployment_service": "En cas de problème, nous vous invitons à contacter le service en charge du déploiement.",
   "admin+update_warning":             "Mettre à jour ezPAARSE peut prendre plusieurs minutes. Le serveur sera mis hors-ligne le temps de l'opération.",
   "admin+updating_software":          "ezPAARSE est en cours de mise à jour...",

@@ -350,6 +350,7 @@ ezLanguages['en'] = {
   "admin+soft_upward_stable":         "The current version of the software has got changes that are more recent than the latest stable release. Click the button above if you wish to get back to the latest stable release.",
   "admin+platforms_local_changes":    "It seems that local changes have been applied to the platforms directory. In that case, future updates might fail.",
   "admin+resources_local_changes":    "It seems that local changes have been applied to the resources directory. In that case, future updates might fail.",
+  "admin+middlewares_local_changes":  "It seems that local changes have been applied to the middlewares directory. In that case, future updates might fail.",
   "admin+contact_deployment_service": "In case of problems, we invite you to contact the deployer.",
   "admin+update_warning":             "Updating ezPAARSE can take up to several minutes. The server will go offline during the operation.",
   "admin+updating_software":          "ezPAARSE is being updated...",
