@@ -34,16 +34,16 @@ module.exports = function (app) {
    * GET route on /.../status
    * To know if there are incoming changes in a repository
    */
-  app.get(/^\/(app|platforms|resources)\/status$/, auth.ensureAuthenticated(true),
+  app.get('/:repo/status', auth.ensureAuthenticated(true),
     function (req, res) {
       var gitScript = path.join(__dirname, '../bin/git-status');
       var directory;
 
-      switch (req.params[0]) {
+      switch (req.params.repo) {
       case 'platforms':
       case 'resources':
       case 'middlewares':
-        directory = path.join(__dirname, '..', req.params[0]);
+        directory = path.join(__dirname, '..', req.params.repo);
         break;
       case 'app':
         directory = path.join(__dirname, '..');
