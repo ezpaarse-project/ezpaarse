@@ -12,6 +12,7 @@ services:
       http_proxy:  ${http_proxy}
       https_proxy: ${https_proxy}
       NODE_ENV: "production"
+      EZPAARSE_MONGO_URL: "mongodb://ezpaarse_db:27017/ezpaarse"
     stdin_open: true  # to be able to use CTRL+C to stop the debug
     ports:
       - 59599:59599
