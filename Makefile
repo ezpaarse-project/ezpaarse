@@ -91,6 +91,9 @@ clean-tmp: ## Clean tmp directory
 # Build section
 # # # # # # # # # # # #
 
+build-docker: ## Build ezpaarse docker image locally
+	@docker build -t ezpaarseproject/ezpaarse --build-arg http_proxy --build-arg https_proxy .
+
 nodejs: ## Build node for ezpaarse
 	@test -f /usr/bin/git || sudo apt-get install --yes git
 	@./bin/buildnode

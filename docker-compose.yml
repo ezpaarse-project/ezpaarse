@@ -1,0 +1,26 @@
+# ezpaarse docker-compose.yml dedicated to production
+version: '2'
+
+services:
+
+  ezpaarse:
+    container_name: ezpaarse
+    image: ezpaarseproject/ezpaarse:latest
+    links:
+      - ezpaarse_db
+    environment:
+      http_proxy:  ${http_proxy}
+      https_proxy: ${https_proxy}
+      NODE_ENV: "production"
+    stdin_open: true  # to be able to use CTRL+C to stop the debug
+    ports:
+      - 59599:59599
+    depends_on:
+      - ezpaarse_db
+    restart: always
+
+  ezpaarse_db:
+    container_name: ezpaarse_db
+    image: mongo:3.0.7
+    command: --smallfiles
+    restart: always
