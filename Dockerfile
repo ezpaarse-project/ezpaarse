@@ -38,6 +38,15 @@ VOLUME /opt/ezpaarse/middlewares
 VOLUME /opt/ezpaarse/resources
 VOLUME /opt/ezpaarse/exclusions
 
+# ezmasterification fo ezpaarse
+# see https://github.com/Inist-CNRS/ezmaster
+# (no data directory)
+RUN mkdir -p /opt/ezmaster/config/
+RUN touch /opt/ezmaster/config/config.json
+RUN ln -s /opt/ezmaster/config/config.json /opt/ezpaarse/config.local.json
+#RUN ln -s ###path to your data directory### /opt/ezmaster/data
+EXPOSE 3000
+
 # run ezpaarse process
 EXPOSE 59599
 CMD ["ezpaarse", "start", "--no-daemon"]
