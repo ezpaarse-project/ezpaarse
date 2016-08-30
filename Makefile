@@ -106,13 +106,6 @@ bower:
 libs:
 	@. ./bin/env; npm install -q --unsafe-perm
 
-version: ## Create a version, example: make version v=0.0.3
-	@. ./bin/env; ./bin/patch-version-number --version $(v)
-	@echo $(v) > VERSION
-
-tag: ## Tag a version
-	./bin/tagversion
-
 middlewares-update: ## Clone or update middelwares directory
 	@if test -d middlewares; \
 	then cd middlewares; git pull; \
