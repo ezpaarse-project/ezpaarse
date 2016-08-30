@@ -20,7 +20,7 @@ RUN set -x \
 COPY . /opt/ezpaarse
 WORKDIR /opt/ezpaarse
 
-ENV PATH /opt/ezpaarse/build/nvm/bin/latest:/opt/ezpaarse/bin:/opt/ezpaarse/node_modules/.bin:$PATH
+ENV PATH /opt/ezpaarse/build/nvm/bin/latest:/opt/ezpaarse/bin:/opt/ezpaarse/node_modules/.bin:/usr/local/bin:/usr/bin:/bin:/sbin:/usr/sbin:/usr/local/sbin
 RUN set -x \
 	&& cd /opt/ezpaarse && make \
   # to free a few MB in the docker image
