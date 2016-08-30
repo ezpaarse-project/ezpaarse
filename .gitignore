@@ -7,7 +7,12 @@ bench.png
 bench-*.csv
 bench-*.png*
 build/
+
 platforms/
+resources/
+exclusions/
+middlewares/
+
 tmp/
 ezpaarse.pid
 sessions
