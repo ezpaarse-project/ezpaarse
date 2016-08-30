@@ -34,7 +34,7 @@ VOLUME /opt/ezpaarse/middlewares
 VOLUME /opt/ezpaarse/resources
 VOLUME /opt/ezpaarse/exclusions
 
-# ezmasterification fo ezpaarse
+# ezmasterification of ezpaarse
 # see https://github.com/Inist-CNRS/ezmaster
 # (no data directory)
 RUN mkdir -p /opt/ezmaster/config/
