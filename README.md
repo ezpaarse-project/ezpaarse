@@ -135,7 +135,7 @@ For example, to change the ezPAARSE listening port (59599 by default), you can o
 
 ## Use with docker ##
 
-ezPAARSE is now available as a [docker image](https://registry.hub.docker.com/u/ezpaarseproject/ezpaarse/).
+ezPAARSE is available as a [docker image](https://registry.hub.docker.com/u/ezpaarseproject/ezpaarse/).
 
 You need:
 
@@ -150,6 +150,6 @@ wget https://raw.githubusercontent.com/ezpaarse-project/ezpaarse/master/docker-c
 docker-compose up -d
 ```
 
-Then ezpaarse is available on this URL: http://127.0.0.1:59599
+Then ezpaarse is available at this URL: http://127.0.0.1:59599
 
 To have a look to the ezpaarse system logs, you can run: ``docker logs -f ezpaarse``
