@@ -135,31 +135,21 @@ For example, to change the ezPAARSE listening port (59599 by default), you can o
 
 ## Use with docker ##
 
-ezPAARSE is now available as a [docker image](https://registry.hub.docker.com/u/ezpaarseproject/ezpaarse/). It exposes port `59599` and needs to be linked with a mongodb container in order to be fully functionnal.  
+ezPAARSE is now available as a [docker image](https://registry.hub.docker.com/u/ezpaarseproject/ezpaarse/).
 
-Typical use:
+You need:
 
-    docker run -d --name ezdb mongo
-    docker run -d --name ezpaarse --link ezdb:mongodb -p 59599:59599 ezpaarseproject/ezpaarse
+- [Docker](https://docs.docker.com/engine/installation/) (Version >= 1.12)
+- [Docker Compose](https://docs.docker.com/compose/install/) (Version >= 1.7)
 
-    # to stop the containers
-    docker stop ezpaarse ezdb
-    # to start again
-    docker start ezdb ezpaarse
-    # to have a look to the logs
-    docker logs -f ezpaarse
+Then, you can run the dockerized ezpaarse this way:
 
-Behind a proxy: use `docker run -e http_proxy[=...] -e https_proxy[=...]`
+```
+mkdir ezpaarse/
+wget https://raw.githubusercontent.com/ezpaarse-project/ezpaarse/master/docker-compose.yml
+docker-compose up -d
+```
 
-In order to have a better control on the ezpaarse persistent data, you can also map mongodb binary data and the ezpaarse jobs folder to local folders thanks to the [-v option](https://docs.docker.com/userguide/dockervolumes/#mount-a-host-file-as-a-data-volume):
+Then ezpaarse is available on this URL: http://127.0.0.1:59599
 
-    mkdir /tmp/ezpaarse ; cd /tmp/ezpaarse
-    docker run -d --name ezdb -v $(pwd)/ezdb-data:/data/db mongo
-    docker run -d --name ezpaarse --link ezdb:mongodb -p 59599:59599 -v $(pwd)/ezpaarse-jobs:/root/ezpaarse/tmp/jobs ezpaarseproject/ezpaarse
-
-You can also use [docker-compose](https://docs.docker.com/compose/) to run ezpaarse (experimental).
-
-Typical use:
-
-    cd ezpaarse/misc/docker-compose/
-    docker-compose up
+To have a look to the ezpaarse system logs, you can run: ``docker logs -f ezpaarse``
