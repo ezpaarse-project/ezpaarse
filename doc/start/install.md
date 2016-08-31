@@ -26,24 +26,12 @@ make
 
 ## Docker version ##
 
-ezPAARSE is available as a [docker image](https://registry.hub.docker.com/u/ezpaarseproject/ezpaarse/).
-
-You need:
-
-- [Docker](https://docs.docker.com/engine/installation/) (Version >= 1.12)
-- [Docker Compose](https://docs.docker.com/compose/install/) (Version >= 1.7)
-
-Then, you can run the dockerized ezpaarse this way:
-
-```
+ezPAARSE is available as a [docker image](https://registry.hub.docker.com/u/ezpaarseproject/ezpaarse/), to run it with docker:
+```bash
 mkdir ezpaarse/
 wget https://raw.githubusercontent.com/ezpaarse-project/ezpaarse/master/docker-compose.yml
 docker-compose up -d
 ```
-
-Then ezpaarse is available at this URL: http://127.0.0.1:59599
-
-To have a look to the ezpaarse system logs, you can run: ``docker logs -f ezpaarse``
 
 ## Uninstall ezPAARSE ##
 
@@ -56,4 +44,9 @@ Delete the database:
 ```bash
 mongo ezpaarse
 db.dropDatabase()
+```
+
+If using the docker version, to delete the docker containers:
+```bash
+docker rm -f ezpaarse ezpaarse_db
 ```
