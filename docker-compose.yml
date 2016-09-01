@@ -13,15 +13,15 @@ services:
       https_proxy: ${https_proxy}
       NODE_ENV: "production"
       EZPAARSE_MONGO_URL: "mongodb://ezpaarse_db:27017/ezpaarse"
-    stdin_open: true  # to be able to use CTRL+C to stop the debug
+    stdin_open: true  # to be able to use CTRL+C to stop the container
     ports:
       - 59599:59599
     depends_on:
       - ezpaarse_db
-    restart: always
+    restart: unless-stopped
 
   ezpaarse_db:
     container_name: ezpaarse_db
     image: mongo:3.0.7
     command: --smallfiles
-    restart: always
+    restart: unless-stopped
