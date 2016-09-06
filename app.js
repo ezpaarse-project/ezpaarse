@@ -265,8 +265,8 @@ require('./lib/ecfilter.js').init(function (err, nbRobots) {
 
     mongo.connect(function () {
       server.listen(app.get('port'), function () {
-        console.log(pkg.name + '-' + pkg.version +
-          ' listening on http://localhost:' + app.get('port') + ' (pid is ' + process.pid + ')');
+        console.log(`${pkg.name}-${pkg.version} (pid: ${process.pid}, mode: ${app.get('env')})`);
+        console.log(`listening on http://localhost:${app.get('port')}`);
       });
     });
   });
