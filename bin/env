@@ -5,6 +5,9 @@
 
 EZPAARSE_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 
+export NVM_DIR="$EZPAARSE_PATH/build/nvm"
+. "$NVM_DIR/nvm.sh"
+
 # list of paths to check in $PATH
 declare -a EZ_PATHS=(
   "/usr/local/bin"
@@ -12,8 +15,6 @@ declare -a EZ_PATHS=(
   "/bin"
   "$EZPAARSE_PATH/bin"
   "$EZPAARSE_PATH/node_modules/.bin"
-  "$EZPAARSE_PATH/build/nvm/bin/bin/"
-  "$EZPAARSE_PATH/build/nvm/bin/latest/"
 )
 
 for i in "${EZ_PATHS[@]}"
