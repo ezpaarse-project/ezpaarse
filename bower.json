@@ -32,6 +32,7 @@
   },
   "resolutions": {
     "jquery": "~1.12.2",
-    "chosen": "^1.5.1"
+    "chosen": "^1.5.1",
+    "angular": "1.5.8"
   }
 }
