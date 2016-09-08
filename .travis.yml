@@ -1,7 +1,5 @@
-language: node_js
-node_js:
-  - "4.2"
-install: true
+language: generic
+script: "export EZPAARSE_ENV=\"production\"; export EZPAARSE_DEBUG_LEVEL=\"pkb\"; make && make start && sleep 300; make test-pkb; make test"
 services:
   - mongodb
 notifications:
