@@ -52,12 +52,7 @@ cd ezpaarse
 git checkout `git describe --tags --abbrev=0`
 make
 ```
-You can also download a stable version in the [tar.gz](http://analogist.couperin.org/ezpaarse/download) format and type in a terminal:
-```shell
-tar -xzfv ezpaarse-X.X.X.tar.gz
-cd ezpaarse-X.X.X
-make
-```
+
 If you want to install the version in development (unstable),
 open a terminal and type:
 ```shell
