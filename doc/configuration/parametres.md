@@ -109,8 +109,9 @@ For example : Force-ECField-Publisher: 'IRevues'.
 
 
 ### cut ###
-Set to `true` to activate middleware. Any other value will leave the middleware not active.
-To add other headers: 
+Set to `true` to activate the `cut` middleware. Any other value will leave the middleware not active.
+
+The headers available to define how `cut` will work are: 
   - `cut-fields` : initialized with the name of the field you want to cut
   - `cut-regex` : regexp matching the given field and capturing subset(s) of it
   - `cut-fields-create` : give new names to the fields that are generated captured data from the regexp
@@ -123,6 +124,7 @@ curl -v -X POST --proxy "" --no-buffer \
   -H 'cut: true' \
   -H 'cut-fields: doi' \
   -H 'cut-regex: ([0-9\.]+)\/([0-9\-]+)' \
-  -H 'cut-fields-create: prefix,suffix' \
+  -H 'cut-fields-create: doi-prefix,doi-suffix' \
  	http://127.0.0.1:59599
 ```
+This example shows how you can set the `cut` middleware to process the doi field into two new fields called `doi-prefix` and `doi-suffix`
