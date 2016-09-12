@@ -83,10 +83,10 @@ Name and/or email of the customer to include in the COUNTER reports, following t
 Name and/or email of the publisher  to include in the COUNTER reports, following the form `name`, `<email>` or `name<email>`. (By default :`platform42`, without email)
 
 ### Geoip ###
-Listing of the geolocation informations to be added to the results. Bu default `geoip-longitude, geoip-latitude, geoip-country`. `all` can be used to include every fiel available, or `none` to deactivate geolocation altogether. [(More information)](./geolocalisation.html)
+Listing of the geolocation informations to be added to the results. By default `geoip-longitude, geoip-latitude, geoip-country`. `all` can be used to include every fiel available, or `none` to deactivate geolocation altogether. [(More information)](./geolocalisation.html)
 
 ### ezPAARSE-Job-Notifications ###
-Listing of notifications to send when treatment is done, written as `action<cible>` et separated by commas. Currently available : `mail<adresse>`
+Listing of notifications to send when treatment is done, written as `action<cible>` and separated by commas. Currently available : `mail<adress>`
 
 ### ezPAARSE-Enrich ###
 Set to `false` to deactivate data enrichment (geoip and knowledge bases). Any other value will leave the data enrichment active.
@@ -95,7 +95,7 @@ Set to `false` to deactivate data enrichment (geoip and knowledge bases). Any ot
 Tells ezPAARSE to use a predefined set of parameters. Ex : `inist` for INIST-CNRS parameters. ([see the full list](/info/predefined-settings))
 
 ### ezPAARSE-Filter-Redirects ###
-Set false to prevent lines with HTTP status codes 301, 302 from being filtered and discarded.
+Set to `false` to prevent lines with HTTP status codes 301, 302 from being filtered and discarded.
 
 ### Disable-Filters ###
 Disable filters applying to robots or arbitrary hosts/domains. (defaults to `none`).
@@ -110,11 +110,11 @@ For example : Force-ECField-Publisher: 'IRevues'.
 
 
 ### cut ###
-Set to `true` to activate middleware. Any other value will leave the middleware deactive.
-Add ohter headers. 
-     - ### cut-fields ### : it's fields to cut, initializes with name of fields to want a cut.
-     - ### cut-regex ### : régulairie expression to match with fields to cut.
-     - ### cut-fields-create ### : new fields to create with result to cutting fields.
+Set to `true` to activate middleware. Any other value will leave the middleware not active.
+To add other headers: 
+     - `cut-fields` : initialized with the name of the field you want to cut
+     - `cut-regex` : regexp matching the given field and capturing subset(s) of it
+     - `cut-fields-create` : give new names to the fields that are generated captured data from the regexp
 
 Usage example:
 
