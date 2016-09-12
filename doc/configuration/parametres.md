@@ -1,38 +1,37 @@
 # Parameters #
 
-The ezPAARSE treatments can be congured using HTTP headers. Please find below the list of available headers.
+The ezPAARSE jobs can be configured using HTTP headers. Please find the list of available headers below.
 
 
 ### Content-Encoding ###
-Encoding of the data sent  *(supported : gzip, deflate)*
+Encoding of the data sent. *(supported : gzip, deflate)*
 
 ### Response-Encoding ###
 Encoding of the data sent back by server. *(supported : gzip, deflate)*
 
 ### Accept ###
-Output format. Supported :
+Output format. Supported:
   - text/csv (by default)
   - text/tab-separated-values (for a TSV output : as CSV but tab-delimited)
   - application/json
   - application/jsonstream (one JSON object per line)
 
 ### Log-Format-xxx ###
-Format of the log lines in input, depend on the proxy *xxx* used. [See the available formats](./formats.html)
+Format of the log lines in input, depends on the proxy *xxx* used. [See the available formats](./formats.html)
 
 ### Date-Format ###
-Date format used in the logs sent. Default is : 'DD/MMM/YYYY:HH:mm:ss Z'.
+Date format used in the logs sent. Default is: 'DD/MMM/YYYY:HH:mm:ss Z'.
 
 ### Crypted-Fields ###
 Comma-separated list of fields that will be crypted in the results, or `none` to disable crypting. Defaults to `host,login`.
 
-**Caution**: each job uses a random salt for crypting, so crypted values from different jobs are not comparable.
+**Caution**: each job uses a random salt for crypting, so crypted values for the same ECs but from distinct jobs are not identical.
 
 ### Output-Fields ###
 To specify the fields to include in the output (if the format allows it). [(More information)](./outputfields.html)
 
 ### Traces-Level ###
-Allows to specify the verbosity level desired for ezPAARSE's feedback. The higher levels include the lower ones.
-Niveaux disponibles :
+To specify the verbosity level from ezPAARSE's feedback. The higher levels include the lower ones.
   - **error** : blocking errors, abnormal treatment termination.
   - **warn** : errors not fatal to the treatment.
   - **info** : general informations (requested format, ending notification, number of ECs generated...).
@@ -42,7 +41,7 @@ Niveaux disponibles :
 
 ### Reject-Files ###
 List of the reject files to create, separated by commas. (`none` by default, `all`)
-Possible values : Unknown-Formats, Ignored-Domains, Unknown-Domains, Unqualified-ECs, PKB-Miss-ECs, Duplicate-ECs, Unordered-ECs, Filtered-ECs, Ignored-Hosts, Robots-ECs.
+Possible values are: Unknown-Formats, Ignored-Domains, Unknown-Domains, Unqualified-ECs, PKB-Miss-ECs, Duplicate-ECs, Unordered-ECs, Filtered-ECs, Ignored-Hosts, Robots-ECs.
 
 ### User-field[n]-xxx ###
 Extacts user information from a field of the imput logfile [(More information)](./userfields.html).
@@ -112,9 +111,9 @@ For example : Force-ECField-Publisher: 'IRevues'.
 ### cut ###
 Set to `true` to activate middleware. Any other value will leave the middleware not active.
 To add other headers: 
-     - `cut-fields` : initialized with the name of the field you want to cut
-     - `cut-regex` : regexp matching the given field and capturing subset(s) of it
-     - `cut-fields-create` : give new names to the fields that are generated captured data from the regexp
+  - `cut-fields` : initialized with the name of the field you want to cut
+  - `cut-regex` : regexp matching the given field and capturing subset(s) of it
+  - `cut-fields-create` : give new names to the fields that are generated captured data from the regexp
 
 Usage example:
 
