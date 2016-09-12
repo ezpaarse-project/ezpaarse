@@ -223,11 +223,11 @@ require('./routes/views')(app);
 require('./routes/ws')(app);
 require('./routes/info')(app);
 require('./routes/logs')(app);
+require('./routes/feedback')(app);
+require('./lib/castor.js')(app);
 require('./routes/admin')(app);
 require('./routes/auth')(app);
-require('./routes/feedback')(app);
 require('./routes/format')(app);
-require('./lib/castor.js')(app);
 
 // For angular HTML5 mode
 app.get('*', function (req, res) {
