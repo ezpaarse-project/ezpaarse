@@ -1,5 +1,6 @@
 nvm
 public/doc/
+public/components/
 test/beta/
 logs/
 bench.csv
