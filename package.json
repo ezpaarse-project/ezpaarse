@@ -82,7 +82,7 @@
   },
   "scripts": {
     "postinstall": "npm run bower",
-    "bower": "bower install -F --allow-root --config.interactive=false",
+    "bower": "cp bower.json bower.json.bak; bower install -F --allow-root --config.interactive=false; mv bower.json.bak bower.json",
     "test": "make test-pkb; make test",
     "lint": "eslint *.js lib/ test/ routes/ platforms/ platforms/.lib"
   },
