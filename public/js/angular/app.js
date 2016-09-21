@@ -18,6 +18,7 @@ angular.module('ezPAARSE', [
 ]).config(function ($stateProvider, $locationProvider, $urlRouterProvider, $translateProvider) {
   $locationProvider.html5Mode(true);
   $urlRouterProvider.otherwise('/form');
+  $translateProvider.useSanitizeValueStrategy('escapeParameters');
 
   for (var lang in ezLanguages) {
     $translateProvider.translations(lang, ezLanguages[lang]);
