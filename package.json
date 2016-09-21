@@ -47,7 +47,6 @@
     "mongodb": "~2.2.10",
     "morgan": "~1.7.0",
     "nconf": "~0.8.4",
-    "node-istex": "^1.0.3",
     "nodemailer": "~2.6.0",
     "passport": "~0.3.2",
     "passport-http": "~0.3.0",
