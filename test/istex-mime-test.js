@@ -5,7 +5,7 @@ var path    = require('path');
 var should  = require('should');
 var helpers = require('./helpers.js');
 
-
+// ce test est a la fois pour tester les mimes et les rtypes
 var logFile = path.join(__dirname, 'dataset/istex-mime-test.log');
 
 describe('istex consultations test mime', function () {

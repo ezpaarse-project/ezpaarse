@@ -25,7 +25,7 @@ describe('istex consultations', function () {
       result.should.have.length(1);
 
       var ec = result[0];
-
+      ///document/8ED667CADC019F039A46F48235A56EAADF51A825/fulltext/tei
       should.equal(ec['platform_name'], 'Istex');
       should.equal(ec['publication_date'], '1991');
       should.equal(ec['doi'], '10.1007/BF02653325');
