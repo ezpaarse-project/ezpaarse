@@ -43,6 +43,44 @@ describe('istex consultations rtype', function () {
       should.equal(result[7]['istex_rtype'], 'fulltext');
       should.equal(result[7]['rtype'], 'ARTICLE');
 
+      should.equal(result[11]['istex_genre'], 'collected-courses');
+      should.equal(result[11]['istex_rtype'], 'fulltext');
+      should.equal(result[11]['rtype'], 'BOOK');
+
+
+      should.equal(result[13]['istex_genre'], 'chapter');
+      should.equal(result[13]['istex_rtype'], 'fulltext');
+      should.equal(result[13]['rtype'], 'BOOK_SECTION');
+
+
+      should.equal(result[14]['istex_genre'], 'conference');
+      should.equal(result[14]['istex_rtype'], 'fulltext');
+      should.equal(result[14]['rtype'], 'BOOK');
+
+      should.equal(result[15]['istex_genre'], 'book-reviews');
+      should.equal(result[15]['istex_rtype'], 'fulltext');
+      should.equal(result[15]['rtype'], 'ARTICLE');
+
+
+      should.equal(result[16]['istex_genre'], 'case-report');
+      should.equal(result[16]['istex_rtype'], 'fulltext');
+      should.equal(result[16]['rtype'], 'ARTICLE');
+
+
+      should.equal(result[17]['istex_genre'], 'editorial');
+      should.equal(result[17]['istex_rtype'], 'fulltext');
+      should.equal(result[17]['rtype'], 'ARTICLE');
+
+
+      should.equal(result[18]['istex_genre'], 'abstract');
+      should.equal(result[18]['istex_rtype'], 'fulltext');
+      should.equal(result[18]['rtype'], 'ABS');
+
+
+      should.equal(result[19]['istex_genre'], 'book-reviews');
+      should.equal(result[19]['istex_rtype'], 'fulltext');
+      should.equal(result[19]['rtype'], 'ARTICLE');
+
       should.equal(result[20]['istex_genre'], 'review-article');
       should.equal(result[20]['istex_rtype'], 'annexes');
       should.equal(result[20]['rtype'], 'MISC');
