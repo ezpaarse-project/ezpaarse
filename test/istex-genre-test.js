@@ -6,7 +6,7 @@ var should  = require('should');
 var helpers = require('./helpers.js');
 
 
-var logFile = path.join(__dirname, 'dataset/test-trype-istex.log');
+var logFile = path.join(__dirname, 'dataset/test-rtype-istex.log');
 
 describe('istex consultations rtype', function () {
   it('should be correctly enriched (@01)', function (done) {
