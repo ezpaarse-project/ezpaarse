@@ -20,6 +20,7 @@ Built-in proxies supported log formats are: [ezproxy](http://www.oclc.org/ezprox
 - [Installation quickstart](#installation-quickstart)
 - [Test the installation](#test-the-installation)
 - [Usage](#usage)
+- [Go further](#go-further)
 - [Advanced parameters](#advanced-parameters)
 - [Use with docker](#use-with-docker)
 
@@ -115,6 +116,10 @@ To stop ezPAARSE, you have to type the following command:
 ```shell
 make stop
 ```
+## Go further ##
+
+To go further, you can consult [the full documentation](https://ezpaarse.readthedocs.io)
+
 
 ## Advanced parameters ##
 
