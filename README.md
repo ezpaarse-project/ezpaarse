@@ -33,7 +33,7 @@ Built-in proxies supported log formats are: [ezproxy](http://www.oclc.org/ezprox
 
 The tools you need to let ezPAARSE run are:
 
-* Linux OS: [See the prerequisites for those OSes](https://github.com/ezpaarse-project/ezpaarse/blob/master/doc/multi-os.md)
+* Linux OS: [See the prerequisites for those OSes](https://ezpaarse.readthedocs.io/en/master/start/requirements.html)
 * Standard Linux tools: bash, make, grep, sed ...
 * curl (used by nvm)
 * git >= 1.7.10 (required to clone ezpaarse from github and to keep your ezpaarse copy up to date)
