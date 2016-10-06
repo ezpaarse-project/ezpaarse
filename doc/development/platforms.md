@@ -97,7 +97,7 @@ The test principle is represented by the following diagram:
 
 For each row, column data prefixed with ``in-`` are sent to the parser, and the result is compared with the columns prefixed with ``out-``. These must be strictly identical.
 
-More details on the identifiers returned by parsers are available on [this page](./ ec-attributes.html).
+More details on the identifiers returned by parsers are available on [this page](../essential/ec-attributes.html).
 
 When the parser only takes an input URL (ie. no other fields prefixed with ``in-``), it is possible to manually run the test file with the following command (from the directory the platform):
 
