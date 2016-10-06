@@ -24,12 +24,19 @@ cd ezpaarse
 make
 ```
 
-## Docker version ##
+## Docker and Compose ##
 
-ezPAARSE is available as a [docker image](https://registry.hub.docker.com/u/ezpaarseproject/ezpaarse/), to run it with docker:
+ezPAARSE is available as a [docker image](https://registry.hub.docker.com/u/ezpaarseproject/ezpaarse/), to run it with docker, you will need to install [Docker](https://www.docker.com/) and [Docker-Compose](https://docs.docker.com/compose/install/).
+Then, you can either grab the 'docker-compose.yml' file alone and start the containers:
 ```bash
 mkdir ezpaarse/
 wget https://raw.githubusercontent.com/ezpaarse-project/ezpaarse/master/docker-compose.yml
+docker-compose up -d
+```
+or simply start the containers from your local github cloned repository:
+```console
+git clone https://github.com/ezpaarse-project/ezpaarse.git
+cd ezpaarse
 docker-compose up -d
 ```
 
