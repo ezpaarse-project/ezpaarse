@@ -95,7 +95,7 @@ Each parser comes with the necessary to be tested: one or more files located in 
 The test principle is represented by the following diagram:
 ![Parsers' test](../_static/images/ezPAARSE-Test-des-Parseurs.png "Test des parseurs")
 
-For each row, the data from columns prefixed with ``in-`` are sent to the parser, and the result is compared with the data coming from columns prefixed with ``out-``. These must be strictly identical.
+For each row, values from columns prefixed with ``in-`` are sent to the parser, and the result is compared with the values coming from columns prefixed with ``out-``. These must be strictly identical.
 
 More details about the identifiers returned by the parsers are available on [this page](../essential/ec-attributes.html).
 
@@ -107,14 +107,14 @@ cat test/platform.version.csv | ../../bin/csvextractor --fields="in-url" -c --no
 ```
 
 The tests are now integrated into ezPAARSE's platforms folder (instead of coming with the core of ezPAARSE).
-It means that ezPAARSE doesn't need to be running as the parsers' tests are now autonomous.
-To launch the platforms' tests, you need to setup the environment first:
+It means that ezPAARSE doesn't need to be running as the parsers' tests are now independent.
+Before you launch the platforms' tests, you need to setup the environment:
 ```
 cd platforms/
 make install
 ```
 
-You can then either test all parsers:
+Then you can either test all parsers:
 ```
 make test
 ```
@@ -128,7 +128,7 @@ See the [ezpaarse-platforms README](https://github.com/ezpaarse-project/ezpaarse
 
 ## Description of a parser
 
-The parser is described by a ``manifest.json`` file, located in the parser directory.
+The parser is described by a ``manifest.json`` file, located in its root directory.
 This file contains the following information:
 
 * **name**: the short name of the parser, used as a prefix to the file names. Care should be taken not to use a name already used.
@@ -138,9 +138,6 @@ This file contains the following information:
 * **docurl**: the URL of the documentation on the analogist website (must end by /).
 * **domains**: an array of domains that the parser can handle.
 * **pkb-domains**: if the platform has a PKB and if domains are present, this field is the column that contains them,
-* **recognize**: a table matching each type of consultation (true) to the parser recognition capabilities.
-
-The manifest.json file is used to dynamically display the [characteristics of all parsers](http://analogist.couperin.org/platforms/start#capacites-des-parseurs).
 
 
 ## Vendors' PKBs management principles
@@ -151,7 +148,7 @@ Knowledge bases are used to:
 * include the titles of accessed resources in the results
 
 Knowledge bases are saved as text file [KBART format](http://www.uksg.org/kbart/s1/summary) and are specific to each platform.
-The ``platform_AllTitles.txt`` file contains the mappings between identifiers of a specific platform and ISSN (or other standardized identifier). The KBART field called ``title_id`` is used to establish this correspondence with the ``print_identifier`` field (for paper resources) or `online_identifier`` (electronic resources). The [list of KBART fields](http://www.uksg.org/kbart/s5/guidelines/data_field_labels) and their meaning is available.
+The `platform_AllTitles.txt` file contains the mappings between identifiers of a specific platform and ISSN (or other standardized identifier). The KBART field called `title_id` is used to establish this correspondence with the `print_identifier` field (for paper resources) or `online_identifier` (electronic resources). The [list of KBART fields](http://www.uksg.org/kbart/s5/guidelines/data_field_labels) and their meaning is available.
 
 Knowledge bases are loaded by ezPAARSE and their structure must be previously controlled by the [pkbvalidator tool](/doc/tools.html#pkbvalidator)
 
