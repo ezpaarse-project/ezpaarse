@@ -56,6 +56,12 @@
 
       <div id="container" class="display-row">
         <div id="content">
+          <% if (demo) { %>
+            <div class="ui info message">
+              <div class="header" translate>demo+warning_header</div>
+              <p translate>demo+warning_text</p>
+            </div>
+          <% } %>
           <div ng-if="disconnected" class="ui warning message">
             <i class="notched circle loading icon"></i>
             {{ 'layout+ezpaarse_offline' | translate }}

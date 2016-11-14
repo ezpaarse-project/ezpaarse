@@ -79,15 +79,6 @@
           </table>
         </div>
 
-        <% if (demo) { %>
-          <div class="ui basic segment">
-            <div class="ui info message">
-              <div class="header" translate>demo+warning_header</div>
-              <p translate>demo+warning_text</p>
-            </div>
-          </div>
-        <% } %>
-
         <div class="ui center aligned basic segment">
           <div class="ui big buttons" ez-pulse="#add-files-button" ez-pulse-if="!inputs.has('files')">
             <button ng-click="start()" class="ui teal button" ng-class="{ disabled: !inputs.has('files') }" translate>form+process_files</button>
