@@ -36,6 +36,9 @@ The default value is set to `false`
 Contains an array of field names that are going to be present in the result file produced by ezPAARSE. 
 The default array contains the following fields: 
 
+### DEMO
+If `true`, shows a warning to let users know that the instance is a demo. The default value is set to `false`.
+
 ```json
 [
 "datetime",
