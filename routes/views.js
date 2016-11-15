@@ -10,6 +10,6 @@ module.exports = function (app) {
 
   app.get('/partials/:name', function (req, res) {
     var name = req.params.name;
-    res.render('partials/' + name, { demo: config.demo });
+    res.render('partials/' + name, { demo: config.EZPAARSE_DEMO });
   });
 };
