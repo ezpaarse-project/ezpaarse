@@ -36,8 +36,9 @@ The default value is set to `false`
 Contains an array of field names that are going to be present in the result file produced by ezPAARSE. 
 The default array contains the following fields: 
 
-### DEMO
-If `true`, shows a warning to let users know that the instance is a demo. The default value is set to `false`.
+### EZPAARSE_DEMO
+If `true`, shows a warning to let users know that the instance is a demo, and thus not adapted to process large log files. This warning now appears on our demo instance hosted on [[http://ezpaarse.couperin.org]]
+The default value is set to `false`.
 
 ```json
 [
