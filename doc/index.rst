@@ -17,7 +17,8 @@ This documentation is organized into a few main sections :
   :maxdepth: 2
   :name: user-docs
   :caption: Getting started
-
+	    
+  start/demo-instances.md	    
   start/requirements.md
   start/install.md
   start/usage.md
