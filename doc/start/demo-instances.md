@@ -1,8 +1,8 @@
 # Demo Instances #
 
 There are two publicly available instances of ezPAARSE:
-* http://ezpaarse.couperin.org (national demo instance)
-* http://ezpaarse-preprod.couperin.org (preproduction demo instance)
+* [http://ezpaarse.couperin.org](http://ezpaarse.couperin.org) (called National Demo Instance, see below)
+* [http://ezpaarse-preprod.couperin.org](http://ezpaarse-preprod.couperin.org) (called Preproduction Demo Instance)
 
 Those two instance are for test purposes only (and now identified as such: you'll see a banner indicating "This ezPAARSE instance is available as a demonstration tool") and should therefore not be used as production tools. They are very convenient to test small log files and play around with the software and discover its interface. The data you process is only kept for an hour and is then deleted. 
 
