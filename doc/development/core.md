@@ -50,108 +50,24 @@ mocha ./test/custom-formats-test -g @02
 
 ## Generate a new ezPAARSE version ##
 
-To generate a new version of ezPAARSE several semi-automatic steps are necessary:
+To generate a new version of ezPAARSE you need to be member of the ezPAARSE Team.
 
-- Make sure not to have local modifications pending: run a `git status`.
+If you are not a member, you can submit a [pull request on github](https://github.com/ezpaarse-project/ezpaarse/pulls).
 
-- Change the version number of the various relevant files (of course, replace `0.0.3` by the desired number):
+For the ezPAARSE Team :
+
+- Check you are on the master version or run a `git checkout master`
+
+- Use npm to generate the new version by using the appropriate options to tag the version
+
 ```console
-make version v=0.0.3
-git commit -a -m "Version 0.0.3"
+npm version [<newversion> | major | minor | patch | premajor | preminor | prepatch | prerelease | from-git]
+```
+Example :
+
+```console
+ubuntu@v-ubuntu:~/ezpaarse$ npm version patch
+v2.9.4
 git push
-```
-
-- Create a git tag, matching the new version:
-```console
-make tag
-```
-
-- Create a tar.gz archive :
-```
-make tar
-```
-
-- Create a debian archive (.deb) :
-```console
-make deb
-```
-
-- Create a rpm archive (.rpm) :
-```console
-make rpm
-```
-
-- Creat a windows archive (.exe) :
-```console
-#the nsis package is needed
-make exe
-```
-
-- Send the results on the [AnalogIST](http://analogist.couperin.org) server to publish this new version to the community:
-```console
-make upload
-```
-
-## Generate an ezPAARSE snapshot archive ##
-
-The `latest` version number is used to generate a snapshot (a developpment version archive).
-
-```
-make tar v=latest
-make deb v=latest
-make rpm v=latest
-make exe v=latest
-make upload v=latest
-```
-
-The version number will look like: `YYYYMMDD<commitid>`  
-Example: `201303240bc258f` (March 24th, 2013 commit id = 0bc258f)
-
-## Contributions to ezPAARSE - the tree structure
-
-When you contribute, please refer to the [tree structure](/doc/tree.html) to find where you should put your files
-
-## Updating the ezPAARSE's libraries versions ##
-
-EzPAARSE's librairies are the npm and bower modules.
-They are in the following repositories:
-- ezpaarse/node_modules/
-- ezpaarse/public/components/
-
-The [github repository](https://github.com/ezpaarse-project/ezpaarse-libs) is there to make snapshots of those libraries available.
-
-The [upgrade-ezpaarse-libs](https://github.com/ezpaarse-project/ezpaarse-libs/blob/master/upgrade-ezpaarse-libs) script will update the npm and bower modules in this repository and respect the dependencies expressed in the github repositories of ezPAARSE:
-- [package.json](https://github.com/ezpaarse-project/ezpaarse/blob/master/package.json) for ezpaarse
-- [bower.json](https://github.com/ezpaarse-project/ezpaarse/blob/master/bower.json) for ezpaarse
-
-To update these libraries, it is necessary to update the package.json and bower.json files from the ezpaarse distribution (use of npm-check-updates utility) then test that ezPAARSE working properly:
-```bash
-cd ezpaarse/
-npm install npm-check-updates
-./node_modules/.bin/npm-check-updates -u
-npm update
-
-make restart
-make test
-```
-
-As to bower :
-```bash
-cd ezpaarse/
-bower update
-```
-Then, you have to manually test the web interface.
-
-When all tests pass, you can commit/push the package.json and bower.json files to the git repository.
-
-You can then clone the deposit [ezpaarse-libs](https://github.com/ezpaarse-project/ezpaarse-libs) and run the upgrade-ezpaarse-libs script that will download the correct packages versions declared in packages.json and bower.json
-
-The only thing remaining is to commit/push the changes in the ezpaarse-libs repository:
-```bash
-cd ezpaarse-libs/
-./upgrade-ezpaarse-libs
-git status .
-git add .
-git commit .
-git push
+git push --tags
 ```
