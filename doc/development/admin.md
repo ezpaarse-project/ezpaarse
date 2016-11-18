@@ -105,7 +105,7 @@ curl -X POST --proxy "" -u "admin:password" --data "userid=foo@foo.net&password=
 
 #### Example curl ####
 ```bash
-curl -X DELETE -u "admin:password" http://localhost:59599/users/foo
+curl -X DELETE -u "admin:password" http://localhost:59599/users/foo@foo.net
 ```
 
 ## Platforms Management ##
