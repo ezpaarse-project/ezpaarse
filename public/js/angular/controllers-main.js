@@ -227,7 +227,7 @@ angular.module('ezPAARSE.main-controllers', [])
       if (!valid) { return; }
       $scope.loading = true;
 
-      $http.post('/users/', $scope.formData)
+      $http.post('/register', $scope.formData)
       .success(function (user) {
         userService.login(user);
 
