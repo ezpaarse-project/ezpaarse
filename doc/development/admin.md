@@ -16,7 +16,7 @@ To create an administrator account without the help of the form, please use the 
   <tr>
     <td>/register</td>
     <td>POST</td>
-    <td>username, password</td>
+    <td>userid (valid mail address), password, confirm (password confirmation)</td>
   </tr>
 </table>
 
@@ -29,7 +29,7 @@ To create an administrator account without the help of the form, please use the 
 
 #### Exemple curl ####
 ```bash
-curl -X POST --data "username=foo&password=bar" http://localhost:59599/register
+curl -X POST --data "userid=foo@foo.fr&password=bar&confirm=bar" http://localhost:59599/register
 ```
 
 ## Users management ##
@@ -65,7 +65,7 @@ curl -X GET --proxy "" -u "admin:password" http://localhost:59599/users
   <tr>
     <td>/users/</td>
     <td>POST</td>
-    <td>username, password</td>
+    <td>userid (valid mail address), password, group (defaults to 'user', set to 'admin' to create an administrator)</td>
   </tr>
 </table>
 
@@ -80,7 +80,7 @@ When the creation succeeds, the output contains a complete information about the
 
 #### Exemple curl ####
 ```bash
-curl -X POST --proxy "" -u "admin:password" --data "username=foo&password=bar" http://localhost:59599/users/
+curl -X POST --proxy "" -u "admin:password" --data "userid=foo@foo.net&password=bar&group=user" http://localhost:59599/users/
 ```
 
 ### Delete a user ###
