@@ -151,12 +151,12 @@ Example:
 ```javascript
 {
   "current": "2.9.4-4-g9089308", # Current commit description
-  "head": "2.9.4-4-g9089308", # HEAD commit description
-  "tag": "2.9.4", # Current git tag (latest tag before the current commit)
-  "from-head": "uptodate", # State of HEAD compared to origin (can be 'uptodate' or 'outdated')
-  "from-tag": "upward", # State of current tag compared to origin (can be 'uptodate', 'outdated' or 'upward')
-  "local-commits": false, # Is there any unpushed local commit ?
-  "local-changes": false # Is there any uncommited local changes ?
+  "head": "2.9.4-4-g9089308",    # HEAD commit description
+  "tag": "2.9.4",                # Current git tag (latest tag before the current commit)
+  "from-head": "uptodate",       # State of HEAD compared to origin (can be 'uptodate' or 'outdated')
+  "from-tag": "upward",          # State of current tag compared to origin (can be 'uptodate', 'outdated' or 'upward')
+  "local-commits": false,        # Is there any unpushed local commit ?
+  "local-changes": false         # Is there any uncommited local changes ?
 }
 ```
 
