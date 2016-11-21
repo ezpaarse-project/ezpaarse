@@ -107,22 +107,35 @@ curl -X POST --proxy "" -u "admin:password" --data "userid=foo@foo.net&password=
 ```bash
 curl -X DELETE -u "admin:password" http://localhost:59599/users/foo@foo.net
 ```
+## Repositories update ##
+The URLs below allow for updating the different parts of ezPAARSE.
 
-## Platforms Management ##
-A platform is composed of a parser, one or more knowledge bases and one or more scrapers.
-The commands listed below act on the platform level, you don't have to worry about separately updating its elements.
-
-### Check state ###
+### Check the state of a repository ###
 <table>
   <tr>
       <th style="text-align:left;width:140px;">Path</th>
       <th>Method</th>
-      <th>Parameters</th>
+      <th>What's updated</th>
+  </tr>
+  <tr>
+    <td>/app/status</td>
+    <td>GET</td>
+    <td>Core software</td>
   </tr>
   <tr>
     <td>/platforms/status</td>
     <td>GET</td>
-    <td></td>
+    <td>Platforms (Parsers, PKBs, scrapers)</td>
+  </tr>
+  <tr>
+    <td>/middlewares/status</td>
+    <td>GET</td>
+    <td>Middlewares</td>
+  </tr>
+  <tr>
+    <td>/resources/status</td>
+    <td>GET</td>
+    <td>Resources (predefined settings, default formats...)</td>
   </tr>
 </table>
 
@@ -131,15 +144,28 @@ The commands listed below act on the platform level, you don't have to worry abo
 - **200 OK** : Checking normally completed.
 - **500 Internal Server Error** : Checking failed.
 
-In case of success, the output contains **uptodate** or **outdated**.
+#### Response body ####
+The server reply with a JSON response containing various things about the git status of the given repository.
 
+Example:
+```javascript
+{
+  "current": "2.9.4-4-g9089308", # Current commit description
+  "head": "2.9.4-4-g9089308", # HEAD commit description
+  "tag": "2.9.4", # Current git tag (latest tag before the current commit)
+  "from-head": "uptodate", # State of HEAD compared to origin (can be 'uptodate' or 'outdated')
+  "from-tag": "upward", # State of current tag compared to origin (can be 'uptodate', 'outdated' or 'upward')
+  "local-commits": false, # Is there any unpushed local commit ?
+  "local-changes": false # Is there any uncommited local changes ?
+}
+```
 
 #### Example curl ####
 ```bash
 curl -X GET -u "admin:password" http://localhost:59599/platforms/status
 ```
 
-### Update ###
+### Update a repository ###
 <table>
   <tr>
       <th style="text-align:left;width:140px;">Path</th>
@@ -147,19 +173,33 @@ curl -X GET -u "admin:password" http://localhost:59599/platforms/status
       <th>Parameters</th>
   </tr>
   <tr>
-    <td>/pkb/status</td>
+    <td>/app/status</td>
     <td>PUT</td>
-    <td>**uptodate** in query string</td>
+    <td>Core software</td>
+  </tr>
+  <tr>
+    <td>/platforms/status</td>
+    <td>PUT</td>
+    <td>Platforms (Parsers, PKBs, scrapers)</td>
+  </tr>
+  <tr>
+    <td>/middlewares/status</td>
+    <td>PUT</td>
+    <td>Middlewares</td>
+  </tr>
+  <tr>
+    <td>/resources/status</td>
+    <td>PUT</td>
+    <td>Resources (predefined settings, default formats...)</td>
   </tr>
 </table>
 
 #### Example curl ####
 ```bash
-curl -X PUT -u "admin:password" --data "uptodate" http://localhost:59599/platforms/status
+curl -X PUT -u "admin:password" http://localhost:59599/platforms/status
 ```
 
 #### Possible outputs ####
 
 - **200 OK** : Platforms have been updated
-- **400 Bad Request** : No **uptodate** in query string.
 - **500 Internal Server Error** : Update failed.
