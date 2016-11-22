@@ -83,6 +83,34 @@ When the creation succeeds, the output contains a complete information about the
 curl -X POST --proxy "" -u "admin:password" --data "userid=foo@foo.net&password=bar&group=user" http://localhost:59599/users/
 ```
 
+### Update a user ###
+<table>
+  <tr>
+      <th style="text-align:left;width:140px;">Path</th>
+      <th>Méthode</th>
+      <th>Paramètres</th>
+  </tr>
+  <tr>
+    <td>/users/{username}</td>
+    <td>POST</td>
+    <td>username (valid mail address), group</td>
+  </tr>
+</table>
+
+#### Possible outputs ####
+
+- **200 OK** : User updated.
+- **400 Bad Request** : Missing parameter.
+- **404 Not Found** : User not found.
+- **500 Internal Server Error** : Update failed.
+
+When the update succeeds, the output contains the updated user in JSON format.
+
+#### Exemple curl ####
+```bash
+curl -X POST --proxy "" -u "admin:password" --data "group=admin" http://localhost:59599/users/foo@foo.net
+```
+
 ### Delete a user ###
 <table>
   <tr>
