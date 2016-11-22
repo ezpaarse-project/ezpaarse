@@ -31,6 +31,26 @@ To create an administrator account without the help of the form, please use the 
 ```bash
 curl -X POST --data "userid=foo@foo.fr&password=bar&confirm=bar" http://localhost:59599/register
 ```
+## Get current jobs ##
+<table>
+  <tr>
+      <th style="text-align:left;width:140px;">Path</th>
+      <th>Méthode</th>
+      <th>Paramètres</th>
+  </tr>
+  <tr>
+    <td>/jobs</td>
+    <td>GET</td>
+    <td></td>
+  </tr>
+</table>
+
+Outputs a JSON table with the IDs of the jobs that are currently running.
+
+#### Exemple curl ####
+```bash
+curl -X GET --proxy "" -u "admin:password" http://localhost:59599/jobs
+```
 
 ## Users management ##
 
