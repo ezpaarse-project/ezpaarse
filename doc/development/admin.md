@@ -107,6 +107,31 @@ curl -X POST --proxy "" -u "admin:password" --data "userid=foo@foo.net&password=
 ```bash
 curl -X DELETE -u "admin:password" http://localhost:59599/users/foo@foo.net
 ```
+
+### Reset a password ###
+<table>
+  <tr>
+      <th style="text-align:left;width:140px;">Path</th>
+      <th>Method</th>
+      <th>Parameters</th>
+  </tr>
+  <tr>
+    <td>/passwords/{username}</td>
+    <td>POST</td>
+    <td></td>
+  </tr>
+</table>
+
+#### Possible output ####
+
+- **200 OK** : The password has been reset.
+- **404 Not Found** : User not found.
+
+#### Example curl ####
+```bash
+curl -X DELETE -u "admin:password" http://localhost:59599/users/foo@foo.net
+```
+
 ## Repositories update ##
 The URLs below allow for updating the different parts of ezPAARSE.
 
