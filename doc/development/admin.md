@@ -153,7 +153,7 @@ curl -X POST --proxy "" -u "admin:password" --data "group=admin" http://localhos
 
 #### Example curl ####
 ```bash
-curl -X DELETE -u "admin:password" http://localhost:59599/users/foo@foo.net
+curl -v -X DELETE -u "admin:password" http://localhost:59599/users/foo@foo.net
 ```
 
 ### Reset a password ###
@@ -177,7 +177,7 @@ curl -X DELETE -u "admin:password" http://localhost:59599/users/foo@foo.net
 
 #### Example curl ####
 ```bash
-curl -X DELETE -u "admin:password" http://localhost:59599/users/foo@foo.net
+curl -v -X DELETE -u "admin:password" http://localhost:59599/users/foo@foo.net
 ```
 
 ## Repositories update ##
