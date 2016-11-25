@@ -24,16 +24,6 @@ The test files are located in the ``test/`` folder and all the filenames follow 
 Note : don't forget to restart the application if the source code has been modified.
 
 ```console
-make test-platforms
-```
-Checks that the available parsers are functional.
-
-```console
-make test-platforms-verbose
-```
-Checks that the available parsers are functional with a detailed output.
-
-```console
 make test-pkb
 ```
 Checks that the knowledge base files used by the parsers are well formed and coherent.
