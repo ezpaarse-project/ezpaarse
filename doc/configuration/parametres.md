@@ -17,7 +17,7 @@ Output format. Supported:
   - application/jsonstream (one JSON object per line)
 
 ### Log-Format-xxx ###
-Format of the log lines in input, depends on the proxy *xxx* used. [See the available formats](./formats.html)
+Format of the log lines in input, depends on the proxy *xxx* used. [See the available formats](../essentiel/formats.html)
 
 ### Date-Format ###
 Date format used in the logs sent. Default is: 'DD/MMM/YYYY:HH:mm:ss Z'.
