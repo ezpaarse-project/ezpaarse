@@ -17,7 +17,7 @@ Output format. Supported:
   - application/jsonstream (one JSON object per line)
 
 ### Log-Format-xxx ###
-Format of the log lines in input, depends on the proxy *xxx* used. [See the available formats](../essentiel/formats.html)
+Format of the log lines in input, depends on the proxy *xxx* used. [See the available formats](../essential/formats.html)
 
 ### Date-Format ###
 Date format used in the logs sent. Default is: 'DD/MMM/YYYY:HH:mm:ss Z'.
@@ -28,7 +28,7 @@ Comma-separated list of fields that will be crypted in the results, or `none` to
 **Caution**: each job uses a random salt for crypting, so crypted values for the same ECs but from distinct jobs are not identical.
 
 ### Output-Fields ###
-To specify the fields to include in the output (if the format allows it). [(More information)](./outputfields.html)
+To specify the fields to include in the output (if the format allows it). [(More information)](../features/outputfields.html)
 
 ### Traces-Level ###
 To specify the verbosity level from ezPAARSE's feedback. The higher levels include the lower ones.
@@ -44,10 +44,10 @@ List of the reject files to create, separated by commas. (`none` by default, `al
 Possible values are: Unknown-Formats, Ignored-Domains, Unknown-Domains, Unqualified-ECs, PKB-Miss-ECs, Duplicate-ECs, Unordered-ECs, Filtered-ECs, Ignored-Hosts, Robots-ECs.
 
 ### User-field[n]-xxx ###
-Extacts user information from a field of the imput logfile [(More information)](./userfields.html).
+Extacts user information from a field of the imput logfile [(More information)](../features/userfields.html).
 
 ### Double-Click-xxx ###
-Parameters used for deduplication. [(More information)](./doubleclick.html).
+Parameters used for deduplication. [(More information)](../features/doubleclick.html).
 
 ### Request-Charset ###
 Character map used for input. [(see supported encodings)](https://github.com/ashtuchkin/iconv-lite#supported-encodings).
@@ -70,7 +70,7 @@ For example : Force-Parser: 'dspace'.
 Can be use in conjonction with Force-ECField-Publisher.
 
 ### COUNTER-Reports ###
-List of COUNTER reports to create (ex: JR1, BR2). Download links are accessible in the `stats` section of the treatment report. [(More information)](./counter.html)
+List of COUNTER reports to create (ex: JR1, BR2). Download links are accessible in the `stats` section of the treatment report. [(More information)](../features/counter.html)
 
 ### COUNTER-Format ###
 COUNTER report formats : `XML` (by default) ou `CSV`.
@@ -82,7 +82,7 @@ Name and/or email of the customer to include in the COUNTER reports, following t
 Name and/or email of the publisher  to include in the COUNTER reports, following the form `name`, `<email>` or `name<email>`. (By default :`platform42`, without email)
 
 ### Geoip ###
-Listing of the geolocation informations to be added to the results. By default `geoip-longitude, geoip-latitude, geoip-country`. `all` can be used to include every fiel available, or `none` to deactivate geolocation altogether. [(More information)](./geolocalisation.html)
+Listing of the geolocation informations to be added to the results. By default `geoip-longitude, geoip-latitude, geoip-country`. `all` can be used to include every fiel available, or `none` to deactivate geolocation altogether. [(More information)](../features/geolocalisation.html)
 
 ### ezPAARSE-Job-Notifications ###
 Listing of notifications to send when treatment is done, written as `action<cible>` and separated by commas. Currently available : `mail<adress>`
@@ -91,7 +91,7 @@ Listing of notifications to send when treatment is done, written as `action<cibl
 Set to `false` to deactivate data enrichment (geoip and knowledge bases). Any other value will leave the data enrichment active.
 
 ### ezPAARSE-Predefined-Settings ###
-Tells ezPAARSE to use a predefined set of parameters. Ex : `inist` for INIST-CNRS parameters. ([see the full list](/info/predefined-settings))
+Tells ezPAARSE to use a predefined set of parameters. Ex : `inist` for INIST-CNRS parameters.
 
 ### ezPAARSE-Filter-Redirects ###
 Set to `false` to prevent lines with HTTP status codes 301, 302 from being filtered and discarded.

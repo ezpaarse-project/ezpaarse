@@ -4,13 +4,13 @@ ezPAARSE produces an execution report.
 The various sections are documented here.
 
 - [General](#general): contains general information related to the processing
-- [Rejects](#rejets): lists all rejects, how much they are and the links to the files containing the rejected lines
-- [Statistics](#stats): provides the first global figures
+- [Rejects](#rejects): lists all rejects, how much they are and the links to the files containing the rejected lines
+- [Statistics](#statistics): provides the first global figures
 - [Alerts](#alerts): the generated alerts
 - [Notifications](#notifications): for end of processing notifications
-- [Duplicates](#dedoublonnage): algorithm used for deduplication
+- [Duplicates](#deduplicating): algorithm used for deduplication
 - [File](#files): list of processed log files
-- [First consultation](#first_event): content of the first consultation event
+- [First consultation](#first-consultation-event): content of the first consultation event
 
 ## General ##
 

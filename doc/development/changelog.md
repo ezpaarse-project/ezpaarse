@@ -1,5 +1,11 @@
 # Changelog #
 
+
+## 2.9.4  ##
+##### 2016/11/16  #####
+- Updated DOC
+
+
 ## 2.9.3  ##
 ##### 2016/09/27  #####
 - Updated NodeJS and dependencies

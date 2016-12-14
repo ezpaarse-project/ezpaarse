@@ -17,14 +17,14 @@ Double-Click-I-field: <span style="color: red">NomDuChampHost</span>
 #### Parameters (headers) ####
 
 -   **Double-Click-Removal:** COUNTER deduplication activated *(true by default)*. If this header is used, it means the deduplication is not activated (with the *false* value) and the other Double-Click- headers are useless.
--   **Double-Click-HTML:** sets the minimum delay (in seconds) between two requests considered identical to an [HTML resource](./ec-attributes.html#formats-de-ressources) *(10 by default)*.
--   **Double-Click-PDF:** sets the minimum delay (in seconds) between two requests considered identical to a [PDF resource](./ec-attributes.html#formats-de-ressources) *(30 by default)*.
--   **Double-Click-MISC:** sets the minimum delay (in seconds) between two requests considered identical to a [MISC resource](./ec-attributes.html#formats-de-ressources) *(neither HTML, nor PDF)* *(20 by default)*.
+-   **Double-Click-HTML:** sets the minimum delay (in seconds) between two requests considered identical to an [HTML resource](../essential/ec-attributes.html#formats-de-ressources) *(10 by default)*.
+-   **Double-Click-PDF:** sets the minimum delay (in seconds) between two requests considered identical to a [PDF resource](../essential/ec-attributes.html#formats-de-ressources) *(30 by default)*.
+-   **Double-Click-MISC:** sets the minimum delay (in seconds) between two requests considered identical to a [MISC resource](../essential/ec-attributes.html#formats-de-ressources) *(neither HTML, nor PDF)* *(20 by default)*.
 -   **Double-Click-MIXED:** sets the minimum delay (in seconds) between two requests considered identical to a resource, **whatever its format** (ie. the access to a same resource in HTML then in PDF can be considered as a double-click). The delays set for each format are then ignored.
 -   **Double-Click-Strategy:** the strategy (in the form of a sequence of ordered letters) used to define the uniqueness of the user accessing a resource. The fields are searched sequentially. If one field is lacking, the following one is used. The letter **C** corresponds to the field containing the **cookie** (or **session ID**). The letter **L** corresponds to the **login** of the user. The letter **I** corresponds to the **IP address** contained in the host field. *(CLI by default)*
--   **Double-Click-C-field:** field name that will be looked for in the logs. This field coming from the [custom log format parameters](./formats.html#paramtres-personnaliss) will be used to trace the cookie identifying the user (or its session ID). By default, it is not possible for ezPAARSE to know the field if it's not specified in the custom log format parameter. *(ignored by default)*
--   **Double-Click-L-field:** field name that will be looked for in the logs to identify the user login *(corresponds to %u in the [log format syntax](./formats.html))*. *(%u by default)*.
--   **Double-Click-I-field:** field name that will be looked for in the logs to identify the user host *(corresponds to %h in the [log format syntax](./formats.html))*. *(%h by default)*.
+-   **Double-Click-C-field:** field name that will be looked for in the logs. This field coming from the [custom log format parameters](../essential/formats.html#paramtres-personnaliss) will be used to trace the cookie identifying the user (or its session ID). By default, it is not possible for ezPAARSE to know the field if it's not specified in the custom log format parameter. *(ignored by default)*
+-   **Double-Click-L-field:** field name that will be looked for in the logs to identify the user login *(corresponds to %u in the [log format syntax](../essential/formats.html))*. *(%u by default)*.
+-   **Double-Click-I-field:** field name that will be looked for in the logs to identify the user host *(corresponds to %h in the [log format syntax](../essential/formats.html))*. *(%h by default)*.
 
 
 Usage:
