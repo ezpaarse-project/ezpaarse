@@ -150,7 +150,7 @@ Knowledge bases are used to:
 Knowledge bases are saved as text file [KBART format](http://www.uksg.org/kbart/s1/summary) and are specific to each platform.
 The `platform_AllTitles.txt` file contains the mappings between identifiers of a specific platform and ISSN (or other standardized identifier). The KBART field called `title_id` is used to establish this correspondence with the `print_identifier` field (for paper resources) or `online_identifier` (electronic resources). The [list of KBART fields](http://www.uksg.org/kbart/s5/guidelines/data_field_labels) and their meaning is available.
 
-Knowledge bases are loaded by ezPAARSE and their structure must be previously controlled by the [pkbvalidator tool](/doc/tools.html#pkbvalidator)
+Knowledge bases are loaded by ezPAARSE and their structure must be previously controlled by the [pkbvalidator tool](./tools.html#pkbvalidator)
 
 [More on AnalogIST](http://analogist.couperin.org/platforms/contribute/parser)
 

@@ -9,7 +9,7 @@ It can also allow you to add internal ezPAARSE fields as:
 - Datetime: for the full date (hour, minute and second included) of the consultation event
 - Timestamp: the date in a computer format for the consultation event
 
-Please not that the personalized fields in the [log format](./formats.html) will automatically be added to the "Output-Fields" list: there is no need to declare them with this Output-Fields header.
+Please not that the personalized fields in the [log format](../essential/formats.html) will automatically be added to the "Output-Fields" list: there is no need to declare them with this Output-Fields header.
 
 The Output-Fields header is composed with a list of comma separated fields, each one preceded with a **+** or **-** signs, depending on whether it has to be added or removed.
 

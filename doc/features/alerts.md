@@ -4,7 +4,7 @@
 When you process log files with ezPAARSE, a number of processing indicators are generated: number of log lines read, of rejects, of recognized platforms, etc.). Those indicators can be used to detect anomalies during the processing, based on figures considered as "normal".
 
 ## How to know if alerts have been generated? ##
-The list of alerts is available in the [processing report](./report.html#alerts). If the mail notification is activated, you'll also be able to access this list in the mail sent when the processing is finished.
+The list of alerts is available in the [processing report](../essential/report.html#alerts). If the mail notification is activated, you'll also be able to access this list in the mail sent when the processing is finished.
 
 **NB**: the activation of the alert system needs a sufficient quantity of relevant log lines. The activation threshold is set in the `config.json` file, with the `activationThreshold` key. It can also be modified with the **Alerts-Activation-Threshold** header.
 
