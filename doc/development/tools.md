@@ -2,7 +2,7 @@
 
 
 ## platform-init
-This command creates the structure for a platform's parser. It is a CLI tool that asks a series of questions and generates the repository structure for the parser with a manifest.json file, a parser's skeleton and an empty test file. The command is interactive and doesn't take any parameter.
+This Command Line Interactive (CLI) utility creates the structure for a platform's parser. It asks a series of questions and generates the repository structure for the parser with a manifest.json file, a parser's skeleton and an empty test file. The command is interactive and doesn't take any parameter.
 
 Example:
 ```
@@ -20,7 +20,7 @@ Usage: pkb-cleaner [-nvp] [DIR_TO_CLEAN]
 
 Options:
   --platform, -p   Name of a platform whose PKB should be cleaned.(if provided, ignore dir path)
-  --norewrite, -n  If provided, do not rewrite files once the check is complete.                
+  --norewrite, -n  If provided, do not rewrite files once the check is complete.
   --verbose, -v    Print all duplicated entries
 ```
 
@@ -52,7 +52,7 @@ scrape -al    # lists all the existing scrapers without launching them
 
 ## loginjector
 
-Stream a log file to a local instance of ezPAARSE.
+Streams a log file to a local instance of ezPAARSE.
 
 Example:
 ```bash
@@ -78,7 +78,7 @@ This command eases the sending of log files to an ezPAARSE instance, compared to
 
 ## loganonymizer
 
-Anonymize a log file. The sensitive elements, like the login or the machine name are replaced with random values. The log file should be sent to the system input (stdin) of the command.
+Anonymizes a log file. The sensitive elements, like the login, machine name or IP address, are replaced with random values. The log file should be sent to the system input (stdin) of the command.
 
 Example:
 ```bash
@@ -97,11 +97,11 @@ Options:
   --format, -f  the format of log lines (ex: %h %u [%t] "%r")
 ```
 
-This is useful for generating test files by removing sensitive items (related to the protection of personal data). Each value is replaced by the same random value so keeping associations and be able to deduplicate.
+This is useful for generating test files by removing sensitive items (related to the protection of personal data). Each value is replaced by the same random value so keeping associations and be able to deduplicate is guaranteed.
 
 ## logextractor
 
-Retrieve one or more fields in a log file. The log file should be sent to the system input (stdin) of the command.
+Retrieves one or more fields in a log file. The log file should be sent to the system input (stdin) of the command.
 
 Examples:
 ```bash
@@ -124,14 +124,14 @@ Options:
 
 ```
 
-This is useful for manipulating log files. A common use is extracting URLs from a log file in order to analyze a platform for a publisher. For example, here's how to get the URL for the sciencedirect platform by sorting alphabetically and deduplicating them:
+This is useful for manipulating log files. A common use is extracting URLs from a log file in order to analyze a platform for a publisher. For example, here's how to get the URL for the ScienceDirect platform by sorting alphabetically and deduplicating them:
 ```bash
 zcat monezproxy.log.gz | ./bin/logextractor --field=url | grep "sciencedirect" | sort | uniq
 ```
 
 ## csvextractor
 
-Extract content from a CSV file. The CSV file must be sent to the system input (stdin) of the command.
+Extracts content from a CSV file. The CSV file must be sent to the system input (stdin) of the command.
 
 Example:
 ```bash
@@ -163,7 +163,7 @@ cat ./test/npg.2013-01-16.csv | ../../bin/csvextractor --fields='url' -c --nohea
 
 ## csvtotalizer
 
-Produce a summary on the content of a CSV file resulting from a processing of ezPAARSE. The CSV file must be sent to the system input (stdin) of the command.
+Produces a summary on the content of a CSV file resulting from a processing of ezPAARSE. The CSV file must be sent to the system input (stdin) of the command.
 
 Example:
 ```bash
@@ -190,7 +190,7 @@ cat ./test/dataset/sd.2012-11-30.300.log | ./bin/loginjector | ./bin/csvtotalize
 
 ## logfaker
 
-Generate an output stream matching with log lines of a platform on stdout.
+Generates an output stream matching with log lines of a platform on stdout.
 
 Example:
 ```bash
@@ -212,7 +212,7 @@ Useful to test the performance of ezPAARSE.
 
 ## pkbvalidator
 
-Check the validity of a knowledge base for a publisher's platform.
+Checks the validity of a knowledge base for a publisher's platform.
 This file must conform to the KBART format.
 
 This command checks the following:
@@ -235,7 +235,7 @@ Options:
 
 ## ecmaker
 
-This starts a batch processing a log file on the local instance of ezPAARSE.
+Starts a batch processing a log file on the local instance of ezPAARSE.
 
 Example Usage with logfaker on the standard input:
 ```bash
@@ -273,7 +273,7 @@ Options:
 
 ## ecbulkmaker
 
-This starts a batch processing for log files in a directory on the local instance.
+Starts a batch processing for log files in a directory on the local instance.
 
 Exemple d'utilisation :
 ```bash
@@ -302,7 +302,7 @@ This [screencast](https://www.youtube.com/watch?v=5Tlk6GECSTI) demonstrates the 
 
 ## hostlocalize
 
-Enrich a csv result file containing a host name with the geolocation of the IP address
+Enriches a csv result file containing a host name with the geolocation of the IP address
 
 Example:
 ```bash
