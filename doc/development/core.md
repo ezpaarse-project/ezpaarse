@@ -1,7 +1,7 @@
 # Application core #
 
 Developper-oriented documentation for ezPAARSE's core.
-The documentation on contributions to parsers, pkbs and scrapers can be read in [this section](./platforms.html).
+The documentation dedicated to contributions for parsers, pkbs and scrapers can be found in [this section](./platforms.html).
 
 ## Technologies used by ezPAARSE
 
@@ -54,10 +54,8 @@ To generate a new version of ezPAARSE you need to be member of the ezPAARSE Team
 
 If you are not a member, you can submit a [pull request on github](https://github.com/ezpaarse-project/ezpaarse/pulls).
 
-For the ezPAARSE Team :
-
+For the ezPAARSE Team:
 - Check you are on the master version or run a `git checkout master`
-
 - Use npm to generate the new version by using the appropriate options to tag the version
 
 ```console
