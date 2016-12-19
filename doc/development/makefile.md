@@ -43,26 +43,3 @@ make lint
 Checks the syntax of the javascript files with the ``eslint`` utility.
 
 The coding rules can be modified with a configuration file (``.eslintrc``). All the options are documented on [the ESLint page](http://eslint.org/docs/rules/).
-
-## Managing the documentation ##
-
-```console
-make doc
-```
-
-Generates an HTML formatted documentation with the markdown files found in the ``doc/`` folder.
-The HTML documentation is made available in the ``public/doc/`` folder.
-
-```console
-make docclean
-```
-
-Cleans the generated HTML documentation by deleting the ``public/doc/`` folder.
-
-```console
-make docopen
-```
-
-Opens the documentation in the Google Chrome browser. (through the ``file://`` protocol)
-
-When the application is started, the documentation is also available on the ezPAARSE built-in web server.
