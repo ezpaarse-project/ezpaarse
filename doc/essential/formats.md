@@ -1,64 +1,64 @@
 # Set your log format #
-ezPAARSE allows its users to specify their proxy log format by using the HTTP header *Log-Format-xxx*, where *xxx* is the name of the proxy.
+ezPAARSE allows its users to specify their proxy log format by using the HTTP header *Log-Format-xxx*, where *xxx* is the model of the proxy (for example: `ezproxy`, `apache`, `bibliopam`).
 
-The different syntaxes mirror those used by the proxy. It is thus often as easy as copying and pasting the format found in the proxy configuration. Beware though, **settings are not included in their entirety.**
+The different syntaxes mirror those used by the proxy. It is thus often as easy as directly copy-and-pasting the format declared in your proxy configuration. Beware though, **settings are not included in their entirety** on ezPAARSE's side.
 
 ## EZProxy syntax ##
 
-- %h : host IP, from where the request originates
-- %u : login used during authentication
-- %l : distant user name, obtained with identd (always "-")
-- %b : bytes transfered
-- %U : requested URL *(e.g. http://www.somedb.com/)*.
-- %m : request's method *(e.g. GET, POST)*.
-- %r : complete request *(e.g. GET http://www.somedb.com HTTP/1.0)*.
-- %t : date/time of the request. The format can be specified in the *Date-Format* request.
-- %s : HTTP request status code
+- `%h`: host IP, from where the request originates
+- `%u`: login used during authentication
+- `%l`: distant user name, obtained with identd (always "-")
+- `%b`: bytes transfered
+- `%U`: requested URL *(e.g. http://www.somedb.com/)*.
+- `%m`: request's method *(e.g. GET, POST)*.
+- `%r`: complete request *(e.g. GET http://www.somedb.com HTTP/1.0)*.
+- `%t`: date/time of the request. The format can be specified in the *Date-Format* request.
+- `%s`: HTTP request status code
 
 ### Regular expressions generated for the EZProxy fields ###
 
 Each of the above parameters is converted into a regular expression:
-- %h (host)     : ([a-zA-Z0-9\\.\\-]+(?:, ?[a-zA-Z0-9\\.\\-]+)*)
-- %u (login)    : ([a-zA-Z0-9@\\.\\-_%,=]+)
-- %l (identd)   : ([a-zA-Z0-9\\-]+|\\-)
-- %b (size)     : ([0-9]+)
-- %U (url)      : ([^ ]+)
-- %m (method)   : ([A-Z]+)
-- %r (url)      : [A-Z]+ ([^ ]+) [^ ]+
-- %t (datetime) : \\[([^\\]]+)\\]
-- %s (status)   : ([0-9]+)
+- `%h` (host)     : ([a-zA-Z0-9\\.\\-]+(?:, ?[a-zA-Z0-9\\.\\-]+)*)
+- `%u` (login)    : ([a-zA-Z0-9@\\.\\-_%,=]+)
+- `%l` (identd)   : ([a-zA-Z0-9\\-]+|\\-)
+- `%b` (size)     : ([0-9]+)
+- `%U` (url)      : ([^ ]+)
+- `%m` (method)   : ([A-Z]+)
+- `%r` (url)      : [A-Z]+ ([^ ]+) [^ ]+
+- `%t` (datetime) : \\[([^\\]]+)\\]
+- `%s` (status)   : ([0-9]+)
 
 ## Apache Syntax ##
 
-- %h  : host IP, from where the request originates
-- %u  : login used during authentication
-- %l  : distant user name, obtained with identd (always "-")
-- %b  : bytes transfered
-- %U  : requested URL *(e.g. http://www.somedb.com/)*.
-- %r  : complete request *(e.g. GET http://www.somedb.com HTTP/1.0)*.
-- %t  : date/time of the request. The format can be specified in the *Date-Format* request.
-- %>s : HTTP request status code
+- `%h`  : host IP (from where the request originates)
+- `%u`  : login used during authentication
+- `%l`  : distant user name, obtained with identd (always "-")
+- `%b`  : bytes transfered
+- `%U`  : requested URL *(e.g. http://www.somedb.com/)*.
+- `%r`  : complete request *(e.g. GET http://www.somedb.com HTTP/1.0)*.
+- `%t`  : date/time of the request. The format can be specified in the *Date-Format* request.
+- `%>s` : HTTP request status code
 
 ## Squid Syntax ##
 
-- %ts  : resquest's timestamp (in seconds).
-- %tu  : timestamp's milliseconds
-- %tr  : server's response time
-- %tl  : date/time of the request. The format can be specified in the *Date-Format* request.
-- %>a  : host IP, from where the request originates
-- %<a  : IP address for the last connection
-- %<A  : domain name from the request
-- %lp  : port number from the request
-- %Ss  : squid status for the request *(TCP_MISS, ..)*.
-- %>Hs : HTTP request status code for the request
-- %<st : response size (headers included).
-- %rm  : request method *(e.g. GET, POST)*.
-- %rv  : protocol version number
-- %ru  : requested URL *(e.g. http://www.somedb.com/)*.
-- %[un : login used to authenticate
-- %Sh  : squid hierarchical status *(DEFAULT_PARENT, ..)*.
-- %mt  : MIME type of the content
-- %ui  : distant user name, obtained with identd
+- `%ts`  : resquest's timestamp (in seconds).
+- `%tu`  : timestamp's milliseconds
+- `%tr`  : server's response time
+- `%tl`  : date/time of the request. The format can be specified in the *Date-Format* request.
+- `%>a`  : host IP, from where the request originates
+- `%<a`  : IP address for the last connection
+- `%<A`  : domain name from the request
+- `%lp`  : port number from the request
+- `%Ss`  : squid status for the request *(TCP_MISS, ..)*.
+- `%>Hs` : HTTP request status code for the request
+- `%<st` : response size (headers included).
+- `%rm`  : request method *(e.g. GET, POST)*.
+- `%rv`  : protocol version number
+- `%ru`  : requested URL *(e.g. http://www.somedb.com/)*.
+- `%[un` : login used to authenticate
+- `%Sh`  : squid hierarchical status *(DEFAULT_PARENT, ..)*.
+- `%mt`  : MIME type of the content
+- `%ui`  : distant user name, obtained with identd
 
 ## Personalized parameters ##
 
@@ -66,8 +66,8 @@ Using custom settings allows the retrieval of information from the log lines tha
 
 There are three ways of expressing a parameter:
 - %{**field_name**}<**regexp**>: retrieves the field corresponding to the specified regexp and adds it to the consultation event with the given field name
-- %{**field_name**} : retrieves an alphanumeric string (hyphens permitted) and adds it to the consultation event with the specified field name
-- %<**regexp**> : ignores the part of the log line that matches the corresponding regexp.
+- %{**field_name**}: retrieves an alphanumeric string (hyphens permitted) and adds it to the consultation event with the specified field name
+- %<**regexp**>: ignores the part of the log line that matches the corresponding regexp.
 
 ### Some examples with regular expressions ###
 The following example would capture a datetime formatted as YYYY/MM/DD:hh:mm:ss
