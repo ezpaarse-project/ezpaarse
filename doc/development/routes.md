@@ -1,6 +1,6 @@
 # Process API #
 
-ezPAARSE is a RESTful application.
+ezPAARSE is a [RESTful](https://en.wikipedia.org/wiki/Representational_state_transfer) application.
 **REST**: Representational State Transfer
 
 ## Sending logs ##
