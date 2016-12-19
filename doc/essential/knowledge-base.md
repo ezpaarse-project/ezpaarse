@@ -32,9 +32,3 @@ Please note that processing logs without waiting for the synchronization to be o
 
 **Warning**: some ezPAARSE output formats will force you to explicitely ask for some information you are interested in. If you don't, you will only get a minimal set of information as a result. This is the case with the CSV output.
 Other output formats, like JSON, will automatically return all the data available.
-
-## PKB-miss (deprecated) ##
-
-When ezPAARSE finds a vendor identifier for which there is no link in the associated PKB, it fills the **PKB-miss** file: similar to a PKB file, it is filled with identifiers for which **no corresponding bibliographic information** was found. It allows for an easier way of identifying where the PKB is lacking, and hence to complete it.
-
-The PKB-miss file is created alongside the original PKB files and is named after the short name for the platform followed by the **.pkb.miss.txt** extension (eg: sd.pkb.miss.txt)
