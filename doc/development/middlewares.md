@@ -47,7 +47,7 @@ Enriches consultation events with [istex](http://www.istex.fr/) data from their 
 Parses the URL associated with a consultation event (by calling the appropriate parser)
 
 ### qualifier
-Checks consultation events' qualification. See the [dedicated page](../features/qualification.md) for more detail.
+Checks consultation events' qualification. See the [dedicated page](../features/qualification.html) for more detail.
 
 ### sudoc
 Enriches consultation events with [Sudoc](http://www.sudoc.abes.fr) data, especially the PPN (that identify Sudoc records)
