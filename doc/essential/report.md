@@ -1,13 +1,13 @@
 # Job reports #
 
-ezPAARSE produces an execution report.
-The various sections are documented here.
+ezPAARSE generates an execution report.
+The various sections of this report are documented below.
 
 - [General](#general): contains general information related to the processing
 - [Rejects](#rejects): lists all rejects, how much they are and the links to the files containing the rejected lines
 - [Statistics](#statistics): provides the first global figures
-- [Alerts](#alerts): the generated alerts
-- [Notifications](#notifications): for end of processing notifications
+- [Alerts](#alerts): lists the active alerts
+- [Notifications](#notifications): lists the email for the recipients of processing notifications
 - [Duplicates](#deduplicating): algorithm used for deduplication
 - [File](#files): list of processed log files
 - [First consultation](#first-consultation-event): content of the first consultation event
@@ -24,7 +24,7 @@ The various sections are documented here.
   </tr><tr>
     <th>Job-Done</th>
     <td>true
-      <div class="comment">Has the processing correctly completed ?</div>
+      <div class="comment">Has the processing correctly completed?</div>
     </td>
   </tr><tr>
     <th>Job-Duration</th>
@@ -323,7 +323,7 @@ The various sections are documented here.
   <tr>
     <th>mailto</th>
     <td>someone@somewhere.com
-      <div class="comment">Receiver of the mail at the end of the processing</div>
+      <div class="comment">Recepient(s) of the mail sent at the end of the processing</div>
     </td>
   </tr><tr>
     <th>mail-status</th>
