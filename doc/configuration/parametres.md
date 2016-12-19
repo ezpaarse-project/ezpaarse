@@ -4,15 +4,18 @@ The ezPAARSE jobs can be configured using HTTP headers. Please find the list of 
 
 
 ### Content-Encoding ###
-Encoding of the data sent. *(supported : gzip, deflate)*
+Encoding of the data sent. 
+*(supported: gzip, deflate)*
 
 ### Response-Encoding ###
-Encoding of the data sent back by server. *(supported : gzip, deflate)*
+Encoding of the data sent back by server. 
+*(supported: gzip, deflate)*
 
 ### Accept ###
-Output format. Supported:
+Output format. 
+Supported:
   - text/csv (by default)
-  - text/tab-separated-values (for a TSV output : as CSV but tab-delimited)
+  - text/tab-separated-values (for a TSV output: as CSV but tab-delimited)
   - application/json
   - application/jsonstream (one JSON object per line)
 
@@ -32,11 +35,11 @@ To specify the fields to include in the output (if the format allows it). [(More
 
 ### Traces-Level ###
 To specify the verbosity level from ezPAARSE's feedback. The higher levels include the lower ones.
-  - **error** : blocking errors, abnormal treatment termination.
-  - **warn** : errors not fatal to the treatment.
-  - **info** : general informations (requested format, ending notification, number of ECs generated...).
-  - **verbose** : more precise than info, gives more information about each stage of the treatment.
-  - **silly** : every detail of the treatment (parser not found, line ignored, unsuccessful search in a pkb...).
+  - **error**: blocking errors, abnormal treatment termination.
+  - **warn**: errors not fatal to the treatment.
+  - **info**: general informations (requested format, ending notification, number of ECs generated...).
+  - **verbose**: more precise than info, gives more information about each stage of the treatment.
+  - **silly**: every detail of the treatment (parser not found, line ignored, unsuccessful search in a pkb...).
 
 
 ### Reject-Files ###
@@ -66,14 +69,14 @@ This [screencast](https://www.youtube.com/watch?v=I3D6lO4wDZo) demonstrates the 
 
 ### Force-Parser ###
 If URLs don't have 'domain' part, use this parameter to force right parser to be used. Usefull for Open Access log analysis which don't have domain part in URL (all URLs comes form the same domain).
-For example : Force-Parser: 'dspace'.
+For example: Force-Parser: 'dspace'.
 Can be use in conjonction with Force-ECField-Publisher.
 
 ### COUNTER-Reports ###
 List of COUNTER reports to create (ex: JR1, BR2). Download links are accessible in the `stats` section of the treatment report. [(More information)](../features/counter.html)
 
 ### COUNTER-Format ###
-COUNTER report formats : `XML` (by default) ou `CSV`.
+COUNTER report formats: `XML` (by default) ou `CSV`.
 
 ### COUNTER-Customer ###
 Name and/or email of the customer to include in the COUNTER reports, following the form `name`, `<email>` or `name<email>`. (By default :`ezPAARSE<admin email>`)
@@ -85,36 +88,36 @@ Name and/or email of the publisher  to include in the COUNTER reports, following
 Listing of the geolocation informations to be added to the results. By default `geoip-longitude, geoip-latitude, geoip-country`. `all` can be used to include every fiel available, or `none` to deactivate geolocation altogether. [(More information)](../features/geolocalisation.html)
 
 ### ezPAARSE-Job-Notifications ###
-Listing of notifications to send when treatment is done, written as `action<cible>` and separated by commas. Currently available : `mail<adress>`
+Listing of notifications to send when treatment is done, written as `action<cible>` and separated by commas. Currently available: `mail<adress>`
 
 ### ezPAARSE-Enrich ###
 Set to `false` to deactivate data enrichment (geoip and knowledge bases). Any other value will leave the data enrichment active.
 
 ### ezPAARSE-Predefined-Settings ###
-Tells ezPAARSE to use a predefined set of parameters. Ex : `inist` for INIST-CNRS parameters.
+Tells ezPAARSE to use a predefined set of parameters. For example: `inist` for INIST-CNRS parameters.
 
 ### ezPAARSE-Filter-Redirects ###
 Set to `false` to prevent lines with HTTP status codes 301, 302 from being filtered and discarded.
 
 ### Disable-Filters ###
 Disable filters applying to robots or arbitrary hosts/domains. (defaults to `none`).
-Possible values (separated by commas) : `robots`, `ignored-hosts`, `ignored-domains`.
+Possible values (separated by commas): `robots`, `ignored-hosts`, `ignored-domains`.
 Set to `all` to disable all above filters.
 
 **NB**: when robots are not filtered, add the `robot` field to the output in order to know which consultations were made by robots.
 
 ### Force-ECField-Publisher ###
 Set the publisher_name field to a predefined value.
-For example : Force-ECField-Publisher: 'IRevues'.
+For example: Force-ECField-Publisher: 'IRevues'.
 
 
 ### cut ###
 Set to `true` to activate the `cut` middleware. Any other value will leave the middleware not active.
 
 The headers available to define how `cut` will work are: 
-  - `cut-field` : initialized with the name of the field you want to cut
-  - `cut-regex` : regexp matching the given field and capturing subset(s) of it
-  - `cut-create-fields` : give new names to the fields that are generated captured data from the regexp
+  - `cut-field`: initialized with the name of the field you want to cut
+  - `cut-regex`: regexp matching the given field and capturing subset(s) of it
+  - `cut-create-fields`: give new names to the fields that are generated captured data from the regexp
 
 Usage example:
 
