@@ -6,16 +6,19 @@ ezPAARSE comes with a `config.json` file (located at the root of the /ezpaarse d
 The default value is set to `ezpaarse@couperin.org`
 
 ### EZPAARSE_PARENT_URL ###
+You can decide to delegate the management of user feedback (via the online form) on your local instance to another ezPAARSE instance (called a "parent" instance).
 The default value is set to `http://ezpaarse-preprod.couperin.org`
 
-### EZPAARSE_MONGO_URL ###
-The default value is set to `mongodb://localhost:27017/ezpaarse`
-
 ### EZPAARSE_FEEDBACK_RECIPIENTS ###
+The mail adress where the users feedback get sent.
 The default value is set to `ezpaarse@couperin.org`
 
 ### EZPAARSE_SUBSCRIPTION_MAIL ###
+If you wish to receive a message everytime a user opens an account on your instance, set the value to `true`.
 The default value is set to `false`
+
+### EZPAARSE_MONGO_URL ###
+The default value is set to `mongodb://localhost:27017/ezpaarse`
 
 ### EZPAARSE_ENV ###
 The default value is set to `production`
@@ -24,22 +27,19 @@ The default value is set to `production`
 The default value is set to `59599`
 
 ### EZPAARSE_NODEJS_VERSION ###
-The default value is set to `4.2.1`
+The default value is set to `6.6.0`
 
 ### EZPAARSE_LOG_FOLDER ###
+Sets the folder where all log samples for testing are stored.
 The default value is set to `test/dataset`
 
 ### EZPAARSE_REQUIRE_AUTH ###
+Determines if the ezPAARSE online form is hidden (`true`) or accessible (`false`).
 The default value is set to `false`
 
 ### EZPAARSE_OUTPUT_FIELDS ###
 Contains an array of field names that are going to be present in the result file produced by ezPAARSE. 
-The default array contains the following fields: 
-
-### EZPAARSE_DEMO ###
-If `true`, shows a warning to let users know that the instance is a demo, and thus not adapted to process large log files. This warning now appears on our demo instance hosted on [http://ezpaarse.couperin.org](http://ezpaarse.couperin.org)
-The default value is set to `false`.
-
+The default array contains the following fields:
 ```json
 [
 "datetime",
@@ -59,6 +59,11 @@ The default value is set to `false`.
 "domain"
 ]
 ```
+
+
+### EZPAARSE_DEMO ###
+If `true`, it shows a warning informing users that the instance is a demo, and thus not adapted to process large log files. This warning now appears on our demo instance hosted on [http://ezpaarse.couperin.org](http://ezpaarse.couperin.org)
+The default value is set to `false`.
 
 ### EZPAARSE_MIDDLEWARES" ###
 Contains an array of middleware names, in the order they are going to be launched by ezPAARSE during a process.
@@ -104,9 +109,11 @@ The default value is set to `1`
 ```
 
 ### EZPAARSE_TMP_CYCLE ###
+Determines how long ezPAARSE results remain accessible for downloading.
 The default value is set to `60min`
 
 ### EZPAARSE_TMP_LIFETIME ###
+Sets the maximal duration for the storage of result files.
 The default value is set to `1day`
 
 ### EZPAARSE_IGNORED_DOMAINS ###
@@ -118,7 +125,7 @@ Contains an array of domains to be ignored (ie filtered out) by ezPAARSE.
 ]
 ```
 
-To avoid declaring too long a list, you can also declare unrelevant domains in dedicated exclusion files as documented in this [section](http://ezpaarse.readthedocs.io/en/master/features/exclusions.html#the-unrelevant-domains)
+To avoid declaring too long a list, we advise you to declare unrelevant domains in dedicated exclusion files as documented in this [section](http://ezpaarse.readthedocs.io/en/master/features/exclusions.html#the-unrelevant-domains)
 
 ### EZPAARSE_GEOLOCALIZE_DEFAULT ###
 The default value is set to `geoip-lookup`
