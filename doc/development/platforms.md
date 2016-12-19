@@ -72,9 +72,9 @@ echo '{ "url": "http://www.sciencedirect.com:80/science/bookseries/00652296", "s
 
 ## Writing a Parser ##
 
-Parsers are written in **Javascript**. A good knowledge of the language is however not necessary to write a parser. Most of the code being outsourced in a common file for all parsers, only the URL analysis function must be adapted, making the code short and relatively simple. Most parsers still require a basic knowledge of **regular expressions**.
+Parsers are written in **Javascript**. A good knowledge of the language is not really necessary to write a parser. Most of the code being outsourced in a common file for all parsers, only the URL analysis function must be adapted, making the code short and relatively simple. Most parsers still require a basic knowledge of **regular expressions**.
 
-Writing a new parser consists of:
+Writing a new parser thus consists of:
 * creating the manifest.json file (see below)
 * creating the test file, according to what is documented on the plaftform analysis page
 * creating the parser so that its output is conform to the test file (see below)
