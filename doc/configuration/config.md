@@ -6,7 +6,7 @@ ezPAARSE comes with a `config.json` file (located at the root of the /ezpaarse d
 The default value is set to `ezpaarse@couperin.org`
 
 ### EZPAARSE_PARENT_URL ###
-You can decide to delegate the management of user feedback (via the online form) on your local instance to another ezPAARSE instance (called a "parent" instance).
+To avoid the setup of a local SMTP server, you can delegate the management of user feedback (via the online form) to another ezPAARSE instance (called a "parent" instance).
 The default value is set to `http://ezpaarse-preprod.couperin.org`
 
 ### EZPAARSE_FEEDBACK_RECIPIENTS ###
