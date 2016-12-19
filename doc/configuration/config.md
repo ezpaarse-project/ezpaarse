@@ -29,10 +29,6 @@ The default value is set to `59599`
 ### EZPAARSE_NODEJS_VERSION ###
 The default value is set to `6.6.0`
 
-### EZPAARSE_LOG_FOLDER ###
-Sets the folder where all log samples for testing are stored.
-The default value is set to `test/dataset`
-
 ### EZPAARSE_REQUIRE_AUTH ###
 Determines if the ezPAARSE online form is hidden (`true`) or accessible (`false`).
 The default value is set to `false`
