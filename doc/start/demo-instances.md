@@ -14,4 +14,5 @@ The instance available on [http://ezpaarse.couperin.org](http://ezpaarse.couperi
 
 ## Preproduction Demo Instance ##
 The instance available on [http://ezpaarse-preprod.couperin.org](http://ezpaarse-preprod.couperin.org) is based on the bleeding edge version of the ezPAARSE software (can be unstable).
-This is were we test the latest features.
+
+This is were we test the latest features (and you can too!).
