@@ -121,7 +121,7 @@ Those can be accessed by using the unique identifier attributed to the job.
     </tr>
     <tr>
       <td>/{jobID}/lines-unqualified-ecs.log</td>
-      <td>Lines that generated access events with too few information. [(More details)](./qualification.html)</td>
+      <td>Lines that generated access events with too few information. [(More details)](../features/qualification.html)</td>
     </tr>
     <tr>
       <td>/{jobID}/lines-pkb-miss-ecs.log</td>
