@@ -10,7 +10,7 @@ The various sections of this report are documented below.
 - [Notifications](#notifications): lists the email for the recipients of processing notifications
 - [Duplicates](#deduplicating): algorithm used for deduplication
 - [File](#files): list of processed log files
-- [First consultation](#first-consultation-event): content of the first consultation event
+- [First consultation](#first-consultation-event): content of the first access event
 
 ## General ##
 
@@ -132,7 +132,7 @@ The various sections of this report are documented below.
   <tr>
     <th>nb-lines-duplicate-ecs</th>
     <td>1893
-      <div class="comment">Number of deduplicated CEs (following the COUNTER algorithm)</div>
+      <div class="comment">Number of deduplicated access events (following the COUNTER algorithm)</div>
     </td>
   </tr><tr>
     <th>nb-lines-ignored</th>
@@ -216,7 +216,7 @@ The various sections of this report are documented below.
   <tr>
     <th>mime-HTML</th>
     <td>4540
-      <div class="comment">Numbers of CEs for the main mime-types (names prefixed with mime-)</div>
+      <div class="comment">Numbers of access events for the main mime-types (names prefixed with mime-)</div>
     </td>
   </tr><tr>
     <th>mime-MISC</th>
@@ -228,7 +228,7 @@ The various sections of this report are documented below.
     <th>platform-acs
     </th>
     <td>538
-      <div class="comment">Number of CEs for recognized platforms (names prefixed with platform-platform_shortname)</div>
+      <div class="comment">Number of access events for recognized platforms (names prefixed with platform-platform_shortname)</div>
     </td>
   </tr><tr>
     <th>platform-ar</th>
@@ -277,7 +277,7 @@ The various sections of this report are documented below.
   </tr><tr>
     <th>rtype-ABS</th>
     <td>1142
-      <div class="comment">Number of CEs for the main resources types (name prefixed with rtype-)</div>
+      <div class="comment">Number of access events for the main resources types (name prefixed with rtype-)</div>
     </td>
   </tr><tr>
     <th>rtype-ARTICLE</th>
