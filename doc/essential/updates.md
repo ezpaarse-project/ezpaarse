@@ -15,7 +15,7 @@ It is also possible to update ezPAARSE directly from the GUI, see this [screenca
 
 ## Working materials ##
 
-The following commands update the materials needed by ezPAARSE.
+The following commands update the materials needed by ezPAARSE. There is one distinct command per material type, see comments.
 
 ```bash
 make platforms-update   # update parsers, knowledge bases, scrapers
