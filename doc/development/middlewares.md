@@ -6,11 +6,13 @@ Middlewares are functions that constitute the processing chain. The middlewares 
 
 ## How to create a middleware ? ##
 
-The middlewares have their own repository.Please refer to the [Readme](https://github.com/ezpaarse-project/ezpaarse-middlewares) for more details.
+The middlewares have their [own dedicated repository](https://github.com/ezpaarse-project/ezpaarse-middlewares).
+
+Please refer to the [Readme](https://github.com/ezpaarse-project/ezpaarse-middlewares/blob/master/README.md) for more details.
 
 ## How to load a middleware ? ##
 
-To become part of the processing chain, a middleware must have its name (ie the name of its file without the `.js`) added to the `EZPAARSE_MIDDLEWARES` array in the config file. The order of declaration in the array determines the order in which middlewares are called.
+To become part of the processing chain, a middleware must have its name (*ie* the name of its file, without the `.js` suffix) added to the `EZPAARSE_MIDDLEWARES` array in the config file. The order of declaration in the array determines the order in which middlewares are called.
 
 ## Available Middlewares ##
 ### anonymizer
