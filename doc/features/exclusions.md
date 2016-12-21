@@ -21,7 +21,7 @@ Accesses to proxied domains that are of no interest for you can be **ignored** b
 
 To complete this list of unrelevant domains, you just have to create a file in the `exclusions` folder and name it with the `domains.` prefix. It must contain only one IP address per line.
 
-By default, we alreday provide you with three exclusion files : 
+By default, we already provide you with three exclusion files : 
   * `domains.default.txt`: containing a list of domains related to Google
   * `domains.cdn.txt`: containing a list of Content Delivery Networks ([CDN](https://en.wikipedia.org/wiki/Content_delivery_network)) subdomains
   * `domains.static.txt`: containing a list of subdomains serving static resources (mostly images)
