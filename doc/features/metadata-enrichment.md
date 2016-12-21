@@ -23,7 +23,7 @@ The Crossref middleware use the `doi` found in the access events to request meta
   * **crossref-TTL**: lifetime of cached documents, in seconds. Defaults to `7 days (3600 * 24 * 7)`
   * **crossref-throttle**: minimum time to wait between queries, in milliseconds. Defaults to `200`ms
   * **crossref-paquet-size**: maximum number of identifier to query in a single request. Defaults to `50` 
-  * **crossref-buffer-size**: maximum number of memorised ECs before sending a request. Defaults to `1000`
+  * **crossref-buffer-size**: maximum number of memorised access events before sending a request. Defaults to `1000`
 
 ## Configuring Sudoc Middleware Call ##
 
@@ -34,7 +34,7 @@ The Crossref middleware use the `doi` found in the access events to request meta
 
 ## Configuring HAL Middleware Call ##
 
-The HAL middleware use the hal-identifier found in the ECs to request metadatas using the [node-hal](https://www.npmjs.com/package/methal)
+The HAL middleware use the hal-identifier found in the access events to request metadatas using the [node-hal](https://www.npmjs.com/package/methal)
 
 ### Headers ###
   * **HAL-Enrich** : set to `true` to enable HAL enrichment. Disable by default.
@@ -43,7 +43,7 @@ The HAL middleware use the hal-identifier found in the ECs to request metadatas 
 
 ## Configuring ISTEX Middleware Call ##
 
-The ISTEX middleware use the istex-identifier found in the ECs to request metadatas using the [node-istex](hhttps://www.npmjs.com/package/node-istex)
+The ISTEX middleware use the istex-identifier found in the access events to request metadatas using the [node-istex](hhttps://www.npmjs.com/package/node-istex)
 
 ISTEX middleware is automatically activated on ISTEX logs
 

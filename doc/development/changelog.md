@@ -23,7 +23,7 @@
 ## 2.9.0  ##
 ##### 2016/08/30 - ezPLAAGE  #####
 - Bug fix: crash on startup when the PKBs had issues
-- ECs have a new unique ID, created with a hash of their log line
+- Access events have a new unique ID, created with a hash of their log line
 - Similar values are now aggregated into a single field, no matter the source
 - Ajax requests can now use all available headers
 - Middlewares have been [externalized](https://github.com/ezpaarse-project/ezpaarse-middlewares)
@@ -50,7 +50,7 @@
 
 ## 2.5.0  ##
 ##### 2015/09/03 - EC enrichment via APIs #####
-- Automatic ECs enrichment with crossref and elsevier
+- Automatic access events enrichment with crossref and elsevier
 - Light Windows version
 
 ## 2.4.0  ##
@@ -87,7 +87,7 @@
 - Software update in the admin section
 - Deduplicating the PKBs tool
 - MVP of a "my profile" page
-- Addition of publisher_name in ECs (for COUNTER reports exports)
+- Addition of publisher_name in access events (for COUNTER reports exports)
 
 ## 1.9.0  ##
 ##### 2014/06/23 - Parsathon #####
@@ -107,7 +107,7 @@
 ## 1.6.0  ##
 ##### 2014/03/13 - Web interface redesign #####
 - Web interface redesign with AngularJS
-- ECs Geolocation
+- Access events' Geolocation
 
 ## 1.5.0  ##
 ##### 2014/02/01 - KBART standardization #####
@@ -154,7 +154,7 @@
 
 ## 0.7.0  ##
 ##### 2013/06/05 - Consolidation of the software's core #####
-- better ECs definition (rtype, MIME, unitid)
+- better access events definition (rtype, MIME, unitid)
 - testing for large log quantities
 - new parsers (BMC, lamyline, lextenso, lexisnexis)
 - form redesign with dynamic metrics

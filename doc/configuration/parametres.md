@@ -28,7 +28,7 @@ Date format used in the logs sent. Default is: 'DD/MMM/YYYY:HH:mm:ss Z'.
 ### Crypted-Fields ###
 Comma-separated list of fields that will be crypted in the results, or `none` to disable crypting. Defaults to `host,login`.
 
-**Caution**: each job uses a random salt for crypting, so crypted values for the same ECs but from distinct jobs are not identical.
+**Caution**: each job uses a random salt for crypting, so crypted values for the same acces events but from distinct jobs are not identical.
 
 ### Output-Fields ###
 To specify the fields to include in the output (if the format allows it). [(More information)](../features/outputfields.html)
@@ -37,7 +37,7 @@ To specify the fields to include in the output (if the format allows it). [(More
 To specify the verbosity level from ezPAARSE's feedback. The higher levels include the lower ones.
   - **error**: blocking errors, abnormal treatment termination.
   - **warn**: errors not fatal to the treatment.
-  - **info**: general informations (requested format, ending notification, number of ECs generated...).
+  - **info**: general informations (requested format, ending notification, number of access events generated...).
   - **verbose**: more precise than info, gives more information about each stage of the treatment.
   - **silly**: every detail of the treatment (parser not found, line ignored, unsuccessful search in a pkb...).
 
