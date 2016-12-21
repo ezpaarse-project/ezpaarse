@@ -43,7 +43,8 @@ To specify the verbosity level from ezPAARSE's feedback. The higher levels inclu
 
 
 ### Reject-Files ###
-List of the reject files to create, separated by commas. (`none` by default, `all`)
+List of the reject files to create, separated by commas. 
+
 Possible values are: 
   * `Unknown-Formats`
   * `Ignored-Domains`
@@ -55,6 +56,10 @@ Possible values are:
   * `Filtered-ECs`
   * `Ignored-Hosts`
   * `Robots-ECs`
+  
+Set to `none` by default.
+
+We recommend to set it to `all` when you start using ezPAARSE, to fully understand the filtering and exclusion system.
 
 ### User-field[n]-xxx ###
 Extacts user information from a field of the imput logfile [(More information)](../features/userfields.html).
