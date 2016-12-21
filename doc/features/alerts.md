@@ -4,13 +4,12 @@
 When you process log files with ezPAARSE, a number of processing indicators are generated: 
   * number of log lines read, 
   * number of rejected log line, 
-  * number of recognized platforms
-  * ...
+  * number of recognized platforms, etc.
 
 Those indicators can be used to detect anomalies during the processing, based on figures considered as "normal".
 
 ## How to know if alerts have been generated? ##
-The list of alerts is available in the [processing report](../essential/report.html#alerts). If the mail notification is activated, you'll also be able to access this list within the email sent when the processing is finished.
+The list of alerts is available in the [processing report](../essential/report.html#alerts). If the mail notification is activated, you'll also receive this list with the email that is sent when the processing has completed.
 
 **NB**: the activation of the alert system needs a sufficient quantity of relevant log lines. The activation threshold is set in the `config.json` file, with the `activationThreshold` key. It can also be modified with the **Alerts-Activation-Threshold** header.
 
@@ -25,10 +24,10 @@ Generated when a domain frequently appears in the log lines but no associated pa
 
 The activation threshold is set in the `config.json` file, with the `unknownDomainsRate` key. It can also be modified with the **Alerts-Unknown-Domains-Rate** header.
 
-### Holes in the Knowledges Bases ###
+### Incomplete Knowledges Bases ###
 
 #### Lack of a Knowledge Base ####
-An alert is generated when the lack of a PKB prevents the enrichment of access events carrying a provider' identifier (title_id).
+An alert is generated whenever the lack (or absence of) a [PKB KBART file](../essential/knowledge-base.html) prevents the enrichment of access events associated with a proprietary identifier (title_id).
 
 #### Lack of an Identifier  ####
 An alert is generated when an identifier is lacking and has been repeatedly requested.
