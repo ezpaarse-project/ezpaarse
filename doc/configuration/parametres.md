@@ -44,7 +44,17 @@ To specify the verbosity level from ezPAARSE's feedback. The higher levels inclu
 
 ### Reject-Files ###
 List of the reject files to create, separated by commas. (`none` by default, `all`)
-Possible values are: Unknown-Formats, Ignored-Domains, Unknown-Domains, Unqualified-ECs, PKB-Miss-ECs, Duplicate-ECs, Unordered-ECs, Filtered-ECs, Ignored-Hosts, Robots-ECs.
+Possible values are: 
+  * `Unknown-Formats`
+  * `Ignored-Domains`
+  * `Unknown-Domains`
+  * `Unqualified-ECs`
+  * `PKB-Miss-ECs`
+  * `Duplicate-ECs`
+  * `Unordered-ECs`
+  * `Filtered-ECs`
+  * `Ignored-Hosts`
+  * `Robots-ECs`
 
 ### User-field[n]-xxx ###
 Extacts user information from a field of the imput logfile [(More information)](../features/userfields.html).
