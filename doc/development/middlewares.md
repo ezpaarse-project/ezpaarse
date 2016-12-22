@@ -127,7 +127,7 @@ module.exports = function mandatoryField() {
 };
 ```
 
-#### Use of promises :
+#### Use of promises
 ```javascript
 module.exports = function mandatoryField() {
 
