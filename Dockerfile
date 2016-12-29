@@ -1,4 +1,4 @@
-FROM debian:wheezy
+FROM debian:jessie
 MAINTAINER ezPAARSE Team <ezpaarse@couperin.org>
 
 ENV DEBIAN_FRONTEND noninteractive
