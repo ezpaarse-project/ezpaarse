@@ -19,8 +19,6 @@ By default: `geoip-longitude, geoip-latitude, geoip-country`
 
 The available fields are: 
   * `geoip-host`: IP address being geolocalized
-  * `geoip-addr`: - 
-  * `geoip-family`: - 
   * `geoip-country`2 characters code indicating the country (eg: `FR` for `France`)
   * `geoip-region`: 2 characters code indicating the region (eg: `A8` for `Île-de-France`)
   * `geoip-city`: complete name of the city (eg: `Paris`)
