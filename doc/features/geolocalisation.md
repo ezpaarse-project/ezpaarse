@@ -18,14 +18,16 @@ By default: `geoip-longitude, geoip-latitude, geoip-country`
   * `none` to deactivate the geolocation. 
 
 The available fields are: 
-  * `geoip-host`
-  * `geoip-addr`
-  * `geoip-family`
-  * `geoip-country`
-  * `geoip-region`
-  * `geoip-city`
-  * `geoip-latitude`
-  * `geoip-longitude`
+  * `geoip-host`: IP address being geolocalized
+  * `geoip-addr`: - 
+  * `geoip-family`: - 
+  * `geoip-country`2 characters code indicating the country (eg: `FR` for `France`)
+  * `geoip-region`: 2 characters code indicating the region (eg: `A8` for `Île-de-France`)
+  * `geoip-city`: complete name of the city (eg: `Paris`)
+  * `geoip-latitude`: self-explanatory
+  * `geoip-longitude`: self-explanatory
+  * `geoip-coordinates`: concatenation of latitude and longitude between brackets (eg: `[48.8592,2.3417]`)
+
 
 Usage example:
 ```shell
