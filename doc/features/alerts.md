@@ -16,13 +16,17 @@ The list of alerts is available in the [processing report](../essential/report.h
 ## Available Alerts ##
 
 ### Unknown Domains ###
-Generated when a domain frequently appears in the log lines but no associated parser has been found. The presence rate is calculated with the sum of relevant log lines.
+This alert is generated when a domain frequently appears in the log lines but no associated parser has been found. The appearence rate is calculated with the sum of relevant log lines.
 
 ```
   appearance_rate = appearance_sum / (total_of_loglines - ignored_lines) * 100
 ```
 
 The activation threshold is set in the `config.json` file, with the `unknownDomainsRate` key. It can also be modified with the **Alerts-Unknown-Domains-Rate** header.
+
+This alert simply means that ezPAARSE is not able to work for a certain amount of log lines you are providing it with. Most of the time, it is normal behavior because there is a lot more activity in logfiles that ezPAARSE is interested in.
+
+The only important thing that has to be checked (especially when starting to use ezPAARSE) is the content of a file called `domains.miss.csv`. It is placed at the root of the `/ezpaarse` folder. It is where those unknown domains get stored (deduplicated and sorted): if URLs correspond to a provider's platform that should be analysed by ezPAARSE, you have to check on http://ang.couperin.org if the platform is already listed and you will also get an indication of how advanced its analysis is.
 
 ### Incomplete Knowledges Bases ###
 
