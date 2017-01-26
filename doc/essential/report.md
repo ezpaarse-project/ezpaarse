@@ -1,6 +1,6 @@
 # Job reports #
 
-ezPAARSE generates an execution report.
+ezPAARSE generates an execution report, everytime it processes a log file.
 The various sections of this report are documented below.
 
 - [General](#general): contains general information related to the processing
@@ -11,6 +11,8 @@ The various sections of this report are documented below.
 - [Duplicates](#deduplicating): algorithm used for deduplication
 - [File](#files): list of processed log files
 - [First consultation](#first-consultation-event): content of the first access event
+
+There is also a special file called `domains.miss.csv`, located at the root of the `/ezpaarse` where unknown domains get stored (deduplicated and sorted). This file persists between every processing job. See [below](#unknown-domains) for details.
 
 ## General ##
 
@@ -491,3 +493,7 @@ Number of seconds used for the deduplication timeframe of HTML consultations (ie
   </tr>
 </tbody>
 </table>
+
+## Unknown Domains ##
+
+The `domains.miss.csv` file persists between every processing job. It is where the unknown domains (ie domains for which no parser gets started) get stored, deduplicated and sorted: if URLs present in that file correspond to a provider's platform that should be analysed by ezPAARSE, you have to check on http://ang.couperin.org if the platform is already listed and you will also get an indication of how advanced its analysis is.
