@@ -496,4 +496,4 @@ Number of seconds used for the deduplication timeframe of HTML consultations (ie
 
 ## Unknown Domains ##
 
-The `domains.miss.csv` file persists between every processing job. It is where the unknown domains (ie domains for which no parser gets started) get stored, deduplicated and sorted: if URLs present in that file correspond to a provider's platform that should be analysed by ezPAARSE, you have to check on http://ang.couperin.org if the platform is already listed and you will also get an indication of how advanced its analysis is.
+The `domains.miss.csv` file persists between every processing job. It is where the unknown domains (ie domains for which no parser gets started) get stored, deduplicated and sorted: if URLs present in that file correspond to a provider's platform that should be analysed by ezPAARSE, you have to check on the [Analogist platform analysis website](http://ang.couperin.org) if the platform is already listed and you will also get an indication of how advanced its analysis is.

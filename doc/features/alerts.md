@@ -26,7 +26,7 @@ The activation threshold is set in the `config.json` file, with the `unknownDoma
 
 This alert simply means that ezPAARSE is not able to work for a certain amount of log lines you are providing it with. Most of the time, it is normal behavior because there is a lot more activity in logfiles that ezPAARSE is interested in.
 
-The really important thing that has to be checked (especially when starting to use ezPAARSE) is the content of a file called `domains.miss.csv`. For more details on this file and its content, please refer to the corresponding [Report section](../essential/report.html).
+The really important thing that has to be checked (especially when starting to use ezPAARSE) is the content of a file called `domains.miss.csv`. For more details on this file and its content, please refer to the corresponding [Report section](../essential/report.html#unknown-domains).
 
 
 
