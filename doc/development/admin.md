@@ -34,7 +34,8 @@ curl -X POST --data "username=foo&password=bar" http://localhost:59599/register
 
 ## Users management ##
 
-### List users ###
+### List users ###
+
 <table>
   <tr>
       <th style="text-align:left;width:140px;">Path</th>
@@ -55,7 +56,7 @@ Outputs a JSON table with the complete list of users.
 curl -X GET --proxy "" -u "admin:password" http://localhost:59599/users
 ```
 
-### Add a user ###
+### Add a user ###
 <table>
   <tr>
       <th style="text-align:left;width:140px;">Path</th>
