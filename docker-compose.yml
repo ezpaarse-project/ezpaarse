@@ -22,6 +22,6 @@ services:
 
   ezpaarse_db:
     container_name: ezpaarse_db
-    image: mongo:3.0.7
+    image: mongo:3.4.1
     command: --smallfiles
     restart: unless-stopped

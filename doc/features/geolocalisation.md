@@ -1,15 +1,31 @@
 ### Geolocation ###
 
-The geolocation is based on the IP address found in the host field from the log files. The `Geoip` header allows to choose which data to add to the results, or to deactivate the geolocation altogether.
+The geolocation is based on the IP address found in the host field from the log files. The `Geoip` header allows to choose which data is to be added to the results, or to deactivate the geolocation altogether.
 
 The library used for this is [geoip-lite](https://github.com/bluesmoon/node-geoip).
 
-**Geolocation Caveats** : IP address geolocation is a method that links the IP address of a terminal connected to the internet with a geographical position. The precision level is not always the same: city in the best of cases, country otherwise.
-The [geolocation data are informative](http://en.wikipedia.org/wiki/Geolocation_software) and depend on the country as well as the internet access provider.
+**Geolocation Caveats** : IP address geolocation is a method that links the IP address of a terminal connected to the internet with a geographical position. The level of precision is not always the same: city in the best of cases, country otherwise.
+
+The [geolocation data is informative](http://en.wikipedia.org/wiki/Geolocation_software) and depends on the country as well as the internet access provider.
 
 #### Parameters (headers) ####
 
-* **Geoip:** geolocation data that can be added to the results. By default: `geoip-longitude, geoip-latitude, geoip-country`. `all` can be used to include all possible fields, or `none` to deactivate the geolocation. The available fields are: `geoip-host`, `geoip-addr`, `geoip-family`, `geoip-country`, `geoip-region`, `geoip-city`, `geoip-latitude`, `geoip-longitude`.
+**Geoip:** geolocation data that can be added to the results. 
+
+By default: `geoip-longitude, geoip-latitude, geoip-country`
+
+  * `all` can be used to include all possible fields
+  * `none` to deactivate the geolocation. 
+
+The available fields are: 
+  * `geoip-host`: IP address being geolocalized
+  * `geoip-country`2 characters code indicating the country (eg: `FR` for `France`)
+  * `geoip-region`: 2 characters code indicating the region (eg: `A8` for `Île-de-France`)
+  * `geoip-city`: complete name of the city (eg: `Paris`)
+  * `geoip-latitude`: self-explanatory
+  * `geoip-longitude`: self-explanatory
+  * `geoip-coordinates`: concatenation of latitude and longitude between brackets (eg: `[48.8592,2.3417]`)
+
 
 Usage example:
 ```shell

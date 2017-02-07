@@ -17,6 +17,11 @@
 │   ├── en.json
 │   └── fr.json
 ├── logs
+├── middlewares [middleware modul directory]
+│   ├── <.modul.>
+│   │   └── index.js
+│   └── crossref
+│       └── index.js
 ├── misc
 │   ├── deb [debian stuff]
 │   │   ├── DEBIAN
@@ -37,9 +42,19 @@
 │   │   ├── pkb [KBART files]
 │   │   │   ├── <.platform.>_AllTitles_<.YYYY-MM-DD.>.txt
 │   │   │   └── <...>
-│   │   └── scrapers [KBART files generators]
-│   │       ├── scrape_<.platform.>_<.file.>.js
-│   │       └── <...>
+│   │   ├── scrapers [KBART files generators]
+│   │   │    ├── scrape_<.platform.>_<.file.>.js
+│   │   │    └── <...>
+│   │   └── parser.js
+│   ├── wiley
+│   │   ├── test
+│   │   ├── pkb [KBART files]
+│   │   │   ├── wiley_journals_2016-11-14.txt
+│   │   │   └── wiley_Books_2016-11-14.txt
+│   │   ├── scrapers [KBART files generators]
+│   │   │    ├── scrape_wiley_books_from_xls.js
+│   │   │    └── scrape_wiley_journals_from_xls.js
+│   │   └── parser.js
 │   └── <...>
 ├── public [static web pages]
 │   ├── doc
@@ -47,6 +62,10 @@
 │   ├── img
 │   ├── js
 │   └── stylesheets
+├── recources [Resources that should be updated independently from ezPAARSE]
+│   ├── README.md
+│   ├── auto-formats.js
+│   └── predefined-settings.json
 ├── routes [REST routes files]
 ├── test [test files and data]
 │   └── dataset

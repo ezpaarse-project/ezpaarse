@@ -1,10 +1,14 @@
 # ezPAARSE #
 
+[![Documentation Status](https://readthedocs.org/projects/ezpaarse/badge/?version=master)](http://ezpaarse.readthedocs.io/en/master/)
 [![Build Status](https://secure.travis-ci.org/ezpaarse-project/ezpaarse.png?branch=master)](http://travis-ci.org/ezpaarse-project/ezpaarse)
 [![Dependencies Status](https://david-dm.org/ezpaarse-project/ezpaarse.png)](https://david-dm.org/ezpaarse-project/ezpaarse)
 [![bitHound Overall Score](https://www.bithound.io/github/ezpaarse-project/ezpaarse/badges/score.svg)](https://www.bithound.io/github/ezpaarse-project/ezpaarse)
+[![Docker stars](https://img.shields.io/docker/stars/ezpaarseproject/ezpaarse.svg)](https://registry.hub.docker.com/u/ezpaarseproject/ezpaarse/)
+[![Docker Pulls](https://img.shields.io/docker/pulls/ezpaarseproject/ezpaarse.svg)](https://registry.hub.docker.com/u/ezpaarseproject/ezpaarse/)
+[![Ezpaarse tweeter](https://img.shields.io/twitter/follow/ezpaarse.svg?style=social&label=Follow)](https://twitter.com/ezpaarse)
 
-[![Docker status](http://dockeri.co/image/ezpaarseproject/ezpaarse)](https://registry.hub.docker.com/u/ezpaarseproject/ezpaarse/)
+
 
 ezPAARSE is an open-source software that can ingest your (proxy) log files and show how users access subscribed electronic resources.
 It filters, extracts and enriches the consultation events that were spotted and produces a CSV file following [COUNTER](http://www.projectcounter.org/) codes of practice.
@@ -20,6 +24,7 @@ Built-in proxies supported log formats are: [ezproxy](http://www.oclc.org/ezprox
 - [Installation quickstart](#installation-quickstart)
 - [Test the installation](#test-the-installation)
 - [Usage](#usage)
+- [Go further](#go-further)
 - [Advanced parameters](#advanced-parameters)
 - [Use with docker](#use-with-docker)
 
@@ -33,7 +38,7 @@ Built-in proxies supported log formats are: [ezproxy](http://www.oclc.org/ezprox
 
 The tools you need to let ezPAARSE run are:
 
-* Linux OS: [See the prerequisites for those OSes](https://github.com/ezpaarse-project/ezpaarse/blob/master/doc/multi-os.md)
+* Linux OS: [See the prerequisites for those OSes](https://ezpaarse.readthedocs.io/en/master/start/requirements.html)
 * Standard Linux tools: bash, make, grep, sed ...
 * curl (used by nvm)
 * git >= 1.7.10 (required to clone ezpaarse from github and to keep your ezpaarse copy up to date)
@@ -115,6 +120,10 @@ To stop ezPAARSE, you have to type the following command:
 ```shell
 make stop
 ```
+## Go further ##
+
+To go further, you can consult [the full documentation](https://ezpaarse.readthedocs.io)
+
 
 ## Advanced parameters ##
 

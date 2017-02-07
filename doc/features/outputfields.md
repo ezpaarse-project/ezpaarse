@@ -1,17 +1,18 @@
-### Output fields ###
+### Output Fields ###
 
-The Output-Fields header adds or removes fields to those returned by ezPAARSE by default when generating Consultation Events (CEs).
+The `Output-Fields` header adds or removes fields to those ezPAARSE returns by default when it generates access events.
 
-By default, the fields returned are those present in the EZPAARSE_OUTPUT_FIELDS parameter configuration file ([config.json](https://github.com/ezpaarse-project/ezpaarse/blob/master/config.json#L12)) to which are added the ones already present in the log format triggered for the processing.
+By default, the fields returned are those present in the `EZPAARSE_OUTPUT_FIELDS` parameter configuration file ([config.json](https://github.com/ezpaarse-project/ezpaarse/blob/master/config.json#L12)) to which the ones already present in the log format triggered for the processing are added.
 
 This parameter can be used to add custom fields (that some parsers would be able to extract and return). For example, the "btype" field is not added by default and can be used to trace back advanced information on some database consultations.
-It can also allow you to add internal ezPAARSE fields as:
-- Datetime: for the full date (hour, minute and second included) of the consultation event
-- Timestamp: the date in a computer format for the consultation event
 
-Please not that the personalized fields in the [log format](./formats.html) will automatically be added to the "Output-Fields" list: there is no need to declare them with this Output-Fields header.
+You can also add internal ezPAARSE fields as:
+- **Datetime**: for the full date (hour, minute and second included) of the consultation event
+- **Timestamp**: the date in a computer format for the consultation event
 
-The Output-Fields header is composed with a list of comma separated fields, each one preceded with a **+** or **-** signs, depending on whether it has to be added or removed.
+Please note that the personalized fields in the [log format](../essential/formats.html) will automatically be added to the `Output-Fields` list: there is no need to declare them with this `Output-Fields` header.
+
+The `Output-Fields` header is composed with a list of comma separated fields, each one preceded with a **+** or **-** signs, depending on whether it has to be added or removed.
 
 #### Example ####
 ```shell

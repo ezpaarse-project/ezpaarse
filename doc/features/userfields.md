@@ -1,15 +1,20 @@
-### Field splitter ###
+# Field splitter (to be deprecated) #
 
-The user-fields headers can extract user data from a specified log field and explode it in other fields, thanks to regular expressions.
+This section will soon be removed.
+To achieve the same results, you can now use the [cut middleware](../development/middlewares.html#cut). Read the [documentation](configuration/parametres.html#cut) on Parameters to learn how to use and configure it.
+
+
+The `user-fields` headers can extract user data from a specified log field and explode it in other fields, thanks to regular expressions.
+
 They can be specified with <span style="color: blue">numbered header blocks</span> *(in blue the editable zones)* like follows :
 
-User-field<span style="color: blue">0</span>-src: <span style="color: red">SourceFieldName</span></br>
-User-field<span style="color: blue">0</span>-sep: <span style="color: green">Separator</span></br>
-User-field<span style="color: blue">0</span>-dest-<span style="color: red">TargetFieldName1</span>: <span style="color: magenta">RegExp1</span></br>
-User-field<span style="color: blue">0</span>-dest-<span style="color: red">TargetFieldName2</span>: <span style="color: magenta">RegExp2</span></br>
-User-field<span style="color: blue">0</span>-residual: <span style="color: red">ResidualFieldName</span></br>
+  * User-field<span style="color: blue">0</span>-src: <span style="color: red">SourceFieldName</span></br>
+  * User-field<span style="color: blue">0</span>-sep: <span style="color: green">Separator</span></br>
+  * User-field<span style="color: blue">0</span>-dest-<span style="color: red">TargetFieldName1</span>: <span style="color: magenta">RegExp1</span></br>
+  * User-field<span style="color: blue">0</span>-dest-<span style="color: red">TargetFieldName2</span>: <span style="color: magenta">RegExp2</span></br>
+  * User-field<span style="color: blue">0</span>-residual: <span style="color: red">ResidualFieldName</span></br>
 
-#### Parameters (headers) ####
+## Parameters (headers) ##
 
 -   **User-field<span style="color: blue">0</span>-src:** name of the field that will be used to extract user information *(the field must be present in the logs)* .
 -   **User-field<span style="color: blue">0</span>-sep:** separator character found in the user information source field *(we will use the the **space** word if a space is used as separator)*

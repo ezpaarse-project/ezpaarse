@@ -1,16 +1,44 @@
 # Changelog #
 
-## 2.8.0  ## 
-##### 2016/06/03 - bug fix  #####
-- Bug fix : error on module dependencies
-- Bug fix : remove timeout on diluated logs files
 
-## 2.8.0  ## 
+## 2.9.4  ##
+##### 2016/11/16  #####
+- Updated DOC
+
+
+## 2.9.3  ##
+##### 2016/09/27  #####
+- Updated NodeJS and dependencies
+
+## 2.9.2  ##
+##### 2016/09/12 - bug fix  #####
+- Bug fix: basic connection dialog poping up on the login page
+
+## 2.9.1  ##
+##### 2016/09/09 - bug fix  #####
+- Added compatibility with [ezMASTER](https://github.com/Inist-CNRS/ezmaster)
+- Bug fix: added missing dependency in production environments
+- Bug fix: unstable results due to some problems in the read process
+
+## 2.9.0  ##
+##### 2016/08/30 - ezPLAAGE  #####
+- Bug fix: crash on startup when the PKBs had issues
+- Access events have a new unique ID, created with a hash of their log line
+- Similar values are now aggregated into a single field, no matter the source
+- Ajax requests can now use all available headers
+- Middlewares have been [externalized](https://github.com/ezpaarse-project/ezpaarse-middlewares)
+
+## 2.8.1  ##
+##### 2016/06/03 - bug fix  #####
+- Serverside timeout increased and configurable
+
+## 2.8.0  ##
 ##### 2016/05/31 - ezMESURE - Halte ! Kibana  #####
-- Bug fixes
+- Bug fix: error on module dependencies
+- Bug fix: remove timeout on diluated logs files
 - New ISTEX and cut middleware
 
-## 2.7.0  ## 
+## 2.7.0  ##
 ##### 2015/11/05 - Cash Enrichment  #####
 - Data caching of API requests from middlewares
 - Enrichment activated by default
@@ -22,7 +50,7 @@
 
 ## 2.5.0  ##
 ##### 2015/09/03 - EC enrichment via APIs #####
-- Automatic ECs enrichment with crossref and elsevier
+- Automatic access events enrichment with crossref and elsevier
 - Light Windows version
 
 ## 2.4.0  ##
@@ -59,7 +87,7 @@
 - Software update in the admin section
 - Deduplicating the PKBs tool
 - MVP of a "my profile" page
-- Addition of publisher_name in ECs (for COUNTER reports exports)
+- Addition of publisher_name in access events (for COUNTER reports exports)
 
 ## 1.9.0  ##
 ##### 2014/06/23 - Parsathon #####
@@ -79,7 +107,7 @@
 ## 1.6.0  ##
 ##### 2014/03/13 - Web interface redesign #####
 - Web interface redesign with AngularJS
-- ECs Geolocation
+- Access events' Geolocation
 
 ## 1.5.0  ##
 ##### 2014/02/01 - KBART standardization #####
@@ -126,7 +154,7 @@
 
 ## 0.7.0  ##
 ##### 2013/06/05 - Consolidation of the software's core #####
-- better ECs definition (rtype, MIME, unitid)
+- better access events definition (rtype, MIME, unitid)
 - testing for large log quantities
 - new parsers (BMC, lamyline, lextenso, lexisnexis)
 - form redesign with dynamic metrics

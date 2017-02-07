@@ -1,4 +1,4 @@
-FROM debian:wheezy
+FROM debian:jessie
 MAINTAINER ezPAARSE Team <ezpaarse@couperin.org>
 
 ENV DEBIAN_FRONTEND noninteractive
@@ -38,10 +38,11 @@ VOLUME /opt/ezpaarse/exclusions
 # ezmasterification of ezpaarse
 # see https://github.com/Inist-CNRS/ezmaster
 # (no data directory)
-EXPOSE 3000
-RUN mkdir -p /opt/ezmaster/config/
-RUN cp /opt/ezpaarse/config.json /opt/ezmaster/config/config.json
-RUN ln -s /opt/ezmaster/config/config.json /opt/ezpaarse/config.local.json
+RUN cp /opt/ezpaarse/config.json /opt/ezpaarse/config.local.json
+RUN echo '{ \
+  "httpPort": 59599, \
+  "configPath": "/opt/ezpaarse/config.local.json" \
+}' > /etc/ezmaster.json
 
 # run ezpaarse process
 EXPOSE 59599

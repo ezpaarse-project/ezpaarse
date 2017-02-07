@@ -2,14 +2,13 @@
 
 ezPAARSE can be installed on many Linux distributions, with the following prerequisites :
 
-* Unix standard tools: bash, make, grep, sed...
-* python and gcc
-* curl (used by nvm)
-* git >= 1.7.10 (needed by github)
-* MongoDB >= 2.4
+* Unix standard tools: **bash**, **make**, **grep**, **sed**, etc.
+* **python** and **gcc**
+* **curl** (used by **nvm**)
+* **git** >= 1.7.10 (needed by github)
+* **MongoDB** >= 2.4
 
-If using the docker version of ezpaarse you only need:
-
+If using the docker version of ezpaarse you will only need:
 - [Docker](https://docs.docker.com/engine/installation/) (Version >= 1.12)
 - [Docker Compose](https://docs.docker.com/compose/install/) (Version >= 1.7)
 
@@ -41,15 +40,15 @@ zypper install git make curl python gcc-c++
 
 ### Mac OS X ###
 
-On your Mac, install xCode and git
+On your Mac, install **Xcode** and **git**
 
 ### Windows ###
 
-Windows support has been dropped, however you can use a virtual machine to run ezPAARSE in a linux environment.
+**Windows** support has been **discontinued**, however you can use a virtual machine or a [Docker container](install.html#docker-and-compose) to run ezPAARSE in a linux environment.
 
 ## MongoDB ##
 
-We only cover the procedure for Debian and Ubuntu based systems (see below).
+We only document the procedure for Debian and Ubuntu based systems (see below).
 The installation instructions for other OSes are available in the [official MongoDB documentation](http://docs.mongodb.org/manual/installation/#tutorial-installation).
 
 ### Ubuntu 14.04 or newer ###

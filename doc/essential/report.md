@@ -1,16 +1,18 @@
 # Job reports #
 
-ezPAARSE produces an execution report.
-The various sections are documented here.
+ezPAARSE generates an execution report, everytime it processes a log file.
+The various sections of this report are documented below.
 
 - [General](#general): contains general information related to the processing
-- [Rejects](#rejets): lists all rejects, how much they are and the links to the files containing the rejected lines
-- [Statistics](#stats): provides the first global figures
-- [Alerts](#alerts): the generated alerts
-- [Notifications](#notifications): for end of processing notifications
-- [Duplicates](#dedoublonnage): algorithm used for deduplication
+- [Rejects](#rejects): lists all rejects, how much they are and the links to the files containing the rejected lines
+- [Statistics](#statistics): provides the first global figures
+- [Alerts](#alerts): lists the active alerts
+- [Notifications](#notifications): lists the email for the recipients of processing notifications
+- [Duplicates](#deduplicating): algorithm used for deduplication
 - [File](#files): list of processed log files
-- [First consultation](#first_event): content of the first consultation event
+- [First consultation](#first-consultation-event): content of the first access event
+
+There is also a special file called `domains.miss.csv`, located at the root of the `/ezpaarse` where unknown domains get stored (deduplicated and sorted). This file persists between every processing job. See [below](#unknown-domains) for details.
 
 ## General ##
 
@@ -24,7 +26,7 @@ The various sections are documented here.
   </tr><tr>
     <th>Job-Done</th>
     <td>true
-      <div class="comment">Has the processing correctly completed ?</div>
+      <div class="comment">Has the processing correctly completed?</div>
     </td>
   </tr><tr>
     <th>Job-Duration</th>
@@ -132,7 +134,7 @@ The various sections are documented here.
   <tr>
     <th>nb-lines-duplicate-ecs</th>
     <td>1893
-      <div class="comment">Number of deduplicated CEs (following the COUNTER algorithm)</div>
+      <div class="comment">Number of deduplicated access events (following the COUNTER algorithm)</div>
     </td>
   </tr><tr>
     <th>nb-lines-ignored</th>
@@ -216,7 +218,7 @@ The various sections are documented here.
   <tr>
     <th>mime-HTML</th>
     <td>4540
-      <div class="comment">Numbers of CEs for the main mime-types (names prefixed with mime-)</div>
+      <div class="comment">Numbers of access events for the main mime-types (names prefixed with mime-)</div>
     </td>
   </tr><tr>
     <th>mime-MISC</th>
@@ -228,7 +230,7 @@ The various sections are documented here.
     <th>platform-acs
     </th>
     <td>538
-      <div class="comment">Number of CEs for recognized platforms (names prefixed with platform-platform_shortname)</div>
+      <div class="comment">Number of access events for recognized platforms (names prefixed with platform-platform_shortname)</div>
     </td>
   </tr><tr>
     <th>platform-ar</th>
@@ -277,7 +279,7 @@ The various sections are documented here.
   </tr><tr>
     <th>rtype-ABS</th>
     <td>1142
-      <div class="comment">Number of CEs for the main resources types (name prefixed with rtype-)</div>
+      <div class="comment">Number of access events for the main resources types (name prefixed with rtype-)</div>
     </td>
   </tr><tr>
     <th>rtype-ARTICLE</th>
@@ -323,7 +325,7 @@ The various sections are documented here.
   <tr>
     <th>mailto</th>
     <td>someone@somewhere.com
-      <div class="comment">Receiver of the mail at the end of the processing</div>
+      <div class="comment">Recepient(s) of the mail sent at the end of the processing</div>
     </td>
   </tr><tr>
     <th>mail-status</th>
@@ -491,3 +493,7 @@ Number of seconds used for the deduplication timeframe of HTML consultations (ie
   </tr>
 </tbody>
 </table>
+
+## Unknown Domains ##
+
+The `domains.miss.csv` file persists between every processing job. It is where the unknown domains (ie domains for which no parser gets started) get stored, deduplicated and sorted: if URLs present in that file correspond to a provider's platform that should be analysed by ezPAARSE, you have to check on the [Analogist platform analysis website](http://ang.couperin.org) if the platform is already listed and you will also get an indication of how advanced its analysis is.

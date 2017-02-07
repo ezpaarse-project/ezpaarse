@@ -115,18 +115,14 @@ module.exports = function (app) {
   });
 
   /**
-   * POST route on /users
-   * To add a user
+   * POST route on /register
+   * To sign up
    */
-  app.post('/users/', bodyParser.urlencoded({ extended: true }), bodyParser.json(),
+  app.post('/register', bodyParser.urlencoded({ extended: true }), bodyParser.json(),
     function (req, res) {
       var userid   = req.body.userid;
       var password = req.body.password;
       var confirm  = req.body.confirm;
-      var group    = 'user';
-
-      var isAdmin = (req.user && req.user.group == 'admin');
-      if (isAdmin) { group = req.body.group || group; }
 
       var sendErr = function (status, message) {
         res.writeHead(status, { 'ezPAARSE-Status-Message': message });
@@ -155,7 +151,7 @@ module.exports = function (app) {
         userlist.add({
           username: userid,
           password: cryptedPassword,
-          group: group,
+          group: 'user',
           createdAt: new Date()
         }, function (err, user) {
 
@@ -165,8 +161,6 @@ module.exports = function (app) {
           for (var prop in user) {
             if (prop != 'password') { copyUser[prop] = user[prop]; }
           }
-
-          if (isAdmin) { return res.status(201).json(copyUser); }
 
           req.logIn(user, function (err) {
             if (err) {
@@ -203,6 +197,56 @@ module.exports = function (app) {
           }
         });
 
+      });
+    }
+  );
+
+  /**
+   * POST route on /users
+   * To add a user as admin
+   */
+  app.post('/users/', auth.ensureAuthenticated(true), auth.authorizeMembersOf('admin'),
+    bodyParser.urlencoded({ extended: true }), bodyParser.json(), function (req, res) {
+      var userid   = req.body.userid;
+      var password = req.body.password;
+      var group    = req.body.group || 'user';
+
+      var sendErr = function (status, message) {
+        res.writeHead(status, { 'ezPAARSE-Status-Message': message });
+        res.end();
+      };
+
+      if (!userid || !password) {
+        return sendErr(400, 'fill_all_fields');
+      }
+
+      // Regex used by angular
+      if (!emailRegexp.test(userid)) {
+        return sendErr(400, 'invalid_address');
+      }
+
+      userlist.get(userid, function (err, user) {
+        if (err) { res.status(500).end(); }
+        if (user) { return sendErr(409, 'user_already_exists'); }
+
+        var cryptedPassword = userlist.crypt(userid, password);
+
+        userlist.add({
+          username: userid,
+          password: cryptedPassword,
+          group: group,
+          createdAt: new Date()
+        }, function (err, user) {
+
+          if (err || !user) { return res.status(500).end(); }
+
+          var copyUser = {};
+          for (var prop in user) {
+            if (prop != 'password') { copyUser[prop] = user[prop]; }
+          }
+
+          res.status(201).json(copyUser);
+        });
       });
     }
   );

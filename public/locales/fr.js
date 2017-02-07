@@ -1,6 +1,10 @@
 var ezLanguages = ezLanguages || {};
 
 ezLanguages['fr'] = {
+  // Demo warning
+  "demo+warning_header": "Cette instance d'ezPAARSE est utilisable à titre de démonstration.",
+  "demo+warning_text": "Nous déconseillons vivement son usage en production ou pour des logs volumineux.",
+
   // Social links
   "social+facebook":   "Suivez-nous sur Facebook",
   "social+twitter":    "Suivez-nous sur Twitter",
