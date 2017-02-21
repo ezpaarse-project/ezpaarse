@@ -29,3 +29,5 @@ node_modules/
 
 credentials.json
 usage.json
+
+\.vscode/
