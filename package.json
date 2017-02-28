@@ -53,6 +53,7 @@
     "passport-http": "~0.3.0",
     "passport-local": "~1.0.0",
     "portscanner": "~1.0.0",
+    "range_check": "^1.4.0",
     "request": "~2.75.0",
     "serve-favicon": "~2.3.0",
     "shelljs": "~0.7.4",
