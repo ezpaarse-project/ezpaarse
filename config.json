@@ -25,7 +25,8 @@
     "publication_title",
     "publication_date",
     "unitid",
-    "domain"
+    "domain",
+    "on_campus"  
   ],
   "EZPAARSE_MIDDLEWARES": [
     "filter",
