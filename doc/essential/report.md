@@ -104,6 +104,11 @@ There is also a special file called `domains.miss.csv`, located at the root of t
       <div class="comment">Number of log lines found in the file given as input</div>
     </td>
   </tr><tr>
+    <th>on-campus-accesses</th>
+    <td>6549
+      <div class="comment">Total number of on-campus consultation events</div>
+    </td>
+  </tr><tr>
     <th>process-speed</th>
     <td>3019 lignes/s
       <div class="comment">Processing speed</div>
