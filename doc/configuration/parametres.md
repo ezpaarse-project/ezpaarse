@@ -126,23 +126,31 @@ Set the publisher_name field to a predefined value.
 For example: Force-ECField-Publisher: 'IRevues'.
 
 
-### cut ###
-Set to `true` to activate the `cut` middleware. Any other value will leave the middleware not active.
+### Extract ###
+Extract values from a field and dispatch them in new fields. The syntax is the following : `source_field => extract_expression => destination_fields`
 
-The headers available to define how `cut` will work are: 
-  - `cut-field`: initialized with the name of the field you want to cut
-  - `cut-regex`: regexp matching the given field and capturing subset(s) of it
-  - `cut-create-fields`: give new names to the fields that are generated captured data from the regexp
+#### Examples:
 
-Usage example:
+The following examples assume we have a **login** field with the value **THEODORE_MCCLURE**. Here are multiple ways to create a **firstname** field containing **THEODORE** and **lastname** field containing **MCCLURE**.
 
-```shell
-curl -v -X POST --proxy "" --no-buffer \
-  -F "file=@test/dataset/cut.log" \
-  -H 'cut: true' \
-  -H 'cut-field: doi' \
-  -H 'cut-regex: ([0-9\.]+)\/([0-9\-]+)' \
-  -H 'cut-create-fields: doi-prefix,doi-suffix' \
- 	http://127.0.0.1:59599
+##### Extracting with a regular expression:
+If the extract expression is a regular expression (between slashes, with optional flags after the closing slash), it's applied to the source field and the captured groups are stored in the destination fields.
+
+The following expression applies the regular expression `/^([a-z]+)_([a-z]+)$/i` on the **login** field, and puts the captured groups in the **firstname** and **lastname** fields.
+
 ```
-This example shows how you can set the `cut` middleware to process the doi field into two new fields called `doi-prefix` and `doi-suffix`
+  login => /^([a-z]+)_([a-z]+)$/i => firstname,lastname
+```
+
+##### Splitting over an expression:
+If the extract expression is **split()**, then the source field will be splitted according to the expression.
+
+The following splits the **login** field with the character **\_** and puts the parts in the **firstname** and **lastname** fields.
+```
+'Extract': 'login => split(_) => firstname,lastname'
+```
+
+The following splits the **login** field with the regular expression **/[\_]+/i** and puts the parts in the **firstname** and **lastname** fields.
+```
+'Extract': 'login => split(/[_]+/) => firstname,lastname'
+```
