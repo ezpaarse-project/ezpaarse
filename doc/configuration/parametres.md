@@ -145,12 +145,12 @@ The following expression applies the regular expression `/^([a-z]+)_([a-z]+)$/i`
 ##### Splitting over an expression:
 If the extract expression is **split()**, then the source field will be splitted according to the expression between the parentheses.
 
-The following splits the **login** field with the character **\_** and puts the parts in the **firstname** and **lastname** fields.
+The following splits the **login** field with the character `\_` and puts the parts in the **firstname** and **lastname** fields.
 ```
 'Extract': 'login => split(_) => firstname,lastname'
 ```
 
-The following splits the **login** field with the regular expression **/[\_]+/i** and puts the parts in the **firstname** and **lastname** fields.
+The following splits the **login** field with the regular expression `/[\_]+/` and puts the parts in the **firstname** and **lastname** fields.
 ```
 'Extract': 'login => split(/[_]+/) => firstname,lastname'
 ```
