@@ -143,7 +143,7 @@ The following expression applies the regular expression `/^([a-z]+)_([a-z]+)$/i`
 ```
 
 ##### Splitting over an expression:
-If the extract expression is **split()**, then the source field will be splitted according to the expression.
+If the extract expression is **split()**, then the source field will be splitted according to the expression between the parentheses.
 
 The following splits the **login** field with the character **\_** and puts the parts in the **firstname** and **lastname** fields.
 ```
