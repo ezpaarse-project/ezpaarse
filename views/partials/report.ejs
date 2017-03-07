@@ -27,7 +27,7 @@
         </h3>
 
         <table class="ui basic celled compact prewrap table">
-          <tr ng-repeat="(key, val) in report | reportElements:category">
+	  <tr ng-repeat="(key, val) in report | reportElements:category | orderObject">
             <td class="four wide">{{ key }}</td>
             <td ng-bind-html="val | toLink:'_blank'"></td>
           </tr>
