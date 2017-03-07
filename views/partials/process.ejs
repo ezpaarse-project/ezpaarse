@@ -195,7 +195,7 @@
 
             <div class="content">
               <table class="ui basic compact prewrap table">
-                <tr ng-repeat="(key, val) in request.report | reportElements:category">
+		<tr ng-repeat="(key, val) in request.report | reportElements:category | orderObject">
                   <td class="four wide">{{ key }}</td>
                   <td ng-bind-html="val | toLink:'_blank'"></td>
                 </tr>
