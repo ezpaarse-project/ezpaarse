@@ -349,15 +349,15 @@ ezLanguages['en'] = {
   "admin+remove":                     "Remove",
   "admin+modify":                     "Modify",
   "admin+password":                   "Password",
-  "admin+attention":                  "Attention",
-  "admin+soft_local_changes":         "It seems that local changes have been applied to the software. In that case, future updates might fail.",
+  "admin+attention":                  "Warning",
+  "admin+soft_local_changes":         "It seems that local changes have been applied to the source code of this instance. Future updates might fail.",
   "admin+soft_upward_stable":         "The current version of the software has got changes that are more recent than the latest stable release. Click the button above if you wish to get back to the latest stable release.",
   "admin+platforms_local_changes":    "It seems that local changes have been applied to the platforms directory. In that case, future updates might fail.",
   "admin+resources_local_changes":    "It seems that local changes have been applied to the resources directory. In that case, future updates might fail.",
   "admin+middlewares_local_changes":  "It seems that local changes have been applied to the middlewares directory. In that case, future updates might fail.",
-  "admin+contact_deployment_service": "In case of problems, we invite you to contact the deployer.",
+  "admin+contact_deployment_service": "In case of problems, we invite you to contact the person in charge of the installation.",
   "admin+update_warning":             "Updating ezPAARSE can take up to several minutes. The server will go offline during the operation.",
   "admin+updating_software":          "ezPAARSE is being updated...",
   "admin+elapsed_time":               "Elapsed time",
-  "admin+long_update":                "This update seems to take a lot of time, ezPAARSE might have failed to be restarded."
+  "admin+long_update":                "This update is taking too long, ezPAARSE might have failed to restart."
 };
