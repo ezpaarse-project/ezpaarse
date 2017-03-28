@@ -26,7 +26,8 @@
     "publication_date",
     "unitid",
     "domain",
-    "on_campus"  
+    "on_campus",
+    "log_id"
   ],
   "EZPAARSE_MIDDLEWARES": [
     "filter",
