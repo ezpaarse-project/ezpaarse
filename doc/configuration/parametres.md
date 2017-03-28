@@ -4,15 +4,15 @@ The ezPAARSE jobs can be configured using HTTP headers. Please find the list of 
 
 
 ### Content-Encoding ###
-Encoding of the data sent. 
+Encoding of the data sent.
 *(supported: gzip, deflate)*
 
 ### Response-Encoding ###
-Encoding of the data sent back by server. 
+Encoding of the data sent back by server.
 *(supported: gzip, deflate)*
 
 ### Accept ###
-Output format. 
+Output format.
 Supported:
   - text/csv (by default)
   - text/tab-separated-values (for a TSV output: as CSV but tab-delimited)
@@ -43,9 +43,9 @@ To specify the verbosity level from ezPAARSE's feedback. The higher levels inclu
 
 
 ### Reject-Files ###
-List of the reject files to create, separated by commas. 
+List of the reject files to create, separated by commas.
 
-Possible values are: 
+Possible values are:
   * `Unknown-Formats`
   * `Ignored-Domains`
   * `Unknown-Domains`
@@ -56,7 +56,7 @@ Possible values are:
   * `Filtered-ECs`
   * `Ignored-Hosts`
   * `Robots-ECs`
-  
+
 Set to `none` by default.
 
 We recommend to set it to `all` when you start using ezPAARSE, to fully understand the filtering and exclusion system.
@@ -113,6 +113,9 @@ Tells ezPAARSE to use a predefined set of parameters. For example: `inist` for I
 
 ### ezPAARSE-Filter-Redirects ###
 Set to `false` to prevent lines with HTTP status codes 301, 302 from being filtered and discarded.
+
+### ezPAARSE-Filter-Status ###
+Set to `false` to disable filtering on status codes.
 
 ### Disable-Filters ###
 Disable filters applying to robots or arbitrary hosts/domains. (defaults to `none`).

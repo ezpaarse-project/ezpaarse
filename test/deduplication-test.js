@@ -46,6 +46,26 @@ describe('The server', function () {
         done();
       });
     });
+
+    it('and does not filter them if ezPAARSE-Filter-Status is set to false (@01a)', function (done) {
+      var headers = {
+        'Accept' : 'application/json',
+        'crossref-enrich' : 'false',
+        'ezPAARSE-Filter-Status': 'false'
+      };
+      helpers.post('/', multipleStatus, headers, function (err, res, body) {
+        if (!res) { throw new Error('ezPAARSE is not running'); }
+        if (err)  { throw err; }
+        res.should.have.status(200);
+
+        should.exist(body);
+        should.ok(body.length, 'The server returned an empty response');
+        var json = JSON.parse(body);
+        json.should.be.an.instanceOf(Array);
+        should.ok(json.length == 16, 'Expected 16 ECs, but got ' + json.length);
+        done();
+      });
+    });
   });
   describe('receives a log with redundant consultations on the HTTP POST / route', function () {
     it('and sends back a deduplicated output file using session (@02)', function (done) {
