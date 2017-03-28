@@ -127,7 +127,7 @@ Here is a list of fields that can be found in the consultation events :
       <td>65816</td>
     </tr>
     <tr>
-      <td>id</td>
+      <td>log_id</td>
       <td>Unique ID calculated by applying a SHA1 on the log line</td>
       <td>f9c2c138f4998573b893696c3de3341cdabd1fb0</td>
     </tr>
