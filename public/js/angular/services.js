@@ -319,7 +319,23 @@ angular.module('ezPAARSE.services', [])
           { category: 'other',          name: 'ezPAARSE-Predefined-Settings', anchor: 'ezpaarse-predefined-settings' },
           { category: 'other',          name: 'ezPAARSE-Filter-Redirects',    anchor: 'ezpaarse-filter-redirects' },
           { category: 'other',          name: 'Disable-Filters',              anchor: 'disable-filters' },
-          { category: 'other',          name: 'Force-ECField-Publisher',      anchor: 'force-ecfield-publisher' }
+          { category: 'other',          name: 'Force-ECField-Publisher',      anchor: 'force-ecfield-publisher' },
+          { category: 'other',          name: 'Extract',                      anchor: 'extract' },
+	  { category: 'metadata-enrichment',	name: 'Crossref-enrich',      anchor: 'crossref' },
+	  { category: 'metadata-enrichment',	name: 'Crossref-ttl',         anchor: 'crossref' },
+	  { category: 'metadata-enrichment',	name: 'Crossref-throttle',    anchor: 'crossref' },
+  	  { category: 'metadata-enrichment',	name: 'Crossref-paquet-size', anchor: 'crossref' },
+	  { category: 'metadata-enrichment',	name: 'Crossref-buffer-size', anchor: 'crossref' },
+	  { category: 'metadata-enrichment',	name: 'Sudoc-enrich',         anchor: 'sudoc' },
+	  { category: 'metadata-enrichment',	name: 'Sudoc-ttl',            anchor: 'sudoc' },
+	  { category: 'metadata-enrichment',	name: 'Sudoc-throttle',       anchor: 'sudoc' },
+ 	  { category: 'metadata-enrichment',	name: 'Hal-enrich',           anchor: 'hal' },
+	  { category: 'metadata-enrichment',	name: 'Hal-ttl',              anchor: 'hal' },
+	  { category: 'metadata-enrichment',	name: 'Hal-throttle',         anchor: 'hal' },
+  	  { category: 'metadata-enrichment',	name: 'Istex-enrich',         anchor: 'istex' },
+	  { category: 'metadata-enrichment',	name: 'Istex-ttl',            anchor: 'istex' },
+	  { category: 'metadata-enrichment',	name: 'Istex-throttle',       anchor: 'istex' }
+	  
         ]
       };
 

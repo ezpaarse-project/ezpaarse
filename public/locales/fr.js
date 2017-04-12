@@ -172,6 +172,7 @@ ezLanguages['fr'] = {
   "settings+deduplication":        "Dédoublonnage",
   "settings+anonymization":        "Anonymisation",
   "settings+other":                "Autre",
+  "settings+metadata-enrichment":  "Enrichissement des métadonnées",
 
   // Feedback
   "feedback+title":             "Feedback",
