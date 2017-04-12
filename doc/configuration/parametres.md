@@ -157,3 +157,22 @@ The following splits the **login** field with the regular expression `/[\_]+/` a
 ```
 'Extract': 'login => split(/[_]+/) => firstname,lastname'
 ```
+
+## Metadata enrichment ##
+The use of middlewares to enrich access events with metadata coming from external APIs is controlled by headers.
+
+### Crossref ###
+
+[(More information)](../features/metadata-enrichment.html#configuring-crossref-middleware-call)
+
+### Sudoc ###
+
+[(More information)](../features/metadata-enrichment.html#configuring-sudoc-middleware-call)
+
+### HAL ###
+
+[(More information)](../features/metadata-enrichment.html#configuring-hal-middleware-call)
+
+### ISTEX ###
+
+[(More information)](../features/metadata-enrichment.html#configuring-istex-middleware-call)
