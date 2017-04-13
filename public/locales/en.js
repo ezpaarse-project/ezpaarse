@@ -103,7 +103,7 @@ ezLanguages['en'] = {
   "form+process_with_curl": "Process with cURL",
   "form+paste_your_logs":   "Copy/paste your log lines here",
   "form+process_lines":     "Process the lines",
-  "form+curl_instructions": "Copy the following command to run the query with cURL using the current setting of the form. You may need to change the file path or add options like <code>--proxy</code> or <code>--no-buffer</code>.",
+  "form+curl_instructions": "Copy the following command to run the query with cURL using the current setting of the form. You may need to change the instance URL, the file path or add options like <code>--proxy</code> or <code>--no-buffer</code>.",
 
   // Format conception
   "form+format_analysis":     "Format analysis",
