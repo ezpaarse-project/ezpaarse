@@ -3,7 +3,8 @@
 ezPAARSE can be installed on many Linux distributions, with the following prerequisites :
 
 * Unix standard tools: **bash**, **make**, **grep**, **sed**, etc.
-* **python** and **gcc**
+* **python**
+* **gcc** and **g++**
 * **curl** (used by **nvm**)
 * **git** >= 1.7.10 (needed by github)
 * **MongoDB** >= 2.4
