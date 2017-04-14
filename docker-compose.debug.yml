@@ -1,0 +1,32 @@
+# ezpaarse docker-compose.debug.yml dedicated for developements
+version: '2'
+
+services:
+
+  ezpaarse:
+    container_name: ezpaarse
+    image: node:6.6.0
+    working_dir: /app
+    volumes:
+      - .:/app    
+    links:
+      - ezpaarse_db
+    environment:
+      http_proxy:  ${http_proxy}
+      https_proxy: ${https_proxy}
+      no_proxy: ${no_proxy}
+      DEBUG: ${DEBUG}
+      NODE_ENV: "development"
+      EZPAARSE_MONGO_URL: "mongodb://ezpaarse_db:27017/ezpaarse"
+    ports:
+      - 59599:59599
+    tty: true         # to have nice debug(...) outputs
+    stdin_open: true  # to be able to use CTRL+C to stop the debug
+    command: node app.js
+
+  ezpaarse_db:
+    container_name: ezpaarse_db
+    image: mongo:3.4.1
+    command: --smallfiles
+    ports:
+      - 27017:27017
