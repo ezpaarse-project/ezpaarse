@@ -5,14 +5,16 @@ services:
 
   ezpaarse:
     container_name: ezpaarse
-    image: ezpaarseproject/ezpaarse:latest
+    image: ezpaarseproject/ezpaarse:2.10.1
     links:
       - ezpaarse_db
     environment:
       http_proxy:  ${http_proxy}
       https_proxy: ${https_proxy}
+      no_proxy: ${no_proxy}
       NODE_ENV: "production"
       EZPAARSE_MONGO_URL: "mongodb://ezpaarse_db:27017/ezpaarse"
+    tty: true         # to have nice debug(...) outputs
     stdin_open: true  # to be able to use CTRL+C to stop the container
     ports:
       - 59599:59599
