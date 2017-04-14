@@ -79,7 +79,7 @@
     "mocha": "*",
     "should": "*",
     "should-http": "*",
-    "zombie": "~4.2.1"
+    "zombie": "~5.0.5"
   },
   "scripts": {
     "postinstall": "npm run bower",
