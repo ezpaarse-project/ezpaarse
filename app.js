@@ -271,3 +271,13 @@ require('./lib/ecfilter.js').init(function (err, nbRobots) {
     });
   });
 });
+
+/**
+ * To handled CTRL+C events
+ */
+function shutdown() {
+  console.log('\nGot a stop signal, shutting down...');
+  process.exit(1);
+}
+process.on('SIGTERM', shutdown);
+process.on('SIGINT', shutdown);
