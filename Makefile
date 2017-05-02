@@ -2,7 +2,7 @@
 
 SHELL:=/bin/bash
 
-all: nodejs node-modules platforms-update middlewares-update exclusions-update resources-update hooks checkconfig ## Runs every steps needed to start ezpaarse
+all: nodejs node-modules platforms-update middlewares-update exclusions-update resources-update checkconfig ## Runs every steps needed to start ezpaarse
 
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
@@ -81,9 +81,6 @@ tdd-verbose: ## Runs tdd tests in verbose mode
 
 lint: ## Runs lint validation
 	@. ./bin/env; npm run lint
-
-hooks: ## Create git hook pre-commit
-	@ln -sf ../../../.git/hooks/pre-commit platforms/.git/hooks/pre-commit
 
 clean-tmp: ## Clean tmp directory
 	@rm -rf ./tmp/*
