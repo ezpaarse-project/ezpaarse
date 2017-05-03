@@ -75,7 +75,7 @@
   },
   "devDependencies": {
     "eslint": "~3.5.0",
-    "ghooks": "~1.3.2",
+    "husky": "^0.13.3",
     "mocha": "*",
     "should": "*",
     "should-http": "*",
@@ -88,11 +88,7 @@
     "insertversion": "sed -i \"s#\\(image: ezpaarseproject/ezpaarse:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" docker-compose.yml",
     "version": "npm run insertversion && git add docker-compose.yml",
     "postversion": "git push && git push --tags",
-    "lint": "eslint *.js lib/ test/ routes/ middlewares/"
-  },
-  "config": {
-    "ghooks": {
-      "pre-commit": "npm run lint"
-    }
+    "lint": "eslint *.js lib/ test/ routes/ middlewares/",
+    "precommit": "./pre-commit"
   }
 }
