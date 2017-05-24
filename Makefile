@@ -25,6 +25,24 @@ restart: ## Restart ezPAARSE started in deamon mode
 status: ## Get status of ezPAARSE deamon
 	@./bin/ezpaarse status
 
+# Docker section
+# # # # # # # # #
+
+run-prod-docker: ## run ezpaarse in production mode using docker
+	@docker-compose -f ./docker-compose.yml up -d
+	@echo "Listening on http://127.0.0.1:59599/"
+
+run-debug-docker: ## run ezpaarse in debug mode using docker
+	@docker-compose -f ./docker-compose.debug.yml up -d
+	@# attach to the ezpaarse container in order to be able to stop it easily with CTRL+C
+	@docker attach ezpaarse
+
+build-docker: ## Build ezpaarseproject/ezpaarse:latest docker image locally
+	@docker build -t ezpaarseproject/ezpaarse --build-arg http_proxy --build-arg https_proxy .
+
+test-docker: ## Run tests inside the ezpaarse container (needs make run-debug-docker in //)
+	@docker exec -it ezpaarse make test
+
 # Tests section
 # # # # # # # # #
 
@@ -87,9 +105,6 @@ clean-tmp: ## Clean tmp directory
 
 # Build section
 # # # # # # # # # # # #
-
-build-docker: ## Build ezpaarse docker image locally
-	@docker build -t ezpaarseproject/ezpaarse --build-arg http_proxy --build-arg https_proxy .
 
 nodejs: ## Build node for ezpaarse
 	@test -f /usr/bin/git || sudo apt-get install --yes git
