@@ -24,6 +24,7 @@ var Reaper        = require('tmp-reaper');
 var auth          = require('./lib/auth-middlewares.js');
 var mailer        = require('./lib/mailer.js');
 var parserlist    = require('./lib/parserlist.js');
+var ecFilter      = require('./lib/ecfilter.js');
 var winston       = require('winston');
 require('./lib/winston-socketio.js');
 var passport      = require('passport');
@@ -179,20 +180,6 @@ app.use(function (req, res, next) {
   next();
 });
 
-// // Ask for basic authentification if ?auth=local
-// // Render admin creation form if credentials.json does not exist
-// app.use(function (req, res, next) {
-//   if (req.query.auth && req.query.auth == 'local') {
-//     if (userlist.length() !== 0) {
-//       (passport.authenticate('basic', { session: true }))(req, res, next);
-//     } else {
-//       res.render('register', { title: 'ezPAARSE - Register', user: false });
-//     }
-//   } else {
-//     next();
-//   }
-// });
-
 // used to expose static files from the public folder
 app.use('/assets', express.static(path.join(__dirname, 'public')));
 app.use('/assets', function (req, res, next) { res.status(404).end(); });
@@ -238,32 +225,37 @@ if (env == 'development') {
   app.use(errorHandler());
 }
 
-console.log('Indexing robot hosts...');
-require('./lib/ecfilter.js').init(function (err, nbRobots) {
-  if (err) { throw err; }
+mongo.connect(config.EZPAARSE_MONGO_URL, function (err) {
+  if (err) {
+    console.error(`Cannot connect to MongoDB at ${config.EZPAARSE_MONGO_URL}`);
+    process.exit(1);
+  }
 
-  console.log('Robot hosts indexed. (%d hosts registered)', nbRobots);
-  console.log('Building domains matching list...');
-  parserlist.init(function (errors, duplicates) {
-    if (errors) {
-      errors.forEach(function (err) { console.error(err); });
-    }
+  console.log('Indexing robot hosts...');
+  ecFilter.init(function (err, nbRobots) {
+    if (err) { throw err; }
 
-    if (duplicates) {
-      duplicates.forEach(function (d) {
-        var msg = '[Warning] The domain %s is used twice in %s and %s, %s will be ignored';
-        console.error(msg, d.domain, d.first, d.ignored, d.ignored);
-      });
-    }
+    console.log('Robot hosts indexed. (%d hosts registered)', nbRobots);
+    console.log('Building domains matching list...');
+    parserlist.init(function (errors, duplicates) {
+      if (errors) {
+        errors.forEach(function (err) { console.error(err); });
+      }
 
-    console.log('Matching list built. (%d domains registered for %d platforms)\n',
-      parserlist.sizeOf('domains'), parserlist.sizeOf('platforms'));
+      if (duplicates) {
+        duplicates.forEach(function (d) {
+          var msg = '[Warning] The domain %s is used twice in %s and %s, %s will be ignored';
+          console.error(msg, d.domain, d.first, d.ignored, d.ignored);
+        });
+      }
 
-    var server = http.createServer(app);
+      console.log('Matching list built. (%d domains registered for %d platforms)\n',
+        parserlist.sizeOf('domains'), parserlist.sizeOf('platforms'));
 
-    socketIO.listen(server);
+      var server = http.createServer(app);
 
-    mongo.connect(function () {
+      socketIO.listen(server);
+
       server.listen(app.get('port'), function () {
         console.log(`${pkg.name}-${pkg.version} (pid: ${process.pid}, mode: ${app.get('env')})`);
         console.log(`listening on http://localhost:${app.get('port')}`);
