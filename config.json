@@ -40,9 +40,9 @@
     "hal",
     "geolocalizer",
     "field-splitter",
-    "qualifier",
     "cut",
     "on-campus-counter",
+    "qualifier",
     "anonymizer"
   ],
   "EZPAARSE_QUALIFYING_LEVEL": 1,
