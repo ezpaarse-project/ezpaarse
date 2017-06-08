@@ -22,6 +22,8 @@
   "4021": "Unsupported notification type",
   "4022": "No line breaks detected",
   "4023": "A job with the same ID already exists",
+  "4024": "Invalid middleware name",
+  "4025": "Middleware not found",
   "5000": "Internal error",
   "5001": "A problem occured when trying to format the results"
 }
