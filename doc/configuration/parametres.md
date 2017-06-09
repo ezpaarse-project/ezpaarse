@@ -61,9 +61,6 @@ Set to `none` by default.
 
 We recommend to set it to `all` when you start using ezPAARSE, to fully understand the filtering and exclusion system.
 
-### User-field[n]-xxx ###
-Extacts user information from a field of the imput logfile [(More information)](../features/userfields.html).
-
 ### Double-Click-xxx ###
 Parameters used for deduplication. [(More information)](../features/doubleclick.html).
 
