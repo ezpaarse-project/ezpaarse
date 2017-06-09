@@ -2404,6 +2404,11 @@
       "from": "https://registry.npmjs.org/longest/-/longest-1.0.1.tgz",
       "resolved": "https://registry.npmjs.org/longest/-/longest-1.0.1.tgz"
     },
+    "lru-cache": {
+      "version": "2.2.4",
+      "from": "lru-cache@>=2.2.0 <2.3.0",
+      "resolved": "https://registry.npmjs.org/lru-cache/-/lru-cache-2.2.4.tgz"
+    },
     "lsof": {
       "version": "0.1.0",
       "from": "https://registry.npmjs.org/lsof/-/lsof-0.1.0.tgz",
@@ -2868,6 +2873,11 @@
       "version": "1.4.0",
       "from": "https://registry.npmjs.org/os-locale/-/os-locale-1.4.0.tgz",
       "resolved": "https://registry.npmjs.org/os-locale/-/os-locale-1.4.0.tgz"
+    },
+    "os-tmpdir": {
+      "version": "1.0.2",
+      "from": "os-tmpdir@>=1.0.1 <1.1.0",
+      "resolved": "https://registry.npmjs.org/os-tmpdir/-/os-tmpdir-1.0.2.tgz"
     },
     "over": {
       "version": "0.0.5",
@@ -3837,6 +3847,11 @@
         }
       }
     },
+    "tmp": {
+      "version": "0.0.31",
+      "from": "tmp@>=0.0.0 <0.1.0",
+      "resolved": "https://registry.npmjs.org/tmp/-/tmp-0.0.31.tgz"
+    },
     "tmp-reaper": {
       "version": "0.0.5",
       "from": "https://registry.npmjs.org/tmp-reaper/-/tmp-reaper-0.0.5.tgz",
@@ -3966,6 +3981,11 @@
       "from": "user-home@>=2.0.0 <3.0.0",
       "resolved": "https://registry.npmjs.org/user-home/-/user-home-2.0.0.tgz",
       "dev": true
+    },
+    "useragent": {
+      "version": "2.1.13",
+      "from": "useragent@>=2.1.13 <3.0.0",
+      "resolved": "https://registry.npmjs.org/useragent/-/useragent-2.1.13.tgz"
     },
     "utf8": {
       "version": "2.1.0",
