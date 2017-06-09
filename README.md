@@ -40,8 +40,11 @@ The tools you need to let ezPAARSE run are:
 
 * Linux OS: [See the prerequisites for those OSes](https://ezpaarse.readthedocs.io/en/master/start/requirements.html)
 * Standard Linux tools: bash, make, grep, sed ...
+* python
+* gcc and g++
 * curl (used by nvm)
 * git >= 1.7.10 (required to clone ezpaarse from github and to keep your ezpaarse copy up to date)
+* MongoDB >= 2.4
 
 ezPAARSE then comes with all the elements it needs to run.
 When the prerequesites are met, you can launch the **make** command (see below) that will **run all installation steps**.
