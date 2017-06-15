@@ -26,15 +26,6 @@ WORKDIR /opt/ezpaarse
 ENV NVM_DIR "/opt/ezpaarse/build/nvm"
 RUN make ; . /opt/ezpaarse/build/nvm/nvm.sh ; npm cache clear
 
-# tells "jobs" and "logs" folders are volumes cause lot of temporary data are written there
-# cf "when to use volumes"  http://www.projectatomic.io/docs/docker-image-author-guidance/
-VOLUME /opt/ezpaarse/tmp
-VOLUME /opt/ezpaarse/logs
-VOLUME /opt/ezpaarse/platforms
-VOLUME /opt/ezpaarse/middlewares
-VOLUME /opt/ezpaarse/resources
-VOLUME /opt/ezpaarse/exclusions
-
 # ezmasterification of ezpaarse
 # see https://github.com/Inist-CNRS/ezmaster
 # (no data directory)
