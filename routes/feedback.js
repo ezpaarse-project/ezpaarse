@@ -111,6 +111,7 @@ module.exports = function (app) {
 
         var text = 'Une nouvelle instance d\'ezPAARSE vient d\'être installée.';
         text += '\n\nPremier compte : ' + req.body.mail;
+        text += ' | http://' + req.body.mail.split('@')[1];
         text += '\nPlateforme : ' + os.platform() + ' ' + os.release() + ' (' + os.arch() + ')';
         text += '\nVersion :';
         text += '\n- package : ' + pkg.version || 'inconnue';
