@@ -45,16 +45,16 @@ ezpaarse_start() {
                        -o $EZPAARSE_LOGDIR/out.log \
                        -e $EZPAARSE_LOGDIR/err.log \
                        --pidFile $EZPAARSE_PIDFILE \
-                       --minUptime=1000 \
-                       --spinSleepTime=1000 \
+                       --minUptime=10000 \
+                       --spinSleepTime=60000 \
                        $EZPAARSE_APPFILE
     else
       $FOREVER_CMD start -p $EZPAARSE_PATH -a -l $EZPAARSE_LOGDIR/forever.log \
                        -o $EZPAARSE_LOGDIR/out.log \
                        -e $EZPAARSE_LOGDIR/err.log \
                        --pidFile $EZPAARSE_PIDFILE \
-                       --minUptime=1000 \
-                       --spinSleepTime=1000 \
+                       --minUptime=10000 \
+                       --spinSleepTime=60000 \
                        $EZPAARSE_APPFILE 1>/dev/null
     fi
 
