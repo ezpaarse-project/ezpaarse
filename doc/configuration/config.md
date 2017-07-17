@@ -29,12 +29,8 @@ The default value is set to `59599`
 ### EZPAARSE_NODEJS_VERSION ###
 The default value is set to `6.6.0`
 
-### EZPAARSE_REQUIRE_AUTH ###
-Determines if the ezPAARSE online form is hidden (`true`) or accessible (`false`).
-The default value is set to `false`
-
 ### EZPAARSE_OUTPUT_FIELDS ###
-Contains an array of field names that are going to be present in the result file produced by ezPAARSE. 
+Contains an array of field names that are going to be present in the result file produced by ezPAARSE.
 The default array contains the following fields:
 ```json
 [
@@ -63,7 +59,7 @@ The default value is set to `false`.
 
 ### EZPAARSE_MIDDLEWARES" ###
 Contains an array of middleware names, in the order they are going to be launched by ezPAARSE during a process.
-The default array contains the following middlewares: 
+The default array contains the following middlewares:
 
 ```json
 [

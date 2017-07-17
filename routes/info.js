@@ -223,7 +223,6 @@ module.exports = function (app) {
 
     var cfg = {};
     var fieldsToReturn = [
-      'EZPAARSE_REQUIRE_AUTH',
       'EZPAARSE_IGNORED_DOMAINS'
     ];
     fieldsToReturn.forEach(function (field) {
