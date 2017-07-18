@@ -5,10 +5,10 @@ services:
 
   ezpaarse:
     container_name: ezpaarse
-    image: node:6.6.0
+    image: node:8.1.4
     working_dir: /app
     volumes:
-      - .:/app    
+      - .:/app
     links:
       - ezpaarse_db
     environment:
