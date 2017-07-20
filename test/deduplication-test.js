@@ -246,12 +246,12 @@ describe('The server', function () {
         fs.readFile(mixedLoginResultFile, 'utf8', function (err, correctOutput) {
           var correctJson   = JSON.parse(correctOutput);
           var bodyJson      = JSON.parse(body);
+          var fieldsToCheck = ['timestamp', 'rtype', 'mime', 'unitid'];
 
           correctJson.should.be.an.instanceOf(Array);
           bodyJson.should.be.an.instanceOf(Array);
           should.equal(bodyJson.length, correctJson.length);
-          should.ok(helpers.equalJSONList(bodyJson, correctJson, true,
-            ['timestamp', 'rtype', 'mime', 'unitid']),
+          should.ok(helpers.equalJSONList(bodyJson, correctJson, true, fieldsToCheck),
             'Server\'s answer do not match the intended result');
 
         });

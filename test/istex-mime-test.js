@@ -116,7 +116,7 @@ describe('istex consultations test mime', function () {
         if (!response) { throw new Error('ezPAARSE is not running'); }
         if (error)     { throw error; }
         response.statusCode.should.equal(200,
-        'failed to get the report, server responded with a code ' + response.statusCode);
+          'failed to get the report, server responded with a code ' + response.statusCode);
 
         var report = JSON.parse(reportBody);
         report.should.have.property('general');

@@ -48,35 +48,35 @@ describe('The pkb cleaner', function () {
   it('correctly remove duplicates (@02)', function (done) {
 
     pkbClean({ dir: pkbDir, rewrite: true })
-    .on('error', function (err) { throw err; })
-    .on('end', function () {
+      .on('error', function (err) { throw err; })
+      .on('end', function () {
 
-      fs.readFile(oldPkb, 'utf8', function (err, oldContent) {
-        should.not.exist(err);
-        oldContent = oldContent.toString().trim();
-        oldContent.split('\n').length.should.equal(3);
-        oldContent.should.containEql('1');
-        oldContent.should.containEql('2');
-        oldContent.should.not.containEql('3');
-        oldContent.should.not.containEql('4');
-        oldContent.should.not.containEql('5');
-
-        fs.readFile(newPkb, 'utf8', function (err, newContent) {
+        fs.readFile(oldPkb, 'utf8', function (err, oldContent) {
           should.not.exist(err);
-          newContent = newContent.toString().trim();
-          newContent.split('\n').length.should.equal(6);
-          newContent.should.containEql('3');
-          newContent.should.containEql('4');
-          newContent.should.containEql('5');
-          newContent.should.containEql('6');
-          newContent.should.containEql('7');
+          oldContent = oldContent.toString().trim();
+          oldContent.split('\n').length.should.equal(3);
+          oldContent.should.containEql('1');
+          oldContent.should.containEql('2');
+          oldContent.should.not.containEql('3');
+          oldContent.should.not.containEql('4');
+          oldContent.should.not.containEql('5');
 
-          fs.exists(oldPkb2, function (exist) {
-            exist.should.equal(false, 'Le fichier ' + oldPkb2 + ' n\'a pas été supprimé');
-            done();
+          fs.readFile(newPkb, 'utf8', function (err, newContent) {
+            should.not.exist(err);
+            newContent = newContent.toString().trim();
+            newContent.split('\n').length.should.equal(6);
+            newContent.should.containEql('3');
+            newContent.should.containEql('4');
+            newContent.should.containEql('5');
+            newContent.should.containEql('6');
+            newContent.should.containEql('7');
+
+            fs.exists(oldPkb2, function (exist) {
+              exist.should.equal(false, 'Le fichier ' + oldPkb2 + ' n\'a pas été supprimé');
+              done();
+            });
           });
         });
       });
-    });
   });
 });

@@ -314,7 +314,7 @@ module.exports = function (app) {
   /**
    * GET route on /info/domains/:domain:
    */
-  app.get(/\/info\/domains\/([a-zA-Z0-9\-\.]+)/, function (req, res) {
+  app.get(/\/info\/domains\/([a-zA-Z0-9\-.]+)/, function (req, res) {
     res.header('Content-Type', 'application/json; charset=utf-8');
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'X-Requested-With');

@@ -53,7 +53,7 @@ describe('The server', function () {
             var body2 = JSON.parse(defBody2);
 
             should.ok(helpers.equals(body1, body2, true),
-            'The server sent two different results for the same upload');
+              'The server sent two different results for the same upload');
             done();
           });
         }, 2000);

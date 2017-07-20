@@ -16,10 +16,11 @@ module.exports = function (app) {
     var requestID  = req.params[0];
     var format     = req.params[1];
     var reportFile = path.join(__dirname, '/../tmp/jobs/',
-    requestID.charAt(0),
-    requestID.charAt(1),
-    requestID,
-    'report.json');
+      requestID.charAt(0),
+      requestID.charAt(1),
+      requestID,
+      'report.json'
+    );
 
     fs.exists(reportFile, function (exists) {
       if (!exists) {
@@ -66,10 +67,11 @@ module.exports = function (app) {
       var requestID = req.params[0];
       var filename  = req.params[1];
       var logFile   = path.join(__dirname, '/../tmp/jobs/',
-      requestID.charAt(0),
-      requestID.charAt(1),
-      requestID,
-      filename);
+        requestID.charAt(0),
+        requestID.charAt(1),
+        requestID,
+        filename
+      );
 
       fs.stat(logFile, function (err, stats) {
         if (err) { return res.status(err.code == 'ENOENT' ? 404 : 500).end(); }

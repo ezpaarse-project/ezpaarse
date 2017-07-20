@@ -21,7 +21,7 @@ var ezproxyTestSets = [
     format: '%h %{session} %u %t "%r" %s %b %<.*>' },
   { logFile: path.join(folder, '/univ_rennes1.ezproxy.log'),
     format: '%h %{session1}<[a-zA-Z0-9\\-\\+]+> %{session2}<[a-zA-Z0-9\\-\\+]+>'
-           + ' %t \"%r\" %s %b %{user}<[a-zA-Z0-9\\-\\+]+>' }
+           + ' %t "%r" %s %b %{user}<[a-zA-Z0-9\\-\\+]+>' }
 ];
 var bibliopamTestSets = [
   { logFile: path.join(folder, '/univ_toulouse.apache.log') },

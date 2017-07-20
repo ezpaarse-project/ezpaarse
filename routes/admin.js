@@ -13,7 +13,7 @@ var auth       = require('../lib/auth-middlewares.js');
 var ezJobs     = require('../lib/jobs.js');
 var io         = require('../lib/socketio.js').io;
 
-var emailRegexp = /^[a-z0-9!#$%&'*+\/=?^_`{|}~.-]+@[a-z0-9-]+(\.[a-z0-9-]+)*$/i;
+var emailRegexp = /^[a-z0-9!#$%&'*+/=?^_`{|}~.-]+@[a-z0-9-]+(\.[a-z0-9-]+)*$/i;
 
 module.exports = function (app) {
 

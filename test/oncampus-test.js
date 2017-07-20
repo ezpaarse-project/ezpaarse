@@ -54,13 +54,13 @@ describe('The server', function () {
           if (!response) { throw new Error('ezPAARSE is not running'); }
           if (error) { throw error; }
           response.statusCode.should.equal(200,
-          'failed to get the report, server responded with a code ' + response.statusCode);
+            'failed to get the report, server responded with a code ' + response.statusCode);
           var report = JSON.parse(reportBody);
           report.should.have.property('general');
           report.general.should.have.property('on-campus-accesses');
           report.general['on-campus-accesses'].should.be.type('number');
           report.general['on-campus-accesses'].should.equal(1,
-        'too many of campus accesses');
+            'too many of campus accesses');
           done();
         });
       });

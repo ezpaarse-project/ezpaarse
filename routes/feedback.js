@@ -118,14 +118,14 @@ module.exports = function (app) {
         text += '\n- git : ' + (!err && stdout ? stdout : 'inconnue');
 
         mailer.mail()
-        .subject('[ezPAARSE] Nouvelle installation')
-        .text(text)
-        .from(config.EZPAARSE_ADMIN_MAIL)
-        .to(config.EZPAARSE_FEEDBACK_RECIPIENTS)
-        .send(function (error, response) {
-          if (error) { res.status(500).end(); }
-          else       { res.status(200).end(); }
-        });
+          .subject('[ezPAARSE] Nouvelle installation')
+          .text(text)
+          .from(config.EZPAARSE_ADMIN_MAIL)
+          .to(config.EZPAARSE_FEEDBACK_RECIPIENTS)
+          .send(function (error, response) {
+            if (error) { res.status(500).end(); }
+            else       { res.status(200).end(); }
+          });
       });
     });
 

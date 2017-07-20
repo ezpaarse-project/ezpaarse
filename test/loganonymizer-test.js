@@ -18,11 +18,11 @@ describe('The loganonymizer command', function () {
     // parse loganonymizer stdout line by line
     var lines = [];
     new Lazy(child.stdout)
-        .lines
-        .map(String)
-        .forEach(function (line) {
-          lines.push(line);
-        });
+      .lines
+      .map(String)
+      .forEach(function (line) {
+        lines.push(line);
+      });
 
     // test is finished when the loganonymizer process exits
     child.on('close', function (code) {
