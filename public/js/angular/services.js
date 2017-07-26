@@ -91,7 +91,7 @@ angular.module('ezPAARSE.services', [])
     };
 
     requestService.prototype.abort = function (callback) {
-      callback = callback || function () {};
+      callback = callback || function () {};
       var self = this;
 
       if (this.xhr) {
@@ -120,14 +120,14 @@ angular.module('ezPAARSE.services', [])
       } else if (angular.isArray(input)) {
         formData = new FormData();
         input.forEach(function (file) {
-          formData.append("files[]", file);
+          formData.append('files[]', file);
           self.data.files.push(file);
         });
       } else {
         return;
       }
 
-      headers = headers || {};
+      headers = headers || {};
       headers['Socket-ID'] = socket._id;
 
       var currentJob = {
@@ -139,7 +139,7 @@ angular.module('ezPAARSE.services', [])
       socket.on('report', this.reportListener);
 
       this.xhr = $.ajax({
-        headers:     headers || {},
+        headers:     headers || {},
         type:        'POST',
         url:         '/' + this.data.jobID + '?_method=PUT',
         // dataType:    'html',
@@ -184,8 +184,8 @@ angular.module('ezPAARSE.services', [])
               return;
             }
 
-            var errorCode    = jqXHR.getResponseHeader("ezPAARSE-Status");
-            var errorMessage = jqXHR.getResponseHeader("ezPAARSE-Status-Message");
+            var errorCode    = jqXHR.getResponseHeader('ezPAARSE-Status');
+            var errorMessage = jqXHR.getResponseHeader('ezPAARSE-Status-Message');
 
             if (errorCode && errorMessage) {
               self.data.errorMessage = errorCode + ' : ' + errorMessage;
@@ -267,9 +267,9 @@ angular.module('ezPAARSE.services', [])
 
       this.selections = {
         proxyTypes: {
-          'ezproxy': "EZproxy",
-          'apache': "Apache",
-          'squid': "Squid"
+          'ezproxy': 'EZproxy',
+          'apache': 'Apache',
+          'squid': 'Squid'
         },
         resultFormats: [
           { type: 'CSV',  mime: 'text/csv' },
@@ -282,57 +282,57 @@ angular.module('ezPAARSE.services', [])
           { level: 'info',    desc: 'Informations générales' }
         ],
         headers: [
-          { category: 'encoding',       name: 'Response-Encoding',            anchor: 'response-encoding' },
-          { category: 'encoding',       name: 'Accept-Encoding',              anchor: 'accept-encoding' },
-          { category: 'encoding',       name: 'Request-Charset',              anchor: 'request-charset' },
-          { category: 'encoding',       name: 'Response-Charset',             anchor: 'response-charset' },
-          { category: 'format',         name: 'Accept',                       anchor: 'accept' },
-          { category: 'format',         name: 'Log-Format-xxx',               anchor: 'log-format-xxx' },
-          { category: 'format',         name: 'Date-Format',                  anchor: 'date-format' },
-          { category: 'format',         name: 'Output-Fields',                anchor: 'output-fields' },
-          { category: 'format',         name: 'Max-Parse-Attempts',           anchor: 'max-parse-attempts' },
-          { category: 'extraction',     name: 'Extract',                      anchor: 'extract' },
-          { category: 'counter',        name: 'COUNTER-Reports',              anchor: 'counter-reports' },
-          { category: 'counter',        name: 'COUNTER-Format',               anchor: 'counter-format' },
-          { category: 'counter',        name: 'COUNTER-Customer',             anchor: 'counter-customer' },
-          { category: 'counter',        name: 'COUNTER-Vendor',               anchor: 'counter-vendor' },
-          { category: 'deduplication',  name: 'Double-Click-Removal',         anchor: 'double-click-xxx' },
-          { category: 'deduplication',  name: 'Double-Click-HTML',            anchor: 'double-click-xxx' },
-          { category: 'deduplication',  name: 'Double-Click-PDF',             anchor: 'double-click-xxx' },
-          { category: 'deduplication',  name: 'Double-Click-MISC',            anchor: 'double-click-xxx' },
-          { category: 'deduplication',  name: 'Double-Click-MIXED',           anchor: 'double-click-xxx' },
-          { category: 'deduplication',  name: 'Double-Click-Strategy',        anchor: 'double-click-xxx' },
-          { category: 'deduplication',  name: 'Double-Click-C-Field',         anchor: 'double-click-xxx' },
-          { category: 'deduplication',  name: 'Double-Click-L-Field',         anchor: 'double-click-xxx' },
-          { category: 'deduplication',  name: 'Double-Click-I-Field',         anchor: 'double-click-xxx' },
-          { category: 'anonymization',  name: 'Crypted-Fields',               anchor: 'crypted-fields' },
-          { category: 'other',          name: 'Traces-Level',                 anchor: 'traces-level' },
-          { category: 'other',          name: 'Reject-Files',                 anchor: 'reject-files' },
-          { category: 'other',          name: 'Clean-Only',                   anchor: 'clean-only' },
-          { category: 'other',          name: 'Force-Parser',                 anchor: 'force-parser' },
-          { category: 'other',          name: 'Geoip',                        anchor: 'geoip' },
-          { category: 'other',          name: 'ezPAARSE-Job-Notifications',   anchor: 'ezpaarse-job-notifications' },
-          { category: 'other',          name: 'ezPAARSE-Enrich',              anchor: 'ezpaarse-enrich' },
-          { category: 'other',          name: 'ezPAARSE-Predefined-Settings', anchor: 'ezpaarse-predefined-settings' },
-          { category: 'other',          name: 'ezPAARSE-Filter-Redirects',    anchor: 'ezpaarse-filter-redirects' },
-          { category: 'other',          name: 'Disable-Filters',              anchor: 'disable-filters' },
-          { category: 'other',          name: 'Force-ECField-Publisher',      anchor: 'force-ecfield-publisher' },
+          { category: 'encoding',       name: 'Response-Encoding',            anchor: 'response-encoding' },
+          { category: 'encoding',       name: 'Accept-Encoding',              anchor: 'accept-encoding' },
+          { category: 'encoding',       name: 'Request-Charset',              anchor: 'request-charset' },
+          { category: 'encoding',       name: 'Response-Charset',             anchor: 'response-charset' },
+          { category: 'format',         name: 'Accept',                       anchor: 'accept' },
+          { category: 'format',         name: 'Log-Format-xxx',               anchor: 'log-format-xxx' },
+          { category: 'format',         name: 'Date-Format',                  anchor: 'date-format' },
+          { category: 'format',         name: 'Output-Fields',                anchor: 'output-fields' },
+          { category: 'format',         name: 'Max-Parse-Attempts',           anchor: 'max-parse-attempts' },
+          { category: 'extraction',     name: 'Extract',                      anchor: 'extract' },
+          { category: 'counter',        name: 'COUNTER-Reports',              anchor: 'counter-reports' },
+          { category: 'counter',        name: 'COUNTER-Format',               anchor: 'counter-format' },
+          { category: 'counter',        name: 'COUNTER-Customer',             anchor: 'counter-customer' },
+          { category: 'counter',        name: 'COUNTER-Vendor',               anchor: 'counter-vendor' },
+          { category: 'deduplication',  name: 'Double-Click-Removal',         anchor: 'double-click-xxx' },
+          { category: 'deduplication',  name: 'Double-Click-HTML',            anchor: 'double-click-xxx' },
+          { category: 'deduplication',  name: 'Double-Click-PDF',             anchor: 'double-click-xxx' },
+          { category: 'deduplication',  name: 'Double-Click-MISC',            anchor: 'double-click-xxx' },
+          { category: 'deduplication',  name: 'Double-Click-MIXED',           anchor: 'double-click-xxx' },
+          { category: 'deduplication',  name: 'Double-Click-Strategy',        anchor: 'double-click-xxx' },
+          { category: 'deduplication',  name: 'Double-Click-C-Field',         anchor: 'double-click-xxx' },
+          { category: 'deduplication',  name: 'Double-Click-L-Field',         anchor: 'double-click-xxx' },
+          { category: 'deduplication',  name: 'Double-Click-I-Field',         anchor: 'double-click-xxx' },
+          { category: 'anonymization',  name: 'Crypted-Fields',               anchor: 'crypted-fields' },
+          { category: 'other',          name: 'Traces-Level',                 anchor: 'traces-level' },
+          { category: 'other',          name: 'Reject-Files',                 anchor: 'reject-files' },
+          { category: 'other',          name: 'Clean-Only',                   anchor: 'clean-only' },
+          { category: 'other',          name: 'Force-Parser',                 anchor: 'force-parser' },
+          { category: 'other',          name: 'Geoip',                        anchor: 'geoip' },
+          { category: 'other',          name: 'ezPAARSE-Job-Notifications',   anchor: 'ezpaarse-job-notifications' },
+          { category: 'other',          name: 'ezPAARSE-Enrich',              anchor: 'ezpaarse-enrich' },
+          { category: 'other',          name: 'ezPAARSE-Predefined-Settings', anchor: 'ezpaarse-predefined-settings' },
+          { category: 'other',          name: 'ezPAARSE-Filter-Redirects',    anchor: 'ezpaarse-filter-redirects' },
+          { category: 'other',          name: 'Disable-Filters',              anchor: 'disable-filters' },
+          { category: 'other',          name: 'Force-ECField-Publisher',      anchor: 'force-ecfield-publisher' },
           { category: 'other',          name: 'Extract',                      anchor: 'extract' },
-	  { category: 'metadata-enrichment',	name: 'Crossref-enrich',      anchor: 'crossref' },
-	  { category: 'metadata-enrichment',	name: 'Crossref-ttl',         anchor: 'crossref' },
-	  { category: 'metadata-enrichment',	name: 'Crossref-throttle',    anchor: 'crossref' },
-  	  { category: 'metadata-enrichment',	name: 'Crossref-paquet-size', anchor: 'crossref' },
-	  { category: 'metadata-enrichment',	name: 'Crossref-buffer-size', anchor: 'crossref' },
-	  { category: 'metadata-enrichment',	name: 'Sudoc-enrich',         anchor: 'sudoc' },
-	  { category: 'metadata-enrichment',	name: 'Sudoc-ttl',            anchor: 'sudoc' },
-	  { category: 'metadata-enrichment',	name: 'Sudoc-throttle',       anchor: 'sudoc' },
- 	  { category: 'metadata-enrichment',	name: 'Hal-enrich',           anchor: 'hal' },
-	  { category: 'metadata-enrichment',	name: 'Hal-ttl',              anchor: 'hal' },
-	  { category: 'metadata-enrichment',	name: 'Hal-throttle',         anchor: 'hal' },
-  	  { category: 'metadata-enrichment',	name: 'Istex-enrich',         anchor: 'istex' },
-	  { category: 'metadata-enrichment',	name: 'Istex-ttl',            anchor: 'istex' },
-	  { category: 'metadata-enrichment',	name: 'Istex-throttle',       anchor: 'istex' }
-	  
+          { category: 'metadata-enrichment',	name: 'Crossref-enrich',      anchor: 'crossref' },
+          { category: 'metadata-enrichment',	name: 'Crossref-ttl',         anchor: 'crossref' },
+          { category: 'metadata-enrichment',	name: 'Crossref-throttle',    anchor: 'crossref' },
+          { category: 'metadata-enrichment',	name: 'Crossref-paquet-size', anchor: 'crossref' },
+          { category: 'metadata-enrichment',	name: 'Crossref-buffer-size', anchor: 'crossref' },
+          { category: 'metadata-enrichment',	name: 'Sudoc-enrich',         anchor: 'sudoc' },
+          { category: 'metadata-enrichment',	name: 'Sudoc-ttl',            anchor: 'sudoc' },
+          { category: 'metadata-enrichment',	name: 'Sudoc-throttle',       anchor: 'sudoc' },
+          { category: 'metadata-enrichment',	name: 'Hal-enrich',           anchor: 'hal' },
+          { category: 'metadata-enrichment',	name: 'Hal-ttl',              anchor: 'hal' },
+          { category: 'metadata-enrichment',	name: 'Hal-throttle',         anchor: 'hal' },
+          { category: 'metadata-enrichment',	name: 'Istex-enrich',         anchor: 'istex' },
+          { category: 'metadata-enrichment',	name: 'Istex-ttl',            anchor: 'istex' },
+          { category: 'metadata-enrichment',	name: 'Istex-throttle',       anchor: 'istex' }
+
         ]
       };
 
@@ -342,7 +342,7 @@ angular.module('ezPAARSE.services', [])
         outputFields: { plus: [], minus: [] },
         cryptedFields: ['host', 'login'],
         customHeaders: [],
-        notificationMails: "",
+        notificationMails: '',
         headers: {
           'Accept':       'text/csv',
           'Traces-Level': 'info',
@@ -545,8 +545,8 @@ angular.module('ezPAARSE.services', [])
       var headers  = angular.copy(setting.headers);
 
       if (headers['Output-Fields']) {
-        var fields = headers['Output-Fields'].split(',');
-        fields.forEach(function (field) {
+        var outputFields = headers['Output-Fields'].split(',');
+        outputFields.forEach(function (field) {
           field = field.trim();
 
           if (field) {
@@ -559,12 +559,12 @@ angular.module('ezPAARSE.services', [])
       }
 
       if (headers['Crypted-Fields']) {
-        var fields = headers['Crypted-Fields'];
+        var cryptedFields = headers['Crypted-Fields'];
 
-        if (fields.toLowerCase() === 'none') {
+        if (cryptedFields.toLowerCase() === 'none') {
           settings.cryptedFields = [];
         } else {
-          settings.cryptedFields = fields.split(',').map(function (f) { return f.trim(); });
+          settings.cryptedFields = cryptedFields.split(',').map(function (f) { return f.trim(); });
         }
 
         delete headers['Crypted-Fields'];
