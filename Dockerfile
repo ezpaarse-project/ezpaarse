@@ -24,7 +24,7 @@ WORKDIR /opt/ezpaarse
 
 # build ezpaarse (install node, npm modules, clone sub git repositories ...)
 ENV NVM_DIR "/opt/ezpaarse/build/nvm"
-RUN make ; . /opt/ezpaarse/build/nvm/nvm.sh ; npm cache clear
+RUN make ; . /opt/ezpaarse/build/nvm/nvm.sh ; npm cache clear --force
 
 # ezmasterification of ezpaarse
 # see https://github.com/Inist-CNRS/ezmaster
