@@ -5,7 +5,7 @@ services:
 
   ezpaarse:
     container_name: ezpaarse
-    image: node:8.1.4
+    image: node:8.6.0
     working_dir: /app
     volumes:
       - .:/app
