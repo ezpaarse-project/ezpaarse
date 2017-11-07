@@ -105,7 +105,7 @@ Listing of notifications to send when treatment is done, written as `action<cibl
 ### ezPAARSE-Middlewares
 Insert a list of middlewares that are not present in the base configuration (`EZPAARSE_MIDDLEWARES`). The value must be a list of middleware names separated with commas, in the order of use.
 
-By default, they will be inserted at the end of the chain, before `qualifier`. You can prefix the list with the mention `(before <middleware name>)` or `(after <middleware name>)` to insert them at a more specific place.
+By default, they will be inserted at the end of the chain, before `qualifier`. You can prefix the list with the mention `(before <middleware name>)` or `(after <middleware name>)` to insert them at a more specific place, or `(only)` to only use the middlewares you want.
 
 #### Examples
 ```
