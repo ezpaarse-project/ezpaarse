@@ -318,6 +318,7 @@ angular.module('ezPAARSE.services', [])
           { category: 'other',          name: 'Disable-Filters',              anchor: 'disable-filters' },
           { category: 'other',          name: 'Force-ECField-Publisher',      anchor: 'force-ecfield-publisher' },
           { category: 'other',          name: 'Extract',                      anchor: 'extract' },
+          { category: 'other',          name: 'ezPAARSE-Middlewares',         anchor: 'ezpaarse-middlewares' },
           { category: 'metadata-enrichment',	name: 'Crossref-enrich',      anchor: 'crossref' },
           { category: 'metadata-enrichment',	name: 'Crossref-ttl',         anchor: 'crossref' },
           { category: 'metadata-enrichment',	name: 'Crossref-throttle',    anchor: 'crossref' },
@@ -332,7 +333,6 @@ angular.module('ezPAARSE.services', [])
           { category: 'metadata-enrichment',	name: 'Istex-enrich',         anchor: 'istex' },
           { category: 'metadata-enrichment',	name: 'Istex-ttl',            anchor: 'istex' },
           { category: 'metadata-enrichment',	name: 'Istex-throttle',       anchor: 'istex' }
-
         ]
       };
 
