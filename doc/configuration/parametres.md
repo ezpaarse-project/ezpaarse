@@ -117,6 +117,9 @@ By default, they will be inserted at the end of the chain, before `qualifier`. Y
 ```
 'ezPAARSE-Middlewares': '(after sudoc) hal, istex'
 ```
+```
+'ezPAARSE-Middlewares': '(only) crossref'
+```
 
 ### ezPAARSE-Enrich ###
 Set to `false` to deactivate data enrichment (geoip and knowledge bases). Any other value will leave the data enrichment active.
