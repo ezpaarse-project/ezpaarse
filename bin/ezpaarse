@@ -6,8 +6,8 @@
 # search ezpaarse root path
 [ -z "$EZPAARSE_PATH" ] && EZPAARSE_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 
-# load ezpaarse env
-. $EZPAARSE_PATH/bin/env
+# # load ezpaarse env
+# . $EZPAARSE_PATH/bin/env
 
 [ -z "$EZPAARSE_APPFILE" ] && EZPAARSE_APPFILE="$EZPAARSE_PATH/app.js"
 [ -z "$EZPAARSE_PIDFILE" ] && EZPAARSE_PIDFILE="$EZPAARSE_PATH/ezpaarse.pid"
@@ -18,11 +18,13 @@
 [ -z "$EZPAARSE_LOGDIR" ] && EZPAARSE_LOGDIR="$EZPAARSE_PATH/logs"
 [ -z "$FOREVER_CMD" ] && FOREVER_CMD="forever"
 
-# check make build has been called
-if [ ! -d $EZPAARSE_PATH/build/ ]; then
-  echo "$EZPAARSE_NAME error: please run make build before anything" >&2
-  exit 1
-fi
+mkdir -p $EZPAARSE_LOGDIR
+
+# # check make build has been called
+# if [ ! -d $EZPAARSE_PATH/build/ ]; then
+#   echo "$EZPAARSE_NAME error: please run make build before anything" >&2
+#   exit 1
+# fi
 
 DAEMON=true
 for i in "$@"; do
