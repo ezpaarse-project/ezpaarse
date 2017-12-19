@@ -86,8 +86,9 @@
     "postinstall": "npm run bower",
     "bower": "cp bower.json bower.json.bak; bower install -F --allow-root --config.interactive=false; mv bower.json.bak bower.json",
     "test": "make test-pkb; make test",
-    "insertversion": "sed -i \"s#\\(image: ezpaarseproject/ezpaarse:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" docker-compose.yml",
-    "version": "npm run insertversion && git add docker-compose.yml",
+    "insertversion:docker": "sed -i \"s#\\(image: ezpaarseproject/ezpaarse:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" docker-compose.yml",
+    "insertversion:makefile": "sed -i \"s#\\(ezpaarseproject/ezpaarse:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" Makefile",
+    "version": "npm run insertversion:docker && npm run insertversion:makefile && git add docker-compose.yml Makefile",
     "postversion": "git push && git push --tags",
     "lint": "eslint *.js lib/ test/ routes/ middlewares/",
     "precommit": "./pre-commit"
