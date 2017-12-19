@@ -3,29 +3,30 @@ MAINTAINER ezPAARSE Team <ezpaarse@couperin.org>
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV NODE_ENV production
-ENV PATH /opt/ezpaarse/build/nvm/bin/latest:/opt/ezpaarse/bin:/opt/ezpaarse/node_modules/.bin:/usr/local/bin:/usr/bin:/bin:/sbin:/usr/sbin:/usr/local/sbin
+ENV PATH /opt/ezpaarse/bin:/opt/ezpaarse/node_modules/.bin:/usr/local/bin:/usr/bin:/bin:/sbin:/usr/sbin:/usr/local/sbin
 
 # install debian dependencies
 RUN set -x \
   && apt-get update \
-  && apt-get -y --no-install-recommends upgrade \
-  # used by nvm for nodejs & npm install
-  && apt-get -y --no-install-recommends install curl ca-certificates \
+  # used by npm (rebuild)
+  && apt-get -y --no-install-recommends install build-essential python make g++ curl ca-certificates \
   # used by ezpaarse platforms, resources and middleware updates
 	&& apt-get -y --no-install-recommends install git \
-  # used by npm rebuild
-  && apt-get -y --no-install-recommends install python make g++ \
   # clean apt-get cache to gain a few MB
 	&& apt-get -y clean && rm -rf /var/lib/apt/lists/*
 
-# install ezpaarse
-COPY . /opt/ezpaarse
+# install ezpaarse npm dependencies
+COPY ./package.json /opt/ezpaarse/
+COPY ./bower.json   /opt/ezpaarse/
+COPY ./.bowerrc     /opt/ezpaarse/
 WORKDIR /opt/ezpaarse
 RUN mkdir -p /opt/ezpaarse/logs
+RUN npm install --no-save -q --unsafe-perm
 
-# build ezpaarse (install node, npm modules, clone sub git repositories ...)
-ENV NVM_DIR "/opt/ezpaarse/build/nvm"
-RUN make ; . /opt/ezpaarse/build/nvm/nvm.sh ; npm cache clear --force
+# copy source code and install data dependencies
+COPY . /opt/ezpaarse
+RUN make platforms-update middlewares-update exclusions-update resources-update
+RUN make checkconfig
 
 # ezmasterification of ezpaarse
 # see https://github.com/Inist-CNRS/ezmaster
@@ -38,4 +39,4 @@ RUN echo '{ \
 
 # run ezpaarse process
 EXPOSE 59599
-CMD ["ezpaarse", "start", "--no-daemon"]
+ENTRYPOINT [ "./docker-entrypoint.sh" ]
