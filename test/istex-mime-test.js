@@ -63,11 +63,11 @@ describe('istex consultations test mime', function () {
       should.equal(result[9]['mime'], 'TEI');
       should.equal(result[9]['istex_rtype'], 'enrichments');
       should.equal(result[9]['rtype'], 'METADATA');
-      ///document/AF48586B716E282324FC512E5C93CB3E2A4689DC/enrichments/refbib
+      ///document/FED05D0C6F49D6B0F0D0BA345C1822DCA14CFC00/enrichments/refbib
       should.equal(result[10]['mime'], 'TEI');
       should.equal(result[10]['istex_rtype'], 'enrichments');
       should.equal(result[10]['rtype'], 'METADATA');
-      ///document/AF48586B716E282324FC512E5C93CB3E2A4689DC/enrichments/refbib?consolidate
+      ///document/FED05D0C6F49D6B0F0D0BA345C1822DCA14CFC00/enrichments/refbib?consolidate
       should.equal(result[11]['mime'], 'TEI');
       should.equal(result[11]['istex_rtype'], 'enrichments');
       should.equal(result[11]['rtype'], 'METADATA');
