@@ -153,7 +153,7 @@ Then, you can run the dockerized ezpaarse this way:
 
 ```
 mkdir ezpaarse/
-wget https://raw.githubusercontent.com/ezpaarse-project/ezpaarse/master/docker-compose.yml
+wget --no-check-certificate https://raw.githubusercontent.com/ezpaarse-project/ezpaarse/master/docker-compose.yml
 docker-compose up -d
 ```
 
