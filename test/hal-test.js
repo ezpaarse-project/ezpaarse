@@ -23,11 +23,8 @@ describe('HAL consultations', function () {
       var result = JSON.parse(body);
       result.should.have.length(2);
 
-      result.forEach(function (ec) {
-        should.equal(ec.print_identifier, '1094-4087');
-        should.equal(ec.publication_title, 'Optics Express');
-        should.equal(ec.publisher_name, 'Optical Society of America');
-      });
+      should.equal(result[0].docid, '673420');
+      should.equal(result[1].docid, '673420');
 
       var reportURL = res.headers['job-report'];
       should.exist(reportURL, 'The header "Job-Report" was not sent by the server');
