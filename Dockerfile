@@ -1,4 +1,4 @@
-FROM debian:jessie
+FROM node:8.6.0
 MAINTAINER ezPAARSE Team <ezpaarse@couperin.org>
 
 ENV DEBIAN_FRONTEND noninteractive
@@ -21,6 +21,7 @@ RUN set -x \
 # install ezpaarse
 COPY . /opt/ezpaarse
 WORKDIR /opt/ezpaarse
+RUN mkdir -p /opt/ezpaarse/logs
 
 # build ezpaarse (install node, npm modules, clone sub git repositories ...)
 ENV NVM_DIR "/opt/ezpaarse/build/nvm"

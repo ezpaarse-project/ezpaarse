@@ -8,6 +8,17 @@
 EZPAARSE_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 NODEJS_VERSION=$(expr "`cat $EZPAARSE_PATH/config.json`" : '.*"EZPAARSE_NODEJS_VERSION":[ ]*"\([^"]*\)"')
 
+if [ "$(node -v)" == "v$NODEJS_VERSION" ]; then
+  echo "Using nodejs installed on the system: $(which node) [$(node -v)]"
+  # simulate a fake nvm installation
+  # because we do not need it if nodejs is already installed
+  mkdir -p $EZPAARSE_PATH/build/nvm/bin/latest/
+  touch $EZPAARSE_PATH/build/nvm/nvm.sh
+  touch /opt/ezpaarse/build/nvm/bin/latest/nvm
+  chmod +x /opt/ezpaarse/build/nvm/bin/latest/nvm
+  exit
+fi
+
 # download nvm from github
 mkdir -p $EZPAARSE_PATH/build/
 if [ ! -f $EZPAARSE_PATH/build/nvm/nvm.sh ]; then
