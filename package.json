@@ -1,7 +1,7 @@
 {
   "name": "ezPAARSE",
   "main": "app.js",
-  "version": "2.12.1",
+  "version": "2.12.2",
   "private": true,
   "repository": {
     "type": "git",
@@ -89,7 +89,6 @@
     "insertversion:docker": "sed -i \"s#\\(image: ezpaarseproject/ezpaarse:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" docker-compose.yml",
     "insertversion:makefile": "sed -i \"s#\\(ezpaarseproject/ezpaarse:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" Makefile",
     "version": "npm run insertversion:docker && npm run insertversion:makefile && git add docker-compose.yml Makefile",
-    "version": "npm run insertversion && git add docker-compose.yml",
     "postversion": "git push && git push --tags",
     "lint": "eslint *.js lib/ test/ routes/ middlewares/",
     "precommit": "./pre-commit"
