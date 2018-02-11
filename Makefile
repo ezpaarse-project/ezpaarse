@@ -51,54 +51,54 @@ PKBFILES=$(shell ls $(EZPATH)/platforms/*/pkb/*.txt | grep -v miss)
 
 test: ## Runs all tests (*-test.js) in the test folder except big and tdd
 	@if test -d test; \
-	then . ./bin/env; mocha -g '@big|@tdd' -i; \
+	then npx mocha -g '@big|@tdd' -i; \
 	else echo 'No test folder found'; \
 	fi
 
 test-verbose: test-pkb-verbose ## Runs all tests (*-test.js) in the test folder except big and tdd in verbose mode
 	@if test -d test; \
-	then . ./bin/env; mocha -g '@big|@tdd' -i -R list; \
+	then mocha -g '@big|@tdd' -i -R list; \
 	else echo 'No test folder found'; \
 	fi
 
 test-pkb: ## Runs tests on pkb files (Publisher Knowledge Base)
 	@if test -d platforms; \
-	then . ./bin/env; ./bin/pkbvalidator --nowarnings $(PKBFILES); \
+	then ./bin/pkbvalidator --nowarnings $(PKBFILES); \
 	else echo 'No test folder found'; \
 	fi
 
 test-pkb-verbose: ## Runs tests on pkb files (Publisher Knowledge Base) in verbose mode
 	@if test -d platforms; \
-	then . ./bin/env; ./bin/pkbvalidator -v $(PKBFILES); \
+	then ./bin/pkbvalidator -v $(PKBFILES); \
 	else echo 'No test folder found'; \
 	fi
 
 test-big: ## Runs big tests
 	@if test -d test; \
-	then . ./bin/env; mocha -g @big; \
+	then npx mocha -g @big; \
 	else echo 'No test folder found'; \
 	fi
 
 test-big-verbose: ## Runs big tests in verbose mode
 	@if test -d test; \
-	then . ./bin/env; mocha -R list -g @big; \
+	then npx mocha -R list -g @big; \
 	else echo 'No test folder found'; \
 	fi
 
 tdd: ## Runs tdd tests
 	@if test -d test; \
-	then . ./bin/env; mocha -g @tdd; \
+	then npx mocha -g @tdd; \
 	else echo 'No test folder found'; \
 	fi
 
 tdd-verbose: ## Runs tdd tests in verbose mode
 	@if test -d test; \
-	then . ./bin/env; mocha -R list -g @tdd; \
+	then npx mocha -R list -g @tdd; \
 	else echo 'No test folder found'; \
 	fi
 
 lint: ## Runs lint validation
-	@. ./bin/env; npm run lint
+	@npm run lint
 
 clean-tmp: ## Clean tmp directory
 	@rm -rf ./tmp/*

@@ -20,6 +20,8 @@ before_install:
   # build an run as in prod
   - make build-docker
   - docker-compose -f ./docker-compose.yml up -d
+  - docker exec -e NODE_ENV=developement ezpaarse npm uninstall --save-dev husky # to have mocha and test stuff
+  - docker exec -e NODE_ENV=developement ezpaarse npm install # to have mocha and test stuff
   - sleep 120 ; docker-compose logs
 
 script:
@@ -27,6 +29,7 @@ script:
   # just test there is 2 running containers, that is not a lot but that's already it!
   - NB_CONTAINERS=$(docker-compose ps | grep " Up " | wc -l)
   - test $NB_CONTAINERS = 2
+  - make test-docker
 
 notifications:
   email:
