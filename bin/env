@@ -20,6 +20,6 @@ declare -a EZ_PATHS=(
 for i in "${EZ_PATHS[@]}"
 do
   if ! [[ $PATH =~ (^|:)"$i"($|:) ]];then
-    export PATH="$i:$PATH"
+    export PATH="$PATH:$i"
   fi
 done
