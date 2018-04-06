@@ -12,7 +12,8 @@ describe('istex consultations rtype', function () {
     var headers = {
       'Accept': 'application/json',
       'Force-Parser': 'istex',
-      'Istex-Enrich': true
+      'Istex-Enrich': true,
+      'Istex-Cache': false
     };
 
     helpers.post('/', logFile, headers, function (err, res, body) {
@@ -21,7 +22,7 @@ describe('istex consultations rtype', function () {
       res.statusCode.should.equal(200, 'expected 200, got ' + res.statusCode);
 
       var result = JSON.parse(body);
-      result.should.be.an.instanceOf(Array).and.have.lengthOf(16);
+      result.should.be.an.instanceOf(Array).and.have.lengthOf(17);
 
       // [istex_genre, istex_rtype, rtype]
       const expected = [
@@ -56,7 +57,9 @@ describe('istex consultations rtype', function () {
         // /document/E8D367408302AE80C464B38829351ADFCC9AEF91/fulltext/tei
         ['book-reviews', 'fulltext', 'ARTICLE' ],
         // /document/C8568A855DF02A947DE9A0C674EAA630CC35B63E/annexes/ppt
-        ['review-article', 'annexes', 'MISC' ]
+        ['review-article', 'annexes', 'MISC' ],
+        // /ark:/67375/NVC-CGWCQNDK-X/record.json
+        ['research-article', 'record', 'METADATA' ]
       ];
 
       result.forEach((ec, index) => {
