@@ -16,8 +16,8 @@ angular.module('ezPAARSE.main-controllers', [])
 
     $scope.links = {
       github: 'https://github.com/ezpaarse-project/ezpaarse',
-      platforms: 'http://analogist.couperin.org/platforms/',
-      api: '/doc/routes.html',
+      platforms: 'http://analyses.ezpaarse.org/',
+      api: 'http://ezpaarse.readthedocs.io/en/master/development/routes.html',
       nodejs: 'http://nodejs.org/',
       expressjs: 'http://expressjs.com/'
     }
