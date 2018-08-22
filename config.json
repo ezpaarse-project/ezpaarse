@@ -26,7 +26,11 @@
     "unitid",
     "domain",
     "on_campus",
-    "log_id"
+    "log_id",
+    "ezpaarse_version",
+    "middlewares_version",
+    "platforms_version",
+    "middlewares"
   ],
   "EZPAARSE_MIDDLEWARES": [
     "filter",
