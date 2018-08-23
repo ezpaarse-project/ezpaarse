@@ -28,8 +28,11 @@
     "on_campus",
     "log_id",
     "ezpaarse_version",
+    "ezpaarse_date",
     "middlewares_version",
+    "middlewares_date",
     "platforms_version",
+    "platforms_date",
     "middlewares"
   ],
   "EZPAARSE_MIDDLEWARES": [
