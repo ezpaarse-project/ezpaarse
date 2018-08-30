@@ -157,7 +157,7 @@ module.exports = function (app) {
               var manifest;
               try {
                 manifest = JSON.parse(content);
-                var match = /^http:\/\/([a-z.]+)\/platforms\/([a-z0-9]+)$/i.exec(manifest.docurl)
+                var match = /^http:\/\/([a-z.]+)\/platforms\/([a-z0-9]+)$/i.exec(manifest.docurl);
                 if (match !== null) {
                   if (certifications[match[2]]) {
                     manifest.certifications = certifications[match[2]];
