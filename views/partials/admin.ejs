@@ -201,8 +201,7 @@
             <thead><tr>
               <th></th>
               <th ng-click="adm.sortBy('longname')" ng-class="{ '-longname': 'descending', '+longname': 'ascending' }[adm.platforms.sort]" translate>admin+platform</th>
-              <th ng-click="adm.sortBy('status')" ng-class="{ '-status': 'descending', '+status': 'ascending' }[adm.platforms.sort]" translate>admin+status</th>
-              <th ng-click="adm.sortBy('version')" ng-class="{ '-version': 'descending', '+version': 'ascending' }[adm.platforms.sort]" translate>admin+version</th>
+              <th ng-click="adm.sortBy('certifications')" ng-class="{ '-status': 'descending', '+status': 'ascending' }[adm.platforms.sort]">Certifications</th>
             </tr></thead>
             <tbody>
             <tr ng-repeat-start="manifest in adm.platforms.list | filter:overallSearch | filter: onlyOutdated ? { hasChanges: true } : undefined | orderBy:adm.platforms.sort" ng-class="{ warning: manifest.hasChanges, even: $even, odd: $odd }">
@@ -211,8 +210,13 @@
                 <a ng-show="manifest['pkb-packages'].length" ng-click="adm.togglePkbOf(manifest.name)" title="{{ 'admin+knowledge_bases' | translate }}"><i class="text file link icon"></i></a>
               </td>
               <td><i ng-if="manifest.hasChanges" class="warning circle icon"></i> {{ manifest.longname }}</td>
-              <td ng-bind="manifest.status"></td>
-              <td ng-bind="manifest.version"></td>
+              <td ng-if="manifest.certifications">
+                <span ng-repeat="(key, value) in manifest.certifications">
+                  <img ng-if="value == 'H'" src="/img/certif_h.png" class="icon">
+                  <img ng-if="value == 'P'" src="/img/certif_p.png" class="icon">
+                </span>
+              </td>
+              <td ng-if="!manifest.certifications" translate>Pas encore de certifications</td>
             </tr>
             <tr ng-repeat-end ng-if="adm.selectedPKBs[manifest.name]" ng-class="{ even: $even, odd: $odd }">
               <td></td>

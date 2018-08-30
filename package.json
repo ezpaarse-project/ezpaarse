@@ -79,6 +79,7 @@
     "eslint": "~4.2.0",
     "husky": "~0.14.3",
     "mocha": "~3.4.2",
+    "nodemon": "^1.18.3",
     "should": "*",
     "should-http": "*",
     "zombie": "~5.0.7"
@@ -92,6 +93,7 @@
     "version": "npm run insertversion:docker && npm run insertversion:makefile && git add docker-compose.yml Makefile",
     "postversion": "git push && git push --tags",
     "lint": "eslint *.js lib/ test/ routes/ middlewares/",
-    "precommit": "./pre-commit"
+    "precommit": "./pre-commit",
+    "dev": "nodemon ./app.js -e js,html,css,ejs"
   }
 }

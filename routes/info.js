@@ -9,6 +9,7 @@ var parserlist = require('../lib/parserlist.js');
 var git        = require('../lib/git-tools.js');
 var config     = require('../lib/config.js');
 var pkg        = require('../package.json');
+var trello     = require('../lib/trello-analogist.js');
 
 var statusCodes = require(path.join(__dirname, '/../statuscodes.json'));
 
@@ -58,158 +59,166 @@ module.exports = function (app) {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'X-Requested-With');
 
-    var status = req.query.status;
+    trello.getCertifications(function (certifications) {
+      var status = req.query.status;
 
-    var platformsFolder = path.join(__dirname, '/../platforms');
+      var platformsFolder = path.join(__dirname, '/../platforms');
 
-    fs.readdir(platformsFolder, function (err, folders) {
-      if (err) { return res.status(500).end(); }
+      fs.readdir(platformsFolder, function (err, folders) {
+        if (err) { return res.status(500).end(); }
 
-      var kbartReg  = /(.*)_([0-9]{4}-[0-9]{2}-[0-9]{2})\.txt$/;
-      var platforms = [];
-      var i = 0;
+        var kbartReg  = /(.*)_([0-9]{4}-[0-9]{2}-[0-9]{2})\.txt$/;
+        var platforms = [];
+        var i = 0;
 
-      var countEntries = function (file, callback) {
-        var count  = 0;
-        var stream = fs.createReadStream(file);
-        var buffer = '';
+        var countEntries = function (file, callback) {
+          var count  = 0;
+          var stream = fs.createReadStream(file);
+          var buffer = '';
 
-        stream.on('error', function (err) { callback(err, 0); });
-        stream.on('readable', function () {
-          var data = stream.read();
-          if (!data) { return; }
+          stream.on('error', function (err) { callback(err, 0); });
+          stream.on('readable', function () {
+            var data = stream.read();
+            if (!data) { return; }
 
-          buffer += data.toString();
+            buffer += data.toString();
 
-          var index = buffer.indexOf('\n');
+            var index = buffer.indexOf('\n');
 
-          while (index >= 0) {
-            if (buffer.substr(0, index).trim().length > 0) { count++; }
-            buffer = buffer.substr(++index);
-            index  = buffer.indexOf('\n');
-          }
-        });
-        stream.on('end', function () { callback(null, Math.max(--count, 0)); });
-      };
+            while (index >= 0) {
+              if (buffer.substr(0, index).trim().length > 0) { count++; }
+              buffer = buffer.substr(++index);
+              index  = buffer.indexOf('\n');
+            }
+          });
+          stream.on('end', function () { callback(null, Math.max(--count, 0)); });
+        };
 
-      var getPkbPackages = function (pkbDir, callback) {
-        fs.readdir(pkbDir, function (err, files) {
-          if (err && err.code != 'ENOENT') { return callback(err); }
+        var getPkbPackages = function (pkbDir, callback) {
+          fs.readdir(pkbDir, function (err, files) {
+            if (err && err.code != 'ENOENT') { return callback(err); }
 
-          files = files || [];
-          var dates = {};
+            files = files || [];
+            var dates = {};
 
-          (function nextFile(cb) {
+            (function nextFile(cb) {
 
-            var file = files.pop();
-            if (!file) { return cb(); }
+              var file = files.pop();
+              if (!file) { return cb(); }
 
-            var match = kbartReg.exec(file);
-            if (!match) { return nextFile(cb); }
+              var match = kbartReg.exec(file);
+              if (!match) { return nextFile(cb); }
 
-            var pkg  = match[1];
-            var date = match[2];
+              var pkg  = match[1];
+              var date = match[2];
 
-            countEntries(path.join(pkbDir, file), function (err, count) {
-              if (!dates[pkg] || dates[pkg].date < date) {
-                dates[pkg] = { date: date, entries: 0 };
+              countEntries(path.join(pkbDir, file), function (err, count) {
+                if (!dates[pkg] || dates[pkg].date < date) {
+                  dates[pkg] = { date: date, entries: 0 };
+                }
+
+                dates[pkg].entries += count;
+
+                nextFile(cb);
+              });
+            })(function () {
+
+              var packages = [];
+
+              for (var i in dates) {
+                packages.push({
+                  name: i,
+                  date: dates[i].date,
+                  entries: dates[i].entries
+                });
               }
 
-              dates[pkg].entries += count;
-
-              nextFile(cb);
+              callback(null, packages);
             });
-          })(function () {
 
-            var packages = [];
+          });
+        };
 
-            for (var i in dates) {
-              packages.push({
-                name: i,
-                date: dates[i].date,
-                entries: dates[i].entries
+        (function readNextDir(callback) {
+          var folder = folders[i++];
+
+          if (!folder) { return callback(); }
+          if (folder == 'js-parser-skeleton') { return readNextDir(callback); }
+
+          var configFile = path.join(platformsFolder, folder, 'manifest.json');
+          var parserFile = path.join(platformsFolder, folder, 'parser.js');
+
+          fs.exists(parserFile, function (exists) {
+            if (!exists) { return readNextDir(callback); }
+
+            fs.readFile(configFile, function (err, content) {
+              if (err) { return readNextDir(callback); }
+
+              var manifest;
+              try {
+                manifest = JSON.parse(content);
+                var match = /^http:\/\/([a-z.]+)\/platforms\/([a-z0-9]+)$/i.exec(manifest.docurl)
+                if (match !== null) {
+                  if (certifications[match[2]]) {
+                    manifest.certifications = certifications[match[2]];
+                  }
+                }
+              } catch (e) {
+                return readNextDir(callback);
+              }
+
+              if (!manifest.name || (status && manifest.status != status)) {
+                return readNextDir(callback);
+              }
+
+              getPkbPackages(path.join(platformsFolder, folder, 'pkb'), function (err, packages) {
+                if (!err) { manifest['pkb-packages'] = packages; }
+
+                platforms.push(manifest);
+                readNextDir(callback);
               });
-            }
 
-            callback(null, packages);
-          });
-
-        });
-      };
-
-      (function readNextDir(callback) {
-        var folder = folders[i++];
-
-        if (!folder) { return callback(); }
-        if (folder == 'js-parser-skeleton') { return readNextDir(callback); }
-
-        var configFile = path.join(platformsFolder, folder, 'manifest.json');
-        var parserFile = path.join(platformsFolder, folder, 'parser.js');
-
-        fs.exists(parserFile, function (exists) {
-          if (!exists) { return readNextDir(callback); }
-
-          fs.readFile(configFile, function (err, content) {
-            if (err) { return readNextDir(callback); }
-
-            var manifest;
-            try {
-              manifest = JSON.parse(content);
-            } catch (e) {
-              return readNextDir(callback);
-            }
-
-            if (!manifest.name || (status && manifest.status != status)) {
-              return readNextDir(callback);
-            }
-
-            getPkbPackages(path.join(platformsFolder, folder, 'pkb'), function (err, packages) {
-              if (!err) { manifest['pkb-packages'] = packages; }
-
-              platforms.push(manifest);
-              readNextDir(callback);
             });
-
           });
+        })(function () {
+          res.status(200).json(platforms);
         });
-      })(function () {
-        res.status(200).json(platforms);
       });
     });
-  });
 
-  /**
-   * GET route on /info/fields.json
-   */
-  app.get(/^\/info\/(fields|rid|mime|rtype)(?:\.json)?$/, function (req, res) {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'X-Requested-With');
+    /**
+     * GET route on /info/fields.json
+     */
+    app.get(/^\/info\/(fields|rid|mime|rtype)(?:\.json)?$/, function (req, res) {
+      res.header('Access-Control-Allow-Origin', '*');
+      res.header('Access-Control-Allow-Headers', 'X-Requested-With');
 
-    var file = path.join(__dirname, '/../platforms/fields.json');
+      var file = path.join(__dirname, '/../platforms/fields.json');
 
-    fs.readFile(file, function (err, content) {
-      if (err) { return res.status(500).end(); }
+      fs.readFile(file, function (err, content) {
+        if (err) { return res.status(500).end(); }
 
-      var name = req.params[0];
-      if (name == 'fields') {
-        return res.status(200).json(content);
-      }
+        var name = req.params[0];
+        if (name == 'fields') {
+          return res.status(200).json(content);
+        }
 
-      try {
-        content = JSON.parse(content)[name];
-      } catch (e) {
-        return res.status(500).end();
-      }
+        try {
+          content = JSON.parse(content)[name];
+        } catch (e) {
+          return res.status(500).end();
+        }
 
-      if (req.query.sort) {
-        content.sort(function (a, b) {
-          var comp = a.code < b.code ? -1 : 1;
-          if (req.query.sort === 'desc') { comp *= -1; }
-          return comp;
-        });
-      }
+        if (req.query.sort) {
+          content.sort(function (a, b) {
+            var comp = a.code < b.code ? -1 : 1;
+            if (req.query.sort === 'desc') { comp *= -1; }
+            return comp;
+          });
+        }
 
-      res.status(200).json(content);
+        res.status(200).json(content);
+      });
     });
   });
 
