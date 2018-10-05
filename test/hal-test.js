@@ -8,7 +8,7 @@ var helpers = require('./helpers.js');
 var logFile = path.join(__dirname, 'dataset/hal.log');
 
 describe('HAL consultations', function () {
-  it('should be correctly enriched (@01)', function (done) {
+  it.skip('should be correctly enriched (@01)', function (done) {
     var headers = {
       'Accept': 'application/json',
       'Force-Parser': 'hal',
