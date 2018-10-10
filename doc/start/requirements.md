@@ -7,7 +7,7 @@ ezPAARSE can be installed on many Linux distributions, with the following prereq
 * **gcc** and **g++**
 * **curl** (used by **nvm**)
 * **git** >= 1.7.10 (needed by github)
-* **MongoDB** >= 2.4
+* **MongoDB** >= 3.2
 
 If using the docker version of ezpaarse you will only need:
 - [Docker](https://docs.docker.com/engine/installation/) (Version >= 1.12)
