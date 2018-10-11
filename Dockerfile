@@ -1,4 +1,4 @@
-FROM node:8.6.0
+FROM node:10.11.0
 MAINTAINER ezPAARSE Team <ezpaarse@couperin.org>
 
 ENV DEBIAN_FRONTEND noninteractive

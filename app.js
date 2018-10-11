@@ -1,36 +1,36 @@
 /* eslint no-console: 0, no-sync: 0 */
 'use strict';
 
-var express       = require('express');
-var bodyParser    = require('body-parser');
-var errorHandler  = require('errorhandler');
-var morgan        = require('morgan');
-var favicon       = require('serve-favicon');
-var cookieSession = require('cookie-session');
-var cookieParser  = require('cookie-parser');
+const express       = require('express');
+const bodyParser    = require('body-parser');
+const errorHandler  = require('errorhandler');
+const morgan        = require('morgan');
+const favicon       = require('serve-favicon');
+const cookieSession = require('cookie-session');
+const cookieParser  = require('cookie-parser');
 
-// Set the global var "ezpaarse"
+// Set the global variable "ezpaarse"
 require('./lib/global.js');
 
-var pkg           = require('./package.json');
-var config        = require('./lib/config.js');
-var socketIO      = require('./lib/socketio.js');
-var mongo         = require('./lib/mongo.js');
-var http          = require('http');
-var path          = require('path');
-var mkdirp        = require('mkdirp');
-var fs            = require('graceful-fs');
-var Reaper        = require('tmp-reaper');
-var auth          = require('./lib/auth-middlewares.js');
-var mailer        = require('./lib/mailer.js');
-var parserlist    = require('./lib/parserlist.js');
-var ecFilter      = require('./lib/ecfilter.js');
-var winston       = require('winston');
+const pkg           = require('./package.json');
+const config        = require('./lib/config.js');
+const socketIO      = require('./lib/socketio.js');
+const mongo         = require('./lib/mongo.js');
+const http          = require('http');
+const path          = require('path');
+const mkdirp        = require('mkdirp');
+const fs            = require('graceful-fs');
+const Reaper        = require('tmp-reaper');
+const auth          = require('./lib/auth-middlewares.js');
+const mailer        = require('./lib/mailer.js');
+const parserlist    = require('./lib/parserlist.js');
+const ecFilter      = require('./lib/ecfilter.js');
+const winston       = require('winston');
 require('./lib/winston-socketio.js');
-var passport      = require('passport');
-var BasicStrategy = require('passport-http').BasicStrategy;
-var LocalStrategy = require('passport-local').Strategy;
-var lsof          = require('lsof');
+const passport      = require('passport');
+const BasicStrategy = require('passport-http').BasicStrategy;
+const LocalStrategy = require('passport-local').Strategy;
+const lsof          = require('lsof');
 
 winston.addColors({ verbose: 'green', info: 'green', warn: 'yellow', error: 'red' });
 
@@ -46,9 +46,9 @@ if (config.EZPAARSE_TMP_CYCLE && config.EZPAARSE_TMP_LIFETIME) {
     .on('error', console.error)
     .start();
 } else {
-  var red   = '\u001b[31m';
-  var reset = '\u001b[0m';
-  var err   = red;
+  const red   = '\u001b[31m';
+  const reset = '\u001b[0m';
+  let err = red;
   err += 'Warning! Temporary folder won\'t be automatically cleaned, ';
   err += 'fill TMP_CYCLE and TMP_LIFETIME in the configuration file.';
   err += reset;
@@ -59,14 +59,14 @@ if (config.EZPAARSE_TMP_CYCLE && config.EZPAARSE_TMP_LIFETIME) {
 process.title = pkg.name.toLowerCase();
 
 // write pid to ezpaarse.pid file
-var yargs = require('yargs')
+const yargs = require('yargs')
   .describe('pidFile', 'the pid file where ezpaarse pid is stored')
   .default('pidFile', path.resolve(__dirname, 'ezpaarse.pid'))
   .boolean('lsof')
   .boolean('memory')
   .describe('lsof', 'if provided, periodically prints the number of opened file descriptors')
   .describe('memory', 'if provided, periodically prints the memory usage');
-var argv = yargs.argv;
+const argv = yargs.argv;
 
 if (argv.pidFile) {
   fs.writeFileSync(argv.pidFile, process.pid);
@@ -102,10 +102,10 @@ passport.deserializeUser(function (obj, done) {
 passport.use(new BasicStrategy(auth.login));
 passport.use(new LocalStrategy({ usernameField: 'userid' }, auth.login));
 
-var app = express();
+const app = express();
 
 // connect ezpaarse env to expressjs env
-var env = process.env.NODE_ENV = process.env.NODE_ENV || config.EZPAARSE_ENV;
+const env = process.env.NODE_ENV = process.env.NODE_ENV || config.EZPAARSE_ENV;
 app.set('env', env);
 
 switch (env) {
@@ -151,7 +151,7 @@ app.use(function (req, res, next) {
  * or the header X-HTTP-Method-Override
  */
 app.use(function (req, res, next) {
-  var key = '_method';
+  const key = '_method';
   if (req.query && req.query[key]) {
     req.method = req.query[key].toUpperCase();
   } else if (req.headers['x-http-method-override']) {
@@ -225,44 +225,85 @@ if (env == 'development') {
   app.use(errorHandler());
 }
 
-mongo.connect(config.EZPAARSE_MONGO_URL, function (err) {
-  if (err) {
+start().then(() => {
+  console.log(`${pkg.name}-${pkg.version} (pid: ${process.pid}, mode: ${app.get('env')})`);
+  console.log(`listening on http://localhost:${app.get('port')}`);
+});
+
+/**
+ * Init and start the server
+ */
+async function start () {
+  await connectToMongo();
+
+  console.log('Indexing robot hosts...');
+  const nbRobots = await new Promise((resolve, reject) => {
+    ecFilter.init((err, nbRobots) => {
+      if (err) { reject(err); }
+      else { resolve(nbRobots); }
+    });
+  });
+
+  console.log('Robot hosts indexed. (%d hosts registered)', nbRobots);
+  console.log('Building domains matching list...');
+
+  const { errors, duplicates } = await new Promise(resolve => parserlist.init(resolve));
+
+  if (errors) {
+    errors.forEach(err => console.error(err));
+  }
+
+  if (duplicates) {
+    duplicates.forEach(d => {
+      const msg = '[Warning] The domain %s is used twice in %s and %s, %s will be ignored';
+      console.error(msg, d.domain, d.first, d.ignored, d.ignored);
+    });
+  }
+
+  const nbDomains = parserlist.sizeOf('domains');
+  const nbPlatforms = parserlist.sizeOf('platforms');
+  console.log('Matching list built.');
+  console.log(`(${nbDomains} domains registered for ${nbPlatforms} platforms)\n`);
+
+  const server = http.createServer(app);
+
+  socketIO.listen(server);
+
+  return new Promise(resolve => server.listen(app.get('port'), resolve));
+}
+
+/**
+ * Connect to MongoDB and check that version matches requirements
+ */
+async function connectToMongo () {
+  try {
+    await mongo.connect(config.EZPAARSE_MONGO_URL);
+  } catch (err) {
     console.error(`Cannot connect to MongoDB at ${config.EZPAARSE_MONGO_URL}`);
     process.exit(1);
   }
 
-  console.log('Indexing robot hosts...');
-  ecFilter.init(function (err, nbRobots) {
-    if (err) { throw err; }
+  let mongoVersion;
+  try {
+    const info = await mongo.serverStatus();
+    mongoVersion = info.version;
+  } catch (err) {
+    console.error('Cannot fetch MongoDB version');
+    process.exit(1);
+  }
 
-    console.log('Robot hosts indexed. (%d hosts registered)', nbRobots);
-    console.log('Building domains matching list...');
-    parserlist.init(function (errors, duplicates) {
-      if (errors) {
-        errors.forEach(function (err) { console.error(err); });
-      }
+  console.log(`MongoDB version: ${mongoVersion}`);
 
-      if (duplicates) {
-        duplicates.forEach(function (d) {
-          var msg = '[Warning] The domain %s is used twice in %s and %s, %s will be ignored';
-          console.error(msg, d.domain, d.first, d.ignored, d.ignored);
-        });
-      }
+  let versions = /^(?<major>[0-9]+)\.(?<minor>[0-9]+)/.exec(mongoVersion);
 
-      console.log('Matching list built. (%d domains registered for %d platforms)\n',
-        parserlist.sizeOf('domains'), parserlist.sizeOf('platforms'));
+  const major = parseInt(versions.groups.major);
+  const minor = parseInt(versions.groups.minor);
 
-      var server = http.createServer(app);
-
-      socketIO.listen(server);
-
-      server.listen(app.get('port'), function () {
-        console.log(`${pkg.name}-${pkg.version} (pid: ${process.pid}, mode: ${app.get('env')})`);
-        console.log(`listening on http://localhost:${app.get('port')}`);
-      });
-    });
-  });
-});
+  if (major < 3 || (major === 3 && minor < 2)) {
+    console.error('MongoDB server outdated, please install version 3.2.0 or higher');
+    process.exit(1);
+  }
+}
 
 /**
  * To handled CTRL+C events

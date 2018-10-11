@@ -205,7 +205,7 @@
         </div>
 
         <div class="ui inverted segment" ng-switch-when="traces">
-          <div ng-repeat="log in request.logs track by $index" ng-bind="log"></div>
+          <div ng-repeat="log in request.logs track by $index">{{ log.timestamp }} {{ log.level }}: {{ log.message }}</div>
         </div>
       </div>
     </div>

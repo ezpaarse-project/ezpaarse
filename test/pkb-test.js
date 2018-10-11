@@ -1,4 +1,4 @@
-/*global describe, it, before*/
+/*global describe, it, before, after*/
 'use strict';
 
 var should     = require('should');
@@ -38,6 +38,18 @@ describe('The pkb cleaner', function () {
           if (err) { throw err; }
           fs.writeFile(newPkb, 'title_id\n3\n4\n5\n6\n7\n', function (err) {
             if (err) { throw err; }
+            next();
+          });
+        });
+      });
+    });
+  });
+
+  after(function (next) {
+    fs.unlink(oldPkb, function (err) {
+      fs.unlink(oldPkb2, function (err) {
+        fs.unlink(newPkb, function (err) {
+          fs.rmdir(pkbDir, function (err) {
             next();
           });
         });

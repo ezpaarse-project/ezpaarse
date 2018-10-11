@@ -50,6 +50,12 @@ angular.module('ezPAARSE.services', [])
       this.data = angular.copy(this.baseData);
 
       this.loggingListener = function (log) {
+        try {
+          log = JSON.parse(log);
+        } catch (e) {
+          console.error('failed to parse log: ' + log);
+          return;
+        }
         self.data.logs.push(log);
       };
 
