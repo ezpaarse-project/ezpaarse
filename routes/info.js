@@ -2,7 +2,7 @@
 
 'use strict';
 
-var fs         = require('graceful-fs');
+var fs         = require('fs-extra');
 var path       = require('path');
 var uuid       = require('uuid');
 var parserlist = require('../lib/parserlist.js');

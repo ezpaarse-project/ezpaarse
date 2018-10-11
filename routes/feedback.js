@@ -1,6 +1,6 @@
 'use strict';
 
-var fs         = require('graceful-fs');
+var fs         = require('fs-extra');
 var path       = require('path');
 var os         = require('os');
 var bodyParser = require('body-parser');

@@ -1,6 +1,6 @@
 'use strict';
 
-var fs         = require('graceful-fs');
+var fs         = require('fs-extra');
 var uuid       = require('uuid');
 var path       = require('path');
 var mime       = require('mime');

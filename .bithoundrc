@@ -33,7 +33,7 @@
       "faker",
       "forever",
       "geoip-lite",
-      "graceful-fs",
+      "fs-extra",
       "iconv-lite",
       "jschardet",
       "lazy",
