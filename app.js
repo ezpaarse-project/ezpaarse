@@ -34,7 +34,36 @@ const lsof          = require('lsof');
 
 winston.addColors({ verbose: 'green', info: 'green', warn: 'yellow', error: 'red' });
 
-mkdirp.sync(path.join(__dirname, '/tmp'));
+// to have a nice unix process name
+process.title = pkg.name.toLowerCase();
+
+const { argv } = require('yargs')
+  .option('pid', {
+    alias: 'pidFile',
+    describe: 'the location of the ezpaarse pid file',
+    default: path.resolve(__dirname, 'ezpaarse.pid')
+  })
+  .option('lsof', {
+    boolean: true,
+    describe: 'periodically prints the number of opened file descriptors'
+  })
+  .option('memory', {
+    boolean: true,
+    describe: 'periodically prints the memory usage'
+  });
+
+const { format } = winston;
+const logger = winston.createLogger({
+  level: 'info',
+  format: format.combine(
+    format.colorize(),
+    format.timestamp(),
+    format.printf(info => `${info.timestamp} ${info.level}: ${info.message}`)
+  ),
+  transports: [new (winston.transports.Console)()]
+});
+
+mkdirp.sync(path.resolve(__dirname, 'tmp'));
 
 // Setup cleaning jobs for the temporary folder
 if (config.EZPAARSE_TMP_CYCLE && config.EZPAARSE_TMP_LIFETIME) {
@@ -42,33 +71,17 @@ if (config.EZPAARSE_TMP_CYCLE && config.EZPAARSE_TMP_LIFETIME) {
     recursive: true,
     threshold: config.EZPAARSE_TMP_LIFETIME,
     every: config.EZPAARSE_TMP_CYCLE
-  }).watch(path.join(__dirname, '/tmp'))
-    .on('error', console.error)
+  }).watch(path.resolve(__dirname, 'tmp'))
+    .on('error', err => logger.error(err.message))
     .start();
 } else {
-  const red   = '\u001b[31m';
-  const reset = '\u001b[0m';
-  let err = red;
-  err += 'Warning! Temporary folder won\'t be automatically cleaned, ';
+  let err = 'Temporary folder won\'t be automatically cleaned, ';
   err += 'fill TMP_CYCLE and TMP_LIFETIME in the configuration file.';
-  err += reset;
-  console.error(err);
+  logger.warn(err);
 }
 
-// to have a nice unix process name
-process.title = pkg.name.toLowerCase();
-
-// write pid to ezpaarse.pid file
-const yargs = require('yargs')
-  .describe('pidFile', 'the pid file where ezpaarse pid is stored')
-  .default('pidFile', path.resolve(__dirname, 'ezpaarse.pid'))
-  .boolean('lsof')
-  .boolean('memory')
-  .describe('lsof', 'if provided, periodically prints the number of opened file descriptors')
-  .describe('memory', 'if provided, periodically prints the memory usage');
-const argv = yargs.argv;
-
 if (argv.pidFile) {
+  // write pid to ezpaarse.pid file
   fs.writeFileSync(argv.pidFile, process.pid);
 }
 if (argv.lsof) {
@@ -77,7 +90,7 @@ if (argv.lsof) {
       data = data.filter(function (element) {
         return /^(?:DIR|REG)$/i.test(element.type);
       });
-      console.log('[%s] %d file descriptors', new Date().toLocaleTimeString(), data.length);
+      logger.info(`${data.length} file descriptors`);
       setTimeout(checklsof, 5000);
     });
   })();
@@ -85,8 +98,8 @@ if (argv.lsof) {
 
 if (argv.memory) {
   (function checkMemory() {
-    console.log('Memory usage: %d MiB',
-      Math.round(process.memoryUsage().rss / 1024 / 1024 * 100) / 100);
+    const memoryUsage = Math.round(process.memoryUsage().rss / 1024 / 1024 * 100) / 100;
+    logger.info(`Memory usage: ${memoryUsage} MiB`);
     setTimeout(checkMemory, 5000);
   })();
 }
@@ -114,7 +127,7 @@ case 'development':
   break;
 case 'production':
   app.use(morgan('combined', {
-    stream: fs.createWriteStream(path.join(__dirname, '/logs/access.log'), { flags: 'a+' })
+    stream: fs.createWriteStream(path.resolve(__dirname, 'logs/access.log'), { flags: 'a+' })
   }));
 }
 
@@ -122,12 +135,12 @@ app.set('port', config.EZPAARSE_NODEJS_PORT || 3000);
 
 // for dynamics HTML pages (ejs template engine is used)
 // https://github.com/visionmedia/ejs
-app.set('views', path.join(__dirname, '/views'));
+app.set('views', path.resolve(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 // used to expose a favicon in the browser
 // http://www.senchalabs.org/connect/middleware-favicon.html
-app.use(favicon(path.join(__dirname, 'public/img/favicon.ico')));
+app.use(favicon(path.resolve(__dirname, 'public/img/favicon.ico')));
 
 
 /**
@@ -136,7 +149,7 @@ app.use(favicon(path.join(__dirname, 'public/img/favicon.ico')));
 app.use(function (req, res, next) {
   if (!app.locals.updating) { return next(); }
 
-  fs.exists(path.join(__dirname, 'update.lock'), function (exist) {
+  fs.exists(path.resolve(__dirname, 'update.lock'), function (exist) {
     if (exist) {
       return res.status(503).send('ezPAARSE is being updated, it should be back in a few minutes');
     }
@@ -181,11 +194,11 @@ app.use(function (req, res, next) {
 });
 
 // used to expose static files from the public folder
-app.use('/assets', express.static(path.join(__dirname, 'public')));
+app.use('/assets', express.static(path.resolve(__dirname, 'public')));
 app.use('/assets', function (req, res, next) { res.status(404).end(); });
-app.use('/stylesheets', express.static(path.join(__dirname, 'public/stylesheets')));
+app.use('/stylesheets', express.static(path.resolve(__dirname, 'public/stylesheets')));
 app.use('/stylesheets', function (req, res, next) { res.status(404).end(); });
-app.use('/img', express.static(path.join(__dirname, 'public/img')));
+app.use('/img', express.static(path.resolve(__dirname, 'public/img')));
 app.use('/img', function (req, res, next) { res.status(404).end(); });
 app.use('/doc', function (req, res, next) {
   res.redirect('http://ezpaarse.readthedocs.io/');
@@ -226,17 +239,17 @@ if (env == 'development') {
 }
 
 start().then(() => {
-  console.log(`${pkg.name}-${pkg.version} (pid: ${process.pid}, mode: ${app.get('env')})`);
-  console.log(`listening on http://localhost:${app.get('port')}`);
+  logger.info(`Listening on http://localhost:${app.get('port')}`);
 });
 
 /**
  * Init and start the server
  */
 async function start () {
+  logger.info(`${pkg.name} v${pkg.version} | PID: ${process.pid} | Mode: ${app.get('env')}`);
+
   await connectToMongo();
 
-  console.log('Indexing robot hosts...');
   const nbRobots = await new Promise((resolve, reject) => {
     ecFilter.init((err, nbRobots) => {
       if (err) { reject(err); }
@@ -244,26 +257,16 @@ async function start () {
     });
   });
 
-  console.log('Robot hosts indexed. (%d hosts registered)', nbRobots);
-  console.log('Building domains matching list...');
-
-  const { errors, duplicates } = await new Promise(resolve => parserlist.init(resolve));
-
-  if (errors) {
-    errors.forEach(err => console.error(err));
-  }
-
-  if (duplicates) {
-    duplicates.forEach(d => {
-      const msg = '[Warning] The domain %s is used twice in %s and %s, %s will be ignored';
-      console.error(msg, d.domain, d.first, d.ignored, d.ignored);
-    });
+  try {
+    await parserlist.init();
+  } catch (e) {
+    logger.error(`Failed to initialize parser list: ${e.message}`);
+    process.exit(1);
   }
 
   const nbDomains = parserlist.sizeOf('domains');
   const nbPlatforms = parserlist.sizeOf('platforms');
-  console.log('Matching list built.');
-  console.log(`(${nbDomains} domains registered for ${nbPlatforms} platforms)\n`);
+  logger.info(`Domains: ${nbDomains} | Platforms: ${nbPlatforms} | Robot hosts: ${nbRobots}`);
 
   const server = http.createServer(app);
 
@@ -279,7 +282,7 @@ async function connectToMongo () {
   try {
     await mongo.connect(config.EZPAARSE_MONGO_URL);
   } catch (err) {
-    console.error(`Cannot connect to MongoDB at ${config.EZPAARSE_MONGO_URL}`);
+    logger.error(`Cannot connect to MongoDB at ${config.EZPAARSE_MONGO_URL}`);
     process.exit(1);
   }
 
@@ -288,11 +291,11 @@ async function connectToMongo () {
     const info = await mongo.serverStatus();
     mongoVersion = info.version;
   } catch (err) {
-    console.error('Cannot fetch MongoDB version');
+    logger.error('Cannot fetch MongoDB version');
     process.exit(1);
   }
 
-  console.log(`MongoDB version: ${mongoVersion}`);
+  logger.info(`MongoDB version: ${mongoVersion}`);
 
   let versions = /^(?<major>[0-9]+)\.(?<minor>[0-9]+)/.exec(mongoVersion);
 
@@ -300,7 +303,7 @@ async function connectToMongo () {
   const minor = parseInt(versions.groups.minor);
 
   if (major < 3 || (major === 3 && minor < 2)) {
-    console.error('MongoDB server outdated, please install version 3.2.0 or higher');
+    logger.error('MongoDB server outdated, please install version 3.2.0 or higher');
     process.exit(1);
   }
 }
@@ -309,7 +312,7 @@ async function connectToMongo () {
  * To handled CTRL+C events
  */
 function shutdown() {
-  console.log('\nGot a stop signal, shutting down...');
+  logger.info('Got a stop signal, shutting down...');
   process.exit(1);
 }
 process.on('SIGTERM', shutdown);
