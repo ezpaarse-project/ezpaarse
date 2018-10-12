@@ -123,6 +123,7 @@ middlewares-update: ## Clone or update middelwares directory
 	then cd middlewares; git pull; \
 	else git clone https://github.com/ezpaarse-project/ezpaarse-middlewares.git middlewares; \
 	fi
+	@. ./bin/env; cd middlewares; npm install --no-save -q --unsafe-perm;
 
 resources-update: ## Clone or update resources directory
 	@if test -d resources; \
