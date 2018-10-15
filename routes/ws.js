@@ -61,7 +61,7 @@ module.exports = function (app) {
             else               { name = rid.substr(0, 8) + '_' + filename; }
 
             res.writeHead(200, {
-              'Content-Type': mime.lookup(ext),
+              'Content-Type': mime.getType(ext),
               'Content-Disposition': 'attachment; filename="' + name + '"'
             });
             fs.createReadStream(path.join(jobDir, filename)).pipe(res);
