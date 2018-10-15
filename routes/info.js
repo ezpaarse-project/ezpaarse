@@ -309,7 +309,7 @@ module.exports = function (app) {
    * GET route on /info/domains/unknown
    */
   app.get('/info/domains/unknown', function (req, res) {
-    res.header('Content-Type', 'application/json; charset=utf-8');
+    res.header('Content-Type', 'text/csv; charset=utf-8');
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'X-Requested-With');
 
