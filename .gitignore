@@ -31,3 +31,5 @@ credentials.json
 usage.json
 
 \.vscode/
+
+.nuxt/

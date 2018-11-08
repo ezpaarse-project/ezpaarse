@@ -22,7 +22,7 @@ services:
       - 59599:59599
     tty: true         # to have nice debug(...) outputs
     stdin_open: true  # to be able to use CTRL+C to stop the debug
-    command: node app.js
+    command: npm run dev
 
   ezpaarse_db:
     container_name: ezpaarse_db

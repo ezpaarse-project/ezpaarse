@@ -1,6 +1,5 @@
 {
   "name": "ezPAARSE",
-  "main": "app.js",
   "version": "2.13.1",
   "private": true,
   "repository": {
@@ -13,6 +12,7 @@
   "dependencies": {
     "@ezpaarse-project/ezpaarse": "^1.1.0",
     "async": "^2.6.1",
+    "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "bower": "~1.8.4",
     "browserify": "^16.2.3",
@@ -37,6 +37,7 @@
     "lazy": "~1.0.11",
     "lines-skipper": "0.0.5",
     "lsof": "0.1.0",
+    "mdi": "^2.2.43",
     "mime": "^2.3.1",
     "mkdirp": "~0.5.1",
     "moment": "^2.22.2",
@@ -44,6 +45,7 @@
     "morgan": "^1.9.1",
     "nconf": "^0.10.0",
     "nodemailer": "^4.6.8",
+    "nuxt": "^1.4.2",
     "passport": "^0.4.0",
     "passport-http": "~0.3.0",
     "passport-local": "~1.0.0",
@@ -57,6 +59,11 @@
     "type-is": "~1.6.15",
     "unzip": "~0.1.11",
     "uuid": "^3.3.2",
+    "vue-i18n": "^8.1.0",
+    "vue-socket.io": "^2.1.1-b",
+    "vue-tour": "^1.0.1",
+    "vuedraggable": "^2.16.0",
+    "vuetify": "^1.2.4",
     "winston": "^3.1.0",
     "xlsjs": "^1.0.1",
     "xlsx": "^0.14.0",
@@ -74,16 +81,26 @@
     "should-http": "*",
     "zombie": "^6.1.3"
   },
+  "config": {
+    "nuxt": {
+      "host": "0.0.0.0",
+      "port": "59599"
+    }
+  },
   "scripts": {
-    "postinstall": "npm run bower",
-    "bower": "cp bower.json bower.json.bak; bower install -F --allow-root --config.interactive=false; mv bower.json.bak bower.json",
     "test": "make test-pkb; make test",
     "insertversion:docker": "sed -i \"s#\\(image: ezpaarseproject/ezpaarse:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" docker-compose.yml",
     "insertversion:makefile": "sed -i \"s#\\(ezpaarseproject/ezpaarse:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" Makefile",
     "version": "npm run insertversion:docker && npm run insertversion:makefile && git add docker-compose.yml Makefile",
     "postversion": "git push && git push --tags",
     "lint": "eslint *.js lib/ test/ routes/ middlewares/",
-    "precommit": "./pre-commit",
-    "dev": "nodemon ./app.js -e js,html,css,ejs"
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "./pre-commit"
+    }
   }
 }
