@@ -1,23 +1,23 @@
 'use strict';
 
-var fs         = require('fs-extra');
-var path       = require('path');
-var os         = require('os');
+var fs = require('fs-extra');
+var path = require('path');
+var os = require('os');
 var bodyParser = require('body-parser');
-var request    = require('request');
-var mailer     = require('../lib/mailer.js');
-var git        = require('../lib/git-tools.js');
-var config     = require('../lib/config.js');
-var pkg        = require('../package.json');
+var request = require('request');
+var mailer = require('../lib/mailer.js');
+var git = require('../lib/git-tools.js');
+var config = require('../lib/config.js');
+var pkg = require('../package.json');
 
 var { Router } = require('express');
 var app = Router();
 
 /**
- * POST route on /feedback
+ * POST route on /
  * To submit a feedback
  */
-app.post('/feedback', bodyParser.urlencoded({ extended: true }), bodyParser.json(),
+app.post('/', bodyParser.urlencoded({ extended: true }), bodyParser.json(),
   function (req, res) {
     if (!config.EZPAARSE_ADMIN_MAIL || !config.EZPAARSE_FEEDBACK_RECIPIENTS) {
       res.status(500).end();
@@ -74,7 +74,7 @@ app.post('/feedback', bodyParser.urlencoded({ extended: true }), bodyParser.json
 
     if (!req.body.jobID) { return sendMail(); }
 
-    var jobID      = req.body.jobID;
+    var jobID = req.body.jobID;
     var reportFile = path.join(__dirname, '/../tmp/jobs/',
       jobID.charAt(0),
       jobID.charAt(1),
@@ -93,7 +93,7 @@ app.post('/feedback', bodyParser.urlencoded({ extended: true }), bodyParser.json
  * POST route on /feedback/freshinstall
  * To inform the team about a fresh installation
  */
-app.post('/feedback/freshinstall', bodyParser.urlencoded({ extended: true }), bodyParser.json(),
+app.post('/freshinstall', bodyParser.urlencoded({ extended: true }), bodyParser.json(),
   function (req, res) {
     if (!config.EZPAARSE_FEEDBACK_RECIPIENTS || !config.EZPAARSE_ADMIN_MAIL) {
       res.status(500).end();
@@ -125,7 +125,7 @@ app.post('/feedback/freshinstall', bodyParser.urlencoded({ extended: true }), bo
         .to(config.EZPAARSE_FEEDBACK_RECIPIENTS)
         .send(function (error, response) {
           if (error) { res.status(500).end(); }
-          else       { res.status(200).end(); }
+          else { res.status(200).end(); }
         });
     });
   });
@@ -134,7 +134,7 @@ app.post('/feedback/freshinstall', bodyParser.urlencoded({ extended: true }), bo
  * GET route on /feedback/status
  * To know if sending a feedback is possible
  */
-app.get('/feedback/status', function (req, res) {
+app.get('/', function (req, res) {
   if (!config.EZPAARSE_FEEDBACK_RECIPIENTS || !config.EZPAARSE_ADMIN_MAIL) {
     res.status(501).end();
     return;

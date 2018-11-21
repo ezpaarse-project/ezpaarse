@@ -5,12 +5,6 @@
       <Drawer />
       <v-container fluid>
         <nuxt/>
-
-        <v-dialog v-model="dialog" width="600">
-          <Signin v-if="!signupDialog" />
-          <Signup v-else />
-        </v-dialog>
-
       </v-container>
 
       <Snackbar />

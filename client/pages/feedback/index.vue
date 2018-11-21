@@ -6,9 +6,9 @@
       </v-toolbar-title>
     </v-toolbar>
     
-    <v-card-text>
+    <v-card-text >
       <v-layout row wrap>
-        <v-flex xs12 sm12>
+        <v-flex xs12 sm12 v-if="feedback">
           <v-alert :value="true" color="blue" v-html="$t('ui.pages.feedback.email')"></v-alert>
 
           <v-alert :value="true" color="success" v-if="feedback" dismissible>{{ $t('ui.pages.feedback.hasSent') }}</v-alert>
@@ -31,6 +31,10 @@
 
           <v-btn class="teal white--text" :disabled="!email && !comment" @click="sendFeedBack">{{ $t('ui.send') }}</v-btn>
         </v-flex>
+
+        <v-flex xs12 sm12 v-else>
+          <v-alert :value="true" color="blue" v-html="$t('ui.pages.feedback.unavailable')"></v-alert>
+        </v-flex>
       </v-layout>      
     </v-card-text>
   </v-card>
@@ -48,15 +52,26 @@ export default {
       feedback: false
     }
   },
+  async fetch ({ store, redirect }) {
+    try {
+      await store.dispatch('GET_USER')
+      await store.dispatch('LOAD_STATUS')
+    } catch (e) {
+      return redirect('/')
+    }
+  },
+  computed: {
+    feedback () {
+      return this.$store.state.feedback
+    }
+  },
   methods: {
     sendFeedBack () {
-      const result = this.$store.dispatch('feedback', {
+      this.$store.dispatch('SEND_FEEDBACK', {
         email: this.email,
         comment: this.comment,
         browser: this.checkbox ? navigator.userAgent : null
-      })
-
-      result.then(res => {
+      }).then(res => {
         this.email = null
         this.comment = null
         this.checkbox = true

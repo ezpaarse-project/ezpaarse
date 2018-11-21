@@ -214,8 +214,9 @@ app.post('/users/', auth.ensureAuthenticated(true), auth.authorizeMembersOf('adm
     var group    = req.body.group || 'user';
 
     var sendErr = function (status, message) {
-      res.writeHead(status, { 'ezPAARSE-Status-Message': message });
-      res.end();
+      res.status(status).json({ status, message }).end();
+      // res.writeHead(status, { 'ezPAARSE-Status-Message': message });
+      // res.end();
     };
 
     if (!userid || !password) {
@@ -261,8 +262,9 @@ app.delete(/^\/users\/(.+)$/, auth.ensureAuthenticated(true),
   auth.authorizeMembersOf('admin'), function (req, res) {
     var username = req.params[0];
     if (username == req.user.username) {
-      res.set('ezPAARSE-Status-Message', 'cant_delete_yourself');
-      res.status(403).end();
+      res.status(403).json({ status: 403, message: 'cant_delete_yourself' }).end();
+      // res.set('ezPAARSE-Status-Message', 'cant_delete_yourself');
+      // res.status(403).end();
     } else {
       userlist.remove(username, function (err) {
         if (err) { res.status(500).end(); }

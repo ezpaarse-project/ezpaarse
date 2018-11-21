@@ -65,17 +65,21 @@
           "platformsPerPage": "Platforms per page",
           "allPlatformsPerPage": "All",
           "noCertifications": "No certification",
-          "noPlatformFoundWithName": "No platform found with this name : {search}"
+          "noPlatformFoundWithName": "No platform found with this name : {search}",
+          "newPlatformsAvailable": "De nouvelles plateformes sont disponibles"
         },
         "updates": {
           "title": "Updates",
           "resources": "Resources",
           "software": "Software",
           "predefinedParameters": "Predefined parameters and other resources independent of the ezPAARSE version.",
-          "afterAnUpdate": "After an update, remember to reload the page (F5) so that all changes are effective.",
           "middlewaresInfo": "Elements of the ezPAARSE processing chain.",
           "returnToStableVersion": "Return to the stable version",
-          "updateDuration": "Updating ezPAARSE can take several minutes. The server will be offline for the duration of the operation."
+          "updateDuration": "Updating ezPAARSE can take several minutes. The server will be offline for the duration of the operation.",
+          "repoLocalChanges": "It seems that local changes have been applied to the {repo} directory. In that case, future updates might fail.",
+          "softLocalChanges": "It seems that local changes have been applied to the source code of this instance. Future updates might fail.",
+          "contactDeploymentService": "In case of problems, we invite you to contact the person in charge of the installation.",
+          "upwardStable": "The current version of the software has got changes that are more recent than the latest stable release. Click the button above if you wish to get back to the latest stable release."
         },
         "users": {
           "title": "Users",
@@ -87,7 +91,7 @@
           "updatingInformationOf": "Updating of the information of {email}",
           "groups": {
             "admin": "Administrator",
-            "user": "user"
+            "user": "User"
           }
         },
         "jobs": {
@@ -108,7 +112,8 @@
       },
       "feedback": {
         "email": "Your feedback will be sent to&nbsp;<a href=\"mailto:ezpaarse@couperin.org\" class=\"white--text\">ezpaarse@couperin.org</a>. A copy will be sent to you at the address indicated below.",
-        "hasSent": "Your feedback has been sent."
+        "hasSent": "Your feedback has been sent.",
+        "unavailable": "This page is currently unavailable."
       }
     },
     "tour": {
@@ -122,7 +127,7 @@
       "invalid_address": "The email address is invalid.",
       "password_does_not_match": "The two passwords do not match.",
       "user_already_exists": "The email address is already used.",
-      "badeCredentials": "Invalid email address or password."
+      "badCredentials": "Invalid email address or password."
     },
     "search": "Search",
     "close": "Close",

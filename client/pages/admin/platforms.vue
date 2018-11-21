@@ -9,12 +9,21 @@
     <v-card-text>
       <v-layout row wrap>
         <v-flex xs12 sm12>
+          <p v-if="platformsChanged && platformsChanged.length > 0">
+            <v-alert :value="true" color="teal lighten-2">
+              <h4>{{$t('ui.pages.admin.platforms.newPlatformsAvailable')}}</h4>
+              <ul>
+                <li v-for="(platform, key) in platformsChanged" :key="key">{{ key }}</li>
+              </ul>
+            </v-alert>
+          </p>
           <p>
             <strong>{{ $t('ui.currentVersion') }}</strong> : 
-            <v-tooltip right>
-              <v-btn depressed color="teal lighten-2 white--text" round slot="activator">1ac7e20<v-icon class="pl-1">mdi-alert-circle</v-icon></v-btn>
-              <span>{{ $t('ui.updateTo', { newVersion: '1ac7e20' }) }}</span>
+            <v-tooltip right v-if="platforms['from-head'] === 'outdated'">
+              <v-btn @click="update('platforms')" depressed color="red lighten-2 white--text" round slot="activator">{{platforms.current}}<v-icon class="pl-1">mdi-alert-circle</v-icon></v-btn>
+              <span>{{ $t('ui.updateTo', { newVersion: platforms.head }) }}</span>
             </v-tooltip>
+            <v-btn v-else depressed color="green lighten-2 white--text" round slot="activator">{{platforms.current}}</v-btn>
           </p>
         </v-flex>
 
@@ -22,7 +31,7 @@
           <v-text-field
             v-model="search"
             append-icon="mdi-magnify"
-            :label="$t(('ui.search'))"
+            :label="$t('ui.search')"
             single-line
           ></v-text-field>
         </v-flex>
@@ -30,7 +39,7 @@
         <v-flex xs12 sm12>
           <v-data-table
             :headers="headers"
-            :items="platforms"
+            :items="platformsItems"
             :no-data-text="$t('ui.pages.admin.platforms.noPlatforms')"
             :rows-per-page-text="$t('ui.pages.admin.platforms.platformsPerPage')"
             prev-icon="mdi-menu-left"
@@ -42,13 +51,16 @@
             class="elevation-1"
           >
             <template slot="items" slot-scope="props">
-              <td @click="currentPlatform = props.item; dialog = true"><a :href="props.item.url" target="_blank">{{ props.item.name }}</a></td>
-              <td @click="currentPlatform = props.item; dialog = true" v-if="props.item.certifications">
+              <td style="width: 30px;">
+                <v-icon v-if="props.item.pkb" @click="currentPlatform = props.item; dialog = true">mdi-file-document</v-icon>
+              </td>
+              <td><a :href="props.item.docurl" target="_blank">{{ props.item.longname }}</a></td>
+              <td v-if="props.item.certifications">
                 <span v-for="(certification, k) in props.item.certifications" :key="k">
                   <img :src="`/img/certifications/${certification}.png`" :alt="`Certification ${certification}`" width="25">&nbsp;
                 </span>
               </td>
-              <td @click="currentPlatform = props.item; dialog = true" v-else>{{ $t('ui.pages.admin.platforms.noCertifications') }}</td>
+              <td v-else>{{ $t('ui.pages.admin.platforms.noCertifications') }}</td>
             </template>
             <v-alert slot="no-results" :value="true" color="info" icon="mdi-alert-circle">
               {{ $t('ui.pages.admin.platforms.noPlatformFoundWithName', { search }) }}
@@ -58,19 +70,19 @@
       </v-layout>
     </v-card-text>
     
-    <v-dialog width="500" v-if="currentPlatform.pkbs && dialog" v-model="currentPlatform">
+    <v-dialog width="500" v-if="currentPlatform.pkb && dialog" v-model="currentPlatform">
       <v-card>
         <v-card-title
           class="headline teal lighten-2 white--text"
           primary-title
         >
-          {{currentPlatform.name}}
+          {{currentPlatform.longname}}
         </v-card-title>
 
         <v-card-text>
-          <v-chip v-for="(pkb, key) in currentPlatform.pkbs" :key="key">
-            <v-avatar class="teal">{{pkb.issues}}</v-avatar>
-            {{pkb.date}} - {{pkb.name}}
+          <v-chip v-for="(pkb, key) in currentPlatform['pkb-packages']" :key="key">
+            <v-avatar class="teal white--text">{{pkb.entries}}</v-avatar>
+            <strong>{{pkb.date}}:</strong> <i>{{pkb.name}}</i>
           </v-chip>
         </v-card-text>
 
@@ -103,10 +115,16 @@ export default {
       },
       headers: [
         {
-          text: 'Plateforme',
+          text: 'PKBs',
           align: 'left',
           sortable: true,
-          value: 'name'
+          value: 'pkb'
+        },
+        {
+          text: this.$t('ui.pages.admin.platforms.title'),
+          align: 'left',
+          sortable: true,
+          value: 'longname'
         },
         {
           text: 'Certifications',
@@ -114,41 +132,45 @@ export default {
           sortable: true,
           value: 'certifications'
         }
-      ],
-      platforms: [
-        {
-          url: 'http://analyses.ezpaarse.org',
-          name: 'Plateforme 1',
-          certifications: ['H', 'P'],
-          pkbs: null,
-          old: false
-        },
-        {
-          url: 'http://analyses.ezpaarse.org',
-          name: 'Plateforme 2',
-          certifications: null,
-          pkbs: [
-            {
-              name: 'PBK 1',
-              issues: 10,
-              date: '2018-09-20'
-            },
-            {
-              name: 'PBK 2',
-              issues: 53,
-              date: '2017-10-09'
-            }
-          ],
-          old: false
-        },
-        {
-          url: 'http://analyses.ezpaarse.org',
-          name: 'Plateforme 3',
-          certifications: null,
-          pkbs: null,
-          old: true
-        }
       ]
+    }
+  },
+  watch: {
+    user () {
+      if (!this.user) this.$router.push('/')
+    }
+  },
+  async fetch ({ store, redirect }) {
+    try {
+      await store.dispatch('GET_USER')
+      await store.dispatch('LOAD_STATUS')
+      await store.dispatch('GET_PLATFORMS')
+      await store.dispatch('GET_PLATFORMS_CHANGED')
+    } catch (e) {
+      return redirect('/')
+    }
+  },
+  computed: {
+    platforms () {
+      return this.$store.state.platforms
+    },
+    platformsItems () {
+      return this.$store.state.platformsItems
+    },
+    platformsChanged () {
+      return this.$store.state.platformsChanged
+    },
+    user () {
+      return this.$store.state.user
+    }
+  },
+  methods: {
+    update (repo) {
+      this.$store.dispatch('UPDATE_REPO', repo).then(res => {
+        this.$store.dispatch('LOAD_STATUS')
+        this.$store.dispatch('GET_PLATFORMS')
+        this.$store.dispatch('GET_PLATFORMS_CHANGED')
+      })
     }
   }
 }

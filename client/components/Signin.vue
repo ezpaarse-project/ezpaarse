@@ -33,7 +33,7 @@ export default {
       this.$store.dispatch('SIGNIN', this.credentials)
         .then(res => this.$router.push('/process'))
         .catch(err => {
-          if (err.response.status !== 200) this.$store.dispatch('snacks/error', this.$i18n.t('ui.register.badeCredentials'))
+          if (err.response.status !== 200) this.$store.dispatch('snacks/error', this.$i18n.t('ui.register.badCredentials'))
         })
     }
   }

@@ -65,17 +65,21 @@
           "platformsPerPage": "Plateformes par page",
           "allPlatformsPerPage": "Toutes",
           "noCertifications": "Aucune certification",
-          "noPlatformFoundWithName": "Aucune plateforme trouvée avec ce nom : {search}"
+          "noPlatformFoundWithName": "Aucune plateforme trouvée avec ce nom : {search}",
+          "newPlatformsAvailable": "New platforms are available"
         },
         "updates": {
           "title": "Mises à jour",
           "resources": "Ressources",
           "software": "Logiciel",
           "predefinedParameters": "Paramètres prédéfinis et autres ressources indépendantes de la version d'ezPAARSE.",
-          "afterAnUpdate": "Après une mise à jour, pensez à recharger la page (F5) pour que tous les changements soient effectifs.",
           "middlewaresInfo": "Éléments de la chaîne de traitement d'ezPAARSE.",
           "returnToStableVersion": "Revenir à la version stable",
-          "updateDuration": "Mettre à jour ezPAARSE peut prendre plusieurs minutes. Le serveur sera mis hors-ligne le temps de l'opération."
+          "updateDuration": "Mettre à jour ezPAARSE peut prendre plusieurs minutes. Le serveur sera mis hors-ligne le temps de l'opération.",
+          "repoLocalChanges": "Des modifications locales semblent avoir été apportées au répertoire des {repo}. Il est possible que les prochaines mises à jour échouent.",
+          "softLocalChanges": "Des modifications locales semblent avoir été apportées au code source du logiciel. Il est possible que les prochaines mises à jour échouent.",
+          "contactDeploymentService": "En cas de problème, nous vous invitons à contacter le service en charge du déploiement.",
+          "upwardStable": "La version actuelle du logiciel présente des changements ultérieurs à la dernière version stable. Cliquez sur le bouton ci-dessus si vous souhaitez revenir à la dernière version stable."
         },
         "users": {
           "title": "Utilisateurs",
@@ -108,7 +112,8 @@
       },
       "feedback": {
         "email": "Votre feedback sera envoyé à&nbsp;<a href=\"mailto:ezpaarse@couperin.org\" class=\"white--text\">ezpaarse@couperin.org</a>. Une copie vous sera transmise à l'adresse indiquée ci-dessous.",
-        "hasSent": "Votre feedback a été envoyé."
+        "hasSent": "Votre feedback a été envoyé.",
+        "unavailable": "Cette page est actuellement indisponible."
       }
     },
     "tour": {
@@ -122,7 +127,10 @@
       "invalid_address": "L'adresse email est invalide.",
       "password_does_not_match": "Les deux mots de passe ne correcpondent pas.",
       "user_already_exists": "L'adresse email est déjà utilisée.",
-      "badeCredentials": "Adresse email ou mot de passe invalide."
+      "badCredentials": "Adresse email ou mot de passe invalide."
+    },
+    "errors": {
+      "cant_delete_yourself": ""
     },
     "search": "Rechercher",
     "close": "Fermer",

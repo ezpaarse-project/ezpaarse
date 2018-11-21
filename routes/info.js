@@ -19,7 +19,7 @@ var app = Router();
 /**
 * GET route on /info/version
 */
-app.get('/info/version', function (req, res) {
+app.get('/version', function (req, res) {
   if (pkg.version) {
     res.status(200).send(pkg.version);
   } else {
@@ -30,7 +30,7 @@ app.get('/info/version', function (req, res) {
 /**
 * GET route on /info/platforms
 */
-app.get('/info/platforms/changed', function (req, res) {
+app.get('/platforms/changed', function (req, res) {
   git.changed({ cwd: path.join(__dirname, '../platforms') }, function (err, files) {
     if (err) { return res.status(500).end(); }
 
@@ -56,7 +56,7 @@ app.get('/info/platforms/changed', function (req, res) {
 /**
 * GET route on /info/platforms
 */
-app.get('/info/platforms', function (req, res) {
+app.get('/platforms', function (req, res) {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'X-Requested-With');
 
@@ -188,7 +188,7 @@ app.get('/info/platforms', function (req, res) {
   /**
   * GET route on /info/fields.json
   */
-  app.get(/^\/info\/(fields|rid|mime|rtype)(?:\.json)?$/, function (req, res) {
+  app.get(/^\/(fields|rid|mime|rtype)(?:\.json)?$/, function (req, res) {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'X-Requested-With');
 
@@ -224,7 +224,7 @@ app.get('/info/platforms', function (req, res) {
 /**
 * GET route on /info/config
 */
-app.get('/info/config', function (req, res) {
+app.get('/config', function (req, res) {
   res.header('Content-Type', 'application/json; charset=utf-8');
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'X-Requested-With');
@@ -242,7 +242,7 @@ app.get('/info/config', function (req, res) {
 /**
 * GET route on /info/codes
 */
-app.get('/info/codes', function (req, res) {
+app.get('/codes', function (req, res) {
   res.header('Content-Type', 'application/json; charset=utf-8');
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'X-Requested-With');
@@ -253,7 +253,7 @@ app.get('/info/codes', function (req, res) {
 /**
 * GET route on /info/codes/:number
 */
-app.get(/\/info\/codes\/([0-9]+)$/, function (req, res) {
+app.get(/\/codes\/([0-9]+)$/, function (req, res) {
   res.header('Content-Type', 'application/json; charset=utf-8');
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'X-Requested-With');
@@ -270,7 +270,7 @@ app.get(/\/info\/codes\/([0-9]+)$/, function (req, res) {
 /**
 * GET a uuid
 */
-app.get('/info/uuid', function (req, res) {
+app.get('/uuid', function (req, res) {
   res.header('Content-Type', 'text/plain');
   res.status(200).send(uuid.v1());
 });
@@ -278,7 +278,7 @@ app.get('/info/uuid', function (req, res) {
 /**
 * GET route on /info/predefined-settings
 */
-app.get('/info/predefined-settings', function (req, res) {
+app.get('/predefined-settings', function (req, res) {
   var settingsFile = path.join(__dirname, '/../resources/predefined-settings.json');
 
   fs.exists(settingsFile, function (exists) {
@@ -307,7 +307,7 @@ app.get('/info/predefined-settings', function (req, res) {
 /**
 * GET route on /info/domains/unknown
 */
-app.get('/info/domains/unknown', function (req, res) {
+app.get('/domains/unknown', function (req, res) {
   res.header('Content-Type', 'text/csv; charset=utf-8');
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'X-Requested-With');
@@ -322,7 +322,7 @@ app.get('/info/domains/unknown', function (req, res) {
 /**
 * GET route on /info/domains/:domain:
 */
-app.get(/\/info\/domains\/([a-zA-Z0-9\-.]+)/, function (req, res) {
+app.get(/\/domains\/([a-zA-Z0-9\-.]+)/, function (req, res) {
   res.header('Content-Type', 'application/json; charset=utf-8');
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'X-Requested-With');
