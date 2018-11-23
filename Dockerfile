@@ -1,15 +1,15 @@
 FROM node:10.11.0
-MAINTAINER ezPAARSE Team <ezpaarse@couperin.org>
+LABEL maintainer="ezPAARSE Team <ezpaarse@couperin.org>"
 
 ENV DEBIAN_FRONTEND noninteractive
 ENV NODE_ENV production
-ENV PATH /opt/ezpaarse/build/nvm/bin/latest:/opt/ezpaarse/bin:/opt/ezpaarse/node_modules/.bin:/usr/local/bin:/usr/bin:/bin:/sbin:/usr/sbin:/usr/local/sbin
+ENV PATH /opt/ezpaarse/bin:/opt/ezpaarse/node_modules/.bin:/usr/local/bin:/usr/bin:/bin:/sbin:/usr/sbin:/usr/local/sbin
 
 # install debian dependencies
 RUN set -x \
   && apt-get update \
   && apt-get -y --no-install-recommends upgrade \
-  # used by nvm for nodejs & npm install
+  # used by npm install
   && apt-get -y --no-install-recommends install curl ca-certificates \
   # used by ezpaarse platforms, resources and middleware updates
 	&& apt-get -y --no-install-recommends install git \
@@ -23,9 +23,8 @@ COPY . /opt/ezpaarse
 WORKDIR /opt/ezpaarse
 RUN mkdir -p /opt/ezpaarse/logs
 
-# build ezpaarse (install node, npm modules, clone sub git repositories ...)
-ENV NVM_DIR "/opt/ezpaarse/build/nvm"
-RUN make ; . /opt/ezpaarse/build/nvm/nvm.sh ; npm cache clear --force
+# build ezpaarse (install npm modules, clone sub git repositories ...)
+RUN make ; npm cache clear --force
 
 # ezmasterification of ezpaarse
 # see https://github.com/Inist-CNRS/ezmaster

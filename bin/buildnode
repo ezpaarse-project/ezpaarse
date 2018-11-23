@@ -7,33 +7,32 @@
 
 EZPAARSE_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 NODEJS_VERSION=$(expr "`cat $EZPAARSE_PATH/config.json`" : '.*"EZPAARSE_NODEJS_VERSION":[ ]*"\([^"]*\)"')
+NVM_DIR="$EZPAARSE_PATH/build/nvm"
+mkdir -p $EZPAARSE_PATH/build/
 
 if [ "$(node -v)" == "v$NODEJS_VERSION" ]; then
-  echo "Using nodejs installed on the system: $(which node) [$(node -v)]"
-  # simulate a fake nvm installation
-  # because we do not need it if nodejs is already installed
-  mkdir -p $EZPAARSE_PATH/build/nvm/bin/latest/
-  touch $EZPAARSE_PATH/build/nvm/nvm.sh
-  touch $EZPAARSE_PATH/build/nvm/bin/latest/nvm
-  chmod +x $EZPAARSE_PATH/build/nvm/bin/latest/nvm
+  echo "Nodejs $(node -v) detected: $(which node)"
   exit
 fi
 
-# download nvm from github
-mkdir -p $EZPAARSE_PATH/build/
-if [ ! -f $EZPAARSE_PATH/build/nvm/nvm.sh ]; then
-  git clone https://github.com/creationix/nvm.git $EZPAARSE_PATH/build/nvm
-  chmod +x $EZPAARSE_PATH/build/nvm/nvm.sh
-else
-  cd $EZPAARSE_PATH/build/nvm/
+# download or update nvm from github
+if [ -d "$NVM_DIR/.git" ]; then
+  echo "Updating NVM..."
+  cd $NVM_DIR
   git reset --hard
   git pull
-  chmod +x nvm.sh
+else
+  echo "Downloading NVM..."
+  # If the nvm dir exists but is not a git repo, delete it
+  if [ -d $NVM_DIR ]; then
+    rm $NVM_DIR -rf
+  fi
+  git clone https://github.com/creationix/nvm.git $NVM_DIR
 fi
 
-# download/install nodejs with nvm
-export NVM_DIR=$EZPAARSE_PATH/build/nvm
-. $NVM_DIR/nvm.sh
+source "$NVM_DIR/nvm.sh"
+
+# install nodejs with nvm
 nvm install "$NODEJS_VERSION"
 nvm use "$NODEJS_VERSION"
 nvm alias default "$NODEJS_VERSION"

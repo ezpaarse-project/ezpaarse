@@ -4,9 +4,12 @@
 #
 
 EZPAARSE_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
-
 export NVM_DIR="$EZPAARSE_PATH/build/nvm"
-. "$NVM_DIR/nvm.sh"
+
+# Source the existing NVM file if it exists, otherwise try to source the embedded one
+if [ -f "$NVM_DIR/nvm.sh" ]; then
+  source "$NVM_DIR/nvm.sh"
+fi
 
 # list of paths to check in $PATH
 declare -a EZ_PATHS=(
