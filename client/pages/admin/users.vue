@@ -31,7 +31,9 @@
 
               <v-flex xs4 sm4>
                 <v-select
-                  :items="groups"
+                  :items="items"
+                  item-text="group"
+                  item-value="abbr"
                   v-model="group"
                   :label="$t('ui.pages.admin.users.group')"
                   :append-outer-icon="(!userid || !group || !password) ? '' : 'mdi-plus-circle'"
@@ -68,7 +70,7 @@
             <template slot="items" slot-scope="props">
               <td>
                 <v-icon @click="removeUser(props.item.username)">mdi-delete</v-icon>
-                <v-icon @click="dialog = true; currentUser = props.item">mdi-pencil</v-icon>
+                <v-icon @click="dialog = true; setCurrentUser(props.item)">mdi-pencil</v-icon>
                 {{ props.item.username }}
               </td>
               <td>{{ (props.item.group === 'admin' ? `${$t('ui.pages.admin.users.groups.admin')}` : `${$t('ui.pages.admin.users.groups.user')}`) }}</td>
@@ -84,7 +86,7 @@
     <v-dialog
       v-model="dialog"
       width="600"
-      v-if="currentUser"
+      v-if="currentUser.data"
     >
       <v-card>
         <v-card-title
@@ -96,20 +98,21 @@
 
         <v-card-text>
           <v-text-field
-            :value="currentUser.username"
-            v-model="currentUser.username"
+            @change="canSaveUser = true"
+            :value="currentUser.data.username"
+            v-model="currentUser.data.username"
             label="Email"
           ></v-text-field>
-          <v-text-field
-            :value="currentUser.password"
-            v-model="currentUser.password"
-            type="password"
-            :label="$t('ui.password')"
-          ></v-text-field>
+
           <v-select
-            :items="groups"
-            :value="(currentUser.group === 'admin' ? `${$t('ui.pages.admin.users.groups.admin')}` : `${$t('ui.pages.admin.users.groups.user')}`)"
+            @change="canSaveUser = true"
+            v-model="currentUser.data.group"
+            :items="items"
+            item-text="group"
+            item-value="abbr"
             :label="$t('ui.pages.admin.users.group')"
+            return-object
+            single-line
           ></v-select>
         </v-card-text>
 
@@ -117,9 +120,9 @@
 
          <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="success" @click="dialog = false"><v-icon left>mdi-content-save</v-icon>{{ $t('ui.save') }}</v-btn>
+          <v-btn color="success" @click="editUser(); dialog = false" :disabled="!canSaveUser"><v-icon left>mdi-content-save</v-icon>{{ $t('ui.save') }}</v-btn>
 
-          <v-btn color="error" @click="dialog = false"><v-icon left>mdi-close-circle</v-icon>{{ $t('ui.close') }}</v-btn>
+          <v-btn color="error" @click="dialog = false; canSaveUser = false"><v-icon left>mdi-close-circle</v-icon>{{ $t('ui.close') }}</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -130,14 +133,15 @@
 export default {
   data () {
     return {
-      groups: [
-        this.$t('ui.pages.admin.users.groups.admin'),
-        this.$t('ui.pages.admin.users.groups.user')
+      items: [
+        { group: this.$t('ui.pages.admin.users.groups.admin'), abbr: 'admin' },
+        { group: this.$t('ui.pages.admin.users.groups.user'), abbr: 'user' }
       ],
       userid: null,
       password: null,
       group: null,
       dialog: false,
+      canSaveUser: false,
       search: '',
       pagination: {
         rowsPerPage: 10
@@ -156,7 +160,10 @@ export default {
           value: 'group'
         }
       ],
-      currentUser: null
+      currentUser: {
+        data: null,
+        username: null
+      }
     }
   },
   watch: {
@@ -195,17 +202,46 @@ export default {
         this.group = null
         this.password = null
       }).catch(err => {
-        this.$store.dispatch('snacks/info', this.$i18n.t(`ui.errors.${err.response.data.message}`))
+        this.$store.dispatch('snacks/info', this.$t(`ui.errors.${err.response.data.message}`))
       })
       
     },
+    setCurrentUser (user) {
+      this.currentUser.data = {
+        username: user.username,
+        group: { 
+          group: (user.group === 'admin' ? this.$t('ui.pages.admin.users.groups.admin') : this.$t('ui.pages.admin.users.groups.user')),
+          abbr: (user.group === 'admin' ? 'admin' : 'user')
+        }
+      }
+      this.currentUser.username = user.username
+    },
     removeUser (userid) {
+      if (userid === this.$store.state.user.username)  {
+        return this.$store.dispatch('snacks/info', this.$t(`ui.errors.cant_delete_yourself`))
+      }
+      
       this.$store.dispatch('REMOVE_USER', userid).then(res => {
         this.$store.dispatch('GET_USERS_LIST').catch(err => { 
-          // TODO : Ajouter l'utilisateur au tableau des utilisateurs si catch
+          // TODO : Supprimer l'utilisateur du tableau des utilisateurs si catch
         })
       }).catch(err => {
-        this.$store.dispatch('snacks/info', this.$i18n.t(`ui.register.${err.response.data.message}`))
+        this.$store.dispatch('snacks/info', this.$t(`ui.errors.${err.response.data.message}`))
+      })
+    },
+    editUser () {
+       this.$store.dispatch('EDIT_USER', {
+         userid: this.currentUser.username,
+         username: this.currentUser.data.username,
+         group: this.currentUser.data.group.abbr
+       }).then(res => {
+        this.$store.dispatch('snacks/info', this.$t(`ui.pages.admin.users.updatingInformationOf`, { email: this.currentUser.username }))
+
+        this.$store.dispatch('GET_USERS_LIST').catch(err => { 
+          // TODO : Modifier l'utilisateur du tableau des utilisateurs si catch
+        })
+      }).catch(err => {
+        this.$store.dispatch('snacks/info', this.$t(`ui.errors.${err.response.data.message}`))
       })
     }
   }

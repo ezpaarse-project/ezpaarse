@@ -291,8 +291,9 @@ app.post(/^\/users\/(.+)$/, auth.ensureAuthenticated(true), auth.authorizeMember
       if (body.username) {
         // Regex used by angular
         if (!emailRegexp.test(body.username)) {
-          res.header('ezPAARSE-Status-Message', 'invalid_address');
-          return res.status(400).end();
+          res.status(400).json({ status: 400, message: 'invalid_address' }).end();
+          // res.header('ezPAARSE-Status-Message', 'invalid_address');
+          // return res.status(400).end();
         }
 
         change.username = body.username;
@@ -300,8 +301,9 @@ app.post(/^\/users\/(.+)$/, auth.ensureAuthenticated(true), auth.authorizeMember
 
       if (body.group && body.group != user.group) {
         if (mail == req.user.username) {
-          res.header('ezPAARSE-Status-Message', 'cant_change_your_own_group');
-          return res.status(400).end();
+          res.status(400).json({ status: 400, message: 'cant_change_your_own_group' }).end();
+          // res.header('ezPAARSE-Status-Message', 'cant_change_your_own_group');
+          // return res.status(400).end();
         }
         change.group = body.group;
       }

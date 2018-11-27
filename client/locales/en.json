@@ -66,7 +66,8 @@
           "allPlatformsPerPage": "All",
           "noCertifications": "No certification",
           "noPlatformFoundWithName": "No platform found with this name : {search}",
-          "newPlatformsAvailable": "De nouvelles plateformes sont disponibles"
+          "newPlatformsAvailable": "De nouvelles plateformes sont disponibles",
+          "entries": "Entries"
         },
         "updates": {
           "title": "Updates",
@@ -122,12 +123,14 @@
       "previous": "Previous",
       "next": "Next"
     },
-    "register": {
-      "fill_all_fields": "Please complete all fields.",
-      "invalid_address": "The email address is invalid.",
-      "password_does_not_match": "The two passwords do not match.",
-      "user_already_exists": "The email address is already used.",
-      "badCredentials": "Invalid email address or password."
+    "errors": {
+      "fill_all_fields": "Veuillez completer tous les champs.",
+      "invalid_address": "L'adresse email est invalide.",
+      "password_does_not_match": "Les deux mots de passe ne correcpondent pas.",
+      "user_already_exists": "L'adresse email est déjà utilisée.",
+      "bad_credentials": "Adresse email ou mot de passe invalide.",
+      "cant_delete_yourself": "You cannot delete your own account.",
+      "cant_change_your_own_group": "You cannot modify your group yourself."
     },
     "search": "Search",
     "close": "Close",

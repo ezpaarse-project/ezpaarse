@@ -52,7 +52,7 @@
           >
             <template slot="items" slot-scope="props">
               <td style="width: 30px;">
-                <v-icon v-if="props.item.pkb" @click="currentPlatform = props.item; dialog = true">mdi-file-document</v-icon>
+                <v-icon v-if="props.item['pkb-packages'].length > 0 && props.item.pkb" @click="currentPlatform = props.item; dialog = true">mdi-file-document</v-icon>
               </td>
               <td><a :href="props.item.docurl" target="_blank">{{ props.item.longname }}</a></td>
               <td v-if="props.item.certifications">
@@ -70,7 +70,7 @@
       </v-layout>
     </v-card-text>
     
-    <v-dialog width="500" v-if="currentPlatform.pkb && dialog" v-model="currentPlatform">
+    <v-dialog width="600" v-if="currentPlatform.pkb && dialog" v-model="currentPlatform">
       <v-card>
         <v-card-title
           class="headline teal lighten-2 white--text"
@@ -80,10 +80,22 @@
         </v-card-title>
 
         <v-card-text>
-          <v-chip v-for="(pkb, key) in currentPlatform['pkb-packages']" :key="key">
-            <v-avatar class="teal white--text">{{pkb.entries}}</v-avatar>
-            <strong>{{pkb.date}}:</strong> <i>{{pkb.name}}</i>
-          </v-chip>
+          <v-data-table
+            :headers="pkbsHeaders"
+            :items="currentPlatform['pkb-packages']"
+            :rows-per-page-text="$t('ui.pages.admin.platforms.platformsPerPage')"
+            prev-icon="mdi-menu-left"
+            next-icon="mdi-menu-right"
+            sort-icon="mdi-menu-down"
+            :rows-per-page-items="[10, 30, 50, {'text': $t('ui.pages.admin.platforms.allPlatformsPerPage'), 'value': -1}]"
+            class="elevation-1"
+          >
+            <template slot="items" slot-scope="props">
+              <td>{{props.item.name}}</td>
+              <td>{{props.item.entries}}</td>
+              <td>{{props.item.date}}</td>
+            </template>
+          </v-data-table>
         </v-card-text>
 
         <v-divider></v-divider>
@@ -100,6 +112,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <v-btn @click="test">TEST</v-btn>
   </v-card>
 </template>
 
@@ -117,8 +130,7 @@ export default {
         {
           text: 'PKBs',
           align: 'left',
-          sortable: true,
-          value: 'pkb'
+          sortable: false
         },
         {
           text: this.$t('ui.pages.admin.platforms.title'),
@@ -131,6 +143,23 @@ export default {
           align: 'left',
           sortable: true,
           value: 'certifications'
+        }
+      ],
+      pkbsHeaders: [
+        {
+          text: 'Package',
+          sortable: false,
+          value: 'name'
+        },
+        {
+          text: this.$t('ui.pages.admin.platforms.entries'),
+          sortable: false,
+          value: 'entries'
+        },
+        {
+          text: 'Date',
+          sortable: false,
+          value: 'date'
         }
       ]
     }
@@ -171,6 +200,11 @@ export default {
         this.$store.dispatch('GET_PLATFORMS')
         this.$store.dispatch('GET_PLATFORMS_CHANGED')
       })
+    },
+    test () {
+      this.$store.dispatch('LOAD_STATUS')
+      this.$store.dispatch('GET_PLATFORMS')
+      this.$store.dispatch('GET_PLATFORMS_CHANGED')
     }
   }
 }

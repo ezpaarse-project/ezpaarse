@@ -68,4 +68,8 @@ api.removeUser = function (userid) {
   return axios.delete(`/api/admin/users/${userid}`).then(res => res.data)
 }
 
+api.editUser = function (data) {
+  return axios.post(`/api/admin/users/${data.userid}`, data).then(res => res.data)
+}
+
 export default api

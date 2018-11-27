@@ -79,6 +79,9 @@ const store = () => new Vuex.Store({
     },
     REMOVE_USER ({ commit }, userid) {
       return api.removeUser(userid)
+    },
+    EDIT_USER ({ commit }, data) {
+      return api.editUser(data)
     }
   },
   mutations: {
