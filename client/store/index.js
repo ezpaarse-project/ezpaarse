@@ -9,12 +9,12 @@ const store = () => new Vuex.Store({
     snacks
   },
   state: {
-    ezpaarse: null,
-    platforms: null,
+    ezpaarse: [],
+    platforms: [],
     platformsItems: [],
     platformsChanged: [],
-    ressources: null,
-    middlewares: null,
+    ressources: [],
+    middlewares: [],
     drawer: true,
     feedback: null,
     user: null,
