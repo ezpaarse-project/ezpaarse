@@ -16,7 +16,6 @@
 import Header from '~/components/Header'
 import Drawer from '~/components/Drawer'
 import Snackbar from '~/components/Snackbar.vue'
-import { detect } from 'detect-browser'
 
 export default {
   components: {
@@ -32,14 +31,6 @@ export default {
     signupDialog: {
       get () { return this.$store.state.signup },
       set (newVal) { this.$store.dispatch('SET_SIGNUP', newVal) }
-    }
-  },
-  mounted () {
-    const browser = detect()
-    if (browser) {
-      console.log(browser.name)
-      console.log(browser.version)
-      console.log(browser.os)
     }
   }
 }

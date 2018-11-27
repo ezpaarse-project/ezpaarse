@@ -43,6 +43,7 @@
 
 <script>
 import Snackbar from '~/components/Snackbar.vue'
+import { detect } from 'detect-browser'
 
 export default {
   components: {
@@ -55,6 +56,14 @@ export default {
         { name: 'Français', value: 'fr' },
         { name: 'English', value: 'en' }
       ]
+    }
+  },
+  mounted () {
+    const browser = detect()
+    if (browser) {
+      console.log(browser.name)
+      console.log(browser.version)
+      console.log(browser.os)
     }
   }
 }
