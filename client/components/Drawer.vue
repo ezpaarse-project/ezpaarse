@@ -47,7 +47,7 @@
         </v-list-tile-action>
       </v-list-tile>
 
-      <v-list-tile avatar tag="div">
+      <v-list-tile avatar router :to="{ path: '/profile' }">
         <v-list-tile-avatar>
           <v-icon large>mdi-account-circle</v-icon>
         </v-list-tile-avatar>
@@ -76,7 +76,7 @@
        <v-list-group
         prepend-icon="mdi-settings"
         append-icon="mdi-chevron-down"
-        v-if="!mini && user"
+        v-if="!mini && user && user.group === 'admin'"
       >
         <v-list-tile slot="activator">
           <v-list-tile-content>
@@ -210,7 +210,9 @@ export default {
   },
   methods: {
     logout () {
-      this.$store.dispatch('LOGOUT')
+      this.$store.dispatch('LOGOUT').then(res => {
+        this.$router.push('/')
+      })
     }
   }
 }

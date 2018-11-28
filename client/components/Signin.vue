@@ -19,6 +19,7 @@
       <v-checkbox :label="$t('ui.rememberMe')" v-model="credentials.remember"></v-checkbox>
     </v-card-text>
     <v-card-actions>
+      <v-btn flat router :to="{ path: '/password' }" ripple>{{ $t('ui.passwordForgotten') }}</v-btn>
       <v-spacer></v-spacer>
       <v-btn color="primary" type="submit">{{ $t('ui.signin') }}</v-btn>
     </v-card-actions>
@@ -38,7 +39,11 @@ export default {
   },
   methods: {
     signin () {
-      this.$store.dispatch('SIGNIN', this.credentials)
+      this.$store.dispatch('SIGNIN', {
+        userid: this.credentials.userid.trim(),
+        password: this.credentials.password.trim(),
+        remember: this.credentials.remember
+      })
         .then(res => this.$router.push('/process'))
         .catch(err => {
           if (err.response.status !== 200) this.$store.dispatch('snacks/error', this.$t('ui.errors.bad_credentials'))

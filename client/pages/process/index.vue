@@ -82,32 +82,32 @@ export default {
     return {
       activeTab: "tab-logs-files",
       paramsSaved: false
-    };
+    }
   },
   watch: {
     user() {
-      if (!this.user) this.$router.push("/");
+      if (!this.user) this.$router.push("/")
     }
   },
   async fetch({ store, redirect }) {
     try {
-      await store.dispatch("GET_USER");
-      await store.dispatch("LOAD_STATUS");
+      await store.dispatch("GET_USER")
+      await store.dispatch("LOAD_STATUS")
     } catch (e) {
-      return redirect("/");
+      return redirect("/")
     }
   },
   computed: {
     user() {
-      return this.$store.state.user;
+      return this.$store.state.user
     }
   },
   methods: {
     saveParams() {
-      this.paramsSaved = !this.paramsSaved;
+      this.paramsSaved = !this.paramsSaved
     }
   }
-};
+}
 </script>
 
 <style scoped>

@@ -72,4 +72,24 @@ api.editUser = function (data) {
   return axios.post(`/api/admin/users/${data.userid}`, data).then(res => res.data)
 }
 
+api.resetPassword = function (userid) {
+  return axios.post(`/api/admin/passwords/${userid}`).then(res => res.data)
+}
+
+api.notifiate = function (data) {
+  return axios.post(`/api/admin/profile`, data).then(res => res.data)
+}
+
+api.updatePassword = function (data) {
+  return axios.post(`/api/admin/profile`, data).then(res => res.data)
+}
+
+api.getUserNumber = function () {
+  return axios.get(`/api/admin/usersnumber`).then(res => res.data)
+}
+
+api.freshInstall = function (data) {
+  return axios.post(`/api/feedback/freshinstall`, data).then(res => res.data)
+}
+
 export default api

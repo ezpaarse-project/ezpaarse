@@ -18,7 +18,8 @@ const store = () => new Vuex.Store({
     drawer: true,
     feedback: null,
     user: null,
-    users: []
+    users: [],
+    userNumber: -1
   },
   actions: {
     SET_DRAWER ({ commit }, value) {
@@ -82,6 +83,21 @@ const store = () => new Vuex.Store({
     },
     EDIT_USER ({ commit }, data) {
       return api.editUser(data)
+    },
+    RESET_PASSWORD ({ commit }, userid) {
+      return api.resetPassword(userid)
+    },
+    NOTIFIATE ({ commit }, data) {
+      return api.notifiate(data)
+    },
+    UPDATE_PASSWORD ({ commit }, data) {
+      return api.updatePassword(data)
+    },
+    GET_USER_NUMBER ({ commit }) {
+      return api.getUserNumber().then(res => commit('SET_USER_NUMBER', res))
+    },
+    FRESHINSTALL ({ commit }, data) {
+      return api.freshInstall(data).catch(err => {})
     }
   },
   mutations: {
@@ -117,6 +133,9 @@ const store = () => new Vuex.Store({
     },
     SET_USERS_LIST (state, users) {
       state.users = users
+    },
+    SET_USER_NUMBER (state, userNumber) {
+      state.userNumber = userNumber
     }
   }
 })

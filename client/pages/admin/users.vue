@@ -9,7 +9,7 @@
     <v-card-text>
       <v-layout row wrap>
         <v-flex xs12 sm12>
-          <v-form>
+          <v-form @submit.prevent="addUser" method="post">
             <v-layout row wrap>
               <v-flex xs4 sm4 pr-2>
                 <v-text-field
@@ -31,13 +31,13 @@
 
               <v-flex xs4 sm4>
                 <v-select
+                  type="submit"
                   :items="items"
                   item-text="group"
                   item-value="abbr"
                   v-model="group"
                   :label="$t('ui.pages.admin.users.group')"
                   :append-outer-icon="(!userid || !group || !password) ? '' : 'mdi-plus-circle'"
-                  @click:append-outer="addUser"
                 ></v-select>
               </v-flex>
             </v-layout>
@@ -188,9 +188,9 @@ export default {
   methods: {
     addUser () {
       const data = {
-        userid: this.userid,
-        group: (this.group === this.$t('ui.pages.admin.users.groups.admin') ? 'admin': 'user'),
-        password: this.password
+        userid: this.userid.trim(),
+        group: (this.group === this.$t('ui.pages.admin.users.groups.admin') ? 'admin': 'user').trim(),
+        password: this.password.trim()
       }
 
       this.$store.dispatch('ADD_USER', data).then(res => {
@@ -204,7 +204,6 @@ export default {
       }).catch(err => {
         this.$store.dispatch('snacks/info', this.$t(`ui.errors.${err.response.data.message}`))
       })
-      
     },
     setCurrentUser (user) {
       this.currentUser.data = {
@@ -231,9 +230,9 @@ export default {
     },
     editUser () {
        this.$store.dispatch('EDIT_USER', {
-         userid: this.currentUser.username,
-         username: this.currentUser.data.username,
-         group: this.currentUser.data.group.abbr
+         userid: this.currentUser.username.trim(),
+         username: this.currentUser.data.username.trim(),
+         group: this.currentUser.data.group.abbr.trim()
        }).then(res => {
         this.$store.dispatch('snacks/info', this.$t(`ui.pages.admin.users.updatingInformationOf`, { email: this.currentUser.username }))
 

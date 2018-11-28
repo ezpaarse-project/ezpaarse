@@ -367,18 +367,21 @@ app.post('/profile', auth.ensureAuthenticated(true),
       switch (body.section) {
       case 'password':
         if (!body.oldPassword || !body.newPassword || !body.confirm) {
-          res.set('ezPAARSE-Status-Message', 'fill_all_fields');
-          return res.status(400).end();
+          return res.status(400).json({ status: 400, message: 'fill_all_fields' }).end();
+          // res.set('ezPAARSE-Status-Message', 'fill_all_fields');
+          // return res.status(400).end();
         } else if (body.newPassword != body.confirm) {
-          res.set('ezPAARSE-Status-Message', 'password_does_not_match');
-          return res.status(400).end();
+          return res.status(400).json({ status: 400, message: 'password_does_not_match' }).end();
+          // res.set('ezPAARSE-Status-Message', 'password_does_not_match');
+          // return res.status(400).end();
         }
 
         var oldCryptedPassword = userlist.crypt(user.username, body.oldPassword);
 
         if (user.password != oldCryptedPassword) {
-          res.set('ezPAARSE-Status-Message', 'wrong_password');
-          return res.status(400).end();
+          return res.status(400).json({ status: 400, message: 'wrong_password' }).end();
+          // res.set('ezPAARSE-Status-Message', 'wrong_password');
+          // return res.status(400).end();
         }
 
         var newPassword = userlist.crypt(user.username, body.newPassword);
@@ -395,8 +398,9 @@ app.post('/profile', auth.ensureAuthenticated(true),
         });
         break;
       default:
-        res.set('ezPAARSE-Status-Message', 'bad_section');
-        res.status(400).end();
+        return res.status(400).json({ status: 400, message: 'bad_section' }).end();
+        // res.set('ezPAARSE-Status-Message', 'bad_section');
+        // res.status(400).end();
       }
     });
   }

@@ -28,6 +28,16 @@
         "growingCommunity": "A growing community",
         "notOnlyFrench": "And not only French-speaking!"
       },
+      "profile": {
+        "title": "My profile",
+        "passwordUpdtaed": "Password updated",
+        "notifications": "Receive a notification email at the end of my processing operations.",
+        "updatePassword": "Change password",
+        "passwordUpdtaed": "Password updated",
+        "oldPassword": "Old password*",
+        "newPassword": "New password *",
+        "confirm": "Confirmation *"
+      },
       "process": {
         "processLogs": "Process your log",
         "prepareTreatment": "Preparation of the treatment",
@@ -127,13 +137,17 @@
       "fill_all_fields": "Veuillez completer tous les champs.",
       "invalid_address": "L'adresse email est invalide.",
       "password_does_not_match": "Les deux mots de passe ne correcpondent pas.",
+      "wrong_password": "Password is wrong.",
       "user_already_exists": "L'adresse email est déjà utilisée.",
       "bad_credentials": "Adresse email ou mot de passe invalide.",
       "cant_delete_yourself": "You cannot delete your own account.",
-      "cant_change_your_own_group": "You cannot modify your group yourself."
+      "cant_change_your_own_group": "You cannot modify your group yourself.",
+      "bad_section": "Bad section.",
+      "error": "It seems like something went wrong."
     },
     "search": "Search",
     "close": "Close",
+    "back": "Back",
     "save": "Save",
     "currentVersion": "Current version",
     "updateTo": "Update to {newVersion}",
@@ -142,12 +156,16 @@
     "filesName": "Files name",
     "size": "Size",
     "password": "Password",
+    "passwordForgotten": "Password forgottent ?",
+    "reset": "Reset",
     "login": "Log in",
     "signin": "Sign in",
     "signup": "Sign up",
     "rememberMe": "Remember me",
     "confirmPassword": "Confirm your password",
     "language": "Language",
-    "send": "Envoyer"
+    "send": "Envoyer",
+    "informTeamWarning": "You just installed ezPAARSE and you're going to create the administrator account. With your agreement, we would like to be informed about this installation. The e-mail address filled above and the version of ezPAARSE you installed will be sent to <strong>{recipients}</strong>.",
+    "informTeam": "Inform the team"
   }
 }

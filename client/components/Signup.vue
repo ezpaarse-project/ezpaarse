@@ -25,6 +25,18 @@
           v-model="credentials.confirm"
           type="password"
         ></v-text-field>
+        <v-alert
+          v-if="userNumber <= 0"
+          :value="true"
+          color="teal lighten-2"
+          outline
+        >
+          <v-checkbox
+            :label="$t('ui.informTeam')"
+            v-model="informTeam"
+          ></v-checkbox>
+          <p class="text-xs-justify" v-html="$t('ui.informTeamWarning', { recipients: 'ezpaarse@couperin.org' })"></p>
+        </v-alert>
       </v-form>
     </v-card-text>
     <v-card-actions>
@@ -36,18 +48,31 @@
 
 <script>
 export default {
+  props: ['userNumber'],
   data () {
     return {
       credentials: {
         userid: null,
         password: null,
         confirm: null
-      }
+      },
+      informTeam: true
     }
   },
   methods: {
     signup () {
-      return this.$store.dispatch('REGISTER', this.credentials).catch(err => {
+      if (this.userNumber <= 0 && this.informTeam) {
+        this.$store.dispatch('FRESHINSTALL', { mail: this.credentials.userid.trim() })
+      }
+      return this.$store.dispatch('REGISTER', {
+        userid: this.credentials.userid.trim(),
+        password: this.credentials.password.trim(),
+        confirm: this.credentials.confirm.trim()
+      })
+      .then(res => {
+        this.$router.push('/process')
+      })
+      .catch(err => {
         this.$store.dispatch('snacks/info', this.$t(`ui.errors.${err.response.data.message}`))
       })
     }
