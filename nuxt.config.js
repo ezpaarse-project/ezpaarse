@@ -26,6 +26,7 @@ module.exports = {
     middleware: ['ssr-cookie']
   },
   plugins: [
+    '~/plugins/browser.js',
     '~/plugins/vuetify.js',
     '~/plugins/i18n.js',
     '~/plugins/socket.js',
