@@ -21,10 +21,15 @@
             <strong>{{ $t('ui.currentVersion') }}</strong> : 
             <v-alert :value="true" color="red lighten-2" v-html="$t('ui.pages.admin.updates.repoLocalChanges', { repo: 'platforms' })" v-if="platforms['local-commits'] || platforms['local-changes']"></v-alert>
             <v-tooltip right v-if="platforms['from-head'] === 'outdated'">
-              <v-btn @click="update('platforms')" depressed color="red lighten-2 white--text" round slot="activator">{{platforms.current}}<v-icon class="pl-1">mdi-alert-circle</v-icon></v-btn>
+              <v-btn @click="updatePlatforms" depressed color="red lighten-2 white--text" round slot="activator">{{platforms.current}}<v-icon class="pl-1">mdi-alert-circle</v-icon></v-btn> 
               <span>{{ $t('ui.updateTo', { newVersion: platforms.head }) }}</span>
             </v-tooltip>
             <v-btn v-else depressed color="green lighten-2 white--text" round slot="activator">{{platforms.current}}</v-btn>
+            <v-progress-circular
+              v-if="inUpdate"
+              indeterminate
+              color="teal"
+            ></v-progress-circular>
           </p>
         </v-flex>
 
@@ -120,6 +125,7 @@
 export default {
   data () {
     return {
+      inUpdate: false,
       dialog: false,
       currentPlatform: false,
       search: '',
@@ -194,13 +200,22 @@ export default {
     }
   },
   methods: {
-    update (repo) {
-      this.$store.dispatch('UPDATE_REPO', repo).then(res => {
-        this.$store.dispatch('LOAD_STATUS')
-        this.$store.dispatch('GET_PLATFORMS')
-        this.$store.dispatch('GET_PLATFORMS_CHANGED')
-      })
+    updatePlatforms () {
+      this.inUpdate = true
+      this.$store.dispatch('UPDATE_REPO', 'platforms').then(res => {
+        this.$store.dispatch('GET_PLATFORMS').then(res => {
+          this.$store.dispatch('LOAD_STATUS').then(res => {
+            this.inUpdate = false
+          }).catch(err => { })
+        }).catch(err => { })
+      }).catch(err => { })
     }
   }
 }
 </script>
+
+<style scoped>
+  .v-progress-circular {
+    margin: 1rem;
+  }
+</style>

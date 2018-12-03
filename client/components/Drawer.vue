@@ -79,9 +79,14 @@
         v-if="!mini && user && user.group === 'admin'"
       >
         <v-list-tile slot="activator">
-          <v-list-tile-content>
-            <v-list-tile-title>Administration</v-list-tile-title>
-          </v-list-tile-content>
+          <v-list-tile-title>Administration</v-list-tile-title>
+          <v-list-tile-action 
+            v-if="(platforms && platforms['from-head'] === 'outdated') || 
+              (middlewares && middlewares['from-head'] === 'outdated') || 
+              (ressources && ressources['from-head'] === 'outdated')"
+          >
+            <v-icon>mdi-alert-circle</v-icon>
+          </v-list-tile-action>
         </v-list-tile>
 
         <v-list-tile router :to="{ path: '/admin/platforms' }" ripple>

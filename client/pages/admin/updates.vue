@@ -10,13 +10,18 @@
       <p><strong>{{ $t('ui.pages.admin.updates.resources') }}</strong></p>
       <p v-html="$t('ui.pages.admin.updates.predefinedParameters')"></p>
       <p>
-        <v-alert :value="true" color="red lighten-2" v-html="$t('ui.pages.admin.updates.repoLocalChanges', { repo: 'ressources' })" v-if="ressources['local-commits'] || ressources['local-changes']"></v-alert>
+        <v-alert :value="true" color="red lighten-2" v-html="$t('ui.pages.admin.updates.repoLocalChanges', { repo: 'resources' })" v-if="resources['local-commits'] || resources['local-changes']"></v-alert>
         <strong>{{ $t('ui.currentVersion') }}</strong> :
-        <v-tooltip right v-if="ressources['from-head'] === 'outdated'">
-          <v-btn @click="update('resources')" depressed color="red lighten-2 white--text" round slot="activator">{{ressources.current}}<v-icon class="pl-1">mdi-alert-circle</v-icon></v-btn>
-          <span>{{ $t('ui.updateTo', { newVersion: ressources.head }) }}</span>
+        <v-tooltip right v-if="resources['from-head'] === 'outdated'">
+          <v-btn @click="update('resources')" depressed color="red lighten-2 white--text" round slot="activator">{{resources.current}}<v-icon class="pl-1">mdi-alert-circle</v-icon></v-btn>
+          <span>{{ $t('ui.updateTo', { newVersion: resources.head }) }}</span>
         </v-tooltip>
-        <v-btn v-else depressed color="green lighten-2 white--text" round slot="activator">{{ressources.current}}</v-btn>
+        <v-btn v-else depressed color="green lighten-2 white--text" round slot="activator">{{resources.current}}</v-btn>
+        <v-progress-circular
+          v-if="inUpdate.resources"
+          indeterminate
+          color="teal"
+        ></v-progress-circular>
       </p>
     </v-card-text>
 
@@ -34,6 +39,11 @@
             <span>{{ $t('ui.updateTo', { newVersion: middlewares.head }) }}</span>
           </v-tooltip>
           <v-btn v-else depressed color="green lighten-2 white--text" round slot="activator">{{middlewares.current}}</v-btn>
+          <v-progress-circular
+            v-if="inUpdate.middlewares"
+            indeterminate
+            color="teal"
+          ></v-progress-circular>
         </p>
       </v-flex>
     </v-card-text>
@@ -54,6 +64,11 @@
             <span>{{ $t('ui.updateTo', { newVersion: ezpaarse.head }) }}</span>
           </v-tooltip>
           <v-btn v-else depressed color="green lighten-2 white--text" round slot="activator">{{ezpaarse.current}}</v-btn>
+          <v-progress-circular
+            v-if="inUpdate.ezpaarse"
+            indeterminate
+            color="teal"
+          ></v-progress-circular>
           <br />
           <span><a href="">{{ $t('ui.pages.admin.updates.returnToStableVersion') }}</a></span>
         </p>
@@ -65,6 +80,15 @@
 
 <script>
 export default {
+  data () {
+    return {
+      inUpdate: {
+        resources: false,
+        middlewares: false,
+        ezpaarse: false
+      }
+    }
+  },
   watch: {
     user () {
       if (!this.user) this.$router.push('/')
@@ -82,8 +106,8 @@ export default {
     ezpaarse () {
       return this.$store.state.ezpaarse
     },
-    ressources () {
-      return this.$store.state.ressources
+    resources () {
+      return this.$store.state.resources
     },
     middlewares () {
       return this.$store.state.middlewares
@@ -94,9 +118,17 @@ export default {
   },
   methods: {
     update (repo) {
+      if (repo === 'resources') this.inUpdate.resources = true
+      if (repo === 'middlewares') this.inUpdate.middlewares = true
+      if (repo === 'ezpaarse') this.inUpdate.ezpaarse = true
+
       this.$store.dispatch('UPDATE_REPO', repo).then(res => {
-        this.$store.dispatch('LOAD_STATUS')
-      })
+        this.$store.dispatch('LOAD_STATUS').then(res => {
+          if (repo === 'resources') this.inUpdate.resources = false
+          if (repo === 'middlewares') this.inUpdate.middlewares = false
+          if (repo === 'ezpaarse') this.inUpdate.ezpaarse = false
+        }).catch(err => { })
+      }).catch(err => { })
     }
   }
 }

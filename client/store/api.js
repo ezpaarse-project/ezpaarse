@@ -45,7 +45,7 @@ api.getMiddlewaresStatus = function () {
 }
 
 api.updateRepo = function (repo) {
-  return axios.put(`/api/admin/${repo}/status`, { repo }).then(res => res.data)
+  return axios.put(`/api/admin/${repo}/status`, repo).then(res => res.data)
 }
 
 api.getPlatforms = function () {

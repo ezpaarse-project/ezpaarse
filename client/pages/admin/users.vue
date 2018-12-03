@@ -69,9 +69,11 @@
           >
             <template slot="items" slot-scope="props">
               <td>
-                <v-icon @click="removeUser(props.item.username)">mdi-delete</v-icon>
-                <v-icon @click="dialog = true; setCurrentUser(props.item)">mdi-pencil</v-icon>
-                {{ props.item.username }}
+                <span v-if="props.item.username !== user.username">
+                  <v-icon @click="removeUser(props.item.username)">mdi-delete</v-icon>
+                  <v-icon @click="dialog = true; setCurrentUser(props.item)">mdi-pencil</v-icon>
+                </span>
+                <span v-if="props.item.username === user.username" class="itIsMe"></span>{{ props.item.username }}
               </td>
               <td>{{ (props.item.group === 'admin' ? `${$t('ui.pages.admin.users.groups.admin')}` : `${$t('ui.pages.admin.users.groups.user')}`) }}</td>
             </template>
@@ -183,6 +185,9 @@ export default {
   computed: {
     users () {
       return this.$store.state.users
+    },
+    user () {
+      return this.$store.state.user
     }
   },
   methods: {
@@ -246,3 +251,9 @@ export default {
   }
 }
 </script>
+
+<style scope>
+.itIsMe {
+  margin-left: 48px;
+}
+</style>

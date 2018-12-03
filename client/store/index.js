@@ -1,3 +1,4 @@
+import Vue from 'vue'
 import Vuex from 'vuex'
 import api from './api'
 import socket from './socket'
@@ -13,7 +14,7 @@ const store = () => new Vuex.Store({
     platforms: [],
     platformsItems: [],
     platformsChanged: [],
-    ressources: [],
+    resources: [],
     middlewares: [],
     drawer: true,
     feedback: null,
@@ -52,7 +53,7 @@ const store = () => new Vuex.Store({
           commit('SET_PLATFORMS_STATUS', res)
 
           return api.getResourcesStatus().then(res => {
-            commit('SET_RESSOURCES_STATUS', res)
+            commit('SET_RESOURCES_STATUS', res)
 
             return api.getMiddlewaresStatus().then(res => {
               commit('SET_MIDDLEWARES_STATUS', res)
@@ -102,40 +103,40 @@ const store = () => new Vuex.Store({
   },
   mutations: {
     SET_DRAWER (state, value) {
-      state.drawer = value
+      Vue.set(state, 'drawer', value)
     },
     LOGOUT (state) {
-      state.user = null
+      Vue.set(state, 'user', null)
     },
     SET_USER (state, user) {
-      state.user = user
+      Vue.set(state, 'user', user)
     },
     SET_FEEDBACK_STATUS (state, feedback) {
-      state.feedback = feedback
+      Vue.set(state, 'feedback', feedback)
     },
     SET_APP_STATUS (state, data) {
-      state.ezpaarse = data
+      Vue.set(state, 'ezpaarse', data)
     },
     SET_PLATFORMS_STATUS (state, data) {
-      state.platforms = data
+      Vue.set(state, 'platforms', data)
     },
-    SET_RESSOURCES_STATUS (state, data) {
-      state.ressources = data
+    SET_RESOURCES_STATUS (state, data) {
+      Vue.set(state, 'resources', data)
     },
     SET_MIDDLEWARES_STATUS (state, data) {
-      state.middlewares = data
+      Vue.set(state, 'middlewares', data)
     },
     SET_PLATFORMS (state, platforms) {
-      state.platformsItems = platforms
+      Vue.set(state, 'platformsItems', platforms)
     },
     SET_PLATFORMS_CHANGED (state, platforms) {
-      state.platformsChanged = platforms
+      Vue.set(state, 'platformsChanged', platforms)
     },
-    SET_USERS_LIST (state, users) {
-      state.users = users
+    SET_USERS_LIST (state, users) {x
+      Vue.set(state, 'users', users)
     },
     SET_USER_NUMBER (state, userNumber) {
-      state.userNumber = userNumber
+      Vue.set(state, 'userNumber', userNumber)
     }
   }
 })

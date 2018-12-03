@@ -445,6 +445,7 @@ app.put('/:repo/status', auth.ensureAuthenticated(true), auth.authorizeMembersOf
         parserlist.init(function () {
           res.status(200).end();
         });
+        res.status(200).end();
         break;
       default:
         res.status(500).end();
