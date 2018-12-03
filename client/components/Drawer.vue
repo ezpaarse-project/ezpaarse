@@ -99,9 +99,7 @@
         <v-list-tile router :to="{ path: '/admin/updates' }" ripple>
           <v-list-tile-title>{{ $t('ui.drawer.admin.updates') }}</v-list-tile-title>
           <v-list-tile-action 
-            v-if="(platforms && platforms['from-head'] === 'outdated') || 
-              (middlewares && middlewares['from-head'] === 'outdated') || 
-              (ressources && ressources['from-head'] === 'outdated')"
+            v-if="(middlewares && middlewares['from-head'] === 'outdated') || (ressources && ressources['from-head'] === 'outdated')"
           >
             <v-icon>mdi-alert-circle</v-icon>
           </v-list-tile-action>
