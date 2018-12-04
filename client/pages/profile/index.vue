@@ -67,7 +67,7 @@ export default {
     try {
       await store.dispatch('GET_USER')
     } catch (e) {
-      return redirect('/')
+      return redirect(401, '/')
     }
   },
   computed: {

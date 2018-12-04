@@ -33,6 +33,13 @@ export default {
       userid: null
     }
   },
+  async fetch ({ store, redirect }) {
+    try {
+      await store.dispatch('GET_USER')
+    } catch (e) { }
+
+    if (store.state.user) return redirect(301, '/process')
+  },
   methods: {
     reset () {
       this.$store.dispatch('RESET_PASSWORD', this.userid)

@@ -134,6 +134,7 @@
       "next": "Next"
     },
     "errors": {
+      "title": "An error occured",
       "fill_all_fields": "Veuillez completer tous les champs.",
       "invalid_address": "L'adresse email est invalide.",
       "password_does_not_match": "Les deux mots de passe ne correcpondent pas.",
@@ -143,7 +144,9 @@
       "cant_delete_yourself": "You cannot delete your own account.",
       "cant_change_your_own_group": "You cannot modify your group yourself.",
       "bad_section": "Bad section.",
-      "error": "It seems like something went wrong."
+      "error": "It seems like something went wrong.",
+      "404": "This page could not be found.",
+      "500": "An error occured."
     },
     "search": "Search",
     "close": "Close",

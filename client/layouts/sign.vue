@@ -16,10 +16,10 @@
 
       <v-container fluid fill-height>
         <v-layout align-center justify-center>
-          <v-flex xs12 sm12 md4>
+          <v-flex xs12 sm12 md5>
             <nuxt/>
 
-            <v-flex xs12 sm12 md4>
+            <v-flex xs12 sm12 md5>
               <v-select
                 v-model="locale"
                 :items="locales"

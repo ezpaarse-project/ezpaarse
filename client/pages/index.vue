@@ -34,7 +34,7 @@ export default {
       await store.dispatch('GET_USER')
     } catch (e) { }
 
-    if (store.state.user) return redirect('/process')
+    if (store.state.user) return redirect(301, '/process')
   },
   computed: {
     userNumber () {

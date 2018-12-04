@@ -57,7 +57,7 @@ export default {
       await store.dispatch('GET_USER')
       await store.dispatch('LOAD_STATUS')
     } catch (e) {
-      return redirect('/')
+      return redirect(401, '/')
     }
   },
   computed: {

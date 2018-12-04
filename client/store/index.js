@@ -132,7 +132,7 @@ const store = () => new Vuex.Store({
     SET_PLATFORMS_CHANGED (state, platforms) {
       Vue.set(state, 'platformsChanged', platforms)
     },
-    SET_USERS_LIST (state, users) {x
+    SET_USERS_LIST (state, users) {
       Vue.set(state, 'users', users)
     },
     SET_USER_NUMBER (state, userNumber) {

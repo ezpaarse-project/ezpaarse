@@ -23,10 +23,7 @@ module.exports = {
     color: 'teal'
   },
   router: {
-    middleware: [
-      'browser',
-      'ssr-cookie'
-    ]
+    middleware: [ 'ssr-cookie' ]
   },
   plugins: [
     '~/plugins/vuetify.js',

@@ -97,9 +97,15 @@ export default {
   async fetch ({ store, redirect }) {
     try {
       await store.dispatch('GET_USER')
-      await store.dispatch('LOAD_STATUS')
+      if (store.state.user.group !== 'admin') {
+        return redirect(401, '/process')
+      }
+
+      if (store.state.user.group === 'admin') {
+        await store.dispatch('LOAD_STATUS')
+      }
     } catch (e) {
-      return redirect('/')
+      return redirect(401, '/')
     }
   },
   computed: {

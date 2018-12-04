@@ -91,10 +91,10 @@ export default {
   },
   async fetch({ store, redirect }) {
     try {
-      await store.dispatch("GET_USER")
-      await store.dispatch("LOAD_STATUS")
+      await store.dispatch('GET_USER')
+      await store.dispatch('LOAD_STATUS')
     } catch (e) {
-      return redirect("/")
+      return redirect(401, '/')
     }
   },
   computed: {

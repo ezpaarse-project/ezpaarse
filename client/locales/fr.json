@@ -133,6 +133,7 @@
       "next": "Suivant"
     },
     "errors": {
+      "title": "Une erreur s'est produite.",
       "fill_all_fields": "Veuillez completer tous les champs.",
       "invalid_address": "L'adresse email est invalide.",
       "password_does_not_match": "Les deux mots de passe ne correcpondent pas.",
@@ -142,7 +143,9 @@
       "cant_delete_yourself": "Vous ne pouvez pas effacer votre propre compte.",
       "cant_change_your_own_group": "Vous ne pouvez pas modifier vous même votre groupe.",
       "bad_section": "Mauvaise section.",
-      "error": "Il semblerait que quelque chose ce soit mal passé."
+      "error": "Il semblerait que quelque chose ce soit mal passé.",
+      "404": "Cette page n'a pas pu être trouvée.",
+      "500": "Une erreur s'est produite."
     },
     "search": "Rechercher",
     "close": "Fermer",
