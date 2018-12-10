@@ -76,8 +76,7 @@ export default {
           }
         })
       }).catch(err => {
-        console.log(err)
-        this.$store.dispatch('snacks/info', this.$t(`ui.errors.${err.response.data.message}`))
+        this.$store.dispatch('snacks/info', err.response.data.message ? this.$t(`ui.errors.${err.response.data.message}`) : this.$t(`ui.errors.error`))
       })
     }
   }
