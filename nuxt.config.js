@@ -22,8 +22,29 @@ module.exports = {
     name: 'folding-cube',
     color: 'teal'
   },
+  modules: [
+    '@nuxtjs/axios',
+    '@nuxtjs/auth'
+  ],
+  auth: {
+    strategies: {
+      local: {
+        endpoints: {
+          login: { url: '/api/auth/login', method: 'post' },
+          logout: { url: '/api/auth/logout', method: 'post' },
+          user: { url: '/api/auth/session', method: 'get', propertyName: '' }
+        }
+      }
+    },
+    redirect: {
+      login: '/',
+      logout: '/',
+      home: '/process',
+      callback: '/'
+    }
+  },
   router: {
-    middleware: [ 'ssr-cookie' ]
+    middleware: [ 'auth', 'ssr-cookie' ]
   },
   plugins: [
     '~/plugins/vuetify.js',
