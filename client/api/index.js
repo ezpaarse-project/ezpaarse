@@ -41,7 +41,7 @@ const { argv } = require('yargs')
   .option('pid', {
     alias: 'pidFile',
     describe: 'the location of the ezpaarse pid file',
-    default: path.resolve(__dirname, '../ezpaarse.pid')
+    default: path.resolve(__dirname, '../../ezpaarse.pid')
   })
   .option('lsof', {
     boolean: true,
