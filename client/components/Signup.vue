@@ -68,11 +68,15 @@ export default {
         userid: this.credentials.userid.trim(),
         password: this.credentials.password.trim(),
         confirm: this.credentials.confirm.trim()
-      })
-      .then(res => {
-        this.$router.push('/process')
-      })
-      .catch(err => {
+      }).then(res => {
+        return this.$auth.loginWith('local', {
+          data: {
+            userid: this.credentials.userid.trim(),
+            password: this.credentials.password.trim(),
+          }
+        })
+      }).catch(err => {
+        console.log(err)
         this.$store.dispatch('snacks/info', this.$t(`ui.errors.${err.response.data.message}`))
       })
     }

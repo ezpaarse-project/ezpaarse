@@ -27,18 +27,12 @@
 
 <script>
 export default {
+  auth: true,
   layout: "sign",
   data() {
     return {
       userid: null
     }
-  },
-  async fetch ({ store, redirect }) {
-    try {
-      await store.dispatch('GET_USER')
-    } catch (e) { }
-
-    if (store.state.user) return redirect(301, '/process')
   },
   methods: {
     reset () {

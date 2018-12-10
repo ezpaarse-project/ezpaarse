@@ -73,6 +73,7 @@ import LogFormat from "~/components/Process/LogFormat";
 import Settings from "~/components/Process/Settings";
 
 export default {
+  auth: true,
   components: {
     LogFiles,
     LogFormat,
@@ -84,18 +85,10 @@ export default {
       paramsSaved: false
     }
   },
-  watch: {
-    user() {
-      if (!this.user) this.$router.push("/")
-    }
-  },
   async fetch({ store, redirect }) {
     try {
-      await store.dispatch('GET_USER')
       await store.dispatch('LOAD_STATUS')
-    } catch (e) {
-      return redirect(401, '/')
-    }
+    } catch (e) {}
   },
   computed: {
     user() {

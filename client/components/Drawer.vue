@@ -52,7 +52,7 @@
           <v-icon large>mdi-account-circle</v-icon>
         </v-list-tile-avatar>
         <v-list-tile-content>
-          <v-list-tile-title v-if="user">{{ user.username }}</v-list-tile-title>
+          <v-list-tile-title v-if="$auth.loggedIn">{{ $auth.user.username }}</v-list-tile-title>
           <v-list-tile-title v-else>{{ $t('ui.drawer.notConnected') }}</v-list-tile-title>
         </v-list-tile-content>
         <v-list-tile-action>
@@ -64,7 +64,7 @@
 
       <v-divider></v-divider>
 
-      <v-list-tile v-if="user" router :to="{ path: '/process' }" ripple>
+      <v-list-tile v-if="$auth.loggedIn" router :to="{ path: '/process' }" ripple>
         <v-list-tile-action>
           <v-icon>mdi-cloud-upload</v-icon>
         </v-list-tile-action>
@@ -76,7 +76,7 @@
        <v-list-group
         prepend-icon="mdi-settings"
         append-icon="mdi-chevron-down"
-        v-if="!mini && user && user.group === 'admin'"
+        v-if="!mini && $auth.user && $auth.user.group === 'admin'"
       >
         <v-list-tile slot="activator">
           <v-list-tile-title>Administration</v-list-tile-title>
@@ -153,8 +153,7 @@
           <v-list-tile-title>{{ $t('ui.drawer.feedback') }}</v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
-
-      <v-list-tile v-if="user" @click="logout">
+      <v-list-tile v-if="$auth.loggedIn" @click="$auth.logout()">
         <v-list-tile-action>
           <v-icon>mdi-logout</v-icon>
         </v-list-tile-action>
@@ -203,19 +202,6 @@ export default {
     },
     feedback () {
       return this.$store.state.feedback
-    },
-    user () {
-      return this.$store.state.user
-    },
-    loginUrl () {
-      return '/'
-    }
-  },
-  methods: {
-    logout () {
-      this.$store.dispatch('LOGOUT').then(res => {
-        this.$router.push('/')
-      })
     }
   }
 }

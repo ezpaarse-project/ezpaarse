@@ -18,6 +18,7 @@ import Signin from '~/components/Signin'
 import Signup from '~/components/Signup'
 
 export default {
+  auth: true,
   layout: 'sign',
   components: {
     Signin,
@@ -31,10 +32,7 @@ export default {
   async fetch ({ store, redirect }) {
     try {
       await store.dispatch('GET_USER_NUMBER')
-      await store.dispatch('GET_USER')
     } catch (e) { }
-
-    if (store.state.user) return redirect(301, '/process')
   },
   computed: {
     userNumber () {

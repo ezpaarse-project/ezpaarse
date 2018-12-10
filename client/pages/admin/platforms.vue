@@ -123,6 +123,8 @@
 
 <script>
 export default {
+  auth: true,
+  middleware: [ 'admin' ],
   data () {
     return {
       inUpdate: false,
@@ -170,26 +172,12 @@ export default {
       ]
     }
   },
-  watch: {
-    user () {
-      if (!this.user) this.$router.push('/')
-    }
-  },
   async fetch ({ store, redirect }) {
     try {
-      await store.dispatch('GET_USER')
-      if (store.state.user.group !== 'admin') {
-        return redirect(401, '/process')
-      }
-
-      if (store.state.user.group === 'admin') {
-        await store.dispatch('LOAD_STATUS')
-        await store.dispatch('GET_PLATFORMS')
-        await store.dispatch('GET_PLATFORMS_CHANGED')
-      }
-    } catch (e) {
-      return redirect(401, '/')
-    }
+      await store.dispatch('LOAD_STATUS')
+      await store.dispatch('GET_PLATFORMS')
+      await store.dispatch('GET_PLATFORMS_CHANGED')
+    } catch (e) { }
   },
   computed: {
     platforms () {
@@ -200,9 +188,6 @@ export default {
     },
     platformsChanged () {
       return this.$store.state.platformsChanged
-    },
-    user () {
-      return this.$store.state.user
     }
   },
   methods: {

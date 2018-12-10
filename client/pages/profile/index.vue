@@ -8,7 +8,7 @@
       <v-switch
         @change="notifiate"
         :label="$t('ui.pages.profile.notifications')"
-        v-model="user.notifiate"
+        v-model="$auth.user.notifiate"
       ></v-switch>
 
       <v-divider></v-divider>
@@ -51,6 +51,7 @@
 
 <script>
 export default {
+  auth: true,
   data () {
     return {
       oldPassword: null,
@@ -61,18 +62,6 @@ export default {
   watch: {
     user () {
       if (!this.user) this.$router.push('/')
-    }
-  },
-  async fetch ({ store, redirect }) {
-    try {
-      await store.dispatch('GET_USER')
-    } catch (e) {
-      return redirect(401, '/')
-    }
-  },
-  computed: {
-    user () {
-      return this.$store.state.user
     }
   },
   methods: {

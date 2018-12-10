@@ -18,7 +18,6 @@ const store = () => new Vuex.Store({
     middlewares: [],
     drawer: true,
     feedback: null,
-    user: null,
     users: [],
     userNumber: -1
   },
@@ -26,21 +25,8 @@ const store = () => new Vuex.Store({
     SET_DRAWER ({ commit }, value) {
       commit('SET_DRAWER', value)
     },
-    LOGOUT ({ commit }) {
-      return api.logout().then(res => commit('SET_USER', null))
-    },
-    SIGNIN ({ commit }, credentials) {
-      return api.login(credentials).then(res => {
-        commit('SET_USER', res)
-      })
-    },
-    GET_USER ({ commit }) {
-      return api.session().then(res => commit('SET_USER', res))
-    },
     REGISTER ({ commit }, credentials) {
-      return api.register(credentials).then(res => {
-        if (res.status === 201) commit('SET_USER', res)
-      })
+      return api.register(credentials)
     },
     SEND_FEEDBACK ({ commit }, data) {
       return api.sendFeedback(data)
@@ -104,12 +90,6 @@ const store = () => new Vuex.Store({
   mutations: {
     SET_DRAWER (state, value) {
       Vue.set(state, 'drawer', value)
-    },
-    LOGOUT (state) {
-      Vue.set(state, 'user', null)
-    },
-    SET_USER (state, user) {
-      Vue.set(state, 'user', user)
     },
     SET_FEEDBACK_STATUS (state, feedback) {
       Vue.set(state, 'feedback', feedback)

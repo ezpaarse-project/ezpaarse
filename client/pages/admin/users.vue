@@ -69,11 +69,11 @@
           >
             <template slot="items" slot-scope="props">
               <td>
-                <span v-if="props.item.username !== user.username">
+                <span v-if="props.item.username !== $auth.user.username">
                   <v-icon @click="removeUser(props.item.username)">mdi-delete</v-icon>
                   <v-icon @click="dialog = true; setCurrentUser(props.item)">mdi-pencil</v-icon>
                 </span>
-                <span v-if="props.item.username === user.username" class="itIsMe"></span>{{ props.item.username }}
+                <span v-if="props.item.username === $auth.user.username" class="itIsMe"></span>{{ props.item.username }}
               </td>
               <td>{{ (props.item.group === 'admin' ? `${$t('ui.pages.admin.users.groups.admin')}` : `${$t('ui.pages.admin.users.groups.user')}`) }}</td>
             </template>
@@ -133,6 +133,8 @@
 
 <script>
 export default {
+  auth: true,
+  middleware: [ 'admin' ],
   data () {
     return {
       items: [
@@ -168,32 +170,15 @@ export default {
       }
     }
   },
-  watch: {
-    user () {
-      if (!this.user) this.$router.push('/')
-    }
-  },
   async fetch ({ store, redirect }) {
     try {
-      await store.dispatch('GET_USER')
-      if (store.state.user.group !== 'admin') {
-        return redirect(401, '/process')
-      }
-
-      if (store.state.user.group === 'admin') {
-        await store.dispatch('LOAD_STATUS')
-        await store.dispatch('GET_USERS_LIST')
-      }
-    } catch (e) {
-      return redirect(401, '/')
-    }
+      await store.dispatch('LOAD_STATUS')
+      await store.dispatch('GET_USERS_LIST')
+    } catch (e) { }
   },
   computed: {
     users () {
       return this.$store.state.users
-    },
-    user () {
-      return this.$store.state.user
     }
   },
   methods: {
@@ -218,16 +203,16 @@ export default {
     },
     setCurrentUser (user) {
       this.currentUser.data = {
-        username: user.username,
+        username: this.$auth.user.username,
         group: { 
-          group: (user.group === 'admin' ? this.$t('ui.pages.admin.users.groups.admin') : this.$t('ui.pages.admin.users.groups.user')),
-          abbr: (user.group === 'admin' ? 'admin' : 'user')
+          group: (this.$auth.user.group === 'admin' ? this.$t('ui.pages.admin.users.groups.admin') : this.$t('ui.pages.admin.users.groups.user')),
+          abbr: (this.$auth.user.group === 'admin' ? 'admin' : 'user')
         }
       }
-      this.currentUser.username = user.username
+      this.currentUser.username = this.$auth.user.username
     },
     removeUser (userid) {
-      if (userid === this.$store.state.user.username)  {
+      if (userid === this.$auth.user.username)  {
         return this.$store.dispatch('snacks/info', this.$t(`ui.errors.cant_delete_yourself`))
       }
       

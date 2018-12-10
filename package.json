@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@ezpaarse-project/ezpaarse": "^1.1.0",
+    "@nuxtjs/auth": "^4.5.3",
+    "@nuxtjs/axios": "^5.3.6",
     "async": "^2.6.1",
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",

@@ -39,15 +39,15 @@ export default {
   },
   methods: {
     signin () {
-      this.$store.dispatch('SIGNIN', {
-        userid: this.credentials.userid.trim(),
-        password: this.credentials.password.trim(),
-        remember: this.credentials.remember
+      return this.$auth.loginWith('local', {
+        data: {
+          userid: this.credentials.userid.trim(),
+          password: this.credentials.password.trim(),
+          remember: this.credentials.remember
+        }
+      }).catch(err => {
+        if (err.response.status !== 200) this.$store.dispatch('snacks/error', this.$t('ui.errors.bad_credentials'))
       })
-        .then(res => this.$router.push('/process'))
-        .catch(err => {
-          if (err.response.status !== 200) this.$store.dispatch('snacks/error', this.$t('ui.errors.bad_credentials'))
-        })
     }
   }
 }

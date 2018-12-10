@@ -80,6 +80,8 @@
 
 <script>
 export default {
+  auth: true,
+  middleware: [ 'admin' ],
   data () {
     return {
       inUpdate: {
@@ -89,24 +91,10 @@ export default {
       }
     }
   },
-  watch: {
-    user () {
-      if (!this.user) this.$router.push('/')
-    }
-  },
   async fetch ({ store, redirect }) {
     try {
-      await store.dispatch('GET_USER')
-      if (store.state.user.group !== 'admin') {
-        return redirect(401, '/process')
-      }
-
-      if (store.state.user.group === 'admin') {
-        await store.dispatch('LOAD_STATUS')
-      }
-    } catch (e) {
-      return redirect(401, '/')
-    }
+      await store.dispatch('LOAD_STATUS')
+    } catch (e) { }
   },
   computed: {
     ezpaarse () {
@@ -117,9 +105,6 @@ export default {
     },
     middlewares () {
       return this.$store.state.middlewares
-    },
-    user () {
-      return this.$store.state.user
     }
   },
   methods: {
