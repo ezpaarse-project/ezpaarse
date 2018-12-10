@@ -44,7 +44,7 @@ module.exports = {
     }
   },
   router: {
-    middleware: [ 'auth', 'ssr-cookie' ]
+    middleware: [ 'auth' ]
   },
   plugins: [
     '~/plugins/vuetify.js',
