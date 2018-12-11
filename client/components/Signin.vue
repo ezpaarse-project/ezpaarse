@@ -39,7 +39,7 @@ export default {
   },
   methods: {
     signin () {
-      return this.$auth.loginWith('local', {
+      return this.$auth.login({
         data: {
           userid: this.credentials.userid.trim(),
           password: this.credentials.password.trim(),

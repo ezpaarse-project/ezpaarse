@@ -26,6 +26,9 @@ module.exports = {
     '@nuxtjs/axios',
     '@nuxtjs/auth'
   ],
+  axios: {
+    proxy: true
+  },
   auth: {
     strategies: {
       local: {
