@@ -79,7 +79,6 @@
     "eslint": "^5.6.1",
     "husky": "^1.1.1",
     "mocha": "^5.2.0",
-    "nodemon": "^1.18.4",
     "should": "*",
     "should-http": "*",
     "zombie": "^6.1.3"
