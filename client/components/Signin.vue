@@ -21,7 +21,7 @@
     <v-card-actions>
       <v-btn flat router :to="{ path: '/password' }" ripple>{{ $t('ui.passwordForgotten') }}</v-btn>
       <v-spacer></v-spacer>
-      <v-btn color="primary" type="submit">{{ $t('ui.signin') }}</v-btn>
+      <v-btn color="primary" type="submit" :disabled="!credentials.userid || !credentials.password">{{ $t('ui.signin') }}</v-btn>
     </v-card-actions>
   </v-form>
 </template>

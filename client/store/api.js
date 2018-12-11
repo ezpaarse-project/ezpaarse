@@ -10,23 +10,23 @@ api.sendFeedback = function (axios, data) {
   return axios.post(`/api/feedback`, data).then(res => res.data)
 }
 
-api.feedbackStatus = function (axios, ) {
+api.feedbackStatus = function (axios) {
   return axios.get(`/api/feedback`).then(res => res.data)
 }
 
-api.getAppStatus = function (axios, ) {
+api.getAppStatus = function (axios) {
   return axios.get(`/api/admin/app/status`).then(res => res.data)
 }
 
-api.getPlatformsStatus = function (axios, ) {
+api.getPlatformsStatus = function (axios) {
   return axios.get(`/api/admin/platforms/status`).then(res => res.data)
 }
 
-api.getResourcesStatus = function (axios, ) {
+api.getResourcesStatus = function (axios) {
   return axios.get(`/api/admin/resources/status`).then(res => res.data)
 }
 
-api.getMiddlewaresStatus = function (axios, ) {
+api.getMiddlewaresStatus = function (axios) {
   return axios.get(`/api/admin/middlewares/status`).then(res => res.data)
 }
 
@@ -34,15 +34,15 @@ api.updateRepo = function (axios, repo) {
   return axios.put(`/api/admin/${repo}/status`, repo).then(res => res.data)
 }
 
-api.getPlatforms = function (axios, ) {
+api.getPlatforms = function (axios) {
   return axios.get(`/api/info/platforms`).then(res => res.data)
 }
 
-api.getPlatformsChanged = function (axios, ) {
+api.getPlatformsChanged = function (axios) {
   return axios.get(`/api/info/platforms/changed`).then(res => res.data)
 }
 
-api.getUsersList = function (axios, ) {
+api.getUsersList = function (axios) {
   return axios.get(`/api/admin/users`).then(res => res.data)
 }
 
@@ -70,7 +70,7 @@ api.updatePassword = function (axios, data) {
   return axios.post(`/api/admin/profile`, data).then(res => res.data)
 }
 
-api.getUserNumber = function (axios, ) {
+api.getUserNumber = function (axios) {
   return axios.get(`/api/admin/usersnumber`).then(res => res.data)
 }
 
