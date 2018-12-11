@@ -12,12 +12,14 @@ services:
     links:
       - ezpaarse_db
     environment:
-      http_proxy:  ${http_proxy}
+      http_proxy: ${http_proxy}
       https_proxy: ${https_proxy}
       no_proxy: ${no_proxy}
       DEBUG: ${DEBUG}
       NODE_ENV: "development"
       EZPAARSE_MONGO_URL: "mongodb://ezpaarse_db:27017/ezpaarse"
+      NUXT_HOST: 0.0.0.0
+      NUXT_PORT: 59599
     ports:
       - 59599:59599
     tty: true         # to have nice debug(...) outputs

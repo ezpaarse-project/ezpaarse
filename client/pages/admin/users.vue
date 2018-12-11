@@ -73,7 +73,8 @@
                   <v-icon @click="removeUser(props.item.username)">mdi-delete</v-icon>
                   <v-icon @click="dialog = true; setCurrentUser(props.item)">mdi-pencil</v-icon>
                 </span>
-                <span v-if="props.item.username === $auth.user.username" class="itIsMe"></span>{{ props.item.username }}
+                <span v-if="props.item.username === $auth.user.username" class="itIsMe"></span>
+                {{ props.item.username }}
               </td>
               <td>{{ (props.item.group === 'admin' ? `${$t('ui.pages.admin.users.groups.admin')}` : `${$t('ui.pages.admin.users.groups.user')}`) }}</td>
             </template>
@@ -203,13 +204,13 @@ export default {
     },
     setCurrentUser (user) {
       this.currentUser.data = {
-        username: this.$auth.user.username,
+        username: user.username,
         group: { 
-          group: (this.$auth.user.group === 'admin' ? this.$t('ui.pages.admin.users.groups.admin') : this.$t('ui.pages.admin.users.groups.user')),
-          abbr: (this.$auth.user.group === 'admin' ? 'admin' : 'user')
+          group: (user.group === 'admin' ? this.$t('ui.pages.admin.users.groups.admin') : this.$t('ui.pages.admin.users.groups.user')),
+          abbr: (user.group === 'admin' ? 'admin' : 'user')
         }
       }
-      this.currentUser.username = this.$auth.user.username
+      this.currentUser.username = user.username
     },
     removeUser (userid) {
       if (userid === this.$auth.user.username)  {
@@ -245,6 +246,6 @@ export default {
 
 <style scope>
 .itIsMe {
-  margin-left: 48px;
+  margin-left: 55px;
 }
 </style>

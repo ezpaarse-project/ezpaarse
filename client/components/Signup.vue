@@ -41,7 +41,7 @@
     </v-card-text>
     <v-card-actions>
       <v-spacer></v-spacer>
-      <v-btn color="primary" type="submit" :disabled="!credentials.userid || !credentials.password || !credentials.confirm">{{ $t('ui.signup') }}</v-btn>
+      <v-btn color="primary" type="submit" :disabled="!credentials.userid || !credentials.password || !credentials.confirm || credentials.password !== credentials.confirm">{{ $t('ui.signup') }}</v-btn>
     </v-card-actions>
   </v-form>
 </template>
