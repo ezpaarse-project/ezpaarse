@@ -93,7 +93,7 @@
     "version": "npm run insertversion:docker && npm run insertversion:makefile && git add docker-compose.yml Makefile",
     "postversion": "git push && git push --tags",
     "lint": "eslint *.js lib/ test/ routes/ middlewares/",
-    "dev": "nodemon ./server.js -e js,vue",
+    "dev": "nodemon --ignore 'platforms/*.js' --ignore 'middlewares/*.js' --ignore 'resources/*.js' ./server.js -e js,vue",
     "start": "node server.js"
   },
   "husky": {
