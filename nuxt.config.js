@@ -51,6 +51,7 @@ module.exports = {
   },
   plugins: [
     '~/plugins/vuetify.js',
+    '~/plugins/status.js',
     '~/plugins/i18n.js',
     '~/plugins/socket.js',
     '~/plugins/vue-tour.js'
@@ -66,7 +67,8 @@ module.exports = {
   ** Add global packages
   */
   build: {
-    analyze: true
+    analyze: true,
+    vendor: [ 'socket.io-client' ]
   },
   serverMiddleware: [
     '~/api/index.js',

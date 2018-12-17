@@ -174,7 +174,6 @@ export default {
   },
   async fetch ({ store, redirect }) {
     try {
-      await store.dispatch('LOAD_STATUS')
       await store.dispatch('GET_PLATFORMS')
       await store.dispatch('GET_PLATFORMS_CHANGED')
     } catch (e) { }

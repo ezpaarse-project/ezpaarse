@@ -49,14 +49,8 @@ export default {
       email: null,
       comment: null,
       browser: null,
-      checkbox: true,
-      feedback: false
+      checkbox: true
     }
-  },
-  async fetch ({ store, redirect }) {
-    try {
-      await store.dispatch('LOAD_STATUS')
-    } catch (e) { }
   },
   computed: {
     feedback () {

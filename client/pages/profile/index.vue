@@ -59,11 +59,6 @@ export default {
       confirm: null
     }
   },
-  watch: {
-    user () {
-      if (!this.user) this.$router.push('/')
-    }
-  },
   methods: {
     notifiate () {
       this.$store.dispatch('NOTIFIATE', {

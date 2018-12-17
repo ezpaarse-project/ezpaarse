@@ -78,4 +78,8 @@ api.freshInstall = function (axios, data) {
   return axios.post(`/api/feedback/freshinstall`, data).then(res => res.data)
 }
 
+api.loadPkbs = function (axios) {
+  return axios.get(`/castor/status`).then(res => res.data)
+}
+
 export default api

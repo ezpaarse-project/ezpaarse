@@ -2,6 +2,7 @@
   "ui": {
     "header": {
       "pkbsSynchronized": "PKBs Synchronized",
+      "pkbsRemaining": "{pkbs} PKBs remaining",
       "noCurrentProcessing": "No process loading"
     },
     "drawer": {

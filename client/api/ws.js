@@ -1,11 +1,11 @@
 'use strict';
 
-var express = require('express');
-var app     = express();
+const router     = require('express').Router()
+const bodyParser = require('body-parser')
 
-app.use(require('../../routes/ws'));
+router.use(bodyParser.json())
+router.use(bodyParser.urlencoded({ extended: false }))
 
-module.exports = {
-  path: '/',
-  handler: app
-};
+router.use(require('../../routes/ws'))
+
+module.exports = router

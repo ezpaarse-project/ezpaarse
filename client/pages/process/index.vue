@@ -85,11 +85,6 @@ export default {
       paramsSaved: false
     }
   },
-  async fetch({ store, redirect }) {
-    try {
-      await store.dispatch('LOAD_STATUS')
-    } catch (e) {}
-  },
   computed: {
     user() {
       return this.$store.state.user

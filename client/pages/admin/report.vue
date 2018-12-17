@@ -144,11 +144,6 @@ export default {
         }
       ]
     }
-  },
-  async fetch ({ store, redirect }) {
-    try {
-      await store.dispatch('LOAD_STATUS')
-    } catch (e) { }
   }
 }
 </script>

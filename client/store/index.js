@@ -19,7 +19,8 @@ const store = () => new Vuex.Store({
     drawer: true,
     feedback: null,
     users: [],
-    userNumber: -1
+    userNumber: -1,
+    pkbs: null
   },
   actions: {
     SET_DRAWER ({ commit }, value) {
@@ -44,7 +45,7 @@ const store = () => new Vuex.Store({
             return api.getMiddlewaresStatus(this.$axios).then(res => {
               commit('SET_MIDDLEWARES_STATUS', res)
 
-              return api.feedbackStatus(this.$axios).then(res => commit('SET_FEEDBACK_STATUS', res))
+              return api.feedbackStatus(this.$axios).then(res => commit('SET_FEEDBACK_STATUS', res.recipients))
             })
           })
         })
@@ -85,6 +86,16 @@ const store = () => new Vuex.Store({
     },
     FRESHINSTALL ({ commit }, data) {
       return api.freshInstall(this.$axios, data).catch(err => {})
+    },
+    LOAD_PKBS ({ commit }, data) {
+      return api.loadPkbs(this.$axios)
+      .then(res => {
+        commit('SET_PKBS', res)
+      })
+      .catch(err => {})
+    },
+    SET_PKBS ({ commit }, data) {
+      commit('SET_PKBS', data)
     }
   },
   mutations: {
@@ -117,6 +128,9 @@ const store = () => new Vuex.Store({
     },
     SET_USER_NUMBER (state, userNumber) {
       Vue.set(state, 'userNumber', userNumber)
+    },
+    SET_PKBS (state, data) {
+      Vue.set(state, 'pkbs', data)
     }
   }
 })

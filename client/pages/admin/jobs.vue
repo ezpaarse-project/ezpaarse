@@ -328,11 +328,6 @@ export default {
         }
       ]
     }
-  },
-  async fetch ({ store, redirect }) {
-    try {
-      await store.dispatch(401, 'LOAD_STATUS')
-    } catch (e) { }
   }
 }
 </script>

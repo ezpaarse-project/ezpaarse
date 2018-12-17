@@ -173,7 +173,6 @@ export default {
   },
   async fetch ({ store, redirect }) {
     try {
-      await store.dispatch('LOAD_STATUS')
       await store.dispatch('GET_USERS_LIST')
     } catch (e) { }
   },
