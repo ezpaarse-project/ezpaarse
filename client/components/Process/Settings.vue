@@ -4,8 +4,11 @@
       <v-layout row wrap>
         <v-flex xs12 sm12>
           <v-select
-            :items="options"
+            v-model="currentPredefinedSettings"
+            :items="predefinedSettings"
+            :item-text="predefinedSettingsText"
             label="Sélectionnez une option"
+            :return-object="true"
             solo
           ></v-select>
         </v-flex>
@@ -129,7 +132,7 @@
 
                       <v-flex xs12 sm12>
                         <v-combobox
-                          v-model="cryptedFields"
+                          v-model="currentPredefinedSettings['Crypted-Fields']"
                           chips
                           clearable
                           label="Champs cryptés"
@@ -206,9 +209,15 @@
 
 <script>
 export default {
+  props: ['predefinedSettings'],
   data () {
     return {
-      options: ['France - INIST-CNRS', 'France - INIST-BIBCNRS', 'France - INIST-CNRS DoubleClickRemoval-false'],
+      defaultSettings: {
+        fullName: 'default',
+        cryptedFields: ['host', 'login']
+      },
+
+      currentPredefinedSettings: [],
       logTypes: ['Reconnaissance auto', 'EZproxy', 'Apache', 'Squid'],
       logType: 'Reconnaissance auto',
       resultFormats: ['CSV', 'JSON', 'TSV'],
@@ -246,6 +255,9 @@ export default {
     },
     removeHeader (header) {
       this.headersChoosen.splice(header, 1)
+    },
+    predefinedSettingsText (item) {
+      return `${item.country} - ${item.fullName}`
     }
   }
 }

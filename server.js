@@ -25,6 +25,8 @@ const winston       = require('winston');
 require('./lib/winston-socketio.js');
 const lsof          = require('lsof');
 
+const nuxt          = require('./app');
+
 winston.addColors({ verbose: 'green', info: 'green', warn: 'yellow', error: 'red' });
 
 // to have a nice unix process name
@@ -205,8 +207,8 @@ async function start () {
   const nbPlatforms = parserlist.sizeOf('platforms');
   logger.info(`Domains: ${nbDomains} | Platforms: ${nbPlatforms} | Robot hosts: ${nbRobots}`);
 
-  const nuxtApp = require('./app')
-  nuxtApp.set('port', app.get('port'))
+  const nuxtApp = nuxt;
+  nuxtApp.set('port', app.get('port'));
 
   const server = http.createServer(nuxtApp);
 

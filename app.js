@@ -1,9 +1,10 @@
 /* eslint no-console: 0 */
+'use strict';
 
-const { Nuxt, Builder } = require('nuxt')
+const { Nuxt, Builder } = require('nuxt');
 
-const app    = require('express')()
-const logger = require('morgan')
+const app    = require('express')();
+const logger = require('morgan');
 
 const cookieSession = require('cookie-session');
 const cookieParser  = require('cookie-parser');
@@ -12,10 +13,10 @@ const passport      = require('passport');
 const BasicStrategy = require('passport-http').BasicStrategy;
 const LocalStrategy = require('passport-local').Strategy;
 
-process.env.PORT = 59599
+process.env.PORT = 59599;
 
-const isDev = app.get('env') !== 'production'
-if (isDev) { app.use(logger('dev')) }
+const isDev = app.get('env') !== 'production';
+if (isDev) { app.use(logger('dev')); }
 
 // Passport (auth)
 passport.serializeUser(function (user, done) {
@@ -38,32 +39,32 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // Import API Routes
-app.use('/api', require('./client/api/index.js'))
-app.use('/castor', require('./lib/castor.js'))
-app.use('/', require('./client/api/ws'))
+app.use('/api', require('./client/api/index.js'));
+app.use('/castor', require('./lib/castor.js'));
+app.use('/', require('./client/api/ws'));
 
 // API error handler
 app.use((err, req, res, next) => {
-  res.status(err.status || 500)
-  res.write(isDev ? err.stack : err.message)
-  res.end()
-})
+  res.status(err.status || 500);
+  res.write(isDev ? err.stack : err.message);
+  res.end();
+});
 
 // Import and Set Nuxt.js options
-const nuxtConfig = require('./nuxt.config.js')
-nuxtConfig.dev = isDev
+const nuxtConfig = require('./nuxt.config.js');
+nuxtConfig.dev = isDev;
 
 // Init Nuxt.js
-const nuxt = new Nuxt(nuxtConfig)
-app.use(nuxt.render)
+const nuxt = new Nuxt(nuxtConfig);
+app.use(nuxt.render);
 
 // Build only in dev mode
 if (nuxtConfig.dev) {
   new Builder(nuxt).build()
     .catch(error => {
-      console.error(error)
-      process.exit(1)
-    })
+      console.error(error);
+      process.exit(1);
+    });
 }
 
-module.exports = app
+module.exports = app;

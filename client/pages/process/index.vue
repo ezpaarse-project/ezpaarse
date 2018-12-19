@@ -18,7 +18,7 @@
       <v-layout row wrap>
         <v-flex xs6 sm6>
           <h4>{{ $t('ui.pages.process.settings.currentSettings') }}</h4>
-          <span>{{ $t('ui.pages.process.settings.defaultSettings') }}</span>
+          <span>{{ currentSettings }}</span>
         </v-flex>
 
         <v-flex xs6 sm6>
@@ -58,7 +58,7 @@
           <v-expansion-panel>
             <v-expansion-panel-content class="teal lighten-3 white--text">
               <div slot="header">{{ $t('ui.pages.process.settings.title') }}</div>
-              <Settings/>
+              <Settings :predefinedSettings="predefinedSettings" />
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-flex>
@@ -82,16 +82,48 @@ export default {
   data() {
     return {
       activeTab: "tab-logs-files",
-      paramsSaved: false
+      paramsSaved: false,
+      currentSettings: this.$t('ui.pages.process.settings.defaultSettings')
     }
   },
+  async fetch ({ store }) {
+    try {
+      store.dispatch('GET_PREDEFINED_SETTINGS')
+    } catch (e) { }
+  },
   computed: {
-    user() {
+    user () {
       return this.$store.state.user
+    },
+    predefinedSettings () {
+
+      let test = 'Test-Camel-Case'
+      let arr = test.split('-')
+      arr.map(e => {
+        return e.charAt(0).toUpperCase() + e.slice(1)
+      })
+      console.log(arr)
+
+      let ps = []
+      if (this.$store.state.predefinedSettings) {
+        Object.keys(this.$store.state.predefinedSettings).forEach((k) => {
+          let data = this.$store.state.predefinedSettings[k]
+          let setting = {
+            name: k,
+            fullName: data.fullName,
+            country: data.country
+          }
+          if (data.headers) {
+            Object.keys(data.headers).forEach(header => { })
+          }
+          ps.push(setting)
+        })
+      }
+      return ps
     }
   },
   methods: {
-    saveParams() {
+    saveParams () {
       this.paramsSaved = !this.paramsSaved
     }
   }

@@ -33,7 +33,12 @@
         </v-flex>
 
         <v-flex xs12 sm12 class="text-xs-center" mt-3>
-          <v-btn color="success" large :disabled="logsFiles <= 0" id="logsFiles"><v-icon left>mdi-file-multiple</v-icon> {{ $t('ui.pages.process.processLog') }}</v-btn>
+          <v-btn-toggle v-model="toggle_exclusive">
+              <v-btn color="success" large :disabled="logsFiles <= 0" id="logsFiles">{{ $t('ui.pages.process.processLog') }}</v-btn>
+              <v-btn color="teal white--text" large>
+                <v-icon>mdi-file-multiple</v-icon>
+              </v-btn>
+            </v-btn-toggle>
           <v-btn fab flat small @click="$tours['myTour'].start()">
             <v-icon>mdi-help-circle</v-icon>
           </v-btn>

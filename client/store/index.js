@@ -10,6 +10,7 @@ const store = () => new Vuex.Store({
     snacks
   },
   state: {
+    appVersion: '0.0.0',
     ezpaarse: [],
     platforms: [],
     platformsItems: [],
@@ -20,7 +21,8 @@ const store = () => new Vuex.Store({
     feedback: null,
     users: [],
     userNumber: -1,
-    pkbs: null
+    pkbs: null,
+    predefinedSettings: []
   },
   actions: {
     SET_DRAWER ({ commit }, value) {
@@ -96,6 +98,16 @@ const store = () => new Vuex.Store({
     },
     SET_PKBS ({ commit }, data) {
       commit('SET_PKBS', data)
+    },
+    GET_PREDEFINED_SETTINGS ({ commit }, data) {
+      return api.getPredefinedSettings(this.$axios).then(res => {
+        commit('SET_PREDEFINED_SETTINGS', res)
+      }).catch(err => {})
+    },
+    GET_APP_VERSION ({ commit }, data) {
+      return api.getAppVersion(this.$axios).then(res => {
+        commit('SET_APP_VERSION', res)
+      }).catch(err => {})
     }
   },
   mutations: {
@@ -131,6 +143,12 @@ const store = () => new Vuex.Store({
     },
     SET_PKBS (state, data) {
       Vue.set(state, 'pkbs', data)
+    },
+    SET_PREDEFINED_SETTINGS (state, data) {
+      Vue.set(state, 'predefinedSettings', data)
+    },
+    SET_APP_VERSION (state, data) {
+      Vue.set(state, 'appVersion', data)
     }
   }
 })

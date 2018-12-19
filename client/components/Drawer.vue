@@ -12,7 +12,7 @@
           <v-list-tile-sub-title>
             <v-menu>
               <span flat slot="activator">
-                Version: {{ ezpaarse.tag }} <v-icon dark>mdi-menu-down</v-icon>
+                Version: {{ appVersion }} <v-icon dark>mdi-menu-down</v-icon>
               </span>
 
               <v-list>
@@ -187,6 +187,9 @@ export default {
     drawer: {
       get () { return this.$store.state.drawer },
       set (newVal) { this.$store.dispatch('SET_DRAWER', newVal) }
+    },
+    appVersion () {
+      return this.$store.state.appVersion
     },
     ezpaarse () {
       return this.$store.state.ezpaarse

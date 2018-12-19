@@ -82,4 +82,12 @@ api.loadPkbs = function (axios) {
   return axios.get(`/castor/status`).then(res => res.data)
 }
 
+api.getPredefinedSettings = function (axios) {
+  return axios.get(`/api/info/predefined-settings`).then(res => res.data)
+}
+
+api.getAppVersion = function (axios) {
+  return axios.get(`/api/info/version`).then(res => res.data)
+}
+
 export default api
