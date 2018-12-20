@@ -97,24 +97,101 @@ export default {
     },
     predefinedSettings () {
 
-      let test = 'Test-Camel-Case'
-      let arr = test.split('-')
-      arr.map(e => {
-        return e.charAt(0).toUpperCase() + e.slice(1)
-      })
-      console.log(arr)
-
       let ps = []
+
+      ps.push({
+        name: 'default',
+        fullName: 'Default',
+        country: 'Worldwide',
+        headers: {
+          cryptedFields: ['host', 'login'],
+          outputFields: {
+            plus: [],
+            minus: []
+          },
+          logFormat: null,
+          forceParser: null,
+          dateFormat: 'DD/MMM/YYYY:HH:mm:ss Z',
+          counterReports: null,
+          counterFormat: 'csv'
+        },
+        advancedHeaders: []
+      })
+
       if (this.$store.state.predefinedSettings) {
         Object.keys(this.$store.state.predefinedSettings).forEach((k) => {
           let data = this.$store.state.predefinedSettings[k]
           let setting = {
             name: k,
             fullName: data.fullName,
-            country: data.country
+            country: data.country,
+            headers: {
+              cryptedFields: [],
+              outputFields: {
+                plus: [],
+                minus: []
+              },
+              logFormat: null,
+              forceParser: null,
+              dateFormat: null,
+              counterReports: false,
+              counterFormat: null
+            },
+            advancedHeaders: []
           }
           if (data.headers) {
-            Object.keys(data.headers).forEach(header => { })
+            Object.keys(data.headers).forEach(header => {
+              let match
+              if ((match = /^(Crypted-Fields|Output-Fields|Log-Format-EZproxy|Log-Format-Apache|Log-Format-Squid|Force-Parser|Date-Format|COUNTER-Reports|COUNTER-Format)$/i.exec(header)) !== null) {
+                for (let i = 1; i < match.length; i++) {
+                  switch (match[i]) {
+                    case 'Crypted-Fields':
+                      if (data.headers[header] === 'none') setting.headers.cryptedFields = []
+                      if (data.headers[header] !== 'none') {
+                        setting.headers.cryptedFields = data.headers[header].split(',')
+                      }
+                    break
+
+                    case 'Output-Fields':
+                      data.headers[header].split(',').map(e => {
+                        if (e.charAt(0) === '+') setting.headers.outputFields.plus.push(e.slice(1))
+                        if (e.charAt(0) === '-') setting.headers.outputFields.minus.push(e.slice(1))
+                      })
+                    break
+
+                    case 'Log-Format-EZproxy':
+                      setting.headers.logFormat = 'EZproxy'
+                    break
+
+                    case 'Log-Format-Apache':
+                      setting.headers.logFormat = 'Apache'
+                    break
+
+                    case 'Log-Format-Squid':
+                      setting.headers.logFormat = 'Squid'
+                    break
+
+                    case 'Force-Parser':
+                      setting.headers.forceParser = data.headers[header]
+                    break
+
+                    case 'Date-Format':
+                      setting.headers.dateFormat = data.headers[header]
+                    break
+
+                    case 'COUNTER-Reports':
+                      setting.headers.counterReports = true
+                    break
+
+                    case 'COUNTER-Format':
+                      setting.headers.counterFormat = data.headers[header].toUpperCase()
+                    break
+                  }
+                }
+              } else {
+                setting.advancedHeaders.push({ header, value: data.headers[header] })
+              }
+            })
           }
           ps.push(setting)
         })

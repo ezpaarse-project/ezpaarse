@@ -1,6 +1,13 @@
 <template>
   <v-card>
     <v-card-text>
+      <pre>
+        {{currentPredefinedSettings}}
+      </pre>
+      <hr>
+      <pre>
+        {{predefinedSettings[0]}}
+      </pre>
       <v-layout row wrap>
         <v-flex xs12 sm12>
           <v-select
@@ -23,14 +30,14 @@
                     <v-flex xs4 sm4 pr-2>
                       <v-select
                         :items="logTypes"
-                        v-model="logType"
+                        v-model="currentPredefinedSettings.headers.logTypes"
                         label="Type de log"
                       ></v-select>
                     </v-flex>
 
                     <v-flex xs4 sm4>
                       <v-text-field
-                        v-model="dateFormat"
+                        v-model="currentPredefinedSettings.headers.dateFormat"
                         label="Format de date"
                         placeholder="DD/MMM/YYYY:HH:mm:ss Z"
                         required
@@ -39,7 +46,7 @@
 
                     <v-flex xs4 sm4 pl-2>
                       <v-text-field
-                        v-model="parser"
+                        v-model="currentPredefinedSettings.headers.forceParser"
                         label="Parseur par défaut"
                         placeholder="dspace"
                         required
@@ -57,8 +64,8 @@
                     <v-layout row wrap>
                       <v-flex xs4 sm4 pr-2>
                         <v-select
-                          :items="resultFormats"
-                          v-model="resultFormat"
+                          :items="counterFormats"
+                          v-model="currentPredefinedSettings.headers.counterFormat"
                           label="Format du résultat"
                         ></v-select>
                       </v-flex>
@@ -83,13 +90,13 @@
                       <v-flex xs12 sm12>
                         <v-checkbox
                           label="Rapports COUNTER *"
-                          v-model="counter"
+                          v-model="currentPredefinedSettings.headers.counterReports"
                         ></v-checkbox>
                       </v-flex>
 
                       <v-flex xs6 sm6>
                         <v-combobox
-                          v-model="outputsPlus"
+                          v-model="currentPredefinedSettings.headers.outputFields.plus"
                           label="Champs en sortie"
                           chips
                           clearable
@@ -111,7 +118,7 @@
 
                       <v-flex xs6 sm6 pl-2>
                         <v-combobox
-                          v-model="outputsMinus"
+                          v-model="currentPredefinedSettings.headers.outputFields.minus"
                           chips
                           clearable
                           placeholder="Enlever..."
@@ -132,7 +139,7 @@
 
                       <v-flex xs12 sm12>
                         <v-combobox
-                          v-model="currentPredefinedSettings['Crypted-Fields']"
+                          v-model="currentPredefinedSettings.headers.cryptedFields"
                           chips
                           clearable
                           label="Champs cryptés"
@@ -169,6 +176,9 @@
                       <v-autocomplete
                         v-model="header"
                         :items="headers"
+                        item-text="name"
+                        item-value="name"
+                        box
                         label="Headers"
                         append-icon="mdi-chevron-down"
                         @change="addHeader(header)"
@@ -176,12 +186,12 @@
                       </v-autocomplete>
                     </v-flex>
                     
-                    <v-flex xs12 sm12 v-for="(header, key) in headersChoosen" :key="key">
+                    <v-flex xs12 sm12 v-for="(header, key) in currentPredefinedSettings.advancedHeaders" :key="key">
                       <v-layout row wrap>
                         <v-flex xs2 sm2 pr-2>
                           <v-text-field
-                            :value="header.label"
-                            v-model="header.label"
+                            :value="header.header"
+                            v-model="header.header"
                           ></v-text-field>
                         </v-flex>
                         <v-flex xs10 sm10>
@@ -212,49 +222,42 @@ export default {
   props: ['predefinedSettings'],
   data () {
     return {
-      defaultSettings: {
-        fullName: 'default',
-        cryptedFields: ['host', 'login']
-      },
-
-      currentPredefinedSettings: [],
+      currentPredefinedSettings: Object.assign({}, this.predefinedSettings[0]),
       logTypes: ['Reconnaissance auto', 'EZproxy', 'Apache', 'Squid'],
       logType: 'Reconnaissance auto',
-      resultFormats: ['CSV', 'JSON', 'TSV'],
-      resultFormat: 'CSV',
+      counterFormats: ['CSV', 'JSON', 'TSV'],
       systemTraces: ['Erreurs uniquement', 'Informations générales', 'Warnings sans conséquences'],
       systemTrace: 'Informations générales',
-      dateFormat: null,
-      parser: null,
       emails: null,
-      counter: false,
-      outputsPlus: [],
-      outputsMinus: [],
-      cryptedFields: ['host', 'login'],
       cryptedFiled: null,
-      headers: ['Response Encoding', 'Accept Encoding', 'Request Charset', 'Response Charset'],
-      headersChoosen: [],
-      header: null
+      header: null,
+      headers: {
+        { header: 'Encodage' },
+        { name: 'Response-Encoding', group: 'Encodage' },
+        { name: 'Accept-Encoding', group: 'Encodage' },
+        { name: 'Request-Charset', group: 'Encodage' },
+        { name: 'Response-Charset', group: 'Encodage' }
+      }
     }
   },
   methods: {
     removeOutputPlus (index) {
-      this.outputsPlus.splice(index, 1)
+      this.currentPredefinedSettings.headers.plus.splice(index, 1)
     },
     removeOutputMinus (index) {
-      this.outputsMinus.splice(index, 1)
+      this.currentPredefinedSettings.headers.minus.splice(index, 1)
     },
     removeCryptedField (value) {
-      this.cryptedFields.splice(value, 1)
+      this.currentPredefinedSettings.headers.cryptedFields.splice(value, 1)
     },
     addHeader (value) {
       if (value) {
-        this.headersChoosen.push({ label: value, value: null })
+        this.currentPredefinedSettings.advancedHeaders.push({ label: value, value: null })
         this.header = null
       }
     },
     removeHeader (header) {
-      this.headersChoosen.splice(header, 1)
+      this.currentPredefinedSettings.advancedHeaders.splice(header, 1)
     },
     predefinedSettingsText (item) {
       return `${item.country} - ${item.fullName}`
