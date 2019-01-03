@@ -11,7 +11,7 @@
         <v-flex xs12 sm12 v-if="feedback">
           <v-alert :value="true" color="blue" v-html="$t('ui.pages.feedback.email')"></v-alert>
 
-          <v-alert :value="true" color="success" v-if="feedback" dismissible>{{ $t('ui.pages.feedback.hasSent') }}</v-alert>
+          <v-alert :value="true" color="success" v-if="feedBackSend" dismissible>{{ $t('ui.pages.feedback.hasSent') }}</v-alert>
 
           <v-text-field
             v-model="email"
@@ -49,7 +49,8 @@ export default {
       email: null,
       comment: null,
       browser: null,
-      checkbox: true
+      checkbox: true,
+      feedBackSend: false
     }
   },
   computed: {
@@ -67,7 +68,9 @@ export default {
         this.email = null
         this.comment = null
         this.checkbox = true
-        this.feedback = true
+        this.feedBackSend = true
+      }).catch(err => {
+        this.feedBackSend = false
       })
     }
   }

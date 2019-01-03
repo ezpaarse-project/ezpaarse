@@ -1,13 +1,6 @@
 <template>
   <v-card>
     <v-card-text>
-      <pre>
-        {{currentPredefinedSettings}}
-      </pre>
-      <hr>
-      <pre>
-        {{predefinedSettings[0]}}
-      </pre>
       <v-layout row wrap>
         <v-flex xs12 sm12>
           <v-select
@@ -17,6 +10,8 @@
             label="Sélectionnez une option"
             :return-object="true"
             solo
+            append-outer-icon="mdi-close-circle"
+            @click:append-outer="removePredefinedSettings"
           ></v-select>
         </v-flex>
 
@@ -30,7 +25,9 @@
                     <v-flex xs4 sm4 pr-2>
                       <v-select
                         :items="logTypes"
-                        v-model="currentPredefinedSettings.headers.logTypes"
+                        item-value="value"
+                        item-text="text"
+                        v-model="currentPredefinedSettings.headers.logFormat.format"
                         label="Type de log"
                       ></v-select>
                     </v-flex>
@@ -51,6 +48,13 @@
                         placeholder="dspace"
                         required
                       ></v-text-field>
+                    </v-flex>
+
+                    <v-flex xs12 sm12 v-if="currentPredefinedSettings.headers.logFormat.value || currentPredefinedSettings.headers.logFormat.format">
+                      <v-textarea
+                        label="Format de log"
+                        :value="currentPredefinedSettings.headers.logFormat.value"
+                      ></v-textarea>
                     </v-flex>
                   </v-layout>
                 </v-card-text>
@@ -223,7 +227,12 @@ export default {
   data () {
     return {
       currentPredefinedSettings: Object.assign({}, this.predefinedSettings[0]),
-      logTypes: ['Reconnaissance auto', 'EZproxy', 'Apache', 'Squid'],
+      logTypes: [
+        { value: null, text: 'Reconnaissance auto' },
+        { value: 'ezproxy', text: 'EZproxy' },
+        { value: 'apache', text: 'Apache' },
+        { value: 'squid', text: 'Squid' }
+      ],
       logType: 'Reconnaissance auto',
       counterFormats: ['CSV', 'JSON', 'TSV'],
       systemTraces: ['Erreurs uniquement', 'Informations générales', 'Warnings sans conséquences'],
@@ -231,13 +240,13 @@ export default {
       emails: null,
       cryptedFiled: null,
       header: null,
-      headers: {
+      headers: [
         { header: 'Encodage' },
         { name: 'Response-Encoding', group: 'Encodage' },
         { name: 'Accept-Encoding', group: 'Encodage' },
         { name: 'Request-Charset', group: 'Encodage' },
         { name: 'Response-Charset', group: 'Encodage' }
-      }
+      ]
     }
   },
   methods: {
@@ -252,7 +261,7 @@ export default {
     },
     addHeader (value) {
       if (value) {
-        this.currentPredefinedSettings.advancedHeaders.push({ label: value, value: null })
+        this.currentPredefinedSettings.advancedHeaders.push({ header: value, value: null })
         this.header = null
       }
     },
@@ -261,6 +270,9 @@ export default {
     },
     predefinedSettingsText (item) {
       return `${item.country} - ${item.fullName}`
+    },
+    removePredefinedSettings () {
+      this.currentPredefinedSettings = Object.assign({}, this.predefinedSettings[0])
     }
   }
 }

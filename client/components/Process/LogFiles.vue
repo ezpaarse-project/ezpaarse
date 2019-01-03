@@ -33,8 +33,8 @@
         </v-flex>
 
         <v-flex xs12 sm12 class="text-xs-center" mt-3>
-          <v-btn-toggle v-model="toggle_exclusive">
-              <v-btn color="success" large :disabled="logsFiles <= 0" id="logsFiles">{{ $t('ui.pages.process.processLog') }}</v-btn>
+          <v-btn-toggle v-model="logsFiles">
+              <v-btn color="teal white--text" large :disabled="logsFiles <= 0" id="logsFiles">{{ $t('ui.pages.process.processLog') }}</v-btn>
               <v-btn color="teal white--text" large>
                 <v-icon>mdi-file-multiple</v-icon>
               </v-btn>

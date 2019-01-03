@@ -109,9 +109,12 @@ export default {
             plus: [],
             minus: []
           },
-          logFormat: null,
+          logFormat: {
+            format: null,
+            value: null
+          },
           forceParser: null,
-          dateFormat: 'DD/MMM/YYYY:HH:mm:ss Z',
+          dateFormat: null,
           counterReports: null,
           counterFormat: 'csv'
         },
@@ -131,7 +134,10 @@ export default {
                 plus: [],
                 minus: []
               },
-              logFormat: null,
+              logFormat: {
+                format: null,
+                value: null
+              },
               forceParser: null,
               dateFormat: null,
               counterReports: false,
@@ -142,7 +148,7 @@ export default {
           if (data.headers) {
             Object.keys(data.headers).forEach(header => {
               let match
-              if ((match = /^(Crypted-Fields|Output-Fields|Log-Format-EZproxy|Log-Format-Apache|Log-Format-Squid|Force-Parser|Date-Format|COUNTER-Reports|COUNTER-Format)$/i.exec(header)) !== null) {
+              if ((match = /^(Crypted-Fields|Output-Fields|Force-Parser|Date-Format|COUNTER-Reports|COUNTER-Format)$/i.exec(header)) !== null) {
                 for (let i = 1; i < match.length; i++) {
                   switch (match[i]) {
                     case 'Crypted-Fields':
@@ -159,18 +165,6 @@ export default {
                       })
                     break
 
-                    case 'Log-Format-EZproxy':
-                      setting.headers.logFormat = 'EZproxy'
-                    break
-
-                    case 'Log-Format-Apache':
-                      setting.headers.logFormat = 'Apache'
-                    break
-
-                    case 'Log-Format-Squid':
-                      setting.headers.logFormat = 'Squid'
-                    break
-
                     case 'Force-Parser':
                       setting.headers.forceParser = data.headers[header]
                     break
@@ -185,6 +179,25 @@ export default {
 
                     case 'COUNTER-Format':
                       setting.headers.counterFormat = data.headers[header].toUpperCase()
+                    break
+                  }
+                } 
+              } else if ((match = /^(Log-Format-ezproxy|Log-Format-apache|Log-Format-squid|)$/i.exec(header)) !== null) {
+                for (let i = 1; i < match.length; i++) {
+                  switch (match[i]) {
+                    case 'Log-Format-ezproxy':
+                      setting.headers.logFormat.format = 'ezproxy'
+                      setting.headers.logFormat.value = data.headers[header]
+                    break
+
+                    case 'Log-Format-apache':
+                      setting.headers.logFormat.format = 'apache'
+                      setting.headers.logFormat.value = data.headers[header]
+                    break
+
+                    case 'Log-Format-squid':
+                      setting.headers.logFormat.format = 'squis'
+                      setting.headers.logFormat.value = data.headers[header]
                     break
                   }
                 }
