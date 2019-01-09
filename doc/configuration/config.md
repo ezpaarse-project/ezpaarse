@@ -126,13 +126,11 @@ The default value is set to `geoip-lookup`
 The default value is set to `.` (dot)
 
 ### EZPAARSE_ALERTS ###
-Contains an object with 4 member properties, listed here:
+Contains an object with 2 member properties, listed here:
 ```json
 {
   "activationThreshold": 1000,
-  "unknownDomainsRate": 10,
-  "titleIdOccurrenceRate": 20,
-  "pkbFailRate": 20
+  "unknownDomainsRate": 10
 }
 ```
 The properties and their values are documented in further details in the [relevant section](http://ezpaarse.readthedocs.io/en/master/features/alerts.html)

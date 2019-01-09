@@ -18,8 +18,7 @@ angular.module('ezPAARSE.anonymous-controllers', [])
             { cat: 'rejets',  key: 'nb-lines-ignored-domains', },
             { cat: 'rejets',  key: 'nb-lines-unknown-domains', },
             { cat: 'rejets',  key: 'nb-lines-unknown-formats', },
-            { cat: 'rejets',  key: 'nb-lines-unqualified-ecs', },
-            { cat: 'rejets',  key: 'nb-lines-pkb-miss-ecs',    }
+            { cat: 'rejets',  key: 'nb-lines-unqualified-ecs', }
           ];
           rejects.forEach(function (reject) {
             if (data[reject.cat][reject.key] === 0) {

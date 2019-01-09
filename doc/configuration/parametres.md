@@ -50,7 +50,6 @@ Possible values are:
   * `Ignored-Domains`
   * `Unknown-Domains`
   * `Unqualified-ECs`
-  * `PKB-Miss-ECs`
   * `Duplicate-ECs`
   * `Unordered-ECs`
   * `Filtered-ECs`

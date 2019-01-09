@@ -76,8 +76,6 @@
   "EZPAARSE_GEOLOCALIZE_SEPARATOR": ".",
   "EZPAARSE_ALERTS": {
     "activationThreshold": 1000,
-    "unknownDomainsRate": 10,
-    "titleIdOccurrenceRate": 20,
-    "pkbFailRate": 20
+    "unknownDomainsRate": 10
   }
 }

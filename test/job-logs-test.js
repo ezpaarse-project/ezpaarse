@@ -12,7 +12,6 @@ var wrongSecondLineLogFile = path.join(__dirname, '/dataset/sd.wrong-second-line
 var ignoredDomain          = path.join(__dirname, '/dataset/ignored-domain.log');
 var unknownDomain          = path.join(__dirname, '/dataset/unknown-domain.log');
 var unqualifiedEC          = path.join(__dirname, '/dataset/unqualified-ec.log');
-var pkbmissEC              = path.join(__dirname, '/dataset/pkb-miss-ec.log');
 var duplicateEC            = path.join(__dirname, '/dataset/duplicate-ecs.log');
 var unorderedEC            = path.join(__dirname, '/dataset/unordered-ecs.log');
 var deniedEC               = path.join(__dirname, '/dataset/sd.denied.log');
@@ -208,37 +207,6 @@ describe('The server', function () {
             'couldn\'t get the logfile, server sent ' + response.statusCode);
 
           var logLine = fs.readFileSync(unqualifiedEC).toString().trim();
-          logBody.trim().should.equal(logLine, 'The logfile and the input should be identical');
-          done();
-        });
-      });
-    });
-  });
-  describe('receives a log file with an unknown PID', function () {
-    it('and correctly handles Lines-PKB-Miss-ECs.log (@08)', function (done) {
-      var headers = {
-        'Accept' : 'text/csv',
-        'Reject-Files': 'pkb-miss-ecs'
-      };
-      helpers.post('/', pkbmissEC, headers, function (err, res, body) {
-        if (!res) { throw new Error('ezPAARSE is not running'); }
-        if (err)  { throw err; }
-        res.statusCode.should.equal(200, 'expected 200, got ' + res.statusCode);
-
-        body = body.trim().split('\n');
-        should.ok(body.length === 2, '1 EC should be returned, got ' + (body.length - 1));
-
-        var logURL = res.headers['lines-pkb-miss-ecs'];
-        should.exist(logURL,
-          'The header "Lines-PKB-Miss-ECs" was not sent by the server');
-
-        helpers.get(logURL, function (error, response, logBody) {
-          if (!response) { throw new Error('ezPAARSE is not running'); }
-          if (error)     { throw error; }
-          response.statusCode.should.equal(200,
-            'couldn\'t get the logfile, server sent ' + response.statusCode);
-
-          var logLine = fs.readFileSync(pkbmissEC).toString().trim();
           logBody.trim().should.equal(logLine, 'The logfile and the input should be identical');
           done();
         });

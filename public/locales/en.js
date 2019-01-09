@@ -234,7 +234,6 @@ ezLanguages['en'] = {
   "rejects+unknown_domains":       "Unknown domains",
   "rejects+unknown_formats":       "Unknown formats",
   "rejects+unqualified_ecs":       "Unqualified CEs",
-  "rejects+missing_pkbs":          "Missing PKBs",
   "rejects+ignored_hosts":         "Ignored hosts",
   "rejects+robots_ecs":            "Robots",
   "rejects+relevant_lines":        "Relevant log lines read: {{ nb | localNumber }}",
@@ -246,7 +245,6 @@ ezLanguages['en'] = {
   "rejects+unknown_domains_help":  "Domains that are not handle by ezPAARSE at the moment. You can download the list of all encountered unknown domains by clicking below.",
   "rejects+unknown_formats_help":  "The unknown formats",
   "rejects+unqualified_ecs_help":  "The parsers were not able to recognize bibliographical data in the URLs of those loglines. They are thus ignored by ezPAARSE.",
-  "rejects+missing_pkbs_help":     "The missing PKBs.",
   "rejects+ignored_hosts_help":    "Hosts that were deliberately ignored.",
   "rejects+robots_ecs_help":       "Robot-generated consultations.",
 

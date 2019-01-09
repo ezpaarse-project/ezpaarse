@@ -42,7 +42,6 @@ angular.module('ezPAARSE.services', [])
           { cat: 'rejets',  key: 'nb-lines-unknown-domains', percent: 0, title: 'rejects+unknown_domains' },
           { cat: 'rejets',  key: 'nb-lines-unknown-formats', percent: 0, title: 'rejects+unknown_formats' },
           { cat: 'rejets',  key: 'nb-lines-unqualified-ecs', percent: 0, title: 'rejects+unqualified_ecs' },
-          { cat: 'rejets',  key: 'nb-lines-pkb-miss-ecs',    percent: 0, title: 'rejects+missing_pkbs' },
           { cat: 'rejets',  key: 'nb-lines-ignored-hosts',   percent: 0, title: 'rejects+ignored_hosts' },
           { cat: 'rejets',  key: 'nb-lines-robots-ecs',      percent: 0, title: 'rejects+robots_ecs' }
         ]
