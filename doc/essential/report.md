@@ -177,6 +177,11 @@ There is also a special file called `domains.miss.csv`, located at the root of t
       <div class="comment">Number of unqualified lines (because they don't contain enough information)</div>
     </td>
   </tr><tr>
+    <th>nb-lines-unknown-errors</th>
+    <td>0
+      <div class="comment">Number of lines that were rejected due to an unknown error</div>
+    </td>
+  </tr><tr>
     <th>url-duplicate-ecs</th>
     <td><a target="_blank" href="http://localhost:59599/6f601540-f555-11e3-b477-758199fa5dc1/lines-duplicate-ecs.log">http://localhost:59599/6f601540-f555-11e3-b477-758199fa5dc1/lines-duplicate-ecs.log</a>
       <div class="comment">URL to the file containing the deduplicated lines</div>
@@ -210,6 +215,12 @@ There is also a special file called `domains.miss.csv`, located at the root of t
     <th>url-unqualified-ecs</th>
     <td><a target="_blank" href="http://localhost:59599/6f601540-f555-11e3-b477-758199fa5dc1/lines-unqualified-ecs.log">http://localhost:59599/6f601540-f555-11e3-b477-758199fa5dc1/lines-unqualified-ecs.log
       <div class="comment">URL to the file containing the lines containing too few information</div>
+    </a>
+    </td>
+  </tr><tr>
+    <th>url-unknown-errors</th>
+    <td><a target="_blank" href="http://localhost:59599/6f601540-f555-11e3-b477-758199fa5dc1/lines-unknown-errors.log">http://localhost:59599/6f601540-f555-11e3-b477-758199fa5dc1/unknown-errors.log
+      <div class="comment">URL to the file containing the lines rejected due to unknown errors</div>
     </a>
     </td>
   </tr>
