@@ -164,7 +164,7 @@
                     :value="true"
                     type="black"
                   >
-                    <p v-for="trace in traces" :key="trace">{{ trace.type }} : {{ trace.text }}</p>
+                    <div v-for="trace in traces" :key="trace">{{ trace.type }} : {{ trace.text }}</div>
                   </v-alert>
                 </v-card-text>
               </v-card>
@@ -328,6 +328,14 @@ export default {
         }
       ]
     }
-  }
+  },
+  sockets: {
+    report: function (data) {
+      console.log(data)
+    },
+    logging: function (data) {
+      console.log(data)
+    }
+  },
 }
 </script>

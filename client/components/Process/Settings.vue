@@ -3,20 +3,21 @@
     <v-card-text>
       <v-layout row wrap>
         <v-flex xs12 sm12>
-          <v-select
+          <v-autocomplete
             v-model="currentPredefinedSettings"
             :items="predefinedSettings"
             :item-text="predefinedSettingsText"
             label="Sélectionnez une option"
             :return-object="true"
             solo
+            @change="updateDefaultSettings"
             append-outer-icon="mdi-close-circle"
-            @click:append-outer="removePredefinedSettings"
-          ></v-select>
+            @click:append-outer="resetSettings"
+          ></v-autocomplete>
         </v-flex>
 
-        <v-flex xs12 sm12 mb-3>
-          <v-expansion-panel>
+        <v-flex xs12 sm12 mb-3 v-if="currentPredefinedSettings">
+          <v-expansion-panel expand>
             <v-expansion-panel-content class="teal lighten-3 white--text">
               <div slot="header">En entrée</div>
               <v-card>
@@ -27,14 +28,14 @@
                         :items="logTypes"
                         item-value="value"
                         item-text="text"
-                        v-model="currentPredefinedSettings.headers.logFormat.format"
+                        v-model="currentPredefinedSettings.headers['Log-Format'].format"
                         label="Type de log"
                       ></v-select>
                     </v-flex>
 
                     <v-flex xs4 sm4>
                       <v-text-field
-                        v-model="currentPredefinedSettings.headers.dateFormat"
+                        v-model="currentPredefinedSettings.headers['Date-Format']"
                         label="Format de date"
                         placeholder="DD/MMM/YYYY:HH:mm:ss Z"
                         required
@@ -43,17 +44,17 @@
 
                     <v-flex xs4 sm4 pl-2>
                       <v-text-field
-                        v-model="currentPredefinedSettings.headers.forceParser"
+                        v-model="currentPredefinedSettings.headers['Force-Parser']"
                         label="Parseur par défaut"
                         placeholder="dspace"
                         required
                       ></v-text-field>
                     </v-flex>
 
-                    <v-flex xs12 sm12 v-if="currentPredefinedSettings.headers.logFormat.value || currentPredefinedSettings.headers.logFormat.format">
+                    <v-flex xs12 sm12 v-if="currentPredefinedSettings.headers['Log-Format'].value || currentPredefinedSettings.headers['Log-Format'].format">
                       <v-textarea
                         label="Format de log"
-                        :value="currentPredefinedSettings.headers.logFormat.value"
+                        :value="currentPredefinedSettings.headers['Log-Format'].value"
                       ></v-textarea>
                     </v-flex>
                   </v-layout>
@@ -61,7 +62,7 @@
               </v-card>
             </v-expansion-panel-content>
 
-            <v-expansion-panel-content class="teal lighten-3 white--text">
+            <v-expansion-panel-content class="teal lighten-3 white--text" v-if="currentPredefinedSettings">
               <div slot="header">En sortie</div>
                 <v-card>
                   <v-card-text>
@@ -69,22 +70,22 @@
                       <v-flex xs4 sm4 pr-2>
                         <v-select
                           :items="counterFormats"
-                          v-model="currentPredefinedSettings.headers.counterFormat"
+                          v-model="currentPredefinedSettings.headers['COUNTER-Format']"
                           label="Format du résultat"
                         ></v-select>
                       </v-flex>
 
                       <v-flex xs4 sm4>
                         <v-select
-                          :items="systemTraces"
-                          v-model="systemTrace"
+                          :items="tracesLevel"
+                          v-model="currentPredefinedSettings.headers['Trace-Level']"
                           label="Traces système"
                         ></v-select>
                       </v-flex>
 
                       <v-flex xs4 sm4 pl-2>
                         <v-text-field
-                          v-model="emails"
+                          v-model="currentPredefinedSettings.headers['ezPAARSE-Job-Notifications']"
                           label="Notifications"
                           placeholder="Adresse(s) emails"
                           required
@@ -94,13 +95,14 @@
                       <v-flex xs12 sm12>
                         <v-checkbox
                           label="Rapports COUNTER *"
-                          v-model="currentPredefinedSettings.headers.counterReports"
+                          v-model="currentPredefinedSettings.headers['COUNTER-Reports']"
+                          @change="updateCounterFormat"
                         ></v-checkbox>
                       </v-flex>
 
                       <v-flex xs6 sm6>
                         <v-combobox
-                          v-model="currentPredefinedSettings.headers.outputFields.plus"
+                          v-model="currentPredefinedSettings.headers['Output-Fields'].plus"
                           label="Champs en sortie"
                           chips
                           clearable
@@ -122,7 +124,7 @@
 
                       <v-flex xs6 sm6 pl-2>
                         <v-combobox
-                          v-model="currentPredefinedSettings.headers.outputFields.minus"
+                          v-model="currentPredefinedSettings.headers['Output-Fields'].minus"
                           chips
                           clearable
                           placeholder="Enlever..."
@@ -143,7 +145,7 @@
 
                       <v-flex xs12 sm12>
                         <v-combobox
-                          v-model="currentPredefinedSettings.headers.cryptedFields"
+                          v-model="currentPredefinedSettings.headers['Crypted-Fields']"
                           chips
                           clearable
                           label="Champs cryptés"
@@ -171,7 +173,7 @@
                 </v-card>
             </v-expansion-panel-content>
 
-            <v-expansion-panel-content class="teal lighten-3 white--text">
+            <v-expansion-panel-content class="teal lighten-3 white--text" v-if="currentPredefinedSettings">
               <div slot="header">Headers (avancé)</div>
               <v-card>
                 <v-card-text>
@@ -190,7 +192,7 @@
                       </v-autocomplete>
                     </v-flex>
                     
-                    <v-flex xs12 sm12 v-for="(header, key) in currentPredefinedSettings.advancedHeaders" :key="key">
+                    <v-flex xs12 sm12 v-for="(header, key) in currentPredefinedSettings.headers.advancedHeaders" :key="key">
                       <v-layout row wrap>
                         <v-flex xs2 sm2 pr-2>
                           <v-text-field
@@ -215,7 +217,7 @@
           </v-expansion-panel>
         </v-flex>
         
-        <v-btn color="primary" block large><v-icon left>mdi-reload</v-icon>Paramètres par défaut</v-btn>
+        <v-btn color="primary" block large v-if="currentPredefinedSettings" @click="resetSettings"><v-icon left>mdi-reload</v-icon>Paramètres par défaut</v-btn>
       </v-layout>
     </v-card-text>
   </v-card>
@@ -226,19 +228,23 @@ export default {
   props: ['predefinedSettings'],
   data () {
     return {
-      currentPredefinedSettings: Object.assign({}, this.predefinedSettings[0]),
+      currentPredefinedSettings: JSON.parse(JSON.stringify(this.predefinedSettings[0])),
       logTypes: [
         { value: null, text: 'Reconnaissance auto' },
         { value: 'ezproxy', text: 'EZproxy' },
         { value: 'apache', text: 'Apache' },
         { value: 'squid', text: 'Squid' }
       ],
-      logType: 'Reconnaissance auto',
-      counterFormats: ['CSV', 'JSON', 'TSV'],
-      systemTraces: ['Erreurs uniquement', 'Informations générales', 'Warnings sans conséquences'],
-      systemTrace: 'Informations générales',
-      emails: null,
-      cryptedFiled: null,
+      counterFormats: [
+        { value: 'csv', text: 'CSV'},
+        { value: 'tsv', text: 'TSV'},
+        { value: 'json', text: 'JSON' }
+      ],
+      tracesLevel: [
+        { value: 'info', text: 'Informations générales'},
+        { value: 'error', text: 'Erreurs uniquement'},
+        { value: 'warn', text: 'Warnings sans conséquences' }
+      ],
       header: null,
       headers: [
         { header: 'Encodage' },
@@ -251,28 +257,45 @@ export default {
   },
   methods: {
     removeOutputPlus (index) {
-      this.currentPredefinedSettings.headers.plus.splice(index, 1)
+      this.currentPredefinedSettings.headers['Output-Fields'].plus.splice(index, 1)
     },
     removeOutputMinus (index) {
-      this.currentPredefinedSettings.headers.minus.splice(index, 1)
+      this.currentPredefinedSettings.headers['Output-Fields'].minus.splice(index, 1)
+    },
+    addOutputPlus (data) {
+      this.currentPredefinedSettings.headers['Output-Fields'].plus.push(data)
+    },
+    addOutputMinus (data) {
+      this.currentPredefinedSettings.headers['Output-Fields'].minus.push(data)
     },
     removeCryptedField (value) {
-      this.currentPredefinedSettings.headers.cryptedFields.splice(value, 1)
+      this.currentPredefinedSettings.headers['Crypted-Fields'].splice(value, 1)
     },
     addHeader (value) {
       if (value) {
-        this.currentPredefinedSettings.advancedHeaders.push({ header: value, value: null })
+        this.currentPredefinedSettings.headers.advancedHeaders.push({ header: value, value: null })
         this.header = null
       }
     },
     removeHeader (header) {
-      this.currentPredefinedSettings.advancedHeaders.splice(header, 1)
+      this.currentPredefinedSettings.headers.advancedHeaders.splice(header, 1)
     },
     predefinedSettingsText (item) {
-      return `${item.country} - ${item.fullName}`
+      return `${item['country']} - ${item['fullName']}`
     },
-    removePredefinedSettings () {
-      this.currentPredefinedSettings = Object.assign({}, this.predefinedSettings[0])
+    updateCounterFormat () {
+      if (this.currentPredefinedSettings.headers['COUNTER-Reports']) this.currentPredefinedSettings.headers['COUNTER-Format'] = 'tsv'
+    },
+    updateDefaultSettings (value) {
+      this.currentPredefinedSettings = JSON.parse(JSON.stringify(value))
+      this.$emit('setCurrentPredefinedSettings', this.currentPredefinedSettings)
+    },
+    resetSettings () {
+      this.currentPredefinedSettings = JSON.parse(JSON.stringify(this.predefinedSettings[0]))
+      this.$emit('setCurrentPredefinedSettings', this.currentPredefinedSettings)
+    },
+    removeEmail (index) {
+      this.currentPredefinedSettings.headers.emails.splice(index, 1)
     }
   }
 }

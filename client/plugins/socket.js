@@ -6,8 +6,8 @@ Vue.use(new VueSocketIO({
   debug: true,
   connection: window.location.host,
   vuex: {
-     store,
-     actionPrefix: 'SOCKET_',
-     mutationPrefix: 'SOCKET_'
+    store,
+    actionPrefix: 'SOCKET_',
+    mutationPrefix: 'SOCKET_'
   }
 }))

@@ -90,4 +90,8 @@ api.getAppVersion = function (axios) {
   return axios.get(`/api/info/version`).then(res => res.data)
 }
 
+api.processWithFile = function (axios, jobID, data, headers) {
+  return axios.put(`/${jobID}`, data, { headers }).then(res => res.data)
+}
+
 export default api

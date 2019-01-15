@@ -18,7 +18,8 @@
       <v-layout row wrap>
         <v-flex xs6 sm6>
           <h4>{{ $t('ui.pages.process.settings.currentSettings') }}</h4>
-          <span>{{ currentSettings }}</span>
+          <span v-if="currentPredefinedSettings">{{ currentPredefinedSettings.fullName }}</span>
+          <span v-else>Default</span>
         </v-flex>
 
         <v-flex xs6 sm6>
@@ -45,11 +46,11 @@
 
           <v-tabs-items v-model="activeTab">
             <v-tab-item value="tab-logs-files">
-              <LogFiles/>
+              <LogFiles :currentPredefinedSettings="currentPredefinedSettings" />
             </v-tab-item>
 
             <v-tab-item value="tab-log-format">
-              <LogFormat/>
+              <LogFormat :currentPredefinedSettings="currentPredefinedSettings" />
             </v-tab-item>
           </v-tabs-items>
         </v-flex>
@@ -58,7 +59,7 @@
           <v-expansion-panel>
             <v-expansion-panel-content class="teal lighten-3 white--text">
               <div slot="header">{{ $t('ui.pages.process.settings.title') }}</div>
-              <Settings :predefinedSettings="predefinedSettings" />
+              <Settings :predefinedSettings="predefinedSettings" @setCurrentPredefinedSettings="setCurrentPredefinedSettings" />
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-flex>
@@ -68,9 +69,9 @@
 </template>
 
 <script>
-import LogFiles from "~/components/Process/LogFiles";
-import LogFormat from "~/components/Process/LogFormat";
-import Settings from "~/components/Process/Settings";
+import LogFiles from '~/components/Process/LogFiles'
+import LogFormat from '~/components/Process/LogFormat'
+import Settings from '~/components/Process/Settings'
 
 export default {
   auth: true,
@@ -83,12 +84,12 @@ export default {
     return {
       activeTab: "tab-logs-files",
       paramsSaved: false,
-      currentSettings: this.$t('ui.pages.process.settings.defaultSettings')
+      currentPredefinedSettings: null
     }
   },
   async fetch ({ store }) {
     try {
-      store.dispatch('GET_PREDEFINED_SETTINGS')
+      await store.dispatch('process/GET_PREDEFINED_SETTINGS')
     } catch (e) { }
   },
   computed: {
@@ -96,125 +97,16 @@ export default {
       return this.$store.state.user
     },
     predefinedSettings () {
-
-      let ps = []
-
-      ps.push({
-        name: 'default',
-        fullName: 'Default',
-        country: 'Worldwide',
-        headers: {
-          cryptedFields: ['host', 'login'],
-          outputFields: {
-            plus: [],
-            minus: []
-          },
-          logFormat: {
-            format: null,
-            value: null
-          },
-          forceParser: null,
-          dateFormat: null,
-          counterReports: null,
-          counterFormat: 'csv'
-        },
-        advancedHeaders: []
-      })
-
-      if (this.$store.state.predefinedSettings) {
-        Object.keys(this.$store.state.predefinedSettings).forEach((k) => {
-          let data = this.$store.state.predefinedSettings[k]
-          let setting = {
-            name: k,
-            fullName: data.fullName,
-            country: data.country,
-            headers: {
-              cryptedFields: [],
-              outputFields: {
-                plus: [],
-                minus: []
-              },
-              logFormat: {
-                format: null,
-                value: null
-              },
-              forceParser: null,
-              dateFormat: null,
-              counterReports: false,
-              counterFormat: null
-            },
-            advancedHeaders: []
-          }
-          if (data.headers) {
-            Object.keys(data.headers).forEach(header => {
-              let match
-              if ((match = /^(Crypted-Fields|Output-Fields|Force-Parser|Date-Format|COUNTER-Reports|COUNTER-Format)$/i.exec(header)) !== null) {
-                for (let i = 1; i < match.length; i++) {
-                  switch (match[i]) {
-                    case 'Crypted-Fields':
-                      if (data.headers[header] === 'none') setting.headers.cryptedFields = []
-                      if (data.headers[header] !== 'none') {
-                        setting.headers.cryptedFields = data.headers[header].split(',')
-                      }
-                    break
-
-                    case 'Output-Fields':
-                      data.headers[header].split(',').map(e => {
-                        if (e.charAt(0) === '+') setting.headers.outputFields.plus.push(e.slice(1))
-                        if (e.charAt(0) === '-') setting.headers.outputFields.minus.push(e.slice(1))
-                      })
-                    break
-
-                    case 'Force-Parser':
-                      setting.headers.forceParser = data.headers[header]
-                    break
-
-                    case 'Date-Format':
-                      setting.headers.dateFormat = data.headers[header]
-                    break
-
-                    case 'COUNTER-Reports':
-                      setting.headers.counterReports = true
-                    break
-
-                    case 'COUNTER-Format':
-                      setting.headers.counterFormat = data.headers[header].toUpperCase()
-                    break
-                  }
-                } 
-              } else if ((match = /^(Log-Format-ezproxy|Log-Format-apache|Log-Format-squid|)$/i.exec(header)) !== null) {
-                for (let i = 1; i < match.length; i++) {
-                  switch (match[i]) {
-                    case 'Log-Format-ezproxy':
-                      setting.headers.logFormat.format = 'ezproxy'
-                      setting.headers.logFormat.value = data.headers[header]
-                    break
-
-                    case 'Log-Format-apache':
-                      setting.headers.logFormat.format = 'apache'
-                      setting.headers.logFormat.value = data.headers[header]
-                    break
-
-                    case 'Log-Format-squid':
-                      setting.headers.logFormat.format = 'squis'
-                      setting.headers.logFormat.value = data.headers[header]
-                    break
-                  }
-                }
-              } else {
-                setting.advancedHeaders.push({ header, value: data.headers[header] })
-              }
-            })
-          }
-          ps.push(setting)
-        })
-      }
-      return ps
+      this.currentPredefinedSettings = JSON.parse(JSON.stringify(this.$store.state.process.predefinedSettings[0]))
+      return this.$store.state.process.predefinedSettings
     }
   },
   methods: {
     saveParams () {
       this.paramsSaved = !this.paramsSaved
+    },
+    setCurrentPredefinedSettings (currentPredefinedSettings) {
+      this.currentPredefinedSettings = currentPredefinedSettings
     }
   }
 }

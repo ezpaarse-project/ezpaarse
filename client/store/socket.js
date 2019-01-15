@@ -1,16 +1,19 @@
-import Vue from 'vue'
-import Vuex from 'vuex'
-
-Vue.use(Vuex)
-
-export default new Vuex.Store({
+export default {
   state: {
-    connect: false
+    connect: false,
+    report: [],
+    logging: []
   },
   mutations: {
     SOCKET_CONNECT: (state, status) => {
       state.connect = true
+    },
+    SOCKET_REPORT (state, data) {
+      state.report = data
+    },
+    SOCKET_LOGGING (state, data) {
+      state.logging = data
     }
   },
   actions: { }
-})
+}

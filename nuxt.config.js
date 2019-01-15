@@ -70,9 +70,5 @@ module.exports = {
     analyze: true,
     vendor: [ 'socket.io-client' ]
   },
-  serverMiddleware: [
-    '~/api/index.js',
-    '~/api/ws.js'
-  ],
   srcDir: 'client/'
 };

@@ -1,11 +1,13 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import process from './process'
 import socket from './socket'
 import snacks from './snacks'
 import api from './api'
 
 const store = () => new Vuex.Store({
   modules: {
+    process,
     socket,
     snacks
   },
@@ -22,7 +24,6 @@ const store = () => new Vuex.Store({
     users: [],
     userNumber: -1,
     pkbs: null,
-    predefinedSettings: []
   },
   actions: {
     SET_DRAWER ({ commit }, value) {
@@ -99,11 +100,6 @@ const store = () => new Vuex.Store({
     SET_PKBS ({ commit }, data) {
       commit('SET_PKBS', data)
     },
-    GET_PREDEFINED_SETTINGS ({ commit }, data) {
-      return api.getPredefinedSettings(this.$axios).then(res => {
-        commit('SET_PREDEFINED_SETTINGS', res)
-      }).catch(err => {})
-    },
     GET_APP_VERSION ({ commit }, data) {
       return api.getAppVersion(this.$axios).then(res => {
         commit('SET_APP_VERSION', res)
@@ -143,9 +139,6 @@ const store = () => new Vuex.Store({
     },
     SET_PKBS (state, data) {
       Vue.set(state, 'pkbs', data)
-    },
-    SET_PREDEFINED_SETTINGS (state, data) {
-      Vue.set(state, 'predefinedSettings', data)
     },
     SET_APP_VERSION (state, data) {
       Vue.set(state, 'appVersion', data)

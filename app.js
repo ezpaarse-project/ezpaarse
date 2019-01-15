@@ -5,15 +5,21 @@ const { Nuxt, Builder } = require('nuxt');
 
 const app    = require('express')();
 const logger = require('morgan');
-
 const cookieSession = require('cookie-session');
 const cookieParser  = require('cookie-parser');
 const auth          = require('./lib/auth-middlewares.js');
 const passport      = require('passport');
 const BasicStrategy = require('passport-http').BasicStrategy;
 const LocalStrategy = require('passport-local').Strategy;
+const fs            = require('fs-extra');
+const bodyParser    = require('body-parser');
+const errorHandler  = require('errorhandler');
+const morgan        = require('morgan');
+const config        = require('./lib/config.js');
+const pkg           = require('./package.json');
+const mailer        = require('./lib/mailer.js');
 
-process.env.PORT = 59599;
+process.env.PORT = config.EZPAARSE_NODEJS_PORT || 59599;
 
 const isDev = app.get('env') !== 'production';
 if (isDev) { app.use(logger('dev')); }
@@ -37,6 +43,82 @@ app.use(cookieSession({ //should not be used in PROD
 }));
 app.use(passport.initialize());
 app.use(passport.session());
+
+// connect ezpaarse env to expressjs env
+const env = process.env.NODE_ENV = process.env.NODE_ENV || config.EZPAARSE_ENV;
+app.set('env', env);
+
+switch (env) {
+case 'development':
+  app.use(morgan('dev'));
+  break;
+case 'production':
+  app.use(morgan('combined', {
+    stream: fs.createWriteStream(path.resolve(__dirname, 'logs/access.log'), { flags: 'a+' })
+  }));
+}
+
+app.set('port', config.EZPAARSE_NODEJS_PORT || 3000);
+
+/**
+ * Send 503 if ezPAARSE is being updated
+ */
+app.use(function (req, res, next) {
+  if (!app.locals.updating) { return next(); }
+
+  fs.exists(path.resolve(__dirname, 'update.lock'), function (exist) {
+    if (exist) {
+      return res.status(503).send('ezPAARSE is being updated, it should be back in a few minutes');
+    }
+    app.locals.updating = false;
+    next();
+  });
+});
+
+/**
+ * Middleware to allow method override
+ * either using _method in query
+ * or the header X-HTTP-Method-Override
+ */
+app.use(function (req, res, next) {
+  const key = '_method';
+  if (req.query && req.query[key]) {
+    req.method = req.query[key].toUpperCase();
+  } else if (req.headers['x-http-method-override']) {
+    req.method = req.headers['x-http-method-override'].toUpperCase();
+  }
+  next();
+});
+
+// Set the ezPAARSE-Version header in all responses
+app.use(function (req, res, next) {
+  res.header('ezPAARSE-Version', pkg.version || 'N/A');
+  next();
+});
+
+// calculate the baseurl depending on reverse proxy variables
+app.use(function (req, res, next) {
+  req.ezBaseURL = 'http://' + (req.headers['x-forwarded-host'] || req.headers.host);
+  next();
+});
+
+/**
+ * routes handling
+ */
+app.all('*', function (req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'POST, GET, PUT, DELETE, OPTIONS');
+  res.header('Access-Control-Allow-Headers',
+    req.header('Access-Control-Request-Headers') || 'X-Requested-With');
+  next();
+});
+
+// Handles delegated mails
+app.post('/mail', bodyParser.urlencoded({ extended: true }), bodyParser.json(), mailer.handle);
+
+if (env == 'development') {
+  app.use(errorHandler());
+}
 
 // Import API Routes
 app.use('/api', require('./client/api/index.js'));
