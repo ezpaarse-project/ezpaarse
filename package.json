@@ -53,6 +53,7 @@
     "passport": "^0.4.0",
     "passport-http": "~0.3.0",
     "passport-local": "~1.0.0",
+    "popper.js": "^1.14.6",
     "portscanner": "^2.2.0",
     "request": "^2.88.0",
     "serve-favicon": "^2.5.0",

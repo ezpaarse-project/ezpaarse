@@ -50,7 +50,25 @@
           "defaultSettings": "par défaut",
           "saveSettings": "Mémoiriser mes paramètres",
           "logFiles": "Fichiers de logs",
-          "designLogFormat": "Concevoir mon format de log"
+          "designLogFormat": "Concevoir mon format de log",
+          "selectAnOption": "Sélectionnez une option",
+          "input": "En entrée",
+          "typeOfLog": "Type de log",
+          "dateFormat": "Format de date",
+          "defaultParser": "Parseur par défaut",
+          "logFormat": "Format de log",
+          "output": "En sortie",
+          "counterFormat": "Format du résultat",
+          "traceLevel": "Traces système",
+          "notificationsEmails": "Adresse(s) emails",
+          "counterReports": "Rapports COUNTER *",
+          "outputFields": "Champs en sortie",
+          "add": "Ajouter...",
+          "remove": "Enlever...",
+          "cryptedFields": "Champs cryptés",
+          "counterReportDetail": "* Les rapports ne sont pas certifiés COUNTER, cependant l'algorithme de dédoublonnage et les formats de sortie suivent les recommandations.",
+          "advancedHeaders": "avancé",
+          "defaultParams": "Paramètres par défaut"
         },
         "logFiles": {
           "clickToAdd": "Cliquez pour ajouter",
@@ -68,6 +86,7 @@
           "autoRecognition": "Reconnaissance auto"
         },
         "report": {
+          "title": "Rapport",
           "linesRead": "Lignes lues",
           "ECsGenerated": "ECs générés",
           "treatmentDuration": "Durée du traitement",
@@ -99,7 +118,26 @@
             "nb-lines-unordered-ecs": "Lignes ignorées en raison d'un mauvais ordre chronologique.",
             "nb-lines-ignored-hosts": "Hosts volontairement ignorés.",
             "nb-lines-robots-ecs": "Consultations engendrées par des robots."
-          }
+          },
+          "general": "Général",
+          "rejets": "Rejets",
+          "stats": "Stats",
+          "alerts": "Alerts",
+          "dedoublonnage": "Dédoublonnage",
+          "files": "Fichiers",
+          "first_event": "Première consultation"
+        },
+        "job": {
+          "title": "Traitement(s) en cours",
+          "currentProcess": "Il y a <strong>{process}</strong> traitement(s) en cours.",
+          "infos": "ezPAARSE a fini de traiter vos logs. Des macros <a href=\"{excelUrl}\">Excel</a> et <a href=\"{libreOfficeUrl}\">LibreOffice</a> sont à votre disposition si vous souhaitez avoir un premier aperçu visuel des résultats.",
+          "downloadResult": "Télécharger le résultat",
+          "consultReport": "Consulter le rapport",
+          "newProcess": "Nouveau traitement",
+          "processState": "État du traitement",
+          "rejects": "Rejets",
+          "traces": "Traces système",
+          "relevantLogLinesRead": "Lignes de log pertinentes lues : <strong>{relevantLogLines}</strong>"
         }
       },
       "admin": {
@@ -138,18 +176,6 @@
             "admin": "Administrateur",
             "user": "Utilisateur"
           }
-        },
-        "jobs": {
-          "title": "Traitement(s) en cours",
-          "currentProcess": "Il y a <strong>{process}</strong> traitement(s) en cours.",
-          "infos": "ezPAARSE a fini de traiter vos logs. Des macros <a href=\"{excelUrl}\">Excel</a> et <a href=\"{libreOfficeUrl}\">LibreOffice</a> sont à votre disposition si vous souhaitez avoir un premier aperçu visuel des résultats.",
-          "downloadResult": "Télécharger le résultat",
-          "consultReport": "Consulter le rapport",
-          "newProcess": "Nouveau traitement",
-          "processState": "État du traitement",
-          "rejects": "Rejets",
-          "traces": "Traces système",
-          "relevantLogLinesRead": "Lignes de log pertinentes lues : <strong>{relevantLogLines}</strong>"
         },
         "report": {
           "title": "Rapport"

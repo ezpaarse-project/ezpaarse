@@ -91,7 +91,12 @@ api.getAppVersion = function (axios) {
 }
 
 api.processWithFile = function (axios, jobID, data, headers) {
-  return axios.put(`/${jobID}`, data, { headers }).then(res => res.data)
+  return axios.put(`/${jobID}`, data, {
+    onUploadProgress: progressEvent => {
+      console.log(Math.floor((progressEvent.loaded * 100) / progressEvent.total))
+    },
+    headers
+  }).then(res => res.data)
 }
 
 export default api

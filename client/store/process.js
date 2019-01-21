@@ -3,11 +3,42 @@ import api from './api'
 export default {
   namespaced: true,
   state: {
-    predefinedSettings: []
+    inProgress: false,
+    predefinedSettings: [],
+    currentPredefinedSettings: null,
+    processProgress: 0,
+    logsFiles: [],
+    logsFilesSize: '0 B',
+    totalFileSize: 0,
+    countLogsFile: 0
   },
   mutations: {
     SET_PREDEFINED_SETTINGS (state, data) {
-      Vue.set(state, 'predefinedSettings', data)
+      state.predefinedSettings = data
+    },
+    SET_CURRENT_PREDEFINED_SETTINGS (state, data) {
+      state.currentPredefinedSettings = data
+    },
+    SET_PROCESS_PROGRESS (state, data) {
+      state.processProgress = data
+    },
+    SET_IN_PROGRESS (state, data) {
+      state.inProgress = data
+    },
+    SET_LOGS_FILES (state, data) {
+      state.logsFiles = data
+    },
+    SET_COUNT_LOGS_FILES (state, data) {
+      state.countLogsFile = data
+    },
+    SET_LOGS_FILES_SIZE (state, data) {
+      state.logsFilesSize = data
+    },
+    SET_TOTAL_FILES_SIZE (state, data) {
+      state.totalFileSize = data
+    },
+    REMOVE_ALL_LOGS_FILES (state) {
+      state.logsFiles = []
     }
   },
   actions: {
@@ -97,10 +128,50 @@ export default {
         data.unshift(currentSettings)
 
         commit('SET_PREDEFINED_SETTINGS', data)
+        commit('SET_CURRENT_PREDEFINED_SETTINGS', currentSettings)
       }).catch(err => {})
     },
-    PROCESS_WITH_FILE ({ commit }, data) {
-      return api.processWithFile(this.$axios, data.jobID, data.formData, data.headers).catch(err => {})
+    SET_CURRENT_PREDEFINED_SETTINGS ({ commit }, data) {
+      commit('SET_CURRENT_PREDEFINED_SETTINGS', data)
+    },
+    PROCESS_WITH_FILES ({ commit }, data) {
+      commit('SET_IN_PROGRESS', true)
+      return this.$axios.put(`/${data.jobID}`, data.formData, {
+        onUploadProgress: progressEvent => {
+          let percent = Math.floor((progressEvent.loaded * 100) / progressEvent.total)
+          if (percent <= 100) commit('SET_PROCESS_PROGRESS', percent)
+          if (percent >= 100) {
+            commit('SET_IN_PROGRESS', false)
+            commit('REMOVE_ALL_LOGS_FILES')
+            commit('SET_LOGS_FILES_SIZE', '0 B')
+            commit('SET_TOTAL_FILES_SIZE', 0)
+            commit('SET_COUNT_LOGS_FILES', 0)
+          }
+        },
+        headers: data.headers
+      })
+      .then(res => { })
+      .catch(err => { })
+    },
+    PROCESS ({ commit }, data) {
+      commit('SET_IN_PROGRESS', true)
+    },
+    SET_LOGS_FILES ({ commit }, data) {
+      commit('SET_LOGS_FILES', data)
+    },
+    SET_COUNT_LOGS_FILES ({ commit }, data) {
+      commit('SET_COUNT_LOGS_FILES', data)
+    },
+    SET_LOGS_FILES_SIZE ({ commit }, data) {
+      commit('SET_LOGS_FILES_SIZE', data)
+    },
+    SET_TOTAL_FILES_SIZE ({ commit }, data) {
+      commit('SET_TOTAL_FILES_SIZE', data)
+    },
+    REMOVE_LOGS_FILES_LIST ({ commit }) {
+      commit('REMOVE_ALL_LOGS_FILES')
+      commit('SET_LOGS_FILES_SIZE', '0 B')
+      commit('SET_TOTAL_FILES_SIZE', 0)
     }
   }
 }

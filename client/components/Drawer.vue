@@ -8,7 +8,7 @@
         
         <v-list-tile-content>
           <v-list-tile-title>ezPAARSE</v-list-tile-title>
-
+          
           <v-list-tile-sub-title>
             <v-menu>
               <span flat slot="activator">

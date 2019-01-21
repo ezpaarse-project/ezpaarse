@@ -1,13 +1,12 @@
 <template>
   <v-app id="ezpaarse">
     <v-content>
-      <Header />
       <Drawer />
+      <Header />
       <v-container fluid>
         <nuxt/>
+        <Snackbar />
       </v-container>
-
-      <Snackbar />
     </v-content>
   </v-app>
 </template>
@@ -22,6 +21,13 @@ export default {
     Header,
     Drawer,
     Snackbar
+  },
+  mounted () {
+    try {
+      this.$store.dispatch('GET_APP_VERSION')
+      this.$store.dispatch('LOAD_PKBS')
+      this.$store.dispatch('LOAD_STATUS')
+    } catch(e) { }
   },
   computed: {
     dialog: {

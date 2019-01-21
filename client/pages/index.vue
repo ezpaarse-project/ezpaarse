@@ -14,8 +14,8 @@
 </template>
 
 <script>
-import Signin from '~/components/Signin'
-import Signup from '~/components/Signup'
+import Signin from '~/components/Sign/Signin'
+import Signup from '~/components/Sign/Signup'
 
 export default {
   auth: true,

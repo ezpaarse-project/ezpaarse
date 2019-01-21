@@ -45,6 +45,10 @@ export default {
           password: this.credentials.password.trim(),
           remember: this.credentials.remember
         }
+      }).then(re => {
+        this.$store.dispatch('GET_APP_VERSION')
+        this.$store.dispatch('LOAD_PKBS')
+        this.$store.dispatch('LOAD_STATUS')
       }).catch(err => {
         if (err.response.status !== 200) this.$store.dispatch('snacks/error', this.$t('ui.errors.bad_credentials'))
       })

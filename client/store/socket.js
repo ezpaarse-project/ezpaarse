@@ -1,4 +1,6 @@
 export default {
+  namespaced: true,
+
   state: {
     connect: false,
     report: [],
@@ -12,8 +14,15 @@ export default {
       state.report = data
     },
     SOCKET_LOGGING (state, data) {
-      state.logging = data
+      state.logging.push(data)
     }
   },
-  actions: { }
+  actions: {
+    SOCKET_REPORT ({ commit }, data) {
+      commit('SOCKET_REPORT', data)
+    },
+    SOCKET_LOGGING ({ commit }, data) {
+      commit('SOCKET_LOGGING', JSON.parse(data))
+    }
+  }
 }

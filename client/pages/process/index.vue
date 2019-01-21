@@ -46,11 +46,11 @@
 
           <v-tabs-items v-model="activeTab">
             <v-tab-item value="tab-logs-files">
-              <LogFiles :currentPredefinedSettings="currentPredefinedSettings" />
+              <LogFiles />
             </v-tab-item>
 
             <v-tab-item value="tab-log-format">
-              <LogFormat :currentPredefinedSettings="currentPredefinedSettings" />
+              <LogFormat />
             </v-tab-item>
           </v-tabs-items>
         </v-flex>
@@ -59,7 +59,7 @@
           <v-expansion-panel>
             <v-expansion-panel-content class="teal lighten-3 white--text">
               <div slot="header">{{ $t('ui.pages.process.settings.title') }}</div>
-              <Settings :predefinedSettings="predefinedSettings" @setCurrentPredefinedSettings="setCurrentPredefinedSettings" />
+              <Settings />
             </v-expansion-panel-content>
           </v-expansion-panel>
         </v-flex>
@@ -97,16 +97,15 @@ export default {
       return this.$store.state.user
     },
     predefinedSettings () {
-      this.currentPredefinedSettings = JSON.parse(JSON.stringify(this.$store.state.process.predefinedSettings[0]))
       return this.$store.state.process.predefinedSettings
+    },
+    currentPredefindedSettings () {
+      return this.$store.state.process.currentPredefindedSettings
     }
   },
   methods: {
     saveParams () {
       this.paramsSaved = !this.paramsSaved
-    },
-    setCurrentPredefinedSettings (currentPredefinedSettings) {
-      this.currentPredefinedSettings = currentPredefinedSettings
     }
   }
 }
