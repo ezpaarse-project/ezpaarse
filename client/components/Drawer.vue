@@ -9,7 +9,7 @@
         <v-list-tile-content>
           <v-list-tile-title>ezPAARSE</v-list-tile-title>
           
-          <v-list-tile-sub-title>
+          <v-list-tile-sub-title v-if="appVersion">
             <v-menu>
               <span flat slot="activator">
                 Version: {{ appVersion }} <v-icon dark>mdi-menu-down</v-icon>

@@ -1,7 +1,7 @@
 <template>
   <v-flex xs12 sm12 class="text-xs-center" mt-3>
-    <v-btn-toggle v-model="logsFiles">
-      <v-btn color="teal white--text" large @click="process" :disabled="logsFiles <= 0 || inProgress" id="logsFiles">{{ $t('ui.pages.process.processLog') }}</v-btn>
+    <v-btn-toggle>
+      <v-btn color="teal white--text" large @click="process" :disabled="logsFiles.length <= 0 || inProgress">{{ $t('ui.pages.process.processLog') }}</v-btn>
       <v-btn color="teal white--text" large>
         <v-icon>mdi-file-multiple</v-icon>
       </v-btn>
@@ -125,10 +125,10 @@ export default {
 
       headers['Socket-ID'] = this.$socket.id
 
-      if (this.logType === 'files') this.$store.dispatch('process/PROCESS_WITH_FILES', { jobID, formData, headers })
-      if (this.logType === 'text') this.$store.dispatch('process/PROCESS', { jobID, formData, headers })
-
       this.$router.push('/process/job')
+
+      if (this.logType === 'files') this.$store.dispatch('process/PROCESS_WITH_FILES', { jobID, formData, headers })
+      // if (this.logType === 'text') this.$store.dispatch('process/PROCESS', { jobID, formData, headers })
     }
   }
 }

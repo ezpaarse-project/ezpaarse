@@ -53,7 +53,7 @@
             </v-btn>
           </a>
 
-          <v-btn depressed color="teal darken-2" class="white--text" router :to="{ path: '/process' }">
+          <v-btn depressed color="teal darken-2" class="white--text" @click="newTreatment">
             {{ $t('ui.pages.process.job.newProcess') }}
             <v-icon right>mdi-reload</v-icon>
           </v-btn>
@@ -148,9 +148,10 @@
                     <div class="elevation-1">
                       <div class="v-table__overflow">
                         <table class="v-datatable v-table theme--light">
-                          <tbody v-if="report.files">
-                            <tr>
-                              <td>TODO : Mettre dans le store les fichiers et paramètres</td>
+                          <tbody v-if="logsFiles">
+                            <tr v-for="(file, index) in logsFiles" :key="index">
+                              <td class="text-xs-left">{{ file.name }}</td>
+                              <td class="text-xs-right">{{ file.sizeText }}</td>
                             </tr>
                           </tbody>
                         </table>
@@ -213,7 +214,7 @@
                   </v-flex>
 
                   <v-flex xs3 sm3 pl-2 v-if="currentReject">
-                    <h3 class="headline">{{ $t(`ui.pages.process.job.${currentReject}`) }}</h3>
+                    <h3 class="headline">{{ $t(`ui.pages.process.report.${currentReject}`) }}</h3>
                     <br>
                     <p
                       v-html="$t(`ui.pages.process.report.descriptions.${currentReject}`)"
@@ -256,11 +257,24 @@
 
 <script>
 export default {
-  props: [ 'logging', 'report', 'processProgress' ],
   data () {
     return {
       panel: [true, false, false, false],
       currentReject: null
+    }
+  },
+  computed: {
+    report () {
+      return this.$store.state.socket.report
+    },
+    logging () {
+      return this.$store.state.socket.logging
+    },
+    processProgress () {
+      return this.$store.state.process.processProgress
+    },
+    logsFiles () {
+      return this.$store.state.process.logsFiles
     }
   },
   methods: {
@@ -269,6 +283,10 @@ export default {
     },
     fullReport () {
       this.$emit('consultReport')
+    },
+    newTreatment () {
+      this.$store.dispatch('process/RESET')
+      this.$router.push('/process')
     }
   }
 }

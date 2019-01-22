@@ -9,8 +9,8 @@
       </v-toolbar-title>
     </v-toolbar>
 
-    <Treatment :report="report" :logging="logging" :processProgress="processProgress" @consultReport="consultReport" v-if="!fullReport" />
-    <ReportView :report="report" v-else />
+    <Treatment @consultReport="consultReport" v-if="!fullReport" />
+    <ReportView v-else />
     
   </v-card>
 </template>
@@ -33,17 +33,6 @@ export default {
   fetch ({ store, redirect }) {
     if (!store.state.process.inProgress) {
       return redirect('/process')
-    }
-  },
-  computed: {
-    report () {
-      return this.$store.state.socket.report
-    },
-    logging () {
-      return this.$store.state.socket.logging
-    },
-    processProgress () {
-      return this.$store.state.process.processProgress
     }
   },
   sockets: {

@@ -141,7 +141,7 @@ export default {
       }
     },
     removeList () {
-      this.$store.dispatch('process/REMOVE_LOGS_FILES_LIST')
+      this.$store.dispatch('process/RESET')
     }
   }
 }

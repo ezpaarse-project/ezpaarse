@@ -89,6 +89,7 @@ export default {
   },
   async fetch ({ store }) {
     try {
+      await store.dispatch('process/RESET')
       await store.dispatch('process/GET_PREDEFINED_SETTINGS')
     } catch (e) { }
   },

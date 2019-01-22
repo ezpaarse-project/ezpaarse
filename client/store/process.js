@@ -140,13 +140,6 @@ export default {
         onUploadProgress: progressEvent => {
           let percent = Math.floor((progressEvent.loaded * 100) / progressEvent.total)
           if (percent <= 100) commit('SET_PROCESS_PROGRESS', percent)
-          if (percent >= 100) {
-            commit('SET_IN_PROGRESS', false)
-            commit('REMOVE_ALL_LOGS_FILES')
-            commit('SET_LOGS_FILES_SIZE', '0 B')
-            commit('SET_TOTAL_FILES_SIZE', 0)
-            commit('SET_COUNT_LOGS_FILES', 0)
-          }
         },
         headers: data.headers
       })
@@ -168,10 +161,11 @@ export default {
     SET_TOTAL_FILES_SIZE ({ commit }, data) {
       commit('SET_TOTAL_FILES_SIZE', data)
     },
-    REMOVE_LOGS_FILES_LIST ({ commit }) {
+    RESET ({ commit }) {
       commit('REMOVE_ALL_LOGS_FILES')
       commit('SET_LOGS_FILES_SIZE', '0 B')
       commit('SET_TOTAL_FILES_SIZE', 0)
+      commit('SET_IN_PROGRESS', false)
     }
   }
 }

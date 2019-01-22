@@ -67,17 +67,21 @@
 
 <script>
 export default {
-  props: [ 'report' ],
   data() {
     return {
       panel: [true, false, false, false, false, false, false],
       expended: false
     }
   },
+  computed: {
+    report () {
+      return this.$store.state.socket.report
+    }
+  },
   methods: {
     allPage() {
       if (!this.expended) this.panel = [true, true, true, true, true, true, true]
-      if (this.expended) this.panel = [false, false, false, false, false, false, false]
+      if (this.expended) this.panel = [true, false, false, false, false, false, false]
       this.expended = !this.expended
     }
   }
