@@ -28,7 +28,11 @@
         </v-chip>
       </div>
       <div class="text-xs-center mt-2">
-        <v-chip>{{ $t('ui.header.noCurrentProcessing') }}</v-chip>
+        <v-chip v-if="processProgress <= 0">{{ $t('ui.header.noCurrentProcessing') }}</v-chip>
+        <v-chip v-if="status === 'abort'">{{ $t('ui.header.processCanceled') }}</v-chip>
+        <nuxt-link tag="v-chip" to="/process/job" v-if="processProgress > 0 && status !== 'abort' && status === 'end'">
+          {{ $t('ui.header.currentProcessing', { percent: processProgress }) }}
+        </nuxt-link>
       </div>
     </v-toolbar-items>
   </v-toolbar>
@@ -38,10 +42,20 @@
 import { mapActions, mapState } from 'vuex'
 
 export default {
-  computed: mapState([
-    'drawer',
-    'pkbs',
-  ]),
+  computed: {
+    drawer () {
+      return this.$store.state.drawer
+    },
+    pkbs () {
+      return this.$store.state.pkbs
+    },
+    processProgress () {
+      return this.$store.state.process.processProgress
+    },
+    status () {
+      return this.$store.state.process.status
+    }
+  },
   methods: mapActions({
     'setDrawer': 'SET_DRAWER'
   })

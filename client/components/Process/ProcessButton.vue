@@ -1,27 +1,28 @@
 <template>
   <v-flex xs12 sm12 class="text-xs-center" mt-3>
-    <v-btn-toggle>
-      <v-btn color="teal white--text" large @click="process" :disabled="logsFiles.length <= 0 || inProgress">{{ $t('ui.pages.process.processLog') }}</v-btn>
-      <v-btn color="teal white--text" large>
+    <ButtonGroup>
+      <v-btn color="success" large @click="process" :disabled="logsFiles.length <= 0 || inProgress" v-if="logType === 'files'">{{ $t('ui.pages.process.processLogs') }}</v-btn>
+      <v-btn color="success" large @click="process" :disabled="logsLines.length <= 0 || inProgress" v-if="logType === 'text'">{{ $t('ui.pages.process.processLogs') }}</v-btn>
+      <v-btn color="success" large>
         <v-icon>mdi-file-multiple</v-icon>
       </v-btn>
-    </v-btn-toggle>
-
+    </ButtonGroup>
     <v-btn fab flat small @click="$tours['myTour'].start()">
       <v-icon>mdi-help-circle</v-icon>
     </v-btn>
-
   </v-flex>
 </template>
 
 <script>
+import ButtonGroup from '~/components/ButtonGroup'
 import Tour from '~/components/Tour'
 import { uuid } from 'vue-uuid'
 
 export default {
   props: [ 'logType' ],
   components: {
-    Tour
+    Tour,
+    ButtonGroup
   },
   computed: {
     inProgress () {
@@ -30,6 +31,9 @@ export default {
     logsFiles: {
       get () { return this.$store.state.process.logsFiles },
       set (newVal) { this.$store.dispatch('process/SET_LOGS_FILES', newVal) }
+    },
+    logsLines () {
+      return this.$store.state.process.logsLines
     },
     predefinedSettings () {
       return this.$store.state.process.predefinedSettings
@@ -42,12 +46,34 @@ export default {
     process () {
       const jobID = uuid.v1()
 
-      const formData = new FormData()
-      this.logsFiles.forEach(f => {
-        formData.append('files[]', f.file)
-      })
+      let formData
+      if (this.logType === 'files') {
+        formData = new FormData()
+        this.logsFiles.forEach(f => {
+          formData.append('files[]', f.file)
+        })
+      } else if (this.logType === 'text') {
+        formData = this.logsLines
+      } else {
+        return false
+      }
 
       let headers = {}
+
+      switch (this.currentPredefinedSettings.headers['COUNTER-Format']) {
+        default:
+        case 'csv':
+          headers['Accept'] = 'text/csv'
+          break
+
+        case 'json':
+          headers['Accept'] = 'application/json'
+          break
+
+        case 'tsv':
+          headers['Accept'] = 'text/tab-separated-values'
+          break
+      }
 
       Object.keys(this.currentPredefinedSettings.headers).forEach(header => {
         switch (header) {
@@ -97,8 +123,10 @@ export default {
             }
             break
 
-          case 'COUNTER-Reports':
           case 'COUNTER-Format':
+            break
+
+          case 'COUNTER-Reports':
             this.currentPredefinedSettings.headers['COUNTER-Format'] = 'tsv'
             break
 
@@ -108,27 +136,11 @@ export default {
         }
       })
 
-      switch (this.currentPredefinedSettings.headers['COUNTER-Format']) {
-        default:
-        case 'csv':
-          headers['Accept'] = 'text/csv'
-          break
-
-        case 'json':
-          headers['Accept'] = 'application/json'
-          break
-
-        case 'tsv':
-          headers['Accept'] = 'text/tab-separated-values'
-          break
-      }
-
       headers['Socket-ID'] = this.$socket.id
 
-      this.$router.push('/process/job')
+      this.$store.dispatch('process/PROCESS', { jobID, formData, headers })
 
-      if (this.logType === 'files') this.$store.dispatch('process/PROCESS_WITH_FILES', { jobID, formData, headers })
-      // if (this.logType === 'text') this.$store.dispatch('process/PROCESS', { jobID, formData, headers })
+      this.$router.push('/process/job')
     }
   }
 }

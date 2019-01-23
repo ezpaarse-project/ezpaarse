@@ -3,7 +3,9 @@
     "header": {
       "pkbsSynchronized": "PKBs Synchronized",
       "pkbsRemaining": "{pkbs} PKBs remaining",
-      "noCurrentProcessing": "No process loading"
+      "noCurrentProcessing": "No process loading",
+      "currentProcessing": "Processing in progress : {percent} %",
+      "processCanceled": "Process canceled"
     },
     "drawer": {
       "notConnected": "Not connected",
@@ -125,7 +127,9 @@
           "alerts": "Alerts",
           "dedoublonnage": "Duplicates",
           "files": "Files",
-          "first_event": "First consultation"
+          "first_event": "First consultation",
+          "seeFull": "See the full report",
+          "minimizeReport": "Minimize the report"
         },
         "job": {
           "title": "Ongoing processing(s)",
@@ -137,7 +141,8 @@
           "processState": "Processing status",
           "rejects": "Discharges",
           "traces": "System traces",
-          "relevantLogLinesRead": "Relevant log lines read : <strong>{relevantLogLines}</strong>"
+          "relevantLogLinesRead": "Relevant log lines read : <strong>{relevantLogLines}</strong>",
+          "stopProcess": "Stop current process"
         }
       },
       "admin": {

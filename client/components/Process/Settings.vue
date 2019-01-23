@@ -10,14 +10,13 @@
             :label="$t('ui.pages.process.settings.selectAnOption')"
             :return-object="true"
             solo
-            append-outer-icon="mdi-close-circle"
-            @click:append-outer="resetSettings"
+            clearable
           ></v-autocomplete>
         </v-flex>
 
         <v-flex xs12 sm12 mb-3 v-if="currentPredefinedSettings">
           <v-expansion-panel expand>
-            <v-expansion-panel-content class="teal lighten-3 white--text">
+            <v-expansion-panel-content class="teal white--text">
               <div slot="header">{{ $t('ui.pages.process.settings.input') }}</div>
               <v-card>
                 <v-card-text>
@@ -61,7 +60,7 @@
               </v-card>
             </v-expansion-panel-content>
 
-            <v-expansion-panel-content class="teal lighten-3 white--text" v-if="currentPredefinedSettings">
+            <v-expansion-panel-content class="teal white--text" v-if="currentPredefinedSettings">
               <div slot="header">{{ $t('ui.pages.process.settings.output') }}</div>
                 <v-card>
                   <v-card-text>
@@ -172,7 +171,7 @@
                 </v-card>
             </v-expansion-panel-content>
 
-            <v-expansion-panel-content class="teal lighten-3 white--text" v-if="currentPredefinedSettings">
+            <v-expansion-panel-content class="teal white--text" v-if="currentPredefinedSettings">
               <div slot="header">Headers ({{ $t('ui.pages.process.settings.advancedHeaders') }})</div>
               <v-card>
                 <v-card-text>
@@ -312,7 +311,7 @@ export default {
   computed: {
     currentPredefinedSettings: {
       get () { return this.$store.state.process.currentPredefinedSettings },
-      set (newVal) { this.$store.dispatch('process/SET_CURRENT_PREDEFINED_SETTINGS', JSON.parse(JSON.stringify(newVal))) }
+      set (newVal) { this.$store.dispatch('process/SET_CURRENT_PREDEFINED_SETTINGS', JSON.parse(JSON.stringify(newVal || this.predefinedSettings[0]))) }
     },
     predefinedSettings () {
       return this.$store.state.process.predefinedSettings
@@ -353,7 +352,7 @@ export default {
       const currentSettings = this.predefinedSettings.filter(param => {
         return param.fullName === this.currentPredefinedSettings.fullName
       })
-      this.$store.dispatch('process/SET_CURRENT_PREDEFINED_SETTINGS', JSON.parse(JSON.stringify(currentSettings)))
+      this.$store.dispatch('process/SET_CURRENT_PREDEFINED_SETTINGS', JSON.parse(JSON.stringify(currentSettings[0])))
     },
     removeEmail (index) {
       this.currentPredefinedSettings.headers.emails.splice(index, 1)

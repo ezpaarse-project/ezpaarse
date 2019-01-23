@@ -56,8 +56,8 @@
         </v-flex>
 
         <v-flex xs12 sm12 mt-2>
-          <v-expansion-panel>
-            <v-expansion-panel-content class="teal lighten-3 white--text">
+          <v-expansion-panel expand>
+            <v-expansion-panel-content class="teal white--text">
               <div slot="header">{{ $t('ui.pages.process.settings.title') }}</div>
               <Settings />
             </v-expansion-panel-content>
@@ -87,9 +87,12 @@ export default {
       currentPredefinedSettings: null
     }
   },
-  async fetch ({ store }) {
+  async fetch ({ store, redirect }) {
     try {
-      await store.dispatch('process/RESET')
+      if (store.state.process.inProgress && store.state.process.processProgress < 100) return redirect('/process/job')
+
+      if (store.state.process.inProgress && store.state.process.processProgress >= 100) store.dispatch('process/SET_IN_PROGRESS', false)
+
       await store.dispatch('process/GET_PREDEFINED_SETTINGS')
     } catch (e) { }
   },

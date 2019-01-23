@@ -13,7 +13,7 @@
     <v-layout row wrap mt-3>
       <v-flex xs12 sm12>
         <v-progress-linear
-          background-color="teal lighten-3 white--text"
+          background-color="teal white--text"
           color="success"
           height="20"
           :value="processProgress"
@@ -26,43 +26,48 @@
 
 
       <v-flex xs6 sm6 class="text-xs-left" v-if="processProgress >= 100">
-        <v-btn-toggle>
-          <v-btn
-            depressed
-            color="green darken-4"
-            class="white--text"
-            router
-            @click="fullReport"
-          >
-            <v-icon left>mdi-file</v-icon>
-            {{ $t('ui.pages.process.job.consultReport') }}
-          </v-btn>
-        </v-btn-toggle>
+        <v-btn
+          depressed
+          color="green"
+          class="white--text"
+          router
+          :to="{ path: `/process/${report.general['Job-ID']}/report` }"
+          v-if="report && report.general"
+        >
+          <v-icon left>mdi-file</v-icon>
+          {{ $t('ui.pages.process.job.consultReport') }}
+        </v-btn>
       </v-flex>
 
-      <v-flex xs6 sm6 class="text-xs-right" v-if="processProgress >= 100">
-        <v-btn-toggle>
-          <a :href="`/${report.general['Job-ID']}`" target="_blank" v-if="report && report.general">
-            <v-btn
-              depressed
-              color="green darken-4"
-              class="white--text"
-            >
-              {{ $t('ui.pages.process.job.downloadResult') }}
-              <v-icon right>mdi-home</v-icon>
-            </v-btn>
-          </a>
 
-          <v-btn depressed color="teal darken-2" class="white--text" @click="newTreatment">
-            {{ $t('ui.pages.process.job.newProcess') }}
-            <v-icon right>mdi-reload</v-icon>
+      <v-flex xs6 sm6 class="text-xs-right" v-if="processProgress >= 100">
+        <a :href="`/${report.general['Job-ID']}`" target="_blank" v-if="report && report.general">
+          <v-btn
+            depressed
+            color="green"
+            class="white--text"
+          >
+            {{ $t('ui.pages.process.job.downloadResult') }}
+            <v-icon right>mdi-home</v-icon>
           </v-btn>
-        </v-btn-toggle>
+        </a>
+
+        <v-btn depressed color="teal darken-2" class="white--text" @click="newTreatment">
+          {{ $t('ui.pages.process.job.newProcess') }}
+          <v-icon right>mdi-reload</v-icon>
+        </v-btn>
+      </v-flex>
+
+      <v-flex xs12 sm12 class="text-xs-right" v-else>
+        <v-btn depressed color="error" @click="stopProcess">
+          {{ $t('ui.pages.process.job.stopProcess') }}
+          <v-icon right>mdi-close-circle</v-icon>
+        </v-btn>
       </v-flex>
 
       <v-flex xs12 sm12 mt-3 v-if="report">
         <v-expansion-panel v-model="panel" expand>
-          <v-expansion-panel-content class="teal lighten-3 white--text">
+          <v-expansion-panel-content class="teal white--text">
             <div slot="header">{{ $t('ui.pages.process.job.processState') }}</div>
             <v-card>
               <v-card-text>
@@ -139,7 +144,7 @@
             </v-card>
           </v-expansion-panel-content>
 
-          <v-expansion-panel-content class="teal lighten-3 white--text">
+          <v-expansion-panel-content class="teal white--text">
             <div slot="header">{{ $t('ui.files') }}</div>
             <v-card>
               <v-card-text>
@@ -163,7 +168,7 @@
             </v-card>
           </v-expansion-panel-content>
 
-          <v-expansion-panel-content class="teal lighten-3 white--text">
+          <v-expansion-panel-content class="teal white--text">
             <div slot="header">{{ $t('ui.pages.process.job.rejects') }}</div>
             <v-card>
               <v-card-text>
@@ -183,7 +188,7 @@
                               <td>
                                 <v-progress-linear
                                   v-if="index !== 'nb-lines-ignored'"
-                                  background-color="teal lighten-3 white--text"
+                                  background-color="teal white--text"
                                   color="success"
                                   height="15"
                                   :value="Math.ceil((reject * 100) / (report.general['nb-lines-input'] - report.rejets['nb-lines-ignored']))"
@@ -195,7 +200,7 @@
                               <td>{{ report.general['nb-denied-ecs'] }}</td>
                               <td>
                                 <v-progress-linear
-                                  background-color="teal lighten-3 white--text"
+                                  background-color="teal white--text"
                                   color="success"
                                   height="15"
                                   :value="Math.ceil((report.general['nb-denied-ecs'] * 100) / (report.general['nb-lines-input'] - report.rejets['nb-lines-ignored']))"
@@ -234,7 +239,7 @@
             </v-card>
           </v-expansion-panel-content>
 
-          <v-expansion-panel-content class="teal lighten-3 white--text">
+          <v-expansion-panel-content class="teal white--text">
             <div slot="header">{{ $t('ui.pages.process.job.traces') }}</div>
             <v-card>
               <v-card-text>
@@ -281,11 +286,13 @@ export default {
     setCurrentReject (index) {
       this.currentReject = index
     },
-    fullReport () {
-      this.$emit('consultReport')
-    },
     newTreatment () {
-      this.$store.dispatch('process/RESET')
+      this.$store.dispatch('process/SET_IN_PROGRESS', false)
+      this.$router.push('/process')
+    },
+    stopProcess () {
+      this.$store.state.process.queryCancelSource.cancel('Query canceled by user')
+      this.$store.dispatch('process/STOP_PROCESS')
       this.$router.push('/process')
     }
   }

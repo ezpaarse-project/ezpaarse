@@ -14,22 +14,6 @@
                     required
                   ></v-textarea>
                 </v-flex>
-                <v-flex xs6 sm6 pr-3>
-                  <v-select
-                    :items="logsType"
-                    :label="$t('ui.pages.process.logFormat.logType')"
-                    required
-                    append-icon="mdi-menu-down"
-                    v-model="logType"
-                  ></v-select>
-                </v-flex> 
-                <v-flex xs6 sm6 pl-3>
-                  <v-text-field
-                    :label="$t('ui.pages.process.logFormat.defaultParser')"
-                    :placeholder="$t('ui.pages.process.logFormat.defaultParserExample')"
-                    required
-                  ></v-text-field>
-                </v-flex>
               </v-layout>
             </v-form>
           </v-flex>
@@ -45,21 +29,28 @@
             </v-alert>
           </v-flex>
 
-          <v-flex xs12 sm12 class="text-xs-center">
-            <v-btn color="success" large :disabled="logsLines.length <= 0"><v-icon>mdi-file-multiple</v-icon> {{ $t('ui.pages.process.processLog') }}</v-btn>
-          </v-flex>
+          <ProcessButton :logType="logType" />
         </v-layout>
     </v-card-text>
   </v-card>
 </template>
 
 <script>
+import ProcessButton from '~/components/Process/ProcessButton'
+
 export default {
+  components: {
+    ProcessButton
+  },
   data () {
     return {
-      logsType: [this.$t('ui.pages.process.logFormat.autoRecognition'), 'EZproxy', 'Apache', 'Squid'],
-      logType: this.$t('ui.pages.process.logFormat.autoRecognition'),
-      logsLines: ''
+      logType: 'text'
+    }
+  },
+  computed: {
+    logsLines: {
+      get () { return this.$store.state.process.logsLines },
+      set (newVal) { this.$store.dispatch('process/SET_LOGS_LINES', newVal) }
     }
   }
 }

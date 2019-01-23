@@ -106,6 +106,12 @@ export default {
     handleFilesUpload () {
       for (let i = 0; i < this.$refs.logsFiles.files.length; i++) {
         const file = this.$refs.logsFiles.files[i]
+
+        const tmpFile = this.logsFiles.find(f => {
+          return file.name == f.name
+        })
+        if (tmpFile) return
+
         const index = parseInt(Math.floor(Math.log(file.size) / Math.log(1024)), 10)
 
         const size = parseFloat(file.size / Math.pow(1024, index)).toFixed(1)

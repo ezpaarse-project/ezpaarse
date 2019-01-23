@@ -3,7 +3,9 @@
     "header": {
       "pkbsSynchronized": "PKBs Synchronisées",
       "pkbsRemaining": "{pkbs} PKBs restantes",
-      "noCurrentProcessing": "Aucun traitement en cours"
+      "noCurrentProcessing": "Aucun traitement en cours",
+      "currentProcessing": "Traitement en cours : {percent} %",
+      "processCanceled": "Traitement annulé"
     },
     "drawer": {
       "notConnected": "Non connecté",
@@ -43,7 +45,6 @@
         "prepareTreatment": "Préparation du traitement",
         "explainationLogs": "Indiquez ici les logs que vous désirez faire analyser par ezPAARSE. Vos logs nécessitent peut-être un paramétrage particulier pour qu'ezPAARSE les comprenne. Si nécessaire, <a href=\"\">contactez l'équipe ezPAARSE</a> pour une aide au paramétrage.",
         "explainationTestsLogs": "Vous désirez utiliser des logs de test pour valider votre installation, nous en <a href=\"{url}\" target=\"_blank\">mettons à disposition sur GitHub</a>.",
-        "processLog": "Traitez les fichiers",
         "settings": {
           "title": "Paramètres",
           "currentSettings": "Paramétrage actuel",
@@ -125,7 +126,9 @@
           "alerts": "Alerts",
           "dedoublonnage": "Dédoublonnage",
           "files": "Fichiers",
-          "first_event": "Première consultation"
+          "first_event": "Première consultation",
+          "seeFull": "Voir le rapport au complet",
+          "minimizeReport": "Minimiser le rapport"
         },
         "job": {
           "title": "Traitement(s) en cours",
@@ -137,7 +140,8 @@
           "processState": "État du traitement",
           "rejects": "Rejets",
           "traces": "Traces système",
-          "relevantLogLinesRead": "Lignes de log pertinentes lues : <strong>{relevantLogLines}</strong>"
+          "relevantLogLinesRead": "Lignes de log pertinentes lues : <strong>{relevantLogLines}</strong>",
+          "stopProcess": "Arrêter le traitement en cours"
         }
       },
       "admin": {

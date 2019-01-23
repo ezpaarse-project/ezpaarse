@@ -1,4 +1,5 @@
 import api from './api'
+import { CancelToken } from 'axios'
 
 export default {
   namespaced: true,
@@ -7,10 +8,14 @@ export default {
     predefinedSettings: [],
     currentPredefinedSettings: null,
     processProgress: 0,
+    logsLines: '',
     logsFiles: [],
     logsFilesSize: '0 B',
     totalFileSize: 0,
-    countLogsFile: 0
+    countLogsFile: 0,
+    queryCancelSource: null,
+    status: null,
+    report: null
   },
   mutations: {
     SET_PREDEFINED_SETTINGS (state, data) {
@@ -24,6 +29,9 @@ export default {
     },
     SET_IN_PROGRESS (state, data) {
       state.inProgress = data
+    },
+    SET_LOGS_LINES (state, data) {
+      state.logsLines = data
     },
     SET_LOGS_FILES (state, data) {
       state.logsFiles = data
@@ -39,6 +47,15 @@ export default {
     },
     REMOVE_ALL_LOGS_FILES (state) {
       state.logsFiles = []
+    },
+    SET_QUERY_CANCERL_SOURCE (state, data) {
+      state.queryCancelSource = data
+    },
+    SET_STATUS (state, data) {
+      state.status = data
+    },
+    SET_REPORT (state, data) {
+      state.report = data
     }
   },
   actions: {
@@ -134,20 +151,36 @@ export default {
     SET_CURRENT_PREDEFINED_SETTINGS ({ commit }, data) {
       commit('SET_CURRENT_PREDEFINED_SETTINGS', data)
     },
-    PROCESS_WITH_FILES ({ commit }, data) {
+    PROCESS ({ commit }, data) {
+      let source = CancelToken.source()
+      let qt = source.token
+      commit('SET_QUERY_CANCERL_SOURCE', source)
+
       commit('SET_IN_PROGRESS', true)
-      return this.$axios.put(`/${data.jobID}`, data.formData, {
+      return this.$axios({
+        url: `/${data.jobID}`,
+        method: 'PUT',
+        data: data.formData,
+        cancelToken: qt,
         onUploadProgress: progressEvent => {
           let percent = Math.floor((progressEvent.loaded * 100) / progressEvent.total)
-          if (percent <= 100) commit('SET_PROCESS_PROGRESS', percent)
+          if (percent <= 100) {
+            commit('SET_PROCESS_PROGRESS', percent)
+            commit('SET_STATUS', 'end')
+          }
         },
-        headers: data.headers
+        headers: {...data.headers, 'content-type': 'text/plain'}
       })
       .then(res => { })
       .catch(err => { })
     },
-    PROCESS ({ commit }, data) {
-      commit('SET_IN_PROGRESS', true)
+    STOP_PROCESS ({ commit }) {
+      commit('SET_IN_PROGRESS', false)
+      commit('SET_QUERY_CANCERL_SOURCE', null)
+      commit('SET_STATUS', 'abort')
+    },
+    SET_LOGS_LINES ({ commit }, data) {
+      commit('SET_LOGS_LINES', data)
     },
     SET_LOGS_FILES ({ commit }, data) {
       commit('SET_LOGS_FILES', data)
@@ -161,11 +194,20 @@ export default {
     SET_TOTAL_FILES_SIZE ({ commit }, data) {
       commit('SET_TOTAL_FILES_SIZE', data)
     },
+    SET_IN_PROGRESS ({ commit }, data) {
+      commit('SET_IN_PROGRESS', data)
+    },
     RESET ({ commit }) {
-      commit('REMOVE_ALL_LOGS_FILES')
-      commit('SET_LOGS_FILES_SIZE', '0 B')
-      commit('SET_TOTAL_FILES_SIZE', 0)
       commit('SET_IN_PROGRESS', false)
+      commit('SET_COUNT_LOGS_FILES', 0)
+      commit('SET_LOGS_FILES_SIZE', 0)
+      commit('SET_TOTAL_FILES_SIZE', 0)
+      commit('REMOVE_ALL_LOGS_FILES')
+    },
+    GET_REPORT ({ commit }, data) {
+      return api.getReport(this.$axios, data).then(res => {
+        commit('SET_REPORT', res)
+      }).catch(err => { })
     }
   }
 }
