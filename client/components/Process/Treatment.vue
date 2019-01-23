@@ -13,7 +13,7 @@
     <v-layout row wrap mt-3>
       <v-flex xs12 sm12>
         <v-progress-linear
-          background-color="teal white--text"
+          background-color="teal"
           color="success"
           height="20"
           :value="processProgress"
@@ -72,7 +72,11 @@
             <v-card>
               <v-card-text>
                 <v-layout row wrap>
-                  <v-flex xs6 sm6 pl-2>
+                  <v-flex xs12 sm12 pl-2 v-if="report.length <= 0">
+                    <v-progress-linear :indeterminate="true"></v-progress-linear>
+                    <p class="text-xs-left" v-html="$t('ui.loading')"></p>
+                  </v-flex>
+                  <v-flex xs6 sm6 pl-2 v-else>
                     <div class="elevation-1">
                       <div class="v-table__overflow">
                         <table class="v-datatable v-table theme--light">

@@ -232,6 +232,7 @@
     "language": "Langue",
     "send": "Envoyer",
     "informTeamWarning": "Vous venez d'installer ezPAARSE et vous vous apprétez à créer le compte administrateur. Avec votre accord, nous souhaiterions être informés de cette installation. L'adresse e-mail entrée ci-dessus et la version d'ezPAARSE installée seront envoyées à <strong>{recipients}</strong>.",
-    "informTeam": "Informer l'équipe"
+    "informTeam": "Informer l'équipe",
+    "loading": "Chargement en cours..."
   }
 }
