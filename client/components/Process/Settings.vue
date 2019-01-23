@@ -196,6 +196,8 @@
                           <v-text-field
                             :value="header.header"
                             v-model="header.header"
+                            prepend-icon="mdi-information"
+                            @click:prepend="informations(header.header)"
                           ></v-text-field>
                         </v-flex>
                         <v-flex xs10 sm10>
@@ -356,6 +358,12 @@ export default {
     },
     removeEmail (index) {
       this.currentPredefinedSettings.headers.emails.splice(index, 1)
+    },
+    informations (header) {
+      const h = this.headers.find(h => {
+        return header === h.name
+      })
+      if (h) window.open(`https://ezpaarse.readthedocs.io/en/master/configuration/parametres.html#${h.anchor}`, '_blank')
     }
   }
 }
