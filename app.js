@@ -15,6 +15,7 @@ const fs            = require('fs-extra');
 const bodyParser    = require('body-parser');
 const errorHandler  = require('errorhandler');
 const morgan        = require('morgan');
+const path        = require('path');
 const config        = require('./lib/config.js');
 const pkg           = require('./package.json');
 const mailer        = require('./lib/mailer.js');
@@ -119,6 +120,27 @@ app.post('/mail', bodyParser.urlencoded({ extended: true }), bodyParser.json(), 
 if (env == 'development') {
   app.use(errorHandler());
 }
+
+// Detect browser
+const express = require('express')
+app.set('views', path.resolve(__dirname + '/public'))
+app.set('view engine', 'html')
+app.use(express.static(__dirname))
+app.engine('html', (filePath, options, callback) => {
+  fs.readFile(filePath, (err, content) => {
+    if (err) return callback(new Error(err))
+
+    return callback(null, content.toString())
+  })
+})
+app.use(function (req, res, next) {
+  const useragent = require('useragent')
+  const agent = useragent.is(req.headers['user-agent']).firefox
+  if (agent) {
+    return res.render('browser-compatibility.html')
+  }
+  next()
+})
 
 // Import API Routes
 app.use('/api', require('./client/api/index.js'));
