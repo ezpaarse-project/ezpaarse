@@ -143,9 +143,10 @@ app.use(function (req, res, next) {
 });
 
 // Import API Routes
-app.use('/api', require('./client/api/index.js'));
-app.use('/castor', require('./lib/castor.js'));
-app.use('/', require('./client/api/ws'));
+app.use('/api', require('./client/api/index'));
+app.use('/castor', require('./lib/castor'));
+app.use('/', require('./routes/ws'));
+app.use('/', require('./routes/logs'));
 
 // API error handler
 app.use((err, req, res, next) => {
