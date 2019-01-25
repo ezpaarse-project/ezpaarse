@@ -16,6 +16,8 @@
 <script>
 export default {
   props: ['error'],
-  layout: 'sign'
+  layout: ({ app }) => {
+    return app.$auth.user ? 'default' : 'sign'
+  }
 }
 </script>

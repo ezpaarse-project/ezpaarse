@@ -11,7 +11,7 @@
         <v-flex xs12 sm12>
           <p v-if="platformsChanged && platformsChanged.length > 0">
             <v-alert :value="true" color="teal lighten-2">
-              <h4>{{$t('ui.pages.admin.platforms.newPlatformsAvailable')}}</h4>
+              <h4>{{ $t('ui.pages.admin.platforms.newPlatformsAvailable') }}</h4>
               <ul>
                 <li v-for="(platform, key) in platformsChanged" :key="key">{{ key }}</li>
               </ul>
@@ -21,10 +21,10 @@
             <strong>{{ $t('ui.currentVersion') }}</strong> : 
             <v-alert :value="true" color="red lighten-2" v-html="$t('ui.pages.admin.updates.repoLocalChanges', { repo: 'platforms' })" v-if="platforms['local-commits'] || platforms['local-changes']"></v-alert>
             <v-tooltip right v-if="platforms['from-head'] === 'outdated'">
-              <v-btn @click="updatePlatforms" depressed color="red lighten-2 white--text" round slot="activator">{{platforms.current}}<v-icon class="pl-1">mdi-alert-circle</v-icon></v-btn> 
+              <v-btn @click="updatePlatforms" depressed color="red lighten-2 white--text" round slot="activator">{{ platforms.current }}<v-icon class="pl-1">mdi-alert-circle</v-icon></v-btn> 
               <span>{{ $t('ui.updateTo', { newVersion: platforms.head }) }}</span>
             </v-tooltip>
-            <v-btn v-else depressed color="green lighten-2 white--text" round slot="activator">{{platforms.current}}</v-btn>
+            <v-btn v-else depressed color="green lighten-2 white--text" round slot="activator">{{ platforms.current }}</v-btn>
             <v-progress-circular
               v-if="inUpdate"
               indeterminate
@@ -62,8 +62,15 @@
               </td>
               <td><a :href="props.item.docurl" target="_blank">{{ props.item.longname }}</a></td>
               <td v-if="props.item.certifications">
-                <span v-for="(certification, k) in props.item.certifications" :key="k">
-                  <img :src="`/img/certifications/${certification}.png`" :alt="`Certification ${certification}`" width="25">&nbsp;
+                <span v-for="(certification, k) in props.item.certifications" :key="k" class="mr-1">
+                  <a href="https://blog.ezpaarse.org/2017/06/certification-h-et-p-des-plateformes-traitees-dans-ezpaarse/" target="_blank">
+                    <img
+                      slot="activator"
+                      :src="`/img/certifications/${certification}.png`"
+                      :alt="`Certification ${certification}`"
+                      width="25"
+                    >
+                  </a>
                 </span>
               </td>
               <td v-else>{{ $t('ui.pages.admin.platforms.noCertifications') }}</td>
@@ -97,9 +104,9 @@
             class="elevation-1"
           >
             <template slot="items" slot-scope="props">
-              <td>{{props.item.name}}</td>
-              <td>{{props.item.entries}}</td>
-              <td>{{props.item.date}}</td>
+              <td>{{ props.item.name }}</td>
+              <td>{{ props.item.entries }}</td>
+              <td>{{ props.item.date }}</td>
             </template>
           </v-data-table>
         </v-card-text>

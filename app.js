@@ -3,8 +3,8 @@
 
 const { Nuxt, Builder } = require('nuxt');
 
-const app    = require('express')();
-const logger = require('morgan');
+const app           = require('express')();
+const logger        = require('morgan');
 const cookieSession = require('cookie-session');
 const cookieParser  = require('cookie-parser');
 const auth          = require('./lib/auth-middlewares.js');
@@ -15,10 +15,11 @@ const fs            = require('fs-extra');
 const bodyParser    = require('body-parser');
 const errorHandler  = require('errorhandler');
 const morgan        = require('morgan');
-const path        = require('path');
+const path          = require('path');
 const config        = require('./lib/config.js');
 const pkg           = require('./package.json');
 const mailer        = require('./lib/mailer.js');
+const useragent     = require('useragent');
 
 process.env.PORT = config.EZPAARSE_NODEJS_PORT || 59599;
 
@@ -122,25 +123,24 @@ if (env == 'development') {
 }
 
 // Detect browser
-// const express = require('express')
-// app.set('views', path.resolve(__dirname + '/public'))
-// app.set('view engine', 'html')
-// app.use(express.static(__dirname))
-// app.engine('html', (filePath, options, callback) => {
-//   fs.readFile(filePath, (err, content) => {
-//     if (err) return callback(new Error(err))
+const express = require('express');
+app.set('views', path.resolve(`${__dirname}/public`));
+app.set('view engine', 'html');
+app.use(express.static(__dirname));
+app.engine('html', function (filePath, options, callback) {
+  fs.readFile(filePath, function (err, content) {
+    if (err) return callback(new Error(err));
 
-//     return callback(null, content.toString())
-//   })
-// })
-// app.use(function (req, res, next) {
-//   const useragent = require('useragent')
-//   const agent = useragent.is(req.headers['user-agent']).firefox
-//   if (agent) {
-//     return res.render('browser-compatibility.html')
-//   }
-//   next()
-// })
+    return callback(null, content.toString());
+  });
+});
+app.use(function (req, res, next) {
+  const agent = useragent.is(req.headers['user-agent']).ie;
+  if (agent) {
+    return res.render('browser-compatibility.html');
+  }
+  next();
+});
 
 // Import API Routes
 app.use('/api', require('./client/api/index.js'));

@@ -31,7 +31,7 @@
           color="green"
           class="white--text"
           router
-          :to="{ path: `/process/${report.general['Job-ID']}/report` }"
+          :to="{ path: `/process/report/${report.general['Job-ID']}` }"
           v-if="report && report.general"
         >
           <v-icon left>mdi-file</v-icon>

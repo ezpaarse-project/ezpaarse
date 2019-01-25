@@ -151,7 +151,7 @@
           "noPlatforms": "No platforms at the moment",
           "platformsPerPage": "Platforms per page",
           "allPlatformsPerPage": "All",
-          "noCertifications": "No certification",
+          "noCertifications": "No certification yet",
           "noPlatformFoundWithName": "No platform found with this name : {search}",
           "newPlatformsAvailable": "De nouvelles plateformes sont disponibles",
           "entries": "Entries"

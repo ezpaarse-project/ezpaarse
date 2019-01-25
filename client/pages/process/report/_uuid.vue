@@ -45,7 +45,7 @@
                           <tbody>
                             <tr v-for="(r, i) in rep" :key="i">
                               <td class="text-xs-left tr280p">{{ i }}</td>
-                              <td class="text-xs-left">{{ r }}</td>
+                              <td class="text-xs-left" v-html="html(r)"></td>
                             </tr>
                           </tbody>
                         </table>
@@ -85,6 +85,13 @@ export default {
       if (!this.expended) this.panel = [true, true, true, true, true, true, true]
       if (this.expended) this.panel = [false, false, false, false, false, false, false]
       this.expended = !this.expended
+    },
+    html (report) {
+      let match
+      if ((match = /^(http|https)/i.exec(report)) !== null) {
+        return `<a href="${report}" target="_blank">${report}</a>`
+      }
+      return report
     }
   }
 }
