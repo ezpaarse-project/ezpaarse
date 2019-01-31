@@ -124,7 +124,6 @@ async function start () {
   const nbPlatforms = parserlist.sizeOf('platforms');
   logger.info(`Domains: ${nbDomains} | Platforms: ${nbPlatforms} | Robot hosts: ${nbRobots}`);
 
-
   const server = http.createServer(app);
 
   socketIO.listen(server);

@@ -208,6 +208,9 @@ export default {
       return api.getReport(this.$axios, data).then(res => {
         commit('SET_REPORT', res)
       }).catch(err => { })
+    },
+    LOG_PARSER ({ commit }, data) {
+      return api.getLogParser(this.$axios, data)
     }
   }
 }

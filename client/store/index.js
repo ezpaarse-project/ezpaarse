@@ -95,7 +95,7 @@ const store = () => new Vuex.Store({
       .then(res => {
         commit('SET_PKBS', res)
       })
-      .catch(err => {})
+      .catch(err => { })
     },
     SET_PKBS ({ commit }, data) {
       commit('SET_PKBS', data)
@@ -103,7 +103,7 @@ const store = () => new Vuex.Store({
     GET_APP_VERSION ({ commit }, data) {
       return api.getAppVersion(this.$axios).then(res => {
         commit('SET_APP_VERSION', res)
-      }).catch(err => {})
+      }).catch(err => { })
     }
   },
   mutations: {

@@ -18,11 +18,12 @@
             :size="16"
             :width="2"
           ></v-progress-circular>
+
           <span v-if="pkbs && pkbs.remaining.length > 0 && pkbs.state === 'synchronizing'">
             {{ $t('ui.header.pkbsRemaining', { pkbs: pkbs.remaining.length }) }}
           </span>
 
-          <span v-if="pkbs && pkbs.state === 'synchronized'">
+          <span v-if="pkbs && pkbs.state === 'synchronized' && pkbs.remaining.length <= 0">
             {{ $t('ui.header.pkbsSynchronized') }}
           </span>
         </v-chip>
