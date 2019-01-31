@@ -49,7 +49,7 @@ function testSudoc(callback) {
 
 
 describe('sudoc consultations', function () {
-  it('should be correctly enriched (@01)', function (done) {
+  it.skip('should be correctly enriched (@01)', function (done) {
     testSudoc(function () {
       testSudoc(done);
     });
