@@ -82,7 +82,7 @@ export default {
   },
   data() {
     return {
-      activeTab: "tab-logs-files",
+      activeTab: 'tab-logs-files',
       paramsSaved: false,
       currentPredefinedSettings: null
     }

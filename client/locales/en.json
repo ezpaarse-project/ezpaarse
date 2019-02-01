@@ -85,7 +85,13 @@
           "defaultParserExample": "Example: dspace",
           "formatAnalysis": "Format analysis",
           "firstLogLine": "Based on the first log line",
-          "autoRecognition": "Auto recognition"
+          "autoRecognition": "Auto recognition",
+          "format": "Format",
+          "regex": "Regular expression",
+          "ecGenerated": "Generated consultation event (basic, no enrichment)",
+          "field": "Field",
+          "value": "Value",
+          "detectionFailed": "The automatic detection failed to determine the format of your log lines"
         },
         "report": {
           "title": "Report",

@@ -84,7 +84,13 @@
           "defaultParserExample": "Exemple: dspace",
           "formatAnalysis": "Analyse du format",
           "firstLogLine": "Basée sur la première ligne de log",
-          "autoRecognition": "Reconnaissance auto"
+          "autoRecognition": "Reconnaissance auto",
+          "format": "Format",
+          "regex": "Expression régulière",
+          "ecGenerated": "Événement de consultation généré (basique, sans enrichissement)",
+          "field": "Champs",
+          "value": "Valeur",
+          "detectionFailed": "La détection automatique n'a pas pu déterminer le format de vos lignes de log"
         },
         "report": {
           "title": "Rapport",
