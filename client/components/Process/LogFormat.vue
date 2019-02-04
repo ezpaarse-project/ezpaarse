@@ -50,6 +50,7 @@
                 </v-tab-item>
 
                 <v-tab-item value="tab-regexp">
+                  
                   <v-card>
                     <v-card-text xs12 sm12 class="h100">
                       <p class="green--text">{{ result.regexp }}</p>
@@ -78,11 +79,11 @@
                     </table>
                   </div>
                 </div>
-              </v-card-text xs12 sm12>
+              </v-card-text>
             </span>
 
             <span v-if="result && result.formatBreak === 0">
-              <p class="red--text">{{ $t('ui.pages.process.logFormat.detectionFailed') }}</p>
+              <h3 class="red--text">{{ $t('ui.pages.process.logFormat.detectionFailed') }}</h3>
             </span>
           </v-alert>
         </v-flex>
@@ -122,8 +123,7 @@ export default {
       if (!this.logsLines) this.alertColor = 'info'
       this.$store.dispatch('process/LOG_PARSER', { settings: this.currentPredefinedSettings, logsLines: this.logsLines }).then(res => {
         this.result = res
-        if (this.result.formatBreak === 0) this.alertColor = 'error'
-        if (this.result.formatBreak !== 0) this.alertColor = 'success'
+        this.alertColor = (this.result.formatBreak === 0) ? 'error' : 'success'
       }).catch(err => { })
     }
   }

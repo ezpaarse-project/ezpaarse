@@ -23,7 +23,7 @@ const store = () => new Vuex.Store({
     feedback: null,
     users: [],
     userNumber: -1,
-    pkbs: null,
+    pkbs: null
   },
   actions: {
     SET_DRAWER ({ commit }, value) {

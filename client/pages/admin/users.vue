@@ -171,7 +171,7 @@ export default {
       }
     }
   },
-  async fetch ({ store, redirect }) {
+  async fetch ({ store }) {
     try {
       await store.dispatch('GET_USERS_LIST')
     } catch (e) { }

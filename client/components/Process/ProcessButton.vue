@@ -7,7 +7,7 @@
         <v-icon>mdi-file-multiple</v-icon>
       </v-btn>
     </ButtonGroup>
-    <v-btn fab flat small @click="$tours['myTour'].start()">
+    <v-btn fab flat small @click="$tours['ezTour'].start()">
       <v-icon>mdi-help-circle</v-icon>
     </v-btn>
   </v-flex>

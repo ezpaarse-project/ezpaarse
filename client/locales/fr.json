@@ -138,7 +138,6 @@
         },
         "job": {
           "title": "Traitement(s) en cours",
-          "currentProcess": "Il y a <strong>{process}</strong> traitement(s) en cours.",
           "infos": "ezPAARSE a fini de traiter vos logs. Des macros <a href=\"{excelUrl}\">Excel</a> et <a href=\"{libreOfficeUrl}\">LibreOffice</a> sont à votre disposition si vous souhaitez avoir un premier aperçu visuel des résultats.",
           "downloadResult": "Télécharger le résultat",
           "consultReport": "Consulter le rapport",
@@ -186,6 +185,10 @@
             "admin": "Administrateur",
             "user": "Utilisateur"
           }
+        },
+        "jobs": {
+          "title": "Traitements en cours",
+          "currentProcess": "Il y a <strong>{process}</strong> traitement(s) en cours."
         },
         "report": {
           "title": "Rapport"

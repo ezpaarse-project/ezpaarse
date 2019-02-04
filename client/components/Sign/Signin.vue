@@ -45,7 +45,7 @@ export default {
           password: this.credentials.password.trim(),
           remember: this.credentials.remember
         }
-      }).then(re => {
+      }).then(res => {
         this.$store.dispatch('GET_APP_VERSION')
         this.$store.dispatch('LOAD_PKBS')
         this.$store.dispatch('LOAD_STATUS')

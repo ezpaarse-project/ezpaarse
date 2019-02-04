@@ -23,14 +23,6 @@ export default {
     if (!store.state.process.inProgress) {
       return redirect('/process')
     }
-  },
-  sockets: {
-    report: function (data) {
-      this.$store.dispatch('socket/SOCKET_REPORT', data)
-    },
-    logging: function (data)  {
-      this.$store.dispatch('socket/SOCKET_LOGGING', data)
-    }
   }
 }
 </script>

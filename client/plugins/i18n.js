@@ -5,7 +5,7 @@ import moment from 'moment'
 Vue.use(VueI18n)
 moment.locale('fr')
 
-export default ({ app, store }) => {
+export default ({ app }) => {
   // Set i18n instance on app
   // This way we can use it in middleware and pages asyncData/fetch
   app.i18n = new VueI18n({

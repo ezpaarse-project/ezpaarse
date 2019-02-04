@@ -179,7 +179,7 @@ export default {
       ]
     }
   },
-  async fetch ({ store, redirect }) {
+  async fetch ({ store }) {
     try {
       await store.dispatch('GET_PLATFORMS')
       await store.dispatch('GET_PLATFORMS_CHANGED')

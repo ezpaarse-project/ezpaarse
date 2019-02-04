@@ -38,11 +38,6 @@ export default {
       get () { return this.$store.state.signup },
       set (newVal) { this.$store.dispatch('SET_SIGNUP', newVal) }
     }
-  },
-  sockets: {
-    'castor:update': function (data) {
-      this.$store.dispatch('SET_PKBS', data)
-    }
   }
 }
 </script>

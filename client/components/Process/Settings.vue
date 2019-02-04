@@ -98,13 +98,15 @@
                         ></v-checkbox>
                       </v-flex>
 
+                      <v-flex xs12 sm12>
+                      <h4>{{ $t('ui.pages.process.settings.outputFields') }} :</h4>
+                      </v-flex>
                       <v-flex xs6 sm6>
                         <v-combobox
                           v-model="currentPredefinedSettings.headers['Output-Fields'].plus"
-                          :label="$t('ui.pages.process.settings.outputFields')"
+                          :label="$t('ui.pages.process.settings.add')"
                           chips
                           clearable
-                          :placeholder="$t('ui.pages.process.settings.add')"
                           multiple
                           append-icon=""
                         >
@@ -125,7 +127,7 @@
                           v-model="currentPredefinedSettings.headers['Output-Fields'].minus"
                           chips
                           clearable
-                          :placeholder="$t('ui.pages.process.settings.remove')"
+                          :label="$t('ui.pages.process.settings.remove')"
                           multiple
                           append-icon=""
                         >

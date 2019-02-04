@@ -143,7 +143,13 @@ app.use(function (req, res, next) {
 });
 
 // Import API Routes
-app.use('/api', require('./client/api/index'));
+app.use('/api/admin', require('./routes/admin'));
+app.use('/api/auth', require('./routes/auth'));
+app.use('/api/feedback', require('./routes/feedback'));
+app.use('/api/format', require('./routes/format'));
+app.use('/api/info', require('./routes/info'));
+app.use('/api/logs', require('./routes/logs'));
+app.use('/api/views', require('./routes/views'));
 app.use('/castor', require('./lib/castor'));
 app.use('/', require('./routes/ws'));
 app.use('/', require('./routes/logs'));

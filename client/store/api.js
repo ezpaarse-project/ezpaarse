@@ -74,6 +74,10 @@ api.getUserNumber = (axios) => {
   return axios.get(`/api/admin/usersnumber`).then(res => res.data)
 }
 
+api.getJobs = (axios, socketId) => {
+  return axios.get(`/api/admin/jobs?socket=${socketId}`).then(res => res.data)
+}
+
 api.freshInstall = (axios, data) => {
   return axios.post(`/api/feedback/freshinstall`, data).then(res => res.data)
 }
