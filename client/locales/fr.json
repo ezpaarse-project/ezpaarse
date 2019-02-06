@@ -41,7 +41,10 @@
         "confirm": "Confirmation *"
       },
       "process": {
-        "processLogs": "Traitez vos logs",
+        "title": "Traitez vos logs",
+        "curl": "Copiez la commande ci-dessous pour exécuter la requête avec cURL en utilisant le paramétrage actuel du formulaire. Vous devrez peut-être modifier l'adresse de l'instance utilisée, le chemin des fichiers ou ajouter des options telles que <span tabindex=\"0\" class=\"v-chip v-chip--label theme--light\"><span class=\"v-chip__content\">--proxy</span></span> ou <span tabindex=\"0\" class=\"v-chip v-chip--label theme--light\"><span class=\"v-chip__content\">--no-buffer</span></span>",
+        "processLogsFiles": "Traitez vos fichiers de logs",
+        "processLogsLines": "Traitez vos lignes de logs",
         "prepareTreatment": "Préparation du traitement",
         "explainationLogs": "Indiquez ici les logs que vous désirez faire analyser par ezPAARSE. Vos logs nécessitent peut-être un paramétrage particulier pour qu'ezPAARSE les comprenne. Si nécessaire, <a href=\"\">contactez l'équipe ezPAARSE</a> pour une aide au paramétrage.",
         "explainationTestsLogs": "Vous désirez utiliser des logs de test pour valider votre installation, nous en <a href=\"{url}\" target=\"_blank\">mettons à disposition sur GitHub</a>.",

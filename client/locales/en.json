@@ -41,7 +41,10 @@
         "confirm": "Confirmation *"
       },
       "process": {
-        "processLogs": "Process your log",
+        "title": "Process your logs",
+        "curl": "Copy the following command to run the query with cURL using the current setting of the form. You may need to change the instance URL, the file path or add options like <span tabindex=\"0\" class=\"v-chip v-chip--label theme--light\"><span class=\"v-chip__content\">--proxy</span></span> or <span tabindex=\"0\" class=\"v-chip v-chip--label theme--light\"><span class=\"v-chip__content\">--no-buffer</span></span>",
+        "processLogsFiles": "Process your logs files",
+        "processLogsLines": "Process yout logs lines",
         "prepareTreatment": "Preparation of the treatment",
         "explainationLogs": "Indicate here the logs that you want ezPAARSE to analyze. Your logs may require special settings for ezPAARSE to understand them. If necessary, <a href=\"\">contact the ezPAARSE team</a> for a configuration help.",
         "explainationTestsLogs": "You want to use test logs to validate your installation, <a href=\"{url}\" target=\"_blank\">we provide them on GitHub</a>.",

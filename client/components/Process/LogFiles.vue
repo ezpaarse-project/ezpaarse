@@ -18,7 +18,7 @@
             class="elevation-1"
           >
             <template slot="items" slot-scope="props">
-              <td><v-icon @click="removeLogsFile(props.item.index)">mdi-delete</v-icon> {{ props.item.name }}</td>
+              <td><v-icon @click="removeLogsFile(props.item.index)">mdi-delete</v-icon> {{ props.item.file.name }}</td>
               <td class="text-xs-right">{{ props.item.sizeText }}</td>
             </template>
           </v-data-table>
@@ -118,8 +118,6 @@ export default {
 
         this.logsFiles.push({
           file: file,
-          name: file.name,
-          size: file.size,
           sizeText: size + ' ' + this.sizes[index],
           index: this.countLogsFile++
         })

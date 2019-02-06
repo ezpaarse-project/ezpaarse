@@ -8,7 +8,7 @@
 
     <v-card-text>
       <p v-html="$t('ui.pages.admin.jobs.currentProcess', { process: jobs.length })"></p>
-      <p v-for="(job, key) in jobs" :key="key">
+      <p v-for="(job, key) in jobs" :key="key" v-if="jobs.length > 0">
         <a :href="`/report/${job}`">{{ job }}</a>
       </p>
     </v-card-text>

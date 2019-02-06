@@ -15,7 +15,8 @@ export default {
     countLogsFile: 0,
     queryCancelSource: null,
     status: null,
-    report: null
+    report: null,
+    error: null
   },
   mutations: {
     SET_PREDEFINED_SETTINGS (state, data) {
@@ -56,6 +57,9 @@ export default {
     },
     SET_REPORT (state, data) {
       state.report = data
+    },
+    SET_ERROR (state, data) {
+      state.error = data
     }
   },
   actions: {
@@ -85,8 +89,8 @@ export default {
           }
         }
 
-        data.forEach(setting => {
-
+        data.forEach((setting, key) => {
+          if (Object.keys(res)[key]) setting.id = Object.keys(res)[key]
           if (setting.headers) {
             setting.headers['Crypted-Fields'] = (!setting.headers['Crypted-Fields'] || setting.headers['Crypted-Fields'] === 'none'  ? null : setting.headers['Crypted-Fields'].toString().split(','))
               
@@ -145,7 +149,7 @@ export default {
         data.unshift(currentSettings)
 
         commit('SET_PREDEFINED_SETTINGS', data)
-        commit('SET_CURRENT_PREDEFINED_SETTINGS', currentSettings)
+        commit('SET_CURRENT_PREDEFINED_SETTINGS', JSON.parse(JSON.stringify(currentSettings)))
       }).catch(err => {})
     },
     SET_CURRENT_PREDEFINED_SETTINGS ({ commit }, data) {
@@ -172,7 +176,14 @@ export default {
         headers: {...data.headers, 'content-type': 'text/plain'}
       })
       .then(res => { })
-      .catch(err => { })
+      .catch(err => {
+        source.cancel('Query canceled by error')
+        commit('SET_PROCESS_PROGRESS', 100)
+        commit('SET_STATUS', 'error')
+
+        let headers = err.response.headers
+        commit('SET_ERROR', `${headers['ezpaarse-status']} : ${headers['ezpaarse-status-message']}`)
+      })
     },
     STOP_PROCESS ({ commit }) {
       commit('SET_IN_PROGRESS', false)
@@ -202,6 +213,7 @@ export default {
       commit('SET_COUNT_LOGS_FILES', 0)
       commit('SET_LOGS_FILES_SIZE', 0)
       commit('SET_TOTAL_FILES_SIZE', 0)
+      commit('SET_ERROR', null)
       commit('REMOVE_ALL_LOGS_FILES')
     },
     GET_REPORT ({ commit }, data) {

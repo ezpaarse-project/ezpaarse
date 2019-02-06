@@ -53,6 +53,7 @@
                       <v-textarea
                         :label="$t('ui.pages.process.settings.logFormat')"
                         :value="currentPredefinedSettings.headers['Log-Format'].value"
+                        v-model="currentPredefinedSettings.headers['Log-Format'].value"
                       ></v-textarea>
                     </v-flex>
                   </v-layout>
@@ -65,7 +66,7 @@
                 <v-card>
                   <v-card-text>
                     <v-layout row wrap>
-                      <v-flex xs4 sm4 pr-2>
+                      <v-flex xs6 sm6 pr-2>
                         <v-select
                           :items="counterFormats"
                           v-model="currentPredefinedSettings.headers['COUNTER-Format']"
@@ -73,7 +74,7 @@
                         ></v-select>
                       </v-flex>
 
-                      <v-flex xs4 sm4>
+                      <v-flex xs6 sm6>
                         <v-select
                           :items="tracesLevel"
                           v-model="currentPredefinedSettings.headers['Trace-Level']"
@@ -81,13 +82,25 @@
                         ></v-select>
                       </v-flex>
 
-                      <v-flex xs4 sm4 pl-2>
-                        <v-text-field
+                      <v-flex xs12 sm12>
+                        <v-combobox
                           v-model="currentPredefinedSettings.headers['ezPAARSE-Job-Notifications']"
-                          label="Notifications"
-                          :placeholder="$t('ui.pages.process.settings.notificationsEmails')"
-                          required
-                        ></v-text-field>
+                          :label="$t('ui.pages.process.settings.notificationsEmails')"
+                          chips
+                          clearable
+                          multiple
+                          append-icon=""
+                        >
+                          <template slot="selection" slot-scope="data">
+                            <v-chip
+                              :selected="data.selected"
+                              close
+                              @input="removeEmail(data.index)"
+                            >
+                              <strong>{{ data.item }}</strong>
+                            </v-chip>
+                          </template>
+                        </v-combobox>
                       </v-flex>
 
                       <v-flex xs12 sm12>
@@ -99,7 +112,7 @@
                       </v-flex>
 
                       <v-flex xs12 sm12>
-                      <h4>{{ $t('ui.pages.process.settings.outputFields') }} :</h4>
+                        <h4>{{ $t('ui.pages.process.settings.outputFields') }} :</h4>
                       </v-flex>
                       <v-flex xs6 sm6>
                         <v-combobox
@@ -328,14 +341,11 @@ export default {
     removeOutputMinus (index) {
       this.currentPredefinedSettings.headers['Output-Fields'].minus.splice(index, 1)
     },
-    addOutputPlus (data) {
-      this.currentPredefinedSettings.headers['Output-Fields'].plus.push(data)
-    },
-    addOutputMinus (data) {
-      this.currentPredefinedSettings.headers['Output-Fields'].minus.push(data)
-    },
     removeCryptedField (value) {
       this.currentPredefinedSettings.headers['Crypted-Fields'].splice(value, 1)
+    },
+    removeEmail (index) {
+      this.currentPredefinedSettings.headers['ezPAARSE-Job-Notifications'].plus.splice(index, 1)
     },
     addHeader (value) {
       if (value) {
@@ -353,13 +363,10 @@ export default {
       if (this.currentPredefinedSettings.headers['COUNTER-Reports']) this.currentPredefinedSettings.headers['COUNTER-Format'] = 'tsv'
     },
     resetSettings () {
-      const currentSettings = this.predefinedSettings.filter(param => {
+      const currentSettings = this.predefinedSettings.find(param => {
         return param.fullName === this.currentPredefinedSettings.fullName
       })
-      this.$store.dispatch('process/SET_CURRENT_PREDEFINED_SETTINGS', JSON.parse(JSON.stringify(currentSettings[0])))
-    },
-    removeEmail (index) {
-      this.currentPredefinedSettings.headers.emails.splice(index, 1)
+      this.$store.dispatch('process/SET_CURRENT_PREDEFINED_SETTINGS', JSON.parse(JSON.stringify(currentSettings)))
     },
     informations (header) {
       const h = this.headers.find(h => {

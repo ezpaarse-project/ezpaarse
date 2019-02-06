@@ -41,13 +41,7 @@
     <v-divider></v-divider>
 
     <v-list>
-      <v-list-tile v-if="mini" @click="mini = !mini">
-        <v-list-tile-action>
-          <v-icon light>mdi-chevron-right</v-icon>
-        </v-list-tile-action>
-      </v-list-tile>
-
-      <v-list-tile avatar router :to="{ path: '/profile' }">
+      <v-list-tile avatar tag="div" router :to="{ path: '/profile' }">
         <v-list-tile-avatar>
           <v-icon large>mdi-account-circle</v-icon>
         </v-list-tile-avatar>
@@ -55,11 +49,6 @@
           <v-list-tile-title v-if="$auth.loggedIn">{{ $auth.user.username }}</v-list-tile-title>
           <v-list-tile-title v-else>{{ $t('ui.drawer.notConnected') }}</v-list-tile-title>
         </v-list-tile-content>
-        <v-list-tile-action>
-          <v-btn icon @click="mini = !mini">
-            <v-icon>mdi-chevron-left</v-icon>
-          </v-btn>
-        </v-list-tile-action>
       </v-list-tile>
 
       <v-divider></v-divider>

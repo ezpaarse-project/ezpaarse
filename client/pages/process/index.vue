@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-toolbar class="secondary" dark dense card>
-      <v-toolbar-title>{{ $t('ui.pages.process.processLogs') }}</v-toolbar-title>
+      <v-toolbar-title>{{ $t('ui.pages.process.title') }}</v-toolbar-title>
     </v-toolbar>
 
     <v-card-text>

@@ -11,10 +11,19 @@
     </v-alert>
 
     <v-layout row wrap mt-3>
+      <v-flex xs12 sm12 v-if="error">
+        <v-alert
+          :value="true"
+          type="error"
+        >
+          {{ error }}
+        </v-alert>
+      </v-flex>
+
       <v-flex xs12 sm12>
         <v-progress-linear
           background-color="teal"
-          color="success"
+          :color="status === 'error' ? 'error' : 'success'"
           height="20"
           :value="processProgress"
         ></v-progress-linear>
@@ -23,7 +32,6 @@
       <v-flex xs12 sm12 text-xs-right>
         <p>{{ processProgress }} %</p>
       </v-flex>
-
 
       <v-flex xs6 sm6 class="text-xs-left" v-if="processProgress >= 100">
         <v-btn
@@ -284,6 +292,12 @@ export default {
     },
     logsFiles () {
       return this.$store.state.process.logsFiles
+    },
+    status () {
+      return this.$store.state.process.status
+    },
+    error () {
+      return this.$store.state.process.error
     }
   },
   methods: {
