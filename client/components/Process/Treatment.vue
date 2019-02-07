@@ -11,12 +11,20 @@
     </v-alert>
 
     <v-layout row wrap mt-3>
-      <v-flex xs12 sm12 v-if="error">
+      <v-flex xs12 sm12 v-if="status && status === 'error'">
         <v-alert
           :value="true"
           type="error"
         >
-          {{ error }}
+          <span v-if="error">{{ error }}</span>
+          <span v-else>
+            <ul>
+              Une ou plusieurs erreurs sont survenues
+              <li v-for="(log, key) in logging" :key="key" v-if="log.level === 'error'" class="ml-4">
+                {{ log.level }} : {{ log.message }}
+              </li>
+            </ul>
+          </span>
         </v-alert>
       </v-flex>
 
@@ -156,7 +164,7 @@
             </v-card>
           </v-expansion-panel-content>
 
-          <v-expansion-panel-content class="teal white--text">
+          <v-expansion-panel-content class="teal white--text" v-if="logsFiles">
             <div slot="header">{{ $t('ui.files') }}</div>
             <v-card>
               <v-card-text>
@@ -167,7 +175,7 @@
                         <table class="v-datatable v-table theme--light">
                           <tbody v-if="logsFiles">
                             <tr v-for="(file, index) in logsFiles" :key="index">
-                              <td class="text-xs-left">{{ file.name }}</td>
+                              <td class="text-xs-left">{{ file.file.name }}</td>
                               <td class="text-xs-right">{{ file.sizeText }}</td>
                             </tr>
                           </tbody>
@@ -260,7 +268,10 @@
                     v-for="(log, index) in logging"
                     :key="index"
                   >
-                    {{ log.level }}: {{ log.message }}
+                    <span v-if="log.level === 'info'" class="green--text">{{ log.level }}</span>
+                    <span v-if="log.level === 'warn'" class="orange--text">{{ log.level }}</span>
+                    <span v-if="log.level === 'error'" class="red--text">{{ log.level }}</span>
+                    : {{ log.message }}
                   </div>
                 </v-alert>
               </v-card-text>
