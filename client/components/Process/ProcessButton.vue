@@ -74,6 +74,10 @@ export default {
     },
     currentPredefinedSettings () {
       return this.$store.state.process.currentPredefinedSettings
+    },
+    customPredefinedSettings: {
+      get () { return this.$store.state.process.customPredefinedSettings },
+      set (newVal) { this.$store.dispatch('process/SET_CUSTOM_PREDEFINED_SETTINGS', newVal) }
     }
   },
   methods: {

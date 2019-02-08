@@ -6,12 +6,19 @@
           <v-autocomplete
             v-model="currentPredefinedSettings"
             :items="predefinedSettings"
-            :item-text="predefinedSettingsText"
+            item-text="fullName"
             :label="$t('ui.pages.process.settings.selectAnOption')"
             :return-object="true"
-            solo
+            box
             clearable
-          ></v-autocomplete>
+          >
+            <template slot="item" slot-scope="data">
+              <v-list-tile-content>
+                <v-list-tile-title v-html="data.item.fullName"></v-list-tile-title>
+                <v-list-tile-sub-title v-html="data.item.country"></v-list-tile-sub-title>
+              </v-list-tile-content>
+            </template>
+          </v-autocomplete>
         </v-flex>
 
         <v-flex xs12 sm12 mb-3 v-if="currentPredefinedSettings">
@@ -35,7 +42,7 @@
                       <v-text-field
                         v-model="currentPredefinedSettings.headers['Date-Format']"
                         :label="$t('ui.pages.process.settings.dateFormat')"
-                        placeholder="DD/MMM/YYYY:HH:mm:ss Z"
+                        :placeholder="currentPredefinedSettings.headers['Date-Format'].length <= 0 ? 'DD/MMM/YYYY:HH:mm:ss Z' : currentPredefinedSettings.headers['Date-Format']"
                         required
                       ></v-text-field>
                     </v-flex>
@@ -49,7 +56,7 @@
                       ></v-text-field>
                     </v-flex>
 
-                    <v-flex xs12 sm12 v-if="currentPredefinedSettings.headers['Log-Format'].value || currentPredefinedSettings.headers['Log-Format'].format">
+                    <v-flex xs12 sm12 v-if="currentPredefinedSettings.headers['Log-Format'].value.length > 0 || currentPredefinedSettings.headers['Log-Format'].format.length > 0">
                       <v-textarea
                         :label="$t('ui.pages.process.settings.logFormat')"
                         :value="currentPredefinedSettings.headers['Log-Format'].value"
@@ -232,21 +239,36 @@
           </v-expansion-panel>
         </v-flex>
 
-        <v-btn color="primary" block large @click="resetSettings">
-          <v-icon left>mdi-reload</v-icon>
-          {{ $t('ui.pages.process.settings.defaultParams') }}
-        </v-btn>
+        <v-flex xs12 sm12 class="text-xs-center">
+          <ButtonGroup>
+            <v-btn color="success" block large @click="saveCustomSettings" :disabled="disabledButton">
+              <v-icon left>mdi-content-save-settings</v-icon>
+              {{ $t('ui.save') }}
+            </v-btn>
+            <v-btn color="primary" block large @click="resetSettings" :disabled="disabledButton">
+              {{ $t('ui.pages.process.settings.defaultParams') }}
+              <v-icon right>mdi-reload</v-icon>
+            </v-btn>
+          </ButtonGroup>
+        </v-flex>
       </v-layout>
     </v-card-text>
   </v-card>
 </template>
 
 <script>
+import ButtonGroup from '~/components/ButtonGroup'
+import isEqual from 'lodash.isequal'
+
 export default {
+  components: {
+    ButtonGroup
+  },
   data () {
     return {
+      disabledButton: true,
       logTypes: [
-        { value: null, text: 'Reconnaissance auto' },
+        { value: '', text: 'Reconnaissance auto' },
         { value: 'ezproxy', text: 'EZproxy' },
         { value: 'apache', text: 'Apache' },
         { value: 'squid', text: 'Squid' }
@@ -264,64 +286,71 @@ export default {
       header: null,
       headers: [
         { header: 'Encodage' },
-        { group: 'Encoding', name: 'Response-Encoding', anchor: 'response-encoding' },
-        { group: 'Encoding', name: 'Accept-Encoding', anchor: 'accept-encoding' },
-        { group: 'Encoding', name: 'Request-Charset', anchor: 'request-charset' },
-        { group: 'Encoding', name: 'Response-Charset', anchor: 'response-charset' },
+        { name: 'Response-Encoding', anchor: 'response-encoding' },
+        { name: 'Accept-Encoding', anchor: 'accept-encoding' },
+        { name: 'Request-Charset', anchor: 'request-charset' },
+        { name: 'Response-Charset', anchor: 'response-charset' },
+        { divider: true },
         { header: 'Format' },
-        { group: 'Format', name: 'Accept', anchor: 'accept' },
-        { group: 'Format', name: 'Log-Format-xxx', anchor: 'log-format-xxx' },
-        { group: 'Format', name: 'Date-Format', anchor: 'date-format' },
-        { group: 'Format', name: 'Output-Fields', anchor: 'output-fields' },
-        { group: 'Format', name: 'Max-Parse-Attempts', anchor: 'max-parse-attempts' },
+        { name: 'Accept', anchor: 'accept' },
+        { name: 'Log-Format-xxx', anchor: 'log-format-xxx' },
+        { name: 'Date-Format', anchor: 'date-format' },
+        { name: 'Output-Fields', anchor: 'output-fields' },
+        { name: 'Max-Parse-Attempts', anchor: 'max-parse-attempts' },
+        { divider: true },
         { header: 'Extraction' },
-        { group: 'Extraction', name: 'Extract', anchor: 'extract' },
+        { name: 'Extract', anchor: 'extract' },
+        { divider: true },
         { header: 'COUNTER' },
-        { group: 'COUNTER', name: 'COUNTER-Reports', anchor: 'counter-reports' },
-        { group: 'COUNTER', name: 'COUNTER-Format', anchor: 'counter-format' },
-        { group: 'COUNTER', name: 'COUNTER-Customer', anchor: 'counter-customer' },
-        { group: 'COUNTER', name: 'COUNTER-Vendor', anchor: 'counter-vendor' },
+        { name: 'COUNTER-Reports', anchor: 'counter-reports' },
+        { name: 'COUNTER-Format', anchor: 'counter-format' },
+        { name: 'COUNTER-Customer', anchor: 'counter-customer' },
+        { name: 'COUNTER-Vendor', anchor: 'counter-vendor' },
+        { divider: true },
         { header: 'Deduplication' },
-        { group: 'Deduplication', name: 'Double-Click-Removal', anchor: 'double-click-xxx' },
-        { group: 'Deduplication', name: 'Double-Click-HTML', anchor: 'double-click-xxx' },
-        { group: 'Deduplication', name: 'Double-Click-PDF', anchor: 'double-click-xxx' },
-        { group: 'Deduplication', name: 'Double-Click-MISC', anchor: 'double-click-xxx' },
-        { group: 'Deduplication', name: 'Double-Click-MIXED', anchor: 'double-click-xxx' },
-        { group: 'Deduplication', name: 'Double-Click-Strategy', anchor: 'double-click-xxx' },
-        { group: 'Deduplication', name: 'Double-Click-C-Field', anchor: 'double-click-xxx' },
-        { group: 'Deduplication', name: 'Double-Click-L-Field', anchor: 'double-click-xxx' },
-        { group: 'Deduplication', name: 'Double-Click-I-Field', anchor: 'double-click-xxx' },
+        { name: 'Double-Click-Removal', anchor: 'double-click-xxx' },
+        { name: 'Double-Click-HTML', anchor: 'double-click-xxx' },
+        { name: 'Double-Click-PDF', anchor: 'double-click-xxx' },
+        { name: 'Double-Click-MISC', anchor: 'double-click-xxx' },
+        { name: 'Double-Click-MIXED', anchor: 'double-click-xxx' },
+        { name: 'Double-Click-Strategy', anchor: 'double-click-xxx' },
+        { name: 'Double-Click-C-Field', anchor: 'double-click-xxx' },
+        { name: 'Double-Click-L-Field', anchor: 'double-click-xxx' },
+        { name: 'Double-Click-I-Field', anchor: 'double-click-xxx' },
+        { divider: true },
         { header: 'Anonymization' },
-        { group: 'Anonymization', name: 'Crypted-Fields', anchor: 'crypted-fields' },
+        { name: 'Crypted-Fields', anchor: 'crypted-fields' },
+        { divider: true },
         { header: 'Other' },
-        { group: 'Other', name: 'Traces-Level', anchor: 'traces-level' },
-        { group: 'Other', name: 'Reject-Files', anchor: 'reject-files' },
-        { group: 'Other', name: 'Clean-Only', anchor: 'clean-only' },
-        { group: 'Other', name: 'Force-Parser', anchor: 'force-parser' },
-        { group: 'Other', name: 'Geoip', anchor: 'geoip' },
-        { group: 'Other', name: 'ezPAARSE-Job-Notifications', anchor: 'ezpaarse-job-notifications' },
-        { group: 'Other', name: 'ezPAARSE-Enrich', anchor: 'ezpaarse-enrich' },
-        { group: 'Other', name: 'ezPAARSE-Predefined-Settings', anchor: 'ezpaarse-predefined-settings' },
-        { group: 'Other', name: 'ezPAARSE-Filter-Redirects', anchor: 'ezpaarse-filter-redirects' },
-        { group: 'Other', name: 'Disable-Filters', anchor: 'disable-filters' },
-        { group: 'Other', name: 'Force-ECField-Publisher', anchor: 'force-ecfield-publisher' },
-        { group: 'Other', name: 'Extract', anchor: 'extract' },
-        { group: 'Other', name: 'ezPAARSE-Middlewares', anchor: 'ezpaarse-middlewares' },
+        { name: 'Traces-Level', anchor: 'traces-level' },
+        { name: 'Reject-Files', anchor: 'reject-files' },
+        { name: 'Clean-Only', anchor: 'clean-only' },
+        { name: 'Force-Parser', anchor: 'force-parser' },
+        { name: 'Geoip', anchor: 'geoip' },
+        { name: 'ezPAARSE-Job-Notifications', anchor: 'ezpaarse-job-notifications' },
+        { name: 'ezPAARSE-Enrich', anchor: 'ezpaarse-enrich' },
+        { name: 'ezPAARSE-Predefined-Settings', anchor: 'ezpaarse-predefined-settings' },
+        { name: 'ezPAARSE-Filter-Redirects', anchor: 'ezpaarse-filter-redirects' },
+        { name: 'Disable-Filters', anchor: 'disable-filters' },
+        { name: 'Force-ECField-Publisher', anchor: 'force-ecfield-publisher' },
+        { name: 'Extract', anchor: 'extract' },
+        { name: 'ezPAARSE-Middlewares', anchor: 'ezpaarse-middlewares' },
+        { divider: true },
         { header: 'Metadata enrichment' },
-        { group: 'Metadata enrichment', name: 'Crossref-enrich', anchor: 'crossref' },
-        { group: 'Metadata enrichment', name: 'Crossref-ttl', anchor: 'crossref' },
-        { group: 'Metadata enrichment', name: 'Crossref-throttle', anchor: 'crossref' },
-        { group: 'Metadata enrichment', name: 'Crossref-paquet-size', anchor: 'crossref' },
-        { group: 'Metadata enrichment', name: 'Crossref-buffer-size', anchor: 'crossref' },
-        { group: 'Metadata enrichment', name: 'Sudoc-enrich', anchor: 'sudoc' },
-        { group: 'Metadata enrichment', name: 'Sudoc-ttl', anchor: 'sudoc' },
-        { group: 'Metadata enrichment', name: 'Sudoc-throttle', anchor: 'sudoc' },
-        { group: 'Metadata enrichment', name: 'Hal-enrich', anchor: 'hal' },
-        { group: 'Metadata enrichment', name: 'Hal-ttl', anchor: 'hal' },
-        { group: 'Metadata enrichment', name: 'Hal-throttle', anchor: 'hal' },
-        { group: 'Metadata enrichment', name: 'Istex-enrich', anchor: 'istex' },
-        { group: 'Metadata enrichment', name: 'Istex-ttl', anchor: 'istex' },
-        { group: 'Metadata enrichment', name: 'Istex-throttle', anchor: 'istex' }
+        { name: 'Crossref-enrich', anchor: 'crossref' },
+        { name: 'Crossref-ttl', anchor: 'crossref' },
+        { name: 'Crossref-throttle', anchor: 'crossref' },
+        { name: 'Crossref-paquet-size', anchor: 'crossref' },
+        { name: 'Crossref-buffer-size', anchor: 'crossref' },
+        { name: 'Sudoc-enrich', anchor: 'sudoc' },
+        { name: 'Sudoc-ttl', anchor: 'sudoc' },
+        { name: 'Sudoc-throttle', anchor: 'sudoc' },
+        { name: 'Hal-enrich', anchor: 'hal' },
+        { name: 'Hal-ttl', anchor: 'hal' },
+        { name: 'Hal-throttle', anchor: 'hal' },
+        { name: 'Istex-enrich', anchor: 'istex' },
+        { name: 'Istex-ttl', anchor: 'istex' },
+        { name: 'Istex-throttle', anchor: 'istex' }
       ]
     }
   },
@@ -332,6 +361,17 @@ export default {
     },
     predefinedSettings () {
       return this.$store.state.process.predefinedSettings
+    }
+  },
+  watch: {
+    currentPredefinedSettings: {
+      handler: function (newVal) {
+        let changed = this.predefinedSettings.find(p => {
+          return p.fullName === newVal.fullName
+        })
+        this.disabledButton = !!isEqual(changed, this.currentPredefinedSettings)
+      },
+      deep: true
     }
   },
   methods: {
@@ -356,9 +396,6 @@ export default {
     removeHeader (header) {
       this.currentPredefinedSettings.headers.advancedHeaders.splice(header, 1)
     },
-    predefinedSettingsText (item) {
-      return `${item['country']} - ${item['fullName']}`
-    },
     updateCounterFormat () {
       if (this.currentPredefinedSettings.headers['COUNTER-Reports']) this.currentPredefinedSettings.headers['COUNTER-Format'] = 'tsv'
     },
@@ -373,6 +410,29 @@ export default {
         return header === h.name
       })
       if (h) window.open(`https://ezpaarse.readthedocs.io/en/master/configuration/parametres.html#${h.anchor}`, '_blank')
+    },
+    saveCustomSettings () {
+      let customPs
+      if (localStorage.getItem('ezpaarse_cps')) {
+        const ezpaarseCps = JSON.parse(localStorage.getItem('ezpaarse_cps'))
+        let index = ezpaarseCps.findIndex(cps => {
+          return cps.fullName === this.currentPredefinedSettings.fullName
+        })
+        
+        customPs = JSON.parse(JSON.stringify(this.currentPredefinedSettings))
+        customPs.fullName = `${customPs.fullName}`
+        if (index >= 0) {
+          ezpaarseCps[index] = customPs
+        } else {
+          ezpaarseCps.push(customPs)
+        }
+
+        localStorage.setItem('ezpaarse_cps', JSON.stringify(ezpaarseCps))
+      } else {
+        customPs = JSON.parse(JSON.stringify(this.currentPredefinedSettings))
+        customPs.fullName = `${customPs.fullName}`
+        localStorage.setItem('ezpaarse_cps', JSON.stringify([customPs]))
+      }
     }
   }
 }

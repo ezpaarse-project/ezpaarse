@@ -22,14 +22,6 @@
           <span v-else>Default</span>
         </v-flex>
 
-        <v-flex xs6 sm6>
-          <v-switch
-            class="saveParams"
-            :label="$t('ui.pages.process.settings.saveSettings')"
-            v-model="paramsSaved"
-          ></v-switch>
-        </v-flex>
-
         <v-flex xs12 sm12>
           <v-tabs v-model="activeTab" grow dark>
             <v-tab to="#tab-logs-files">

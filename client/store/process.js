@@ -6,6 +6,7 @@ export default {
   state: {
     inProgress: false,
     predefinedSettings: [],
+    customPredefinedSettings: null,
     currentPredefinedSettings: null,
     processProgress: 0,
     logsLines: '',
@@ -24,6 +25,9 @@ export default {
     },
     SET_CURRENT_PREDEFINED_SETTINGS (state, data) {
       state.currentPredefinedSettings = data;
+    },
+    SET_CUSTOM_PREDEFINED_SETTINGS (state, data) {
+      state.customPredefinedSettings = data;
     },
     SET_PROCESS_PROGRESS (state, data) {
       state.processProgress = data;
@@ -73,10 +77,10 @@ export default {
           headers: {
             'Crypted-Fields': ['host', 'login'],
             'COUNTER-Format': 'csv',
-            'Date-Format': null,
+            'Date-Format': '',
             'Log-Format': {
-              format: null,
-              value: null
+              format: '',
+              value: ''
             },
             'ezPAARSE-Job-Notifications': [],
             'Trace-Level': 'info',
@@ -84,7 +88,7 @@ export default {
               plus: [],
               minus: []
             },
-            'Force-Parser': null,
+            'Force-Parser': '',
             advancedHeaders: []
           }
         };
@@ -147,13 +151,27 @@ export default {
           }
         });
         data.unshift(currentSettings);
+        data.unshift({ header: 'Predefined Settings' });
 
-        commit('SET_PREDEFINED_SETTINGS', data);
+        if (localStorage.getItem('ezpaarse_cps')) {
+          const ezpaarseCps = JSON.parse(localStorage.getItem('ezpaarse_cps'));
+          ezpaarseCps.unshift({ header: 'Custom predefined settings' });
+          commit('SET_CUSTOM_PREDEFINED_SETTINGS', ezpaarseCps);
+
+          ezpaarseCps.push({ divider: true });
+          Array.prototype.push.apply(ezpaarseCps, data);
+          commit('SET_PREDEFINED_SETTINGS', ezpaarseCps);
+        }
+
+        if (!localStorage.getItem('ezpaarse_cps')) commit('SET_PREDEFINED_SETTINGS', data);
         commit('SET_CURRENT_PREDEFINED_SETTINGS', JSON.parse(JSON.stringify(currentSettings)));
       });
     },
     SET_CURRENT_PREDEFINED_SETTINGS ({ commit }, data) {
       commit('SET_CURRENT_PREDEFINED_SETTINGS', data);
+    },
+    SET_CUSTOM_PREDEFINED_SETTINGS ({ commit }, data) {
+      commit('SET_CUSTOM_PREDEFINED_SETTINGS', data);
     },
     PROCESS ({ commit }, data) {
       const source = CancelToken.source();
