@@ -124,7 +124,9 @@ export default {
       this.$store.dispatch('process/LOG_PARSER', { settings: this.currentPredefinedSettings, logsLines: this.logsLines }).then(res => {
         this.result = res
         this.alertColor = (this.result.formatBreak === 0) ? 'error' : 'success'
-      }).catch(err => { })
+      }).catch(err => { 
+        this.$store.dispatch('snacks/info', this.$t(`ui.errors.500`))
+      })
     }
   }
 }

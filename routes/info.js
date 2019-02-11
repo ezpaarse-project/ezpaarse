@@ -184,40 +184,40 @@ app.get('/platforms', function (req, res) {
       });
     });
   });
+});
 
-  /**
-  * GET route on /info/fields.json
-  */
-  app.get(/^\/(fields|rid|mime|rtype)(?:\.json)?$/, function (req, res) {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'X-Requested-With');
+/**
+* GET route on /info/fields.json
+*/
+app.get(/^\/(fields|rid|mime|rtype)(?:\.json)?$/, function (req, res) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'X-Requested-With');
 
-    var file = path.join(__dirname, '/../platforms/fields.json');
+  var file = path.join(__dirname, '/../platforms/fields.json');
 
-    fs.readFile(file, function (err, content) {
-      if (err) { return res.status(500).end(); }
+  fs.readFile(file, function (err, content) {
+    if (err) { return res.status(500).end(); }
 
-      var name = req.params[0];
-      if (name == 'fields') {
-        return res.status(200).json(content);
-      }
+    var name = req.params[0];
+    if (name == 'fields') {
+      return res.status(200).json(content);
+    }
 
-      try {
-        content = JSON.parse(content)[name];
-      } catch (e) {
-        return res.status(500).end();
-      }
+    try {
+      content = JSON.parse(content)[name];
+    } catch (e) {
+      return res.status(500).end();
+    }
 
-      if (req.query.sort) {
-        content.sort(function (a, b) {
-          var comp = a.code < b.code ? -1 : 1;
-          if (req.query.sort === 'desc') { comp *= -1; }
-          return comp;
-        });
-      }
+    if (req.query.sort) {
+      content.sort(function (a, b) {
+        var comp = a.code < b.code ? -1 : 1;
+        if (req.query.sort === 'desc') { comp *= -1; }
+        return comp;
+      });
+    }
 
-      res.status(200).json(content);
-    });
+    res.status(200).json(content);
   });
 });
 

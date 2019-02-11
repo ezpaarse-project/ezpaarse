@@ -42,7 +42,7 @@
                       <v-text-field
                         v-model="currentPredefinedSettings.headers['Date-Format']"
                         :label="$t('ui.pages.process.settings.dateFormat')"
-                        :placeholder="currentPredefinedSettings.headers['Date-Format'].length <= 0 ? 'DD/MMM/YYYY:HH:mm:ss Z' : currentPredefinedSettings.headers['Date-Format']"
+                        placeholder="'DD/MMM/YYYY:HH:mm:ss Z"
                         required
                       ></v-text-field>
                     </v-flex>
@@ -56,7 +56,7 @@
                       ></v-text-field>
                     </v-flex>
 
-                    <v-flex xs12 sm12 v-if="currentPredefinedSettings.headers['Log-Format'].value.length > 0 || currentPredefinedSettings.headers['Log-Format'].format.length > 0">
+                    <v-flex xs12 sm12 v-if="currentPredefinedSettings.headers['Log-Format'].value || currentPredefinedSettings.headers['Log-Format'].format">
                       <v-textarea
                         :label="$t('ui.pages.process.settings.logFormat')"
                         :value="currentPredefinedSettings.headers['Log-Format'].value"
@@ -420,7 +420,7 @@ export default {
         })
         
         customPs = JSON.parse(JSON.stringify(this.currentPredefinedSettings))
-        customPs.fullName = `${customPs.fullName}`
+        customPs.fullName = `[${customPs.fullName}]`
         if (index >= 0) {
           ezpaarseCps[index] = customPs
         } else {
@@ -430,9 +430,12 @@ export default {
         localStorage.setItem('ezpaarse_cps', JSON.stringify(ezpaarseCps))
       } else {
         customPs = JSON.parse(JSON.stringify(this.currentPredefinedSettings))
-        customPs.fullName = `${customPs.fullName}`
+        customPs.fullName = `[${customPs.fullName}]`
         localStorage.setItem('ezpaarse_cps', JSON.stringify([customPs]))
       }
+      this.$store.dispatch('process/GET_PREDEFINED_SETTINGS').then(res => {
+        this.currentPredefinedSettings = customPs
+      })
     }
   }
 }
