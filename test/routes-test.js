@@ -18,8 +18,8 @@ var infoRoutes = [
 ];
 
 var adminRoutes = [
-  '/api/app/status',
-  '/api/platforms/status',
+  '/api/admin/app/status',
+  '/api/admin/platforms/status',
   '/api/admin/users'
 ];
 
