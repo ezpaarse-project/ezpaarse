@@ -5,6 +5,7 @@ module.exports = {
     node: true
   },
   extends: [
+    'airbnb-base',
     'plugin:vue/recommended'
   ],
   // add your custom rules here
