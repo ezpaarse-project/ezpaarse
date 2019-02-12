@@ -1,0 +1,250 @@
+{
+  "ui": {
+    "header": {
+      "pkbsSynchronized": "PKBs Synchronisées",
+      "pkbsRemaining": "{pkbs} PKBs restantes",
+      "noCurrentProcessing": "Aucun traitement en cours",
+      "currentProcessing": "Traitement en cours : {percent} %",
+      "processCanceled": "Traitement annulé"
+    },
+    "drawer": {
+      "notConnected": "Non connecté",
+      "processLogs": "Traitez vos logs",
+      "signout": "Se déconnecter",
+      "feedback": "Signaler un problème",
+      "admin": {
+        "platforms": "Plateformes",
+        "updates": "Mises à jour",
+        "users": "Utilisateurs",
+        "jobs": "Traitement(s) en cours"
+      }
+    },
+    "pages": {
+      "index": {
+        "whatIsEzpaarse": "ezPAARSE, c'est...",
+        "singinEasy": "Enregistrez-vous avant de pouvoir traiter vos logs, c'est simple et rapide.<br/>Vous pourrez ensuite suivre vos traitements et communiquer plus facilement avec l'équipe ezPAARSE.",
+        "description": "Un <a href=\"{github}\" target=\"_blank\">logiciel libre</a> qui permet l’analyse, l’enrichissement et l’exploitation des logs d’accès aux ressources électroniques proposées par les <a href=\"{analogist}\"  target=\"_blank\">plate-formes Web des éditeurs de littérature scientifique</a>. Il se présente sous la forme d'une application Web disposant d'un formulaire et d'une <a href=\"{doc}\" target=\"_blank\">API</a> permettant l'ingestion manuelle et automatique des logs générées par les serveurs et proxy des établissements.",
+        "simpleTool": "Un outil simple et efficace",
+        "fewClicksToInstall": "Quelques clics suffisent à l'installer et à analyser vos logs.",
+        "availableTeam": "Une équipe disponible et réactive",
+        "contactUs": "Un problème, une question, une suggestion ? Contactez-nous !",
+        "growingCommunity": "Une communauté grandissante",
+        "notOnlyFrench": "Et pas seulement francophone !"
+      },
+      "profile": {
+        "title": "Mon profil",
+        "notifications": "Recevoir un mail de notification à la fin de mes traitements.",
+        "updatePassword": "Changement de mot de passe",
+        "passwordUpdtaed": "Mot de passe mis à jour",
+        "oldPassword": "Ancien mot de passe *",
+        "newPassword": "Nouveau mot de passe *",
+        "confirm": "Confirmation *"
+      },
+      "process": {
+        "title": "Traitez vos logs",
+        "curl": "Copiez la commande ci-dessous pour exécuter la requête avec cURL en utilisant le paramétrage actuel du formulaire. Vous devrez peut-être modifier l'adresse de l'instance utilisée, le chemin des fichiers ou ajouter des options telles que <span tabindex=\"0\" class=\"v-chip v-chip--label theme--light\"><span class=\"v-chip__content\">--proxy</span></span> ou <span tabindex=\"0\" class=\"v-chip v-chip--label theme--light\"><span class=\"v-chip__content\">--no-buffer</span></span>",
+        "processLogsFiles": "Traitez vos fichiers de logs",
+        "processLogsLines": "Traitez vos lignes de logs",
+        "prepareTreatment": "Préparation du traitement",
+        "explainationLogs": "Indiquez ici les logs que vous désirez faire analyser par ezPAARSE. Vos logs nécessitent peut-être un paramétrage particulier pour qu'ezPAARSE les comprenne. Si nécessaire, <a href=\"\">contactez l'équipe ezPAARSE</a> pour une aide au paramétrage.",
+        "explainationTestsLogs": "Vous désirez utiliser des logs de test pour valider votre installation, nous en <a href=\"{url}\" target=\"_blank\">mettons à disposition sur GitHub</a>.",
+        "settings": {
+          "title": "Paramètres",
+          "currentSettings": "Paramétrage actuel",
+          "defaultSettings": "par défaut",
+          "saveSettings": "Mémoiriser mes paramètres",
+          "logFiles": "Fichiers de logs",
+          "designLogFormat": "Concevoir mon format de log",
+          "selectAnOption": "Sélectionnez une option",
+          "input": "En entrée",
+          "typeOfLog": "Type de log",
+          "dateFormat": "Format de date",
+          "defaultParser": "Parseur par défaut",
+          "logFormat": "Format de log",
+          "output": "En sortie",
+          "counterFormat": "Format du résultat",
+          "traceLevel": "Traces système",
+          "notificationsEmails": "Adresse(s) emails",
+          "counterReports": "Rapports COUNTER *",
+          "outputFields": "Champs en sortie",
+          "add": "Ajouter...",
+          "remove": "Enlever...",
+          "cryptedFields": "Champs cryptés",
+          "counterReportDetail": "* Les rapports ne sont pas certifiés COUNTER, cependant l'algorithme de dédoublonnage et les formats de sortie suivent les recommandations.",
+          "advancedHeaders": "avancé",
+          "defaultParams": "Paramètres par défaut"
+        },
+        "logFiles": {
+          "clickToAdd": "Cliquez pour ajouter",
+          "removeList": "Supprimer la liste",
+          "selectedFiles": "fichiers sélectonnés",
+          "total": "au total"
+        },
+        "logFormat": {
+          "copyPast": "Copiez/collez vos lignes de log ici",
+          "logType": "Type de log",
+          "defaultParser": "Parseur par défaut",
+          "defaultParserExample": "Exemple: dspace",
+          "formatAnalysis": "Analyse du format",
+          "firstLogLine": "Basée sur la première ligne de log",
+          "autoRecognition": "Reconnaissance auto",
+          "format": "Format",
+          "regex": "Expression régulière",
+          "ecGenerated": "Événement de consultation généré (basique, sans enrichissement)",
+          "field": "Champs",
+          "value": "Valeur",
+          "detectionFailed": "La détection automatique n'a pas pu déterminer le format de vos lignes de log"
+        },
+        "report": {
+          "title": "Rapport",
+          "linesRead": "Lignes lues",
+          "ECsGenerated": "ECs générés",
+          "treatmentDuration": "Durée du traitement",
+          "logProcessingSpeed": "Vitesse de traitement des logs",
+          "ECGenerationSpeed": "Vitesse de génération des ECs",
+          "recognizedPlatforms": "Plateformes reconnues",
+          "HTMLConsultations": "Consultations HTML",
+          "PDFConsultations": "Consultations PDF",
+          "nb-lines-ignored": "Lignes ignorées",
+          "nb-denied-ecs": "ECs en accès refusé",
+          "nb-lines-duplicate-ecs": "Doublons filtrés",
+          "nb-lines-ignored-domains": "Domaines ignorés",
+          "nb-lines-unknown-domains": "Domaines inconnus",
+          "nb-lines-unknown-formats": "Formats inconnus",
+          "nb-lines-unqualified-ecs": "ECs non qualifiés",
+          "nb-lines-pkb-miss-ecs": "PKBs manquantes",
+          "nb-lines-unordered-ecs": "Anomalies chronologiques",
+          "nb-lines-ignored-hosts": "Hosts ignorés",
+          "nb-lines-robots-ecs": "Robots",
+          "descriptions": {
+            "nb-lines-ignored": "Nombre de requêtes non pertinentes. Il s'agit principalement de téléchargements d'images, css ou scripts web sans rapport direct avec une ressource. Dans un log brut, ce chiffre est souvent élevé.",
+            "nb-denied-ecs": "Liste des accès qui ont été refusés à l'utilisateur au moment du clic.<br /> Exemple : tentative d'accès à un article non négocié dans le bouquet de l'établissement.",
+            "nb-lines-duplicate-ecs": "Nombre de consultations ignorées car détectées comme des double-clics.",
+            "nb-lines-ignored-domains": "Les domaines ignorés.",
+            "nb-lines-unknown-domains": "Domaines non gérés par ezPAARSE à l'heure actuelle. Vous pouvez télécharger la liste complète des domaines inconnus rencontrés en cliquant ci-dessous.",
+            "nb-lines-unknown-formats": "Les formats inconnus.",
+            "nb-lines-unqualified-ecs": "Les parseurs n'ont pas reconnu d'informations documentaires dans les URL de ces lignes de log. Elles sont donc ignorées par ezPAARSE.",
+            "nb-lines-pkb-miss-ecs": "Les PKBs manquantes.",
+            "nb-lines-unordered-ecs": "Lignes ignorées en raison d'un mauvais ordre chronologique.",
+            "nb-lines-ignored-hosts": "Hosts volontairement ignorés.",
+            "nb-lines-robots-ecs": "Consultations engendrées par des robots."
+          },
+          "general": "Général",
+          "rejets": "Rejets",
+          "stats": "Stats",
+          "alerts": "Alerts",
+          "dedoublonnage": "Dédoublonnage",
+          "files": "Fichiers",
+          "first_event": "Première consultation",
+          "seeFull": "Voir le rapport au complet",
+          "minimizeReport": "Minimiser le rapport"
+        },
+        "job": {
+          "title": "Traitement(s) en cours",
+          "infos": "ezPAARSE a fini de traiter vos logs. Des macros <a href=\"{excelUrl}\">Excel</a> et <a href=\"{libreOfficeUrl}\">LibreOffice</a> sont à votre disposition si vous souhaitez avoir un premier aperçu visuel des résultats.",
+          "downloadResult": "Télécharger le résultat",
+          "consultReport": "Consulter le rapport",
+          "newProcess": "Nouveau traitement",
+          "processState": "État du traitement",
+          "rejects": "Rejets",
+          "traces": "Traces système",
+          "relevantLogLinesRead": "Lignes de log pertinentes lues : <strong>{relevantLogLines}</strong>",
+          "stopProcess": "Arrêter le traitement en cours"
+        }
+      },
+      "admin": {
+        "platforms": {
+          "title": "Plateformes",
+          "noPlatforms": "Aucune plateformes pour le moment",
+          "platformsPerPage": "Plateformes par page",
+          "allPlatformsPerPage": "Toutes",
+          "noCertifications": "Aucune certification",
+          "noPlatformFoundWithName": "Aucune plateforme trouvée avec ce nom : {search}",
+          "newPlatformsAvailable": "New platforms are available",
+          "entries": "Entrées"
+        },
+        "updates": {
+          "title": "Mises à jour",
+          "resources": "Ressources",
+          "software": "Logiciel",
+          "predefinedParameters": "Paramètres prédéfinis et autres ressources indépendantes de la version d'ezPAARSE.",
+          "middlewaresInfo": "Éléments de la chaîne de traitement d'ezPAARSE.",
+          "returnToStableVersion": "Revenir à la version stable",
+          "updateDuration": "Mettre à jour ezPAARSE peut prendre plusieurs minutes. Le serveur sera mis hors-ligne le temps de l'opération.",
+          "repoLocalChanges": "Des modifications locales semblent avoir été apportées au répertoire des {repo}. Il est possible que les prochaines mises à jour échouent.",
+          "softLocalChanges": "Des modifications locales semblent avoir été apportées au code source du logiciel. Il est possible que les prochaines mises à jour échouent.",
+          "contactDeploymentService": "En cas de problème, nous vous invitons à contacter le service en charge du déploiement.",
+          "upwardStable": "La version actuelle du logiciel présente des changements ultérieurs à la dernière version stable. Cliquez sur le bouton ci-dessus si vous souhaitez revenir à la dernière version stable."
+        },
+        "users": {
+          "title": "Utilisateurs",
+          "group": "Groupe",
+          "noUsers": "Aucun utilisateur",
+          "usersPerPage": "Utilisateurs par page",
+          "allUsers": "Tous",
+          "noUserFoundWithEmail": "Aucune utilisateur trouvé avec cet email {search}",
+          "updatingInformationOf": "Mise à jour des informations de {email}",
+          "groups": {
+            "admin": "Administrateur",
+            "user": "Utilisateur"
+          }
+        },
+        "jobs": {
+          "title": "Traitements en cours",
+          "currentProcess": "Il y a <strong>{process}</strong> traitement(s) en cours."
+        },
+        "report": {
+          "title": "Rapport"
+        }
+      },
+      "feedback": {
+        "email": "Votre feedback sera envoyé à&nbsp;<a href=\"mailto:ezpaarse@couperin.org\" class=\"white--text\">ezpaarse@couperin.org</a>. Une copie vous sera transmise à l'adresse indiquée ci-dessous.",
+        "hasSent": "Votre feedback a été envoyé.",
+        "unavailable": "Cette page est actuellement indisponible."
+      }
+    },
+    "tour": {
+      "skip": "Quitter",
+      "finish": "Terminer",
+      "previous": "Précédent",
+      "next": "Suivant"
+    },
+    "errors": {
+      "title": "Une erreur s'est produite.",
+      "fill_all_fields": "Veuillez completer tous les champs.",
+      "invalid_address": "L'adresse email est invalide.",
+      "password_does_not_match": "Les deux mots de passe ne correcpondent pas.",
+      "wrong_password": "Mot de passe invalide.",
+      "user_already_exists": "L'adresse email est déjà utilisée.",
+      "bad_credentials": "Adresse email ou mot de passe invalide.",
+      "cant_delete_yourself": "Vous ne pouvez pas effacer votre propre compte.",
+      "cant_change_your_own_group": "Vous ne pouvez pas modifier vous même votre groupe.",
+      "bad_section": "Mauvaise section.",
+      "error": "Il semblerait que quelque chose ce soit mal passé.",
+      "404": "Cette page n'a pas pu être trouvée.",
+      "500": "Une erreur s'est produite."
+    },
+    "search": "Rechercher",
+    "close": "Fermer",
+    "back": "Retour",
+    "save": "Sauvegarder",
+    "currentVersion": "Version actuelle",
+    "updateTo": "Mettre à jour vers {newVersion}",
+    "nameFile": "Nom du fichier",
+    "files": "Fichiers",
+    "filesName": "Nom des fichiers",
+    "size": "Taille",
+    "password": "Mot de passe",
+    "passwordForgotten": "Mot de passe oublié ?",
+    "reset": "Réinitialiser",
+    "signin": "Se connecter",
+    "signup": "Créer un compte",
+    "rememberMe": "Se souvenir de moi",
+    "confirmPassword": "Confirmez votre mot de passe",
+    "language": "Langue",
+    "send": "Envoyer",
+    "informTeamWarning": "Vous venez d'installer ezPAARSE et vous vous apprétez à créer le compte administrateur. Avec votre accord, nous souhaiterions être informés de cette installation. L'adresse e-mail entrée ci-dessus et la version d'ezPAARSE installée seront envoyées à <strong>{recipients}</strong>.",
+    "informTeam": "Informer l'équipe",
+    "loading": "Chargement en cours..."
+  }
+}
