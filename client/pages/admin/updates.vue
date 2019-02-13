@@ -52,7 +52,6 @@
 
     <v-card-text>
       <v-flex xs12 sm12>
-        {{ezpaarse}}
         <p><strong>{{ $t('ui.pages.admin.updates.software') }}</strong></p>
         <p>
           <v-alert :value="true" color="red lighten-2" v-if="ezpaarse['local-commits'] || ezpaarse['local-changes']">
