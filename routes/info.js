@@ -10,6 +10,8 @@ var git        = require('../lib/git-tools.js');
 var config     = require('../lib/config.js');
 var pkg        = require('../package.json');
 var trello     = require('../lib/trello-analogist.js');
+var customPredefinedSettings = require('../lib/custom-predefined-settings.js');
+var bodyParser = require('body-parser');
 
 var statusCodes = require(path.join(__dirname, '/../statuscodes.json'));
 
@@ -302,6 +304,55 @@ app.get('/predefined-settings', function (req, res) {
       res.status(200).json(settings);
     });
   });
+});
+
+app.get('/custom-predefined-settings', function (req, res) {
+  customPredefinedSettings.getAll(function (err, settings) {
+    if (err) { return res.status(500).end(); }
+
+    return res.status(200).json(settings);
+  });
+});
+
+app.post('/custom-predefined-settings', bodyParser.urlencoded({ extended: true }), bodyParser.json(), auth.ensureAuthenticated(true), function (req, res) {
+  const settings = req.body.settings;
+
+  if (!settings) return res.status(406).json({ status: 406, message: 'no_settings_set' })
+
+  customPredefinedSettings.insert(settings, function (err) {
+    if (err) { return res.status(500).end(); }
+
+    return res.status(200).end();
+  });
+});
+
+app.put('/custom-predefined-settings/:id', bodyParser.urlencoded({ extended: true }), bodyParser.json(), auth.ensureAuthenticated(true), function (req, res) {
+  const id = req.params.id;
+  const settings = req.body.settings;
+
+  const errors = []
+  if (!id) errors.push('id')
+  if (!settings) errors.push('settings')
+  if (errors.length > 0) return res.status(406).json({ status: 406, fields: errors })
+
+  customPredefinedSettings.updateOne(id, settings, function (err) {
+    if (err.message === 'id_invalid') return res.status(409).json({ status: 409, message: err.message });
+    if (err) { return res.status(500).end(); }
+
+    return res.status(200).end();
+  });
+});
+
+app.delete('/custom-predefined-settings/:id', auth.ensureAuthenticated(true), function (req, res) {
+  const id = req.params.id;
+  if (!id) return res.status(406).json({ status: 406, message: 'unknown_id' })
+
+  customPredefinedSettings.delete(id, function (err) {
+    if (err.message === 'id_invalid') return res.status(409).json({ status: 409, message: err.message });
+    if (err) { return res.status(500).end(); }
+
+    return res.status(200).end();
+  })
 });
 
 /**
