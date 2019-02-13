@@ -29,14 +29,15 @@ const store = () => new Vuex.Store({
     SET_DRAWER ({ commit }, value) {
       commit('SET_DRAWER', value);
     },
-    REGISTER (credentials) {
+    REGISTER ({ commit }, credentials) {
       return api.register(this.$axios, credentials);
     },
-    SEND_FEEDBACK (data) {
+    SEND_FEEDBACK ({ commit }, data) {
       return api.sendFeedback(this.$axios, data);
     },
     LOAD_STATUS ({ commit }) {
       return api.getAppStatus(this.$axios).then(res => {
+        res.isBeta = !/^[0-9]+\.[0-9]+\.[0-9]+$/.test(res.current)
         commit('SET_APP_STATUS', res);
 
         return api.getPlatformsStatus(this.$axios).then(platformsStatus => {
@@ -54,8 +55,11 @@ const store = () => new Vuex.Store({
         });
       });
     },
-    UPDATE_REPO (repo) {
+    UPDATE_REPO ({ commit }, repo) {
       return api.updateRepo(this.$axios, repo);
+    },
+    UPDATE_APP ({ commit }, version) {
+      return api.updateApp(this.$axios, version);
     },
     GET_PLATFORMS ({ commit }) {
       return api.getPlatforms(this.$axios).then(res => commit('SET_PLATFORMS', res));
@@ -66,28 +70,28 @@ const store = () => new Vuex.Store({
     GET_USERS_LIST ({ commit }) {
       return api.getUsersList(this.$axios).then(res => commit('SET_USERS_LIST', res));
     },
-    ADD_USER (data) {
+    ADD_USER ({ commit }, data) {
       return api.addUser(this.$axios, data);
     },
-    REMOVE_USER (userid) {
+    REMOVE_USER ({ commit }, userid) {
       return api.removeUser(this.$axios, userid);
     },
-    EDIT_USER (data) {
+    EDIT_USER ({ commit }, data) {
       return api.editUser(this.$axios, data);
     },
-    RESET_PASSWORD (userid) {
+    RESET_PASSWORD ({ commit }, userid) {
       return api.resetPassword(this.$axios, userid);
     },
-    NOTIFIATE (data) {
+    NOTIFIATE ({ commit }, data) {
       return api.notifiate(this.$axios, data);
     },
-    UPDATE_PASSWORD (data) {
+    UPDATE_PASSWORD ({ commit }, data) {
       return api.updatePassword(this.$axios, data);
     },
     GET_USER_NUMBER ({ commit }) {
       return api.getUserNumber(this.$axios).then(res => commit('SET_USER_NUMBER', res));
     },
-    FRESHINSTALL (data) {
+    FRESHINSTALL ({ commit }, data) {
       return api.freshInstall(this.$axios, data);
     },
     LOAD_PKBS ({ commit }) {

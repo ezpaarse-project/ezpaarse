@@ -172,6 +172,7 @@
           "predefinedParameters": "Predefined parameters and other resources independent of the ezPAARSE version.",
           "middlewaresInfo": "Elements of the ezPAARSE processing chain.",
           "returnToStableVersion": "Return to the stable version",
+          "returnToBetaVersion": "Migrate to the beta version",
           "updateDuration": "Updating ezPAARSE can take several minutes. The server will be offline for the duration of the operation.",
           "repoLocalChanges": "It seems that local changes have been applied to the {repo} directory. In that case, future updates might fail.",
           "softLocalChanges": "It seems that local changes have been applied to the source code of this instance. Future updates might fail.",

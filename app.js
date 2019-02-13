@@ -66,13 +66,13 @@ app.set('port', config.EZPAARSE_NODEJS_PORT || 3000);
  * Send 503 if ezPAARSE is being updated
  */
 app.use(function (req, res, next) {
-  if (!app.locals.updating) { return next(); }
+  if (!res.locals.updating) { return next(); }
 
   fs.exists(path.resolve(__dirname, 'update.lock'), function (exist) {
     if (exist) {
       return res.status(503).send('ezPAARSE is being updated, it should be back in a few minutes');
     }
-    app.locals.updating = false;
+    res.locals.updating = false;
     next();
   });
 });

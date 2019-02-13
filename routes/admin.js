@@ -82,7 +82,7 @@ app.put('/app/status', auth.ensureAuthenticated(true), auth.authorizeMembersOf('
     if (req.query.rebuild !== 'no')     { args.push('--rebuild'); }
 
     res.on('finish', function () {
-      app.locals.updating = true;
+      res.locals.updating = true;
       execFile('../lib/bin/update-app.js', args, { cwd: __dirname });
     });
 
@@ -427,7 +427,7 @@ app.put('/:repo/status', auth.ensureAuthenticated(true), auth.authorizeMembersOf
       switch (repo) {
       case 'resources':
         clearCache('../resources/predefined-settings.json').then(() => {
-          app.locals.bundle = null;
+          res.locals.bundle = null;
           res.status(200).end();
         }).catch(err => {
           res.status(200).end();

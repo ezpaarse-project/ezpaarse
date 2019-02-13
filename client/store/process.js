@@ -238,7 +238,7 @@ export default {
         commit('SET_REPORT', res);
       });
     },
-    LOG_PARSER (data) {
+    LOG_PARSER ({ commit }, data) {
       return api.getLogParser(this.$axios, data);
     }
   }

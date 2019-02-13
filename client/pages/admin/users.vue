@@ -218,7 +218,7 @@ export default {
       
       this.$store.dispatch('REMOVE_USER', userid).then(res => {
         this.$store.dispatch('GET_USERS_LIST').catch(err => { 
-          // TODO : Supprimer l'utilisateur du tableau des utilisateurs si catch
+          this.$store.dispatch('snacks/info', this.$t(`ui.errors.title`))
         })
       }).catch(err => {
         this.$store.dispatch('snacks/info', this.$t(`ui.errors.${err.response.data.message}`))
@@ -233,7 +233,7 @@ export default {
         this.$store.dispatch('snacks/info', this.$t(`ui.pages.admin.users.updatingInformationOf`, { email: this.currentUser.username }))
 
         this.$store.dispatch('GET_USERS_LIST').catch(err => { 
-          // TODO : Modifier l'utilisateur du tableau des utilisateurs si catch
+         this.$store.dispatch('snacks/info', this.$t(`ui.errors.title`))
         })
       }).catch(err => {
         this.$store.dispatch('snacks/info', this.$t(`ui.errors.${err.response.data.message}`))

@@ -52,6 +52,7 @@
 
     <v-card-text>
       <v-flex xs12 sm12>
+        {{ezpaarse}}
         <p><strong>{{ $t('ui.pages.admin.updates.software') }}</strong></p>
         <p>
           <v-alert :value="true" color="red lighten-2" v-if="ezpaarse['local-commits'] || ezpaarse['local-changes']">
@@ -60,7 +61,7 @@
           </v-alert>
           <strong>{{ $t('ui.currentVersion') }}</strong> :
           <v-tooltip right v-if="ezpaarse['from-head'] === 'outdated'">
-            <v-btn @click="update('app')" depressed color="red lighten-2 white--text" round slot="activator">{{ezpaarse.current}}<v-icon class="pl-1">mdi-alert-circle</v-icon></v-btn>
+            <v-btn @click="updateApp('latest')" depressed color="red lighten-2 white--text" round slot="activator">{{ezpaarse.current}}<v-icon class="pl-1">mdi-alert-circle</v-icon></v-btn>
             <span>{{ $t('ui.updateTo', { newVersion: ezpaarse.head }) }}</span>
           </v-tooltip>
           <v-btn v-else depressed color="green lighten-2 white--text" round slot="activator">{{ezpaarse.current}}</v-btn>
@@ -70,7 +71,8 @@
             color="teal"
           ></v-progress-circular>
           <br />
-          <span><a href="">{{ $t('ui.pages.admin.updates.returnToStableVersion') }}</a></span>
+          <span v-if="!ezpaarse.isBeta"><a @click="updateApp('latest')">{{ $t('ui.pages.admin.updates.returnToBetaVersion') }}</a></span>
+          <span v-if="ezpaarse.isBeta"><a @click="updateApp('stable')">{{ $t('ui.pages.admin.updates.returnToStableVersion') }}</a></span>
         </p>
         <p>{{ $t('ui.pages.admin.updates.updateDuration') }}</p>
       </v-flex>
@@ -93,29 +95,39 @@ export default {
   },
   computed: {
     ezpaarse () {
-      return this.$store.state.ezpaarse
+      return this.$store.state.ezpaarse;
     },
     resources () {
-      return this.$store.state.resources
+      return this.$store.state.resources;
     },
     middlewares () {
-      return this.$store.state.middlewares
+      return this.$store.state.middlewares;
     }
   },
   methods: {
     update (repo) {
-      if (repo === 'resources') this.inUpdate.resources = true
-      if (repo === 'middlewares') this.inUpdate.middlewares = true
-      if (repo === 'ezpaarse') this.inUpdate.ezpaarse = true
+      if (repo === 'resources') this.inUpdate.resources = true;
+      if (repo === 'middlewares') this.inUpdate.middlewares = true;
+      if (repo === 'ezpaarse') this.inUpdate.ezpaarse = true;
 
       this.$store.dispatch('UPDATE_REPO', repo).then(res => {
         this.$store.dispatch('LOAD_STATUS').then(res => {
-          if (repo === 'resources') this.inUpdate.resources = false
-          if (repo === 'middlewares') this.inUpdate.middlewares = false
-          if (repo === 'ezpaarse') this.inUpdate.ezpaarse = false
-        }).catch(err => { })
-      }).catch(err => { })
+          if (repo === 'resources') this.inUpdate.resources = false;
+          if (repo === 'middlewares') this.inUpdate.middlewares = false;
+          if (repo === 'ezpaarse') this.inUpdate.ezpaarse = false;
+        }).catch(err => { this.$store.dispatch('snacks/info', this.$t('ui.errors.title')) });
+      }).catch(err => { this.$store.dispatch('snacks/info', this.$t('ui.errors.title')) });
+    },
+    updateApp (version) {
+      this.inUpdate.ezpaarse = true;
+
+      version = version || (this.ezpaarse.isBeta ? 'latest' : 'stable');
+      this.$store.dispatch('UPDATE_APP', version).then(res => {
+        this.$store.dispatch('LOAD_STATUS').then(res => {
+          this.inUpdate.ezpaarse = false;
+        }).catch(err => { this.$store.dispatch('snacks/info', this.$t('ui.errors.title')) });
+      }).catch(err => { this.$store.dispatch('snacks/info', this.$t('ui.errors.title')) });;
     }
   }
-}
+};
 </script>
