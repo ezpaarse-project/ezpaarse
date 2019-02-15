@@ -671,27 +671,36 @@ export default {
       if (h) window.open(`https://ezpaarse.readthedocs.io/en/master/configuration/parametres.html#${h.anchor}`, '_blank')
     },
     saveCustomSettings () {
-      let index = ezpaarseCps.findIndex(cps => {
-        return cps.fullName === this.saveFields.fullName;
-      });
-
-      if (!index) {
-        let customPs = JSON.parse(JSON.stringify(this.currentPredefinedSettings));
-        customPs.fullName = this.saveFields.fullName;
-        customPs.country = this.saveFields.country;
-
-        this.$store.dispatch('process/SET_CUSTOM_PREDEFINED_SETTINGS', customPs).then(res => {
-          this.$store.dispatch('process/GET_PREDEFINED_SETTINGS').then(res => {
-            this.currentPredefinedSettings = customPs;
-            this.modal = false;
-            this.$store.dispatch('snacks/success', this.$t(`ui.pages.process.settings.paramsSaved`));
-          }).catch(err => {
-            this.$store.dispatch('snacks/info', err.response.data.message ? this.$t(`ui.errors.${err.response.data.message}`) : this.$t(`ui.errors.error`));
-          });
-        }).catch(err => {
-          this.$store.dispatch('snacks/info', err.response.data.message ? this.$t(`ui.errors.${err.response.data.message}`) : this.$t(`ui.errors.error`));
-        });
+      let customPs;
+      if (localStorage.getItem('ezpaarse_cps')) {
+        const ezpaarseCps = JSON.parse(localStorage.getItem('ezpaarse_cps'))
+        let index = ezpaarseCps.findIndex(cps => {
+          return cps.fullName === this.saveFields.fullName
+        })
+        
+        customPs = JSON.parse(JSON.stringify(this.currentPredefinedSettings))
+        customPs.fullName = this.saveFields.fullName
+        customPs.country = this.saveFields.country
+        if (index >= 0) {
+          ezpaarseCps[index] = customPs
+        } else {
+          ezpaarseCps.push(customPs)
+        }
+        localStorage.setItem('ezpaarse_cps', JSON.stringify(ezpaarseCps))
+      } else {
+        customPs = JSON.parse(JSON.stringify(this.currentPredefinedSettings))
+        customPs.fullName = this.saveFields.fullName
+        customPs.country = this.saveFields.country
+        localStorage.setItem('ezpaarse_cps', JSON.stringify([customPs]))
       }
+
+     this.$store.dispatch('process/GET_PREDEFINED_SETTINGS').then(res => {
+        this.currentPredefinedSettings = customPs;
+        this.modal = false;
+        this.$store.dispatch('snacks/success', this.$t(`ui.pages.process.settings.paramsSaved`));
+      }).catch(err => {
+        this.$store.dispatch('snacks/info', err.response.data.message ? this.$t(`ui.errors.${err.response.data.message}`) : this.$t(`ui.errors.error`));
+      });
     }
   }
 }
