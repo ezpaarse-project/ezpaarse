@@ -54,4 +54,6 @@ api.getReport = (axios, uuid) => axios.get(`/api/logs/${uuid}/job-report.json`).
 
 api.getLogParser = (axios, data) => axios.put('/api/format/logparser', data).then(res => res.data);
 
+api.saveCustomPredefinedSettings = (axios, data) => axios.post('/api/info/custom-predefined-settings', data).then(res => res.data)
+
 export default api;

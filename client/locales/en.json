@@ -73,7 +73,8 @@
           "cryptedFields": "Crypted fields",
           "counterReportDetail": "* The reports are not COUNTER certified, however the deduplication algorithm and output formats follow the recommendations.",
           "advancedHeaders": "advanced",
-          "defaultParams": "Default settings"
+          "defaultParams": "Default settings",
+          "paramsSaved": "Successfully saved settings"
         },
         "logFiles": {
           "clickToAdd": "Click to add",
@@ -230,6 +231,8 @@
     "currentVersion": "Current version",
     "updateTo": "Update to {newVersion}",
     "nameFile": "File name",
+    "name": "Name",
+    "country": "Country",
     "files": "Files",
     "filesName": "Files name",
     "size": "Size",

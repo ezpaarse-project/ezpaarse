@@ -7,7 +7,6 @@ export default {
     inProgress: false,
     predefinedSettings: [],
     customPredefinedSettings: null,
-    currentPredefinedSettings: null,
     processProgress: 0,
     logsLines: '',
     logsFiles: [],
@@ -25,9 +24,6 @@ export default {
     },
     SET_CURRENT_PREDEFINED_SETTINGS (state, data) {
       state.currentPredefinedSettings = data;
-    },
-    SET_CUSTOM_PREDEFINED_SETTINGS (state, data) {
-      state.customPredefinedSettings = data;
     },
     SET_PROCESS_PROGRESS (state, data) {
       state.processProgress = data;
@@ -153,15 +149,15 @@ export default {
         data.unshift(currentSettings);
         data.unshift({ header: 'Predefined Settings' });
 
-        if (localStorage.getItem('ezpaarse_cps')) {
-          const ezpaarseCps = JSON.parse(localStorage.getItem('ezpaarse_cps'));
-          ezpaarseCps.unshift({ header: 'Custom predefined settings' });
-          commit('SET_CUSTOM_PREDEFINED_SETTINGS', ezpaarseCps);
+        // if (localStorage.getItem('ezpaarse_cps')) {
+        //   const ezpaarseCps = JSON.parse(localStorage.getItem('ezpaarse_cps'));
+        //   ezpaarseCps.unshift({ header: 'Custom predefined settings' });
+        //   commit('SET_CUSTOM_PREDEFINED_SETTINGS', ezpaarseCps);
 
-          ezpaarseCps.push({ divider: true });
-          Array.prototype.push.apply(ezpaarseCps, data);
-          commit('SET_PREDEFINED_SETTINGS', ezpaarseCps);
-        }
+        //   ezpaarseCps.push({ divider: true });
+        //   Array.prototype.push.apply(ezpaarseCps, data);
+        //   commit('SET_PREDEFINED_SETTINGS', ezpaarseCps);
+        // }
 
         if (!localStorage.getItem('ezpaarse_cps')) commit('SET_PREDEFINED_SETTINGS', data);
         commit('SET_CURRENT_PREDEFINED_SETTINGS', JSON.parse(JSON.stringify(currentSettings)));
@@ -171,7 +167,7 @@ export default {
       commit('SET_CURRENT_PREDEFINED_SETTINGS', data);
     },
     SET_CUSTOM_PREDEFINED_SETTINGS ({ commit }, data) {
-      commit('SET_CUSTOM_PREDEFINED_SETTINGS', data);
+      return api.saveCustomPredefinedSettings(this.$axios, data)
     },
     PROCESS ({ commit }, data) {
       const source = CancelToken.source();

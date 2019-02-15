@@ -241,7 +241,7 @@
 
         <v-flex xs12 sm12 class="text-xs-center">
           <ButtonGroup>
-            <v-btn color="success" block large @click="saveCustomSettings" :disabled="disabledButton">
+            <v-btn color="success" block large @click="modal = true" :disabled="disabledButton">
               <v-icon left>mdi-content-save-settings</v-icon>
               {{ $t('ui.save') }}
             </v-btn>
@@ -253,6 +253,54 @@
         </v-flex>
       </v-layout>
     </v-card-text>
+
+    <v-dialog
+      v-model="modal"
+      max-width="600"
+    >
+      <v-card>
+        <v-card-title class="headline">{{ $t('ui.save') }}</v-card-title>
+        <v-card-text>
+          <v-container grid-list-md>
+            <v-layout wrap>
+              <v-flex xs12 sm12>
+                <v-text-field :label="$t('ui.name')" v-model="saveFields.fullName" name="fullName" required></v-text-field>
+              </v-flex>
+              <v-flex xs12 sm12>
+                {{saveFields.country}}
+                <v-select
+                  :items="countries"
+                  :item-text="$i18n.locale"
+                  item-value="en"
+                  :label="$t('ui.country')"
+                  v-model="saveFields.country"
+                  name="country"
+                  required
+                ></v-select>
+              </v-flex>
+            </v-layout>
+          </v-container>
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="error"
+            block
+            @click="modal = false"
+          >
+            {{ $t('ui.close') }}
+          </v-btn>
+          <v-btn
+            color="success"
+            block
+            :disabled="disabledButtonSave"
+            @click="saveCustomSettings"
+          >
+            {{ $t('ui.save') }}
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-card>
 </template>
 
@@ -267,6 +315,12 @@ export default {
   data () {
     return {
       disabledButton: true,
+      disabledButtonSave: true,
+      modal: false,
+      saveFields: {
+        fullName: '',
+        country: ''
+      },
       logTypes: [
         { value: '', text: 'Reconnaissance auto' },
         { value: 'ezproxy', text: 'EZproxy' },
@@ -351,6 +405,205 @@ export default {
         { name: 'Istex-enrich', anchor: 'istex' },
         { name: 'Istex-ttl', anchor: 'istex' },
         { name: 'Istex-throttle', anchor: 'istex' }
+      ],
+      countries: [
+        { fr: 'Afghanistan', en: 'Afghanistan' },
+        { fr: 'Afrique du Sud', en: 'South Africa' },
+        { fr: 'Albanie', en: 'Albania' },
+        { fr: 'Algérie', en: 'Algeria' },
+        { fr: 'Allemagne', en: 'Germany' },
+        { fr: 'Andorre', en: 'Andorra' },
+        { fr: 'Angola', en: 'Angola' },
+        { fr: 'Antigua-et-Barbuda', en: 'Antigua and Barbuda' },
+        { fr: 'Arabie saoudite', en: 'Saudi Arabia' },
+        { fr: 'Argentine', en: 'Argentina' },
+        { fr: 'Arménie', en: 'Armenia' },
+        { fr: 'Australie', en: 'Australia' },
+        { fr: 'Autriche', en: 'Austria' },
+        { fr: 'Azerbaïdjan', en: 'Azerbaijan' },
+        { fr: 'Bahamas', en: 'Bahamas' },
+        { fr: 'Bahreïn', en: 'Bahrain' },
+        { fr: 'Bangladesh', en: 'Bangladesh' },
+        { fr: 'Barbade', en: 'Barbados' },
+        { fr: 'Belgique', en: 'Belgium' },
+        { fr: 'Belize', en: 'Belize' },
+        { fr: 'Bénin', en: 'Benin' },
+        { fr: 'Bhoutan', en: 'Bhutan' },
+        { fr: 'Biélorussie', en: 'Belarus' },
+        { fr: 'Birmanie', en: 'Burma' },
+        { fr: 'Bolivie', en: 'Bolivia' },
+        { fr: 'Bosnie-Herzégovine', en: 'Bosnia and Herzegovina' },
+        { fr: 'Botswana', en: 'Botswana' },
+        { fr: 'Brésil', en: 'Brazil' },
+        { fr: 'Brunei', en: 'Brunei' },
+        { fr: 'Bulgarie', en: 'Bulgaria' },
+        { fr: 'Burkina Faso', en: 'Burkina Faso' },
+        { fr: 'Burundi', en: 'Burundi' },
+        { fr: 'Cambodge', en: 'Cambodia' },
+        { fr: 'Cameroun', en: 'Cameroon' },
+        { fr: 'Canada', en: 'Canada' },
+        { fr: 'Cap-Vert', en: 'Cape Verde' },
+        { fr: 'Centrafrique', en: 'Central African Republic' },
+        { fr: 'Chili', en: 'Chile' },
+        { fr: 'Chine', en: 'China' },
+        { fr: 'Chypre', en: 'Cyprus' },
+        { fr: 'Colombie', en: 'Colombia' },
+        { fr: 'Comores', en: 'Comoros' },
+        { fr: 'Congo', en: 'Congo' },
+        { fr: 'République démocratique du Congo', en: 'Democratic Republic of Congo' },
+        { fr: 'Îles Cook', en: 'Cook Islands' },
+        { fr: 'Corée du Nord', en: 'North Korea' },
+        { fr: 'Corée du Sud', en: 'South Korea' },
+        { fr: 'Costa Rica', en: 'Costa Rica' },
+        { fr: 'Côte d\'Ivoire', en: 'Ivory Coast' },
+        { fr: 'Croatie', en: 'Croatia' },
+        { fr: 'Cuba', en: 'Cuba' },
+        { fr: 'Danemark', en: 'Denmark' },
+        { fr: 'Djibouti', en: 'Djibouti' },
+        { fr: 'République dominicaine', en: 'Dominican Republic' },
+        { fr: 'Dominique', en: 'Dominica' },
+        { fr: 'Égypte', en: 'Egypt' },
+        { fr: 'Émirats arabes unis', en: 'United Arab Emirates' },
+        { fr: 'Équateur', en: 'Ecuador' },
+        { fr: 'Érythrée', en: 'Eritrea' },
+        { fr: 'Espagne', en: 'Spain' },
+        { fr: 'Estonie', en: 'Estonia' },
+        { fr: 'États-Unis', en: 'United States' },
+        { fr: 'Éthiopie', en: 'Ethiopia' },
+        { fr: 'Fidji', en: 'Fiji' },
+        { fr: 'Finlande', en: 'Finland' },
+        { fr: 'France', en: 'France' },
+        { fr: 'Gabon', en: 'Gabon' },
+        { fr: 'Gambie', en: 'Gambia' },
+        { fr: 'Géorgie', en: 'Georgia' },
+        { fr: 'Ghana', en: 'Ghana' },
+        { fr: 'Grèce', en: 'Greece' },
+        { fr: 'Grenade', en: 'Grenada' },
+        { fr: 'Guatemala', en: 'Guatemala' },
+        { fr: 'Guinée', en: 'Guinea' },
+        { fr: 'Guinée-Bissau', en: 'Guinea-Bissau' },
+        { fr: 'Guinée équatoriale', en: 'Equatorial Guinea' },
+        { fr: 'Guyana', en: 'Guyana' },
+        { fr: 'Haïti', en: 'Haiti' },
+        { fr: 'Honduras', en: 'Honduras' },
+        { fr: 'Hongrie', en: 'Hungary' },
+        { fr: 'Inde', en: 'India' },
+        { fr: 'Indonésie', en: 'Indonesia' },
+        { fr: 'Irak', en: 'Iraq' },
+        { fr: 'Iran', en: 'Iran' },
+        { fr: 'Irlande', en: 'Ireland' },
+        { fr: 'Islande', en: 'Iceland' },
+        { fr: 'Israël', en: 'Israel' },
+        { fr: 'Italie', en: 'Italy' },
+        { fr: 'Jamaïque', en: 'Jamaica' },
+        { fr: 'Japon', en: 'Japan' },
+        { fr: 'Jordanie', en: 'Jordan' },
+        { fr: 'Kazakhstan', en: 'Kazakhstan' },
+        { fr: 'Kenya', en: 'Kenya' },
+        { fr: 'Kirghizistan', en: 'Kyrgyzstan' },
+        { fr: 'Kiribati', en: 'Kiribati' },
+        { fr: 'Koweït', en: 'Kuwait' },
+        { fr: 'Laos', en: 'Laos' },
+        { fr: 'Lesotho', en: 'Lesotho' },
+        { fr: 'Lettonie', en: 'Latvia' },
+        { fr: 'Liban', en: 'Lebanon' },
+        { fr: 'Liberia', en: 'Liberia' },
+        { fr: 'Libye', en: 'Libya' },
+        { fr: 'Liechtenstein', en: 'Liechtenstein' },
+        { fr: 'Lituanie', en: 'Lithuania' },
+        { fr: 'Luxembourg', en: 'Luxembourg' },
+        { fr: 'Macédoine', en: 'Macedonia' },
+        { fr: 'Madagascar', en: 'Madagascar' },
+        { fr: 'Malaisie', en: 'Malaysia' },
+        { fr: 'Malawi', en: 'Malawi' },
+        { fr: 'Maldives', en: 'Maldives' },
+        { fr: 'Mali', en: 'Mali' },
+        { fr: 'Malte', en: 'Malta' },
+        { fr: 'Maroc', en: 'Morocco' },
+        { fr: 'Îles Marshall', en: 'Marshall Islands' },
+        { fr: 'Maurice', en: 'Mauritius' },
+        { fr: 'Mauritanie', en: 'Mauritania' },
+        { fr: 'Mexique', en: 'Mexico' },
+        { fr: 'Micronésie', en: 'Micronesia' },
+        { fr: 'Moldavie', en: 'Moldova' },
+        { fr: 'Monaco', en: 'Monaco' },
+        { fr: 'Mongolie', en: 'Mongolia' },
+        { fr: 'Monténégro', en: 'Montenegro' },
+        { fr: 'Mozambique', en: 'Mozambique' },
+        { fr: 'Namibie', en: 'Namibia' },
+        { fr: 'Nauru', en: 'Nauru' },
+        { fr: 'Népal', en: 'Nepal' },
+        { fr: 'Nicaragua', en: 'Nicaragua' },
+        { fr: 'Niger', en: 'Niger' },
+        { fr: 'Nigeria', en: 'Nigeria' },
+        { fr: 'Niue', en: 'Niue' },
+        { fr: 'Norvège', en: 'Norway' },
+        { fr: 'Nouvelle-Zélande', en: 'New Zealand' },
+        { fr: 'Oman', en: 'Oman' },
+        { fr: 'Ouganda', en: 'Uganda' },
+        { fr: 'Ouzbékistan', en: 'Uzbekistan' },
+        { fr: 'Pakistan', en: 'Pakistan' },
+        { fr: 'Palaos', en: 'Palau' },
+        { fr: 'Palestine', en: 'Palestine' },
+        { fr: 'Panama', en: 'Panama' },
+        { fr: 'Papouasie-Nouvelle-Guinée', en: 'Papua New Guinea' },
+        { fr: 'Paraguay', en: 'Paraguay' },
+        { fr: 'Pays-Bas', en: 'Netherlands' },
+        { fr: 'Pérou', en: 'Peru' },
+        { fr: 'Philippines', en: 'Philippines' },
+        { fr: 'Pologne', en: 'Poland' },
+        { fr: 'Portugal', en: 'Portugal' },
+        { fr: 'Qatar', en: 'Qatar' },
+        { fr: 'Roumanie', en: 'Romania' },
+        { fr: 'Royaume-Uni', en: 'United Kingdom' },
+        { fr: 'Russie', en: 'Russia' },
+        { fr: 'Rwanda', en: 'Rwanda' },
+        { fr: 'Saint-Christophe-et-Niévès', en: 'Saint Kitts and Nevis' },
+        { fr: 'Saint-Marin', en: 'San Marino' },
+        { fr: 'Saint-Vincent-et-les Grenadines', en: 'Saint Vincent and the Grenadines' },
+        { fr: 'Sainte-Lucie', en: 'Saint Lucia' },
+        { fr: 'Îles Salomon', en: 'Solomon Islands' },
+        { fr: 'Salvador', en: 'El Salvador' },
+        { fr: 'Samoa', en: 'Samoa' },
+        { fr: 'Sao Tomé-et-Principe', en: 'Sao Tome and Principe' },
+        { fr: 'Sénégal', en: 'Senegal' },
+        { fr: 'Serbie', en: 'Serbia' },
+        { fr: 'Seychelles', en: 'Seychelles' },
+        { fr: 'Sierra Leone', en: 'Sierra Leone' },
+        { fr: 'Singapour', en: 'Singapore' },
+        { fr: 'Slovaquie', en: 'Slovakia Slovakia' },
+        { fr: 'Slovénie', en: 'Slovenia' },
+        { fr: 'Somalie', en: 'Somalia' },
+        { fr: 'Soudan', en: 'Sudan' },
+        { fr: 'Soudan du Sud', en: 'South Sudan' },
+        { fr: 'Sri Lanka', en: 'Sri Lanka' },
+        { fr: 'Suède', en: 'Sweden' },
+        { fr: 'Suisse', en: 'Switzerland' },
+        { fr: 'Suriname', en: 'Suriname' },
+        { fr: 'Swaziland', en: 'Swaziland' },
+        { fr: 'Syrie', en: 'Syria' },
+        { fr: 'Tadjikistan', en: 'Tajikistan' },
+        { fr: 'Tanzanie', en: 'Tanzania' },
+        { fr: 'Tchad', en: 'Chad' },
+        { fr: 'République tchèque', en: 'Czech Republic' },
+        { fr: 'Thaïlande', en: 'Thailand' },
+        { fr: 'Timor oriental', en: 'East Timor' },
+        { fr: 'Togo', en: 'Togo' },
+        { fr: 'Tonga', en: 'Tonga' },
+        { fr: 'Trinité-et-Tobago', en: 'Trinidad and Tobago' },
+        { fr: 'Tunisie', en: 'Tunisia' },
+        { fr: 'Turkménistan', en: 'Turkmenistan' },
+        { fr: 'Turquie', en: 'Turkey' },
+        { fr: 'Tuvalu', en: 'Tuvalu' },
+        { fr: 'Ukraine', en: 'Ukraine' },
+        { fr: 'Uruguay', en: 'Uruguay' },
+        { fr: 'Vanuatu', en: 'Vanuatu' },
+        { fr: 'Vatican', en: 'Vatican City' },
+        { fr: 'Venezuela', en: 'Venezuela' },
+        { fr: 'Viêt Nam', en: 'Vietnam' },
+        { fr: 'Yémen', en: 'Yemen' },
+        { fr: 'Zambie', en: 'Zambia' },
+        { fr: 'Zimbabwe', en: 'Zimbabwe' }
       ]
     }
   },
@@ -370,6 +623,12 @@ export default {
           return p.fullName === newVal.fullName
         })
         this.disabledButton = !!isEqual(changed, this.currentPredefinedSettings)
+      },
+      deep: true
+    },
+    saveFields: {
+      handler: function (newVal) {
+        if (this.saveFields.fullName.length > 0 && this.saveFields.country.length > 0) this.disabledButtonSave = false
       },
       deep: true
     }
@@ -412,30 +671,27 @@ export default {
       if (h) window.open(`https://ezpaarse.readthedocs.io/en/master/configuration/parametres.html#${h.anchor}`, '_blank')
     },
     saveCustomSettings () {
-      let customPs
-      if (localStorage.getItem('ezpaarse_cps')) {
-        const ezpaarseCps = JSON.parse(localStorage.getItem('ezpaarse_cps'))
-        let index = ezpaarseCps.findIndex(cps => {
-          return cps.fullName === this.currentPredefinedSettings.fullName
-        })
-        
-        customPs = JSON.parse(JSON.stringify(this.currentPredefinedSettings))
-        customPs.fullName = `[${customPs.fullName}]`
-        if (index >= 0) {
-          ezpaarseCps[index] = customPs
-        } else {
-          ezpaarseCps.push(customPs)
-        }
+      let index = ezpaarseCps.findIndex(cps => {
+        return cps.fullName === this.saveFields.fullName;
+      });
 
-        localStorage.setItem('ezpaarse_cps', JSON.stringify(ezpaarseCps))
-      } else {
-        customPs = JSON.parse(JSON.stringify(this.currentPredefinedSettings))
-        customPs.fullName = `[${customPs.fullName}]`
-        localStorage.setItem('ezpaarse_cps', JSON.stringify([customPs]))
+      if (!index) {
+        let customPs = JSON.parse(JSON.stringify(this.currentPredefinedSettings));
+        customPs.fullName = this.saveFields.fullName;
+        customPs.country = this.saveFields.country;
+
+        this.$store.dispatch('process/SET_CUSTOM_PREDEFINED_SETTINGS', customPs).then(res => {
+          this.$store.dispatch('process/GET_PREDEFINED_SETTINGS').then(res => {
+            this.currentPredefinedSettings = customPs;
+            this.modal = false;
+            this.$store.dispatch('snacks/success', this.$t(`ui.pages.process.settings.paramsSaved`));
+          }).catch(err => {
+            this.$store.dispatch('snacks/info', err.response.data.message ? this.$t(`ui.errors.${err.response.data.message}`) : this.$t(`ui.errors.error`));
+          });
+        }).catch(err => {
+          this.$store.dispatch('snacks/info', err.response.data.message ? this.$t(`ui.errors.${err.response.data.message}`) : this.$t(`ui.errors.error`));
+        });
       }
-      this.$store.dispatch('process/GET_PREDEFINED_SETTINGS').then(res => {
-        this.currentPredefinedSettings = customPs
-      })
     }
   }
 }
