@@ -12,6 +12,7 @@ var pkg        = require('../package.json');
 var trello     = require('../lib/trello-analogist.js');
 var customPredefinedSettings = require('../lib/custom-predefined-settings.js');
 var bodyParser = require('body-parser');
+var auth       = require('../lib/auth-middlewares.js');
 
 var statusCodes = require(path.join(__dirname, '/../statuscodes.json'));
 
