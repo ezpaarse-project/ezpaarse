@@ -16,7 +16,8 @@
         "platforms": "Plateformes",
         "updates": "Mises à jour",
         "users": "Utilisateurs",
-        "jobs": "Traitement(s) en cours"
+        "jobs": "Traitement(s) en cours",
+        "predefinedSettings": "Paramètres prédéfines personnalisés"
       }
     },
     "pages": {
@@ -73,7 +74,8 @@
           "counterReportDetail": "* Les rapports ne sont pas certifiés COUNTER, cependant l'algorithme de dédoublonnage et les formats de sortie suivent les recommandations.",
           "advancedHeaders": "avancé",
           "defaultParams": "Paramètres par défaut",
-          "paramsSaved": "Paramètres enregistrés"
+          "paramsSaved": "Paramètres enregistrés",
+          "deleted": "Paramètre supprimé"
         },
         "logFiles": {
           "clickToAdd": "Cliquez pour ajouter",
@@ -230,6 +232,7 @@
     "close": "Fermer",
     "back": "Retour",
     "save": "Sauvegarder",
+    "remove": "Supprimer",
     "currentVersion": "Version actuelle",
     "updateTo": "Mettre à jour vers {newVersion}",
     "nameFile": "Nom du fichier",

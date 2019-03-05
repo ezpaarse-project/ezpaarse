@@ -307,7 +307,7 @@ app.get('/predefined-settings', function (req, res) {
   });
 });
 
-app.get('/custom-predefined-settings', function (req, res) {
+app.get('/predefined-settings/custom', function (req, res) {
   customPredefinedSettings.getAll(function (err, settings) {
     if (err) { return res.status(500).end(); }
 
@@ -315,7 +315,7 @@ app.get('/custom-predefined-settings', function (req, res) {
   });
 });
 
-app.post('/custom-predefined-settings', bodyParser.urlencoded({ extended: true }), bodyParser.json(), auth.ensureAuthenticated(true), function (req, res) {
+app.post('/predefined-settings/custom', bodyParser.urlencoded({ extended: true }), bodyParser.json(), auth.ensureAuthenticated(true), function (req, res) {
   const settings = req.body.settings;
 
   if (!settings) return res.status(406).json({ status: 406, message: 'no_settings_set' })
@@ -327,14 +327,14 @@ app.post('/custom-predefined-settings', bodyParser.urlencoded({ extended: true }
   });
 });
 
-app.put('/custom-predefined-settings/:id', bodyParser.urlencoded({ extended: true }), bodyParser.json(), auth.ensureAuthenticated(true), function (req, res) {
+app.put('/predefined-settings/custom/:id', bodyParser.urlencoded({ extended: true }), bodyParser.json(), auth.ensureAuthenticated(true), function (req, res) {
   const id = req.params.id;
   const settings = req.body.settings;
 
-  const errors = []
-  if (!id) errors.push('id')
-  if (!settings) errors.push('settings')
-  if (errors.length > 0) return res.status(406).json({ status: 406, fields: errors })
+  const errors = [];
+  if (!id) errors.push('id');
+  if (!settings) errors.push('settings');
+  if (errors.length > 0) return res.status(406).json({ status: 406, fields: errors });
 
   customPredefinedSettings.updateOne(id, settings, function (err) {
     if (err.message === 'id_invalid') return res.status(409).json({ status: 409, message: err.message });
@@ -344,12 +344,12 @@ app.put('/custom-predefined-settings/:id', bodyParser.urlencoded({ extended: tru
   });
 });
 
-app.delete('/custom-predefined-settings/:id', auth.ensureAuthenticated(true), function (req, res) {
+app.delete('/predefined-settings/custom/:id', auth.ensureAuthenticated(true), function (req, res) {
   const id = req.params.id;
-  if (!id) return res.status(406).json({ status: 406, message: 'unknown_id' })
+  if (!id) return res.status(406).json({ status: 406, message: 'unknown_id' });
 
   customPredefinedSettings.delete(id, function (err) {
-    if (err.message === 'id_invalid') return res.status(409).json({ status: 409, message: err.message });
+    if (err && err.message === 'id_invalid') return res.status(409).json({ status: 409, message: err.message });
     if (err) { return res.status(500).end(); }
 
     return res.status(200).end();

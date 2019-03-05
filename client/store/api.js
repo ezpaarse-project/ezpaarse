@@ -54,6 +54,10 @@ api.getReport = (axios, uuid) => axios.get(`/api/logs/${uuid}/job-report.json`).
 
 api.getLogParser = (axios, data) => axios.put('/api/format/logparser', data).then(res => res.data);
 
-api.saveCustomPredefinedSettings = (axios, data) => axios.post('/api/info/custom-predefined-settings', data).then(res => res.data)
+api.saveCustomPredefinedSettings = (axios, data) => axios.post('/api/info/predefined-settings/custom', { settings: data }).then(res => res.data);
+
+api.getCustomPredefinedSettings = (axios) => axios.get('/api/info/predefined-settings/custom').then(res => res.data);
+
+api.removeCustomPredefinedSettings = (axios, data) => axios.delete(`/api/info/predefined-settings/custom/${data.id}`).then(res => res.data);
 
 export default api;

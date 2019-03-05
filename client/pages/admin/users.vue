@@ -38,6 +38,7 @@
                   v-model="group"
                   :label="$t('ui.pages.admin.users.group')"
                   :append-outer-icon="(!userid || !group || !password) ? '' : 'mdi-plus-circle'"
+                  @click:append-outer="addUser"
                 ></v-select>
               </v-flex>
             </v-layout>
@@ -73,7 +74,7 @@
                   <v-icon @click="removeUser(props.item.username)">mdi-delete</v-icon>
                   <v-icon @click="dialog = true; setCurrentUser(props.item)">mdi-pencil</v-icon>
                 </span>
-                <span v-if="props.item.username === $auth.user.username" class="itIsMe"></span>
+                <span v-if="props.item.username === $auth.user.username" :class="users.length > 1 ? 'itIsMe' : ''"></span>
                 {{ props.item.username }}
               </td>
               <td>{{ (props.item.group === 'admin' ? `${$t('ui.pages.admin.users.groups.admin')}` : `${$t('ui.pages.admin.users.groups.user')}`) }}</td>

@@ -1,4 +1,5 @@
 import { CancelToken } from 'axios';
+import Vue from 'vue';
 import api from './api';
 
 export default {
@@ -6,7 +7,8 @@ export default {
   state: {
     inProgress: false,
     predefinedSettings: [],
-    customPredefinedSettings: null,
+    customPredefinedSettings: [],
+    allPredefinedSettings: [],
     processProgress: 0,
     logsLines: '',
     logsFiles: [],
@@ -20,46 +22,52 @@ export default {
   },
   mutations: {
     SET_PREDEFINED_SETTINGS (state, data) {
-      state.predefinedSettings = data;
+      Vue.set(state, 'predefinedSettings', data);
     },
     SET_CURRENT_PREDEFINED_SETTINGS (state, data) {
-      state.currentPredefinedSettings = data;
+      Vue.set(state, 'currentPredefinedSettings', data);
     },
     SET_PROCESS_PROGRESS (state, data) {
-      state.processProgress = data;
+      Vue.set(state, 'processProgress', data);
     },
     SET_IN_PROGRESS (state, data) {
-      state.inProgress = data;
+      Vue.set(state, 'inProgress', data);
     },
     SET_LOGS_LINES (state, data) {
-      state.logsLines = data;
+      Vue.set(state, 'logsLines', data);
     },
     SET_LOGS_FILES (state, data) {
-      state.logsFiles = data;
+      Vue.set(state, 'logsFiles', data);
     },
     SET_COUNT_LOGS_FILES (state, data) {
-      state.countLogsFile = data;
+      Vue.set(state, 'countLogsFile', data);
     },
     SET_LOGS_FILES_SIZE (state, data) {
-      state.logsFilesSize = data;
+      Vue.set(state, 'logsFilesSize', data);
     },
     SET_TOTAL_FILES_SIZE (state, data) {
-      state.totalFileSize = data;
+      Vue.set(state, 'totalFileSize', data);
     },
     REMOVE_ALL_LOGS_FILES (state) {
-      state.logsFiles = [];
+      Vue.set(state, 'logsFiles', []);
     },
     SET_QUERY_CANCERL_SOURCE (state, data) {
-      state.queryCancelSource = data;
+      Vue.set(state, 'queryCancelSource', data);
     },
     SET_STATUS (state, data) {
-      state.status = data;
+      Vue.set(state, 'status', data);
     },
     SET_REPORT (state, data) {
-      state.report = data;
+      Vue.set(state, 'report', data);
     },
     SET_ERROR (state, data) {
-      state.error = data;
+      Vue.set(state, 'error', data);
+    },
+    SET_CUSTOM_PREDEFINED_SETTINGS (state, data) {
+      Vue.set(state, 'customPredefinedSettings', data);
+    },
+    SET_ALL_PREDEFINED_SETTINGS (state, data) {
+      Vue.set(state, 'allPredefinedSettings', data);
     }
   },
   actions: {
@@ -88,6 +96,7 @@ export default {
             advancedHeaders: []
           }
         };
+        commit('SET_CURRENT_PREDEFINED_SETTINGS', JSON.parse(JSON.stringify(currentSettings)));
 
         data.forEach((setting, key) => {
           if (Object.keys(res)[key]) setting.id = Object.keys(res)[key];
@@ -147,26 +156,49 @@ export default {
           }
         });
         data.unshift(currentSettings);
+        commit('SET_PREDEFINED_SETTINGS', data);
         data.unshift({ header: 'Predefined Settings' });
 
-        if (localStorage.getItem('ezpaarse_cps')) {
-          const ezpaarseCps = JSON.parse(localStorage.getItem('ezpaarse_cps'));
-          ezpaarseCps.unshift({ header: 'Custom predefined settings' });
+        return api.getCustomPredefinedSettings(this.$axios).then(resCustomPredefinedSettings => {
+          /* eslint-disable-next-line */
+          const customPredefinedSettings = resCustomPredefinedSettings.map(setting => {
+            /* eslint-disable-next-line */
+            setting.settings._id = setting._id;
+            return setting.settings;
+          });
+          customPredefinedSettings.unshift({ header: 'Custom predefined settings' });
+          customPredefinedSettings.push({ divider: true });
+          commit('SET_CUSTOM_PREDEFINED_SETTINGS', customPredefinedSettings);
 
-          ezpaarseCps.push({ divider: true });
-          Array.prototype.push.apply(ezpaarseCps, data);
-          commit('SET_PREDEFINED_SETTINGS', ezpaarseCps);
-        }
-
-        if (!localStorage.getItem('ezpaarse_cps')) commit('SET_PREDEFINED_SETTINGS', data);
-        commit('SET_CURRENT_PREDEFINED_SETTINGS', JSON.parse(JSON.stringify(currentSettings)));
+          const cps = JSON.parse(JSON.stringify(customPredefinedSettings));
+          Array.prototype.push.apply(cps, data);
+          commit('SET_ALL_PREDEFINED_SETTINGS', cps);
+        }).catch(err => {
+          commit('SET_ALL_PREDEFINED_SETTINGS', data);
+        });
       });
     },
     SET_CURRENT_PREDEFINED_SETTINGS ({ commit }, data) {
       commit('SET_CURRENT_PREDEFINED_SETTINGS', data);
     },
-    SET_CUSTOM_PREDEFINED_SETTINGS ({ commit }, data) {
-      return api.saveCustomPredefinedSettings(this.$axios, data)
+    SET_ALL_PREDEFINED_SETTINGS ({ commit }, data) {
+      commit('SET_ALL_PREDEFINED_SETTINGS', data);
+    },
+    SAVE_CUSTOM_PREDEFINED_SETTINGS ({ commit }, data) {
+      return api.saveCustomPredefinedSettings(this.$axios, data).catch(err => { });
+    },
+    GET_CUSTOM_PREDEFINED_SETTINGS ({ commit }) {
+      return api.getCustomPredefinedSettings(this.$axios).then(res => {
+        const customPredefinedSettings = res.map(setting => {
+          /* eslint-disable-next-line */
+          setting.settings.id = setting._id;
+          return setting.settings;
+        });
+        commit('SET_CUSTOM_PREDEFINED_SETTINGS', customPredefinedSettings);
+      });
+    },
+    REMOVE_CUSTOM_PREDEFINED_SETTINGS ({ commit }, data) {
+      return api.removeCustomPredefinedSettings(this.$axios, data);
     },
     PROCESS ({ commit }, data) {
       const source = CancelToken.source();

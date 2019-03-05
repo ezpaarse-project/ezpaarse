@@ -110,22 +110,24 @@ export default {
       if (repo === 'ezpaarse') this.inUpdate.ezpaarse = true;
 
       this.$store.dispatch('UPDATE_REPO', repo).then(res => {
-        this.$store.dispatch('LOAD_STATUS').then(res => {
-          if (repo === 'resources') this.inUpdate.resources = false;
-          if (repo === 'middlewares') this.inUpdate.middlewares = false;
-          if (repo === 'ezpaarse') this.inUpdate.ezpaarse = false;
-        }).catch(err => { this.$store.dispatch('snacks/info', this.$t('ui.errors.title')) });
-      }).catch(err => { this.$store.dispatch('snacks/info', this.$t('ui.errors.title')) });
+        this.$store.dispatch('LOAD_STATUS').catch(err => { this.$store.dispatch('snacks/info', this.$t('ui.errors.title')); });
+      }).catch(err => { this.$store.dispatch('snacks/info', this.$t('ui.errors.title')); });
+
+      if (repo === 'resources') this.inUpdate.resources = false;
+      if (repo === 'middlewares') this.inUpdate.middlewares = false;
+      if (repo === 'ezpaarse') this.inUpdate.ezpaarse = false;
     },
     updateApp (version) {
       this.inUpdate.ezpaarse = true;
 
       version = version || (this.ezpaarse.isBeta ? 'latest' : 'stable');
       this.$store.dispatch('UPDATE_APP', version).then(res => {
-        this.$store.dispatch('LOAD_STATUS').then(res => {
-          this.inUpdate.ezpaarse = false;
-        }).catch(err => { this.$store.dispatch('snacks/info', this.$t('ui.errors.title')) });
-      }).catch(err => { this.$store.dispatch('snacks/info', this.$t('ui.errors.title')) });;
+        this.$store.dispatch('LOAD_STATUS')
+        .then(res => {this.inUpdate.ezpaarse = false; })
+        .catch(err => { this.$store.dispatch('snacks/info', this.$t('ui.errors.title')); });
+      }).catch(err => {this.$store.dispatch('snacks/info', this.$t('ui.errors.title')); });
+
+      this.inUpdate.ezpaarse = false;
     }
   }
 };

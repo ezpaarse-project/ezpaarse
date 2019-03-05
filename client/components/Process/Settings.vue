@@ -5,10 +5,12 @@
         <v-flex xs12 sm12>
           <v-autocomplete
             v-model="currentPredefinedSettings"
-            :items="predefinedSettings"
+            :items="!displayCustomPredefinedSettings ? allPredefinedSettings : customPredefinedSettings"
             item-text="fullName"
             :label="$t('ui.pages.process.settings.selectAnOption')"
             :return-object="true"
+            :append-outer-icon="(currentPredefinedSettings._id && $auth.user.group === 'admin') ? 'mdi-delete' : ''"
+            @click:append-outer="removeCustomPredefinedSettings"
             box
             clearable
           >
@@ -19,6 +21,14 @@
               </v-list-tile-content>
             </template>
           </v-autocomplete>
+
+          <v-checkbox
+            v-if="customPredefinedSettings.length > 0"
+            class="mTopM20"
+            v-model="displayCustomPredefinedSettings"
+            @change="setCurrentToCustomPredefinedSettings"
+            label="Afficher les paramètres prédéfines personnalisés"
+          ></v-checkbox>
         </v-flex>
 
         <v-flex xs12 sm12 mb-3 v-if="currentPredefinedSettings">
@@ -264,19 +274,26 @@
           <v-container grid-list-md>
             <v-layout wrap>
               <v-flex xs12 sm12>
-                <v-text-field :label="$t('ui.name')" v-model="saveFields.fullName" name="fullName" required></v-text-field>
+                <v-text-field :label="$t('ui.name')" v-model="saveFields.fullName" box name="fullName" required></v-text-field>
               </v-flex>
               <v-flex xs12 sm12>
-                {{saveFields.country}}
-                <v-select
-                  :items="countries"
-                  :item-text="$i18n.locale"
-                  item-value="en"
-                  :label="$t('ui.country')"
+                 <v-autocomplete
                   v-model="saveFields.country"
+                  :items="countries"
+                  item-value="en"
+                  :item-text="$i18n.locale"
+                  :label="$t('ui.country')"
+                  :return-object="true"
+                  box
                   name="country"
                   required
-                ></v-select>
+                >
+                  <template slot="item" slot-scope="data">
+                    <v-list-tile-content>
+                      <v-list-tile-title v-html="data.item[$i18n.locale]"></v-list-tile-title>
+                    </v-list-tile-content>
+                  </template>
+                </v-autocomplete>
               </v-flex>
             </v-layout>
           </v-container>
@@ -314,8 +331,9 @@ export default {
   },
   data () {
     return {
-      disabledButton: true,
-      disabledButtonSave: true,
+      disabledButton: false,
+      disabledButtonSave: false,
+      displayCustomPredefinedSettings: false,
       modal: false,
       saveFields: {
         fullName: '',
@@ -609,99 +627,116 @@ export default {
   },
   computed: {
     currentPredefinedSettings: {
-      get () { return this.$store.state.process.currentPredefinedSettings },
-      set (newVal) { this.$store.dispatch('process/SET_CURRENT_PREDEFINED_SETTINGS', JSON.parse(JSON.stringify(newVal || this.predefinedSettings[0]))) }
+      get () { return this.$store.state.process.currentPredefinedSettings; },
+      set (newVal) { this.$store.dispatch('process/SET_CURRENT_PREDEFINED_SETTINGS', JSON.parse(JSON.stringify(newVal || this.predefinedSettings[1]))); }
     },
     predefinedSettings () {
-      return this.$store.state.process.predefinedSettings
-    }
+      return this.$store.state.process.predefinedSettings;
+    },
+    allPredefinedSettings: {
+      get () { return this.$store.state.process.allPredefinedSettings; }
+    },
+    customPredefinedSettings: {
+      get () { return this.$store.state.process.customPredefinedSettings; }
+    },
   },
   watch: {
     currentPredefinedSettings: {
       handler: function (newVal) {
-        let changed = this.predefinedSettings.find(p => {
-          return p.fullName === newVal.fullName
-        })
-        this.disabledButton = !!isEqual(changed, this.currentPredefinedSettings)
+        let changed;
+        
+        changed = this.predefinedSettings.find(p => {
+          return p.fullName === newVal.fullName;
+        });
+        if (!changed) {
+          changed = this.customPredefinedSettings.find(p => {
+            return p.fullName === newVal.fullName;
+          });
+        }
+        this.disabledButton = !!isEqual(changed, this.currentPredefinedSettings);
       },
       deep: true
     },
     saveFields: {
       handler: function (newVal) {
-        if (this.saveFields.fullName.length > 0 && this.saveFields.country.length > 0) this.disabledButtonSave = false
+        if (this.saveFields.fullName.length > 0 && this.saveFields.country.length > 0) this.disabledButtonSave = false;
       },
       deep: true
     }
   },
   methods: {
     removeOutputPlus (index) {
-      this.currentPredefinedSettings.headers['Output-Fields'].plus.splice(index, 1)
+      this.currentPredefinedSettings.headers['Output-Fields'].plus.splice(index, 1);
     },
     removeOutputMinus (index) {
-      this.currentPredefinedSettings.headers['Output-Fields'].minus.splice(index, 1)
+      this.currentPredefinedSettings.headers['Output-Fields'].minus.splice(index, 1);
     },
     removeCryptedField (value) {
-      this.currentPredefinedSettings.headers['Crypted-Fields'].splice(value, 1)
+      this.currentPredefinedSettings.headers['Crypted-Fields'].splice(value, 1);
     },
     removeEmail (index) {
-      this.currentPredefinedSettings.headers['ezPAARSE-Job-Notifications'].plus.splice(index, 1)
+      this.currentPredefinedSettings.headers['ezPAARSE-Job-Notifications'].plus.splice(index, 1);
     },
     addHeader (value) {
       if (value) {
-        this.currentPredefinedSettings.headers.advancedHeaders.push({ header: value, value: null })
-        this.header = null
+        this.currentPredefinedSettings.headers.advancedHeaders.push({ header: value, value: null });
+        this.header = null;
       }
     },
     removeHeader (header) {
-      this.currentPredefinedSettings.headers.advancedHeaders.splice(header, 1)
+      this.currentPredefinedSettings.headers.advancedHeaders.splice(header, 1);
     },
     updateCounterFormat () {
-      if (this.currentPredefinedSettings.headers['COUNTER-Reports']) this.currentPredefinedSettings.headers['COUNTER-Format'] = 'tsv'
+      if (this.currentPredefinedSettings.headers['COUNTER-Reports']) this.currentPredefinedSettings.headers['COUNTER-Format'] = 'tsv';
     },
     resetSettings () {
-      const currentSettings = this.predefinedSettings.find(param => {
-        return param.fullName === this.currentPredefinedSettings.fullName
-      })
-      this.$store.dispatch('process/SET_CURRENT_PREDEFINED_SETTINGS', JSON.parse(JSON.stringify(currentSettings)))
+      const currentSettings = this.allPredefinedSettings.find(param => {
+        return param.fullName === this.currentPredefinedSettings.fullName;
+      });
+      this.$store.dispatch('process/SET_CURRENT_PREDEFINED_SETTINGS', JSON.parse(JSON.stringify(currentSettings)));
     },
     informations (header) {
       const h = this.headers.find(h => {
-        return header === h.name
-      })
-      if (h) window.open(`https://ezpaarse.readthedocs.io/en/master/configuration/parametres.html#${h.anchor}`, '_blank')
+        return header === h.name;
+      });
+      if (h) window.open(`https://ezpaarse.readthedocs.io/en/master/configuration/parametres.html#${h.anchor}`, '_blank');
     },
     saveCustomSettings () {
-      let customPs;
-      if (localStorage.getItem('ezpaarse_cps')) {
-        const ezpaarseCps = JSON.parse(localStorage.getItem('ezpaarse_cps'))
-        let index = ezpaarseCps.findIndex(cps => {
-          return cps.fullName === this.saveFields.fullName
-        })
-        
-        customPs = JSON.parse(JSON.stringify(this.currentPredefinedSettings))
-        customPs.fullName = this.saveFields.fullName
-        customPs.country = this.saveFields.country
-        if (index >= 0) {
-          ezpaarseCps[index] = customPs
-        } else {
-          ezpaarseCps.push(customPs)
-        }
-        localStorage.setItem('ezpaarse_cps', JSON.stringify(ezpaarseCps))
-      } else {
-        customPs = JSON.parse(JSON.stringify(this.currentPredefinedSettings))
-        customPs.fullName = this.saveFields.fullName
-        customPs.country = this.saveFields.country
-        localStorage.setItem('ezpaarse_cps', JSON.stringify([customPs]))
-      }
+      let customPs = JSON.parse(JSON.stringify(this.currentPredefinedSettings));
+      customPs.fullName = this.saveFields.fullName;
+      customPs.country = this.saveFields.country.en;
 
-     this.$store.dispatch('process/GET_PREDEFINED_SETTINGS').then(res => {
-        this.currentPredefinedSettings = customPs;
-        this.modal = false;
-        this.$store.dispatch('snacks/success', this.$t(`ui.pages.process.settings.paramsSaved`));
+      this.$store.dispatch('process/SAVE_CUSTOM_PREDEFINED_SETTINGS', customPs).then(res =>  {
+        this.$store.dispatch('process/GET_PREDEFINED_SETTINGS').then(res => {
+          this.currentPredefinedSettings = customPs;
+          this.modal = false;
+          this.$store.dispatch('snacks/success', this.$t(`ui.pages.process.settings.paramsSaved`));
+        }).catch(err => {
+          this.$store.dispatch('snacks/info', err.response.data.message ? this.$t(`ui.errors.${err.response.data.message}`) : this.$t(`ui.errors.error`));
+        });
+      });      
+    },
+    setCurrentToCustomPredefinedSettings () {
+      if (this.displayCustomPredefinedSettings && this.customPredefinedSettings.length > 0) {
+        this.currentPredefinedSettings = this.customPredefinedSettings[1];
+      }
+    },
+    removeCustomPredefinedSettings (el) {
+      this.$store.dispatch('process/REMOVE_CUSTOM_PREDEFINED_SETTINGS', { id: this.currentPredefinedSettings._id }).then(res => {
+        this.$store.dispatch('snacks/success', this.$t('ui.pages.process.settings.deleted'));
+        this.$store.dispatch('process/GET_PREDEFINED_SETTINGS').catch(err => {
+          this.$store.dispatch('snacks/error', this.$t('ui.errors.error'));
+        });
       }).catch(err => {
-        this.$store.dispatch('snacks/info', err.response.data.message ? this.$t(`ui.errors.${err.response.data.message}`) : this.$t(`ui.errors.error`));
+        this.$store.dispatch('snacks/error', this.$t('ui.errors.error'));
       });
     }
   }
 }
 </script>
+
+<style>
+.mTopM20 {
+  margin-top: -20px;
+}
+</style>

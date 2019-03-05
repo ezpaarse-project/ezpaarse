@@ -16,7 +16,8 @@
         "platforms": "Platforms",
         "updates": "Updates",
         "users": "Users",
-        "jobs": "Ongoing processing(s)"
+        "jobs": "Ongoing processing(s)",
+        "predefinedSettings": "Custom predefined settings"
       }
     },
     "pages": {
@@ -74,7 +75,8 @@
           "counterReportDetail": "* The reports are not COUNTER certified, however the deduplication algorithm and output formats follow the recommendations.",
           "advancedHeaders": "advanced",
           "defaultParams": "Default settings",
-          "paramsSaved": "Successfully saved settings"
+          "paramsSaved": "Successfully saved settings",
+          "deleted": "Setting deleted"
         },
         "logFiles": {
           "clickToAdd": "Click to add",
@@ -228,6 +230,7 @@
     "close": "Close",
     "back": "Back",
     "save": "Save",
+    "remove": "Delete",
     "currentVersion": "Current version",
     "updateTo": "Update to {newVersion}",
     "nameFile": "File name",
