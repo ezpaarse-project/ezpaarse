@@ -75,7 +75,8 @@
           "advancedHeaders": "avancé",
           "defaultParams": "Paramètres par défaut",
           "paramsSaved": "Paramètres enregistrés",
-          "deleted": "Paramètre supprimé"
+          "deleted": "Paramètre supprimé",
+          "nameUnavailable": "Ce nom n'est pas disponible !"
         },
         "logFiles": {
           "clickToAdd": "Cliquez pour ajouter",

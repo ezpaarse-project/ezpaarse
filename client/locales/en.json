@@ -76,7 +76,8 @@
           "advancedHeaders": "advanced",
           "defaultParams": "Default settings",
           "paramsSaved": "Successfully saved settings",
-          "deleted": "Setting deleted"
+          "deleted": "Setting deleted",
+          "nameUnavailable": "This name is unavailable !"
         },
         "logFiles": {
           "clickToAdd": "Click to add",

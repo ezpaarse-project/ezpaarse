@@ -274,7 +274,16 @@
           <v-container grid-list-md>
             <v-layout wrap>
               <v-flex xs12 sm12>
-                <v-text-field :label="$t('ui.name')" v-model="saveFields.fullName" box name="fullName" required></v-text-field>
+                <v-text-field
+                :label="$t('ui.name')"
+                v-model="saveFields.fullName"
+                box
+                name="fullName"
+                required
+                :error="fullNameError ? true : false"
+                :error-messages="fullNameError"
+              >
+              </v-text-field>
               </v-flex>
               <v-flex xs12 sm12>
                  <v-autocomplete
@@ -302,14 +311,12 @@
           <v-spacer></v-spacer>
           <v-btn
             color="error"
-            block
             @click="modal = false"
           >
             {{ $t('ui.close') }}
           </v-btn>
           <v-btn
             color="success"
-            block
             :disabled="disabledButtonSave"
             @click="saveCustomSettings"
           >
@@ -331,10 +338,11 @@ export default {
   },
   data () {
     return {
-      disabledButton: false,
-      disabledButtonSave: false,
+      disabledButton: true,
+      disabledButtonSave: true,
       displayCustomPredefinedSettings: false,
       modal: false,
+      fullNameError: null,
       saveFields: {
         fullName: '',
         country: ''
@@ -659,7 +667,16 @@ export default {
     },
     saveFields: {
       handler: function (newVal) {
-        if (this.saveFields.fullName.length > 0 && this.saveFields.country.length > 0) this.disabledButtonSave = false;
+        if (this.saveFields.fullName.length > 0 && this.saveFields.country.en && this.saveFields.country.en.length > 0) this.disabledButtonSave = false;
+        const exists = this.customPredefinedSettings.find(p => {
+          return p.fullName === newVal.fullName;
+        });
+        if (exists) {
+          this.disabledButtonSave = true;
+          this.fullNameError = this.$t('ui.pages.process.settings.nameUnavailable');
+        } else {
+          this.fullNameError = null;
+        }
       },
       deep: true
     }
