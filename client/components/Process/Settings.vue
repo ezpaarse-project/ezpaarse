@@ -52,7 +52,7 @@
                       <v-text-field
                         v-model="currentPredefinedSettings.headers['Date-Format']"
                         :label="$t('ui.pages.process.settings.dateFormat')"
-                        placeholder="'DD/MMM/YYYY:HH:mm:ss Z"
+                        placeholder="DD/MMM/YYYY:HH:mm:ss Z"
                         required
                       ></v-text-field>
                     </v-flex>
@@ -724,13 +724,15 @@ export default {
       customPs.country = this.saveFields.country.en;
 
       this.$store.dispatch('process/SAVE_CUSTOM_PREDEFINED_SETTINGS', customPs).then(res =>  {
-        this.$store.dispatch('process/GET_PREDEFINED_SETTINGS').then(res => {
-          this.currentPredefinedSettings = customPs;
-          this.modal = false;
-          this.$store.dispatch('snacks/success', this.$t(`ui.pages.process.settings.paramsSaved`));
-        }).catch(err => {
+        this.$store.dispatch('process/GET_PREDEFINED_SETTINGS').catch(err => {
           this.$store.dispatch('snacks/info', err.response.data.message ? this.$t(`ui.errors.${err.response.data.message}`) : this.$t(`ui.errors.error`));
         });
+
+        this.currentPredefinedSettings = customPs;
+        this.modal = false;
+        this.disabledButton = true;
+        this.disabledButtonSave = true;
+        this.$store.dispatch('snacks/success', this.$t(`ui.pages.process.settings.paramsSaved`));
       });      
     },
     setCurrentToCustomPredefinedSettings () {
