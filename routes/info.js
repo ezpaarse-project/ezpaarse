@@ -315,10 +315,11 @@ app.get('/predefined-settings/custom', function (req, res) {
   });
 });
 
+/* eslint-disable-next-line */
 app.post('/predefined-settings/custom', bodyParser.urlencoded({ extended: true }), bodyParser.json(), auth.ensureAuthenticated(true), function (req, res) {
   const settings = req.body.settings;
 
-  if (!settings) return res.status(406).json({ status: 406, message: 'no_settings_set' })
+  if (!settings) return res.status(406).json({ status: 406, message: 'no_settings_set' });
 
   customPredefinedSettings.insert(settings, function (err) {
     if (err) { return res.status(500).end(); }
@@ -327,6 +328,7 @@ app.post('/predefined-settings/custom', bodyParser.urlencoded({ extended: true }
   });
 });
 
+/* eslint-disable-next-line */
 app.put('/predefined-settings/custom/:id', bodyParser.urlencoded({ extended: true }), bodyParser.json(), auth.ensureAuthenticated(true), function (req, res) {
   const id = req.params.id;
   const settings = req.body.settings;
@@ -337,6 +339,7 @@ app.put('/predefined-settings/custom/:id', bodyParser.urlencoded({ extended: tru
   if (errors.length > 0) return res.status(406).json({ status: 406, fields: errors });
 
   customPredefinedSettings.updateOne(id, settings, function (err) {
+    /* eslint-disable-next-line */
     if (err.message === 'id_invalid') return res.status(409).json({ status: 409, message: err.message });
     if (err) { return res.status(500).end(); }
 
@@ -349,11 +352,12 @@ app.delete('/predefined-settings/custom/:id', auth.ensureAuthenticated(true), fu
   if (!id) return res.status(406).json({ status: 406, message: 'unknown_id' });
 
   customPredefinedSettings.delete(id, function (err) {
+    /* eslint-disable-next-line */
     if (err && err.message === 'id_invalid') return res.status(409).json({ status: 409, message: err.message });
     if (err) { return res.status(500).end(); }
 
     return res.status(200).end();
-  })
+  });
 });
 
 /**

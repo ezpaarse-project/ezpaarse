@@ -323,19 +323,22 @@ app.post(/^\/users\/(.+)$/, auth.ensureAuthenticated(true), auth.authorizeMember
  * POST route on /password/{username}
  * To reset a user password
  */
+/* eslint-disable-next-line */
 app.post('/passwords', bodyParser.urlencoded({ extended: true }), bodyParser.json(), function (req, res) {
   const username = req.body.username;
   const locale = req.body.locale || 'en';
-  if (!username) return res.status(400).end()
+  if (!username) return res.status(400).end();
 
   password.genereateUniqId(username, function (err, result, uuid) {
     if (err || !uuid) return res.status(500).end();
     if (!result) return res.status(404).end();
 
+    /* eslint-disable-next-line */
     const url = `${req.protocol}://${req.get('x-forwarded-host') || req.get('host')}/password/${uuid}`;
     mailer.generate(`password/${locale}`, { url }, function (err, html, text) {
       if (err) return res.status(500).end();
 
+      /* eslint-disable-next-line */
       const subject = locale === 'fr' ? 'Réinitialisation de votre mot de passe' : 'Resetting your password';
       mailer.mail()
         .subject(`[ezPAARSE] ${subject}`)
@@ -350,12 +353,14 @@ app.post('/passwords', bodyParser.urlencoded({ extended: true }), bodyParser.jso
   });
 });
 
+/* eslint-disable-next-line */
 app.put('/passwords', bodyParser.urlencoded({ extended: true }), bodyParser.json(), function (req, res) {
   const pwd = req.body.credentials.password;
   const pwdRepeat = req.body.credentials.password_repeat;
   const uuid = req.body.uuid;
 
   if (!pwd || !pwdRepeat || !uuid) return res.status(400).json({ status: 400, message: 'error' });
+  /* eslint-disable-next-line */
   if (pwd !== pwdRepeat) return res.status(400).json({ status: 400, message: 'password_does_not_match' });
 
   password.getUser(uuid, function (err, result) {
@@ -364,6 +369,7 @@ app.put('/passwords', bodyParser.urlencoded({ extended: true }), bodyParser.json
 
     const currentDate = Date.now();
 
+    /* eslint-disable-next-line */
     if (currentDate > result.expiration_date) return res.status(500).json({ status: 500, message: 'expiration_date' });
 
     if (currentDate < result.expiration_date) {
