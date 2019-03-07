@@ -17,7 +17,7 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn color="primary" type="submit">{{ $t('ui.reset') }}</v-btn>
+          <v-btn color="primary" type="submit" :disabled="!userid">{{ $t('ui.reset') }}</v-btn>
           <v-btn color="error" router :to="{ path: '/' }">{{ $t('ui.back') }}</v-btn>
         </v-card-actions>
       </v-form>
@@ -27,21 +27,26 @@
 
 <script>
 export default {
-  auth: true,
+  auth: false,
   layout: "sign",
   data() {
     return {
       userid: null
     }
   },
+  fetch ({ app, redirect }) {
+    if (app.$auth.user) return redirect('/process');
+  },
   methods: {
     reset () {
-      this.$store.dispatch('RESET_PASSWORD', this.userid)
-      .then(res => this.$router.push('/'))
-      .catch(err => {
-        console.log(err.response)
-        if (err.response.status !== 200) this.$store.dispatch('snacks/error', this.$t(`ui.errors.invalid_address`))
+      this.$store.dispatch('RESET_PASSWORD', { username: this.userid, locale: this.$i18n.locale })
+      .then(res => {
+        this.$store.dispatch('snacks/success', this.$t(`ui.pages.profile.emailSent`));
+        return this.$router.push('/');
       })
+      .catch(err => {
+        if (err) this.$store.dispatch('snacks/error', this.$t(`ui.errors.500`));
+      });
     }
   }
 }

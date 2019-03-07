@@ -84,7 +84,7 @@ export default {
         this.oldPassword = ''
         this.newPassword = ''
         this.confirm = ''
-        this.$store.dispatch('snacks/success', this.$t(`ui.pages.profile.passwordUpdtaed`))
+        this.$store.dispatch('snacks/success', this.$t(`ui.pages.profile.passwordUpdated`))
       }).catch(err => {
         console.log(err.response.status)
         if (!err.response.data.message) {

@@ -32,7 +32,9 @@ api.removeUser = (axios, userid) => axios.delete(`/api/admin/users/${userid}`).t
 
 api.editUser = (axios, data) => axios.post(`/api/admin/users/${data.userid}`, data).then(res => res.data);
 
-api.resetPassword = (axios, userid) => axios.post(`/api/admin/passwords/${userid}`).then(res => res.data);
+api.resetPassword = (axios, data) => axios.post('/api/admin/passwords', data).then(res => res.data);
+
+api.sendNewPassword = (axios, data) => axios.put('/api/admin/passwords', data).then(res => res.data);
 
 api.notifiate = (axios, data) => axios.post('/api/admin/profile', data).then(res => res.data);
 

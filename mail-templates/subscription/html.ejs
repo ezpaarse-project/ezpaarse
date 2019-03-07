@@ -1,0 +1,34 @@
+<html><body style="color: #666666;"><div id="content" style="width: 80%; border: 1px solid #DADADA; padding: 10px; margin: 0 auto; position: relative; background-color: #FBFBFB;">
+  <div id="header" style="text-align: right; font-size: 0.9em; color: #979797;">
+    ezPAARSE - New subscription
+  </div>
+
+  <h2>Someone subscribed to ezPAARSE.</h2>
+
+  <table>
+    <tr>
+      <th style="text-align: right; padding: 3px 5px 3px 0px;">Signup date</th>
+      <td><%= user.createdAt %></td>
+    </tr>
+    <tr>
+      <th style="text-align: right; padding: 3px 5px 3px 0px;">Mail</th>
+      <td><%= user.username %></td>
+    </tr>
+    <tr>
+      <th style="text-align: right; padding: 3px 5px 3px 0px;">IP</th>
+      <td><%= userIP %></td>
+    </tr>
+    <tr>
+      <th style="text-align: right; padding: 3px 5px 3px 0px;">Hostname</th>
+      <td><%= hostname %></td>
+    </tr>
+    <tr>
+      <th style="text-align: right; padding: 3px 5px 3px 0px;">Country</th>
+      <td><%= geoip.country %></td>
+    </tr>
+    <tr>
+      <th style="text-align: right; padding: 3px 5px 3px 0px;">City</th>
+      <td><%= geoip.city %></td>
+    </tr>
+  </table>
+</body></html>

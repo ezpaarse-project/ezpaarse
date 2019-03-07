@@ -79,8 +79,11 @@ const store = () => new Vuex.Store({
     EDIT_USER ({ commit }, data) {
       return api.editUser(this.$axios, data);
     },
-    RESET_PASSWORD ({ commit }, userid) {
-      return api.resetPassword(this.$axios, userid);
+    RESET_PASSWORD ({ commit }, data) {
+      return api.resetPassword(this.$axios, data);
+    },
+    SEND_NEW_PASSWORD ({ commit }, data) {
+      return api.sendNewPassword(this.$axios, data);
     },
     NOTIFIATE ({ commit }, data) {
       return api.notifiate(this.$axios, data);

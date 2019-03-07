@@ -12,6 +12,7 @@ var mailer     = require('../lib/mailer.js');
 var auth       = require('../lib/auth-middlewares.js');
 var ezJobs     = require('../lib/jobs.js');
 var io         = require('../lib/socketio.js').io;
+var password = require('../lib/password');
 
 var emailRegexp = /^[a-z0-9!#$%&'*+/=?^_`{|}~.-]+@[a-z0-9-]+(\.[a-z0-9-]+)*$/i;
 
@@ -322,33 +323,59 @@ app.post(/^\/users\/(.+)$/, auth.ensureAuthenticated(true), auth.authorizeMember
  * POST route on /password/{username}
  * To reset a user password
  */
-app.post(/^\/passwords\/(.+)$/, function (req, res) {
-  var mail = req.params[0];
-  userlist.get(mail, function (err, user) {
-    if (err) { return res.status(500).end(); }
-    if (!user) { return res.status(404).end(); }
+app.post('/passwords', bodyParser.urlencoded({ extended: true }), bodyParser.json(), function (req, res) {
+  const username = req.body.username;
+  const locale = req.body.locale || 'en';
+  if (!username) return res.status(400).end()
 
-    var chars    = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    var password = '';
+  password.genereateUniqId(username, function (err, result, uuid) {
+    if (err || !uuid) return res.status(500).end();
+    if (!result) return res.status(404).end();
 
-    for (var i = 0; i < 10; i++) {
-      password += chars[Math.round(Math.random() * (chars.length - 1))];
-    }
+    const url = `${req.protocol}://${req.get('x-forwarded-host') || req.get('host')}/password/${uuid}`;
+    mailer.generate(`password/${locale}`, { url }, function (err, html, text) {
+      if (err) return res.status(500).end();
 
-    var cryptedPassword = userlist.crypt(mail, password);
-
-    userlist.set(mail, 'password', cryptedPassword, function (err) {
-      if (err) { return res.status(500).end(); }
-
+      const subject = locale === 'fr' ? 'Réinitialisation de votre mot de passe' : 'Resetting your password';
       mailer.mail()
-        .subject('[ezPAARSE] Réinitialisation de votre mot de passe')
-        .text('Votre mot de passe est désormais : ' + password)
+        .subject(`[ezPAARSE] ${subject}`)
+        .html(html)
+        .text(text)
         .from(config.EZPAARSE_ADMIN_MAIL)
-        .to(mail)
+        .to(username)
         .send(function (err) {
-          res.status(err ? 500 : 200).end();
+          return res.status(err ? 500 : 200).end();
         });
     });
+  });
+});
+
+app.put('/passwords', bodyParser.urlencoded({ extended: true }), bodyParser.json(), function (req, res) {
+  const pwd = req.body.credentials.password;
+  const pwdRepeat = req.body.credentials.password_repeat;
+  const uuid = req.body.uuid;
+
+  if (!pwd || !pwdRepeat || !uuid) return res.status(400).json({ status: 400, message: 'error' });
+  if (pwd !== pwdRepeat) return res.status(400).json({ status: 400, message: 'password_does_not_match' });
+
+  password.getUser(uuid, function (err, result) {
+    if (err) return res.status(500).json({ status: 500 });
+    if (!result) return res.status(500).json({ status: 500, message: 'error' });
+
+    const currentDate = Date.now();
+
+    if (currentDate > result.expiration_date) return res.status(500).json({ status: 500, message: 'expiration_date' });
+
+    if (currentDate < result.expiration_date) {
+      const cryptedPassword = userlist.crypt(result.username, pwd);
+      userlist.set(result.username, 'password', cryptedPassword, function (err) {
+        userlist.set(result.username, 'expiration_date', 0, function (err) {
+          if (err) return res.status(500).json({ status: 500, message: 'password_no_set' });
+
+          return res.status(200).end();
+        });
+      });
+    }
   });
 });
 

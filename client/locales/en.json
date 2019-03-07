@@ -34,12 +34,13 @@
       },
       "profile": {
         "title": "My profile",
-        "passwordUpdtaed": "Password updated",
+        "passwordUpdated": "Password updated",
         "notifications": "Receive a notification email at the end of my processing operations.",
         "updatePassword": "Change password",
         "oldPassword": "Old password*",
         "newPassword": "New password *",
-        "confirm": "Confirmation *"
+        "confirm": "Confirmation *",
+        "emailSent": "An email has been sent to you to reset your password"
       },
       "process": {
         "title": "Process your logs",
@@ -225,7 +226,8 @@
       "bad_section": "Bad section.",
       "error": "It seems like something went wrong.",
       "404": "This page could not be found.",
-      "500": "An error occured."
+      "500": "An error occured.",
+      "expiration_date": "The deadline has passed."
     },
     "search": "Search",
     "close": "Close",

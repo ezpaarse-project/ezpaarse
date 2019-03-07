@@ -36,10 +36,11 @@
         "title": "Mon profil",
         "notifications": "Recevoir un mail de notification à la fin de mes traitements.",
         "updatePassword": "Changement de mot de passe",
-        "passwordUpdtaed": "Mot de passe mis à jour",
+        "passwordUpdated": "Mot de passe mis à jour",
         "oldPassword": "Ancien mot de passe *",
         "newPassword": "Nouveau mot de passe *",
-        "confirm": "Confirmation *"
+        "confirm": "Confirmation *",
+        "emailSent": "Un email vous à été envoyé pour réinistialiser votre mot de passe"
       },
       "process": {
         "title": "Traitez vos logs",
@@ -227,7 +228,8 @@
       "bad_section": "Mauvaise section.",
       "error": "Il semblerait que quelque chose ce soit mal passé.",
       "404": "Cette page n'a pas pu être trouvée.",
-      "500": "Une erreur s'est produite."
+      "500": "Une erreur s'est produite.",
+      "expiration_date": "Le délais est dépassé."
     },
     "search": "Rechercher",
     "close": "Fermer",
