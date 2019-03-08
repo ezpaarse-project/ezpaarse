@@ -20,6 +20,7 @@
           <h4>{{ $t('ui.pages.process.settings.currentSettings') }}</h4>
           <span v-if="currentPredefinedSettings">{{ currentPredefinedSettings.fullName }}</span>
           <span v-else>Default</span>
+          <span v-if="settingsIsModified">({{ $t('ui.pages.process.settings.modified') }})</span>
         </v-flex>
 
         <v-flex xs12 sm12>
@@ -97,6 +98,9 @@ export default {
     },
     currentPredefindedSettings () {
       return this.$store.state.process.currentPredefindedSettings
+    },
+    settingsIsModified () {
+      return this.$store.state.process.settingsIsModified;
     }
   },
   methods: {

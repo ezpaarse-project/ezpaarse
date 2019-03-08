@@ -75,10 +75,14 @@
           "cryptedFields": "Crypted fields",
           "counterReportDetail": "* The reports are not COUNTER certified, however the deduplication algorithm and output formats follow the recommendations.",
           "advancedHeaders": "advanced",
-          "defaultParams": "Default settings",
+          "defaultParams": "Reset settings",
           "paramsSaved": "Successfully saved settings",
           "deleted": "Setting deleted",
-          "nameUnavailable": "This name is unavailable !"
+          "nameUnavailable": "This name is unavailable !",
+          "showOnlyCustomPredefinedSettings": "Display custom predefined settings only",
+          "savePredefinedSettings": "Save settings",
+          "modified": "modified",
+          "saveAsNew": "Save as new custom predefined settings"
         },
         "logFiles": {
           "clickToAdd": "Click to add",
@@ -227,7 +231,8 @@
       "error": "It seems like something went wrong.",
       "404": "This page could not be found.",
       "500": "An error occured.",
-      "expiration_date": "The deadline has passed."
+      "expiration_date": "The deadline has passed.",
+      "password_not_set": "The password has not been changed."
     },
     "search": "Search",
     "close": "Close",

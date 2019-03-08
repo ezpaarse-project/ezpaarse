@@ -18,7 +18,8 @@ export default {
     queryCancelSource: null,
     status: null,
     report: null,
-    error: null
+    error: null,
+    settingsIsModified: false
   },
   mutations: {
     SET_PREDEFINED_SETTINGS (state, data) {
@@ -68,6 +69,9 @@ export default {
     },
     SET_ALL_PREDEFINED_SETTINGS (state, data) {
       Vue.set(state, 'allPredefinedSettings', data);
+    },
+    SET_SETTINGS_IS_MODIFIED (state, data) {
+      Vue.set(state, 'settingsIsModified', data);
     }
   },
   actions: {
@@ -166,9 +170,9 @@ export default {
             setting.settings._id = setting._id;
             return setting.settings;
           });
+          commit('SET_CUSTOM_PREDEFINED_SETTINGS', customPredefinedSettings);
           customPredefinedSettings.unshift({ header: 'Custom predefined settings' });
           customPredefinedSettings.push({ divider: true });
-          commit('SET_CUSTOM_PREDEFINED_SETTINGS', customPredefinedSettings);
 
           const cps = JSON.parse(JSON.stringify(customPredefinedSettings));
           Array.prototype.push.apply(cps, data);
@@ -186,6 +190,9 @@ export default {
     },
     SAVE_CUSTOM_PREDEFINED_SETTINGS ({ commit }, data) {
       return api.saveCustomPredefinedSettings(this.$axios, data).catch(err => { });
+    },
+    UPDATE_CUSTOM_PREDEFINED_SETTINGS ({ commit }, data) {
+      return api.updateCustomPredefinedSettings(this.$axios, data).catch(err => { });
     },
     GET_CUSTOM_PREDEFINED_SETTINGS ({ commit }) {
       return api.getCustomPredefinedSettings(this.$axios).then(res => {
@@ -267,6 +274,9 @@ export default {
     },
     LOG_PARSER ({ commit }, data) {
       return api.getLogParser(this.$axios, data);
+    },
+    SET_SETTINGS_IS_MODIFIED ({ commit }, data) {
+      commit('SET_SETTINGS_IS_MODIFIED', data);
     }
   }
 };

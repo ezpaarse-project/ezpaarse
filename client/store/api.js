@@ -58,6 +58,8 @@ api.getLogParser = (axios, data) => axios.put('/api/format/logparser', data).the
 
 api.saveCustomPredefinedSettings = (axios, data) => axios.post('/api/info/predefined-settings/custom', { settings: data }).then(res => res.data);
 
+api.updateCustomPredefinedSettings = (axios, data) => axios.put(`api/info/predefined-settings/custom/${data._id}`, { settings: data }).then(res => res.data);
+
 api.getCustomPredefinedSettings = (axios) => axios.get('/api/info/predefined-settings/custom').then(res => res.data);
 
 api.removeCustomPredefinedSettings = (axios, data) => axios.delete(`/api/info/predefined-settings/custom/${data.id}`).then(res => res.data);

@@ -27,7 +27,7 @@
             class="mTopM20"
             v-model="displayCustomPredefinedSettings"
             @change="setCurrentToCustomPredefinedSettings"
-            label="Afficher les paramètres prédéfines personnalisés"
+            :label="$t('ui.pages.process.settings.showOnlyCustomPredefinedSettings')"
           ></v-checkbox>
         </v-flex>
 
@@ -253,7 +253,7 @@
           <ButtonGroup>
             <v-btn color="success" block large @click="modal = true" :disabled="disabledButton">
               <v-icon left>mdi-content-save-settings</v-icon>
-              {{ $t('ui.save') }}
+              {{ $t('ui.pages.process.settings.savePredefinedSettings') }}
             </v-btn>
             <v-btn color="primary" block large @click="resetSettings" :disabled="disabledButton">
               {{ $t('ui.pages.process.settings.defaultParams') }}
@@ -269,8 +269,13 @@
       max-width="600"
     >
       <v-card>
-        <v-card-title class="headline">{{ $t('ui.save') }}</v-card-title>
+        <v-card-title class="headline">{{ $t('ui.pages.process.settings.savePredefinedSettings') }} : {{ currentPredefinedSettings.fullName }}</v-card-title>
         <v-card-text>
+          <v-switch
+            v-if="currentPredefinedSettings._id"
+            v-model="saveAsNew"
+            :label="$t('ui.pages.process.settings.saveAsNew')"
+          ></v-switch>
           <v-container grid-list-md>
             <v-layout wrap>
               <v-flex xs12 sm12>
@@ -347,8 +352,9 @@ export default {
         fullName: '',
         country: ''
       },
+      saveAsNew: false,
       logTypes: [
-        { value: '', text: 'Reconnaissance auto' },
+        { value: '', text: 'Auto recognition' },
         { value: 'ezproxy', text: 'EZproxy' },
         { value: 'apache', text: 'Apache' },
         { value: 'squid', text: 'Squid' }
@@ -359,9 +365,9 @@ export default {
         { value: 'json', text: 'JSON' }
       ],
       tracesLevel: [
-        { value: 'info', text: 'Informations générales'},
+        { value: 'info', text: 'General informations'},
         { value: 'error', text: 'Erreurs uniquement'},
-        { value: 'warn', text: 'Warnings sans conséquences' }
+        { value: 'warn', text: 'Warnings without consequences' }
       ],
       header: null,
       headers: [
@@ -647,6 +653,10 @@ export default {
     customPredefinedSettings: {
       get () { return this.$store.state.process.customPredefinedSettings; }
     },
+    settingsIsModified: {
+      get () { return this.$store.state.process.settingsIsModified; },
+      set (newVal) { return this.$store.dispatch('process/SET_SETTINGS_IS_MODIFIED', newVal); }
+    }
   },
   watch: {
     currentPredefinedSettings: {
@@ -662,15 +672,18 @@ export default {
           });
         }
         this.disabledButton = !!isEqual(changed, this.currentPredefinedSettings);
+        if (!this.disabledButton) this.settingsIsModified = true;
       },
       deep: true
     },
     saveFields: {
       handler: function (newVal) {
-        if (this.saveFields.fullName.length > 0 && this.saveFields.country.en && this.saveFields.country.en.length > 0) this.disabledButtonSave = false;
-        const exists = this.customPredefinedSettings.find(p => {
-          return p.fullName === newVal.fullName;
-        });
+        if (this.saveFields.fullName.length > 0 && this.saveFields.country.en && this.saveFields.country.en.length > 0) {
+          this.disabledButtonSave = false;
+        }
+        
+        let exists = this.customPredefinedSettings.find(p => p.fullName === newVal.fullName);
+        if (!exists) exists = this.predefinedSettings.find(p => p.fullName === newVal.fullName);
         if (exists) {
           this.disabledButtonSave = true;
           this.fullNameError = this.$t('ui.pages.process.settings.nameUnavailable');
@@ -723,7 +736,12 @@ export default {
       customPs.fullName = this.saveFields.fullName;
       customPs.country = this.saveFields.country.en;
 
-      this.$store.dispatch('process/SAVE_CUSTOM_PREDEFINED_SETTINGS', customPs).then(res =>  {
+      // process/UPDATE_CUSTOM_PREDEFINED_SETTINGS
+      let store = 'SAVE';
+      if (!this.saveAsNew && customPs._id) store = 'UPDATE';
+      if (!this.saveAsNew && !customPs._id || this.saveAsNew && !customPs._id) store = 'SAVE';
+
+      this.$store.dispatch(`process/${store}_CUSTOM_PREDEFINED_SETTINGS`, customPs).then(res =>  {
         this.$store.dispatch('process/GET_PREDEFINED_SETTINGS').catch(err => {
           this.$store.dispatch('snacks/info', err.response.data.message ? this.$t(`ui.errors.${err.response.data.message}`) : this.$t(`ui.errors.error`));
         });
@@ -732,6 +750,8 @@ export default {
         this.modal = false;
         this.disabledButton = true;
         this.disabledButtonSave = true;
+        this.saveFields.fullName = '';
+        this.saveFields.country = '';
         this.$store.dispatch('snacks/success', this.$t(`ui.pages.process.settings.paramsSaved`));
       });      
     },

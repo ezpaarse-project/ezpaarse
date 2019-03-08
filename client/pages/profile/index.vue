@@ -63,36 +63,36 @@ export default {
     notifiate () {
       this.$store.dispatch('NOTIFIATE', {
         user: {
-          username: this.user.username
+          username: this.$auth.user.username
         },
         section: 'notifications',
-        notifiate: this.user.notifiate
+        notifiate: this.$auth.user.notifiate
       }).catch(err => {
-        this.$store.dispatch('snacks/info', this.$t(`ui.errors.${err.response.data.message}`))
-      })
+        this.$store.dispatch('snacks/info', this.$t(`ui.errors.${err.response.data.message}`));
+      });
     },
     updatePassword () {
       this.$store.dispatch('UPDATE_PASSWORD', {
         user: {
-          username: this.user.username
+          username: this.$auth.user.username
         },
         section: 'password',
         oldPassword: this.oldPassword.trim(),
         newPassword: this.newPassword.trim(),
         confirm: this.confirm.trim()
       }).then(res => {
-        this.oldPassword = ''
-        this.newPassword = ''
-        this.confirm = ''
-        this.$store.dispatch('snacks/success', this.$t(`ui.pages.profile.passwordUpdated`))
+        this.oldPassword = '';
+        this.newPassword = '';
+        this.confirm = '';
+        this.$store.dispatch('snacks/success', this.$t(`ui.pages.profile.passwordUpdated`));
       }).catch(err => {
         console.log(err.response.status)
         if (!err.response.data.message) {
-          this.$store.dispatch('snacks/info', this.$t('ui.errors.error'))
+          this.$store.dispatch('snacks/info', this.$t('ui.errors.error'));
         } else {
-          this.$store.dispatch('snacks/info', this.$t(`ui.errors.${err.response.data.message}`))
+          this.$store.dispatch('snacks/info', this.$t(`ui.errors.${err.response.data.message}`));
         }
-      })
+      });
     }
   }
 }

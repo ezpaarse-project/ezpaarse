@@ -320,7 +320,7 @@ app.post(/^\/users\/(.+)$/, auth.ensureAuthenticated(true), auth.authorizeMember
 );
 
 /**
- * POST route on /password/{username}
+ * POST route on /passwords
  * To reset a user password
  */
 /* eslint-disable-next-line */
@@ -372,16 +372,16 @@ app.put('/passwords', bodyParser.urlencoded({ extended: true }), bodyParser.json
     /* eslint-disable-next-line */
     if (currentDate > result.expiration_date) return res.status(500).json({ status: 500, message: 'expiration_date' });
 
-    if (currentDate < result.expiration_date) {
-      const cryptedPassword = userlist.crypt(result.username, pwd);
-      userlist.set(result.username, 'password', cryptedPassword, function (err) {
-        userlist.set(result.username, 'expiration_date', 0, function (err) {
-          if (err) return res.status(500).json({ status: 500, message: 'password_no_set' });
+    const cryptedPassword = userlist.crypt(result.username, pwd);
+    userlist.set(result.username, 'password', cryptedPassword, function (err) {
+      if (err) return res.status(500).json({ status: 500, message: 'password_not_set' });
 
-          return res.status(200).end();
-        });
+      userlist.set(result.username, 'expiration_date', 0, function (err) {
+        if (err) return res.status(500).json({ status: 500, message: 'password_not_set' });
+
+        return res.status(200).end();
       });
-    }
+    });
   });
 });
 
