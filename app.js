@@ -148,6 +148,7 @@ app.use('/api/auth', require('./routes/auth'));
 app.use('/api/feedback', require('./routes/feedback'));
 app.use('/api/format', require('./routes/format'));
 app.use('/api/info', require('./routes/info'));
+app.use('/info', require('./routes/info'));
 app.use('/api/views', require('./routes/views'));
 app.use('/castor', require('./lib/castor'));
 app.use('/', require('./routes/ws'));
