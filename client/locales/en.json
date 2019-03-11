@@ -30,7 +30,8 @@
         "availableTeam": "An available and responsive team",
         "contactUs": "A problem, a question, a suggestion? Contact us!",
         "growingCommunity": "A growing community",
-        "notOnlyFrench": "And not only French-speaking!"
+        "notOnlyFrench": "And not only French-speaking!",
+        "ezpaarse": "An <a style=\"color: #ccc;\" href=\"https://github.com/ezpaarse-project/ezpaarse\" target=\"_blank\">open-source software</a> that can ingest and analyse your (proxy) log files and show how users access subscribed electronic resources. It filters, extracts and enriches the consultation events that were spotted and produces a CSV file following COUNTER codes of practice."
       },
       "profile": {
         "title": "My profile",

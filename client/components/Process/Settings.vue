@@ -334,8 +334,8 @@
 </template>
 
 <script>
-import ButtonGroup from '~/components/ButtonGroup'
-import isEqual from 'lodash.isequal'
+import ButtonGroup from '~/components/ButtonGroup';
+import isEqual from 'lodash.isequal';
 
 export default {
   components: {
@@ -366,7 +366,7 @@ export default {
       ],
       tracesLevel: [
         { value: 'info', text: 'General informations'},
-        { value: 'error', text: 'Erreurs uniquement'},
+        { value: 'error', text: 'Errors only'},
         { value: 'warn', text: 'Warnings without consequences' }
       ],
       header: null,
@@ -437,205 +437,6 @@ export default {
         { name: 'Istex-enrich', anchor: 'istex' },
         { name: 'Istex-ttl', anchor: 'istex' },
         { name: 'Istex-throttle', anchor: 'istex' }
-      ],
-      countries: [
-        { fr: 'Afghanistan', en: 'Afghanistan' },
-        { fr: 'Afrique du Sud', en: 'South Africa' },
-        { fr: 'Albanie', en: 'Albania' },
-        { fr: 'Algérie', en: 'Algeria' },
-        { fr: 'Allemagne', en: 'Germany' },
-        { fr: 'Andorre', en: 'Andorra' },
-        { fr: 'Angola', en: 'Angola' },
-        { fr: 'Antigua-et-Barbuda', en: 'Antigua and Barbuda' },
-        { fr: 'Arabie saoudite', en: 'Saudi Arabia' },
-        { fr: 'Argentine', en: 'Argentina' },
-        { fr: 'Arménie', en: 'Armenia' },
-        { fr: 'Australie', en: 'Australia' },
-        { fr: 'Autriche', en: 'Austria' },
-        { fr: 'Azerbaïdjan', en: 'Azerbaijan' },
-        { fr: 'Bahamas', en: 'Bahamas' },
-        { fr: 'Bahreïn', en: 'Bahrain' },
-        { fr: 'Bangladesh', en: 'Bangladesh' },
-        { fr: 'Barbade', en: 'Barbados' },
-        { fr: 'Belgique', en: 'Belgium' },
-        { fr: 'Belize', en: 'Belize' },
-        { fr: 'Bénin', en: 'Benin' },
-        { fr: 'Bhoutan', en: 'Bhutan' },
-        { fr: 'Biélorussie', en: 'Belarus' },
-        { fr: 'Birmanie', en: 'Burma' },
-        { fr: 'Bolivie', en: 'Bolivia' },
-        { fr: 'Bosnie-Herzégovine', en: 'Bosnia and Herzegovina' },
-        { fr: 'Botswana', en: 'Botswana' },
-        { fr: 'Brésil', en: 'Brazil' },
-        { fr: 'Brunei', en: 'Brunei' },
-        { fr: 'Bulgarie', en: 'Bulgaria' },
-        { fr: 'Burkina Faso', en: 'Burkina Faso' },
-        { fr: 'Burundi', en: 'Burundi' },
-        { fr: 'Cambodge', en: 'Cambodia' },
-        { fr: 'Cameroun', en: 'Cameroon' },
-        { fr: 'Canada', en: 'Canada' },
-        { fr: 'Cap-Vert', en: 'Cape Verde' },
-        { fr: 'Centrafrique', en: 'Central African Republic' },
-        { fr: 'Chili', en: 'Chile' },
-        { fr: 'Chine', en: 'China' },
-        { fr: 'Chypre', en: 'Cyprus' },
-        { fr: 'Colombie', en: 'Colombia' },
-        { fr: 'Comores', en: 'Comoros' },
-        { fr: 'Congo', en: 'Congo' },
-        { fr: 'République démocratique du Congo', en: 'Democratic Republic of Congo' },
-        { fr: 'Îles Cook', en: 'Cook Islands' },
-        { fr: 'Corée du Nord', en: 'North Korea' },
-        { fr: 'Corée du Sud', en: 'South Korea' },
-        { fr: 'Costa Rica', en: 'Costa Rica' },
-        { fr: 'Côte d\'Ivoire', en: 'Ivory Coast' },
-        { fr: 'Croatie', en: 'Croatia' },
-        { fr: 'Cuba', en: 'Cuba' },
-        { fr: 'Danemark', en: 'Denmark' },
-        { fr: 'Djibouti', en: 'Djibouti' },
-        { fr: 'République dominicaine', en: 'Dominican Republic' },
-        { fr: 'Dominique', en: 'Dominica' },
-        { fr: 'Égypte', en: 'Egypt' },
-        { fr: 'Émirats arabes unis', en: 'United Arab Emirates' },
-        { fr: 'Équateur', en: 'Ecuador' },
-        { fr: 'Érythrée', en: 'Eritrea' },
-        { fr: 'Espagne', en: 'Spain' },
-        { fr: 'Estonie', en: 'Estonia' },
-        { fr: 'États-Unis', en: 'United States' },
-        { fr: 'Éthiopie', en: 'Ethiopia' },
-        { fr: 'Fidji', en: 'Fiji' },
-        { fr: 'Finlande', en: 'Finland' },
-        { fr: 'France', en: 'France' },
-        { fr: 'Gabon', en: 'Gabon' },
-        { fr: 'Gambie', en: 'Gambia' },
-        { fr: 'Géorgie', en: 'Georgia' },
-        { fr: 'Ghana', en: 'Ghana' },
-        { fr: 'Grèce', en: 'Greece' },
-        { fr: 'Grenade', en: 'Grenada' },
-        { fr: 'Guatemala', en: 'Guatemala' },
-        { fr: 'Guinée', en: 'Guinea' },
-        { fr: 'Guinée-Bissau', en: 'Guinea-Bissau' },
-        { fr: 'Guinée équatoriale', en: 'Equatorial Guinea' },
-        { fr: 'Guyana', en: 'Guyana' },
-        { fr: 'Haïti', en: 'Haiti' },
-        { fr: 'Honduras', en: 'Honduras' },
-        { fr: 'Hongrie', en: 'Hungary' },
-        { fr: 'Inde', en: 'India' },
-        { fr: 'Indonésie', en: 'Indonesia' },
-        { fr: 'Irak', en: 'Iraq' },
-        { fr: 'Iran', en: 'Iran' },
-        { fr: 'Irlande', en: 'Ireland' },
-        { fr: 'Islande', en: 'Iceland' },
-        { fr: 'Israël', en: 'Israel' },
-        { fr: 'Italie', en: 'Italy' },
-        { fr: 'Jamaïque', en: 'Jamaica' },
-        { fr: 'Japon', en: 'Japan' },
-        { fr: 'Jordanie', en: 'Jordan' },
-        { fr: 'Kazakhstan', en: 'Kazakhstan' },
-        { fr: 'Kenya', en: 'Kenya' },
-        { fr: 'Kirghizistan', en: 'Kyrgyzstan' },
-        { fr: 'Kiribati', en: 'Kiribati' },
-        { fr: 'Koweït', en: 'Kuwait' },
-        { fr: 'Laos', en: 'Laos' },
-        { fr: 'Lesotho', en: 'Lesotho' },
-        { fr: 'Lettonie', en: 'Latvia' },
-        { fr: 'Liban', en: 'Lebanon' },
-        { fr: 'Liberia', en: 'Liberia' },
-        { fr: 'Libye', en: 'Libya' },
-        { fr: 'Liechtenstein', en: 'Liechtenstein' },
-        { fr: 'Lituanie', en: 'Lithuania' },
-        { fr: 'Luxembourg', en: 'Luxembourg' },
-        { fr: 'Macédoine', en: 'Macedonia' },
-        { fr: 'Madagascar', en: 'Madagascar' },
-        { fr: 'Malaisie', en: 'Malaysia' },
-        { fr: 'Malawi', en: 'Malawi' },
-        { fr: 'Maldives', en: 'Maldives' },
-        { fr: 'Mali', en: 'Mali' },
-        { fr: 'Malte', en: 'Malta' },
-        { fr: 'Maroc', en: 'Morocco' },
-        { fr: 'Îles Marshall', en: 'Marshall Islands' },
-        { fr: 'Maurice', en: 'Mauritius' },
-        { fr: 'Mauritanie', en: 'Mauritania' },
-        { fr: 'Mexique', en: 'Mexico' },
-        { fr: 'Micronésie', en: 'Micronesia' },
-        { fr: 'Moldavie', en: 'Moldova' },
-        { fr: 'Monaco', en: 'Monaco' },
-        { fr: 'Mongolie', en: 'Mongolia' },
-        { fr: 'Monténégro', en: 'Montenegro' },
-        { fr: 'Mozambique', en: 'Mozambique' },
-        { fr: 'Namibie', en: 'Namibia' },
-        { fr: 'Nauru', en: 'Nauru' },
-        { fr: 'Népal', en: 'Nepal' },
-        { fr: 'Nicaragua', en: 'Nicaragua' },
-        { fr: 'Niger', en: 'Niger' },
-        { fr: 'Nigeria', en: 'Nigeria' },
-        { fr: 'Niue', en: 'Niue' },
-        { fr: 'Norvège', en: 'Norway' },
-        { fr: 'Nouvelle-Zélande', en: 'New Zealand' },
-        { fr: 'Oman', en: 'Oman' },
-        { fr: 'Ouganda', en: 'Uganda' },
-        { fr: 'Ouzbékistan', en: 'Uzbekistan' },
-        { fr: 'Pakistan', en: 'Pakistan' },
-        { fr: 'Palaos', en: 'Palau' },
-        { fr: 'Palestine', en: 'Palestine' },
-        { fr: 'Panama', en: 'Panama' },
-        { fr: 'Papouasie-Nouvelle-Guinée', en: 'Papua New Guinea' },
-        { fr: 'Paraguay', en: 'Paraguay' },
-        { fr: 'Pays-Bas', en: 'Netherlands' },
-        { fr: 'Pérou', en: 'Peru' },
-        { fr: 'Philippines', en: 'Philippines' },
-        { fr: 'Pologne', en: 'Poland' },
-        { fr: 'Portugal', en: 'Portugal' },
-        { fr: 'Qatar', en: 'Qatar' },
-        { fr: 'Roumanie', en: 'Romania' },
-        { fr: 'Royaume-Uni', en: 'United Kingdom' },
-        { fr: 'Russie', en: 'Russia' },
-        { fr: 'Rwanda', en: 'Rwanda' },
-        { fr: 'Saint-Christophe-et-Niévès', en: 'Saint Kitts and Nevis' },
-        { fr: 'Saint-Marin', en: 'San Marino' },
-        { fr: 'Saint-Vincent-et-les Grenadines', en: 'Saint Vincent and the Grenadines' },
-        { fr: 'Sainte-Lucie', en: 'Saint Lucia' },
-        { fr: 'Îles Salomon', en: 'Solomon Islands' },
-        { fr: 'Salvador', en: 'El Salvador' },
-        { fr: 'Samoa', en: 'Samoa' },
-        { fr: 'Sao Tomé-et-Principe', en: 'Sao Tome and Principe' },
-        { fr: 'Sénégal', en: 'Senegal' },
-        { fr: 'Serbie', en: 'Serbia' },
-        { fr: 'Seychelles', en: 'Seychelles' },
-        { fr: 'Sierra Leone', en: 'Sierra Leone' },
-        { fr: 'Singapour', en: 'Singapore' },
-        { fr: 'Slovaquie', en: 'Slovakia Slovakia' },
-        { fr: 'Slovénie', en: 'Slovenia' },
-        { fr: 'Somalie', en: 'Somalia' },
-        { fr: 'Soudan', en: 'Sudan' },
-        { fr: 'Soudan du Sud', en: 'South Sudan' },
-        { fr: 'Sri Lanka', en: 'Sri Lanka' },
-        { fr: 'Suède', en: 'Sweden' },
-        { fr: 'Suisse', en: 'Switzerland' },
-        { fr: 'Suriname', en: 'Suriname' },
-        { fr: 'Swaziland', en: 'Swaziland' },
-        { fr: 'Syrie', en: 'Syria' },
-        { fr: 'Tadjikistan', en: 'Tajikistan' },
-        { fr: 'Tanzanie', en: 'Tanzania' },
-        { fr: 'Tchad', en: 'Chad' },
-        { fr: 'République tchèque', en: 'Czech Republic' },
-        { fr: 'Thaïlande', en: 'Thailand' },
-        { fr: 'Timor oriental', en: 'East Timor' },
-        { fr: 'Togo', en: 'Togo' },
-        { fr: 'Tonga', en: 'Tonga' },
-        { fr: 'Trinité-et-Tobago', en: 'Trinidad and Tobago' },
-        { fr: 'Tunisie', en: 'Tunisia' },
-        { fr: 'Turkménistan', en: 'Turkmenistan' },
-        { fr: 'Turquie', en: 'Turkey' },
-        { fr: 'Tuvalu', en: 'Tuvalu' },
-        { fr: 'Ukraine', en: 'Ukraine' },
-        { fr: 'Uruguay', en: 'Uruguay' },
-        { fr: 'Vanuatu', en: 'Vanuatu' },
-        { fr: 'Vatican', en: 'Vatican City' },
-        { fr: 'Venezuela', en: 'Venezuela' },
-        { fr: 'Viêt Nam', en: 'Vietnam' },
-        { fr: 'Yémen', en: 'Yemen' },
-        { fr: 'Zambie', en: 'Zambia' },
-        { fr: 'Zimbabwe', en: 'Zimbabwe' }
       ]
     }
   },
@@ -656,6 +457,9 @@ export default {
     settingsIsModified: {
       get () { return this.$store.state.process.settingsIsModified; },
       set (newVal) { return this.$store.dispatch('process/SET_SETTINGS_IS_MODIFIED', newVal); }
+    },
+    countries () {
+      return this.$store.state.process.countries;
     }
   },
   watch: {
@@ -673,6 +477,8 @@ export default {
         }
         this.disabledButton = !!isEqual(changed, this.currentPredefinedSettings);
         if (!this.disabledButton) this.settingsIsModified = true;
+        this.saveFields.fullName = this.currentPredefinedSettings.fullName;
+        this.saveFields.country = this.countries.find(country => country.en === this.currentPredefinedSettings.country) || '';
       },
       deep: true
     },
@@ -681,17 +487,21 @@ export default {
         if (this.saveFields.fullName.length > 0 && this.saveFields.country.en && this.saveFields.country.en.length > 0) {
           this.disabledButtonSave = false;
         }
-        
+          
         let exists = this.customPredefinedSettings.find(p => p.fullName === newVal.fullName);
         if (!exists) exists = this.predefinedSettings.find(p => p.fullName === newVal.fullName);
-        if (exists) {
+        if (exists && this.saveAsNew || exists && this.customPredefinedSettings.length > 0) {
           this.disabledButtonSave = true;
           this.fullNameError = this.$t('ui.pages.process.settings.nameUnavailable');
         } else {
+          this.disabledButtonSave = false;
           this.fullNameError = null;
         }
       },
       deep: true
+    },
+    saveAsNew (newVal) {
+      this.saveFields.fullName = this.saveAsNew ? this.saveFields.fullName = '' : this.currentPredefinedSettings.fullName;
     }
   },
   methods: {

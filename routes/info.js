@@ -279,6 +279,35 @@ app.get('/uuid', function (req, res) {
 });
 
 /**
+* GET route on /info/countries
+*/
+app.get('/countries', function (req, res) {
+  var settingsFile = path.join(__dirname, '/../resources/countries.json');
+
+  fs.exists(settingsFile, function (exists) {
+    if (!exists) {
+      res.status(404).end();
+      return;
+    }
+
+    fs.readFile(settingsFile, function (err, data) {
+      var settings;
+      try {
+        settings = JSON.parse(data);
+      } catch (e) {
+        res.status(500).end();
+        return;
+      }
+
+      res.header('Content-Type', 'application/json; charset=utf-8');
+      res.header('Access-Control-Allow-Origin', '*');
+      res.header('Access-Control-Allow-Headers', 'X-Requested-With');
+      res.status(200).json(settings);
+    });
+  });
+});
+
+/**
 * GET route on /info/predefined-settings
 */
 app.get('/predefined-settings', function (req, res) {
@@ -339,8 +368,6 @@ app.put('/predefined-settings/custom/:id', bodyParser.urlencoded({ extended: tru
   if (errors.length > 0) return res.status(406).json({ status: 406, fields: errors });
 
   customPredefinedSettings.updateOne(id, settings, function (err) {
-    /* eslint-disable-next-line */
-    if (err.message === 'id_invalid') return res.status(409).json({ status: 409, message: err.message });
     if (err) { return res.status(500).end(); }
 
     return res.status(200).end();

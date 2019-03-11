@@ -50,6 +50,8 @@ api.loadPkbs = (axios) => axios.get('/castor/status').then(res => res.data);
 
 api.getPredefinedSettings = (axios) => axios.get('/api/info/predefined-settings').then(res => res.data);
 
+api.getCountries = (axios) => axios.get('/api/info/countries').then(res => res.data);
+
 api.getAppVersion = (axios) => axios.get('/api/info/version').then(res => res.data);
 
 api.getReport = (axios, uuid) => axios.get(`/api/logs/${uuid}/job-report.json`).then(res => res.data);

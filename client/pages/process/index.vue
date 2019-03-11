@@ -19,7 +19,6 @@
         <v-flex xs6 sm6>
           <h4>{{ $t('ui.pages.process.settings.currentSettings') }}</h4>
           <span v-if="currentPredefinedSettings">{{ currentPredefinedSettings.fullName }}</span>
-          <span v-else>Default</span>
           <span v-if="settingsIsModified">({{ $t('ui.pages.process.settings.modified') }})</span>
         </v-flex>
 
@@ -62,9 +61,9 @@
 </template>
 
 <script>
-import LogFiles from '~/components/Process/LogFiles'
-import LogFormat from '~/components/Process/LogFormat'
-import Settings from '~/components/Process/Settings'
+import LogFiles from '~/components/Process/LogFiles';
+import LogFormat from '~/components/Process/LogFormat';
+import Settings from '~/components/Process/Settings';
 
 export default {
   auth: true,
@@ -76,28 +75,32 @@ export default {
   data() {
     return {
       activeTab: 'tab-logs-files',
-      paramsSaved: false,
-      currentPredefinedSettings: null
+      paramsSaved: false
     }
   },
   async fetch ({ store, redirect }) {
     try {
-      if (store.state.process.inProgress && store.state.process.processProgress < 100) return redirect('/process/job')
+      if (store.state.process.inProgress && store.state.process.processProgress < 100) {
+        return redirect('/process/job');
+      }
 
-      if (store.state.process.inProgress && store.state.process.processProgress >= 100) store.dispatch('process/SET_IN_PROGRESS', false)
+      if (store.state.process.inProgress && store.state.process.processProgress >= 100) {
+        store.dispatch('process/SET_IN_PROGRESS', false);
+      }
 
-      await store.dispatch('process/GET_PREDEFINED_SETTINGS')
+      await store.dispatch('process/GET_PREDEFINED_SETTINGS');
+      await store.dispatch('process/GET_COUNTRIES');
     } catch (e) { }
   },
   computed: {
     user () {
-      return this.$store.state.user
+      return this.$store.state.user;
     },
     predefinedSettings () {
-      return this.$store.state.process.predefinedSettings
+      return this.$store.state.process.predefinedSettings;
     },
-    currentPredefindedSettings () {
-      return this.$store.state.process.currentPredefindedSettings
+    currentPredefinedSettings () {
+      return this.$store.state.process.currentPredefinedSettings;
     },
     settingsIsModified () {
       return this.$store.state.process.settingsIsModified;
@@ -105,7 +108,7 @@ export default {
   },
   methods: {
     saveParams () {
-      this.paramsSaved = !this.paramsSaved
+      this.paramsSaved = !this.paramsSaved;
     }
   }
 }

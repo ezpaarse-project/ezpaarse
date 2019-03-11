@@ -19,7 +19,8 @@ export default {
     status: null,
     report: null,
     error: null,
-    settingsIsModified: false
+    settingsIsModified: false,
+    countries: []
   },
   mutations: {
     SET_PREDEFINED_SETTINGS (state, data) {
@@ -72,6 +73,9 @@ export default {
     },
     SET_SETTINGS_IS_MODIFIED (state, data) {
       Vue.set(state, 'settingsIsModified', data);
+    },
+    SET_COUNTRIES (state, data) {
+      Vue.set(state, 'countries', data);
     }
   },
   actions: {
@@ -202,6 +206,11 @@ export default {
           return setting.settings;
         });
         commit('SET_CUSTOM_PREDEFINED_SETTINGS', customPredefinedSettings);
+      });
+    },
+    GET_COUNTRIES ({ commit }) {
+      return api.getCountries(this.$axios).then(res => {
+        commit('SET_COUNTRIES', res);
       });
     },
     REMOVE_CUSTOM_PREDEFINED_SETTINGS ({ commit }, data) {
