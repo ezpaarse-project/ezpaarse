@@ -111,7 +111,7 @@ nodejs: ## Build node for ezpaarse
 	@./bin/buildnode
 
 build-nuxt: ## Build Nuxt App
-	@.npm run build
+	@. ./bin/env; npm run build
 
 node-modules: libs
 
