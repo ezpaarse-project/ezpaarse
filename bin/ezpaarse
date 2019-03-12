@@ -37,7 +37,7 @@ ezpaarse_start() {
     NODE_ENV=${NODE_ENV:="$EZPAARSE_ENV"}
     # DEBUG used to activate verbose and colored logs on stdout
     DEBUG=${DEBUG:="$EZPAARSE_DEBUG_LEVEL"}
-    # run app.js forground to help developer
+    # run server.js forground to help developer
     NODE_ENV="$NODE_ENV" DEBUG="$DEBUG" node $EZPAARSE_APPFILE --pidFile $EZPAARSE_PIDFILE &
   else
     if [ $DAEMON == false ]; then
