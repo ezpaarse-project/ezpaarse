@@ -14,7 +14,7 @@ checkconfig: ## Check node configuration
 	@. ./bin/env; if which node > /dev/null; then ./bin/checkconfig; else echo "Node.js was not found" >&2; fi
 
 start: ## Start ezPAARSE in deamon mode
-	@./bin/ezpaarse start
+	@NODE_ENV=production ./bin/ezpaarse start
 
 stop: ## Stop ezPAARSE started in deamon mode
 	@./bin/ezpaarse stop
