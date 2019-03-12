@@ -8,7 +8,7 @@
               <v-card flat color="transparent" class="white--text">
                 <v-card-text class="headline">
                   <h3 class="mb-0">{{ $t('ui.pages.index.whatIsEzpaarse') }}</h3>
-                  <p v-html="$t('ui.pages.index.ezpaarse')"></p>
+                  <p v-html="$t('ui.pages.index.description')"></p>
                   <v-tooltip bottom>
                     <v-chip slot="activator">
                       <v-avatar>
@@ -48,8 +48,7 @@
           <v-layout row wrap align-center>
             <v-flex xs12 sm12>
               <img src="~/assets/img/logo.png" alt="ezPAARSE">
-              <p>Enregistrez-vous avant de pouvoir traiter vos logs, c'est simple et rapide.</p>
-              <p>Vous pourrez ensuite suivre vos traitements et communiquer plus facilement avec l'équipe ezPAARSE.</p>
+              <p v-html="$t('ui.pages.index.singinEasy')"></p>
 
               <nuxt/>
 

@@ -30,8 +30,7 @@
         "availableTeam": "Une équipe disponible et réactive",
         "contactUs": "Un problème, une question, une suggestion ? Contactez-nous !",
         "growingCommunity": "Une communauté grandissante",
-        "notOnlyFrench": "Et pas seulement francophone !",
-        "ezpaarse": "Un <a style=\"color: #ccc;\" href=\"https://github.com/ezpaarse-project/ezpaarse\" target=\"_blank\">logiciel libre</a> qui permet l’analyse, l’enrichissement et l’exploitation des logs d’accès aux ressources électroniques proposées par les <a style=\"color: #ccc;\" href=\"http://analyses.ezpaarse.org/\" target=\"_blank\">plate-formes Web des éditeurs de littérature scientifique</a>. Il se présente sous la forme d'une application Web disposant d'un formulaire et d'une <a style=\"color: #ccc;\" href=\"https://ezpaarse.readthedocs.io/en/master/development/routes.html\" target=\"_blank\">API</a> permettant l'ingestion manuelle et automatique des logs générées par les serveurs et proxy des établissements."
+        "notOnlyFrench": "Et pas seulement francophone !"
       },
       "profile": {
         "title": "Mon profil",
