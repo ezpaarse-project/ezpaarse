@@ -106,7 +106,7 @@
     "lint": "eslint --ext .js,.vue lib/ test/ routes/ middlewares/",
     "dev": "nodemon --ignore 'platforms/*.js' --ignore 'middlewares/*.js' --ignore 'resources/*.js' ./server.js -e js,vue",
     "start": "node server.js",
-    "build": "nuxt build"
+    "build": "nuxt build --no-generate"
   },
   "husky": {
     "hooks": {
