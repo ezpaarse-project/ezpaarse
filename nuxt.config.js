@@ -67,7 +67,7 @@ module.exports = {
   ** Add global packages
   */
   build: {
-    analyze: true
+    analyze: false
   },
   srcDir: 'client/'
 };
