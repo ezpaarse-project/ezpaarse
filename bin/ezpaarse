@@ -41,7 +41,7 @@ ezpaarse_start() {
     NODE_ENV="$NODE_ENV" DEBUG="$DEBUG" node $EZPAARSE_APPFILE --pidFile $EZPAARSE_PIDFILE &
   else
     if [ $DAEMON == false ]; then
-      $FOREVER_CMD -p $EZPAARSE_PATH -a -l $EZPAARSE_LOGDIR/forever.log \
+      $FOREVER_CMD --workingDir $EZPAARSE_PATH -p $EZPAARSE_PATH -a -l $EZPAARSE_LOGDIR/forever.log \
                        -o $EZPAARSE_LOGDIR/out.log \
                        -e $EZPAARSE_LOGDIR/err.log \
                        --pidFile $EZPAARSE_PIDFILE \
@@ -49,7 +49,7 @@ ezpaarse_start() {
                        --spinSleepTime=60000 \
                        $EZPAARSE_APPFILE
     else
-      $FOREVER_CMD start -p $EZPAARSE_PATH -a -l $EZPAARSE_LOGDIR/forever.log \
+      $FOREVER_CMD start --workingDir $EZPAARSE_PATH -p $EZPAARSE_PATH -a -l $EZPAARSE_LOGDIR/forever.log \
                        -o $EZPAARSE_LOGDIR/out.log \
                        -e $EZPAARSE_LOGDIR/err.log \
                        --pidFile $EZPAARSE_PIDFILE \
