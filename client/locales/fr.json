@@ -84,7 +84,7 @@
           "saveAsNew": "Enregistrer en tant que nouveaux paramètres prédéfinis personnalisés"
         },
         "logFiles": {
-          "clickToAdd": "Cliquez pour ajouter",
+          "clickToAdd": "Cliquez ou déposez pour ajouter",
           "removeList": "Supprimer la liste",
           "selectedFiles": "fichiers sélectonnés",
           "total": "au total"
@@ -234,7 +234,8 @@
       "404": "Cette page n'a pas pu être trouvée.",
       "500": "Une erreur s'est produite.",
       "expiration_date": "Le délais est dépassé.",
-      "password_not_set": "Le mot de passe n'a pas été modifié."
+      "password_not_set": "Le mot de passe n'a pas été modifié.",
+      "reportNotLoaded": "Le rapport n'a pas pu être chargé."
     },
     "search": "Rechercher",
     "close": "Fermer",

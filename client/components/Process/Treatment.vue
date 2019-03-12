@@ -203,9 +203,9 @@
                               :key="index"
                               @mouseover="setCurrentReject(index)"
                             >
-                              <td>{{ $t(`ui.pages.process.report.${index}`) }}</td>
-                              <td>{{ reject }}</td>
-                              <td>
+                              <td v-if="index !== 'nb-lines-unknown-errors'">{{ $t(`ui.pages.process.report.${index}`) }}</td>
+                              <td v-if="index !== 'nb-lines-unknown-errors'">{{ reject }}</td>
+                              <td v-if="index !== 'nb-lines-unknown-errors'">
                                 <v-progress-linear
                                   v-if="index !== 'nb-lines-ignored'"
                                   background-color="teal white--text"
@@ -215,7 +215,7 @@
                                 ></v-progress-linear>
                               </td>
                             </tr>
-                            <tr @mouseover="setCurrentReject('nb-denied-ecs')">
+                            <tr @mouseover="setCurrentReject('nb-denied-ecs')" v-if="index !== 'nb-lines-unknown-errors'">
                               <td>{{ $t(`ui.pages.process.report.nb-denied-ecs`) }}</td>
                               <td>{{ report.general['nb-denied-ecs'] }}</td>
                               <td>

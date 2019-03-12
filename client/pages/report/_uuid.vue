@@ -14,6 +14,7 @@
             color="green"
             class="white--text"
             @click="allPage"
+            v-if="report"
           >
             <v-icon left>mdi-file</v-icon>
             <span v-if="!expended">{{ $t('ui.pages.process.report.seeFull') }}</span>
@@ -29,7 +30,7 @@
         </v-flex>
 
         <v-flex xs12 sm12>
-          <v-expansion-panel v-model="panel" expand>
+          <v-expansion-panel v-model="panel" expand v-if="report">
             <v-expansion-panel-content
               class="teal white--text"
               v-for="(rep, index) in report"
@@ -56,6 +57,16 @@
               </v-card>
             </v-expansion-panel-content>
           </v-expansion-panel>
+
+          <v-alert 
+            v-if="!report"
+            :value="true"
+            color="error"
+            icon="mdi-alert"
+            outline
+          >
+            {{ $t('ui.errors.reportNotLoaded') }}
+          </v-alert>
         </v-flex>
       </v-layout>
     </v-card-text>
@@ -72,29 +83,28 @@ export default {
   },
   async fetch ({ store, params }) {
     try {
-      if (params.uuid) await store.dispatch('process/GET_REPORT', params.uuid)
+      if (params.uuid) await store.dispatch('process/GET_REPORT', params.uuid);
     } catch (e) { }
   },
   computed: {
     report () {
-      return this.$store.state.process.report
+      return this.$store.state.process.report;
     }
   },
   methods: {
     allPage() {
-      if (!this.expended) this.panel = [true, true, true, true, true, true, true]
-      if (this.expended) this.panel = [false, false, false, false, false, false, false]
-      this.expended = !this.expended
+      this.panel = !this.expended ? [true, true, true, true, true, true, true] : [false, false, false, false, false, false, false];
+      this.expended = !this.expended;
     },
     html (report) {
-      let match
+      let match;
       if ((match = /^(http|https)/i.exec(report)) !== null) {
-        return `<a href="${report}" target="_blank">${report}</a>`
+        return `<a href="${report}" target="_blank">${report}</a>`;
       }
-      return report
+      return report;
     }
   }
-}
+};
 </script>
 
 <style scoped>

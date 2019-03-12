@@ -85,7 +85,7 @@
           "saveAsNew": "Save as new custom predefined settings"
         },
         "logFiles": {
-          "clickToAdd": "Click to add",
+          "clickToAdd": "Click or Drop to add",
           "removeList": "Delete list",
           "selectedFiles": "selected files",
           "total": "total"
@@ -107,37 +107,37 @@
         },
         "report": {
           "title": "Report",
-          "linesRead": "Lignes lues",
-          "ECsGenerated": "ECs générés",
-          "treatmentDuration": "Durée du traitement",
-          "logProcessingSpeed": "Vitesse de traitement des logs",
-          "ECGenerationSpeed": "Vitesse de génération des ECs",
-          "recognizedPlatforms": "Plateformes reconnues",
-          "HTMLConsultations": "Consultations HTML",
-          "PDFConsultations": "Consultations PDF",
-          "nb-lines-ignored": "Lignes ignorées",
-          "nb-denied-ecs": "ECs en accès refusé",
-          "nb-lines-duplicate-ecs": "Doublons filtrés",
-          "nb-lines-ignored-domains": "Domaines ignorés",
-          "nb-lines-unknown-domains": "Domaines inconnus",
-          "nb-lines-unknown-formats": "Formats inconnus",
-          "nb-lines-unqualified-ecs": "ECs non qualifiés",
-          "nb-lines-pkb-miss-ecs": "PKBs manquantes",
-          "nb-lines-unordered-ecs": "Anomalies chronologiques",
-          "nb-lines-ignored-hosts": "Hosts ignorés",
+          "linesRead": "Lines read",
+          "ECsGenerated": "ECs generated",
+          "treatmentDuration": "Duration of treatment",
+          "logProcessingSpeed": "Log processing speed",
+          "ECGenerationSpeed": "EC generation speed",
+          "recognizedPlatforms": "Recognized Platforms",
+          "HTMLC Consultations": "HTML Consultations",
+          "PDFConsultations": "PDF Consultations",
+          "nb-lines-ignored": "Ignored lines",
+          "nb-denied-ecs": "ECs denied access",
+          "nb-lines-duplicate-ecs": "Filtered duplicates",
+          "nb-lines-ignored-domains": "Domains ignored",
+          "nb-lines-unknown-domains": "Unknown domains",
+          "nb-lines-unknown-formats": "Unknown formats",
+          "nb-lines-unqualified-ecs": "ECs not qualified",
+          "nb-lines-pkb-miss-ecs": "PKBs missing",
+          "nb-lines-unordered-ecs": "Chronological anomalies",
+          "nb-lines-ignored-hosts": "Hosts ignored",
           "nb-lines-robots-ecs": "Robots",
           "descriptions": {
-            "nb-lines-ignored": "Nombre de requêtes non pertinentes. Il s'agit principalement de téléchargements d'images, css ou scripts web sans rapport direct avec une ressource. Dans un log brut, ce chiffre est souvent élevé.",
-            "nb-denied-ecs": "Liste des accès qui ont été refusés à l'utilisateur au moment du clic.<br /> Exemple : tentative d'accès à un article non négocié dans le bouquet de l'établissement.",
-            "nb-lines-duplicate-ecs": "Nombre de consultations ignorées car détectées comme des double-clics.",
-            "nb-lines-ignored-domains": "Les domaines ignorés.",
-            "nb-lines-unknown-domains": "Domaines non gérés par ezPAARSE à l'heure actuelle. Vous pouvez télécharger la liste complète des domaines inconnus rencontrés en cliquant ci-dessous.",
-            "nb-lines-unknown-formats": "Les formats inconnus.",
-            "nb-lines-unqualified-ecs": "Les parseurs n'ont pas reconnu d'informations documentaires dans les URL de ces lignes de log. Elles sont donc ignorées par ezPAARSE.",
-            "nb-lines-pkb-miss-ecs": "Les PKBs manquantes.",
-            "nb-lines-unordered-ecs": "Lignes ignorées en raison d'un mauvais ordre chronologique.",
-            "nb-lines-ignored-hosts": "Hosts volontairement ignorés.",
-            "nb-lines-robots-ecs": "Consultations engendrées par des robots."
+            "nb-lines-ignored": "Number of irrelevant requests. These are mainly downloads of images, css or web scripts that are not directly related to a resource. In a raw log, this number is often high.",
+            "nb-denied-ecs": "List of accesses that have been denied to the user at the time of the click. <br /> Example: attempt to access an item not negotiated in the establishment's bouquet",
+            "nb-lines-duplicate-ecs": "Number of consultations ignored because detected as double-clicks.",
+            "nb-lines-ignored-domains": "The ignored domains.",
+            "nb-lines-unknown-domains": "Domains not currently managed by ezPAARSE. You can download the complete list of unknown domains encountered by clicking below",
+            "nb-lines-unknown-formats": "Unknown formats.",
+            "nb-lines-unqualified-ecs": "The parsers did not recognize documentary information in the URLs of these log lines. They are therefore ignored by ezPAARSE.",
+            "nb-lines-pkb-miss-ecs": "Missing PKBs.",
+            "nb-lines-unordered-ecs": "Lines ignored due to wrong chronological order.",
+            "nb-lines-ignored-hosts": "Hosts voluntarily ignored.",
+            "nb-lines-robots-ecs": "Consultations generated by robots."
           },
           "general": "General",
           "rejets": "Rejects",
@@ -201,6 +201,10 @@
             "user": "User"
           }
         },
+        "jobs": {
+          "title": "Ongoing processing",
+          "currentProcess": "There is <strong>{process}</strong> processing(s) in progress."
+        },
         "report": {
           "title": "Report"
         }
@@ -232,7 +236,8 @@
       "404": "This page could not be found.",
       "500": "An error occured.",
       "expiration_date": "The deadline has passed.",
-      "password_not_set": "The password has not been changed."
+      "password_not_set": "The password has not been changed.",
+      "reportNotLoaded": "The report could not be loaded."
     },
     "search": "Search",
     "close": "Close",
