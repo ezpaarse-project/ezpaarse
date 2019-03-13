@@ -1,8 +1,6 @@
 /* eslint no-console: 0, no-sync: 0 */
 'use strict';
 
-
-
 // Set the global variable "ezpaarse"
 require('./lib/global.js');
 
