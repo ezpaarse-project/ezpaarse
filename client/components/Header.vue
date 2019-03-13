@@ -1,11 +1,16 @@
 <template>
-  <v-toolbar app dark fixed class="teal">
+  <v-toolbar
+    app
+    dark
+    fixed
+    class="teal"
+  >
     <v-toolbar-side-icon @click.stop="setDrawer(!drawer)">
       <v-icon>mdi-menu</v-icon>
     </v-toolbar-side-icon>
     <v-toolbar-title>ezPAARSE</v-toolbar-title>
-    
-    <v-spacer></v-spacer>
+
+    <v-spacer />
 
     <v-toolbar-items>
       <div class="text-xs-center mt-2">
@@ -17,7 +22,7 @@
             class="loadingPkbs"
             :size="16"
             :width="2"
-          ></v-progress-circular>
+          />
 
           <span v-if="pkbs && pkbs.remaining.length > 0 && pkbs.state === 'synchronizing'">
             {{ $t('ui.header.pkbsRemaining', { pkbs: pkbs.remaining.length }) }}
@@ -29,9 +34,17 @@
         </v-chip>
       </div>
       <div class="text-xs-center mt-2">
-        <v-chip v-if="processProgress <= 0">{{ $t('ui.header.noCurrentProcessing') }}</v-chip>
-        <v-chip v-if="status === 'abort'">{{ $t('ui.header.processCanceled') }}</v-chip>
-        <nuxt-link tag="v-chip" to="/process/job" v-if="processProgress > 0 && status !== 'abort' && status === 'end'">
+        <v-chip v-if="processProgress <= 0">
+          {{ $t('ui.header.noCurrentProcessing') }}
+        </v-chip>
+        <v-chip v-if="status === 'abort'">
+          {{ $t('ui.header.processCanceled') }}
+        </v-chip>
+        <nuxt-link
+          v-if="processProgress > 0 && status !== 'abort' && status === 'end'"
+          tag="v-chip"
+          to="/process/job"
+        >
           {{ $t('ui.header.currentProcessing', { percent: processProgress }) }}
         </nuxt-link>
       </div>
@@ -40,27 +53,27 @@
 </template>
 
 <script>
-import { mapActions, mapState } from 'vuex'
+import { mapActions } from 'vuex';
 
 export default {
   computed: {
     drawer () {
-      return this.$store.state.drawer
+      return this.$store.state.drawer;
     },
     pkbs () {
-      return this.$store.state.pkbs
+      return this.$store.state.pkbs;
     },
     processProgress () {
-      return this.$store.state.process.processProgress
+      return this.$store.state.process.processProgress;
     },
     status () {
-      return this.$store.state.process.status
+      return this.$store.state.process.status;
     }
   },
   methods: mapActions({
-    'setDrawer': 'SET_DRAWER'
+    setDrawer: 'SET_DRAWER'
   })
-}
+};
 </script>
 
 <style scoped>

@@ -1,6 +1,10 @@
+/* eslint-disable import/no-unresolved */
 import Vue from 'vue';
 import VueI18n from 'vue-i18n';
 import moment from 'moment';
+
+import en from '~/locales/en.json';
+import fr from '~/locales/fr.json';
 
 Vue.use(VueI18n);
 moment.locale('fr');
@@ -12,8 +16,8 @@ export default ({ app }) => {
     locale: 'fr',
     fallbackLocale: 'fr',
     messages: {
-      en: require('~/locales/en.json'),
-      fr: require('~/locales/fr.json')
+      en,
+      fr
     }
   });
 };

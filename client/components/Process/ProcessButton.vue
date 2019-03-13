@@ -1,15 +1,38 @@
 <template>
-  <v-flex xs12 sm12 class="text-xs-center" mt-3>
+  <v-flex
+    xs12
+    sm12
+    class="text-xs-center"
+    mt-3
+  >
     <ButtonGroup>
-      <v-btn color="success" large @click="process" :disabled="logsFiles.length <= 0 || inProgress" v-if="logType === 'files'">{{ $t('ui.pages.process.processLogsFiles') }}</v-btn>
-      <v-btn color="success" large @click="process" :disabled="logsLines.length <= 0 || inProgress" v-if="logType === 'text'">{{ $t('ui.pages.process.processLogsLines') }}</v-btn>
-      <v-btn color="success" large @click="cURL(); dialog = true" v-if="logType === 'files'">
+      <v-btn
+        v-if="logType === 'files'"
+        color="success"
+        large
+        :disabled="logsFiles.length <= 0 || inProgress"
+        @click="process"
+      >
+        {{ $t('ui.pages.process.processLogsFiles') }}
+      </v-btn>
+      <v-btn
+        v-if="logType === 'text'"
+        color="success"
+        large
+        :disabled="logsLines.length <= 0 || inProgress"
+        @click="process"
+      >
+        {{ $t('ui.pages.process.processLogsLines') }}
+      </v-btn>
+      <v-btn
+        v-if="logType === 'files'"
+        color="success"
+        large
+        @click="cURL(); dialog = true"
+      >
         <v-icon>mdi-file-multiple</v-icon>
       </v-btn>
     </ButtonGroup>
-    <v-btn fab flat small @click="$tours['ezTour'].start()">
-      <v-icon>mdi-help-circle</v-icon>
-    </v-btn>
 
     <v-dialog
       v-model="dialog"
@@ -17,16 +40,16 @@
     >
       <v-card>
         <v-card-text>
-          <p v-html="$t('ui.pages.process.curl')"></p>
+          <p v-html="$t('ui.pages.process.curl')" />
           <v-textarea
             box
             name="input-7-4"
             :value="curlRequest"
-          ></v-textarea>
+          />
         </v-card-text>
 
         <v-card-actions>
-          <v-spacer></v-spacer>
+          <v-spacer />
           <v-btn
             color="red darken-1"
             flat="flat"
@@ -41,22 +64,22 @@
 </template>
 
 <script>
+/* eslint-disable import/no-unresolved */
+/* eslint no-case-declarations: "off" */
 import ButtonGroup from '~/components/ButtonGroup';
-import Tour from '~/components/Tour';
 import { uuid } from 'vue-uuid';
 import isEqual from 'lodash.isequal';
 
 export default {
-  props: [ 'logType' ],
   components: {
-    Tour,
     ButtonGroup
   },
+  props: ['logType'],
   data () {
     return {
       dialog: false,
       curlRequest: null
-    }
+    };
   },
   computed: {
     inProgress () {
@@ -89,56 +112,55 @@ export default {
         formData = new FormData();
         this.logsFiles.forEach(f => {
           formData.append('files[]', f.file);
-        })
+        });
       } else if (this.logType === 'text') {
         formData = this.logsLines;
       } else {
         return false;
       }
 
-      let headers = {};
+      const headers = {};
 
       switch (this.currentPredefinedSettings.headers['COUNTER-Format']) {
         default:
         case 'csv':
-          headers['Accept'] = 'text/csv';
-          break
+          headers.Accept = 'text/csv';
+          break;
 
         case 'json':
-          headers['Accept'] = 'application/json';
-          break
+          headers.Accept = 'application/json';
+          break;
 
         case 'tsv':
-          headers['Accept'] = 'text/tab-separated-values';
-          break
+          headers.Accept = 'text/tab-separated-values';
+          break;
       }
 
       Object.keys(this.currentPredefinedSettings.headers).forEach(header => {
         switch (header) {
           case 'advancedHeaders':
             Object.keys(this.currentPredefinedSettings.headers.advancedHeaders).forEach(ah => {
-              headers[this.currentPredefinedSettings.headers.advancedHeaders[ah].header] = this.currentPredefinedSettings.headers.advancedHeaders[ah].value
+              const advancedHeader = this.currentPredefinedSettings.headers.advancedHeaders[ah];
+              headers[advancedHeader.header] = advancedHeader.value;
             });
             break;
 
           case 'Log-Format':
-            let tmpLogFormat = this.currentPredefinedSettings.headers['Log-Format'];
+            const tmpLogFormat = this.currentPredefinedSettings.headers['Log-Format'];
             if (tmpLogFormat.format) headers[`Log-Format-${tmpLogFormat.format}`] = tmpLogFormat.value;
             break;
 
           case 'Force-Parser':
-            headers['Force-Parser'] = (!this.currentPredefinedSettings.headers['Force-Parser'] || this.currentPredefinedSettings.headers['Force-Parser'] === null) ? '' : this.currentPredefinedSettings.headers['Force-Parser'];
+            const fp = this.currentPredefinedSettings.headers['Force-Parser'];
+            headers['Force-Parser'] = (!fp || fp === null) ? '' : this.currentPredefinedSettings.headers['Force-Parser'];
             break;
 
           case 'Output-Fields':
-            if (this.currentPredefinedSettings.headers['Output-Fields']) {
-              let plus = this.currentPredefinedSettings.headers['Output-Fields'].plus.map(p => {
-                return `+${p}`;
-              });
-              let minus = this.currentPredefinedSettings.headers['Output-Fields'].minus.map(m => {
-                return `-${m}`;
-              });
-              headers['Output-Fields'] = plus.join('') + '' + minus.join('');
+            const of = this.currentPredefinedSettings.headers['Output-Fields'];
+            if (of) {
+              const plus = of.plus.map(p => `+${p}`);
+              const minus = of.minus.map(m => `-${m}`);
+              headers['Output-Fields'] = `${plus.join('')}${minus.join('')}`;
             }
             break;
 
@@ -147,18 +169,18 @@ export default {
             break;
 
           case 'Crypted-Fields':
-            if (this.currentPredefinedSettings.headers['Crypted-Fields'] && this.currentPredefinedSettings.headers['Crypted-Fields'].length > 0) {
-              headers['Crypted-Fields'] = this.currentPredefinedSettings.headers['Crypted-Fields'].join(',');
+            const cf = this.currentPredefinedSettings.headers['Crypted-Fields'];
+            if (cf && cf.length > 0) {
+              headers['Crypted-Fields'] = cf.join(',');
             }
             break;
 
           case 'ezPAARSE-Job-Notifications':
-            this.currentPredefinedSettings.headers['ezPAARSE-Job-Notifications'] = this.currentPredefinedSettings.headers['ezPAARSE-Job-Notifications'].map(mail => {
-              return `mail <${mail}>`;
-            });
-            if (this.currentPredefinedSettings.headers['ezPAARSE-Job-Notifications'].length > 0) {
-              this.currentPredefinedSettings.headers['ezPAARSE-Job-Notifications'] = this.currentPredefinedSettings.headers['ezPAARSE-Job-Notifications'].join(',');
-            };
+            let notif = this.currentPredefinedSettings.headers['ezPAARSE-Job-Notifications'];
+            notif = notif.map(mail => `mail <${mail}>`);
+            if (notif.length > 0) {
+              notif = notif.join(',');
+            }
             break;
 
           case 'COUNTER-Format':
@@ -169,25 +191,24 @@ export default {
             break;
 
           default:
-            headers[header] =  this.currentPredefinedSettings.headers[header];
+            headers[header] = this.currentPredefinedSettings.headers[header];
             break;
         }
-      })
+      });
 
       headers['Socket-ID'] = this.$socket.id;
 
       this.$store.dispatch('process/PROCESS', { jobID, formData, headers });
 
-      this.$router.push('/process/job');
+      return this.$router.push('/process/job');
     },
     cURL () {
       let curl = [`curl -v -X POST http://${window.location.host}`];
-      
-      const ps = this.predefinedSettings.find(s => {
-        return s.fullName === this.currentPredefinedSettings.fullName;
-      });
-      
-      let equal = isEqual(ps, this.currentPredefinedSettings);
+
+      const cps = this.currentPredefinedSettings;
+      const ps = this.predefinedSettings.find(s => s.fullName === cps.fullName);
+
+      const equal = isEqual(ps, this.currentPredefinedSettings);
 
       if (equal) {
         if (this.currentPredefinedSettings.fullName === 'Default') {
@@ -199,15 +220,15 @@ export default {
         switch (this.currentPredefinedSettings.headers['COUNTER-Format']) {
           default:
           case 'csv':
-            curl.push(`-H "Accept:text/csv"`);
+            curl.push('-H "Accept:text/csv"');
             break;
 
-          case 'json': 
-            curl.push(`-H "Accept:application/json"`);
+          case 'json':
+            curl.push('-H "Accept:application/json"');
             break;
 
           case 'tsv':
-            curl.push(`-H "Accept:text/tab-separated-values"`);
+            curl.push('-H "Accept:text/tab-separated-values"');
             break;
         }
 
@@ -215,13 +236,20 @@ export default {
           switch (header) {
             case 'advancedHeaders':
               Object.keys(this.currentPredefinedSettings.headers.advancedHeaders).forEach(ah => {
-                curl.push(`-H "${this.currentPredefinedSettings.headers.advancedHeaders[ah].header}:${this.currentPredefinedSettings.headers.advancedHeaders[ah].value}"`);
+                const advancedHeader = this.currentPredefinedSettings.headers.advancedHeaders[ah];
+                const advancedHeaderKey = advancedHeader.header;
+                const advancedHeaderValue = advancedHeader.value;
+                curl.push(`-H "${advancedHeaderKey}:${advancedHeaderValue}"`);
               });
               break;
 
             case 'Log-Format':
-              let tmpLogFormat = this.currentPredefinedSettings.headers['Log-Format'];
-              if (tmpLogFormat.format) curl.push(`-H "${this.currentPredefinedSettings.headers['Log-Format'].format}:${this.currentPredefinedSettings.headers['Log-Format'].value}"`);
+              const tmpLogFormat = this.currentPredefinedSettings.headers['Log-Format'];
+              if (tmpLogFormat.format) {
+                const logFormatKey = this.currentPredefinedSettings.headers['Log-Format'].format;
+                const logFormatValue = this.currentPredefinedSettings.headers['Log-Format'].value;
+                curl.push(`-H "${logFormatKey}:${logFormatValue}"`);
+              }
               break;
 
             case 'Force-Parser':
@@ -232,51 +260,48 @@ export default {
 
             case 'Output-Fields':
               if (this.currentPredefinedSettings.headers['Output-Fields']) {
-                let plus = this.currentPredefinedSettings.headers['Output-Fields'].plus.map(p => {
-                  return `+${p}`;
-                });
-                let minus = this.currentPredefinedSettings.headers['Output-Fields'].minus.map(m => {
-                  return `-${m}`;
-                });
-                curl.push(`-H "Output-Fields:${(plus.join('') + '' + minus.join(''))}"`);
+                const plus = this.currentPredefinedSettings.headers['Output-Fields'].plus.map(p => `+${p}`);
+                const minus = this.currentPredefinedSettings.headers['Output-Fields'].minus.map(m => `-${m}`);
+                curl.push(`-H "Output-Fields:${(`${plus.join('')}${minus.join('')}`)}"`);
               }
               break;
 
             case 'Date-Format':
-              if (this.currentPredefinedSettings.headers['Date-Format']) curl.push(`-H "Date-Format:${this.currentPredefinedSettings.headers['Date-Format']}"`);
+              if (this.currentPredefinedSettings.headers['Date-Format']) {
+                curl.push(`-H "Date-Format:${this.currentPredefinedSettings.headers['Date-Format']}"`);
+              }
               break;
 
             case 'Crypted-Fields':
-              if (this.currentPredefinedSettings.headers['Crypted-Fields'] && this.currentPredefinedSettings.headers['Crypted-Fields'].length > 0) {
-                let cryptedFields = this.currentPredefinedSettings.headers['Crypted-Fields'].join(',');
-                curl.push(`-H "Crypted-Fields:${cryptedFields}"`) ;
+              const cf = this.currentPredefinedSettings.headers['Crypted-Fields'];
+              if (cf && cf.length > 0) {
+                const cryptedFields = this.currentPredefinedSettings.headers['Crypted-Fields'].join(',');
+                curl.push(`-H "Crypted-Fields:${cryptedFields}"`);
               }
               break;
 
             case 'ezPAARSE-Job-Notifications':
-              if (this.currentPredefinedSettings.headers['ezPAARSE-Job-Notifications'].length > 0) {
-                this.currentPredefinedSettings.headers['ezPAARSE-Job-Notifications'] = this.currentPredefinedSettings.headers['ezPAARSE-Job-Notifications'].map(mail => {
-                  return `mail <${mail}>`;
-                });
-                let mails = this.currentPredefinedSettings.headers['ezPAARSE-Job-Notifications'].join(',');
+              let notif = this.currentPredefinedSettings.headers['ezPAARSE-Job-Notifications'];
+              if (notif.length > 0) {
+                notif = notif.map(mail => `mail <${mail}>`);
+                const mails = notif.join(',');
                 curl.push(`-H "ezPAARSE-Job-Notifications:${mails}"`);
               }
-              break
+              break;
 
             case 'COUNTER-Format':
               break;
 
             case 'COUNTER-Reports':
-              curl.push(`-H "COUNTER-Reports:jr1"`);
-              curl.push(`-H "COUNTER-Format:tsv"`);
+              curl.push('-H "COUNTER-Reports:jr1"');
+              curl.push('-H "COUNTER-Format:tsv"');
               break;
 
             default:
               curl.push(`-H "${header}:${this.currentPredefinedSettings.headers[header]}"`);
               break;
           }
-        })
-
+        });
       }
 
       this.logsFiles.forEach(file => {
@@ -286,5 +311,5 @@ export default {
       this.curlRequest = curl.join(' \\\n ');
     }
   }
-}
+};
 </script>

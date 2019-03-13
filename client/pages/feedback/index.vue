@@ -1,41 +1,78 @@
 <template>
   <v-card>
-    <v-toolbar class="secondary" dark dense card>
+    <v-toolbar
+      class="secondary"
+      dark
+      dense
+      card
+    >
       <v-toolbar-title>
         {{ $t('ui.drawer.feedback') }}
       </v-toolbar-title>
     </v-toolbar>
-    
-    <v-card-text >
-      <v-layout row wrap>
-        <v-flex xs12 sm12 v-if="feedback">
-          <v-alert :value="true" color="blue" v-html="$t('ui.pages.feedback.email')"></v-alert>
 
-          <v-alert :value="true" color="success" v-if="feedBackSend" dismissible>{{ $t('ui.pages.feedback.hasSent') }}</v-alert>
+    <v-card-text>
+      <v-layout
+        row
+        wrap
+      >
+        <v-flex
+          v-if="feedback"
+          xs12
+          sm12
+        >
+          <v-alert
+            :value="true"
+            color="blue"
+            v-html="$t('ui.pages.feedback.email')"
+          />
+
+          <v-alert
+            v-if="feedBackSend"
+            :value="true"
+            color="success"
+            dismissible
+          >
+            {{ $t('ui.pages.feedback.hasSent') }}
+          </v-alert>
 
           <v-text-field
             v-model="email"
             label="Email"
             type="email"
-          ></v-text-field>
+          />
 
           <v-textarea
             v-model="comment"
             label="Message"
-          ></v-textarea>
+          />
 
           <v-checkbox
-            label="Envoyer la version de mon navigateur"
             v-model="checkbox"
-          ></v-checkbox>
+            label="Envoyer la version de mon navigateur"
+          />
 
-          <v-btn class="teal white--text" :disabled="!email && !comment" @click="sendFeedBack">{{ $t('ui.send') }}</v-btn>
+          <v-btn
+            class="teal white--text"
+            :disabled="!email && !comment"
+            @click="sendFeedBack"
+          >
+            {{ $t('ui.send') }}
+          </v-btn>
         </v-flex>
 
-        <v-flex xs12 sm12 v-else>
-          <v-alert :value="true" color="blue" v-html="$t('ui.pages.feedback.unavailable')"></v-alert>
+        <v-flex
+          v-else
+          xs12
+          sm12
+        >
+          <v-alert
+            :value="true"
+            color="blue"
+            v-html="$t('ui.pages.feedback.unavailable')"
+          />
         </v-flex>
-      </v-layout>      
+      </v-layout>
     </v-card-text>
   </v-card>
 </template>
@@ -51,11 +88,11 @@ export default {
       browser: null,
       checkbox: true,
       feedBackSend: false
-    }
+    };
   },
   computed: {
     feedback () {
-      return this.$store.state.feedback
+      return this.$store.state.feedback;
     }
   },
   methods: {
@@ -64,15 +101,15 @@ export default {
         email: this.email,
         comment: this.comment,
         browser: this.checkbox ? navigator.userAgent : null
-      }).then(res => {
-        this.email = null
-        this.comment = null
-        this.checkbox = true
-        this.feedBackSend = true
-      }).catch(err => {
-        this.feedBackSend = false
-      })
+      }).then(() => {
+        this.email = null;
+        this.comment = null;
+        this.checkbox = true;
+        this.feedBackSend = true;
+      }).catch(() => {
+        this.feedBackSend = false;
+      });
     }
   }
-}
+};
 </script>

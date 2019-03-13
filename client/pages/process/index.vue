@@ -1,38 +1,73 @@
 <template>
   <v-card>
-    <v-toolbar class="secondary" dark dense card>
+    <v-toolbar
+      class="secondary"
+      dark
+      dense
+      card
+    >
       <v-toolbar-title>{{ $t('ui.pages.process.title') }}</v-toolbar-title>
     </v-toolbar>
 
     <v-card-text>
       <h1>{{ $t('ui.pages.process.prepareTreatment') }}</h1>
 
-      <v-alert :value="true" color="teal" xs12 sm12 outline>
-        <p class="text-xs-justify" v-html="$t('ui.pages.process.explainationLogs')"></p>
+      <v-alert
+        :value="true"
+        color="teal"
+        xs12
+        sm12
+        outline
+      >
+        <p
+          class="text-xs-justify"
+          v-html="$t('ui.pages.process.explainationLogs')"
+        />
         <p
           class="text-xs-justify"
           v-html="$t('ui.pages.process.explainationTestsLogs', { url: 'https://github.com/ezpaarse-project/ezpaarse-dataset-samples' })"
-        ></p>
+        />
       </v-alert>
 
-      <v-layout row wrap>
-        <v-flex xs6 sm6>
+      <v-layout
+        row
+        wrap
+      >
+        <v-flex
+          xs6
+          sm6
+        >
           <h4>{{ $t('ui.pages.process.settings.currentSettings') }}</h4>
-          <span v-if="currentPredefinedSettings">{{ currentPredefinedSettings.fullName }}</span>
-          <span v-if="settingsIsModified">({{ $t('ui.pages.process.settings.modified') }})</span>
+          <span v-if="currentPredefinedSettings">
+            {{ currentPredefinedSettings.fullName }}
+          </span>
+          <span v-if="settingsIsModified">
+            ({{ $t('ui.pages.process.settings.modified') }})
+          </span>
         </v-flex>
 
-        <v-flex xs12 sm12>
-          <v-tabs v-model="activeTab" grow dark>
+        <v-flex
+          xs12
+          sm12
+        >
+          <v-tabs
+            v-model="activeTab"
+            grow
+            dark
+          >
             <v-tab to="#tab-logs-files">
-              <v-icon class="pr-1">mdi-folder-open</v-icon>
+              <v-icon class="pr-1">
+                mdi-folder-open
+              </v-icon>
               {{ $t('ui.pages.process.settings.logFiles') }}
-              <v-spacer></v-spacer>
+              <v-spacer />
             </v-tab>
             <v-tab to="#tab-log-format">
-              <v-icon class="pr-1">mdi-file-document</v-icon>
+              <v-icon class="pr-1">
+                mdi-file-document
+              </v-icon>
               {{ $t('ui.pages.process.settings.designLogFormat') }}
-              <v-spacer></v-spacer>
+              <v-spacer />
             </v-tab>
           </v-tabs>
 
@@ -47,10 +82,16 @@
           </v-tabs-items>
         </v-flex>
 
-        <v-flex xs12 sm12 mt-2>
+        <v-flex
+          xs12
+          sm12
+          mt-2
+        >
           <v-expansion-panel expand>
             <v-expansion-panel-content class="teal white--text">
-              <div slot="header">{{ $t('ui.pages.process.settings.title') }}</div>
+              <div slot="header">
+                {{ $t('ui.pages.process.settings.title') }}
+              </div>
               <Settings />
             </v-expansion-panel-content>
           </v-expansion-panel>
@@ -61,6 +102,7 @@
 </template>
 
 <script>
+/* eslint-disable import/no-unresolved */
 import LogFiles from '~/components/Process/LogFiles';
 import LogFormat from '~/components/Process/LogFormat';
 import Settings from '~/components/Process/Settings';
@@ -72,13 +114,13 @@ export default {
     LogFormat,
     Settings
   },
-  data() {
+  data () {
     return {
       activeTab: 'tab-logs-files',
       paramsSaved: false
-    }
+    };
   },
-  async fetch ({ store, redirect }) {
+  async fetch ({ store, redirect, app }) {
     try {
       if (store.state.process.inProgress && store.state.process.processProgress < 100) {
         return redirect('/process/job');
@@ -90,7 +132,11 @@ export default {
 
       await store.dispatch('process/GET_PREDEFINED_SETTINGS');
       await store.dispatch('process/GET_COUNTRIES');
-    } catch (e) { }
+      return true;
+    } catch (e) {
+      await store.dispatch('snack/error', app.i18n.t('ui.errors.error'));
+      return false;
+    }
   },
   computed: {
     user () {
@@ -111,7 +157,7 @@ export default {
       this.paramsSaved = !this.paramsSaved;
     }
   }
-}
+};
 </script>
 
 <style scoped>

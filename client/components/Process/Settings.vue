@@ -1,214 +1,308 @@
 <template>
   <v-card>
     <v-card-text>
-      <v-layout row wrap>
-        <v-flex xs12 sm12>
+      <v-layout
+        row
+        wrap
+      >
+        <v-flex
+          xs12
+          sm12
+        >
           <v-autocomplete
             v-model="currentPredefinedSettings"
-            :items="!displayCustomPredefinedSettings ? allPredefinedSettings : customPredefinedSettings"
+            :items="predefinedSettingsItems()"
             item-text="fullName"
             :label="$t('ui.pages.process.settings.selectAnOption')"
             :return-object="true"
-            :append-outer-icon="(currentPredefinedSettings._id && $auth.user.group === 'admin') ? 'mdi-delete' : ''"
-            @click:append-outer="removeCustomPredefinedSettings"
+            :append-outer-icon="appendOuterIconCurrentProcess()"
             box
             clearable
+            @click:append-outer="removeCustomPredefinedSettings"
           >
-            <template slot="item" slot-scope="data">
+            <template
+              slot="item"
+              slot-scope="data"
+            >
               <v-list-tile-content>
-                <v-list-tile-title v-html="data.item.fullName"></v-list-tile-title>
-                <v-list-tile-sub-title v-html="data.item.country"></v-list-tile-sub-title>
+                <v-list-tile-title v-html="data.item.fullName" />
+                <v-list-tile-sub-title v-html="data.item.country" />
               </v-list-tile-content>
             </template>
           </v-autocomplete>
 
           <v-checkbox
             v-if="customPredefinedSettings.length > 0"
-            class="mTopM20"
             v-model="displayCustomPredefinedSettings"
-            @change="setCurrentToCustomPredefinedSettings"
+            class="mTopM20"
             :label="$t('ui.pages.process.settings.showOnlyCustomPredefinedSettings')"
-          ></v-checkbox>
+            @change="setCurrentToCustomPredefinedSettings"
+          />
         </v-flex>
 
-        <v-flex xs12 sm12 mb-3 v-if="currentPredefinedSettings">
+        <v-flex
+          v-if="currentPredefinedSettings"
+          xs12
+          sm12
+          mb-3
+        >
           <v-expansion-panel expand>
             <v-expansion-panel-content class="teal white--text">
-              <div slot="header">{{ $t('ui.pages.process.settings.input') }}</div>
+              <div slot="header">
+                {{ $t('ui.pages.process.settings.input') }}
+              </div>
               <v-card>
                 <v-card-text>
-                  <v-layout row wrap>
-                    <v-flex xs4 sm4 pr-2>
+                  <v-layout
+                    row
+                    wrap
+                  >
+                    <v-flex
+                      xs4
+                      sm4
+                      pr-2
+                    >
                       <v-select
+                        v-model="currentPredefinedSettings.headers['Log-Format'].format"
                         :items="logTypes"
                         item-value="value"
                         item-text="text"
-                        v-model="currentPredefinedSettings.headers['Log-Format'].format"
                         :label="$t('ui.pages.process.settings.typeOfLog')"
-                      ></v-select>
+                      />
                     </v-flex>
 
-                    <v-flex xs4 sm4>
+                    <v-flex
+                      xs4
+                      sm4
+                    >
                       <v-text-field
                         v-model="currentPredefinedSettings.headers['Date-Format']"
                         :label="$t('ui.pages.process.settings.dateFormat')"
                         placeholder="DD/MMM/YYYY:HH:mm:ss Z"
                         required
-                      ></v-text-field>
+                      />
                     </v-flex>
 
-                    <v-flex xs4 sm4 pl-2>
+                    <v-flex
+                      xs4
+                      sm4
+                      pl-2
+                    >
                       <v-text-field
                         v-model="currentPredefinedSettings.headers['Force-Parser']"
                         :label="$t('ui.pages.process.settings.defaultParser')"
                         placeholder="dspace"
                         required
-                      ></v-text-field>
+                      />
                     </v-flex>
 
-                    <v-flex xs12 sm12 v-if="currentPredefinedSettings.headers['Log-Format'].value || currentPredefinedSettings.headers['Log-Format'].format">
+                    <v-flex
+                      v-if="haveLogFormat()"
+                      xs12
+                      sm12
+                    >
                       <v-textarea
+                        v-model="currentPredefinedSettings.headers['Log-Format'].value"
                         :label="$t('ui.pages.process.settings.logFormat')"
                         :value="currentPredefinedSettings.headers['Log-Format'].value"
-                        v-model="currentPredefinedSettings.headers['Log-Format'].value"
-                      ></v-textarea>
+                      />
                     </v-flex>
                   </v-layout>
                 </v-card-text>
               </v-card>
             </v-expansion-panel-content>
 
-            <v-expansion-panel-content class="teal white--text" v-if="currentPredefinedSettings">
-              <div slot="header">{{ $t('ui.pages.process.settings.output') }}</div>
-                <v-card>
-                  <v-card-text>
-                    <v-layout row wrap>
-                      <v-flex xs6 sm6 pr-2>
-                        <v-select
-                          :items="counterFormats"
-                          v-model="currentPredefinedSettings.headers['COUNTER-Format']"
-                          :label="$t('ui.pages.process.settings.counterFormat')"
-                        ></v-select>
-                      </v-flex>
-
-                      <v-flex xs6 sm6>
-                        <v-select
-                          :items="tracesLevel"
-                          v-model="currentPredefinedSettings.headers['Trace-Level']"
-                          :label="$t('ui.pages.process.settings.traceLevel')"
-                        ></v-select>
-                      </v-flex>
-
-                      <v-flex xs12 sm12>
-                        <v-combobox
-                          v-model="currentPredefinedSettings.headers['ezPAARSE-Job-Notifications']"
-                          :label="$t('ui.pages.process.settings.notificationsEmails')"
-                          chips
-                          clearable
-                          multiple
-                          append-icon=""
-                        >
-                          <template slot="selection" slot-scope="data">
-                            <v-chip
-                              :selected="data.selected"
-                              close
-                              @input="removeEmail(data.index)"
-                            >
-                              <strong>{{ data.item }}</strong>
-                            </v-chip>
-                          </template>
-                        </v-combobox>
-                      </v-flex>
-
-                      <v-flex xs12 sm12>
-                        <v-checkbox
-                          :label="$t('ui.pages.process.settings.counterReports')"
-                          v-model="currentPredefinedSettings.headers['COUNTER-Reports']"
-                          @change="updateCounterFormat"
-                        ></v-checkbox>
-                      </v-flex>
-
-                      <v-flex xs12 sm12>
-                        <h4>{{ $t('ui.pages.process.settings.outputFields') }} :</h4>
-                      </v-flex>
-                      <v-flex xs6 sm6>
-                        <v-combobox
-                          v-model="currentPredefinedSettings.headers['Output-Fields'].plus"
-                          :label="$t('ui.pages.process.settings.add')"
-                          chips
-                          clearable
-                          multiple
-                          append-icon=""
-                        >
-                          <template slot="selection" slot-scope="data">
-                            <v-chip
-                              :selected="data.selected"
-                              close
-                              @input="removeOutputPlus(data.index)"
-                            >
-                              <strong>{{ data.item }}</strong>
-                            </v-chip>
-                          </template>
-                        </v-combobox>
-                      </v-flex>
-
-                      <v-flex xs6 sm6 pl-2>
-                        <v-combobox
-                          v-model="currentPredefinedSettings.headers['Output-Fields'].minus"
-                          chips
-                          clearable
-                          :label="$t('ui.pages.process.settings.remove')"
-                          multiple
-                          append-icon=""
-                        >
-                          <template slot="selection" slot-scope="data">
-                            <v-chip
-                              :selected="data.selected"
-                              close
-                              @input="removeOutputMinus(data.index)"
-                            >
-                              <strong>{{ data.item }}</strong>
-                            </v-chip>
-                          </template>
-                        </v-combobox>
-                      </v-flex>
-
-                      <v-flex xs12 sm12>
-                        <v-combobox
-                          v-model="currentPredefinedSettings.headers['Crypted-Fields']"
-                          chips
-                          clearable
-                          :label="$t('ui.pages.process.settings.cryptedFields')"
-                          multiple
-                          append-icon=""
-                        >
-                          <template slot="selection" slot-scope="data">
-                            <v-chip
-                              :selected="data.selected"
-                              close
-                              @input="removeCryptedField(data.index)"
-                            >
-                              <strong>{{ data.item }}</strong>
-                            </v-chip>
-                          </template>
-                        </v-combobox>                      
-                      </v-flex>
-
-                      <v-flex xs12 sm12 mt-3>
-                        {{ $t('ui.pages.process.settings.counterReportDetail') }}
-                      </v-flex>
-
-                    </v-layout>
-                  </v-card-text>
-                </v-card>
-            </v-expansion-panel-content>
-
-            <v-expansion-panel-content class="teal white--text" v-if="currentPredefinedSettings">
-              <div slot="header">Headers ({{ $t('ui.pages.process.settings.advancedHeaders') }})</div>
+            <v-expansion-panel-content
+              v-if="currentPredefinedSettings"
+              class="teal white--text"
+            >
+              <div slot="header">
+                {{ $t('ui.pages.process.settings.output') }}
+              </div>
               <v-card>
                 <v-card-text>
-                  <v-layout row wrap>
-                    <v-flex xs12 sm12>
+                  <v-layout
+                    row
+                    wrap
+                  >
+                    <v-flex
+                      xs6
+                      sm6
+                      pr-2
+                    >
+                      <v-select
+                        v-model="currentPredefinedSettings.headers['COUNTER-Format']"
+                        :items="counterFormats"
+                        :label="$t('ui.pages.process.settings.counterFormat')"
+                      />
+                    </v-flex>
+
+                    <v-flex
+                      xs6
+                      sm6
+                    >
+                      <v-select
+                        v-model="currentPredefinedSettings.headers['Trace-Level']"
+                        :items="tracesLevel"
+                        :label="$t('ui.pages.process.settings.traceLevel')"
+                      />
+                    </v-flex>
+
+                    <v-flex
+                      xs12
+                      sm12
+                    >
+                      <v-combobox
+                        v-model="currentPredefinedSettings.headers['ezPAARSE-Job-Notifications']"
+                        :label="$t('ui.pages.process.settings.notificationsEmails')"
+                        chips
+                        clearable
+                        multiple
+                        append-icon=""
+                      >
+                        <template
+                          slot="selection"
+                          slot-scope="data"
+                        >
+                          <v-chip
+                            :selected="data.selected"
+                            close
+                            @input="removeEmail(data.index)"
+                          >
+                            <strong>{{ data.item }}</strong>
+                          </v-chip>
+                        </template>
+                      </v-combobox>
+                    </v-flex>
+
+                    <v-flex
+                      xs12
+                      sm12
+                    >
+                      <v-checkbox
+                        v-model="currentPredefinedSettings.headers['COUNTER-Reports']"
+                        :label="$t('ui.pages.process.settings.counterReports')"
+                        @change="updateCounterFormat"
+                      />
+                    </v-flex>
+
+                    <v-flex
+                      xs12
+                      sm12
+                    >
+                      <h4>{{ $t('ui.pages.process.settings.outputFields') }} :</h4>
+                    </v-flex>
+                    <v-flex
+                      xs6
+                      sm6
+                    >
+                      <v-combobox
+                        v-model="currentPredefinedSettings.headers['Output-Fields'].plus"
+                        :label="$t('ui.pages.process.settings.add')"
+                        chips
+                        clearable
+                        multiple
+                        append-icon=""
+                      >
+                        <template
+                          slot="selection"
+                          slot-scope="data"
+                        >
+                          <v-chip
+                            :selected="data.selected"
+                            close
+                            @input="removeOutputPlus(data.index)"
+                          >
+                            <strong>{{ data.item }}</strong>
+                          </v-chip>
+                        </template>
+                      </v-combobox>
+                    </v-flex>
+
+                    <v-flex
+                      xs6
+                      sm6
+                      pl-2
+                    >
+                      <v-combobox
+                        v-model="currentPredefinedSettings.headers['Output-Fields'].minus"
+                        chips
+                        clearable
+                        :label="$t('ui.pages.process.settings.remove')"
+                        multiple
+                        append-icon=""
+                      >
+                        <template
+                          slot="selection"
+                          slot-scope="data"
+                        >
+                          <v-chip
+                            :selected="data.selected"
+                            close
+                            @input="removeOutputMinus(data.index)"
+                          >
+                            <strong>{{ data.item }}</strong>
+                          </v-chip>
+                        </template>
+                      </v-combobox>
+                    </v-flex>
+
+                    <v-flex
+                      xs12
+                      sm12
+                    >
+                      <v-combobox
+                        v-model="currentPredefinedSettings.headers['Crypted-Fields']"
+                        chips
+                        clearable
+                        :label="$t('ui.pages.process.settings.cryptedFields')"
+                        multiple
+                        append-icon=""
+                      >
+                        <template
+                          slot="selection"
+                          slot-scope="data"
+                        >
+                          <v-chip
+                            :selected="data.selected"
+                            close
+                            @input="removeCryptedField(data.index)"
+                          >
+                            <strong>{{ data.item }}</strong>
+                          </v-chip>
+                        </template>
+                      </v-combobox>
+                    </v-flex>
+
+                    <v-flex
+                      xs12
+                      sm12
+                      mt-3
+                    >
+                      {{ $t('ui.pages.process.settings.counterReportDetail') }}
+                    </v-flex>
+                  </v-layout>
+                </v-card-text>
+              </v-card>
+            </v-expansion-panel-content>
+
+            <v-expansion-panel-content
+              v-if="currentPredefinedSettings"
+              class="teal white--text"
+            >
+              <div slot="header">
+                Headers ({{ $t('ui.pages.process.settings.advancedHeaders') }})
+              </div>
+              <v-card>
+                <v-card-text>
+                  <v-layout
+                    row
+                    wrap
+                  >
+                    <v-flex
+                      xs12
+                      sm12
+                    >
                       <v-autocomplete
                         v-model="header"
                         :items="headers"
@@ -218,29 +312,43 @@
                         label="Headers"
                         append-icon="mdi-chevron-down"
                         @change="addHeader(header)"
-                      >
-                      </v-autocomplete>
+                      />
                     </v-flex>
-                    
-                    <v-flex xs12 sm12 v-for="(header, key) in currentPredefinedSettings.headers.advancedHeaders" :key="key">
-                      <v-layout row wrap>
-                        <v-flex xs2 sm2 pr-2>
+
+                    <v-flex
+                      v-for="(header, key) in currentPredefinedSettings.headers.advancedHeaders"
+                      :key="key"
+                      xs12
+                      sm12
+                    >
+                      <v-layout
+                        row
+                        wrap
+                      >
+                        <v-flex
+                          xs2
+                          sm2
+                          pr-2
+                        >
                           <v-text-field
-                            :value="header.header"
                             v-model="header.header"
+                            :value="header.header"
                             prepend-icon="mdi-information"
                             @click:prepend="informations(header.header)"
-                          ></v-text-field>
+                          />
                         </v-flex>
-                        <v-flex xs10 sm10>
+                        <v-flex
+                          xs10
+                          sm10
+                        >
                           <v-text-field
-                            :value="header.value"
                             v-model="header.value"
+                            :value="header.value"
                             append-outer-icon="mdi-close-circle"
                             @click:append-outer="removeHeader(key)"
-                          ></v-text-field>
+                          />
                         </v-flex>
-                      </v-layout>          
+                      </v-layout>
                     </v-flex>
                   </v-layout>
                 </v-card-text>
@@ -249,15 +357,35 @@
           </v-expansion-panel>
         </v-flex>
 
-        <v-flex xs12 sm12 class="text-xs-center">
+        <v-flex
+          xs12
+          sm12
+          class="text-xs-center"
+        >
           <ButtonGroup>
-            <v-btn color="success" block large @click="modal = true" :disabled="disabledButton">
-              <v-icon left>mdi-content-save-settings</v-icon>
+            <v-btn
+              color="success"
+              block
+              large
+              :disabled="disabledButton"
+              @click="modal = true"
+            >
+              <v-icon left>
+                mdi-content-save-settings
+              </v-icon>
               {{ $t('ui.pages.process.settings.savePredefinedSettings') }}
             </v-btn>
-            <v-btn color="primary" block large @click="resetSettings" :disabled="disabledButton">
+            <v-btn
+              color="primary"
+              block
+              large
+              :disabled="disabledButton"
+              @click="resetSettings"
+            >
               {{ $t('ui.pages.process.settings.defaultParams') }}
-              <v-icon right>mdi-reload</v-icon>
+              <v-icon right>
+                mdi-reload
+              </v-icon>
             </v-btn>
           </ButtonGroup>
         </v-flex>
@@ -269,29 +397,37 @@
       max-width="600"
     >
       <v-card>
-        <v-card-title class="headline">{{ $t('ui.pages.process.settings.savePredefinedSettings') }} : {{ currentPredefinedSettings.fullName }}</v-card-title>
+        <v-card-title class="headline">
+          {{ $t('ui.pages.process.settings.savePredefinedSettings') }} :
+          {{ currentPredefinedSettings.fullName }}
+        </v-card-title>
         <v-card-text>
           <v-switch
             v-if="currentPredefinedSettings._id"
             v-model="saveAsNew"
             :label="$t('ui.pages.process.settings.saveAsNew')"
-          ></v-switch>
+          />
           <v-container grid-list-md>
             <v-layout wrap>
-              <v-flex xs12 sm12>
-                <v-text-field
-                :label="$t('ui.name')"
-                v-model="saveFields.fullName"
-                box
-                name="fullName"
-                required
-                :error="fullNameError ? true : false"
-                :error-messages="fullNameError"
+              <v-flex
+                xs12
+                sm12
               >
-              </v-text-field>
+                <v-text-field
+                  v-model="saveFields.fullName"
+                  :label="$t('ui.name')"
+                  box
+                  name="fullName"
+                  required
+                  :error="fullNameError ? true : false"
+                  :error-messages="fullNameError"
+                />
               </v-flex>
-              <v-flex xs12 sm12>
-                 <v-autocomplete
+              <v-flex
+                xs12
+                sm12
+              >
+                <v-autocomplete
                   v-model="saveFields.country"
                   :items="countries"
                   item-value="en"
@@ -302,9 +438,12 @@
                   name="country"
                   required
                 >
-                  <template slot="item" slot-scope="data">
+                  <template
+                    slot="item"
+                    slot-scope="data"
+                  >
                     <v-list-tile-content>
-                      <v-list-tile-title v-html="data.item[$i18n.locale]"></v-list-tile-title>
+                      <v-list-tile-title v-html="data.item[$i18n.locale]" />
                     </v-list-tile-content>
                   </template>
                 </v-autocomplete>
@@ -313,7 +452,7 @@
           </v-container>
         </v-card-text>
         <v-card-actions>
-          <v-spacer></v-spacer>
+          <v-spacer />
           <v-btn
             color="error"
             @click="modal = false"
@@ -334,6 +473,8 @@
 </template>
 
 <script>
+/* eslint-disable import/no-unresolved */
+/* eslint-disable no-underscore-dangle */
 import ButtonGroup from '~/components/ButtonGroup';
 import isEqual from 'lodash.isequal';
 
@@ -360,13 +501,13 @@ export default {
         { value: 'squid', text: 'Squid' }
       ],
       counterFormats: [
-        { value: 'csv', text: 'CSV'},
-        { value: 'tsv', text: 'TSV'},
+        { value: 'csv', text: 'CSV' },
+        { value: 'tsv', text: 'TSV' },
         { value: 'json', text: 'JSON' }
       ],
       tracesLevel: [
-        { value: 'info', text: 'General informations'},
-        { value: 'error', text: 'Errors only'},
+        { value: 'info', text: 'General informations' },
+        { value: 'error', text: 'Errors only' },
         { value: 'warn', text: 'Warnings without consequences' }
       ],
       header: null,
@@ -438,7 +579,7 @@ export default {
         { name: 'Istex-ttl', anchor: 'istex' },
         { name: 'Istex-throttle', anchor: 'istex' }
       ]
-    }
+    };
   },
   computed: {
     currentPredefinedSettings: {
@@ -464,16 +605,12 @@ export default {
   },
   watch: {
     currentPredefinedSettings: {
-      handler: function (newVal) {
+      handler (newVal) {
         let changed;
-        
-        changed = this.predefinedSettings.find(p => {
-          return p.fullName === newVal.fullName;
-        });
+
+        changed = this.predefinedSettings.find(p => p.fullName === newVal.fullName);
         if (!changed) {
-          changed = this.customPredefinedSettings.find(p => {
-            return p.fullName === newVal.fullName;
-          });
+          changed = this.customPredefinedSettings.find(p => p.fullName === newVal.fullName);
         }
         this.disabledButton = !!isEqual(changed, this.currentPredefinedSettings);
         if (!this.disabledButton) this.settingsIsModified = true;
@@ -483,25 +620,35 @@ export default {
       deep: true
     },
     saveFields: {
-      handler: function (newVal) {
-        if (this.saveFields.fullName.length > 0 && this.saveFields.country.en && this.saveFields.country.en.length > 0) {
+      handler (newVal) {
+        const countryTest = this.saveFields.country.en && this.saveFields.country.en.length > 0;
+        if (this.saveFields.fullName.length > 0 && countryTest) {
           this.disabledButtonSave = false;
         }
-          
+
         let exists = this.customPredefinedSettings.find(p => p.fullName === newVal.fullName);
         if (!exists) exists = this.predefinedSettings.find(p => p.fullName === newVal.fullName);
-        if (exists && this.saveAsNew || exists && this.customPredefinedSettings.length > 0) {
+        if (exists && this.saveAsNew) {
           this.disabledButtonSave = true;
           this.fullNameError = this.$t('ui.pages.process.settings.nameUnavailable');
-        } else {
-          this.disabledButtonSave = false;
-          this.fullNameError = null;
+          return false;
         }
+
+        if (exists && this.customPredefinedSettings.length > 0) {
+          this.disabledButtonSave = true;
+          this.fullNameError = this.$t('ui.pages.process.settings.nameUnavailable');
+          return false;
+        }
+
+        this.disabledButtonSave = false;
+        this.fullNameError = null;
+        return true;
       },
       deep: true
     },
-    saveAsNew (newVal) {
-      this.saveFields.fullName = this.saveAsNew ? this.saveFields.fullName = '' : this.currentPredefinedSettings.fullName;
+    saveAsNew () {
+      if (this.saveAsNew) this.saveFields.fullName = '';
+      if (!this.saveAsNew) this.saveFields.fullName = this.currentPredefinedSettings.fullName;
     }
   },
   methods: {
@@ -530,30 +677,31 @@ export default {
       if (this.currentPredefinedSettings.headers['COUNTER-Reports']) this.currentPredefinedSettings.headers['COUNTER-Format'] = 'tsv';
     },
     resetSettings () {
-      const currentSettings = this.allPredefinedSettings.find(param => {
-        return param.fullName === this.currentPredefinedSettings.fullName;
-      });
+      /* eslint-disable-next-line */
+      const currentSettings = this.allPredefinedSettings.find(param => param.fullName === this.currentPredefinedSettings.fullName);
       this.$store.dispatch('process/SET_CURRENT_PREDEFINED_SETTINGS', JSON.parse(JSON.stringify(currentSettings)));
     },
     informations (header) {
-      const h = this.headers.find(h => {
-        return header === h.name;
-      });
-      if (h) window.open(`https://ezpaarse.readthedocs.io/en/master/configuration/parametres.html#${h.anchor}`, '_blank');
+      const anchor = this.headers.find(h => header === h.name);
+      if (anchor) window.open(`https://ezpaarse.readthedocs.io/en/master/configuration/parametres.html#${anchor.anchor}`, '_blank');
     },
     saveCustomSettings () {
-      let customPs = JSON.parse(JSON.stringify(this.currentPredefinedSettings));
+      const customPs = JSON.parse(JSON.stringify(this.currentPredefinedSettings));
       customPs.fullName = this.saveFields.fullName;
       customPs.country = this.saveFields.country.en;
 
-      // process/UPDATE_CUSTOM_PREDEFINED_SETTINGS
       let store = 'SAVE';
       if (!this.saveAsNew && customPs._id) store = 'UPDATE';
-      if (!this.saveAsNew && !customPs._id || this.saveAsNew && !customPs._id) store = 'SAVE';
+      if (!this.saveAsNew && !customPs._id) store = 'SAVE';
+      if (this.saveAsNew && !customPs._id) store = 'SAVE';
 
-      this.$store.dispatch(`process/${store}_CUSTOM_PREDEFINED_SETTINGS`, customPs).then(res =>  {
+      this.$store.dispatch(`process/${store}_CUSTOM_PREDEFINED_SETTINGS`, customPs).then(() => {
         this.$store.dispatch('process/GET_PREDEFINED_SETTINGS').catch(err => {
-          this.$store.dispatch('snacks/info', err.response.data.message ? this.$t(`ui.errors.${err.response.data.message}`) : this.$t(`ui.errors.error`));
+          let message = this.$t('ui.errors.error');
+          if (err.response.data.message) {
+            message = this.$t(`ui.errors.${err.response.data.message}`);
+          }
+          this.$store.dispatch('snacks/info', message);
         });
 
         this.currentPredefinedSettings = customPs;
@@ -562,26 +710,36 @@ export default {
         this.disabledButtonSave = true;
         this.saveFields.fullName = '';
         this.saveFields.country = '';
-        this.$store.dispatch('snacks/success', this.$t(`ui.pages.process.settings.paramsSaved`));
-      });      
+        this.$store.dispatch('snacks/success', this.$t('ui.pages.process.settings.paramsSaved'));
+      }).catch(() => this.$store.dispatch('snacks/error', this.$t('ui.errors.error')));
     },
     setCurrentToCustomPredefinedSettings () {
-      if (this.displayCustomPredefinedSettings && this.customPredefinedSettings.length > 0) {
+      if (this.displayCustomPredefinedSettings) {
+        /* eslint-disable-next-line */
         this.currentPredefinedSettings = this.customPredefinedSettings[1];
       }
     },
-    removeCustomPredefinedSettings (el) {
-      this.$store.dispatch('process/REMOVE_CUSTOM_PREDEFINED_SETTINGS', { id: this.currentPredefinedSettings._id }).then(res => {
-        this.$store.dispatch('snacks/success', this.$t('ui.pages.process.settings.deleted'));
-        this.$store.dispatch('process/GET_PREDEFINED_SETTINGS').catch(err => {
-          this.$store.dispatch('snacks/error', this.$t('ui.errors.error'));
-        });
-      }).catch(err => {
-        this.$store.dispatch('snacks/error', this.$t('ui.errors.error'));
-      });
+    removeCustomPredefinedSettings () {
+      this.$store.dispatch('process/REMOVE_CUSTOM_PREDEFINED_SETTINGS', { id: this.currentPredefinedSettings._id })
+        .then(() => {
+          this.$store.dispatch('snacks/success', this.$t('ui.pages.process.settings.deleted'));
+          this.$store.dispatch('process/GET_PREDEFINED_SETTINGS')
+            .catch(() => this.$store.dispatch('snacks/error', this.$t('ui.errors.error')));
+        }).catch(() => this.$store.dispatch('snacks/error', this.$t('ui.errors.error')));
+    },
+    predefinedSettingsItems () {
+      if (!this.displayCustomPredefinedSettings) return this.allPredefinedSettings;
+      return this.customPredefinedSettings;
+    },
+    haveLogFormat () {
+      const logFormat = this.currentPredefinedSettings.headers['Log-Format'];
+      return logFormat.value || logFormat.format;
+    },
+    appendOuterIconCurrentProcess () {
+      return (this.currentPredefinedSettings._id && this.$auth.user.group === 'admin') ? 'mdi-delete' : '';
     }
   }
-}
+};
 </script>
 
 <style>

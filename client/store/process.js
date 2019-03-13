@@ -181,7 +181,7 @@ export default {
           const cps = JSON.parse(JSON.stringify(customPredefinedSettings));
           Array.prototype.push.apply(cps, data);
           commit('SET_ALL_PREDEFINED_SETTINGS', cps);
-        }).catch(err => {
+        }).catch(() => {
           commit('SET_ALL_PREDEFINED_SETTINGS', data);
         });
       });
@@ -192,11 +192,13 @@ export default {
     SET_ALL_PREDEFINED_SETTINGS ({ commit }, data) {
       commit('SET_ALL_PREDEFINED_SETTINGS', data);
     },
+    /* eslint-disable-next-line */
     SAVE_CUSTOM_PREDEFINED_SETTINGS ({ commit }, data) {
-      return api.saveCustomPredefinedSettings(this.$axios, data).catch(err => { });
+      return api.saveCustomPredefinedSettings(this.$axios, data);
     },
+    /* eslint-disable-next-line */
     UPDATE_CUSTOM_PREDEFINED_SETTINGS ({ commit }, data) {
-      return api.updateCustomPredefinedSettings(this.$axios, data).catch(err => { });
+      return api.updateCustomPredefinedSettings(this.$axios, data);
     },
     GET_CUSTOM_PREDEFINED_SETTINGS ({ commit }) {
       return api.getCustomPredefinedSettings(this.$axios).then(res => {
@@ -213,6 +215,7 @@ export default {
         commit('SET_COUNTRIES', res);
       });
     },
+    /* eslint-disable-next-line */
     REMOVE_CUSTOM_PREDEFINED_SETTINGS ({ commit }, data) {
       return api.removeCustomPredefinedSettings(this.$axios, data);
     },
@@ -281,6 +284,7 @@ export default {
         commit('SET_REPORT', res);
       });
     },
+    /* eslint-disable-next-line */
     LOG_PARSER ({ commit }, data) {
       return api.getLogParser(this.$axios, data);
     },

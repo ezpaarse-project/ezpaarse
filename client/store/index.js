@@ -12,7 +12,11 @@ const store = () => new Vuex.Store({
     snacks
   },
   state: {
-    appVersion: '0.0.0',
+    appInfos: {
+      version: '0.0.0',
+      uptime: '0d 0h 0m 0s',
+      demo: false
+    },
     ezpaarse: [],
     platforms: [],
     platformsItems: [],
@@ -29,15 +33,15 @@ const store = () => new Vuex.Store({
     SET_DRAWER ({ commit }, value) {
       commit('SET_DRAWER', value);
     },
-    REGISTER ({ commit }, credentials) {
+    REGISTER (credentials) {
       return api.register(this.$axios, credentials);
     },
-    SEND_FEEDBACK ({ commit }, data) {
+    SEND_FEEDBACK (data) {
       return api.sendFeedback(this.$axios, data);
     },
     LOAD_STATUS ({ commit }) {
       return api.getAppStatus(this.$axios).then(res => {
-        res.isBeta = !/^[0-9]+\.[0-9]+\.[0-9]+$/.test(res.current)
+        res.isBeta = !/^[0-9]+\.[0-9]+\.[0-9]+$/.test(res.current);
         commit('SET_APP_STATUS', res);
 
         return api.getPlatformsStatus(this.$axios).then(platformsStatus => {
@@ -55,10 +59,10 @@ const store = () => new Vuex.Store({
         });
       });
     },
-    UPDATE_REPO ({ commit }, repo) {
+    UPDATE_REPO (repo) {
       return api.updateRepo(this.$axios, repo);
     },
-    UPDATE_APP ({ commit }, version) {
+    UPDATE_APP (version) {
       return api.updateApp(this.$axios, version);
     },
     GET_PLATFORMS ({ commit }) {
@@ -70,30 +74,38 @@ const store = () => new Vuex.Store({
     GET_USERS_LIST ({ commit }) {
       return api.getUsersList(this.$axios).then(res => commit('SET_USERS_LIST', res));
     },
+    /* eslint-disable-next-line */
     ADD_USER ({ commit }, data) {
       return api.addUser(this.$axios, data);
     },
+    /* eslint-disable-next-line */
     REMOVE_USER ({ commit }, userid) {
       return api.removeUser(this.$axios, userid);
     },
+    /* eslint-disable-next-line */
     EDIT_USER ({ commit }, data) {
       return api.editUser(this.$axios, data);
     },
+    /* eslint-disable-next-line */
     RESET_PASSWORD ({ commit }, data) {
       return api.resetPassword(this.$axios, data);
     },
+    /* eslint-disable-next-line */
     SEND_NEW_PASSWORD ({ commit }, data) {
       return api.sendNewPassword(this.$axios, data);
     },
+    /* eslint-disable-next-line */
     NOTIFIATE ({ commit }, data) {
       return api.notifiate(this.$axios, data);
     },
+    /* eslint-disable-next-line */
     UPDATE_PASSWORD ({ commit }, data) {
       return api.updatePassword(this.$axios, data);
     },
     GET_USER_NUMBER ({ commit }) {
       return api.getUserNumber(this.$axios).then(res => commit('SET_USER_NUMBER', res));
     },
+    /* eslint-disable-next-line */
     FRESHINSTALL ({ commit }, data) {
       return api.freshInstall(this.$axios, data);
     },
@@ -103,8 +115,8 @@ const store = () => new Vuex.Store({
     SET_PKBS ({ commit }, data) {
       commit('SET_PKBS', data);
     },
-    GET_APP_VERSION ({ commit }) {
-      return api.getAppVersion(this.$axios).then(res => { commit('SET_APP_VERSION', res); });
+    GET_APP_INFOS ({ commit }) {
+      return api.getAppInfos(this.$axios).then(res => { commit('SET_APP_INFOS', res); });
     }
   },
   mutations: {
@@ -141,8 +153,8 @@ const store = () => new Vuex.Store({
     SET_PKBS (state, data) {
       Vue.set(state, 'pkbs', data);
     },
-    SET_APP_VERSION (state, data) {
-      Vue.set(state, 'appVersion', data);
+    SET_APP_INFOS (state, data) {
+      Vue.set(state, 'appInfos', data);
     }
   }
 });

@@ -1,18 +1,23 @@
 <template>
   <v-card>
-    <v-toolbar class="secondary" dense dark card>
+    <v-toolbar
+      class="secondary"
+      dense
+      dark
+      card
+    >
       <v-toolbar-title>
         {{ $t('ui.pages.process.job.title') }}
       </v-toolbar-title>
     </v-toolbar>
 
     <Treatment />
-    
   </v-card>
 </template>
 
 <script>
-import Treatment from '~/components/Process/Treatment'
+/* eslint-disable import/no-unresolved */
+import Treatment from '~/components/Process/Treatment';
 
 export default {
   auth: true,
@@ -21,8 +26,9 @@ export default {
   },
   fetch ({ store, redirect }) {
     if (!store.state.process.inProgress) {
-      return redirect('/process')
+      return redirect('/process');
     }
+    return true;
   }
-}
+};
 </script>

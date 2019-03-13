@@ -22,9 +22,21 @@ var app = Router();
 /**
 * GET route on /info/version
 */
-app.get('/version', function (req, res) {
+app.get('/app', function (req, res) {
+  let time = Math.floor(process.uptime());
+
+  const tmp = (time / 3600);
+  const days = Math.floor(tmp / 24);
+  const hours = Math.floor(tmp % 24);
+  const minutes = Math.floor((time / 60) % 60);
+  const seconds = (time % 60);
+
   if (pkg.version) {
-    res.status(200).send(pkg.version);
+    res.status(200).json({
+      version: pkg.version,
+      uptime: `${days}d ${hours}h ${minutes}m ${seconds}s`,
+      demo: config.EZPAARSE_DEMO || false
+    });
   } else {
     res.status(500).end();
   }

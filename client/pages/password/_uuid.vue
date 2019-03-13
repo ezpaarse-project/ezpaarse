@@ -1,31 +1,45 @@
 <template>
   <v-card>
-    <v-toolbar class="secondary" dark dense card>
+    <v-toolbar
+      class="secondary"
+      dark
+      dense
+      card
+    >
       <v-toolbar-title>{{ $t('ui.passwordForgotten') }}</v-toolbar-title>
     </v-toolbar>
-    
+
     <v-card-text>
-      <v-form @submit.prevent="reset" method="post">
+      <v-form
+        method="post"
+        @submit.prevent="reset"
+      >
         <v-text-field
+          v-model="credentials.password"
           prepend-icon="mdi-lock"
           name="userid"
           :label="$t('ui.pages.profile.newPassword')"
-          v-model="credentials.password"
           type="password"
           required
-        ></v-text-field>
+        />
         <v-text-field
           id="password"
+          v-model="credentials.password_repeat"
           prepend-icon="mdi-lock"
           name="password_repeat"
           :label="$t('ui.pages.profile.confirm')"
-          v-model="credentials.password_repeat"
           type="password"
           required
-        ></v-text-field>
+        />
         <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="primary" type="submit" :disabled="!credentials.password || !credentials.password_repeat || samePassword === false">{{ $t('ui.send') }}</v-btn>
+          <v-spacer />
+          <v-btn
+            color="primary"
+            type="submit"
+            :disabled="samePassword === false"
+          >
+            {{ $t('ui.send') }}
+          </v-btn>
         </v-card-actions>
       </v-form>
     </v-card-text>
@@ -43,7 +57,7 @@ export default {
         password_repeat: null
       },
       samePassword: false
-    }
+    };
   },
   watch: {
     credentials: {
@@ -55,18 +69,19 @@ export default {
         }
       },
       deep: true
-    } 
+    }
   },
   methods: {
     reset () {
-      this.$store.dispatch('SEND_NEW_PASSWORD', { credentials: this.credentials, uuid: this.$route.params.uuid }).then(res => {
-        this.$store.dispatch('snacks/success', this.$t(`ui.pages.profile.passwordUpdated`));
+      this.$store.dispatch('SEND_NEW_PASSWORD', { credentials: this.credentials, uuid: this.$route.params.uuid }).then(() => {
+        this.$store.dispatch('snacks/success', this.$t('ui.pages.profile.passwordUpdated'));
         return this.$router.push('/');
       }).catch(err => {
-        if (err) this.$store.dispatch('snacks/error', this.$t(`ui.errors.${err.response.data.message}`));
+        if (err) return this.$store.dispatch('snacks/error', this.$t(`ui.errors.${err.response.data.message}`));
         if (err.response.data.message === 'expiration_date') return this.$router.push('/');
+        return this.$router.push('/');
       });
     }
   }
-}
+};
 </script>
