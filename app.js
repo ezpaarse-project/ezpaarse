@@ -23,6 +23,10 @@ const useragent     = require('useragent');
 
 process.env.PORT = config.EZPAARSE_NODEJS_PORT || 59599;
 
+// connect ezpaarse env to expressjs env
+const env = process.env.NODE_ENV = process.env.NODE_ENV || config.EZPAARSE_ENV;
+app.set('env', env);
+
 const isDev = app.get('env') !== 'production';
 if (isDev) { app.use(logger('dev')); }
 
@@ -45,10 +49,6 @@ app.use(cookieSession({ //should not be used in PROD
 }));
 app.use(passport.initialize());
 app.use(passport.session());
-
-// connect ezpaarse env to expressjs env
-const env = process.env.NODE_ENV = process.env.NODE_ENV || config.EZPAARSE_ENV;
-app.set('env', env);
 
 switch (env) {
 case 'development':

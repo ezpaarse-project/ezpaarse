@@ -119,7 +119,7 @@ bower:
 	@. ./bin/env; npm run bower
 
 libs:
-	@. ./bin/env; npm install --no-save -q --unsafe-perm || rm ./node_modules -rf && npm install --no-save -q --unsafe-perm
+	@. ./bin/env; npm install --no-save -q --unsafe-perm || (rm ./node_modules -rf && npm install --no-save -q --unsafe-perm)
 
 middlewares-update: ## Clone or update middelwares directory
 	@if test -d middlewares; \

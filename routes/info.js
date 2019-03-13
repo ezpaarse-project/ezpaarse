@@ -422,25 +422,14 @@ app.get(/\/domains\/([a-zA-Z0-9\-.]+)/, function (req, res) {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'X-Requested-With');
 
-  var domain = req.params[0];
-  var parser = parserlist.get(domain, false);
+  const domain  = req.params[0];
+  const parsers = parserlist.get(domain, false);
 
-  if (!parser) { return res.status(404).end(); }
+  if (!Array.isArray(parsers)) {
+    return res.status(200).json([]);
+  }
 
-  var manifestFile = path.join(__dirname, '/../platforms/' + parser.platform + '/manifest.json');
-  fs.readFile(manifestFile, function (err, data) {
-    if (err) { return res.status(err.code == 'ENOENT' ? 404 : 500).end(); }
-
-    var manifestJSON;
-    try {
-      manifestJSON = JSON.parse(data);
-    } catch (e) {
-      res.status(500).end();
-      return;
-    }
-    parser.manifest = manifestJSON;
-    res.status(200).json(parser);
-  });
+  res.status(200).json(parsers);
 });
 
 module.exports = app;
