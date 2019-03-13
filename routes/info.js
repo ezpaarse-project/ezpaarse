@@ -22,6 +22,17 @@ var app = Router();
 /**
 * GET route on /info/version
 */
+app.get('/version', function (req, res) {
+  if (pkg.version) {
+    res.status(200).end(pkg.version);
+  } else {
+    res.status(500).end();
+  }
+});
+
+/**
+* GET route on /info/app
+*/
 app.get('/app', function (req, res) {
   let time = Math.floor(process.uptime());
 
