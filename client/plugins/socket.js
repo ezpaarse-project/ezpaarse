@@ -10,6 +10,20 @@ Vue.use({
 });
 
 export default ({ app, store }) => {
+  if (socket.connected) {
+    store.dispatch('socket/SOCKET_CONNECT', true);
+  }
+  socket.on('connect', () => {
+    store.dispatch('socket/SOCKET_CONNECT', true);
+  });
+
+  if (socket.disconnected) {
+    store.dispatch('socket/SOCKET_CONNECT', false);
+  }
+  socket.on('disconnect', () => {
+    store.dispatch('socket/SOCKET_CONNECT', false);
+  });
+
   socket.on('castor:update', (data) => {
     store.dispatch('SET_PKBS', data);
   });

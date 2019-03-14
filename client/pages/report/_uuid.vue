@@ -140,7 +140,7 @@ export default {
     try {
       if (params.uuid) await store.dispatch('process/GET_REPORT', params.uuid);
     } catch (e) {
-      await store.dispatch('snack/error', app.i18n.t('ui.errors.error'));
+      await store.dispatch('snacks/error', app.i18n.t('ui.errors.error'));
     }
   },
   computed: {

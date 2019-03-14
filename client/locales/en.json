@@ -30,7 +30,9 @@
         "availableTeam": "An available and responsive team",
         "contactUs": "A problem, a question, a suggestion? Contact us!",
         "growingCommunity": "A growing community",
-        "notOnlyFrench": "And not only French-speaking!"
+        "notOnlyFrench": "And not only French-speaking!",
+        "demoHeader": "This instance of ezPAARSE is available for demonstration purposes.",
+        "demoText": "We strongly advise against its use in production or for large logs."
       },
       "profile": {
         "title": "My profile",
@@ -233,8 +235,8 @@
       "cant_change_your_own_group": "You cannot modify your group yourself.",
       "bad_section": "Bad section.",
       "error": "It seems like something went wrong.",
-      "404": "This page could not be found.",
-      "500": "An error occured.",
+      "404": "This page could not be found. (404)",
+      "500": "An error occured. (500)",
       "expiration_date": "The deadline has passed.",
       "password_not_set": "The password has not been changed.",
       "reportNotLoaded": "The report could not be loaded."
@@ -264,6 +266,7 @@
     "send": "Envoyer",
     "informTeamWarning": "You just installed ezPAARSE and you're going to create the administrator account. With your agreement, we would like to be informed about this installation. The e-mail address filled above and the version of ezPAARSE you installed will be sent to <strong>{recipients}</strong>.",
     "informTeam": "Inform the team",
-    "loading": "Chargement en cours..."
+    "loading": "Chargement en cours...",
+    "ezPAARSEOffline": "ezPAARSE is not responding. This message will automatically disappear when the connection is reestablished."
   }
 }

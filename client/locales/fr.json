@@ -30,7 +30,9 @@
         "availableTeam": "Une équipe disponible et réactive",
         "contactUs": "Un problème, une question, une suggestion ? Contactez-nous !",
         "growingCommunity": "Une communauté grandissante",
-        "notOnlyFrench": "Et pas seulement francophone !"
+        "notOnlyFrench": "Et pas seulement francophone !",
+        "demoHeader": "Cette instance d'ezPAARSE est utilisable à titre de démonstration.",
+        "demoText": "Nous déconseillons vivement son usage en production ou pour des logs volumineux."
       },
       "profile": {
         "title": "Mon profil",
@@ -261,6 +263,7 @@
     "send": "Envoyer",
     "informTeamWarning": "Vous venez d'installer ezPAARSE et vous vous apprétez à créer le compte administrateur. Avec votre accord, nous souhaiterions être informés de cette installation. L'adresse e-mail entrée ci-dessus et la version d'ezPAARSE installée seront envoyées à <strong>{recipients}</strong>.",
     "informTeam": "Informer l'équipe",
-    "loading": "Chargement en cours..."
+    "loading": "Chargement en cours...",
+    "ezPAARSEOffline": "ezPAARSE ne répond pas. Ce message disparaîtra automatiquement lorsque la connexion sera de nouveau établie."
   }
 }

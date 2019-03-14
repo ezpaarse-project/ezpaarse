@@ -96,6 +96,14 @@
                 alt="ezPAARSE"
               >
               <p v-html="$t('ui.pages.index.singinEasy')" />
+              <v-alert
+                v-if="appInfos.demo"
+                :value="true"
+                color="info"
+              >
+                <h3>{{ $t('ui.pages.index.demoHeader') }}</h3>
+                <p v-html="$t('ui.pages.index.demoText')"></p>
+              </v-alert>
 
               <nuxt />
 
@@ -141,6 +149,11 @@ export default {
         { name: 'English', value: 'en' }
       ]
     };
+  },
+  computed: {
+    appInfos () {
+      return this.$store.state.appInfos;
+    }
   }
 };
 </script>

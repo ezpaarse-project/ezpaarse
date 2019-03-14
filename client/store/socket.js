@@ -9,8 +9,8 @@ export default {
     jobs: 0
   },
   mutations: {
-    SOCKET_CONNECT: (state) => {
-      state.connect = true;
+    SOCKET_CONNECT: (state, data) => {
+      state.connect = data;
     },
     SOCKET_REPORT (state, data) {
       state.report = data;

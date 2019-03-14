@@ -1,14 +1,15 @@
 'use strict';
 
-var logParser  = require('../lib/logparser');
-
+var logParser = require('../lib/logparser');
+var bodyParser = require('body-parser');
 var { Router } = require('express');
 var app = Router();
 
 /**
 *  Get a browserified version of the log parser
 */
-app.put('/logparser', (req, res) => {
+app.put('/logparser', bodyParser.urlencoded({ extended: true }), bodyParser.json(), (req, res) => {
+  if (!req.body) return res.status(400);
   if (!req.body.settings || !req.body.logsLines) return res.status(400);
 
   const logLine = req.body.logsLines.split('\n')[0];
@@ -82,6 +83,5 @@ app.put('/logparser', (req, res) => {
     formatBreak: 0
   });
 });
-
 
 module.exports = app;

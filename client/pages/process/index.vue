@@ -134,7 +134,7 @@ export default {
       await store.dispatch('process/GET_COUNTRIES');
       return true;
     } catch (e) {
-      await store.dispatch('snack/error', app.i18n.t('ui.errors.error'));
+      await store.dispatch('snacks/error', app.i18n.t('ui.errors.error'));
       return false;
     }
   },

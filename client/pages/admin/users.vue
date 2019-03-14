@@ -241,7 +241,7 @@ export default {
       await store.dispatch('GET_USERS_LIST');
       return true;
     } catch (e) {
-      await store.dispatch('snack/error', app.i18n.t('ui.errors.error'));
+      await store.dispatch('snacks/error', app.i18n.t('ui.errors.error'));
       return false;
     }
   },
@@ -260,7 +260,7 @@ export default {
 
       this.$store.dispatch('ADD_USER', data).then(() => {
         this.$store.dispatch('GET_USERS_LIST').catch(() => {
-          this.$store.dispatch('snack/error', this.$t('ui.errors.error'));
+          this.$store.dispatch('snacks/error', this.$t('ui.errors.error'));
         });
 
         this.userid = null;

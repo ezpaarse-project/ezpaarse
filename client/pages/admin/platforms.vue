@@ -276,7 +276,7 @@ export default {
       await store.dispatch('GET_PLATFORMS_CHANGED');
       return true;
     } catch (e) {
-      await store.dispatch('snack/error', app.i18n.t('ui.errors.error'));
+      await store.dispatch('snacks/error', app.i18n.t('ui.errors.error'));
       return false;
     }
   },
