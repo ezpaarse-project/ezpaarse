@@ -682,7 +682,12 @@ export default {
       this.$store.dispatch('process/SET_CURRENT_PREDEFINED_SETTINGS', JSON.parse(JSON.stringify(currentSettings)));
     },
     informations (header) {
-      const anchor = this.headers.find(h => header === h.name);
+      let head = header.charAt(0).toUpperCase() + header.slice(1);
+      const match = /^Log-Format-(ezproxy|squid|apache)$/i.exec(head);
+      if (match !== null) {
+        head = 'Log-Format-xxx';
+      }
+      const anchor = this.headers.find(h => head === h.name);
       if (anchor) window.open(`https://ezpaarse.readthedocs.io/en/master/configuration/parametres.html#${anchor.anchor}`, '_blank');
     },
     saveCustomSettings () {
@@ -697,11 +702,11 @@ export default {
 
       this.$store.dispatch(`process/${store}_CUSTOM_PREDEFINED_SETTINGS`, customPs).then(() => {
         this.$store.dispatch('process/GET_PREDEFINED_SETTINGS').catch(err => {
-          let message = this.$t('ui.errors.error');
+          let message = this.$t('ui.errors.cannotLoadPredefinedSettings');
           if (err.response.data.message) {
             message = this.$t(`ui.errors.${err.response.data.message}`);
           }
-          this.$store.dispatch('snacks/info', message);
+          this.$store.dispatch('snacks/error', `E${err.response.status} - ${message}`);
         });
 
         this.currentPredefinedSettings = customPs;
@@ -711,7 +716,9 @@ export default {
         this.saveFields.fullName = '';
         this.saveFields.country = '';
         this.$store.dispatch('snacks/success', this.$t('ui.pages.process.settings.paramsSaved'));
-      }).catch(() => this.$store.dispatch('snacks/error', this.$t('ui.errors.error')));
+      }).catch(err => {
+        this.$store.dispatch('snacks/error', `E${err.response.status} - ${this.$t('ui.errors.errorSavePredefinedSettings')}`);
+      });
     },
     setCurrentToCustomPredefinedSettings () {
       if (this.displayCustomPredefinedSettings) {
@@ -724,8 +731,12 @@ export default {
         .then(() => {
           this.$store.dispatch('snacks/success', this.$t('ui.pages.process.settings.deleted'));
           this.$store.dispatch('process/GET_PREDEFINED_SETTINGS')
-            .catch(() => this.$store.dispatch('snacks/error', this.$t('ui.errors.error')));
-        }).catch(() => this.$store.dispatch('snacks/error', this.$t('ui.errors.error')));
+            .catch(err => {
+              this.$store.dispatch('snacks/error', `E${err.response.status} - ${this.$t('ui.errors.cannotLoadPredefinedSettings')}`);
+            });
+        }).catch(err => {
+          this.$store.dispatch('snacks/error', `E${err.response.status} - ${this.$t('ui.errors.cannotRemovePredefinedSettings')}`);
+        });
     },
     predefinedSettingsItems () {
       if (!this.displayCustomPredefinedSettings) return this.allPredefinedSettings;

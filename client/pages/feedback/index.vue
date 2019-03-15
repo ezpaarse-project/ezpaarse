@@ -27,15 +27,6 @@
             v-html="$t('ui.pages.feedback.email')"
           />
 
-          <v-alert
-            v-if="feedBackSend"
-            :value="true"
-            color="success"
-            dismissible
-          >
-            {{ $t('ui.pages.feedback.hasSent') }}
-          </v-alert>
-
           <v-text-field
             v-model="email"
             label="Email"
@@ -105,10 +96,8 @@ export default {
         this.email = null;
         this.comment = null;
         this.checkbox = true;
-        this.feedBackSend = true;
-      }).catch(() => {
-        this.feedBackSend = false;
-      });
+        this.$store.dispatch('snacks/success', this.$t('ui.pages.feedback.hasSent'));
+      }).catch(err => this.$store.dispatch('snacks/error', `E${err.response.status} - ${this.$t('ui.errors.cannotSendFeedback')}`));
     }
   }
 };

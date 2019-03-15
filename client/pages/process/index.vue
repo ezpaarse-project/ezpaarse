@@ -103,6 +103,7 @@
 
 <script>
 /* eslint-disable import/no-unresolved */
+/* eslint consistent-return: "off" */
 import LogFiles from '~/components/Process/LogFiles';
 import LogFormat from '~/components/Process/LogFormat';
 import Settings from '~/components/Process/Settings';
@@ -129,13 +130,16 @@ export default {
       if (store.state.process.inProgress && store.state.process.processProgress >= 100) {
         store.dispatch('process/SET_IN_PROGRESS', false);
       }
-
-      await store.dispatch('process/GET_PREDEFINED_SETTINGS');
-      await store.dispatch('process/GET_COUNTRIES');
-      return true;
     } catch (e) {
       await store.dispatch('snacks/error', app.i18n.t('ui.errors.error'));
-      return false;
+    }
+
+    try { await store.dispatch('process/GET_PREDEFINED_SETTINGS'); } catch (e) {
+      await store.dispatch('snacks/error', `E${e.response.status} - ${this.$t('ui.errors.cannotLoadPredefinedSettings')}`);
+    }
+
+    try { await store.dispatch('process/GET_COUNTRIES'); } catch (e) {
+      await store.dispatch('snacks/error', `E${e.response.status} - ${this.$t('ui.errors.cannotGetCountriesList')}`);
     }
   },
   computed: {

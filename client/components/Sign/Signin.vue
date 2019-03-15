@@ -69,7 +69,9 @@ export default {
         this.$store.dispatch('LOAD_PKBS');
         this.$store.dispatch('LOAD_STATUS');
       }).catch(err => {
-        if (err.response.status !== 200) this.$store.dispatch('snacks/error', this.$t('ui.errors.bad_credentials'));
+        if (err.response.status !== 200) {
+          this.$store.dispatch('snacks/error', `E${err.response.status} - ${this.$t('ui.errors.badCredentials')}`);
+        }
       });
     }
   }

@@ -77,7 +77,7 @@ export default {
         this.$store.dispatch('snacks/success', this.$t('ui.pages.profile.passwordUpdated'));
         return this.$router.push('/');
       }).catch(err => {
-        if (err) return this.$store.dispatch('snacks/error', this.$t(`ui.errors.${err.response.data.message}`));
+        if (err) return this.$store.dispatch('snacks/error', `E${err.response.status} - ${this.$t(`ui.errors.${err.response.data.message}`)}`);
         if (err.response.data.message === 'expiration_date') return this.$router.push('/');
         return this.$router.push('/');
       });

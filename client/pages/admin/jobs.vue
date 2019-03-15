@@ -35,10 +35,8 @@ export default {
       app.socket.on('jobs', (data) => {
         store.dispatch('socket/SET_JOBS', data);
       });
-      return true;
     } catch (e) {
-      await store.dispatch('snacks/error', app.i18n.t('ui.errors.error'));
-      return false;
+      await store.dispatch('snacks/error', `E${e.response.status} - ${this.$t('ui.errors.cannotGetJobs')}`);
     }
   },
   computed: {

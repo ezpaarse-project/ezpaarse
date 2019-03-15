@@ -236,13 +236,11 @@ export default {
       }
     };
   },
-  async fetch ({ store, app }) {
+  async fetch ({ store }) {
     try {
       await store.dispatch('GET_USERS_LIST');
-      return true;
     } catch (e) {
-      await store.dispatch('snacks/error', app.i18n.t('ui.errors.error'));
-      return false;
+      await store.dispatch('snacks/error', `E${e.response.status} - ${this.$t('ui.errors.cannotLoadUsersList')}`);
     }
   },
   computed: {
@@ -259,15 +257,15 @@ export default {
       };
 
       this.$store.dispatch('ADD_USER', data).then(() => {
-        this.$store.dispatch('GET_USERS_LIST').catch(() => {
-          this.$store.dispatch('snacks/error', this.$t('ui.errors.error'));
+        this.$store.dispatch('GET_USERS_LIST').catch(err => {
+          this.$store.dispatch('snacks/error', `E${err.response.status} - ${this.$t('ui.errors.cannotLoadUsersList')}`);
         });
 
         this.userid = null;
         this.group = null;
         this.password = null;
       }).catch(err => {
-        this.$store.dispatch('snacks/info', this.$t(`ui.errors.${err.response.data.message}`));
+        this.$store.dispatch('snacks/error', `E${err.response.status} - $${err.response.data.message}`);
       });
     },
     setCurrentUser (user) {
@@ -282,12 +280,16 @@ export default {
     },
     removeUser (userid) {
       if (userid === this.$auth.user.username) {
-        return this.$store.dispatch('snacks/info', this.$t('ui.errors.cant_delete_yourself'));
+        return this.$store.dispatch('snacks/error', this.$t('ui.errors.cannotDeleteYourself'));
       }
 
       this.$store.dispatch('REMOVE_USER', userid).then(() => {
-        this.$store.dispatch('GET_USERS_LIST').catch(() => this.$store.dispatch('snacks/info', this.$t('ui.errors.title')));
-      }).catch(err => this.$store.dispatch('snacks/info', this.$t(`ui.errors.${err.response.data.message}`)));
+        this.$store.dispatch('GET_USERS_LIST').catch(err => {
+          this.$store.dispatch('snacks/error', `E${err.response.status} - ${this.$t('ui.errors.cannotLoadUsersList')}`);
+        });
+      }).catch(err => {
+        this.$store.dispatch('snacks/error', `E${err.response.status} - ${this.$t('ui.errors.cannotRemoveUser')}`);
+      });
       return false;
     },
     editUser () {
@@ -300,8 +302,10 @@ export default {
           email: this.currentUser.username
         }));
 
-        this.$store.dispatch('GET_USERS_LIST').catch(() => this.$store.dispatch('snacks/info', this.$t('ui.errors.title')));
-      }).catch(err => this.$store.dispatch('snacks/info', this.$t(`ui.errors.${err.response.data.message}`)));
+        this.$store.dispatch('GET_USERS_LIST').catch(err => {
+          this.$store.dispatch('snacks/error', `E${err.response.status} - ${this.$t('ui.errors.cannotLoadUsersList')}`);
+        });
+      }).catch(err => this.$store.dispatch('snacks/error', `E${err.response.status} - $${err.response.data.message}`));
     }
   }
 };

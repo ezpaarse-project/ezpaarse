@@ -94,8 +94,8 @@ export default {
         },
         section: 'notifications',
         notifiate: this.$auth.user.notifiate
-      }).catch(() => {
-        this.$store.dispatch('snacks/info', this.$t('ui.errors.500'));
+      }).catch(err => {
+        this.$store.dispatch('snacks/error', `E${err.response.status} - ${this.$t('ui.errors.cannotNotifiate')}`);
       });
     },
     updatePassword () {
@@ -114,9 +114,9 @@ export default {
         this.$store.dispatch('snacks/success', this.$t('ui.pages.profile.passwordUpdated'));
       }).catch(err => {
         if (!err.response.data.message) {
-          this.$store.dispatch('snacks/info', this.$t('ui.errors.error'));
+          this.$store.dispatch('snacks/error', `E${err.response.status} - ${this.$t('ui.errors.cannotUpdatePassword')}`);
         } else {
-          this.$store.dispatch('snacks/info', this.$t(`ui.errors.${err.response.data.message}`));
+          this.$store.dispatch('snacks/error', this.$t(`ui.errors.${err.response.data.message}`));
         }
       });
     }

@@ -270,14 +270,13 @@ export default {
       }]
     };
   },
-  async fetch ({ store, app }) {
-    try {
-      await store.dispatch('GET_PLATFORMS');
-      await store.dispatch('GET_PLATFORMS_CHANGED');
-      return true;
-    } catch (e) {
-      await store.dispatch('snacks/error', app.i18n.t('ui.errors.error'));
-      return false;
+  async fetch ({ store }) {
+    try { await store.dispatch('GET_PLATFORMS'); } catch (e) {
+      await store.dispatch('snacks/error', `E${err.response.status} - ${this.$t('ui.errors.cannotGetPlatforms')}`);
+    }
+
+    try { await store.dispatch('GET_PLATFORMS_CHANGED'); } catch (e) {
+      await store.dispatch('snacks/error', `E${err.response.status} - ${this.$t('ui.errors.cannotGetPlatformsChanged')}`);
     }
   },
   computed: {
@@ -298,9 +297,15 @@ export default {
         this.$store.dispatch('GET_PLATFORMS').then(() => {
           this.$store.dispatch('LOAD_STATUS').then(() => {
             this.inUpdate = false;
-          }).catch(() => this.$store.dispatch('snacks/error', this.$t('ui.errors.error')));
-        }).catch(() => this.$store.dispatch('snacks/error', this.$t('ui.errors.error')));
-      }).catch(() => this.$store.dispatch('snacks/error', this.$t('ui.errors.error')));
+          }).catch(err => {
+            this.$store.dispatch('snacks/error', `E${err.response.status} - ${this.$t('ui.errors.cannotLoadStatus')}`);
+          });
+        }).catch(err => {
+          this.$store.dispatch('snacks/error', `E${err.response.status} - ${this.$t('ui.errors.cannotGetPlatforms')}`);
+        });
+      }).catch(err => {
+        this.$store.dispatch('snacks/error', `E${err.response.status} - ${this.$t('ui.errors.impossibleToUpdate')}`);
+      });
     }
   }
 };

@@ -33,10 +33,12 @@ const store = () => new Vuex.Store({
     SET_DRAWER ({ commit }, value) {
       commit('SET_DRAWER', value);
     },
-    REGISTER (credentials) {
+    /* eslint-disable-next-line */
+    REGISTER ({ commit }, credentials) {
       return api.register(this.$axios, credentials);
     },
-    SEND_FEEDBACK (data) {
+    /* eslint-disable-next-line */
+    SEND_FEEDBACK ({ commit }, data) {
       return api.sendFeedback(this.$axios, data);
     },
     LOAD_STATUS ({ commit }) {
@@ -59,10 +61,12 @@ const store = () => new Vuex.Store({
         });
       });
     },
-    UPDATE_REPO (repo) {
+    /* eslint-disable-next-line */
+    UPDATE_REPO ({commit}, repo) {
       return api.updateRepo(this.$axios, repo);
     },
-    UPDATE_APP (version) {
+    /* eslint-disable-next-line */
+    UPDATE_APP ({commit}, version) {
       return api.updateApp(this.$axios, version);
     },
     GET_PLATFORMS ({ commit }) {

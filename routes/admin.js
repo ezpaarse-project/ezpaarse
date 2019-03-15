@@ -133,7 +133,7 @@ app.post('/register', bodyParser.urlencoded({ extended: true }), bodyParser.json
     };
 
     if (!userid || !password || !confirm) {
-      return sendErr(400, 'fill_all_fields');
+      return sendErr(400, 'fillAllFields');
     }
 
     // Regex used by angular
@@ -142,12 +142,12 @@ app.post('/register', bodyParser.urlencoded({ extended: true }), bodyParser.json
     }
 
     if (password != confirm) {
-      return sendErr(400, 'password_does_not_match');
+      return sendErr(400, 'passwordDoesNotMatch');
     }
 
     userlist.get(userid, function (err, user) {
       if (err) { res.status(500).end(); }
-      if (user) { return sendErr(409, 'user_already_exists'); }
+      if (user) { return sendErr(409, 'userAlreadyExists'); }
 
       var cryptedPassword = userlist.crypt(userid, password);
 
@@ -221,7 +221,7 @@ app.post('/users/', auth.ensureAuthenticated(true), auth.authorizeMembersOf('adm
     };
 
     if (!userid || !password) {
-      return sendErr(400, 'fill_all_fields');
+      return sendErr(400, 'fillAllFields');
     }
 
     // Regex used by angular
@@ -231,7 +231,7 @@ app.post('/users/', auth.ensureAuthenticated(true), auth.authorizeMembersOf('adm
 
     userlist.get(userid, function (err, user) {
       if (err) { res.status(500).end(); }
-      if (user) { return sendErr(409, 'user_already_exists'); }
+      if (user) { return sendErr(409, 'userAlreadyExists'); }
 
       var cryptedPassword = userlist.crypt(userid, password);
 
@@ -263,7 +263,7 @@ app.delete(/^\/users\/(.+)$/, auth.ensureAuthenticated(true),
   auth.authorizeMembersOf('admin'), function (req, res) {
     var username = req.params[0];
     if (username == req.user.username) {
-      res.status(403).json({ status: 403, message: 'cant_delete_yourself' }).end();
+      res.status(403).json({ status: 403, message: 'cannotDeleteYourself' }).end();
       // res.set('ezPAARSE-Status-Message', 'cant_delete_yourself');
       // res.status(403).end();
     } else {
@@ -302,7 +302,7 @@ app.post(/^\/users\/(.+)$/, auth.ensureAuthenticated(true), auth.authorizeMember
 
       if (body.group && body.group != user.group) {
         if (mail == req.user.username) {
-          res.status(400).json({ status: 400, message: 'cant_change_your_own_group' }).end();
+          res.status(400).json({ status: 400, message: 'cannotChangeYourOwnGroup' }).end();
           // res.header('ezPAARSE-Status-Message', 'cant_change_your_own_group');
           // return res.status(400).end();
         }
@@ -361,7 +361,7 @@ app.put('/passwords', bodyParser.urlencoded({ extended: true }), bodyParser.json
 
   if (!pwd || !pwdRepeat || !uuid) return res.status(400).json({ status: 400, message: 'error' });
   /* eslint-disable-next-line */
-  if (pwd !== pwdRepeat) return res.status(400).json({ status: 400, message: 'password_does_not_match' });
+  if (pwd !== pwdRepeat) return res.status(400).json({ status: 400, message: 'passwordDoesNotMatch' });
 
   password.getUser(uuid, function (err, result) {
     if (err) return res.status(500).json({ status: 500 });
@@ -400,11 +400,11 @@ app.post('/profile', auth.ensureAuthenticated(true),
       switch (body.section) {
       case 'password':
         if (!body.oldPassword || !body.newPassword || !body.confirm) {
-          return res.status(400).json({ status: 400, message: 'fill_all_fields' }).end();
+          return res.status(400).json({ status: 400, message: 'fillAllFields' }).end();
           // res.set('ezPAARSE-Status-Message', 'fill_all_fields');
           // return res.status(400).end();
         } else if (body.newPassword != body.confirm) {
-          return res.status(400).json({ status: 400, message: 'password_does_not_match' }).end();
+          return res.status(400).json({ status: 400, message: 'passwordDoesNotMatch' }).end();
           // res.set('ezPAARSE-Status-Message', 'password_does_not_match');
           // return res.status(400).end();
         }
@@ -412,7 +412,7 @@ app.post('/profile', auth.ensureAuthenticated(true),
         var oldCryptedPassword = userlist.crypt(user.username, body.oldPassword);
 
         if (user.password != oldCryptedPassword) {
-          return res.status(400).json({ status: 400, message: 'wrong_password' }).end();
+          return res.status(400).json({ status: 400, message: 'wrongPassword' }).end();
           // res.set('ezPAARSE-Status-Message', 'wrong_password');
           // return res.status(400).end();
         }
@@ -431,7 +431,7 @@ app.post('/profile', auth.ensureAuthenticated(true),
         });
         break;
       default:
-        return res.status(400).json({ status: 400, message: 'bad_section' }).end();
+        return res.status(400).json({ status: 400, message: 'badSection' }).end();
         // res.set('ezPAARSE-Status-Message', 'bad_section');
         // res.status(400).end();
       }

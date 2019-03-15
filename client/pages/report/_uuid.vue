@@ -136,11 +136,11 @@ export default {
       expended: false
     };
   },
-  async fetch ({ store, params, app }) {
+  async fetch ({ store, params }) {
     try {
       if (params.uuid) await store.dispatch('process/GET_REPORT', params.uuid);
     } catch (e) {
-      await store.dispatch('snacks/error', app.i18n.t('ui.errors.error'));
+      await store.dispatch('snacks/error', `E${e.response.status} - ${this.$t('ui.errors.cannotGetReport')}`);
     }
   },
   computed: {

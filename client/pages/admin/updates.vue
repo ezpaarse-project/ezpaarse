@@ -206,8 +206,12 @@ export default {
       if (repo === 'ezpaarse') this.inUpdate.ezpaarse = true;
 
       this.$store.dispatch('UPDATE_REPO', repo).then(() => {
-        this.$store.dispatch('LOAD_STATUS').catch(() => this.$store.dispatch('snacks/info', this.$t('ui.errors.title')));
-      }).catch(() => this.$store.dispatch('snacks/info', this.$t('ui.errors.title')));
+        this.$store.dispatch('LOAD_STATUS').catch(err => {
+          this.$store.dispatch('snacks/error', `E${err.response.status} - ${this.$t('ui.errors.cannotLoadStatus')}`);
+        });
+      }).catch(err => {
+        this.$store.dispatch('snacks/error', `E${err.response.status} - ${this.$t('ui.errors.impossibleToUpdate')}`);
+      });
 
       if (repo === 'resources') this.inUpdate.resources = false;
       if (repo === 'middlewares') this.inUpdate.middlewares = false;
@@ -220,8 +224,12 @@ export default {
       this.$store.dispatch('UPDATE_APP', vers).then(() => {
         this.$store.dispatch('LOAD_STATUS')
           .then(() => { this.inUpdate.ezpaarse = false; })
-          .catch(() => this.$store.dispatch('snacks/info', this.$t('ui.errors.title')));
-      }).catch(() => this.$store.dispatch('snacks/info', this.$t('ui.errors.title')));
+          .catch(err => {
+            this.$store.dispatch('snacks/error', `E${err.response.status} - ${this.$t('ui.errors.cannotLoadStatus')}`);
+          });
+      }).catch(err => {
+        this.$store.dispatch('snacks/error', `E${err.response.status} - ${this.$t('ui.errors.impossibleToUpdate')}`);
+      });
 
       this.inUpdate.ezpaarse = false;
     }

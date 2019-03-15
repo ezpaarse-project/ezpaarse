@@ -78,13 +78,13 @@ export default {
   },
   mounted () {
     this.$store.dispatch('GET_APP_INFOS').catch(err => {
-      this.$store.dispatch('snacks/error', this.$t('ui.errors.error'));
+      this.$store.dispatch('snacks/error', `E${err.response.status} - ${this.$t('cannotGetAppInfos')}`);
     });
     this.$store.dispatch('LOAD_PKBS').catch(err => {
-      this.$store.dispatch('snacks/error', this.$t('ui.errors.error'));
+      this.$store.dispatch('snacks/error', `E${err.response.status} - ${this.$t('cannotLoadPKBS')}`);
     });
     this.$store.dispatch('LOAD_STATUS').catch(err => {
-      this.$store.dispatch('snacks/error', this.$t('ui.errors.error'));
+      this.$store.dispatch('snacks/error', `E${err.response.status} - ${this.$t('cannotLoadStatus')}`);
     });
   }
 };

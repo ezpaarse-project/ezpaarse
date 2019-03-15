@@ -87,7 +87,9 @@ export default {
           password: this.credentials.password.trim()
         }
       })).catch(err => {
-        this.$store.dispatch('snacks/info', err.response.data.message ? this.$t(`ui.errors.${err.response.data.message}`) : this.$t('ui.errors.error'));
+        let message = this.$t('ui.errors.cannotRegister');
+        if (err.response.data.message) message = err.response.data.message;
+        this.$store.dispatch('snacks/error', `E${err.response.status} - ${message}`);
       });
     }
   }

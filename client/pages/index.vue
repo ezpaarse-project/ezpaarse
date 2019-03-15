@@ -47,14 +47,13 @@ export default {
       activeTab: 'tab-signin'
     };
   },
-  async fetch ({ store, app }) {
-    try {
-      await store.dispatch('GET_USER_NUMBER');
-      await store.dispatch('GET_APP_INFOS');
-      return true;
-    } catch (e) {
-      await store.dispatch('snacks/error', app.i18n.t('ui.errors.error'));
-      return false;
+  async fetch ({ store }) {
+    try { await store.dispatch('process/GET_USER_NUMBER'); } catch (e) {
+      await store.dispatch('snacks/error', `E${e.response.status} - ${this.$t('ui.errors.cannotLoadUserNumber')}`);
+    }
+
+    try { await store.dispatch('process/GET_APP_INFOS'); } catch (e) {
+      await store.dispatch('snacks/error', `E${e.response.status} - ${this.$t('ui.errors.cannotGetAppInfos')}`);
     }
   },
   computed: {
