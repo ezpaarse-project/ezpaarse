@@ -50,6 +50,11 @@
           >
             {{ $t('ui.send') }}
           </v-btn>
+          <v-progress-circular
+            v-if="feedBackSend"
+            indeterminate
+            color="teal"
+          ></v-progress-circular>
         </v-flex>
 
         <v-flex
@@ -88,16 +93,21 @@ export default {
   },
   methods: {
     sendFeedBack () {
-      this.$store.dispatch('SEND_FEEDBACK', {
-        email: this.email,
-        comment: this.comment,
-        browser: this.checkbox ? navigator.userAgent : null
-      }).then(() => {
-        this.email = null;
-        this.comment = null;
-        this.checkbox = true;
-        this.$store.dispatch('snacks/success', this.$t('ui.pages.feedback.hasSent'));
-      }).catch(err => this.$store.dispatch('snacks/error', `E${err.response.status} - ${this.$t('ui.errors.cannotSendFeedback')}`));
+      this.feedBackSend = true;
+      // this.$store.dispatch('SEND_FEEDBACK', {
+      //   email: this.email,
+      //   comment: this.comment,
+      //   browser: this.checkbox ? navigator.userAgent : null
+      // }).then(() => {
+      //   this.email = null;
+      //   this.comment = null;
+      //   this.checkbox = true;
+      //   this.$store.dispatch('snacks/success', this.$t('ui.pages.feedback.hasSent'));
+      //   this.feedBackSend = false;
+      // }).catch(err => {
+      //   this.$store.dispatch('snacks/error', `E${err.response.status} - ${this.$t('ui.errors.cannotSendFeedback')}`);
+      //   this.feedBackSend = false;
+      // });
     }
   }
 };
