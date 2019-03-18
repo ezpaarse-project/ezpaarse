@@ -4,7 +4,6 @@
 const { Nuxt, Builder } = require('nuxt');
 
 const app           = require('express')();
-const logger        = require('morgan');
 const cookieSession = require('cookie-session');
 const cookieParser  = require('cookie-parser');
 const auth          = require('./lib/auth-middlewares.js');
@@ -28,7 +27,6 @@ const env = process.env.NODE_ENV = process.env.NODE_ENV || config.EZPAARSE_ENV;
 app.set('env', env);
 
 const isDev = app.get('env') !== 'production';
-if (isDev) { app.use(logger('dev')); }
 
 // Passport (auth)
 passport.serializeUser(function (user, done) {
