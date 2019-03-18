@@ -48,11 +48,11 @@ export default {
     };
   },
   async fetch ({ store }) {
-    try { await store.dispatch('process/GET_USER_NUMBER'); } catch (e) {
+    try { await store.dispatch('GET_USER_NUMBER'); } catch (e) {
       await store.dispatch('snacks/error', `E${e.response.status} - ${this.$t('ui.errors.cannotLoadUserNumber')}`);
     }
 
-    try { await store.dispatch('process/GET_APP_INFOS'); } catch (e) {
+    try { await store.dispatch('GET_APP_INFOS'); } catch (e) {
       await store.dispatch('snacks/error', `E${e.response.status} - ${this.$t('ui.errors.cannotGetAppInfos')}`);
     }
   },

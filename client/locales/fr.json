@@ -5,7 +5,8 @@
       "pkbsRemaining": "{pkbs} PKBs restantes",
       "noCurrentProcessing": "Aucun traitement en cours",
       "currentProcessing": "Traitement en cours : {percent} %",
-      "processCanceled": "Traitement annulé"
+      "processCanceled": "Traitement annulé",
+      "processEnd": "Traitement terminé"
     },
     "drawer": {
       "notConnected": "Non connecté",

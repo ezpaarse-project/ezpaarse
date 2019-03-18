@@ -34,14 +34,17 @@
         </v-chip>
       </div>
       <div class="text-xs-center mt-2">
-        <v-chip v-if="processProgress <= 0">
+        <v-chip v-if="processProgress <= 0 && status !== 'end'">
           {{ $t('ui.header.noCurrentProcessing') }}
         </v-chip>
         <v-chip v-if="status === 'abort'">
           {{ $t('ui.header.processCanceled') }}
         </v-chip>
+        <v-chip v-if="status === 'end' && processProgress >= 100">
+          {{ $t('ui.header.processEnd') }}
+        </v-chip>
         <nuxt-link
-          v-if="processProgress > 0 && status !== 'abort' && status === 'end'"
+          v-if="processProgress > 0 && status !== 'abort' && status !== 'end'"
           tag="v-chip"
           to="/process/job"
         >

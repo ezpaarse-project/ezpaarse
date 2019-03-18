@@ -77,7 +77,7 @@
         class="text-xs-left"
       >
         <v-btn
-          v-if="report && report.general"
+          v-if="report && report.general && status === 'end'"
           depressed
           color="green"
           class="white--text"
@@ -93,7 +93,7 @@
 
 
       <v-flex
-        v-if="processProgress >= 100"
+        v-if="status === 'end'"
         xs6
         sm6
         class="text-xs-right"
@@ -110,7 +110,7 @@
           >
             {{ $t('ui.pages.process.job.downloadResult') }}
             <v-icon right>
-              mdi-home
+              mdi-download
             </v-icon>
           </v-btn>
         </a>

@@ -56,7 +56,7 @@
           >
             {{ $t('ui.pages.process.job.downloadResult') }}
             <v-icon right>
-              mdi-home
+              mdi-download
             </v-icon>
           </v-btn>
         </v-flex>

@@ -235,10 +235,11 @@ export default {
           const percent = Math.floor((progressEvent.loaded * 100) / progressEvent.total);
           if (percent <= 100) {
             commit('SET_PROCESS_PROGRESS', percent);
-            commit('SET_STATUS', 'end');
           }
         },
         headers: { ...data.headers, 'content-type': 'text/plain' }
+      }).then(() => {
+        commit('SET_STATUS', 'end');
       }).catch(err => {
         source.cancel('Query canceled by error');
         commit('SET_PROCESS_PROGRESS', 100);

@@ -5,7 +5,8 @@
       "pkbsRemaining": "{pkbs} PKBs remaining",
       "noCurrentProcessing": "No process loading",
       "currentProcessing": "Processing in progress : {percent} %",
-      "processCanceled": "Process canceled"
+      "processCanceled": "Process canceled",
+      "processEnd": "Process finished"
     },
     "drawer": {
       "notConnected": "Not connected",
