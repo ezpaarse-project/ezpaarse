@@ -172,6 +172,8 @@ export default {
             const cf = this.currentPredefinedSettings.headers['Crypted-Fields'];
             if (cf && cf.length > 0) {
               headers['Crypted-Fields'] = cf.join(',');
+            } else {
+              headers['Crypted-Fields'] = 'none';
             }
             break;
 
@@ -277,6 +279,8 @@ export default {
               if (cf && cf.length > 0) {
                 const cryptedFields = this.currentPredefinedSettings.headers['Crypted-Fields'].join(',');
                 curl.push(`-H "Crypted-Fields:${cryptedFields}"`);
+              } else {
+                 curl.push(`-H "Crypted-Fields:none"`);
               }
               break;
 

@@ -236,14 +236,19 @@ export default {
           if (percent <= 100) {
             commit('SET_PROCESS_PROGRESS', percent);
           }
+          if (percent >= 100) {
+            commit('SET_STATUS', 'finalisation');
+          }
         },
         headers: { ...data.headers, 'content-type': 'text/plain' }
       }).then(() => {
+        commit('SET_IN_PROGRESS', false);
         commit('SET_STATUS', 'end');
       }).catch(err => {
         source.cancel('Query canceled by error');
         commit('SET_PROCESS_PROGRESS', 100);
         commit('SET_STATUS', 'error');
+        commit('SET_IN_PROGRESS', false);
         if (err.response) {
           commit('SET_ERROR', `${err.response.headers['ezpaarse-status']} : ${err.response.headers['ezpaarse-status-message']}`);
         }

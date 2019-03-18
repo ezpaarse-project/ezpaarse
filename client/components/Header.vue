@@ -1,16 +1,11 @@
 <template>
-  <v-toolbar
-    app
-    dark
-    fixed
-    class="teal"
-  >
+  <v-toolbar app dark fixed class="teal">
     <v-toolbar-side-icon @click.stop="setDrawer(!drawer)">
       <v-icon>mdi-menu</v-icon>
     </v-toolbar-side-icon>
     <v-toolbar-title>ezPAARSE</v-toolbar-title>
 
-    <v-spacer />
+    <v-spacer/>
 
     <v-toolbar-items>
       <div class="text-xs-center mt-2">
@@ -24,57 +19,53 @@
             :width="2"
           />
 
-          <span v-if="pkbs && pkbs.remaining.length > 0 && pkbs.state === 'synchronizing'">
-            {{ $t('ui.header.pkbsRemaining', { pkbs: pkbs.remaining.length }) }}
-          </span>
-
-          <span v-if="pkbs && pkbs.state === 'synchronized' && pkbs.remaining.length <= 0">
-            {{ $t('ui.header.pkbsSynchronized') }}
-          </span>
+          <span
+            v-if="pkbs && pkbs.remaining.length > 0 && pkbs.state === 'synchronizing'"
+          >{{ $t('ui.header.pkbsRemaining', { pkbs: pkbs.remaining.length }) }}</span>
+          
+          <span
+            v-if="pkbs && pkbs.state === 'synchronized' && pkbs.remaining.length <= 0"
+          >{{ $t('ui.header.pkbsSynchronized') }}</span>
         </v-chip>
       </div>
       <div class="text-xs-center mt-2">
-        <v-chip v-if="processProgress <= 0 && status !== 'end'">
-          {{ $t('ui.header.noCurrentProcessing') }}
-        </v-chip>
-        <v-chip v-if="status === 'abort'">
-          {{ $t('ui.header.processCanceled') }}
-        </v-chip>
-        <v-chip v-if="status === 'end' && processProgress >= 100">
-          {{ $t('ui.header.processEnd') }}
-        </v-chip>
+        <v-chip v-if="!inProgress">{{ $t('ui.header.noCurrentProcessing') }}</v-chip>
+        <v-chip v-else-if="!inProgress && status === 'abort' && status !== 'error' && status !== 'end'  && status !== 'finalisation'">{{ $t('ui.header.processCanceled') }}</v-chip>
+        <v-chip v-else-if="!inProgress && status === 'end' && status !== 'error' && status !== 'abort'  && status !== 'finalisation'">{{ $t('ui.header.processEnd') }}</v-chip>
+        <v-chip v-else-if="inProgress && status === 'finalisation' &&  status !== 'error' && status !== 'abort'  && status !== 'end'">{{ $t('ui.header.finalisation') }}</v-chip>
         <nuxt-link
-          v-if="processProgress > 0 && status !== 'abort' && status !== 'end'"
+          v-else
           tag="v-chip"
           to="/process/job"
-        >
-          {{ $t('ui.header.currentProcessing', { percent: processProgress }) }}
-        </nuxt-link>
+        >{{ $t('ui.header.currentProcessing', { percent: processProgress }) }}</nuxt-link>
       </div>
     </v-toolbar-items>
   </v-toolbar>
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapActions } from "vuex";
 
 export default {
   computed: {
-    drawer () {
+    drawer() {
       return this.$store.state.drawer;
     },
-    pkbs () {
+    pkbs() {
       return this.$store.state.pkbs;
     },
-    processProgress () {
+    processProgress() {
       return this.$store.state.process.processProgress;
     },
-    status () {
+    inProgress() {
+      return this.$store.state.process.inProgress;
+    },
+    status() {
       return this.$store.state.process.status;
     }
   },
   methods: mapActions({
-    setDrawer: 'SET_DRAWER'
+    setDrawer: "SET_DRAWER"
   })
 };
 </script>

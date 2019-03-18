@@ -22,7 +22,7 @@
       mt-3
     >
       <v-flex
-        v-if="status && status === 'error'"
+        v-if="status && status === 'error' && queryCancelSource !== null"
         xs12
         sm12
       >
@@ -35,15 +35,13 @@
           </span>
           <span v-else>
             <ul>
-              Une ou plusieurs erreurs sont survenues
+              {{ $t('ui.errors.error') }}
               <li
-                v-for="(log, key) in logging"
+                v-for="(log, key) in loggingError()"
                 :key="key"
                 class="ml-4"
               >
-                <span v-if="log.level === 'error'">
-                  {{ log.level }} : {{ log.message }}
-                </span>
+                {{ log.level }} : {{ log.message }}
               </li>
             </ul>
           </span>
@@ -55,7 +53,7 @@
         sm12
       >
         <v-progress-linear
-          background-color="teal"
+          background-color="grey"
           :color="status === 'error' ? 'error' : 'success'"
           height="20"
           :value="processProgress"
@@ -77,7 +75,7 @@
         class="text-xs-left"
       >
         <v-btn
-          v-if="report && report.general && status === 'end'"
+          v-if="report && report.general"
           depressed
           color="green"
           class="white--text"
@@ -93,13 +91,12 @@
 
 
       <v-flex
-        v-if="status === 'end'"
         xs6
         sm6
         class="text-xs-right"
       >
         <a
-          v-if="report && report.general"
+          v-if="report && report.general && status === 'end'"
           :href="`/${report.general['Job-ID']}`"
           target="_blank"
         >
@@ -116,6 +113,7 @@
         </a>
 
         <v-btn
+          v-if="status === 'end'"
           depressed
           color="teal darken-2"
           class="white--text"
@@ -126,15 +124,9 @@
             mdi-reload
           </v-icon>
         </v-btn>
-      </v-flex>
 
-      <v-flex
-        v-else
-        xs12
-        sm12
-        class="text-xs-right"
-      >
         <v-btn
+          v-if="status !== 'end'"
           depressed
           color="error"
           @click="stopProcess"
@@ -498,6 +490,9 @@ export default {
     processProgress () {
       return this.$store.state.process.processProgress;
     },
+    queryCancelSource () {
+      return this.$store.state.process.queryCancelSource;
+    },
     logsFiles () {
       return this.$store.state.process.logsFiles;
     },
@@ -533,6 +528,10 @@ export default {
     },
     relevantLogLines () {
       return this.report.general['nb-lines-input'] - this.report.rejets['nb-lines-ignored'];
+    },
+    loggingError () {
+      console.log(this.logging.find(log => log.level === 'error'))
+      return this.logging.find(log => log.level === 'error');
     }
   }
 };

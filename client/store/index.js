@@ -50,7 +50,7 @@ const store = () => new Vuex.Store({
         api.getPlatformsStatus(this.$axios).then(res => commit('SET_PLATFORMS_STATUS', res)),
         api.getResourcesStatus(this.$axios).then(res => commit('SET_RESOURCES_STATUS', res)),
         api.getMiddlewaresStatus(this.$axios).then(res => commit('SET_MIDDLEWARES_STATUS', res)),
-        api.feedbackStatus(this.$axios).then(res => commit('SET_FEEDBACK_STATUS', res.recipients))
+        api.feedbackStatus(this.$axios).then(res => commit('SET_FEEDBACK_STATUS', res))
       ]);
     },
     /* eslint-disable-next-line */

@@ -6,7 +6,8 @@
       "noCurrentProcessing": "Aucun traitement en cours",
       "currentProcessing": "Traitement en cours : {percent} %",
       "processCanceled": "Traitement annulé",
-      "processEnd": "Traitement terminé"
+      "processEnd": "Traitement terminé",
+      "finalisation": "Finalisation du traitement"
     },
     "drawer": {
       "notConnected": "Non connecté",
@@ -258,7 +259,8 @@
       "cannotRegister": "Impossible de vous enregistrer.",
       "cannotNotifiate": "Impossible d'activer la notification par email.",
       "cannotUpdatePassword": "Impossible de mettre à jour le mot de passe.",
-      "cannotGetlogFormat": "Impossible de récupérer les iformations de la première ligne de log."
+      "cannotGetlogFormat": "Impossible de récupérer les iformations de la première ligne de log.",
+      "error": "Une ou plusieurs erreurs se sont produites."
     },
     "search": "Rechercher",
     "close": "Fermer",
