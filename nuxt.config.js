@@ -18,8 +18,7 @@ module.exports = {
   },
   mode: 'spa',
   loading: {
-    color: '#FFFFFF',
-    height: '5px'
+    color: '#FFFFFF'
   },
   loadingIndicator: {
     name: 'folding-cube',
