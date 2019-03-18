@@ -42,31 +42,23 @@ const store = () => new Vuex.Store({
       return api.sendFeedback(this.$axios, data);
     },
     LOAD_STATUS ({ commit }) {
-      return api.getAppStatus(this.$axios).then(res => {
-        res.isBeta = !/^[0-9]+\.[0-9]+\.[0-9]+$/.test(res.current);
-        commit('SET_APP_STATUS', res);
-
-        return api.getPlatformsStatus(this.$axios).then(platformsStatus => {
-          commit('SET_PLATFORMS_STATUS', platformsStatus);
-
-          return api.getResourcesStatus(this.$axios).then(resourcesStatus => {
-            commit('SET_RESOURCES_STATUS', resourcesStatus);
-
-            return api.getMiddlewaresStatus(this.$axios).then(middlewaresStatus => {
-              commit('SET_MIDDLEWARES_STATUS', middlewaresStatus);
-
-              return api.feedbackStatus(this.$axios).then(feedback => commit('SET_FEEDBACK_STATUS', feedback.recipients));
-            });
-          });
-        });
-      });
+      return Promise.all([
+        api.getAppStatus(this.$axios).then(res => {
+          res.isBeta = !/^[0-9]+\.[0-9]+\.[0-9]+$/.test(res.current);
+          commit('SET_APP_STATUS', res);
+        }),
+        api.getPlatformsStatus(this.$axios).then(res => commit('SET_PLATFORMS_STATUS', res)),
+        api.getResourcesStatus(this.$axios).then(res => commit('SET_RESOURCES_STATUS', res)),
+        api.getMiddlewaresStatus(this.$axios).then(res => commit('SET_MIDDLEWARES_STATUS', res)),
+        api.feedbackStatus(this.$axios).then(res => commit('SET_FEEDBACK_STATUS', res.recipients))
+      ]);
     },
     /* eslint-disable-next-line */
-    UPDATE_REPO ({commit}, repo) {
+    UPDATE_REPO ({ commit }, repo) {
       return api.updateRepo(this.$axios, repo);
     },
     /* eslint-disable-next-line */
-    UPDATE_APP ({commit}, version) {
+    UPDATE_APP ({ commit }, version) {
       return api.updateApp(this.$axios, version);
     },
     GET_PLATFORMS ({ commit }) {
