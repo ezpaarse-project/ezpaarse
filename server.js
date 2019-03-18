@@ -151,10 +151,10 @@ async function connectToMongo () {
 
   logger.info(`MongoDB version: ${mongoVersion}`);
 
-  let versions = /^(?<major>[0-9]+)\.(?<minor>[0-9]+)/.exec(mongoVersion);
+  const versions = /^([0-9]+)\.([0-9]+)/.exec(mongoVersion);
 
-  const major = parseInt(versions.groups.major);
-  const minor = parseInt(versions.groups.minor);
+  const major = parseInt(versions[1]);
+  const minor = parseInt(versions[2]);
 
   if (major < 3 || (major === 3 && minor < 2)) {
     logger.error('MongoDB server outdated, please install version 3.2.0 or higher');
