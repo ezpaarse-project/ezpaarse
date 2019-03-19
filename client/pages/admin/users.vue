@@ -38,6 +38,7 @@
                   label="Email"
                   type="email"
                   required
+                  autocomplete="off"
                 />
               </v-flex>
 
@@ -51,6 +52,7 @@
                   :label="$t('ui.password')"
                   type="password"
                   required
+                  autocomplete="off"
                 />
               </v-flex>
 
@@ -67,6 +69,8 @@
                   :label="$t('ui.pages.admin.users.group')"
                   :append-outer-icon="(!userid || !group || !password) ? '' : 'mdi-plus-circle'"
                   @click:append-outer="addUser"
+                  required
+                  autocomplete="off"
                 />
               </v-flex>
             </v-layout>

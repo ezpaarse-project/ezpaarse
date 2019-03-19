@@ -221,7 +221,7 @@
       </v-list-tile>
       <v-list-tile
         v-if="$auth.loggedIn"
-        @click="$auth.logout()"
+        @click="logout()"
       >
         <v-list-tile-action>
           <v-icon>mdi-logout</v-icon>
@@ -281,6 +281,10 @@ export default {
       const mid = (this.middlewares && this.middlewares['from-head'] === 'outdated');
       const res = (this.resources && this.resources['from-head'] === 'outdated');
       return mid || res;
+    },
+    logout () {
+      this.$auth.logout();
+      this.$router.push('/');
     }
   }
 };
