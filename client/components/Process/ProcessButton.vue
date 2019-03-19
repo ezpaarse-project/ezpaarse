@@ -182,6 +182,7 @@ export default {
             notif = notif.map(mail => `mail <${mail}>`);
             if (notif.length > 0) {
               notif = notif.join(',');
+              headers['ezPAARSE-Job-Notifications'] = notif;
             }
             break;
 

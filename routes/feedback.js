@@ -154,7 +154,7 @@ app.get('/', function (req, res) {
       if (err || !response || response.statusCode != 200) {
         res.status(501).end();
       } else {
-        res.status(200).json({ recipients: config.EZPAARSE_FEEDBACK_RECIPIENTS });
+        res.status(200).json(config.EZPAARSE_FEEDBACK_RECIPIENTS);
       }
     });
   } else {

@@ -36,7 +36,6 @@
             v-model="displayCustomPredefinedSettings"
             class="mTopM20"
             :label="$t('ui.pages.process.settings.showOnlyCustomPredefinedSettings')"
-            @change="setCurrentToCustomPredefinedSettings"
           />
         </v-flex>
 
@@ -719,12 +718,6 @@ export default {
       }).catch(err => {
         this.$store.dispatch('snacks/error', `E${err.response.status} - ${this.$t('ui.errors.errorSavePredefinedSettings')}`);
       });
-    },
-    setCurrentToCustomPredefinedSettings () {
-      if (this.displayCustomPredefinedSettings) {
-        /* eslint-disable-next-line */
-        this.currentPredefinedSettings = this.customPredefinedSettings[1];
-      }
     },
     removeCustomPredefinedSettings () {
       this.$store.dispatch('process/REMOVE_CUSTOM_PREDEFINED_SETTINGS', { id: this.currentPredefinedSettings._id })
