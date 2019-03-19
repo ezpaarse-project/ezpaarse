@@ -283,8 +283,9 @@ export default {
       return mid || res;
     },
     logout () {
-      this.$auth.logout();
-      this.$router.push('/');
+      this.$auth.logout().then(() => {
+        return this.$router.push('/');
+      });
     }
   }
 };
