@@ -180,7 +180,7 @@ export default {
     removeLogsFile (index) {
       const currentLogFile = this.logsFiles.find(e => e.index === index);
       if (currentLogFile) {
-        this.totalFileSize = (this.totalFileSize - currentLogFile.size);
+        this.totalFileSize = (this.totalFileSize - currentLogFile.file.size);
         this.logsFiles = this.logsFiles.filter(e => e.index !== index);
 
         const totalIndex = parseInt(Math.floor(Math.log(this.totalFileSize) / Math.log(1024)), 10);

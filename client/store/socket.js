@@ -4,7 +4,11 @@ export default {
   namespaced: true,
   state: {
     connect: false,
-    report: [],
+    report: {
+      general: [],
+      stats: [],
+      rejets: []
+    },
     logging: [],
     jobs: 0
   },
