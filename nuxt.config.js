@@ -32,6 +32,8 @@ module.exports = {
     proxy: true
   },
   auth: {
+    cookie: false,
+    localStorage: false,
     strategies: {
       local: {
         endpoints: {
