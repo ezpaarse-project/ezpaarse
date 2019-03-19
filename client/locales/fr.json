@@ -140,7 +140,8 @@
             "nb-lines-pkb-miss-ecs": "Les PKBs manquantes.",
             "nb-lines-unordered-ecs": "Lignes ignorées en raison d'un mauvais ordre chronologique.",
             "nb-lines-ignored-hosts": "Hosts volontairement ignorés.",
-            "nb-lines-robots-ecs": "Consultations engendrées par des robots."
+            "nb-lines-robots-ecs": "Consultations engendrées par des robots.",
+            "nb-lines-unknown-errors": "ECs en accès refusé"
           },
           "general": "Général",
           "rejets": "Rejets",

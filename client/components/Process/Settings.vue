@@ -45,7 +45,7 @@
           sm12
           mb-3
         >
-          <v-expansion-panel expand>
+          <v-expansion-panel expand data-app>
             <v-expansion-panel-content class="teal white--text">
               <div slot="header">
                 {{ $t('ui.pages.process.settings.input') }}

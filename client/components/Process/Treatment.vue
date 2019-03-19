@@ -348,9 +348,13 @@
                               <td v-if="index !== 'nb-lines-unknown-errors'">
                                 {{ $t(`ui.pages.process.report.${index}`) }}
                               </td>
+                              <td v-else>{{ $t(`ui.pages.process.report.nb-denied-ecs`) }}</td>
+
                               <td v-if="index !== 'nb-lines-unknown-errors'">
                                 {{ rej }}
                               </td>
+                              <td v-else>{{ report.general['nb-denied-ecs'] }}</td>
+
                               <td v-if="index !== 'nb-lines-unknown-errors'">
                                 <v-progress-linear
                                   v-if="index !== 'nb-lines-ignored'"
@@ -360,14 +364,7 @@
                                   :value="rejectPercent(rej)"
                                 />
                               </td>
-                            </tr>
-                            <tr
-                              v-if="index !== 'nb-lines-unknown-errors'"
-                              @mouseover="setCurrentReject('nb-denied-ecs')"
-                            >
-                              <td>{{ $t(`ui.pages.process.report.nb-denied-ecs`) }}</td>
-                              <td>{{ report.general['nb-denied-ecs'] }}</td>
-                              <td>
+                              <td v-else>
                                 <v-progress-linear
                                   background-color="teal white--text"
                                   color="success"
@@ -432,7 +429,7 @@
               <v-card-text>
                 <v-alert
                   :value="true"
-                  type="black"
+                  color="black"
                 >
                   <div
                     v-for="(log, index) in logging"
@@ -503,10 +500,8 @@ export default {
     logging: {
       handler () {
         const errors = this.logging.find(log => log.level === 'error');
-        console.log(errors)
         if (errors) {
           this.$store.dispatch('process/STOP_PROCESS');
-          console.log('ERRORS');
         }
       },
       deep: true
