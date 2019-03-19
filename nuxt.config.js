@@ -32,15 +32,14 @@ module.exports = {
     proxy: true
   },
   auth: {
-    cookie: false,
-    localStorage: false,
     strategies: {
       local: {
         endpoints: {
           login: { url: '/api/auth/login', method: 'post' },
           logout: { url: '/api/auth/logout', method: 'post' },
           user: { url: '/api/auth/session', method: 'get', propertyName: '' }
-        }
+        },
+        tokenRequired: false
       }
     },
     redirect: {

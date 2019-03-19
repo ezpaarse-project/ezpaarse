@@ -58,7 +58,7 @@ app.post('/', bodyParser.urlencoded({ extended: true }), bodyParser.json(),
       .text(text)
       .from(config.EZPAARSE_ADMIN_MAIL)
       .to(config.EZPAARSE_FEEDBACK_RECIPIENTS)
-      .cc(feedback.mail);
+      .cc(usermail);
 
     var sendMail = function () {
       mail.send(function (error) {

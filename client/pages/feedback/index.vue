@@ -28,9 +28,10 @@
           />
 
           <v-text-field
-            v-model="email"
             label="Email"
             type="email"
+            :value="$auth.user.username"
+            disabled
           />
 
           <v-textarea
@@ -45,7 +46,7 @@
 
           <v-btn
             class="teal white--text"
-            :disabled="!email && !comment"
+            :disabled="!comment"
             @click="sendFeedBack"
           >
             {{ $t('ui.send') }}
@@ -79,7 +80,6 @@ export default {
   auth: true,
   data () {
     return {
-      email: null,
       comment: null,
       browser: null,
       checkbox: true,
@@ -93,6 +93,7 @@ export default {
   },
   methods: {
     sendFeedBack () {
+      this.feedBackSend = true;
       this.$store.dispatch('SEND_FEEDBACK', {
         email: this.email,
         comment: this.comment,
