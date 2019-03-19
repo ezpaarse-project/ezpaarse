@@ -633,7 +633,7 @@ export default {
           return false;
         }
 
-        if (exists && this.customPredefinedSettings.length > 0) {
+        if (exists && this.customPredefinedSettings.length > 0 && !this.currentPredefinedSettings._id) {
           this.disabledButtonSave = true;
           this.fullNameError = this.$t('ui.pages.process.settings.nameUnavailable');
           return false;
@@ -700,21 +700,21 @@ export default {
       if (this.saveAsNew && !customPs._id) store = 'SAVE';
 
       this.$store.dispatch(`process/${store}_CUSTOM_PREDEFINED_SETTINGS`, customPs).then(() => {
-        this.$store.dispatch('process/GET_PREDEFINED_SETTINGS').catch(err => {
+        this.$store.dispatch('process/GET_PREDEFINED_SETTINGS').then(() => {
+          this.currentPredefinedSettings = customPs;
+          this.modal = false;
+          this.disabledButton = true;
+          this.disabledButtonSave = true;
+          this.saveFields.fullName = '';
+          this.saveFields.country = '';
+          this.$store.dispatch('snacks/success', this.$t('ui.pages.process.settings.paramsSaved'));
+        }).catch(err => {
           let message = this.$t('ui.errors.cannotLoadPredefinedSettings');
           if (err.response.data.message) {
             message = this.$t(`ui.errors.${err.response.data.message}`);
           }
           this.$store.dispatch('snacks/error', `E${err.response.status} - ${message}`);
         });
-
-        this.currentPredefinedSettings = customPs;
-        this.modal = false;
-        this.disabledButton = true;
-        this.disabledButtonSave = true;
-        this.saveFields.fullName = '';
-        this.saveFields.country = '';
-        this.$store.dispatch('snacks/success', this.$t('ui.pages.process.settings.paramsSaved'));
       }).catch(err => {
         this.$store.dispatch('snacks/error', `E${err.response.status} - ${this.$t('ui.errors.errorSavePredefinedSettings')}`);
       });

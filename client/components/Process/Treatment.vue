@@ -22,7 +22,7 @@
       mt-3
     >
       <v-flex
-        v-if="status && status === 'error' && queryCancelSource !== null"
+        v-if="status && status === 'error' && status !== 'abort' && status !== 'end'"
         xs12
         sm12
       >
@@ -69,13 +69,12 @@
       </v-flex>
 
       <v-flex
-        v-if="processProgress >= 100"
         xs6
         sm6
         class="text-xs-left"
       >
         <v-btn
-          v-if="report && report.general"
+          v-if="report && report.general && processProgress >= 100"
           depressed
           color="green"
           class="white--text"
@@ -94,26 +93,23 @@
         xs6
         sm6
         class="text-xs-right"
-      >
-        <a
+      >          
+        <v-btn
+          depressed
+          color="green"
+          class="white--text"
           v-if="report && report.general && status === 'end'"
-          :href="`/${report.general['Job-ID']}`"
+          :to="{ path: `/${report.general['Job-ID']}` }"
           target="_blank"
         >
-          <v-btn
-            depressed
-            color="green"
-            class="white--text"
-          >
-            {{ $t('ui.pages.process.job.downloadResult') }}
-            <v-icon right>
-              mdi-download
-            </v-icon>
-          </v-btn>
-        </a>
+          {{ $t('ui.pages.process.job.downloadResult') }}
+          <v-icon right>
+            mdi-download
+          </v-icon>
+        </v-btn>
 
         <v-btn
-          v-if="status === 'end'"
+          v-if="status === 'end' || status === 'error'"
           depressed
           color="teal darken-2"
           class="white--text"
@@ -126,7 +122,7 @@
         </v-btn>
 
         <v-btn
-          v-if="status !== 'end'"
+          v-if="status !== 'end' && queryCancelSource"
           depressed
           color="error"
           @click="stopProcess"
@@ -503,6 +499,19 @@ export default {
       return this.$store.state.process.error;
     }
   },
+  watch: {
+    logging: {
+      handler () {
+        const errors = this.logging.find(log => log.level === 'error');
+        console.log(errors)
+        if (errors) {
+          this.$store.dispatch('process/STOP_PROCESS');
+          console.log('ERRORS');
+        }
+      },
+      deep: true
+    }
+  },
   methods: {
     setCurrentReject (index) {
       this.currentReject = index;
@@ -512,7 +521,6 @@ export default {
       this.$router.push('/process');
     },
     stopProcess () {
-      this.$store.state.process.queryCancelSource.cancel('Query canceled by user');
       this.$store.dispatch('process/STOP_PROCESS');
       this.$router.push('/process');
     },
@@ -530,8 +538,13 @@ export default {
       return this.report.general['nb-lines-input'] - this.report.rejets['nb-lines-ignored'];
     },
     loggingError () {
-      console.log(this.logging.find(log => log.level === 'error'))
-      return this.logging.find(log => log.level === 'error');
+      let errors = [];
+      this.logging.forEach(log => {
+        if (log.level === 'error') {
+          errors.push(log);
+        }
+      });
+      return errors;
     }
   }
 };

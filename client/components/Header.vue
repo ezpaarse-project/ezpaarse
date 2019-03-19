@@ -30,9 +30,21 @@
       </div>
       <div class="text-xs-center mt-2">
         <v-chip v-if="!inProgress">{{ $t('ui.header.noCurrentProcessing') }}</v-chip>
-        <v-chip v-else-if="!inProgress && status === 'abort' && status !== 'error' && status !== 'end'  && status !== 'finalisation'">{{ $t('ui.header.processCanceled') }}</v-chip>
-        <v-chip v-else-if="!inProgress && status === 'end' && status !== 'error' && status !== 'abort'  && status !== 'finalisation'">{{ $t('ui.header.processEnd') }}</v-chip>
-        <v-chip v-else-if="inProgress && status === 'finalisation' &&  status !== 'error' && status !== 'abort'  && status !== 'end'">{{ $t('ui.header.finalisation') }}</v-chip>
+        <nuxt-link
+          v-else-if="!inProgress && status === 'abort' && status !== 'error' && status !== 'end'  && status !== 'finalisation'"
+          tag="v-chip"
+          to="/process/job"
+        >{{ $t('ui.header.processCanceled') }}</nuxt-link>
+        <nuxt-link
+          v-else-if="!inProgress && status === 'end' && status !== 'error' && status !== 'abort'  && status !== 'finalisation'"
+          tag="v-chip"
+          to="/process/job"
+        >{{ $t('ui.header.processEnd') }}</nuxt-link>
+        <nuxt-link
+          v-else-if="inProgress && status === 'finalisation' &&  status !== 'error' && status !== 'abort'  && status !== 'end'"
+          tag="v-chip"
+          to="/process/job"
+        >{{ $t('ui.header.finalisation') }}</nuxt-link>
         <nuxt-link
           v-else
           tag="v-chip"

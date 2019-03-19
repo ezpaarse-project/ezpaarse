@@ -219,7 +219,7 @@ export default {
     REMOVE_CUSTOM_PREDEFINED_SETTINGS ({ commit }, data) {
       return api.removeCustomPredefinedSettings(this.$axios, data);
     },
-    PROCESS ({ commit }, data) {
+    PROCESS ({ commit, state }, data) {
       const source = CancelToken.source();
       const qt = source.token;
       commit('SET_QUERY_CANCERL_SOURCE', source);
@@ -245,7 +245,8 @@ export default {
         commit('SET_IN_PROGRESS', false);
         commit('SET_STATUS', 'end');
       }).catch(err => {
-        source.cancel('Query canceled by error');
+        state.queryCancelSource.cancel('Query canceled by error');
+        commit('SET_QUERY_CANCERL_SOURCE', null);
         commit('SET_PROCESS_PROGRESS', 100);
         commit('SET_STATUS', 'error');
         commit('SET_IN_PROGRESS', false);
@@ -254,9 +255,12 @@ export default {
         }
       });
     },
-    STOP_PROCESS ({ commit }) {
+    STOP_PROCESS ({ commit, state }) {
+      if (state.queryCancelSource) {
+        state.queryCancelSource.cancel('Query canceled');
+        commit('SET_QUERY_CANCERL_SOURCE', null);
+      }
       commit('SET_IN_PROGRESS', false);
-      commit('SET_QUERY_CANCERL_SOURCE', null);
       commit('SET_STATUS', 'abort');
     },
     SET_LOGS_LINES ({ commit }, data) {
