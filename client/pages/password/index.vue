@@ -66,8 +66,8 @@ export default {
           return this.$router.push('/');
         })
         .catch(err => {
-          if (err && err.response && err.response.message) {
-            return this.$store.dispatch('snacks/error', `E${err.response.status} - ${this.$t(`ui.errors.${err.response.message}`)}`);
+          if (err && err.response.data.message) {
+            return this.$store.dispatch('snacks/error', `E${err.response.status} - ${this.$t(`ui.errors.${err.response.data.message}`)}`);
           }
           return this.$store.dispatch('snacks/error', `E${err.response.status} - ${this.$t('ui.errors.cannotResetPassword')}`);
         });
