@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card v-if="!feedback">
     <v-tabs
       v-model="activeTab"
       grow
@@ -27,6 +27,15 @@
       v-else
       :user-number="userNumber"
     />
+    <v-flex xs4 sm4 right text-xs-right>
+      <v-btn color="primary" @click="feedback = true" class="mTop">{{ $t('ui.drawer.feedback') }}</v-btn> 
+    </v-flex>
+  </v-card>
+  <v-card v-else flat>
+    <Feedback />
+    <v-flex xs4 sm4 right text-xs-right>
+      <v-btn color="primary" @click="feedback = false" class="mTop">{{ $t('ui.back') }}</v-btn> 
+    </v-flex>
   </v-card>
 </template>
 
@@ -34,16 +43,19 @@
 /* eslint-disable import/no-unresolved */
 import Signin from '~/components/Sign/Signin';
 import Signup from '~/components/Sign/Signup';
+import Feedback from '~/components/Feedback';
 
 export default {
   auth: true,
   layout: 'sign',
   components: {
     Signin,
-    Signup
+    Signup,
+    Feedback
   },
   data () {
     return {
+      feedback: false,
       activeTab: 'tab-signin'
     };
   },
@@ -55,6 +67,10 @@ export default {
     try { await store.dispatch('GET_APP_INFOS'); } catch (e) {
       await store.dispatch('snacks/error', `E${e.response.status} - ${this.$t('ui.errors.cannotGetAppInfos')}`);
     }
+
+    try { await store.dispatch('GET_FEEDBACK_STATUS'); } catch (e) {
+      await store.dispatch('snacks/error', `E${e.response.status} - ${this.$t('ui.errors.cannotGetAppInfos')}`);
+    }
   },
   computed: {
     userNumber () {
@@ -63,3 +79,7 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.mTop { margin-top: 15px; }
+</style>

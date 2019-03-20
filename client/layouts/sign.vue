@@ -12,6 +12,7 @@
           flat
           height="100%"
           color="teal white--text"
+          tile
         >
           <v-container
             fill-height
@@ -32,7 +33,11 @@
                   <h3 class="mb-0">
                     {{ $t('ui.pages.index.whatIsEzpaarse') }}
                   </h3>
-                  <p v-html="$t('ui.pages.index.description')" />
+                  <p v-html="$t('ui.pages.index.description', {
+                    github: 'https://github.com/ezpaarse-project/ezpaarse',
+                    analogist: 'http://analyses.ezpaarse.org/',
+                    doc: 'https://ezpaarse.readthedocs.io/en/master/development/routes.html'
+                  })" />
                   <v-tooltip bottom>
                     <v-chip slot="activator">
                       <v-avatar>

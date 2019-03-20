@@ -113,6 +113,9 @@ const store = () => new Vuex.Store({
     },
     GET_APP_INFOS ({ commit }) {
       return api.getAppInfos(this.$axios).then(res => { commit('SET_APP_INFOS', res); });
+    },
+    GET_FEEDBACK_STATUS ({ commit }) {
+      return api.feedbackStatus(this.$axios).then(res => commit('SET_FEEDBACK_STATUS', res));
     }
   },
   mutations: {

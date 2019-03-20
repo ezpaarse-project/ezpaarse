@@ -52,7 +52,7 @@
         "processLogsFiles": "Traitez vos fichiers de logs",
         "processLogsLines": "Traitez vos lignes de logs",
         "prepareTreatment": "Préparation du traitement",
-        "explainationLogs": "Indiquez ici les logs que vous désirez faire analyser par ezPAARSE. Vos logs nécessitent peut-être un paramétrage particulier pour qu'ezPAARSE les comprenne. Si nécessaire, <a href=\"\">contactez l'équipe ezPAARSE</a> pour une aide au paramétrage.",
+        "explainationLogs": "Indiquez ici les logs que vous désirez faire analyser par ezPAARSE. Vos logs nécessitent peut-être un paramétrage particulier pour qu'ezPAARSE les comprenne. Si nécessaire, <a href=\"mailto:ezpaarse@couperin.org\">contactez l'équipe ezPAARSE</a> pour une aide au paramétrage.",
         "explainationTestsLogs": "Vous désirez utiliser des logs de test pour valider votre installation, nous en <a href=\"{url}\" target=\"_blank\">mettons à disposition sur GitHub</a>.",
         "settings": {
           "title": "Paramètres",
@@ -261,7 +261,8 @@
       "cannotNotifiate": "Impossible d'activer la notification par email.",
       "cannotUpdatePassword": "Impossible de mettre à jour le mot de passe.",
       "cannotGetlogFormat": "Impossible de récupérer les iformations de la première ligne de log.",
-      "error": "Une ou plusieurs erreurs se sont produites."
+      "error": "Une ou plusieurs erreurs se sont produites.",
+      "userNotFound": "Aucun compte ne correspond à cette adresse email."
     },
     "search": "Rechercher",
     "close": "Fermer",

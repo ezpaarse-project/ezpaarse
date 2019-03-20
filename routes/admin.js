@@ -329,26 +329,31 @@ app.post('/passwords', bodyParser.urlencoded({ extended: true }), bodyParser.jso
   const locale = req.body.locale || 'en';
   if (!username) return res.status(400).end();
 
-  password.genereateUniqId(username, function (err, result, uuid) {
-    if (err || !uuid) return res.status(500).end();
-    if (!result) return res.status(404).end();
+  userlist.get(username, function (err, user) {
+    if (err) { return res.status(500).end(); }
+    if (!user) { return res.status(404).json({ status: 404, message: 'userNotFound' }); }
 
-    /* eslint-disable-next-line */
-    const url = `${req.protocol}://${req.get('x-forwarded-host') || req.get('host')}/password/${uuid}`;
-    mailer.generate(`password/${locale}`, { url }, function (err, html, text) {
-      if (err) return res.status(500).end();
+    password.genereateUniqId(username, function (err, result, uuid) {
+      if (err || !uuid) return res.status(500).end();
+      if (!result) return res.status(404).end();
 
       /* eslint-disable-next-line */
-      const subject = locale === 'fr' ? 'Réinitialisation de votre mot de passe' : 'Resetting your password';
-      mailer.mail()
-        .subject(`[ezPAARSE] ${subject}`)
-        .html(html)
-        .text(text)
-        .from(config.EZPAARSE_ADMIN_MAIL)
-        .to(username)
-        .send(function (err) {
-          return res.status(err ? 500 : 200).end();
-        });
+      const url = `${req.protocol}://${req.get('x-forwarded-host') || req.get('host')}/password/${uuid}`;
+      mailer.generate(`password/${locale}`, { url }, function (err, html, text) {
+        if (err) return res.status(500).end();
+
+        /* eslint-disable-next-line */
+        const subject = locale === 'fr' ? 'Réinitialisation de votre mot de passe' : 'Resetting your password';
+        mailer.mail()
+          .subject(`[ezPAARSE] ${subject}`)
+          .html(html)
+          .text(text)
+          .from(config.EZPAARSE_ADMIN_MAIL)
+          .to(username)
+          .send(function (err) {
+            return res.status(err ? 500 : 200).end();
+          });
+      });
     });
   });
 });
