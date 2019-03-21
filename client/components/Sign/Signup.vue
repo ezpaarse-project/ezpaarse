@@ -81,12 +81,16 @@ export default {
         userid: this.credentials.userid.trim(),
         password: this.credentials.password.trim(),
         confirm: this.credentials.confirm.trim()
-      }).then(() => this.$auth.loginWith('local', {
-        data: {
-          userid: this.credentials.userid.trim(),
-          password: this.credentials.password.trim()
-        }
-      })).catch(err => {
+      }).then(() => {
+        this.$auth.loginWith('local', {
+          data: {
+            userid: this.credentials.userid.trim(),
+            password: this.credentials.password.trim()
+          }
+        }).then(() => {
+          return this.$router.push('/process');
+        });
+      }).catch(err => {
         let message = this.$t('ui.errors.cannotRegister');
         if (err.response.data.message) message = err.response.data.message;
         this.$store.dispatch('snacks/error', `E${err.response.status} - ${message}`);
