@@ -20,6 +20,7 @@ export default {
     report: null,
     error: null,
     settingsIsModified: false,
+    currentPredefinedSettings: null,
     countries: []
   },
   mutations: {
@@ -79,7 +80,7 @@ export default {
     }
   },
   actions: {
-    GET_PREDEFINED_SETTINGS ({ commit }) {
+    GET_PREDEFINED_SETTINGS ({ commit, state }) {
       return api.getPredefinedSettings(this.$axios).then(res => {
         const data = Object.values(res);
 
@@ -104,7 +105,9 @@ export default {
             advancedHeaders: []
           }
         };
-        commit('SET_CURRENT_PREDEFINED_SETTINGS', JSON.parse(JSON.stringify(currentSettings)));
+        if (!state.currentPredefinedSettings) {
+          commit('SET_CURRENT_PREDEFINED_SETTINGS', JSON.parse(JSON.stringify(currentSettings)));
+        }
 
         data.forEach((setting, key) => {
           if (Object.keys(res)[key]) setting.id = Object.keys(res)[key];

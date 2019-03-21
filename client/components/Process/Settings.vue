@@ -707,6 +707,7 @@ export default {
           this.disabledButtonSave = true;
           this.saveFields.fullName = '';
           this.saveFields.country = '';
+          this.settingsIsModified = false;
           this.$store.dispatch('snacks/success', this.$t('ui.pages.process.settings.paramsSaved'));
         }).catch(err => {
           let message = this.$t('ui.errors.cannotLoadPredefinedSettings');
