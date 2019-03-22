@@ -9,6 +9,7 @@ var mailer = require('../lib/mailer.js');
 var git = require('../lib/git-tools.js');
 var config = require('../lib/config.js');
 var pkg = require('../package.json');
+var execFile   = require('child_process').execFile;
 
 var { Router } = require('express');
 var app = Router();
@@ -18,42 +19,61 @@ var app = Router();
  * To submit a feedback
  */
 app.post('/', bodyParser.urlencoded({ extended: true }), bodyParser.json(),
-  function (req, res) {
+  async function (req, res, next) {
     if (!config.EZPAARSE_ADMIN_MAIL || !config.EZPAARSE_FEEDBACK_RECIPIENTS) {
-      res.status(500).end();
-      return;
+      return next(new Error('bad conf'));
     }
 
-    res.header('Content-Type', 'application/json; charset=utf-8');
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Headers', 'X-Requested-With');
 
-    var feedback = req.body;
+    const feedback = req.body;
 
     if (!feedback || !feedback.comment) {
       res.status(400).end();
       return;
     }
 
-    var usermail;
+    let usermail;
     if (req.user) {
       usermail = req.user.username;
     } else if (feedback.mail) {
       usermail = feedback.mail;
     }
 
-    var subject = '[ezPAARSE] Feedback ';
+    let versions = {
+      platforms: null,
+      resources: null,
+      middlewares: null,
+      ezpaarse: null
+    };
+    const directories = ['platforms', 'resources', 'middlewares', '.'];
+
+    for (let directory of directories) {
+      try {
+        const tmp = await getVersion(directory);
+        versions[directory === '.' ? 'ezpaarse' : directory] = JSON.parse(tmp).current;
+      } catch (e) {
+        return next(e);
+      }
+    }
+
+    let subject = '[ezPAARSE] Feedback ';
     subject += usermail ? 'de ' + usermail : 'anonyme';
-    var text = 'Utilisateur : ' + (usermail || 'anonyme');
+    let text = 'Utilisateur : ' + (usermail || 'anonyme');
 
     if (feedback.browser) { text += '\nNavigateur : ' + feedback.browser; }
 
-    text += '\nezPAARSE ' + pkg.version + ' / ' + os.platform() + ' ' + os.release();
+    text += '\nVersions :';
+    text += '\n\t- ezPAARSE ' + versions.ezpaarse + ' / ' + os.platform() + ' ' + os.release();
     text += ' (' + os.arch() + ')';
+    text += '\n\t- Middlewares ' + versions.middlewares;
+    text += '\n\t- Resources ' + versions.resources;
+    text += '\n\t- Platforms ' + versions.platforms;
     text += '\n===============================\n\n';
     text += feedback.comment;
 
-    var mail = mailer.mail();
+    let mail = mailer.mail();
     mail.subject(subject)
       .text(text)
       .from(config.EZPAARSE_ADMIN_MAIL)
@@ -62,8 +82,8 @@ app.post('/', bodyParser.urlencoded({ extended: true }), bodyParser.json(),
 
     var sendMail = function () {
       mail.send(function (error) {
-        if (error) { res.status(500).end(); }
-        else { res.status(200).end(); }
+        if (error) { return next(error); }
+        return res.status(200).end();
       });
     };
 
@@ -74,20 +94,33 @@ app.post('/', bodyParser.urlencoded({ extended: true }), bodyParser.json(),
 
     if (!req.body.jobID) { return sendMail(); }
 
-    var jobID = req.body.jobID;
-    var reportFile = path.join(__dirname, '/../tmp/jobs/',
+    const jobID = req.body.jobID;
+    const reportFile = path.join(__dirname, '/../tmp/jobs/',
       jobID.charAt(0),
       jobID.charAt(1),
       jobID,
       'report.json');
 
     fs.readFile(reportFile, function (err, content) {
-      if (err && err.code !== 'ENOENT') { return res.status(500).end(); }
+      if (err && err.code !== 'ENOENT') { return next(err); }
 
       mail.attach('report.json', content.toString());
       sendMail();
     });
   });
+
+function getVersion (directory) {
+  const gitScript = path.join(__dirname, '../bin/git-status');
+  const cwd = path.join(__dirname, '..', directory);
+
+  return new Promise((resolve, reject) => {
+    return execFile(gitScript, { cwd }, (error, stdout) => {
+      if (error || !stdout) return reject(error);
+
+      return resolve(stdout);
+    });
+  });
+}
 
 /**
  * POST route on /feedback/freshinstall
