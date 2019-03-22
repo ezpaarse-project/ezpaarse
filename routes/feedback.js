@@ -67,9 +67,9 @@ app.post('/', bodyParser.urlencoded({ extended: true }), bodyParser.json(),
     text += '\nVersions :';
     text += '\n\t- ezPAARSE ' + versions.ezpaarse + ' / ' + os.platform() + ' ' + os.release();
     text += ' (' + os.arch() + ')';
-    text += '\n\t- Middlewares ' + versions.middlewares;
-    text += '\n\t- Resources ' + versions.resources;
-    text += '\n\t- Platforms ' + versions.platforms;
+    text += '\n\t- Middlewares : ' + versions.middlewares;
+    text += '\n\t- Resources : ' + versions.resources;
+    text += '\n\t- Platforms : ' + versions.platforms;
     text += '\n===============================\n\n';
     text += feedback.comment;
 
