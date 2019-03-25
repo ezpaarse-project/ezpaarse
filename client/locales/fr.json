@@ -215,7 +215,9 @@
       "feedback": {
         "email": "Votre feedback sera envoyé à&nbsp;<a href=\"mailto:ezpaarse@couperin.org\" class=\"white--text\">ezpaarse@couperin.org</a>. Une copie vous sera transmise à l'adresse indiquée ci-dessous.",
         "hasSent": "Votre feedback a été envoyé.",
-        "unavailable": "Cette page est actuellement indisponible."
+        "unavailable": "Cette page est actuellement indisponible.",
+        "treatments": "Traitements",
+        "treatmentOf": "Traitement du"
       }
     },
     "tour": {
@@ -227,7 +229,7 @@
     "errors": {
       "title": "Une erreur s'est produite.",
       "fillAllFields": "Veuillez completer tous les champs.",
-      "invalid_address": "L'adresse email est invalide.",
+      "invalidAddress": "L'adresse email est invalide.",
       "passwordDoesNotMatch": "Les deux mots de passe ne correcpondent pas.",
       "wrongPassword": "Mot de passe invalide.",
       "userAlreadyExists": "L'adresse email est déjà utilisée.",
@@ -237,8 +239,8 @@
       "badSection": "Mauvaise section.",
       "404": "Cette page n'a pas pu être trouvée.",
       "500": "Une erreur s'est produite.",
-      "expiration_date": "Le délais est dépassé.",
-      "password_not_set": "Le mot de passe n'a pas été modifié.",
+      "expirationDate": "Le délais est dépassé.",
+      "passwordNotSet": "Le mot de passe n'a pas été modifié.",
       "reportNotLoaded": "Le rapport n'a pas pu être chargé.",
       "cannotLoadPredefinedSettings": "Une erreur s'est produites au moment du chargement des paramètres prédéfinis.",
       "errorSavePredefinedSettings": "Une erreur s'est produite au moment de la sauvegarde des paramètres prédéfinis.",
@@ -262,7 +264,9 @@
       "cannotUpdatePassword": "Impossible de mettre à jour le mot de passe.",
       "cannotGetlogFormat": "Impossible de récupérer les iformations de la première ligne de log.",
       "error": "Une ou plusieurs erreurs se sont produites.",
-      "userNotFound": "Aucun compte ne correspond à cette adresse email."
+      "userNotFound": "Aucun compte ne correspond à cette adresse email.",
+      "cannotSaveJobData": "Une erreur est survenue pendant la sauvegarde du traitement",
+      "cannotLoadJobsData": "Une erreur est survenue pendant le chargement des données des traitements"
     },
     "search": "Rechercher",
     "close": "Fermer",

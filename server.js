@@ -18,7 +18,8 @@ require('./lib/winston-socketio.js');
 const lsof          = require('lsof');
 const fs            = require('fs-extra');
 const pkg           = require('./package.json');
-const app          = require('./app');
+const app           = require('./app');
+const jobsCache     = require('./lib/cache-jobs');
 
 winston.addColors({ verbose: 'green', info: 'green', warn: 'yellow', error: 'red' });
 
@@ -137,6 +138,14 @@ async function connectToMongo () {
     await mongo.connect(config.EZPAARSE_MONGO_URL);
   } catch (err) {
     logger.error(`Cannot connect to MongoDB at ${config.EZPAARSE_MONGO_URL}`);
+    process.exit(1);
+  }
+
+  try {
+    // drop and create index for jobs cache
+    await jobsCache.createIndex(config.EZPAARSE_TMP_LIFETIME);
+  } catch (err) {
+    logger.error('Cannot create index `createdAt` in `treatments` collection');
     process.exit(1);
   }
 

@@ -21,6 +21,15 @@
 
           <v-textarea v-model="comment" label="Message"/>
 
+          <v-select
+            v-if="treatments"
+            v-model="jobID" 
+            :items="treatments"
+            :item-text="textDate"
+            item-value="jobId"
+            :label="$t('ui.pages.feedback.treatments')"
+          ></v-select>
+
           <v-checkbox v-model="checkbox" label="Envoyer la version de mon navigateur"/>
 
           <v-btn
@@ -41,6 +50,7 @@
 
 <script>
 import Feedback from '~/components/Feedback';
+import moment from 'moment';
 
 export default {
   components: {
@@ -52,12 +62,16 @@ export default {
       comment: null,
       browser: null,
       checkbox: true,
-      feedBackSend: false
+      feedBackSend: false,
+      jobID: null
     };
   },
   computed: {
     feedback () {
       return this.$store.state.feedback;
+    },
+    treatments () {
+      return this.$store.state.process.treatments;
     }
   },
   methods: {
@@ -66,7 +80,8 @@ export default {
       this.$store.dispatch('SEND_FEEDBACK', {
         mail: (this.$auth && this.$auth.user) ? this.$auth.user.username : this.email,
         comment: this.comment,
-        browser: this.checkbox ? navigator.userAgent : null
+        browser: this.checkbox ? navigator.userAgent : null,
+        jobID: this.jobID
       }).then(() => {
         this.email = null;
         this.comment = null;
@@ -77,6 +92,10 @@ export default {
         this.$store.dispatch('snacks/error', `E${err.response.status} - ${this.$t('ui.errors.cannotSendFeedback')}`);
         this.feedBackSend = false;
       });
+    },
+    textDate (e) {
+      const time = moment(e.createdAt).format(this.$i18n.locale === 'fr' ? 'DD MMM YYYY - HH:mm' : 'YYYY MMM DD - HH:mm');
+      return `${this.$t('ui.pages.feedback.treatmentOf')} ${time}`;
     }
   }
 };

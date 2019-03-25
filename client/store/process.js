@@ -21,7 +21,8 @@ export default {
     error: null,
     settingsIsModified: false,
     currentPredefinedSettings: null,
-    countries: []
+    countries: [],
+    treatments: []
   },
   mutations: {
     SET_PREDEFINED_SETTINGS (state, data) {
@@ -77,6 +78,9 @@ export default {
     },
     SET_COUNTRIES (state, data) {
       Vue.set(state, 'countries', data);
+    },
+    SET_TREATMENTS (state, data) {
+      Vue.set(state, 'treatments', data);
     }
   },
   actions: {
@@ -303,6 +307,12 @@ export default {
     },
     SET_SETTINGS_IS_MODIFIED ({ commit }, data) {
       commit('SET_SETTINGS_IS_MODIFIED', data);
+    },
+    GET_TREATMENTS ({ commit }, userId) {
+      return api.getTreatments(this.$axios, userId).then(res => commit('SET_TREATMENTS', res));
+    },
+    STORE_TREATMENTS ({ commit, state }, data) {
+      return api.storeTreatments(this.$axios, data);
     }
   }
 };

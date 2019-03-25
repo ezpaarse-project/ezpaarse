@@ -67,4 +67,8 @@ api.getCustomPredefinedSettings = (axios) => axios.get('/api/info/predefined-set
 
 api.removeCustomPredefinedSettings = (axios, data) => axios.delete(`/api/info/predefined-settings/custom/${data.id}`).then(res => res.data);
 
+api.getTreatments = (axios, userId) => axios.get(`/api/jobs/${userId}`).then(res => res.data);
+
+api.storeTreatments = (axios, data) => axios.post('api/jobs', data).then(res => res.data);
+
 export default api;

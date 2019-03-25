@@ -217,7 +217,9 @@
       "feedback": {
         "email": "Your feedback will be sent to&nbsp;<a href=\"mailto:ezpaarse@couperin.org\" class=\"white--text\">ezpaarse@couperin.org</a>. A copy will be sent to you at the address indicated below.",
         "hasSent": "Your feedback has been sent.",
-        "unavailable": "This page is currently unavailable."
+        "unavailable": "This page is currently unavailable.",
+        "treatments": "Treatments",
+        "treatmentOf": "Process of"
       }
     },
     "tour": {
@@ -229,7 +231,7 @@
     "errors": {
       "title": "An error has occurred...",
       "fillAllFields": "Please complete all fields.",
-      "invalid_address": "The email address is invalid.",
+      "invalidAddress": "The email address is invalid.",
       "passwordDoesNotMatch": "The two passwords do not match.",
       "wrongPassword": "Invalid password.",
       "userAlreadyExists": "The email address is already used.",
@@ -240,7 +242,7 @@
       "404": "This page could not be found...",
       "500": "An error has occurred...",
       "Expiry_date": "The deadline has passed.",
-      "password_not_set": "The password has not been changed.",
+      "passwordNotSet": "The password has not been changed.",
       "reportNotLoaded": "The report could not be loaded.",
       "cannotLoadPredefinedSettings": "An error occurred when loading the predefined parameters.",
       "errorSavePredefinedSettings": "An error occurred when saving the predefined settings.",
@@ -264,7 +266,9 @@
       "cannotUpdatePassword": "Impossible to update the password.",
       "cannotGetlogFormat": "Impossible to retrieve the ifformations from the first log line.",
       "error": "One or more errors have occurred.",
-      "userNotFound": "No account corresponds to this email address."
+      "userNotFound": "No account corresponds to this email address.",
+      "cannotSaveJobData": "An error occurred while saving the processing operation",
+      "cannotLoadJobsData": "An error occurred while loading the processing data"
     },
     "search": "Search",
     "close": "Close",

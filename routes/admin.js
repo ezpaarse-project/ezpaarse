@@ -138,7 +138,7 @@ app.post('/register', bodyParser.urlencoded({ extended: true }), bodyParser.json
 
     // Regex used by angular
     if (!emailRegexp.test(userid)) {
-      return sendErr(400, 'invalid_address');
+      return sendErr(400, 'invalidAddress');
     }
 
     if (password != confirm) {
@@ -226,7 +226,7 @@ app.post('/users/', auth.ensureAuthenticated(true), auth.authorizeMembersOf('adm
 
     // Regex used by angular
     if (!emailRegexp.test(userid)) {
-      return sendErr(400, 'invalid_address');
+      return sendErr(400, 'invalidAddress');
     }
 
     userlist.get(userid, function (err, user) {
@@ -292,7 +292,7 @@ app.post(/^\/users\/(.+)$/, auth.ensureAuthenticated(true), auth.authorizeMember
       if (body.username) {
         // Regex used by angular
         if (!emailRegexp.test(body.username)) {
-          res.status(400).json({ status: 400, message: 'invalid_address' }).end();
+          res.status(400).json({ status: 400, message: 'invalidAddress' }).end();
           // res.header('ezPAARSE-Status-Message', 'invalid_address');
           // return res.status(400).end();
         }
@@ -375,14 +375,14 @@ app.put('/passwords', bodyParser.urlencoded({ extended: true }), bodyParser.json
     const currentDate = Date.now();
 
     /* eslint-disable-next-line */
-    if (currentDate > result.expiration_date) return res.status(500).json({ status: 500, message: 'expiration_date' });
+    if (currentDate > result.expirationDate) return res.status(500).json({ status: 500, message: 'expirationDate' });
 
     const cryptedPassword = userlist.crypt(result.username, pwd);
     userlist.set(result.username, 'password', cryptedPassword, function (err) {
-      if (err) return res.status(500).json({ status: 500, message: 'password_not_set' });
+      if (err) return res.status(500).json({ status: 500, message: 'passwordNotSet' });
 
-      userlist.set(result.username, 'expiration_date', 0, function (err) {
-        if (err) return res.status(500).json({ status: 500, message: 'password_not_set' });
+      userlist.set(result.username, 'expirationDate', 0, function (err) {
+        if (err) return res.status(500).json({ status: 500, message: 'passwordNotSet' });
 
         return res.status(200).end();
       });
