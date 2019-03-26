@@ -88,7 +88,6 @@
         </v-btn>
       </v-flex>
 
-
       <v-flex
         xs6
         sm6
@@ -466,7 +465,12 @@
 </template>
 
 <script>
+import Report from '~/components/Report';
+
 export default {
+  components: {
+    Report
+  },
   data () {
     return {
       panel: [true, false, false, false],

@@ -12,6 +12,7 @@
         large
         :disabled="logsFiles.length <= 0 || inProgress"
         @click="process"
+        id="v-step-0"
       >
         {{ $t('ui.pages.process.processLogsFiles') }}
       </v-btn>
@@ -33,6 +34,10 @@
         <v-icon>mdi-file-multiple</v-icon>
       </v-btn>
     </ButtonGroup>
+
+    <v-btn fab flat small @click="$tours['ezTour'].start()">
+      <v-icon>mdi-help-circle</v-icon>
+    </v-btn>
 
     <v-dialog
       v-model="dialog"
@@ -60,6 +65,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+    <v-tour name="ezTour" :steps="steps"></v-tour>
   </v-flex>
 </template>
 
@@ -69,16 +75,24 @@
 import ButtonGroup from '~/components/ButtonGroup';
 import { uuid } from 'vue-uuid';
 import isEqual from 'lodash.isequal';
+import Tour from '~/components/Tour';
 
 export default {
   components: {
-    ButtonGroup
+    ButtonGroup,
+    Tour
   },
   props: ['logType'],
   data () {
     return {
       dialog: false,
-      curlRequest: null
+      curlRequest: null,
+      steps: [
+        {
+          target: '#v-step-0', 
+          content: `Discover <strong>Vue Tour</strong>!`
+        }
+      ]
     };
   },
   computed: {

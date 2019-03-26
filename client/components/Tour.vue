@@ -1,6 +1,6 @@
 <template>
   <v-tour
-    name="myTour"
+    name="ezTour"
     :steps="steps"
   >
     <template slot-scope="tour">
@@ -55,6 +55,11 @@
 
 <script>
 export default {
-  props: ['steps']
+  props: ['steps'],
+  methods: {
+    start () {
+      this.$tour['ezTour'].start();
+    }
+  }
 };
 </script>

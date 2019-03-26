@@ -18,7 +18,7 @@
         "platforms": "Plateformes",
         "updates": "Mises à jour",
         "users": "Utilisateurs",
-        "jobs": "Traitement(s) en cours",
+        "jobs": "Traitements",
         "predefinedSettings": "Paramètres prédéfines personnalisés"
       }
     },
@@ -129,6 +129,7 @@
           "nb-lines-unordered-ecs": "Anomalies chronologiques",
           "nb-lines-ignored-hosts": "Hosts ignorés",
           "nb-lines-robots-ecs": "Robots",
+          "nb-lines-unknown-errors": "ECs en accès refusé",
           "descriptions": {
             "nb-lines-ignored": "Nombre de requêtes non pertinentes. Il s'agit principalement de téléchargements d'images, css ou scripts web sans rapport direct avec une ressource. Dans un log brut, ce chiffre est souvent élevé.",
             "nb-denied-ecs": "Liste des accès qui ont été refusés à l'utilisateur au moment du clic.<br /> Exemple : tentative d'accès à un article non négocié dans le bouquet de l'établissement.",
@@ -141,7 +142,7 @@
             "nb-lines-unordered-ecs": "Lignes ignorées en raison d'un mauvais ordre chronologique.",
             "nb-lines-ignored-hosts": "Hosts volontairement ignorés.",
             "nb-lines-robots-ecs": "Consultations engendrées par des robots.",
-            "nb-lines-unknown-errors": "ECs en accès refusé"
+            "nb-lines-unknown-errors": "Nombre de lignes rejetées en raison d'une erreur inconnue"
           },
           "general": "Général",
           "rejets": "Rejets",
@@ -205,8 +206,16 @@
           }
         },
         "jobs": {
-          "title": "Traitements en cours",
-          "currentProcess": "Il y a <strong>{process}</strong> traitement(s) en cours."
+          "title": "Traitements",
+          "currentProcess": "Il y a <strong>{process}</strong> traitement(s) en cours.",
+          "process": {
+            "userId": "Utilisateur(s)",
+            "jobId": "Traitement(s)",
+            "createdAt": "Départ",
+            "state": "État",
+            "inProcess": "En cours",
+            "completed": "Terminé"
+          }
         },
         "report": {
           "title": "Rapport"

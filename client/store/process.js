@@ -308,9 +308,13 @@ export default {
     SET_SETTINGS_IS_MODIFIED ({ commit }, data) {
       commit('SET_SETTINGS_IS_MODIFIED', data);
     },
-    GET_TREATMENTS ({ commit }, userId) {
-      return api.getTreatments(this.$axios, userId).then(res => commit('SET_TREATMENTS', res));
+    GET_TREATMENTS_BY_USER ({ commit }, userId) {
+      return api.getTreatmentsByUser(this.$axios, userId).then(res => commit('SET_TREATMENTS', res));
     },
+    GET_TREATMENTS ({ commit }) {
+      return api.getTreatments(this.$axios).then(res => commit('SET_TREATMENTS', res));
+    },
+    /* eslint-disable-next-line */
     STORE_TREATMENTS ({ commit, state }, data) {
       return api.storeTreatments(this.$axios, data);
     }

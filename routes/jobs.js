@@ -7,8 +7,16 @@ const treatment  = require('../lib/treatment.js');
 const { Router } = require('express');
 const app = Router();
 
-app.get('/:userId', (req, res, next) => {
-  treatment.findAll(req.params.userId, (err, result) => {
+app.get('/:userId', auth.ensureAuthenticated(true), (req, res, next) => {
+  treatment.findAllByUser(req.params.userId, (err, result) => {
+    if (err) return next(err);
+
+    return res.json(result);
+  });
+});
+
+app.get('/', auth.ensureAuthenticated(true), auth.authorizeMembersOf('admin'), (req, res, next) => {
+  treatment.findAll((err, result) => {
     if (err) return next(err);
 
     return res.json(result);
