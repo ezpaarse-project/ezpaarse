@@ -210,13 +210,16 @@
         "jobs": {
           "title": "Treatments",
           "currentProcess": "There is <strong>{process}</strong> processing(s) in progress.",
+          "noDataFoundWith": "No data found for : {search}",
           "process": {
             "userId": "User(s)",
             "jobId": "Treatment(s)",
             "createdAt": "Start",
             "state": "Status",
-            "inProcess": "In process",
-            "completed": "Completed"
+            "started": "In process",
+            "completed": "Completed",
+            "abort": "Abort",
+            "error": "Error"
           }
         },
         "report": {
@@ -276,7 +279,6 @@
       "cannotGetlogFormat": "Impossible to retrieve the ifformations from the first log line.",
       "error": "One or more errors have occurred.",
       "userNotFound": "No account corresponds to this email address.",
-      "cannotSaveJobData": "An error occurred while saving the processing operation",
       "cannotLoadJobsData": "An error occurred while loading the processing data"
     },
     "search": "Search",

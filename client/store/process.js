@@ -313,10 +313,6 @@ export default {
     },
     GET_TREATMENTS ({ commit }) {
       return api.getTreatments(this.$axios).then(res => commit('SET_TREATMENTS', res));
-    },
-    /* eslint-disable-next-line */
-    STORE_TREATMENTS ({ commit, state }, data) {
-      return api.storeTreatments(this.$axios, data);
     }
   }
 };

@@ -198,7 +198,7 @@
           "noUsers": "Aucun utilisateur",
           "usersPerPage": "Utilisateurs par page",
           "allUsers": "Tous",
-          "noUserFoundWithEmail": "Aucune utilisateur trouvé avec cet email {search}",
+          "noUserFoundWithEmail": "Aucun utilisateur trouvé avec cet email {search}",
           "updatingInformationOf": "Mise à jour des informations de {email}",
           "groups": {
             "admin": "Administrateur",
@@ -208,13 +208,16 @@
         "jobs": {
           "title": "Traitements",
           "currentProcess": "Il y a <strong>{process}</strong> traitement(s) en cours.",
+          "noDataFoundWith": "Aucune données trouvé pour : {search}",
           "process": {
             "userId": "Utilisateur(s)",
             "jobId": "Traitement(s)",
             "createdAt": "Départ",
             "state": "État",
-            "inProcess": "En cours",
-            "completed": "Terminé"
+            "started": "En cours",
+            "completed": "Terminé",
+            "abort": "Stoppé",
+            "error": "Erreur"
           }
         },
         "report": {
@@ -274,7 +277,6 @@
       "cannotGetlogFormat": "Impossible de récupérer les iformations de la première ligne de log.",
       "error": "Une ou plusieurs erreurs se sont produites.",
       "userNotFound": "Aucun compte ne correspond à cette adresse email.",
-      "cannotSaveJobData": "Une erreur est survenue pendant la sauvegarde du traitement",
       "cannotLoadJobsData": "Une erreur est survenue pendant le chargement des données des traitements"
     },
     "search": "Rechercher",

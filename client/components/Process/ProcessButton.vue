@@ -217,12 +217,6 @@ export default {
 
       this.$store.dispatch('process/PROCESS', { jobID, formData, headers });
 
-      // store process logs in database
-      this.$store.dispatch('process/STORE_TREATMENTS', {
-        userId: this.$auth.user.username,
-        uuid: jobID
-      }).catch(err => this.$store.dispatch('snacks/error', `E${err.response.status} - ${this.$t('ui.errors.cannotSaveJobData')}`));
-
       return this.$router.push('/process/job');
     },
     cURL () {

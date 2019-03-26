@@ -85,7 +85,7 @@
           <v-text-field
             v-model="search"
             append-icon="mdi-magnify"
-            :label="$t(('ui.search'))"
+            :label="$t('ui.search')"
             single-line
           />
         </v-flex>

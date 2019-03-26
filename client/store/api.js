@@ -71,6 +71,4 @@ api.getTreatmentsByUser = (axios, userId) => axios.get(`/api/jobs/${userId}`).th
 
 api.getTreatments = (axios) => axios.get('/api/jobs').then(res => res.data);
 
-api.storeTreatments = (axios, data) => axios.post('api/jobs', data).then(res => res.data);
-
 export default api;
