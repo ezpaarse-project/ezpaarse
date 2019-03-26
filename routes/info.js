@@ -306,21 +306,6 @@ module.exports = function (app) {
   });
 
   /**
-   * GET route on /info/domains/unknown
-   */
-  app.get('/info/domains/unknown', function (req, res) {
-    res.header('Content-Type', 'text/csv; charset=utf-8');
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'X-Requested-With');
-
-    fs.readFile(path.join(__dirname, '../domains.miss.csv'), function (err, data) {
-      if (err) { return res.status(err.code == 'ENOENT' ? 404 : 500).end(); }
-
-      res.status(200).send(data);
-    });
-  });
-
-  /**
    * GET route on /info/domains/:domain:
    */
   app.get(/\/info\/domains\/([a-zA-Z0-9\-.]+)/, function (req, res) {
