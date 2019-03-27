@@ -1,9 +1,9 @@
 <template>
   <v-tour
     name="ezTour"
-    :steps="steps"
+    :steps="etapes"
   >
-    <template slot-scope="tour">
+    <!-- <template slot-scope="tour">
       <transition name="fade">
         <v-step
           v-for="(step, index) of tour.steps"
@@ -49,13 +49,13 @@
           </template>
         </v-step>
       </transition>
-    </template>
+    </template> -->
   </v-tour>
 </template>
 
 <script>
 export default {
-  props: ['steps'],
+  props: ['etapes'],
   methods: {
     start () {
       this.$tour['ezTour'].start();

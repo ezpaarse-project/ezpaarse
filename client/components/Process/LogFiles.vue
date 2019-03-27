@@ -17,9 +17,11 @@
               @change="handleFilesUpload"
             >
             <p>
-              <v-icon id="addFiles">
-                mdi-plus-box
-              </v-icon> {{ $t('ui.pages.process.logFiles.clickToAdd') }}
+              <span id="addFiles">
+                <v-icon>
+                  mdi-plus-box
+                </v-icon> {{ $t('ui.pages.process.logFiles.clickToAdd') }}
+              </span>
             </p>
           </div>
         </v-flex>
@@ -78,9 +80,11 @@
           ({{ logsFilesSize }} {{ $t('ui.pages.process.logFiles.total') }})
         </v-flex>
 
-        <ProcessButton :log-type="logType" />
+        <ProcessButton :log-type="logType" id="logsFiles" />
       </v-layout>
     </v-card-text>
+
+    <Tour :etapes="steps" />
   </v-card>
 </template>
 
@@ -88,10 +92,12 @@
 /* eslint-disable import/no-unresolved */
 /* eslint no-restricted-properties: "off" */
 import ProcessButton from '~/components/Process/ProcessButton';
+import Tour from '~/components/Tour';
 
 export default {
   components: {
-    ProcessButton
+    ProcessButton,
+    Tour
   },
   data () {
     return {
@@ -114,16 +120,17 @@ export default {
       ],
       steps: [
         {
-          target: '#logsFiles',
-          content: 'Traitez les fichiers de logs',
+          target: '#addFiles',
+          content: 'Cliquez ou déposez les fichiers a traiter.',
           params: {
             placement: 'top'
           }
-        }, {
-          target: '#addFiles',
-          content: 'Déposez vos fichiers',
+        },
+        {
+          target: '#logsFiles',
+          content: 'Traiter le ou les fichiers de logs.',
           params: {
-            placement: 'left'
+            placement: 'top'
           }
         }
       ]

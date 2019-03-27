@@ -12,7 +12,6 @@
         large
         :disabled="logsFiles.length <= 0 || inProgress"
         @click="process"
-        id="v-step-0"
       >
         {{ $t('ui.pages.process.processLogsFiles') }}
       </v-btn>
@@ -65,7 +64,6 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-    <v-tour name="ezTour" :steps="steps"></v-tour>
   </v-flex>
 </template>
 
@@ -75,24 +73,16 @@
 import ButtonGroup from '~/components/ButtonGroup';
 import { uuid } from 'vue-uuid';
 import isEqual from 'lodash.isequal';
-import Tour from '~/components/Tour';
 
 export default {
   components: {
-    ButtonGroup,
-    Tour
+    ButtonGroup
   },
   props: ['logType'],
   data () {
     return {
       dialog: false,
-      curlRequest: null,
-      steps: [
-        {
-          target: '#v-step-0', 
-          content: `Discover <strong>Vue Tour</strong>!`
-        }
-      ]
+      curlRequest: null
     };
   },
   computed: {
@@ -124,7 +114,11 @@ export default {
       let formData;
       if (this.logType === 'files') {
         formData = new FormData();
-        this.logsFiles.forEach(f => {
+        const files = this.logsFiles.sort((a, b) => {
+          return (a.file.name.toLowerCase() > b.file.name.toLowerCase() ? 1 : -1);
+        });
+        console.log(files);
+        files.forEach(f => {
           formData.append('files[]', f.file);
         });
       } else if (this.logType === 'text') {
@@ -323,7 +317,11 @@ export default {
         });
       }
 
-      this.logsFiles.forEach(file => {
+      const files = this.logsFiles.sort((a, b) => {
+        return (a.file.name.toLowerCase() > b.file.name.toLowerCase() ? 1 : -1);
+      });
+
+      files.forEach(file => {
         curl.push(`-F "files[]=@${file.file.name};type=${file.file.type}"`);
       });
 
