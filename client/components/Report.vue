@@ -166,7 +166,7 @@
             class="teal white--text"
           >
             <div slot="header">{{ $t(`ui.pages.process.report.${index}`) }}</div>
-            <v-card>
+            <v-card v-if="index === 'rejets' && page === 'report'">
               <v-card-text>
                 <v-layout row wrap>
                   <v-flex xs12 sm12>
@@ -184,9 +184,104 @@
                 </v-layout>
               </v-card-text>
             </v-card>
+
+            <v-card v-if="index === 'rejets' && page === 'treatments'">
+              <v-card-text>
+                <v-layout
+                  row
+                  wrap
+                >
+                  <v-flex
+                    xs9
+                    sm9
+                    pr-2
+                  >
+                    <div class="elevation-1">
+                      <div class="v-table__overflow">
+                        <table class="v-datatable v-table theme--light">
+                          <tbody v-if="report.rejets">
+                            <tr
+                              v-for="(rej, index) in report.rejets"
+                              :key="index"
+                              @mouseover="setCurrentReject(index)"
+                            >
+                              <td v-if="index !== 'nb-lines-unknown-errors'">
+                                {{ $t(`ui.pages.process.report.${index}`) }}
+                              </td>
+                              <td v-else>{{ $t(`ui.pages.process.report.nb-denied-ecs`) }}</td>
+
+                              <td v-if="index !== 'nb-lines-unknown-errors'">
+                                {{ rej }}
+                              </td>
+                              <td v-else>{{ report.general['nb-denied-ecs'] }}</td>
+
+                              <td v-if="index !== 'nb-lines-unknown-errors'">
+                                <v-progress-linear
+                                  v-if="index !== 'nb-lines-ignored'"
+                                  background-color="teal white--text"
+                                  color="success"
+                                  height="15"
+                                  :value="rejectPercent(rej)"
+                                />
+                              </td>
+                              <td v-else>
+                                <v-progress-linear
+                                  background-color="teal white--text"
+                                  color="success"
+                                  height="15"
+                                  :value="nbDeniedEcs()"
+                                />
+                              </td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                    <br>
+                    <!-- eslint-disable -->
+                    <p
+                      v-if="report.general"
+                      v-html="$t('ui.pages.process.job.relevantLogLinesRead', { relevantLogLines: relevantLogLines() })"
+                    />
+                  </v-flex>
+
+                  <v-flex
+                    v-if="currentReject"
+                    xs3
+                    sm3
+                    pl-2
+                  >
+                    <h3 class="headline">
+                      {{ $t(`ui.pages.process.report.${currentReject}`) }}
+                    </h3>
+                    <br>
+                    <p
+                      class="text-xs-justify"
+                      v-html="$t(`ui.pages.process.report.descriptions.${currentReject}`)"
+                    />
+                    <p v-if="currentReject === 'nb-lines-unknown-domains'">
+                      <a
+                        href="/api/info/domains/unknown"
+                        target="_blank"
+                      >
+                        <v-btn color="teal white--text">
+                          <v-icon
+                            left
+                            dark
+                          >
+                            mdi-download
+                          </v-icon>
+                          {{ $t(`ui.pages.process.report.${currentReject}`) }}
+                        </v-btn>
+                      </a>
+                    </p>
+                  </v-flex>
+                </v-layout>
+              </v-card-text>
+            </v-card>
           </v-expansion-panel-content>
 
-          <v-expansion-panel-content class="teal white--text" v-if="socketLogging.length > 0">
+          <v-expansion-panel-content class="teal white--text" v-if="page === 'treatments'">
             <div slot="header">
               {{ $t('ui.pages.process.job.traces') }}
             </div>
@@ -225,7 +320,7 @@
             </v-card>
           </v-expansion-panel-content>
 
-          <v-expansion-panel-content class="teal white--text" v-if="logging && logging.length > 0 && !socketLogging">
+          <v-expansion-panel-content class="teal white--text" v-if="page === 'report'">
             
             <div slot="header">
               {{ $t('ui.pages.process.job.traces') }}
@@ -256,11 +351,12 @@
 
 <script>
 export default {
-  props: ['report', 'download'],
+  props: ['report', 'download', 'page'],
   data () {
     return {
       panel: [true, false, false, false, false, false, false, false, false],
-      expended: false
+      expended: false,
+      currentReject: null
     };
   },
   computed: {
@@ -272,6 +368,22 @@ export default {
     }
   },
   methods: {
+    setCurrentReject (index) {
+      this.currentReject = index;
+    },
+    rejectPercent (rej) {
+      const a = (rej * 100);
+      const b = (this.report.general['nb-lines-input'] - this.report.rejets['nb-lines-ignored']);
+      return Math.ceil(a / b);
+    },
+    nbDeniedEcs () {
+      const a = (this.report.general['nb-denied-ecs'] * 100);
+      const b = (this.report.general['nb-lines-input'] - this.report.rejets['nb-lines-ignored']);
+      return Math.ceil(a / b);
+    },
+    relevantLogLines () {
+      return this.report.general['nb-lines-input'] - this.report.rejets['nb-lines-ignored'];
+    },
     allPage () {
       if (!this.expended) this.panel = [true, true, true, true, true, true, true, true, true];
       if (this.expended) this.panel = [false, false, false, false, false, false, false, false, false];

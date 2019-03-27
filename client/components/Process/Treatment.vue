@@ -120,7 +120,7 @@
       </v-flex>
 
       <v-flex v-if="report" xs12 sm12 mt-3>
-        <Report :report="report" :download="report && report.general && status === 'end'" />
+        <Report :report="report" :page="page" :download="report && report.general && status === 'end'" />
       </v-flex>
     </v-layout>
   </v-card-text>
@@ -136,7 +136,7 @@ export default {
   data () {
     return {
       panel: [true, false, false, false],
-      currentReject: null
+      page: 'treatments'
     };
   },
   computed: {
@@ -174,9 +174,6 @@ export default {
     }
   },
   methods: {
-    setCurrentReject (index) {
-      this.currentReject = index;
-    },
     newTreatment () {
       this.$store.dispatch('process/SET_IN_PROGRESS', false);
       this.$router.push('/process');
@@ -184,19 +181,6 @@ export default {
     stopProcess () {
       this.$store.dispatch('process/STOP_PROCESS');
       this.$router.push('/process');
-    },
-    rejectPercent (rej) {
-      const a = (rej * 100);
-      const b = (this.report.general['nb-lines-input'] - this.report.rejets['nb-lines-ignored']);
-      return Math.ceil(a / b);
-    },
-    nbDeniedEcs () {
-      const a = (this.report.general['nb-denied-ecs'] * 100);
-      const b = (this.report.general['nb-lines-input'] - this.report.rejets['nb-lines-ignored']);
-      return Math.ceil(a / b);
-    },
-    relevantLogLines () {
-      return this.report.general['nb-lines-input'] - this.report.rejets['nb-lines-ignored'];
     },
     loggingError () {
       let errors = [];

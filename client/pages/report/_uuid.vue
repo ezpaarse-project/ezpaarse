@@ -11,7 +11,7 @@
       </v-toolbar-title>
     </v-toolbar>
     
-    <Report :report="report" :download="download"/>
+    <Report :report="report" :download="download" :page="page"/>
   </v-card>
 </template>
 
@@ -24,7 +24,8 @@ export default {
   },
   data () {
     return {
-      download: true
+      download: true,
+      page: 'report'
     };
   },
   async fetch ({ store, params }) {
