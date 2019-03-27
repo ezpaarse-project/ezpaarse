@@ -50,7 +50,7 @@
         "title": "Traitez vos logs",
         "curl": "Copiez la commande ci-dessous pour exécuter la requête avec cURL en utilisant le paramétrage actuel du formulaire. Vous devrez peut-être modifier l'adresse de l'instance utilisée, le chemin des fichiers ou ajouter des options telles que <span tabindex=\"0\" class=\"v-chip v-chip--label theme--light\"><span class=\"v-chip__content\">--proxy</span></span> ou <span tabindex=\"0\" class=\"v-chip v-chip--label theme--light\"><span class=\"v-chip__content\">--no-buffer</span></span>",
         "processLogsFiles": "Traitez vos fichiers de logs",
-        "processLogsLines": "Traitez vos lignes de logs",
+        "processlogLines": "Traitez vos lignes de logs",
         "prepareTreatment": "Préparation du traitement",
         "explainationLogs": "Indiquez ici les logs que vous désirez faire analyser par ezPAARSE. Vos logs nécessitent peut-être un paramétrage particulier pour qu'ezPAARSE les comprenne. Si nécessaire, <a href=\"mailto:ezpaarse@couperin.org\">contactez l'équipe ezPAARSE</a> pour une aide au paramétrage.",
         "explainationTestsLogs": "Vous désirez utiliser des logs de test pour valider votre installation, nous en <a href=\"{url}\" target=\"_blank\">mettons à disposition sur GitHub</a>.",
@@ -103,10 +103,16 @@
           "autoRecognition": "Reconnaissance auto",
           "format": "Format",
           "regex": "Expression régulière",
+          "regexFailed": "L'expression régulière n'a pas pu être construite à partir du format",
           "ecGenerated": "Événement de consultation généré (basique, sans enrichissement)",
-          "field": "Champs",
+          "property": "Propriété",
           "value": "Valeur",
-          "detectionFailed": "La détection automatique n'a pas pu déterminer le format de vos lignes de log"
+          "detectionFailed": "La détection automatique n'a pas pu déterminer le format de vos lignes de log",
+          "missing": {
+            "date": "Pas de date détectée. La date est nécessaire afin de pouvoir dédoublonner les événements de consultation.",
+            "url": "Pas d'URL détectée. L'URL est nécessaire afin de pouvoir identifier les ressources consultées.",
+            "domain": "Pas de domaine détecté. Le domaine est nécessaire afin de déterminer le parseur à utiliser pour analyser l'URL."
+          }
         },
         "report": {
           "title": "Rapport",
@@ -275,7 +281,7 @@
       "cannotRegister": "Impossible de vous enregistrer.",
       "cannotNotifiate": "Impossible d'activer la notification par email.",
       "cannotUpdatePassword": "Impossible de mettre à jour le mot de passe.",
-      "cannotGetlogFormat": "Impossible de récupérer les iformations de la première ligne de log.",
+      "cannotGetlogFormat": "Impossible de récupérer les informations de la première ligne de log.",
       "error": "Une ou plusieurs erreurs se sont produites.",
       "userNotFound": "Aucun compte ne correspond à cette adresse email.",
       "cannotLoadJobsData": "Une erreur est survenue pendant le chargement des données des traitements"

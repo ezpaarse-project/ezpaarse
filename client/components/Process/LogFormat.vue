@@ -10,7 +10,7 @@
           sm
           12
         >
-          <v-form ref="form">
+          <v-form>
             <v-layout
               row
               wrap
@@ -20,12 +20,12 @@
                 sm12
               >
                 <v-textarea
-                  v-model="logsLines"
+                  v-model="logLines"
                   solo
-                  name="input-7-4"
+                  name="loglines"
                   :label="$t('ui.pages.process.logFormat.copyPast')"
                   required
-                  @input="parseFirstLine"
+                  @input="onChange"
                 />
               </v-flex>
             </v-layout>
@@ -36,132 +36,120 @@
           xs12
           sm12
         >
-          <v-alert
-            :value="true"
-            :color="alertColor"
-            outline
-            xs12
-            sm12
-          >
-            <h3 class="black--text">
-              {{ $t('ui.pages.process.logFormat.formatAnalysis') }}
-            </h3>
-            <p class="black--text">
-              {{ $t('ui.pages.process.logFormat.firstLogLine') }}
-            </p>
+          <v-card>
+            <v-toolbar
+              card
+              height="8px"
+              :color="cardColor"
+            >
+            </v-toolbar>
 
-            <span v-if="result && logsLines">
-              <v-tabs
-                v-if="result.formatBreak !== 0"
-                v-model="activeTab"
-                dark
-                xs12
-                sm12
-                pl-2
-                class="black--text"
-              >
-                <v-tab to="#tab-format">
-                  {{ $t('ui.pages.process.logFormat.format') }}
-                </v-tab>
-                <v-tab to="#tab-regexp">
-                  {{ $t('ui.pages.process.logFormat.regex') }}
-                </v-tab>
-              </v-tabs>
-
-              <v-tabs-items
-                v-if="result.formatBreak !== 0"
-                v-model="activeTab"
-              >
-                <v-tab-item value="tab-format">
-                  <v-card>
-                    <v-card-text
-                      xs12
-                      sm12
-                      class="h100"
-                    >
-                      <p class="black--text">
-                        {{ result.proxy }}
-                      </p>
-                      <p class="green--text">
-                        {{ result.format }}
-                      </p>
-                    </v-card-text>
-                  </v-card>
-                </v-tab-item>
-
-                <v-tab-item value="tab-regexp">
-                  <v-card>
-                    <v-card-text
-                      xs12
-                      sm12
-                      class="h100"
-                    >
-                      <p class="green--text">
-                        {{ result.regexp }}
-                      </p>
-                    </v-card-text>
-                  </v-card>
-                </v-tab-item>
-              </v-tabs-items>
-
-              <v-card-text
-                v-if="result.formatBreak !== 0"
-                xs12
-                sm12
-              >
-                <h3 class="headline black--text mb-0">
-                  {{ $t('ui.pages.process.logFormat.ecGenerated') }}
-                </h3>
-                <div class="elevation-1">
-                  <div class="v-table__overflow">
-                    <table class="v-datatable v-table theme--light">
-                      <thead>
-                        <tr>
-                          <th
-                            class="column text-xs-left"
-                            role="columnheader"
-                            scope="col"
-                            :aria-label="`${$t('ui.pages.process.logFormat.field')} : No Sorted`"
-                            aria-sort="none"
-                          >
-                            {{ $t('ui.pages.process.logFormat.field') }}
-                          </th>
-                          <th
-                            class="column text-xs-left"
-                            role="columnheader"
-                            scope="col"
-                            :aria-label="`${$t('ui.pages.process.logFormat.value')} : No Sorted`"
-                            aria-sort="none"
-                          >
-                            {{ $t('ui.pages.process.logFormat.value') }}
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr
-                          v-for="(value, index) in result.ec"
-                          :key="index"
-                        >
-                          <td class="text-xs-left">
-                            {{ index }}
-                          </td>
-                          <td class="text-xs-left">
-                            {{ value }}
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
+            <v-card-title>
+              <div>
+                <div class="headline">
+                  {{ $t('ui.pages.process.logFormat.formatAnalysis') }}
+                  <v-progress-circular v-if="loading" :size="18" :width="2" indeterminate color="primary"></v-progress-circular>
                 </div>
-              </v-card-text>
-            </span>
+                <div class="subheading">{{ $t('ui.pages.process.logFormat.firstLogLine') }}</div>
+              </div>
+            </v-card-title>
 
-            <span v-if="result && result.formatBreak === 0">
-              <h3 class="red--text">
+            <template v-if="result">
+              <v-card-text v-if="result.autoDetect && !result.strictMatch" class="red--text">
                 {{ $t('ui.pages.process.logFormat.detectionFailed') }}
-              </h3>
-            </span>
-          </v-alert>
+              </v-card-text>
+
+              <v-expansion-panel v-else expand v-model="expandedPanels">
+                <v-expansion-panel-content>
+                  <div slot="header">
+                    {{ $t('ui.pages.process.logFormat.format') }} ({{ result.proxy }})
+                  </div>
+                  <template slot="actions">
+                    <v-icon color="success" v-if="result.strictMatch">mdi-check</v-icon>
+                    <v-icon color="error" v-else>mdi-alert-circle</v-icon>
+                  </template>
+                  <v-card>
+                    <v-card-text>
+                      <div v-if="result.format">
+                        <span class="green--text">{{ result.format.substr(0, result.formatBreak) }}</span><span class="red--text">{{ result.format.substr(result.formatBreak) }}</span>
+                      </div>
+                    </v-card-text>
+                  </v-card>
+                </v-expansion-panel-content>
+
+                <v-expansion-panel-content>
+                  <div slot="header">
+                    {{ $t('ui.pages.process.logFormat.regex') }}
+                  </div>
+                  <template slot="actions">
+                    <v-icon color="success" v-if="result.strictMatch">mdi-check</v-icon>
+                    <v-icon color="error" v-else>mdi-alert-circle</v-icon>
+                  </template>
+                  <v-card>
+                    <v-card-text>
+                      <div v-if="result.regexp">
+                        <span class="green--text">{{ result.regexp.substr(0, result.regexpBreak) }}</span><span class="red--text">{{ result.regexp.substr(result.regexpBreak) }}</span>
+                      </div>
+
+                      <div v-else>
+                        {{ $t('ui.pages.process.logFormat.regexFailed') }}
+                      </div>
+                    </v-card-text>
+                  </v-card>
+                </v-expansion-panel-content>
+
+                <v-expansion-panel-content>
+                  <div slot="header">
+                    {{ $t('ui.pages.process.logFormat.ecGenerated') }}
+                  </div>
+                  <template slot="actions">
+                    <v-icon color="success" v-if="result.ec && !hasMissingField">mdi-check</v-icon>
+                    <v-icon color="error" v-else>mdi-alert-circle</v-icon>
+                  </template>
+                  <v-card>
+                    <v-card-text v-if="hasMissingField">
+                      <v-alert
+                        v-for="missing in result.missing" :key="missing"
+                        :value="true"
+                        color="warning"
+                        icon="mdi-alert-outline"
+                        outline
+                      >
+                        {{ $t(`ui.pages.process.logFormat.missing.${missing}`) }}
+                      </v-alert>
+                    </v-card-text>
+
+                    <v-card-text>
+                      <v-data-table
+                        :headers="ecHeaders"
+                        hide-actions
+                        :pagination="{ rowsPerPage: -1 }"
+                        item-key="name"
+                        :items="ecProps"
+                        class="elevation-1"
+                      >
+                        <template slot="headers" slot-scope="props">
+                          <tr>
+                            <th
+                              v-for="header in props.headers"
+                              :key="header.text"
+                            >
+                              {{ $t(`ui.pages.process.logFormat.${header.text}`) }}
+                            </th>
+                          </tr>
+                        </template>
+
+                        <template slot="items" slot-scope="props">
+                          <td>{{ props.item.name }}</td>
+                          <td>{{ props.item.value }}</td>
+                        </template>
+                      </v-data-table>
+                    </v-card-text>
+                  </v-card>
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+            </template>
+          </v-card>
         </v-flex>
 
         <ProcessButton :log-type="logType" />
@@ -173,6 +161,7 @@
 <script>
 /* eslint-disable import/no-unresolved */
 import ProcessButton from '~/components/Process/ProcessButton';
+import debounce from 'lodash.debounce';
 
 export default {
   components: {
@@ -182,35 +171,80 @@ export default {
     return {
       logType: 'text',
       result: null,
-      alertColor: 'info',
-      activeTab: 'tab-format'
+      loading: false,
+      activeTab: 'tab-format',
+      expandedPanels: [true, false, false],
+      ecHeaders: [
+        { text: 'property', value: 'property' },
+        { text: 'value', value: 'value' }
+      ]
     };
   },
   computed: {
-    logsLines: {
-      get () { return this.$store.state.process.logsLines; },
+    cardColor () {
+      if (!this.result) { return 'info'; }
+      if (this.result.strictMatch) { return this.hasMissingField ? 'warning' : 'success'; }
+      return 'error';
+    },
+    hasMissingField () {
+      return (this.result && Array.isArray(this.result.missing) && this.result.missing.length > 0);
+    },
+    ecProps () {
+      if (!this.result.ec) { return []; }
+      return Object.entries(this.result.ec).map(entry => ({ name: entry[0], value: entry[1] }));
+    },
+    logLines: {
+      get () { return this.$store.state.process.logLines; },
       set (newVal) { this.$store.dispatch('process/SET_LOGS_LINES', newVal); }
     },
-    currentPredefinedSettings () {
+    settings () {
       return this.$store.state.process.currentPredefinedSettings;
+    },
+    headers () {
+      return this.settings && this.settings.headers;
+    },
+    format () {
+      return this.headers && this.headers['Log-Format'] && this.headers['Log-Format'].value;
+    },
+    proxy () {
+      return this.headers && this.headers['Log-Format'] && this.headers['Log-Format'].format;
+    },
+    dateFormat () {
+      return this.headers && this.headers['Date-Format'];
     }
   },
+  watch: {
+    format () { this.onChange(); },
+    proxy () { this.onChange(); },
+    dateFormat () { this.onChange(); }
+  },
   methods: {
-    parseFirstLine () {
-      if (!this.logsLines) this.alertColor = 'info';
-      this.$store.dispatch('process/LOG_PARSER', { settings: this.currentPredefinedSettings, logsLines: this.logsLines }).then(res => {
-        this.result = res;
-        this.alertColor = (this.result.formatBreak === 0) ? 'error' : 'success';
-      }).catch(err => {
+    onChange () {
+      this.loading = true;
+      this.parseFirstLine();
+    },
+    parseFirstLine: debounce(async function () {
+      if (!this.logLines) {
+        this.loading = false;
+        return this.result = null;
+      }
+
+      this.loading = true;
+      const { headers } = this.settings;
+
+      try {
+        this.result = await this.$store.dispatch('process/LOG_PARSER', {
+           proxy: headers['Log-Format'].format,
+           format: headers['Log-Format'].value,
+           dateFormat: headers['Date-Format'],
+           logLines: this.logLines
+        });
+      } catch (err) {
         this.$store.dispatch('snacks/error', `E${err.response.status} - ${this.$t('ui.errors.cannotGetlogFormat')}`);
-      });
-    }
+      }
+
+      this.loading = false;
+    }, 1000)
   }
 };
 </script>
-
-<style scoped>
-.h100 {
-  height: 100px;
-}
-</style>
