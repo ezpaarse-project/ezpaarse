@@ -183,13 +183,14 @@ app.get('/status', function (req, res) {
       }
     });
   } else if (config.EZPAARSE_PARENT_URL) {
-    request.get(config.EZPAARSE_PARENT_URL + '/api/feedback/status', function (err, response, body) {
-      if (err || !response || response.statusCode != 200) {
-        res.status(501).end();
-      } else {
-        res.status(200).json(config.EZPAARSE_FEEDBACK_RECIPIENTS);
-      }
-    });
+    request.get(config.EZPAARSE_PARENT_URL + '/api/feedback/status',
+      function (err, response, body) {
+        if (err || !response || response.statusCode != 200) {
+          res.status(501).end();
+        } else {
+          res.status(200).json(config.EZPAARSE_FEEDBACK_RECIPIENTS);
+        }
+      });
   } else {
     res.status(501).end();
   }
