@@ -20,10 +20,10 @@
         v-if="logType === 'text'"
         color="success"
         large
-        :disabled="logsLines.length <= 0 || inProgress"
+        :disabled="logLines.length <= 0 || inProgress"
         @click="process"
       >
-        {{ $t('ui.pages.process.processLogsLines') }}
+        {{ $t('ui.pages.process.processlogLines') }}
       </v-btn>
       <v-btn
         v-if="logType === 'files'"
@@ -89,7 +89,7 @@ export default {
       curlRequest: null,
       steps: [
         {
-          target: '#v-step-0', 
+          target: '#v-step-0',
           content: `Discover <strong>Vue Tour</strong>!`
         }
       ]
@@ -103,8 +103,8 @@ export default {
       get () { return this.$store.state.process.logsFiles; },
       set (newVal) { this.$store.dispatch('process/SET_LOGS_FILES', newVal); }
     },
-    logsLines () {
-      return this.$store.state.process.logsLines;
+    logLines () {
+      return this.$store.state.process.logLines;
     },
     predefinedSettings () {
       return this.$store.state.process.predefinedSettings;
@@ -128,7 +128,7 @@ export default {
           formData.append('files[]', f.file);
         });
       } else if (this.logType === 'text') {
-        formData = this.logsLines;
+        formData = this.logLines;
       } else {
         return false;
       }

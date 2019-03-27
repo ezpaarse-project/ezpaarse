@@ -9,12 +9,15 @@ var app = Router();
 *  Get a browserified version of the log parser
 */
 app.put('/logparser', bodyParser.urlencoded({ extended: true }), bodyParser.json(), (req, res) => {
-  if (!req.body) return res.status(400);
-  if (!req.body.settings || !req.body.logsLines) return res.status(400);
+  if (!req.body) { return res.status(400); }
+  if (typeof req.body.logLines !== 'string') { return res.status(400); }
 
-  const logLine = req.body.logsLines.split('\n')[0];
-  const settings = req.body.settings;
-  let format = settings.headers['Log-Format'].value || '';
+  const logLine = req.body.logLines.split('\n')[0];
+
+  let format = req.body.format;
+  const proxy = format ? req.body.proxy : null;
+  const dateFormat = req.body.dateFormat;
+  const auto = !format;
   const fullFormat = format;
   let strictMatch = true;
   let regexp;
@@ -23,18 +26,16 @@ app.put('/logparser', bodyParser.urlencoded({ extended: true }), bodyParser.json
   let ec;
   let reg;
 
-  let auto = !format;
 
   while (format || auto) {
     parser = logParser({
-      proxy: format ? settings.headers['Log-Format'].format : null,
-      format: format,
-      dateFormat: settings.headers['Date-Format'],
+      proxy,
+      format,
+      dateFormat,
       laxist: !strictMatch
     });
 
-    ec = parser.parse(logLine);
-
+    // If we can build a regex with the log format, find the longest working regex
     if (strictMatch && parser.getRegexp()) {
       regexp = parser.getRegexp().source;
 
@@ -47,40 +48,37 @@ app.put('/logparser', bodyParser.urlencoded({ extended: true }), bodyParser.json
       }
     }
 
-    if (ec) break;
+    ec = parser.parse(logLine);
+
+    if (ec) { break; }
+
+    if (!strictMatch) {
+      format = format.substr(0, format.length - 1);
+    }
 
     strictMatch = false;
 
-    if (auto) break;
+    if (auto) { break; }
   }
 
-  if (ec) {
-    let missing = [];
-    if (!ec.hasOwnProperty('timestamp')) missing.push('date');
-    if (!ec.hasOwnProperty('url')) missing.push('url');
-    if (!ec.hasOwnProperty('domain')) missing.push('domain');
+  let missing = [];
 
-    return res.status(200).json({
-      autoDetect: parser.autoDetect(),
-      strictMatch: strictMatch,
-      proxy: parser.getProxy(),
-      format: parser.autoDetect() ? parser.getFormat() : fullFormat,
-      formatBreak: parser.autoDetect() ? parser.getFormat().length : format.length,
-      regexp,
-      regexpBreak,
-      missing: missing,
-      ec
-    });
+  if (ec) {
+    if (!ec.hasOwnProperty('timestamp')) { missing.push('date'); }
+    if (!ec.hasOwnProperty('url')) { missing.push('url'); }
+    if (!ec.hasOwnProperty('domain')) { missing.push('domain'); }
   }
 
   return res.status(200).json({
     autoDetect:  parser.autoDetect(),
     proxy:       parser.getProxy(),
-    strictMatch: false,
-    regexp:      regexp,
-    regexpBreak: regexpBreak,
     format:      parser.autoDetect() ? parser.getFormat() : fullFormat,
-    formatBreak: 0
+    formatBreak: parser.autoDetect() ? parser.getFormat().length : format.length,
+    strictMatch,
+    regexp,
+    regexpBreak,
+    missing,
+    ec
   });
 });
 

@@ -10,7 +10,7 @@ export default {
     customPredefinedSettings: [],
     allPredefinedSettings: [],
     processProgress: 0,
-    logsLines: '',
+    logLines: '',
     logsFiles: [],
     logsFilesSize: '0 B',
     totalFileSize: 0,
@@ -39,7 +39,7 @@ export default {
       Vue.set(state, 'inProgress', data);
     },
     SET_LOGS_LINES (state, data) {
-      Vue.set(state, 'logsLines', data);
+      Vue.set(state, 'logLines', data);
     },
     SET_LOGS_FILES (state, data) {
       Vue.set(state, 'logsFiles', data);
