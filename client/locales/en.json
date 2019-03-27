@@ -152,7 +152,7 @@
           "dedoublonnage": "Duplicates",
           "files": "Files",
           "first_event": "First consultation",
-          "seeFull": "See the full report",
+          "seeFull": "View the full report",
           "minimizeReport": "Minimize the report"
         },
         "job": {
@@ -270,6 +270,7 @@
       "cannotSendFeedback": "The feedback could not be sent.",
       "cannotResetPassword": "Impossible to update the password.",
       "cannotGetReport": "Unable to retrieve the requested report.",
+      "cannotGetLogging": "Unable to recover system traces.",
       "cannotGetJobs": "Unable to retrieve current processing.",
       "cannotGetCountriesList": "Impossible to retrieve the list of countries.",
       "CannotLoadUserNumber": "Unable to load the number of users.",

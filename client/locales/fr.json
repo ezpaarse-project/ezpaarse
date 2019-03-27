@@ -151,7 +151,7 @@
           "dedoublonnage": "Dédoublonnage",
           "files": "Fichiers",
           "first_event": "Première consultation",
-          "seeFull": "Voir le rapport au complet",
+          "seeFull": "Afficher le rapport au complet",
           "minimizeReport": "Minimiser le rapport"
         },
         "job": {
@@ -268,6 +268,7 @@
       "cannotSendFeedback": "Le feedback n'a pu être envoyé.",
       "cannotResetPassword": "Impossible de mettre à jour le mot de passe.",
       "cannotGetReport": "Impossible de récupérer le rapport demandé.",
+      "cannotGetLogging": "Impossible de récupérer les traces système.",
       "cannotGetJobs": "Impossible de récupérer les traitements en cours.",
       "cannotGetCountriesList": "Impossible de récupérer la liste des pays.",
       "cannotLoadUserNumber": "Impossible de charger le nombre d'utilisateurs.",

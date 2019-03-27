@@ -6,7 +6,7 @@ api.register = (axios, data) => axios.post('/api/admin/register', data).then(res
 
 api.sendFeedback = (axios, data) => axios.post('/api/feedback', data).then(res => res.data);
 
-api.feedbackStatus = (axios) => axios.get('/api/feedback').then(res => res.data);
+api.feedbackStatus = (axios) => axios.get('/api/feedback/status').then(res => res.data);
 
 api.getAppStatus = (axios) => axios.get('/api/admin/app/status').then(res => res.data);
 
@@ -55,6 +55,8 @@ api.getCountries = (axios) => axios.get('/api/info/countries').then(res => res.d
 api.getAppInfos = (axios) => axios.get('/api/info/app').then(res => res.data);
 
 api.getReport = (axios, uuid) => axios.get(`/api/logs/${uuid}/job-report.json`).then(res => res.data);
+
+api.getLogging = (axios, uuid) => axios.get(`/api/logs/${uuid}/job-traces.log`).then(res => res.data);
 
 api.getLogParser = (axios, data) => axios.put('/api/format/logparser', data).then(res => res.data);
 

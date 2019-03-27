@@ -167,7 +167,7 @@ app.post('/freshinstall', bodyParser.urlencoded({ extended: true }), bodyParser.
  * GET route on /feedback/status
  * To know if sending a feedback is possible
  */
-app.get('/', function (req, res) {
+app.get('/status', function (req, res) {
   if (!config.EZPAARSE_FEEDBACK_RECIPIENTS || !config.EZPAARSE_ADMIN_MAIL) {
     res.status(501).end();
     return;
@@ -183,7 +183,7 @@ app.get('/', function (req, res) {
       }
     });
   } else if (config.EZPAARSE_PARENT_URL) {
-    request.get(config.EZPAARSE_PARENT_URL + '/feedback/status', function (err, response, body) {
+    request.get(config.EZPAARSE_PARENT_URL + '/api/feedback/status', function (err, response, body) {
       if (err || !response || response.statusCode != 200) {
         res.status(501).end();
       } else {

@@ -18,6 +18,7 @@ export default {
     queryCancelSource: null,
     status: null,
     report: null,
+    logging: null,
     error: null,
     settingsIsModified: false,
     currentPredefinedSettings: null,
@@ -63,6 +64,9 @@ export default {
     },
     SET_REPORT (state, data) {
       Vue.set(state, 'report', data);
+    },
+    SET_LOGGING (state, data) {
+      Vue.set(state, 'logging', data);
     },
     SET_ERROR (state, data) {
       Vue.set(state, 'error', data);
@@ -299,6 +303,11 @@ export default {
     GET_REPORT ({ commit }, data) {
       return api.getReport(this.$axios, data).then(res => {
         commit('SET_REPORT', res);
+      });
+    },
+    GET_LOGGING ({ commit }, data) {
+      return api.getLogging(this.$axios, data).then(res => {
+        commit('SET_LOGGING', res);
       });
     },
     /* eslint-disable-next-line */
