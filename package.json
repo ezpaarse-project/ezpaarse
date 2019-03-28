@@ -105,7 +105,7 @@
     "version": "npm run insertversion:docker && npm run insertversion:makefile && git add docker-compose.yml Makefile",
     "postversion": "git push && git push --tags",
     "lint": "eslint --ext .js,.vue lib/ test/ routes/ middlewares/ client/",
-    "dev": "NODE_ENV=development nodemon --ignore 'platforms/*.js' --ignore 'middlewares/*.js' --ignore 'resources/*.js' ./server.js -e js,vue",
+    "dev": "NODE_ENV=development nodemon -i 'platforms/*.js' -i 'middlewares/*.js' -i 'resources/*.js' -i client ./server.js -e js",
     "start": "node server.js",
     "build": "nuxt build --no-generate"
   },
