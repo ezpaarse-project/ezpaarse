@@ -120,7 +120,7 @@
       </v-flex>
 
       <v-flex v-if="report" xs12 sm12 mt-3>
-        <Report :report="report" :page="page" :download="report && report.general && status === 'end'" />
+        <Report :report="report" :logging="logging" :download="report && report.general && status === 'end'" />
       </v-flex>
     </v-layout>
   </v-card-text>
@@ -135,8 +135,7 @@ export default {
   },
   data () {
     return {
-      panel: [true, false, false, false],
-      page: 'treatments'
+      panel: [true, false, false, false]
     };
   },
   computed: {

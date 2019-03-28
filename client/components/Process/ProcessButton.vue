@@ -114,10 +114,7 @@ export default {
       let formData;
       if (this.logType === 'files') {
         formData = new FormData();
-        const files = this.logsFiles.sort((a, b) => {
-          return (a.file.name.toLowerCase() > b.file.name.toLowerCase() ? 1 : -1);
-        });
-        console.log(files);
+        const files = this.logsFiles.sort((a, b) => (a.file.name.toLowerCase() > b.file.name.toLowerCase() ? 1 : -1));
         files.forEach(f => {
           formData.append('files[]', f.file);
         });
@@ -317,10 +314,7 @@ export default {
         });
       }
 
-      const files = this.logsFiles.sort((a, b) => {
-        return (a.file.name.toLowerCase() > b.file.name.toLowerCase() ? 1 : -1);
-      });
-
+      const files = this.logsFiles.sort((a, b) => (a.file.name.toLowerCase() > b.file.name.toLowerCase() ? 1 : -1));
       files.forEach(file => {
         curl.push(`-F "files[]=@${file.file.name};type=${file.file.type}"`);
       });

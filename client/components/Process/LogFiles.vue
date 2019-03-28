@@ -61,6 +61,7 @@
           sm6
           mt-3
         >
+
           <v-btn
             color="error"
             @click="removeList"

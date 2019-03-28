@@ -11,7 +11,7 @@
       </v-toolbar-title>
     </v-toolbar>
     
-    <Report :report="report" :download="download" :page="page"/>
+    <Report :report="report" :download="download" :logging="logging"/>
   </v-card>
 </template>
 
@@ -24,8 +24,7 @@ export default {
   },
   data () {
     return {
-      download: true,
-      page: 'report'
+      download: true
     };
   },
   async fetch ({ store, params }) {
@@ -46,7 +45,17 @@ export default {
       return this.$store.state.process.report;
     },
     logging () {
-      return this.$store.state.process.logging;
+      const lines = this.$store.state.process.logging.split('\n').map(e => {
+        let match = null;
+        if ((match = /^([a-z0-9:\.-]+)\s(info|error|warning|verbose):(.*)$/i.exec(e)) !== null) {
+          return {
+            date: match[1],
+            level: match[2],
+            message: match[3],
+          }
+        }
+      });
+      return lines;
     }
   },
 };

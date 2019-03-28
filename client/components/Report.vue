@@ -166,7 +166,7 @@
             class="teal white--text"
           >
             <div slot="header">{{ $t(`ui.pages.process.report.${index}`) }}</div>
-            <v-card v-if="index === 'rejets' && page === 'report'">
+            <v-card v-if="index !== 'rejets'">
               <v-card-text>
                 <v-layout row wrap>
                   <v-flex xs12 sm12>
@@ -185,7 +185,7 @@
               </v-card-text>
             </v-card>
 
-            <v-card v-if="index === 'rejets' && page === 'treatments'">
+            <v-card v-if="index === 'rejets'">
               <v-card-text>
                 <v-layout
                   row
@@ -281,57 +281,38 @@
             </v-card>
           </v-expansion-panel-content>
 
-          <v-expansion-panel-content class="teal white--text" v-if="page === 'treatments'">
+          <v-expansion-panel-content class="teal white--text">
             <div slot="header">
               {{ $t('ui.pages.process.job.traces') }}
             </div>
-            <v-card>
+            <v-card color="black">
               <v-card-text>
-                <v-alert
-                  :value="true"
-                  color="black"
+                <div
+                  v-for="(log, index) in logging"
+                  :key="index"
+                  class="white--text"
                 >
-                  <div
-                    v-for="(log, index) in socketLogging"
-                    :key="index"
+                  <span v-if="log && log.date">{{ log.date }}</span>
+                  <span
+                    v-if="log && (log.level === 'info' || log.level === 'verbose')"
+                    class="green--text"
                   >
-                    <span
-                      v-if="log.level === 'info'"
-                      class="green--text"
-                    >
-                      {{ log.level }}
-                    </span>
-                    <span
-                      v-if="log.level === 'warn'"
-                      class="orange--text"
-                    >
-                      {{ log.level }}
-                    </span>
-                    <span
-                      v-if="log.level === 'error'"
-                      class="red--text"
-                    >
-                      {{ log.level }}
-                    </span>
-                    : {{ log.message }}
-                  </div>
-                </v-alert>
-              </v-card-text>
-            </v-card>
-          </v-expansion-panel-content>
-
-          <v-expansion-panel-content class="teal white--text" v-if="page === 'report'">
-            
-            <div slot="header">
-              {{ $t('ui.pages.process.job.traces') }}
-            </div>
-            <v-card>
-              <v-card-text>
-                <v-alert :value="true" color="black">
-                  <div v-for="(line, index) in parseLogging(logging)" :key="index">
-                    <span v-html="line"></span>
-                  </div>
-                </v-alert>
+                    {{ log.level }}
+                  </span>
+                  <span
+                    v-if="log && log.level === 'warn'"
+                    class="orange--text"
+                  >
+                    {{ log.level }}
+                  </span>
+                  <span
+                    v-if="log && log.level === 'error'"
+                    class="red--text"
+                  >
+                    {{ log.level }}
+                  </span>
+                  <span v-if="log && log.message">: {{ log.message }}</span>
+                </div>
               </v-card-text>
             </v-card>
           </v-expansion-panel-content>
@@ -351,21 +332,13 @@
 
 <script>
 export default {
-  props: ['report', 'download', 'page'],
+  props: ['report', 'download', 'logging'],
   data () {
     return {
       panel: [true, false, false, false, false, false, false, false, false],
       expended: false,
       currentReject: null
     };
-  },
-  computed: {
-    socketLogging () {
-      return this.$store.state.socket.logging;
-    },
-    logging () {
-      return this.$store.state.process.logging;
-    }
   },
   methods: {
     setCurrentReject (index) {
@@ -395,33 +368,6 @@ export default {
         return `<a href="${report}" target="_blank">${report}</a>`;
       }
       return report;
-    },
-    parseLogging (logging) {
-      const lines = logging.split('\n');
-      const loggingLine = [];
-      lines.forEach(line => {
-        let match = null;
-        if ((match = /(info|error|warn)/i.exec(line)) !== null) {
-          let color = 'green';
-          switch (match[1]) {
-            case 'info':
-            default:
-              color = 'green';
-              break;
-
-            case 'error':
-              color = 'red';
-              break;
-
-            case 'warn':
-              color = 'orange';
-              break;
-          }
-          line = line.replace(match[1], `<span class="${color}--text">${match[1]}</span>`);
-          loggingLine.push(line);
-        }
-      });
-      return loggingLine;
     }
   }
 }
