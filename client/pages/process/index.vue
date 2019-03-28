@@ -87,8 +87,8 @@
           sm12
           mt-2
         >
-          <v-expansion-panel expand>
-            <v-expansion-panel-content class="teal white--text">
+          <v-expansion-panel expand dark>
+            <v-expansion-panel-content class="teal">
               <div slot="header">
                 {{ $t('ui.pages.process.settings.title') }}
               </div>

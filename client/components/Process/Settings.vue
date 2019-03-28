@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card light>
     <v-card-text>
       <v-layout
         row
@@ -45,12 +45,12 @@
           sm12
           mb-3
         >
-          <v-expansion-panel expand data-app>
-            <v-expansion-panel-content class="teal white--text">
+          <v-expansion-panel expand data-app dark>
+            <v-expansion-panel-content class="teal">
               <div slot="header">
                 {{ $t('ui.pages.process.settings.input') }}
               </div>
-              <v-card>
+              <v-card light>
                 <v-card-text>
                   <v-layout
                     row
@@ -113,12 +113,13 @@
 
             <v-expansion-panel-content
               v-if="currentPredefinedSettings"
-              class="teal white--text"
+              class="teal"
+              dark
             >
               <div slot="header">
                 {{ $t('ui.pages.process.settings.output') }}
               </div>
-              <v-card>
+              <v-card light>
                 <v-card-text>
                   <v-layout
                     row
@@ -287,12 +288,13 @@
 
             <v-expansion-panel-content
               v-if="currentPredefinedSettings"
-              class="teal white--text"
+              class="teal"
+              dark
             >
               <div slot="header">
                 Headers ({{ $t('ui.pages.process.settings.advancedHeaders') }})
               </div>
-              <v-card>
+              <v-card light>
                 <v-card-text>
                   <v-layout
                     row
