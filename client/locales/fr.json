@@ -206,6 +206,7 @@
           "allUsers": "Tous",
           "noUserFoundWithEmail": "Aucun utilisateur trouvé avec cet email {search}",
           "updatingInformationOf": "Mise à jour des informations de {email}",
+          "addUser": "Ajouter un utilisateur",
           "groups": {
             "admin": "Administrateur",
             "user": "Utilisateur"

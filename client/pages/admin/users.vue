@@ -9,6 +9,17 @@
       <v-toolbar-title>
         {{ $t('ui.pages.admin.users.title') }}
       </v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-tooltip left>
+        <v-btn fab flat small icon slot="activator" @click="dialog = true; user = {
+          username: null,
+          password: null,
+          group: null
+        }">
+          <v-icon>mdi-account-plus</v-icon>
+        </v-btn>
+        <span>{{ $t('ui.pages.admin.users.addUser') }}</span>
+      </v-tooltip>
     </v-toolbar>
 
     <v-card-text>
@@ -16,68 +27,6 @@
         row
         wrap
       >
-        <v-flex
-          xs12
-          sm12
-        >
-          <v-form
-            method="post"
-            @submit.prevent="addUser"
-          >
-            <v-layout
-              row
-              wrap
-            >
-              <v-flex
-                xs4
-                sm4
-                pr-2
-              >
-                <v-text-field
-                  v-model="userid"
-                  label="Email"
-                  type="email"
-                  required
-                  autocomplete="off"
-                />
-              </v-flex>
-
-              <v-flex
-                xs4
-                sm4
-                pr-2
-              >
-                <v-text-field
-                  v-model="password"
-                  :label="$t('ui.password')"
-                  type="password"
-                  required
-                  autocomplete="off"
-                />
-              </v-flex>
-
-              <v-flex
-                xs4
-                sm4
-              >
-                <v-select
-                  v-model="group"
-                  type="submit"
-                  :items="items"
-                  item-text="group"
-                  item-value="abbr"
-                  :label="$t('ui.pages.admin.users.group')"
-                  :append-outer-icon="(!userid || !group || !password) ? '' : 'mdi-plus-circle'"
-                  @click:append-outer="addUser"
-                  required
-                  autocomplete="off"
-                />
-              </v-flex>
-            </v-layout>
-          </v-form>
-          <v-divider />
-        </v-flex>
-
         <v-flex
           xs12
           sm12
@@ -110,15 +59,15 @@
               slot="items"
               slot-scope="props"
             >
+              <td class="layout justify-center">
+                <v-icon v-if="$auth.user.username !== props.item.username" small @click="removeUser(props.item.username)">
+                  mdi-delete
+                </v-icon>
+                <v-icon v-if="$auth.user.username !== props.item.username" small @click="dialog = true; user = props.item;">
+                  mdi-pencil
+                </v-icon>
+              </td>
               <td>
-                <span v-if="props.item.username !== $auth.user.username">
-                  <v-icon @click="removeUser(props.item.username)">
-                    mdi-delete
-                  </v-icon>
-                  <v-icon @click="dialog = true; setCurrentUser(props.item)">
-                    mdi-pencil
-                  </v-icon>
-                </span>
                 {{ props.item.username }}
               </td>
               <td>{{ $t(`ui.pages.admin.users.groups.${props.item.group}`) }}</td>
@@ -137,7 +86,7 @@
     </v-card-text>
 
     <v-dialog
-      v-if="currentUser.data"
+      @keydown.esc="dialog = false"
       v-model="dialog"
       width="600"
     >
@@ -146,26 +95,33 @@
           class="headline teal white--text"
           primary-title
         >
-          {{ $t('ui.pages.admin.users.updatingInformationOf', { email: currentUser.username }) }}
+          <span v-if="user && user.password">
+            {{ $t('ui.pages.admin.users.updatingInformationOf', { email: user.username }) }}
+          </span>
+          <span v-else>
+            Ajouter un utilisateur
+          </span>
         </v-card-title>
 
         <v-card-text>
           <v-text-field
-            v-model="currentUser.data.username"
-            :value="currentUser.data.username"
+            v-model="currentUser.username"
             label="Email"
-            @change="canSaveUser = true"
+          />
+
+          <v-text-field
+            v-if="!currentUser._id"
+            v-model="currentUser.password"
+            label="Password"
           />
 
           <v-select
-            v-model="currentUser.data.group"
+            v-model="currentUser.group"
             :items="items"
             item-text="group"
             item-value="abbr"
             :label="$t('ui.pages.admin.users.group')"
-            return-object
             single-line
-            @change="canSaveUser = true"
           />
         </v-card-text>
 
@@ -173,23 +129,11 @@
 
         <v-card-actions>
           <v-spacer />
-          <v-btn
-            color="success"
-            :disabled="!canSaveUser"
-            @click="editUser(); dialog = false"
-          >
-            <v-icon left>
-              mdi-content-save
-            </v-icon>{{ $t('ui.save') }}
+          <v-btn flat @click="dialog = false">
+            {{ $t('ui.close') }}
           </v-btn>
-
-          <v-btn
-            color="error"
-            @click="dialog = false; canSaveUser = false"
-          >
-            <v-icon left>
-              mdi-close-circle
-            </v-icon>{{ $t('ui.close') }}
+          <v-btn color="primary" @click="saveOrEdit(); dialog = false" :disabled="disabled">
+            {{ $t('ui.save') }}
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -198,23 +142,20 @@
 </template>
 
 <script>
+import isEqual from 'lodash.isequal';
+
 export default {
   auth: true,
   middleware: ['admin'],
   data () {
     return {
-      userid: null,
-      password: null,
-      group: null,
+      user: {},
+      currentUser: {},
       dialog: false,
-      canSaveUser: false,
+      disabled: true,
       search: '',
       pagination: {
         rowsPerPage: 10
-      },
-      currentUser: {
-        data: null,
-        username: null
       }
     };
   },
@@ -231,6 +172,10 @@ export default {
     },
     headers () {
       return [
+        {
+          sortable: false,
+          width: 10
+        },
         {
           text: 'Email',
           align: 'left',
@@ -252,35 +197,70 @@ export default {
       ];
     }
   },
-  methods: {
-    addUser () {
-      const data = {
-        userid: this.userid.trim(),
-        group: (this.group === this.$t('ui.pages.admin.users.groups.admin') ? 'admin' : 'user').trim(),
-        password: this.password.trim()
-      };
-
-      this.$store.dispatch('ADD_USER', data).then(() => {
-        this.$store.dispatch('GET_USERS_LIST').catch(err => {
-          this.$store.dispatch('snacks/error', `E${err.response.status} - ${this.$t('ui.errors.cannotLoadUsersList')}`);
-        });
-
-        this.userid = null;
-        this.group = null;
-        this.password = null;
-      }).catch(err => {
-        this.$store.dispatch('snacks/error', `E${err.response.status} - $${err.response.data.message}`);
-      });
+  watch: {
+    user () {
+      this.currentUser = JSON.parse(JSON.stringify(this.user));
     },
-    setCurrentUser (user) {
-      this.currentUser.data = {
-        username: user.username,
-        group: {
-          group: (user.group === 'admin' ? this.$t('ui.pages.admin.users.groups.admin') : this.$t('ui.pages.admin.users.groups.user')),
-          abbr: (user.group === 'admin' ? 'admin' : 'user')
+    currentUser: {
+      handler () {
+        if (this.user._id) {
+          this.disabled = isEqual(this.currentUser, this.user);
+        } else {
+          this.disabled = isEqual(this.currentUser, this.user);
         }
-      };
-      this.currentUser.username = user.username;
+
+        if (this.currentUser.username) {
+          this.currentUser.username = this.currentUser.username.trim();
+        }
+        if (this.currentUser.password) {
+          this.currentUser.password = this.currentUser.password.trim();
+        }
+        if (this.currentUser.group) {
+          this.currentUser.group = this.currentUser.group.trim();
+        }
+      },
+      deep: true
+    }
+  },
+  methods: {
+    saveOrEdit () {
+      if (this.user._id) {
+        this.$store.dispatch('EDIT_USER', {
+          userid: this.user.username,
+          username: this.currentUser.username,
+          group: this.currentUser.group
+        }).then(() => {
+          this.$store.dispatch('snacks/info', this.$t('ui.pages.admin.users.updatingInformationOf', {
+            email: this.currentUser.username
+          }));
+
+          this.$store.dispatch('GET_USERS_LIST').catch(err => {
+            return this.$store.dispatch('snacks/error', `E${err.response.status} - ${this.$t('ui.errors.cannotLoadUsersList')}`);
+          });
+
+          this.currentUser = {};
+          return this.user = {};
+        }).catch(err => {
+          return this.$store.dispatch('snacks/error', `E${err.response.status} - ${this.$t(`ui.errors.${err.response.data.message}`)}`);
+        });
+      }
+
+      if (!this.user._id) {
+        const data = {
+          userid: this.currentUser.username,
+          group: this.currentUser.group,
+          password: this.currentUser.password
+        };
+        this.$store.dispatch('ADD_USER', data).then(() => {
+          this.$store.dispatch('GET_USERS_LIST').catch(err => {
+            return this.$store.dispatch('snacks/error', `E${err.response.status} - ${this.$t('ui.errors.cannotLoadUsersList')}`);
+          });
+
+          return this.currentUser = {};
+        }).catch(err => {
+          return this.$store.dispatch('snacks/error', `E${err.response.status} - ${this.$t(`ui.errors.${err.response.data.message}`)}`);
+        });
+      }
     },
     removeUser (userid) {
       if (userid === this.$auth.user.username) {
@@ -295,28 +275,7 @@ export default {
         this.$store.dispatch('snacks/error', `E${err.response.status} - ${this.$t('ui.errors.cannotRemoveUser')}`);
       });
       return false;
-    },
-    editUser () {
-      this.$store.dispatch('EDIT_USER', {
-        userid: this.currentUser.username.trim(),
-        username: this.currentUser.data.username.trim(),
-        group: this.currentUser.data.group.abbr.trim()
-      }).then(() => {
-        this.$store.dispatch('snacks/info', this.$t('ui.pages.admin.users.updatingInformationOf', {
-          email: this.currentUser.username
-        }));
-
-        this.$store.dispatch('GET_USERS_LIST').catch(err => {
-          this.$store.dispatch('snacks/error', `E${err.response.status} - ${this.$t('ui.errors.cannotLoadUsersList')}`);
-        });
-      }).catch(err => this.$store.dispatch('snacks/error', `E${err.response.status} - $${err.response.data.message}`));
     }
   }
 };
 </script>
-
-<style scope>
-.itIsMe {
-  margin-left: 55px;
-}
-</style>

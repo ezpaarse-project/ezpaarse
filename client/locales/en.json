@@ -208,6 +208,7 @@
           "allUsers": "All",
           "noUserFoundWithEmail": "No users found with this email {search}",
           "updatingInformationOf": "Updating of the information of {email}",
+          "addUser": "Add a user",
           "groups": {
             "admin": "Administrator",
             "user": "User"
