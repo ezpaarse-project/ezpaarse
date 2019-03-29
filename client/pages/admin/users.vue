@@ -99,7 +99,7 @@
             {{ $t('ui.pages.admin.users.updatingInformationOf', { email: user.username }) }}
           </span>
           <span v-else>
-            Ajouter un utilisateur
+            {{ $t('ui.pages.admin.users.addUser') }}
           </span>
         </v-card-title>
 
