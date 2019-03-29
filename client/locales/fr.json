@@ -242,7 +242,13 @@
       "skip": "Quitter",
       "finish": "Terminer",
       "previous": "Précédent",
-      "next": "Suivant"
+      "next": "Suivant",
+      "logsFiles": {
+        "addFiles": {
+          "header": "Comment ajouter des fichiers de logs ?",
+          "content": "Pour ajouter des fichiers de logs, il faut glisser et déposer les fichiers dans cette zone ou bien cliquer sur cette zone pour séléctionner les fichiers souhaités."
+        }
+      }
     },
     "errors": {
       "title": "Une erreur s'est produite.",

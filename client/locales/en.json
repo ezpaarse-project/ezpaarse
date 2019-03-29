@@ -244,7 +244,13 @@
       "skip": "Skip",
       "finish": "Finish",
       "previous": "Previous",
-      "next": "Next"
+      "next": "Next",
+      "logsFiles": {
+        "addFiles": {
+          "header": "How to add log files?",
+          "content": "To add log files, you must drag and drop the files in this area or click on this area to select the desired files."
+        }
+      }
     },
     "errors": {
       "title": "An error has occurred...",

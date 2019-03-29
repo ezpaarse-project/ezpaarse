@@ -119,10 +119,6 @@
                     mdi-pencil
                   </v-icon>
                 </span>
-                <span
-                  v-if="props.item.username === $auth.user.username"
-                  :class="users.length > 1 ? 'itIsMe' : ''"
-                />
                 {{ props.item.username }}
               </td>
               <td>{{ $t(`ui.pages.admin.users.groups.${props.item.group}`) }}</td>
@@ -207,10 +203,6 @@ export default {
   middleware: ['admin'],
   data () {
     return {
-      items: [
-        { group: this.$t('ui.pages.admin.users.groups.admin'), abbr: 'admin' },
-        { group: this.$t('ui.pages.admin.users.groups.user'), abbr: 'user' }
-      ],
       userid: null,
       password: null,
       group: null,
@@ -220,20 +212,6 @@ export default {
       pagination: {
         rowsPerPage: 10
       },
-      headers: [
-        {
-          text: 'Email',
-          align: 'left',
-          sortable: true,
-          value: 'username'
-        },
-        {
-          text: this.$t('ui.pages.admin.users.group'),
-          align: 'left',
-          sortable: true,
-          value: 'group'
-        }
-      ],
       currentUser: {
         data: null,
         username: null
@@ -250,6 +228,28 @@ export default {
   computed: {
     users () {
       return this.$store.state.users;
+    },
+    headers () {
+      return [
+        {
+          text: 'Email',
+          align: 'left',
+          sortable: true,
+          value: 'username'
+        },
+        {
+          text: this.$t('ui.pages.admin.users.group'),
+          align: 'left',
+          sortable: true,
+          value: 'group'
+        }
+      ];
+    },
+    items () {
+      return [
+        { group: this.$t('ui.pages.admin.users.groups.admin'), abbr: 'admin' },
+        { group: this.$t('ui.pages.admin.users.groups.user'), abbr: 'user' }
+      ];
     }
   },
   methods: {

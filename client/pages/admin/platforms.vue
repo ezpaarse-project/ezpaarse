@@ -227,47 +227,7 @@ export default {
       search: '',
       pagination: {
         rowsPerPage: 10
-      },
-      headers: [
-        {
-          text: 'PKBs',
-          align: 'left',
-          sortable: false
-        },
-        {
-          text: this.$t('ui.pages.admin.platforms.title'),
-          align: 'left',
-          sortable: true,
-          value: 'longname'
-        },
-        {
-          text: 'Certifications',
-          align: 'left',
-          sortable: true,
-          value: 'certifications'
-        }
-      ],
-      pkbsHeaders: [
-        {
-          text: 'Package',
-          sortable: false,
-          value: 'name'
-        },
-        {
-          text: this.$t('ui.pages.admin.platforms.entries'),
-          sortable: false,
-          value: 'entries'
-        },
-        {
-          text: 'Date',
-          sortable: false,
-          value: 'date'
-        }
-      ],
-      rowsPerPage: [10, 30, 50, {
-        text: this.$t('ui.pages.admin.platforms.allPlatformsPerPage'),
-        value: -1
-      }]
+      }
     };
   },
   async fetch ({ store }) {
@@ -288,6 +248,52 @@ export default {
     },
     platformsChanged () {
       return this.$store.state.platformsChanged;
+    },
+    headers () {
+      return [
+        {
+          text: 'PKBs',
+          align: 'left',
+          sortable: false
+        },
+        {
+          text: this.$t('ui.pages.admin.platforms.title'),
+          align: 'left',
+          sortable: true,
+          value: 'longname'
+        },
+        {
+          text: 'Certifications',
+          align: 'left',
+          sortable: true,
+          value: 'certifications'
+        }
+      ];
+    },
+    pkbsHeaders () {
+      return [
+        {
+          text: 'Package',
+          sortable: false,
+          value: 'name'
+        },
+        {
+          text: this.$t('ui.pages.admin.platforms.entries'),
+          sortable: false,
+          value: 'entries'
+        },
+        {
+          text: 'Date',
+          sortable: false,
+          value: 'date'
+        }
+      ];
+    },
+    rowsPerPage () {
+      return [10, 30, 50, {
+        text: this.$t('ui.pages.admin.platforms.allPlatformsPerPage'),
+        value: -1
+      }];
     }
   },
   methods: {
