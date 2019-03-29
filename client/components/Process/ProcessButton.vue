@@ -12,6 +12,7 @@
         large
         :disabled="logsFiles.length <= 0 || inProgress"
         @click="process"
+        id="logsFiles"
       >
         {{ $t('ui.pages.process.processLogsFiles') }}
       </v-btn>
@@ -21,6 +22,7 @@
         large
         :disabled="logLines.length <= 0 || inProgress"
         @click="process"
+        id="logsLines"
       >
         {{ $t('ui.pages.process.processlogLines') }}
       </v-btn>
@@ -29,14 +31,11 @@
         color="success"
         large
         @click="cURL(); dialog = true"
+        id="curl"
       >
         <v-icon>mdi-file-multiple</v-icon>
       </v-btn>
     </ButtonGroup>
-
-    <v-btn fab flat small @click="$tours['ezTour'].start()">
-      <v-icon>mdi-help-circle</v-icon>
-    </v-btn>
 
     <v-dialog
       v-model="dialog"
