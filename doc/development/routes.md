@@ -195,7 +195,7 @@ These routes are useful to get various information like: the list of platforms, 
 </table>
 
 ## Administration ##
-These routes are used to administrate ezPAARSE. For the most part, they can be used through the application's admin page. They require being authentified, except for /register.
+These routes are used to administrate ezPAARSE. For the most part, they can be used through the application's admin page. They require being authentified, except for /api/admin/register.
 
 <table>
     <tr>
@@ -204,36 +204,36 @@ These routes are used to administrate ezPAARSE. For the most part, they can be u
         <th>Usage</th>
     </tr>
     <tr>
-      <td>/register</td>
+      <td>/api/admin/register</td>
       <td>POST</td>
       <td>Creates the first account as administrator. It doesn't work if one or more users are already existing.
         <br/>Parameters: <strong>username</strong>, <strong>password</strong></td>
     </tr>
     <tr>
-      <td>/platforms/status</td>
+      <td>/api/admin/platforms/status</td>
       <td>GET</td>
       <td>Reports on the platforms' state
         <br/>Returns: <strong>uptodate</strong> or <strong>outdated</strong></td>
     </tr>
     <tr>
-      <td>/platforms/status</td>
+      <td>/api/admin/platforms/status</td>
       <td>PUT</td>
       <td>Updates the platforms
         <br/>The body must contain <strong>uptodate</strong></td>
     </tr>
     <tr>
-      <td>/users</td>
+      <td>/api/admin/users</td>
       <td>GET</td>
       <td>Returns the list of local users</td>
     </tr>
     <tr>
-      <td>/users/</td>
+      <td>/api/admin/users/</td>
       <td>POST</td>
       <td>Creates a local user
         <br/>Parameters: <strong>username</strong>, <strong>password</strong></td>
     </tr>
     <tr>
-      <td>/users/{username}</td>
+      <td>/api/admin/users/{username}</td>
       <td>DELETE</td>
       <td>Deletes a local user</td>
     </tr>

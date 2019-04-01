@@ -44,7 +44,6 @@ This documentation is organized into a few main sections :
   features/exclusions.md
   features/counter.md
   features/alerts.md
-  features/userfields.md
   features/geolocalisation.md
   features/doubleclick.md
   features/qualification.md

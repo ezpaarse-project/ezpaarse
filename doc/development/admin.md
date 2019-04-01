@@ -14,7 +14,7 @@ To create an administrator account without the help of the form, please use the 
       <th>Parameters</th>
   </tr>
   <tr>
-    <td>/register</td>
+    <td>/api/admin/register</td>
     <td>POST</td>
     <td>userid (valid mail address), password, confirm (password confirmation)</td>
   </tr>
@@ -29,7 +29,7 @@ To create an administrator account without the help of the form, please use the 
 
 #### Exemple curl ####
 ```bash
-curl -X POST --data "userid=foo@foo.fr&password=bar&confirm=bar" http://localhost:59599/register
+curl -X POST --data "userid=foo@foo.fr&password=bar&confirm=bar" http://localhost:59599/api/admin/register
 ```
 ## Get running jobs ##
 <table>
@@ -39,7 +39,7 @@ curl -X POST --data "userid=foo@foo.fr&password=bar&confirm=bar" http://localhos
       <th>Paramètres</th>
   </tr>
   <tr>
-    <td>/jobs</td>
+    <td>/api/admin/jobs</td>
     <td>GET</td>
     <td></td>
   </tr>
@@ -49,7 +49,7 @@ Outputs a JSON table with the IDs of the jobs that are currently running.
 
 #### Exemple curl ####
 ```bash
-curl -X GET --proxy "" -u "admin:password" http://localhost:59599/jobs
+curl -X GET --proxy "" -u "admin:password" http://localhost:59599/api/admin/jobs
 ```
 
 ## Users management ##
@@ -63,7 +63,7 @@ curl -X GET --proxy "" -u "admin:password" http://localhost:59599/jobs
       <th>Paramètres</th>
   </tr>
   <tr>
-    <td>/users</td>
+    <td>/api/admin/users</td>
     <td>GET</td>
     <td></td>
   </tr>
@@ -73,7 +73,7 @@ Outputs a JSON table with the complete list of users.
 
 #### Exemple curl ####
 ```bash
-curl -X GET --proxy "" -u "admin:password" http://localhost:59599/users
+curl -X GET --proxy "" -u "admin:password" http://localhost:59599/api/admin/users
 ```
 
 ### Add a user ###
@@ -84,7 +84,7 @@ curl -X GET --proxy "" -u "admin:password" http://localhost:59599/users
       <th>Paramètres</th>
   </tr>
   <tr>
-    <td>/users/</td>
+    <td>/api/admin/users/</td>
     <td>POST</td>
     <td>userid (valid mail address), password, group (defaults to 'user', set to 'admin' to create an administrator)</td>
   </tr>
@@ -101,7 +101,7 @@ When the creation succeeds, the output contains a complete information about the
 
 #### Exemple curl ####
 ```bash
-curl -X POST --proxy "" -u "admin:password" --data "userid=foo@foo.net&password=bar&group=user" http://localhost:59599/users/
+curl -X POST --proxy "" -u "admin:password" --data "userid=foo@foo.net&password=bar&group=user" http://localhost:59599/api/admin/users/
 ```
 
 ### Update a user ###
@@ -112,7 +112,7 @@ curl -X POST --proxy "" -u "admin:password" --data "userid=foo@foo.net&password=
       <th>Paramètres</th>
   </tr>
   <tr>
-    <td>/users/{username}</td>
+    <td>/api/admin/users/{username}</td>
     <td>POST</td>
     <td>username (valid mail address), group</td>
   </tr>
@@ -129,7 +129,7 @@ When the update succeeds, the output contains the updated user in JSON format.
 
 #### Exemple curl ####
 ```bash
-curl -X POST --proxy "" -u "admin:password" --data "group=admin" http://localhost:59599/users/foo@foo.net
+curl -X POST --proxy "" -u "admin:password" --data "group=admin" http://localhost:59599/api/admin/users/foo@foo.net
 ```
 
 ### Delete a user ###
@@ -140,7 +140,7 @@ curl -X POST --proxy "" -u "admin:password" --data "group=admin" http://localhos
       <th>Parameters</th>
   </tr>
   <tr>
-    <td>/users/{username}</td>
+    <td>/api/admin/users/{username}</td>
     <td>DELETE</td>
     <td></td>
   </tr>
@@ -154,7 +154,7 @@ curl -X POST --proxy "" -u "admin:password" --data "group=admin" http://localhos
 
 #### Example curl ####
 ```bash
-curl -v -X DELETE -u "admin:password" http://localhost:59599/users/foo@foo.net
+curl -v -X DELETE -u "admin:password" http://localhost:59599/api/admin/users/foo@foo.net
 ```
 
 ### Reset a password ###
@@ -165,7 +165,7 @@ curl -v -X DELETE -u "admin:password" http://localhost:59599/users/foo@foo.net
       <th>Parameters</th>
   </tr>
   <tr>
-    <td>/passwords/{username}</td>
+    <td>/api/admin/passwords/{username}</td>
     <td>POST</td>
     <td></td>
   </tr>
@@ -178,7 +178,7 @@ curl -v -X DELETE -u "admin:password" http://localhost:59599/users/foo@foo.net
 
 #### Example curl ####
 ```bash
-curl -v -X DELETE -u "admin:password" http://localhost:59599/users/foo@foo.net
+curl -v -X DELETE -u "admin:password" http://localhost:59599/api/admin/users/foo@foo.net
 ```
 
 ## Repositories update ##
@@ -192,22 +192,22 @@ The URLs below allow for updating the different parts of ezPAARSE.
       <th>What's updated</th>
   </tr>
   <tr>
-    <td>/app/status</td>
+    <td>/api/admin/app/status</td>
     <td>GET</td>
     <td>Core software</td>
   </tr>
   <tr>
-    <td>/platforms/status</td>
+    <td>/api/admin/platforms/status</td>
     <td>GET</td>
     <td>Platforms (Parsers, PKBs, scrapers)</td>
   </tr>
   <tr>
-    <td>/middlewares/status</td>
+    <td>/api/admin/middlewares/status</td>
     <td>GET</td>
     <td>Middlewares</td>
   </tr>
   <tr>
-    <td>/resources/status</td>
+    <td>/api/admin/resources/status</td>
     <td>GET</td>
     <td>Resources (predefined settings, default formats...)</td>
   </tr>
@@ -236,7 +236,7 @@ Example:
 
 #### Example curl ####
 ```bash
-curl -X GET -u "admin:password" http://localhost:59599/platforms/status
+curl -X GET -u "admin:password" http://localhost:59599/api/admin/platforms/status
 ```
 
 ### Update a repository ###
@@ -247,22 +247,22 @@ curl -X GET -u "admin:password" http://localhost:59599/platforms/status
       <th>Parameters</th>
   </tr>
   <tr>
-    <td>/app/status</td>
+    <td>/api/admin/app/status</td>
     <td>PUT</td>
     <td>Core software</td>
   </tr>
   <tr>
-    <td>/platforms/status</td>
+    <td>/api/admin/platforms/status</td>
     <td>PUT</td>
     <td>Platforms (Parsers, PKBs, scrapers)</td>
   </tr>
   <tr>
-    <td>/middlewares/status</td>
+    <td>/api/admin/middlewares/status</td>
     <td>PUT</td>
     <td>Middlewares</td>
   </tr>
   <tr>
-    <td>/resources/status</td>
+    <td>/api/admin/resources/status</td>
     <td>PUT</td>
     <td>Resources (predefined settings, default formats...)</td>
   </tr>
@@ -270,7 +270,7 @@ curl -X GET -u "admin:password" http://localhost:59599/platforms/status
 
 #### Example curl ####
 ```bash
-curl -X PUT -u "admin:password" http://localhost:59599/platforms/status
+curl -X PUT -u "admin:password" http://localhost:59599/api/adminplatforms/status
 ```
 
 #### Possible outputs ####
