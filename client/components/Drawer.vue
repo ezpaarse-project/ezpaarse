@@ -132,9 +132,7 @@
         <v-list-tile slot="activator">
           <v-list-tile-title>Administration</v-list-tile-title>
           <v-list-tile-action
-            v-if="(platforms && platforms['from-head'] === 'outdated') ||
-              (middlewares && middlewares['from-head'] === 'outdated') ||
-              (resources && resources['from-head'] === 'outdated')"
+            v-if="dataIsOutdated"
           >
             <v-icon>mdi-alert-circle</v-icon>
           </v-list-tile-action>
@@ -158,7 +156,7 @@
         >
           <v-list-tile-title>{{ $t('ui.drawer.admin.updates') }}</v-list-tile-title>
           <v-list-tile-action
-            v-if="dataIsOutdated()"
+            v-if="dataIsOutdated"
           >
             <v-icon>mdi-alert-circle</v-icon>
           </v-list-tile-action>
@@ -288,14 +286,14 @@ export default {
     },
     feedback () {
       return this.$store.state.feedback;
-    }
-  },
-  methods: {
+    },
     dataIsOutdated () {
       const mid = (this.middlewares && this.middlewares['from-head'] === 'outdated');
       const res = (this.resources && this.resources['from-head'] === 'outdated');
       return mid || res;
-    },
+    }
+  },
+  methods: {
     logout () {
       this.$auth.logout().then(() => {
         return this.$router.push('/');
