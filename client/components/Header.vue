@@ -25,7 +25,7 @@
       </span>
     </v-chip>
 
-    <v-btn tag="v-chip" to="/process?step=job" class="text-none" light color="white">
+    <v-btn to="/process?step=job" class="text-none" light color="white">
       <span v-if="!jobStatus">
         {{ $t('ui.header.noCurrentProcessing') }}
       </span>
