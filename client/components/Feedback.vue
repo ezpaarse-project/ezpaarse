@@ -7,7 +7,7 @@
     <v-card-text>
       <v-layout row wrap>
         <v-flex v-if="feedback" xs12 sm12>
-          <v-alert :value="true" color="blue" v-html="$t('ui.pages.feedback.email')"/>
+          <v-alert :value="true" color="blue" v-html="$t('ui.pages.feedback.email')" />
 
           <v-text-field
             v-if="$auth && $auth.user"
@@ -17,31 +17,33 @@
             disabled
           />
 
-          <v-text-field v-else v-model="email" label="Email" type="email"/>
+          <v-text-field v-else v-model="email" label="Email" type="email" />
 
-          <v-textarea v-model="comment" label="Message"/>
+          <v-textarea v-model="comment" label="Message" />
 
           <v-select
             v-if="treatments"
-            v-model="jobID" 
+            v-model="jobID"
             :items="treatments"
             :item-text="textDate"
             item-value="jobId"
             :label="$t('ui.pages.feedback.treatments')"
-          ></v-select>
+          />
 
-          <v-checkbox v-model="checkbox" label="Envoyer la version de mon navigateur"/>
+          <v-checkbox v-model="checkbox" label="Envoyer la version de mon navigateur" />
 
           <v-btn
             class="teal white--text"
             :disabled="($auth && $auth.user) ? !comment : (!comment && !email)"
             @click="sendFeedBack"
-          >{{ $t('ui.send') }}</v-btn>
-          <v-progress-circular v-if="feedBackSend" indeterminate color="teal"></v-progress-circular>
+          >
+            {{ $t('ui.send') }}
+          </v-btn>
+          <v-progress-circular v-if="feedBackSend" indeterminate color="teal" />
         </v-flex>
 
         <v-flex v-else xs12 sm12>
-          <v-alert :value="true" color="blue" v-html="$t('ui.pages.feedback.unavailable')"/>
+          <v-alert :value="true" color="blue" v-text="$t('ui.pages.feedback.unavailable')" />
         </v-flex>
       </v-layout>
     </v-card-text>
@@ -49,13 +51,9 @@
 </template>
 
 <script>
-import Feedback from '~/components/Feedback';
 import moment from 'moment';
 
 export default {
-  components: {
-    Feedback
-  },
   data () {
     return {
       email: null,
