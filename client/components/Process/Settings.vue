@@ -1,68 +1,61 @@
 <template>
-  <v-card light>
-    <v-card-text>
-      <v-layout
-        row
-        wrap
+  <v-container fluid grid-list-lg class="pa-2 ma-0">
+    <v-layout
+      row
+      wrap
+    >
+      <v-flex xs12>
+        <v-autocomplete
+          v-model="selectedSetting"
+          :items="allSettings"
+          item-text="fullName"
+          item-value="id"
+          :label="$t('ui.pages.process.settings.predefinedConfiguration')"
+          :append-outer-icon="settingsIcon"
+          solo
+          clearable
+          hide-details
+          @click:append-outer="removecustomSettings"
+        >
+          <template v-slot:item="{ item }">
+            <v-list-tile-content>
+              <v-list-tile-title v-text="item.fullName" />
+              <v-list-tile-sub-title v-text="item.country" />
+            </v-list-tile-content>
+          </template>
+        </v-autocomplete>
+      </v-flex>
+
+      <v-flex
+        v-if="settings"
+        xs12
       >
-        <v-flex
-          xs12
-          sm12
-        >
-          <v-autocomplete
-            v-model="currentPredefinedSettings"
-            :items="predefinedSettingsItems()"
-            item-text="fullName"
-            :label="$t('ui.pages.process.settings.selectAnOption')"
-            :return-object="true"
-            :append-outer-icon="appendOuterIconCurrentProcess()"
-            box
-            clearable
-            @click:append-outer="removeCustomPredefinedSettings"
-          >
-            <template
-              slot="item"
-              slot-scope="data"
-            >
-              <v-list-tile-content>
-                <v-list-tile-title v-html="data.item.fullName" />
-                <v-list-tile-sub-title v-html="data.item.country" />
-              </v-list-tile-content>
-            </template>
-          </v-autocomplete>
+        <v-card>
+          <v-toolbar color="secondary" dark card dense>
+            <v-toolbar-title>{{ $t('ui.pages.process.settings.title') }}</v-toolbar-title>
+            <v-spacer />
+            <v-toolbar-items class="hidden-xs-only">
+              <v-btn flat @click="modal = true">{{ $t('ui.save') }}</v-btn>
+              <v-btn flat @click="resetSettings">{{ $t('ui.reset') }}</v-btn>
+            </v-toolbar-items>
 
-          <v-checkbox
-            v-if="customPredefinedSettings.length > 0"
-            v-model="displayCustomPredefinedSettings"
-            class="mTopM20"
-            :label="$t('ui.pages.process.settings.showOnlyCustomPredefinedSettings')"
-          />
-        </v-flex>
+            <v-toolbar-items class="hidden-sm-and-up">
+              <v-btn icon flat @click="modal = true"><v-icon>mdi-content-save</v-icon></v-btn>
+              <v-btn icon flat @click="resetSettings"><v-icon>mdi-undo-variant</v-icon></v-btn>
+            </v-toolbar-items>
+          </v-toolbar>
 
-        <v-flex
-          v-if="currentPredefinedSettings"
-          xs12
-          sm12
-          mb-3
-        >
-          <v-expansion-panel expand dark>
-            <v-expansion-panel-content class="teal">
+          <v-expansion-panel expand>
+            <v-expansion-panel-content>
               <div slot="header">
                 {{ $t('ui.pages.process.settings.input') }}
               </div>
               <v-card light>
                 <v-card-text>
-                  <v-layout
-                    row
-                    wrap
-                  >
-                    <v-flex
-                      xs4
-                      sm4
-                      pr-2
-                    >
+                  <v-layout row wrap>
+                    <v-flex xs4 pr-2>
                       <v-select
-                        v-model="currentPredefinedSettings.headers['Log-Format'].format"
+                        v-model="settings.logType"
                         :items="logTypes"
                         item-value="value"
                         item-text="text"
@@ -70,25 +63,18 @@
                       />
                     </v-flex>
 
-                    <v-flex
-                      xs4
-                      sm4
-                    >
+                    <v-flex xs4>
                       <v-text-field
-                        v-model="currentPredefinedSettings.headers['Date-Format']"
+                        v-model="settings.dateFormat"
                         :label="$t('ui.pages.process.settings.dateFormat')"
                         placeholder="DD/MMM/YYYY:HH:mm:ss Z"
                         required
                       />
                     </v-flex>
 
-                    <v-flex
-                      xs4
-                      sm4
-                      pl-2
-                    >
+                    <v-flex xs4 pl-2>
                       <v-text-field
-                        v-model="currentPredefinedSettings.headers['Force-Parser']"
+                        v-model="settings.forceParser"
                         :label="$t('ui.pages.process.settings.defaultParser')"
                         placeholder="dspace"
                         required
@@ -96,14 +82,13 @@
                     </v-flex>
 
                     <v-flex
-                      v-if="haveLogFormat()"
+                      v-if="haveLogFormat"
                       xs12
-                      sm12
                     >
-                      <v-textarea
-                        v-model="currentPredefinedSettings.headers['Log-Format'].value"
+                      <v-text-field
+                        v-model="settings.logFormat"
                         :label="$t('ui.pages.process.settings.logFormat')"
-                        :value="currentPredefinedSettings.headers['Log-Format'].value"
+                        :value="settings.logFormat"
                       />
                     </v-flex>
                   </v-layout>
@@ -111,11 +96,7 @@
               </v-card>
             </v-expansion-panel-content>
 
-            <v-expansion-panel-content
-              v-if="currentPredefinedSettings"
-              class="teal"
-              dark
-            >
+            <v-expansion-panel-content>
               <div slot="header">
                 {{ $t('ui.pages.process.settings.output') }}
               </div>
@@ -127,33 +108,26 @@
                   >
                     <v-flex
                       xs6
-                      sm6
                       pr-2
                     >
                       <v-select
-                        v-model="currentPredefinedSettings.headers['COUNTER-Format']"
-                        :items="counterFormats"
-                        :label="$t('ui.pages.process.settings.counterFormat')"
+                        v-model="settings.outputFormat"
+                        :items="outputFormats"
+                        :label="$t('ui.pages.process.settings.outputFormat')"
                       />
                     </v-flex>
 
-                    <v-flex
-                      xs6
-                      sm6
-                    >
+                    <v-flex xs6>
                       <v-select
-                        v-model="currentPredefinedSettings.headers['Trace-Level']"
+                        v-model="settings.tracesLevel"
                         :items="tracesLevel"
                         :label="$t('ui.pages.process.settings.traceLevel')"
                       />
                     </v-flex>
 
-                    <v-flex
-                      xs12
-                      sm12
-                    >
+                    <v-flex xs12>
                       <v-combobox
-                        v-model="currentPredefinedSettings.headers['ezPAARSE-Job-Notifications']"
+                        v-model="settings.notifications"
                         :label="$t('ui.pages.process.settings.notificationsEmails')"
                         chips
                         clearable
@@ -175,29 +149,20 @@
                       </v-combobox>
                     </v-flex>
 
-                    <v-flex
-                      xs12
-                      sm12
-                    >
+                    <v-flex xs12>
                       <v-checkbox
-                        v-model="currentPredefinedSettings.headers['COUNTER-Reports']"
+                        v-model="settings.counterReports"
                         :label="$t('ui.pages.process.settings.counterReports')"
                         @change="updateCounterFormat"
                       />
                     </v-flex>
 
-                    <v-flex
-                      xs12
-                      sm12
-                    >
+                    <v-flex xs12>
                       <h4>{{ $t('ui.pages.process.settings.outputFields') }} :</h4>
                     </v-flex>
-                    <v-flex
-                      xs6
-                      sm6
-                    >
+                    <v-flex xs6>
                       <v-combobox
-                        v-model="currentPredefinedSettings.headers['Output-Fields'].plus"
+                        v-model="settings.outputFields.plus"
                         :label="$t('ui.pages.process.settings.add')"
                         chips
                         clearable
@@ -221,11 +186,10 @@
 
                     <v-flex
                       xs6
-                      sm6
                       pl-2
                     >
                       <v-combobox
-                        v-model="currentPredefinedSettings.headers['Output-Fields'].minus"
+                        v-model="settings.outputFields.minus"
                         chips
                         clearable
                         :label="$t('ui.pages.process.settings.remove')"
@@ -247,12 +211,9 @@
                       </v-combobox>
                     </v-flex>
 
-                    <v-flex
-                      xs12
-                      sm12
-                    >
+                    <v-flex xs12>
                       <v-combobox
-                        v-model="currentPredefinedSettings.headers['Crypted-Fields']"
+                        v-model="settings.cryptedFields"
                         chips
                         clearable
                         :label="$t('ui.pages.process.settings.cryptedFields')"
@@ -276,7 +237,6 @@
 
                     <v-flex
                       xs12
-                      sm12
                       mt-3
                     >
                       {{ $t('ui.pages.process.settings.counterReportDetail') }}
@@ -286,112 +246,69 @@
               </v-card>
             </v-expansion-panel-content>
 
-            <v-expansion-panel-content
-              v-if="currentPredefinedSettings"
-              class="teal"
-              dark
-            >
+            <v-expansion-panel-content>
               <div slot="header">
-                Headers ({{ $t('ui.pages.process.settings.advancedHeaders') }})
+                {{ $t('ui.pages.process.settings.advancedHeaders') }}
               </div>
               <v-card light>
                 <v-card-text>
                   <v-layout
+                    v-for="(header, index) in settings.headers"
+                    :key="index"
                     row
-                    wrap
                   >
-                    <v-flex
-                      xs12
-                      sm12
-                    >
-                      <v-autocomplete
-                        v-model="header"
+                    <v-flex xs6 md4>
+                      <v-combobox
+                        v-model="header.name"
                         :items="headers"
                         item-text="name"
                         item-value="name"
-                        box
-                        label="Headers"
-                        append-icon="mdi-chevron-down"
-                        @change="addHeader(header)"
+                        :label="$t('ui.name')"
+                        hide-details
+                        solo
+                      >
+                        <template slot="item" slot-scope="{ item }">
+                          <v-list-tile-content>
+                            {{ item.name }}
+                          </v-list-tile-content>
+                          <v-spacer />
+                          <v-list-tile-action @click.stop>
+                            <v-btn
+                              icon
+                              :href="`https://ezpaarse.readthedocs.io/en/master/configuration/parametres.html#${item.anchor}`"
+                              target="_blank"
+                            >
+                              <v-icon color="accent">mdi-information</v-icon>
+                            </v-btn>
+                          </v-list-tile-action>
+                        </template>
+                      </v-combobox>
+                    </v-flex>
+                    <v-flex grow>
+                      <v-text-field
+                        v-model="header.value"
+                        :value="header.value"
+                        append-outer-icon="mdi-close-circle"
+                        :label="$t('ui.value')"
+                        hide-details
+                        solo
+                        @click:append-outer="removeHeader(index)"
                       />
                     </v-flex>
-
-                    <v-flex
-                      v-for="(header, key) in currentPredefinedSettings.headers.advancedHeaders"
-                      :key="key"
-                      xs12
-                      sm12
-                    >
-                      <v-layout
-                        row
-                        wrap
-                      >
-                        <v-flex
-                          xs2
-                          sm2
-                          pr-2
-                        >
-                          <v-text-field
-                            v-model="header.header"
-                            :value="header.header"
-                            prepend-icon="mdi-information"
-                            @click:prepend="informations(header.header)"
-                          />
-                        </v-flex>
-                        <v-flex
-                          xs10
-                          sm10
-                        >
-                          <v-text-field
-                            v-model="header.value"
-                            :value="header.value"
-                            append-outer-icon="mdi-close-circle"
-                            @click:append-outer="removeHeader(key)"
-                          />
-                        </v-flex>
-                      </v-layout>
-                    </v-flex>
                   </v-layout>
+
+                  <div class="text-xs-center">
+                    <v-btn color="accent" @click="addHeader">
+                      <v-icon left>mdi-plus</v-icon> {{ $t('ui.add') }}
+                    </v-btn>
+                  </div>
                 </v-card-text>
               </v-card>
             </v-expansion-panel-content>
           </v-expansion-panel>
-        </v-flex>
-
-        <v-flex
-          xs12
-          sm12
-          class="text-xs-center"
-        >
-          <ButtonGroup>
-            <v-btn
-              color="success"
-              block
-              large
-              :disabled="disabledButton"
-              @click="modal = true"
-            >
-              <v-icon left>
-                mdi-content-save-settings
-              </v-icon>
-              {{ $t('ui.pages.process.settings.savePredefinedSettings') }}
-            </v-btn>
-            <v-btn
-              color="primary"
-              block
-              large
-              :disabled="disabledButton"
-              @click="resetSettings"
-            >
-              {{ $t('ui.pages.process.settings.defaultParams') }}
-              <v-icon right>
-                mdi-reload
-              </v-icon>
-            </v-btn>
-          </ButtonGroup>
-        </v-flex>
-      </v-layout>
-    </v-card-text>
+        </v-card>
+      </v-flex>
+    </v-layout>
 
     <v-dialog
       v-model="modal"
@@ -400,20 +317,17 @@
       <v-card>
         <v-card-title class="headline">
           {{ $t('ui.pages.process.settings.savePredefinedSettings') }} :
-          {{ currentPredefinedSettings.fullName }}
+          {{ settings.fullName }}
         </v-card-title>
         <v-card-text>
           <v-switch
-            v-if="currentPredefinedSettings._id"
+            v-if="settings._id"
             v-model="saveAsNew"
             :label="$t('ui.pages.process.settings.saveAsNew')"
           />
           <v-container grid-list-md>
             <v-layout wrap>
-              <v-flex
-                xs12
-                sm12
-              >
+              <v-flex xs12>
                 <v-text-field
                   v-model="saveFields.fullName"
                   :label="$t('ui.name')"
@@ -424,10 +338,7 @@
                   :error-messages="fullNameError"
                 />
               </v-flex>
-              <v-flex
-                xs12
-                sm12
-              >
+              <v-flex xs12>
                 <v-autocomplete
                   v-model="saveFields.country"
                   :items="countries"
@@ -470,24 +381,18 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-  </v-card>
+  </v-container>
 </template>
 
 <script>
-/* eslint-disable import/no-unresolved */
-/* eslint-disable no-underscore-dangle */
-import ButtonGroup from '~/components/ButtonGroup';
 import isEqual from 'lodash.isequal';
 
 export default {
-  components: {
-    ButtonGroup
-  },
   data () {
     return {
       disabledButton: true,
       disabledButtonSave: true,
-      displayCustomPredefinedSettings: false,
+      displaycustomSettings: false,
       modal: false,
       fullNameError: null,
       saveFields: {
@@ -501,21 +406,20 @@ export default {
         { value: 'apache', text: 'Apache' },
         { value: 'squid', text: 'Squid' }
       ],
-      counterFormats: [
-        { value: 'csv', text: 'CSV' },
-        { value: 'tsv', text: 'TSV' },
-        { value: 'json', text: 'JSON' }
+      outputFormats: [
+        { value: 'text/csv', text: 'CSV' },
+        { value: 'text/tab-separated-values', text: 'TSV' },
+        { value: 'application/json', text: 'JSON' }
       ],
       tracesLevel: [
         { value: 'info', text: 'General informations' },
         { value: 'error', text: 'Errors only' },
         { value: 'warn', text: 'Warnings without consequences' }
       ],
-      header: null,
+      selectedHeader: null,
       headers: [
         { header: 'Encodage' },
         { name: 'Response-Encoding', anchor: 'response-encoding' },
-        { name: 'Accept-Encoding', anchor: 'accept-encoding' },
         { name: 'Request-Charset', anchor: 'request-charset' },
         { name: 'Response-Charset', anchor: 'response-charset' },
         { divider: true },
@@ -583,104 +487,125 @@ export default {
     };
   },
   computed: {
-    currentPredefinedSettings: {
-      get () { return this.$store.state.process.currentPredefinedSettings; },
-      set (newVal) { this.$store.dispatch('process/SET_CURRENT_PREDEFINED_SETTINGS', JSON.parse(JSON.stringify(newVal || this.predefinedSettings[1]))); }
+    selectedSetting: {
+      get () { return this.$store.state.settings.selectedSetting; },
+      set (key) {
+        if (key) {
+          this.$store.dispatch('settings/APPLY_PREDEFINED_SETTINGS', key);
+        } else {
+          this.$store.dispatch('settings/RESET_SETTINGS');
+        }
+      }
     },
-    predefinedSettings () {
-      return this.$store.state.process.predefinedSettings;
-    },
-    allPredefinedSettings: {
-      get () { return this.$store.state.process.allPredefinedSettings; }
-    },
-    customPredefinedSettings: {
-      get () { return this.$store.state.process.customPredefinedSettings; }
-    },
+    settings () { return this.$store.state.settings.settings; },
+    predefinedSettings () { return this.$store.state.settings.predefinedSettings || []; },
+    customSettings () { return this.$store.state.settings.customSettings || []; },
+    countries () { return this.$store.state.settings.countries; },
     settingsIsModified: {
-      get () { return this.$store.state.process.settingsIsModified; },
-      set (newVal) { return this.$store.dispatch('process/SET_SETTINGS_IS_MODIFIED', newVal); }
+      get () { return this.$store.state.settings.settingsIsModified; },
+      set (newVal) { return this.$store.dispatch('settings/SET_SETTINGS_IS_MODIFIED', newVal); }
     },
-    countries () {
-      return this.$store.state.process.countries;
+    allSettings () {
+      let items = [
+        { header: this.$t('ui.pages.process.settings.customSettings') },
+        ...this.customSettings
+      ];
+
+      if (!this.displaycustomSettings) {
+        items = items.concat([
+          { divider: true },
+          { header: this.$t('ui.pages.process.settings.predefinedSettings') },
+          ...this.predefinedSettings
+        ]);
+      }
+
+      return items;
+    },
+    haveLogFormat () {
+      return this.settings.logFormat || this.settings.logType;
+    },
+    settingsIcon () {
+      if (this.settings && this.settings._id && this.$auth.user.group === 'admin') {
+        return 'mdi-delete';
+      }
+      return null;
     }
   },
   watch: {
-    currentPredefinedSettings: {
-      handler (newVal) {
-        let changed;
+    // settings: {
+    //   handler (newVal) {
+    //     let changed;
 
-        changed = this.predefinedSettings.find(p => p.fullName === newVal.fullName);
-        if (!changed) {
-          changed = this.customPredefinedSettings.find(p => p.fullName === newVal.fullName);
-        }
-        this.disabledButton = !!isEqual(changed, this.currentPredefinedSettings);
-        if (!this.disabledButton) this.settingsIsModified = true;
-        this.saveFields.fullName = this.currentPredefinedSettings.fullName;
-        this.saveFields.country = this.countries.find(country => country.en === this.currentPredefinedSettings.country) || '';
-      },
-      deep: true
-    },
-    saveFields: {
-      handler (newVal) {
-        const countryTest = this.saveFields.country.en && this.saveFields.country.en.length > 0;
-        if (this.saveFields.fullName.length > 0 && countryTest) {
-          this.disabledButtonSave = false;
-        }
+    //     changed = this.predefinedSettings.find(p => p.fullName === newVal.fullName);
+    //     if (!changed) {
+    //       changed = this.customSettings.find(p => p.fullName === newVal.fullName);
+    //     }
+    //     this.disabledButton = !!isEqual(changed, this.settings);
+    //     if (!this.disabledButton) this.settingsIsModified = true;
+    //     this.saveFields.fullName = this.settings.fullName;
+    //     this.saveFields.country = this.countries.find(country => country.en === this.settings.country) || '';
+    //   },
+    //   deep: true
+    // },
+    // saveFields: {
+    //   handler (newVal) {
+    //     const countryTest = this.saveFields.country.en && this.saveFields.country.en.length > 0;
+    //     if (this.saveFields.fullName.length > 0 && countryTest) {
+    //       this.disabledButtonSave = false;
+    //     }
 
-        let exists = this.customPredefinedSettings.find(p => p.fullName === newVal.fullName);
-        if (!exists) exists = this.predefinedSettings.find(p => p.fullName === newVal.fullName);
-        if (exists && this.saveAsNew) {
-          this.disabledButtonSave = true;
-          this.fullNameError = this.$t('ui.pages.process.settings.nameUnavailable');
-          return false;
-        }
+    //     let exists = this.customSettings.find(p => p.fullName === newVal.fullName);
+    //     if (!exists) exists = this.predefinedSettings.find(p => p.fullName === newVal.fullName);
+    //     if (exists && this.saveAsNew) {
+    //       this.disabledButtonSave = true;
+    //       this.fullNameError = this.$t('ui.pages.process.settings.nameUnavailable');
+    //       return false;
+    //     }
 
-        if (exists && this.customPredefinedSettings.length > 0 && !this.currentPredefinedSettings._id) {
-          this.disabledButtonSave = true;
-          this.fullNameError = this.$t('ui.pages.process.settings.nameUnavailable');
-          return false;
-        }
+    //     if (exists && this.customSettings.length > 0 && !this.settings._id) {
+    //       this.disabledButtonSave = true;
+    //       this.fullNameError = this.$t('ui.pages.process.settings.nameUnavailable');
+    //       return false;
+    //     }
 
-        this.disabledButtonSave = false;
-        this.fullNameError = null;
-        return true;
-      },
-      deep: true
-    },
+    //     this.disabledButtonSave = false;
+    //     this.fullNameError = null;
+    //     return true;
+    //   },
+    //   deep: true
+    // },
     saveAsNew () {
       if (this.saveAsNew) this.saveFields.fullName = '';
-      if (!this.saveAsNew) this.saveFields.fullName = this.currentPredefinedSettings.fullName;
+      if (!this.saveAsNew) this.saveFields.fullName = this.settings.fullName;
     }
   },
   methods: {
     removeOutputPlus (index) {
-      this.currentPredefinedSettings.headers['Output-Fields'].plus.splice(index, 1);
+      this.settings.outputFields.plus.splice(index, 1);
     },
     removeOutputMinus (index) {
-      this.currentPredefinedSettings.headers['Output-Fields'].minus.splice(index, 1);
+      this.settings.outputFields.minus.splice(index, 1);
     },
     removeCryptedField (value) {
-      this.currentPredefinedSettings.headers['Crypted-Fields'].splice(value, 1);
+      this.settings.cryptedFields.splice(value, 1);
     },
     removeEmail (index) {
-      this.currentPredefinedSettings.headers['ezPAARSE-Job-Notifications'].plus.splice(index, 1);
+      this.settings.notifications.splice(index, 1);
     },
     addHeader (value) {
       if (value) {
-        this.currentPredefinedSettings.headers.advancedHeaders.push({ header: value, value: null });
-        this.header = null;
+        this.settings.headers.push({ header: value, value: null });
       }
+      this.selectedHeader = null;
     },
-    removeHeader (header) {
-      this.currentPredefinedSettings.headers.advancedHeaders.splice(header, 1);
+    removeHeader (index) {
+      this.settings.headers.splice(index, 1);
     },
     updateCounterFormat () {
-      if (this.currentPredefinedSettings.headers['COUNTER-Reports']) this.currentPredefinedSettings.headers['COUNTER-Format'] = 'tsv';
+      if (this.settings.counterReports) { this.settings.counterFormat = 'tsv'; }
     },
     resetSettings () {
-      /* eslint-disable-next-line */
-      const currentSettings = this.allPredefinedSettings.find(param => param.fullName === this.currentPredefinedSettings.fullName);
-      this.$store.dispatch('process/SET_CURRENT_PREDEFINED_SETTINGS', JSON.parse(JSON.stringify(currentSettings)));
+      this.$store.dispatch('settings/RESET_SETTINGS');
     },
     informations (header) {
       let head = header.charAt(0).toUpperCase() + header.slice(1);
@@ -689,68 +614,59 @@ export default {
         head = 'Log-Format-xxx';
       }
       const anchor = this.headers.find(h => head === h.name);
-      if (anchor) window.open(`https://ezpaarse.readthedocs.io/en/master/configuration/parametres.html#${anchor.anchor}`, '_blank');
+      if (anchor) window.open(`https://doc.ezpaarse.org/en/master/configuration/parametres.html#${anchor.anchor}`, '_blank');
     },
-    saveCustomSettings () {
-      const customPs = JSON.parse(JSON.stringify(this.currentPredefinedSettings));
+
+    async saveCustomSettings () {
+      const customPs = JSON.parse(JSON.stringify(this.settings));
       customPs.fullName = this.saveFields.fullName;
       customPs.country = this.saveFields.country.en;
 
-      let store = 'SAVE';
-      if (!this.saveAsNew && customPs._id) store = 'UPDATE';
-      if (!this.saveAsNew && !customPs._id) store = 'SAVE';
-      if (this.saveAsNew && !customPs._id) store = 'SAVE';
+      let saveAction = (!this.saveAsNew && customPs._id) ? 'UPDATE' : 'SAVE';
 
-      this.$store.dispatch(`process/${store}_CUSTOM_PREDEFINED_SETTINGS`, customPs).then(() => {
-        this.$store.dispatch('process/GET_PREDEFINED_SETTINGS').then(() => {
-          this.currentPredefinedSettings = customPs;
-          this.modal = false;
-          this.disabledButton = true;
-          this.disabledButtonSave = true;
-          this.saveFields.fullName = '';
-          this.saveFields.country = '';
-          this.settingsIsModified = false;
-          this.$store.dispatch('snacks/success', this.$t('ui.pages.process.settings.paramsSaved'));
-        }).catch(err => {
-          let message = this.$t('ui.errors.cannotLoadPredefinedSettings');
-          if (err.response.data.message) {
-            message = this.$t(`ui.errors.${err.response.data.message}`);
-          }
-          this.$store.dispatch('snacks/error', `E${err.response.status} - ${message}`);
-        });
-      }).catch(err => {
-        this.$store.dispatch('snacks/error', `E${err.response.status} - ${this.$t('ui.errors.errorSavePredefinedSettings')}`);
-      });
+      try {
+        await this.$store.dispatch(`process/${saveAction}_CUSTOM_PREDEFINED_SETTINGS`, customPs);
+      } catch ({ response }) {
+        const status = (response && response.status) || 500;
+        this.$store.dispatch('snacks/error', `E${status} - ${this.$t('ui.errors.errorSavePredefinedSettings')}`);
+        return;
+      }
+
+      try {
+        await this.$store.dispatch('settings/GET_PREDEFINED_SETTINGS');
+      } catch ({ response }) {
+        const status = (response && response.status) || 500;
+        const message = (response && response.data && response.data.message) || this.$t('ui.errors.cannotLoadPredefinedSettings');
+        this.$store.dispatch('snacks/error', `E${status} - ${message}`);
+        return;
+      }
+
+      // this.settings = customPs;
+      this.modal = false;
+      this.disabledButton = true;
+      this.disabledButtonSave = true;
+      this.saveFields.fullName = '';
+      this.saveFields.country = '';
+      this.settingsIsModified = false;
+      this.$store.dispatch('snacks/success', this.$t('ui.pages.process.settings.paramsSaved'));
     },
-    removeCustomPredefinedSettings () {
-      this.$store.dispatch('process/REMOVE_CUSTOM_PREDEFINED_SETTINGS', { id: this.currentPredefinedSettings._id })
-        .then(() => {
-          this.$store.dispatch('snacks/success', this.$t('ui.pages.process.settings.deleted'));
-          this.$store.dispatch('process/GET_PREDEFINED_SETTINGS')
-            .catch(err => {
-              this.$store.dispatch('snacks/error', `E${err.response.status} - ${this.$t('ui.errors.cannotLoadPredefinedSettings')}`);
-            });
-        }).catch(err => {
-          this.$store.dispatch('snacks/error', `E${err.response.status} - ${this.$t('ui.errors.cannotRemovePredefinedSettings')}`);
-        });
-    },
-    predefinedSettingsItems () {
-      if (!this.displayCustomPredefinedSettings) return this.allPredefinedSettings;
-      return this.customPredefinedSettings;
-    },
-    haveLogFormat () {
-      const logFormat = this.currentPredefinedSettings.headers['Log-Format'];
-      return logFormat.value || logFormat.format;
-    },
-    appendOuterIconCurrentProcess () {
-      return (this.currentPredefinedSettings._id && this.$auth.user.group === 'admin') ? 'mdi-delete' : '';
+    async removecustomSettings () {
+      try {
+        await this.$store.dispatch('settings/REMOVE_CUSTOM_PREDEFINED_SETTINGS', { id: this.settings._id })
+      } catch ({ response }) {
+        const status = (response && response.status) || 500;
+        this.$store.dispatch('snacks/error', `E${status} - ${this.$t('ui.errors.cannotRemovePredefinedSettings')}`);
+      }
+
+      this.$store.dispatch('snacks/success', this.$t('ui.pages.process.settings.deleted'));
+
+      try {
+        await this.$store.dispatch('settings/GET_PREDEFINED_SETTINGS');
+      } catch ({ response }) {
+        const status = (response && response.status) || 500;
+        this.$store.dispatch('snacks/error', `E${status} - ${this.$t('ui.errors.cannotLoadPredefinedSettings')}`);
+      }
     }
   }
 };
 </script>
-
-<style>
-.mTopM20 {
-  margin-top: -20px;
-}
-</style>

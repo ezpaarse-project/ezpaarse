@@ -54,7 +54,6 @@ module.exports = {
   },
   plugins: [
     '~/plugins/vuetify.js',
-    '~/plugins/pkbs.js',
     '~/plugins/i18n.js',
     '~/plugins/socket.js',
     '~/plugins/vue-tour.js'
@@ -63,7 +62,7 @@ module.exports = {
   ** Global CSS
   */
   css: [
-    'mdi/css/materialdesignicons.min.css',
+    '@mdi/font/css/materialdesignicons.min.css',
     'vuetify/dist/vuetify.min.css'
   ],
   /*

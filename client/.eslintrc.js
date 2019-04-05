@@ -30,6 +30,16 @@ module.exports = {
         ImportDeclaration: true,
         Property: true
       }
+    }],
+    'no-unused-vars': ['error', { 'args': 'after-used' }],
+    'dot-notation': 0,
+    'import/no-unresolved': 0,
+    'vue/max-attributes-per-line': ['warning', {
+      'singleline': 4,
+      'multiline': {
+        'max': 1,
+        'allowFirstLine': false
+      }
     }]
   },
   globals: {}

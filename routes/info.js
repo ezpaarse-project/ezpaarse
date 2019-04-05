@@ -10,7 +10,7 @@ var git        = require('../lib/git-tools.js');
 var config     = require('../lib/config.js');
 var pkg        = require('../package.json');
 var trello     = require('../lib/trello-analogist.js');
-var customPredefinedSettings = require('../lib/custom-predefined-settings.js');
+var settings   = require('../lib/custom-predefined-settings.js');
 var bodyParser = require('body-parser');
 var auth       = require('../lib/auth-middlewares.js');
 
@@ -360,7 +360,7 @@ app.get('/predefined-settings', function (req, res) {
 });
 
 app.get('/predefined-settings/custom', function (req, res) {
-  customPredefinedSettings.getAll(function (err, settings) {
+  settings.getAll(function (err, settings) {
     if (err) { return res.status(500).end(); }
 
     return res.status(200).json(settings);
@@ -373,7 +373,7 @@ app.post('/predefined-settings/custom', bodyParser.urlencoded({ extended: true }
 
   if (!settings) return res.status(406).json({ status: 406, message: 'no_settings_set' });
 
-  customPredefinedSettings.insert(settings, function (err) {
+  settings.insert(settings, function (err) {
     if (err) { return res.status(500).end(); }
 
     return res.status(200).end();
@@ -390,7 +390,7 @@ app.put('/predefined-settings/custom/:id', bodyParser.urlencoded({ extended: tru
   if (!settings) errors.push('settings');
   if (errors.length > 0) return res.status(406).json({ status: 406, fields: errors });
 
-  customPredefinedSettings.updateOne(id, settings, function (err) {
+  settings.updateOne(id, settings, function (err) {
     if (err) { return res.status(500).end(); }
 
     return res.status(200).end();
@@ -401,7 +401,7 @@ app.delete('/predefined-settings/custom/:id', auth.ensureAuthenticated(true), fu
   const id = req.params.id;
   if (!id) return res.status(406).json({ status: 406, message: 'unknown_id' });
 
-  customPredefinedSettings.delete(id, function (err) {
+  settings.delete(id, function (err) {
     /* eslint-disable-next-line */
     if (err && err.message === 'id_invalid') return res.status(409).json({ status: 409, message: err.message });
     if (err) { return res.status(500).end(); }

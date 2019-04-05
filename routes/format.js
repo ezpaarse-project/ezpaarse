@@ -35,6 +35,8 @@ app.put('/logparser', bodyParser.urlencoded({ extended: true }), bodyParser.json
       laxist: !strictMatch
     });
 
+    ec = parser.parse(logLine);
+
     // If we can build a regex with the log format, find the longest working regex
     if (strictMatch && parser.getRegexp()) {
       regexp = parser.getRegexp().source;
@@ -47,8 +49,6 @@ app.put('/logparser', bodyParser.urlencoded({ extended: true }), bodyParser.json
         if (reg.test(logLine)) { break; }
       }
     }
-
-    ec = parser.parse(logLine);
 
     if (ec) { break; }
 

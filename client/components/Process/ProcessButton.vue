@@ -10,11 +10,11 @@
         v-if="logType === 'files'"
         color="success"
         large
-        :disabled="logsFiles.length <= 0 || inProgress"
+        :disabled="logFiles.length <= 0 || inProgress"
         @click="process"
         id="logsFiles"
       >
-        {{ $t('ui.pages.process.processLogsFiles') }}
+        {{ $t('ui.pages.process.processlogFiles') }}
       </v-btn>
       <v-btn
         v-if="logType === 'text'"
@@ -70,7 +70,7 @@
 /* eslint-disable import/no-unresolved */
 /* eslint no-case-declarations: "off" */
 import ButtonGroup from '~/components/ButtonGroup';
-import { uuid } from 'vue-uuid';
+import uuid from 'uuid';
 import isEqual from 'lodash.isequal';
 
 export default {
@@ -88,22 +88,21 @@ export default {
     inProgress () {
       return this.$store.state.process.inProgress;
     },
-    logsFiles: {
-      get () { return this.$store.state.process.logsFiles; },
-      set (newVal) { this.$store.dispatch('process/SET_LOGS_FILES', newVal); }
+    logFiles () {
+      return this.$store.state.process.logFiles;
     },
     logLines () {
       return this.$store.state.process.logLines;
     },
     predefinedSettings () {
-      return this.$store.state.process.predefinedSettings;
+      return this.$store.state.settings.predefinedSettings;
     },
     currentPredefinedSettings () {
-      return this.$store.state.process.currentPredefinedSettings;
+      return this.$store.state.settings.currentPredefinedSettings;
     },
-    customPredefinedSettings: {
-      get () { return this.$store.state.process.customPredefinedSettings; },
-      set (newVal) { this.$store.dispatch('process/SET_CUSTOM_PREDEFINED_SETTINGS', newVal); }
+    customSettings: {
+      get () { return this.$store.state.settings.customSettings; },
+      set (newVal) { this.$store.dispatch('settings/SET_CUSTOM_SETTINGS', newVal); }
     }
   },
   methods: {
@@ -113,7 +112,7 @@ export default {
       let formData;
       if (this.logType === 'files') {
         formData = new FormData();
-        const files = this.logsFiles.sort((a, b) => (a.file.name.toLowerCase() > b.file.name.toLowerCase() ? 1 : -1));
+        const files = this.logFiles.sort((a, b) => (a.file.name.toLowerCase() > b.file.name.toLowerCase() ? 1 : -1));
         files.forEach(f => {
           formData.append('files[]', f.file);
         });
@@ -122,88 +121,6 @@ export default {
       } else {
         return false;
       }
-
-      const headers = {};
-
-      switch (this.currentPredefinedSettings.headers['COUNTER-Format']) {
-        default:
-        case 'csv':
-          headers.Accept = 'text/csv';
-          break;
-
-        case 'json':
-          headers.Accept = 'application/json';
-          break;
-
-        case 'tsv':
-          headers.Accept = 'text/tab-separated-values';
-          break;
-      }
-
-      Object.keys(this.currentPredefinedSettings.headers).forEach(header => {
-        switch (header) {
-          case 'advancedHeaders':
-            Object.keys(this.currentPredefinedSettings.headers.advancedHeaders).forEach(ah => {
-              const advancedHeader = this.currentPredefinedSettings.headers.advancedHeaders[ah];
-              headers[advancedHeader.header] = advancedHeader.value;
-            });
-            break;
-
-          case 'Log-Format':
-            const tmpLogFormat = this.currentPredefinedSettings.headers['Log-Format'];
-            if (tmpLogFormat.format) headers[`Log-Format-${tmpLogFormat.format}`] = tmpLogFormat.value;
-            break;
-
-          case 'Force-Parser':
-            const fp = this.currentPredefinedSettings.headers['Force-Parser'];
-            headers['Force-Parser'] = (!fp || fp === null) ? '' : this.currentPredefinedSettings.headers['Force-Parser'];
-            break;
-
-          case 'Output-Fields':
-            const of = this.currentPredefinedSettings.headers['Output-Fields'];
-            if (of) {
-              const plus = of.plus.map(p => `+${p}`);
-              const minus = of.minus.map(m => `-${m}`);
-              headers['Output-Fields'] = `${plus.join('')}${minus.join('')}`;
-            }
-            break;
-
-          case 'Date-Format':
-            headers['Date-Format'] = '';
-            break;
-
-          case 'Crypted-Fields':
-            const cf = this.currentPredefinedSettings.headers['Crypted-Fields'];
-            if (cf && cf.length > 0) {
-              headers['Crypted-Fields'] = cf.join(',');
-            } else {
-              headers['Crypted-Fields'] = 'none';
-            }
-            break;
-
-          case 'ezPAARSE-Job-Notifications':
-            let notif = this.currentPredefinedSettings.headers['ezPAARSE-Job-Notifications'];
-            notif = notif.map(mail => `mail <${mail}>`);
-            if (notif.length > 0) {
-              notif = notif.join(',');
-              headers['ezPAARSE-Job-Notifications'] = notif;
-            }
-            break;
-
-          case 'COUNTER-Format':
-            break;
-
-          case 'COUNTER-Reports':
-            this.currentPredefinedSettings.headers['COUNTER-Format'] = 'tsv';
-            break;
-
-          default:
-            headers[header] = this.currentPredefinedSettings.headers[header];
-            break;
-        }
-      });
-
-      headers['Socket-ID'] = this.$socket.id;
 
       this.$store.dispatch('process/PROCESS', { jobID, formData, headers });
 
@@ -313,7 +230,7 @@ export default {
         });
       }
 
-      const files = this.logsFiles.sort((a, b) => (a.file.name.toLowerCase() > b.file.name.toLowerCase() ? 1 : -1));
+      const files = this.logFiles.sort((a, b) => (a.file.name.toLowerCase() > b.file.name.toLowerCase() ? 1 : -1));
       files.forEach(file => {
         curl.push(`-F "files[]=@${file.file.name};type=${file.file.type}"`);
       });

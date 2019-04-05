@@ -110,6 +110,20 @@
         </v-list-tile-content>
       </v-list-tile>
 
+      <v-list-tile
+        v-if="$auth.loggedIn"
+        router
+        :to="{ path: '/format' }"
+        ripple
+      >
+        <v-list-tile-action>
+          <v-icon>mdi-file-find</v-icon>
+        </v-list-tile-action>
+        <v-list-tile-content>
+          <v-list-tile-title>{{ $t('ui.drawer.designLogFormat') }}</v-list-tile-title>
+        </v-list-tile-content>
+      </v-list-tile>
+
       <v-list-group
         v-if="!mini && $auth.user && $auth.user.group === 'admin'"
         prepend-icon="mdi-settings"
@@ -248,7 +262,7 @@ export default {
         { icon: 'mdi-email', href: 'mailto:ezpaarse@couperin.org' },
         { icon: 'mdi-twitter-box', href: 'https://twitter.com/ezpaarse' },
         { icon: 'mdi-comment-text-outline', href: 'http://blog.ezpaarse.org/' },
-        { icon: 'mdi-youtube-play', href: 'https://www.youtube.com/channel/UCcR-0UE9WjYiwS4fMG2T4tQ' }
+        { icon: 'mdi-youtube', href: 'https://www.youtube.com/channel/UCcR-0UE9WjYiwS4fMG2T4tQ' }
       ]
     };
   },

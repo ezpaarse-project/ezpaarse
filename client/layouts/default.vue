@@ -67,13 +67,13 @@ export default {
     appInfos () {
       return this.$store.state.appInfos;
     },
-    connect () {
-      return this.$store.state.socket.connect;
+    disconnected () {
+      return !this.$store.state.socket.socketid;
     }
   },
   watch: {
-    connect () {
-      this.modal = !this.connect;
+    disconnected () {
+      this.modal = this.disconnected;
     }
   },
   mounted () {

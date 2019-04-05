@@ -1,121 +1,89 @@
 <template>
-  <v-card>
-    <v-card-text>
-      <v-layout
-        row
-        wrap
+  <div>
+    <v-layout class="dropzone" align-center justify-center fill-height>
+      <input
+        ref="logFiles"
+        type="file"
+        multiple
+        @change="handleFilesUpload"
       >
-        <v-flex
-          xs12
-          sm12
-        >
-          <div class="dragDrop">
-            <input
-              ref="logsFiles"
-              type="file"
-              multiple
-              @change="handleFilesUpload"
-            >
-            <p>
-              <span id="addFiles">
-                <v-icon>
-                  mdi-plus-box
-                </v-icon> {{ $t('ui.pages.process.logFiles.clickToAdd') }}
-              </span>
-            </p>
-          </div>
-        </v-flex>
+      <v-flex class="headline grey--text text-xs-center">{{ $t('ui.pages.process.logFiles.clickToAdd') }}</v-flex>
+    </v-layout>
 
-        <v-flex
-          v-if="logsFiles.length > 0"
-          xs12
-          sm12
-          mt-3
-        >
-          <v-data-table
-            :headers="headers"
-            :items="logsFiles"
-            hide-actions
-            sort-icon="mdi-menu-down"
-            class="elevation-1"
+    <v-data-table
+      v-if="logFiles.length > 0"
+      :headers="headers"
+      :items="logFiles"
+      hide-actions
+      class="elevation-1 my-3"
+    >
+      <template
+        slot="items"
+        slot-scope="props"
+      >
+        <td class="justify-center layout px-0">
+          <v-icon
+            small
+            @click="removeLogsFile(props.item.id)"
           >
-            <template
-              slot="items"
-              slot-scope="props"
-            >
-              <td>
-                <v-icon @click="removeLogsFile(props.item.index)">
-                  mdi-delete
-                </v-icon> {{ props.item.file.name }}
-              </td>
-              <td class="text-xs-right">
-                {{ props.item.sizeText }}
-              </td>
-            </template>
-          </v-data-table>
-        </v-flex>
+            mdi-delete
+          </v-icon>
+        </td>
+        <td>
+          {{ props.item.file.name }}
+        </td>
+        <td class="text-xs-right">
+          {{ props.item.file.size | prettyBytes }}
+        </td>
+      </template>
 
-        <v-flex
-          v-if="logsFiles.length > 0"
-          xs6
-          sm6
-          mt-3
-        >
+      <template slot="footer">
+        <td :colspan="headers.length" class="text-xs-right">
+          {{ logFiles.length }} {{ $t('ui.pages.process.logFiles.selectedFiles') }}
+          ({{ totalFileSize }} {{ $t('ui.pages.process.logFiles.total') }})
+        </td>
+      </template>
+    </v-data-table>
 
-          <v-btn
-            color="error"
-            @click="removeList"
-          >
-            <v-icon>mdi-delete-forever</v-icon> {{ $t('ui.pages.process.logFiles.removeList') }}
-          </v-btn>
-        </v-flex>
-
-        <v-flex
-          v-if="logsFiles.length > 0"
-          xs6
-          sm6
-          class="text-sm-right"
-          mt-3
-        >
-          {{ logsFiles.length }} {{ $t('ui.pages.process.logFiles.selectedFiles') }}
-          ({{ logsFilesSize }} {{ $t('ui.pages.process.logFiles.total') }})
-        </v-flex>
-
-        <ProcessButton :log-type="logType" id="logsFiles" />
-      </v-layout>
-    </v-card-text>
-
-    <Tour :etapes="steps" />
-  </v-card>
+    <p v-if="logFiles.length > 0" class="text-xs-right">
+      <v-btn
+        color="error"
+        @click="clearList"
+      >
+        <v-icon left>mdi-delete-forever</v-icon> {{ $t('ui.pages.process.logFiles.removeList') }}
+      </v-btn>
+    </p>
+  </div>
 </template>
 
 <script>
-/* eslint-disable import/no-unresolved */
-/* eslint no-restricted-properties: "off" */
-import ProcessButton from '~/components/Process/ProcessButton';
-import Tour from '~/components/Tour';
+import prettyBytes from 'pretty-bytes';
 
 export default {
-  components: {
-    ProcessButton,
-    Tour
+  filters: {
+    prettyBytes (val) {
+      let size = parseInt(val, 10);
+      if (Number.isNaN(size)) { size = 0; }
+      return prettyBytes(size);
+    }
   },
   data () {
     return {
-      logType: 'files',
-      saveParams: false,
-      sizes: ['B', 'KB', 'MB', 'GB', 'TB'],
       headers: [
+        {
+          sortable: false,
+          width: 10
+        },
         {
           text: this.$t('ui.nameFile'),
           align: 'left',
-          sortable: true,
+          sortable: false,
           value: 'name'
         },
         {
           text: this.$t('ui.size'),
           align: 'right',
-          sortable: true,
+          sortable: false,
           value: 'size'
         }
       ],
@@ -128,7 +96,7 @@ export default {
           }
         },
         {
-          target: '#logsFiles',
+          target: '#logFiles',
           content: 'Traiter le ou les fichiers de logs.',
           params: {
             placement: 'top'
@@ -138,92 +106,49 @@ export default {
     };
   },
   computed: {
-    countLogsFile: {
-      get () { return this.$store.state.process.countLogsFile; },
-      set (newVal) { this.$store.dispatch('process/SET_COUNT_LOGS_FILES', newVal); }
+    logFiles () {
+      return this.$store.state.process.logFiles;
     },
-    logsFilesSize: {
-      get () { return this.$store.state.process.logsFilesSize; },
-      set (newVal) { this.$store.dispatch('process/SET_LOGS_FILES_SIZE', newVal); }
-    },
-    totalFileSize: {
-      get () { return this.$store.state.process.totalFileSize; },
-      set (newVal) { this.$store.dispatch('process/SET_TOTAL_FILES_SIZE', newVal); }
-    },
-    logsFiles: {
-      get () { return this.$store.state.process.logsFiles; },
-      set (newVal) { this.$store.dispatch('process/SET_LOGS_FILES', newVal); }
-    },
-    currentPredefinedSettings () {
-      return this.$store.state.process.currentPredefinedSettings;
+    totalFileSize () {
+      const size = this.logFiles.reduce((prev, { file }) => prev + file.size, 0);
+      return prettyBytes(size);
     }
   },
   methods: {
     handleFilesUpload () {
-      /* eslint-disable-next-line */
-      for (let i = 0; i < this.$refs.logsFiles.files.length; i++) {
-        const file = this.$refs.logsFiles.files[i];
-
-        const tmpFile = this.logsFiles.find(f => file.name === f.name);
-        if (tmpFile) return;
-
-        const index = parseInt(Math.floor(Math.log(file.size) / Math.log(1024)), 10);
-
-        const size = parseFloat(file.size / Math.pow(1024, index)).toFixed(1);
-
-        this.countLogsFile = (this.countLogsFile + 1);
-        this.logsFiles.push({
-          file,
-          sizeText: `${size} ${this.sizes[index]}`,
-          index: this.countLogsFile
-        });
-
-        this.totalFileSize = (this.totalFileSize + file.size);
-      }
-
-      const totalIndex = parseInt(Math.floor(Math.log(this.totalFileSize) / Math.log(1024)), 10);
-      const totalSize = parseFloat(this.totalFileSize / Math.pow(1024, totalIndex)).toFixed(1);
-      this.logsFilesSize = `${totalSize} ${this.sizes[totalIndex]}`;
+      Array.from(this.$refs.logFiles.files).forEach(file => {
+        this.$store.dispatch('process/ADD_LOG_FILE', file);
+      });
+      this.$refs.logFiles.value = '';
     },
-    removeLogsFile (index) {
-      const currentLogFile = this.logsFiles.find(e => e.index === index);
-      if (currentLogFile) {
-        this.totalFileSize = (this.totalFileSize - currentLogFile.file.size);
-        this.logsFiles = this.logsFiles.filter(e => e.index !== index);
-
-        const totalIndex = parseInt(Math.floor(Math.log(this.totalFileSize) / Math.log(1024)), 10);
-        const totalSize = parseFloat(this.totalFileSize / Math.pow(1024, totalIndex)).toFixed(1);
-        this.logsFilesSize = `${totalSize} ${this.sizes[totalIndex]}`;
-      }
+    removeLogsFile (id) {
+      this.$store.dispatch('process/REMOVE_LOG_FILE', id);
     },
-    removeList () {
-      this.$store.dispatch('process/RESET');
+    clearList () {
+      this.$store.dispatch('process/CLEAR_LOG_FILES');
     }
   }
 };
 </script>
 
 <style scoped>
-div.dragDrop {
-  width: 100%;
-  height: 200px;
-  border-radius: 5px;
-  border: 5px dashed teal;
-  transition: opacity 0.2s ease-in-out;
+.dropzone {
+  position: relative;
+  border: 5px dashed #9e9e9e;
+  border-radius: 3px;
+  height: 100px;
+  transition: opacity 0.1s linear;
 }
-div.dragDrop:hover {
+.dropzone:hover {
   opacity: 0.8;
 }
-div.dragDrop input[type='file'] {
-  width: 100%;
-  height: 190px;
+.dropzone input[type='file'] {
+  cursor: pointer;
   position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
   opacity: 0;
-}
-div.dragDrop p {
-  text-align: center;
-  line-height: 200px;
-  font-size: 24px;
-  color: teal;
 }
 </style>

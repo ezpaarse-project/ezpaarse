@@ -6,12 +6,14 @@
       "noCurrentProcessing": "Aucun traitement en cours",
       "currentProcessing": "Traitement en cours : {percent} %",
       "processCanceled": "Traitement annulé",
+      "processError": "Erreur de traitement",
       "processEnd": "Traitement terminé",
       "finalisation": "Finalisation du traitement"
     },
     "drawer": {
       "notConnected": "Non connecté",
       "processLogs": "Traitez vos logs",
+      "designLogFormat": "Concevoir mon format de log",
       "signout": "Se déconnecter",
       "feedback": "Signaler un problème",
       "admin": {
@@ -48,27 +50,32 @@
       },
       "process": {
         "title": "Traitez vos logs",
-        "curl": "Copiez la commande ci-dessous pour exécuter la requête avec cURL en utilisant le paramétrage actuel du formulaire. Vous devrez peut-être modifier l'adresse de l'instance utilisée, le chemin des fichiers ou ajouter des options telles que <span tabindex=\"0\" class=\"v-chip v-chip--label theme--light\"><span class=\"v-chip__content\">--proxy</span></span> ou <span tabindex=\"0\" class=\"v-chip v-chip--label theme--light\"><span class=\"v-chip__content\">--no-buffer</span></span>",
-        "processLogsFiles": "Traitez vos fichiers de logs",
+        "processing": "Traitement",
+        "commandLine": "Ligne de commande",
+        "curl": "Copiez la commande ci-dessous pour exécuter la requête avec cURL en utilisant le paramétrage actuel du formulaire. Vous devrez peut-être modifier l'adresse de l'instance utilisée, le chemin des fichiers ou ajouter des options telles que <code>--proxy</code> ou <code>--no-buffer</code>",
+        "processlogFiles": "Traitez vos fichiers de logs",
         "processlogLines": "Traitez vos lignes de logs",
         "prepareTreatment": "Préparation du traitement",
         "explainationLogs": "Indiquez ici les logs que vous désirez faire analyser par ezPAARSE. Vos logs nécessitent peut-être un paramétrage particulier pour qu'ezPAARSE les comprenne. Si nécessaire, <a href=\"mailto:ezpaarse@couperin.org\">contactez l'équipe ezPAARSE</a> pour une aide au paramétrage.",
         "explainationTestsLogs": "Vous désirez utiliser des logs de test pour valider votre installation, nous en <a href=\"{url}\" target=\"_blank\">mettons à disposition sur GitHub</a>.",
+        "startProcessing": "Lancer le traitement",
+        "filesSelection": "Sélection des fichiers",
         "settings": {
           "title": "Paramètres",
-          "currentSettings": "Paramétrage actuel",
+          "customSettings": "Paramètres personnalisés",
+          "predefinedSettings": "Paramètres prédéfinis",
           "defaultSettings": "par défaut",
           "saveSettings": "Mémoiriser mes paramètres",
           "logFiles": "Fichiers de logs",
           "designLogFormat": "Concevoir mon format de log",
-          "selectAnOption": "Sélectionnez une option",
+          "predefinedConfiguration": "Paramétrage prédéfini",
           "input": "En entrée",
           "typeOfLog": "Type de log",
           "dateFormat": "Format de date",
           "defaultParser": "Parseur par défaut",
           "logFormat": "Format de log",
           "output": "En sortie",
-          "counterFormat": "Format du résultat",
+          "outputFormat": "Format du résultat",
           "traceLevel": "Traces système",
           "notificationsEmails": "Adresse(s) emails",
           "counterReports": "Rapports COUNTER *",
@@ -77,12 +84,11 @@
           "remove": "Enlever...",
           "cryptedFields": "Champs cryptés",
           "counterReportDetail": "* Les rapports ne sont pas certifiés COUNTER, cependant l'algorithme de dédoublonnage et les formats de sortie suivent les recommandations.",
-          "advancedHeaders": "avancé",
+          "advancedHeaders": "Headers (avancé)",
           "defaultParams": "Réinitialiser paramètres",
           "paramsSaved": "Paramètres enregistrés",
           "deleted": "Paramètre supprimé",
           "nameUnavailable": "Ce nom n'est pas disponible !",
-          "showOnlyCustomPredefinedSettings": "Afficher les paramètres prédéfinis personnalisés uniquement",
           "savePredefinedSettings": "Sauvegarder paramètres",
           "modified": "modifié",
           "saveAsNew": "Enregistrer en tant que nouveaux paramètres prédéfinis personnalisés"
@@ -90,7 +96,7 @@
         "logFiles": {
           "clickToAdd": "Cliquez ou déposez pour ajouter",
           "removeList": "Supprimer la liste",
-          "selectedFiles": "fichiers sélectonnés",
+          "selectedFiles": "fichiers sélectionnés",
           "total": "au total"
         },
         "logFormat": {
@@ -157,7 +163,7 @@
           "dedoublonnage": "Dédoublonnage",
           "files": "Fichiers",
           "first_event": "Première consultation",
-          "seeFull": "Afficher le rapport au complet",
+          "seeFull": "Maximiser le rapport",
           "minimizeReport": "Minimiser le rapport"
         },
         "job": {
@@ -170,7 +176,7 @@
           "rejects": "Rejets",
           "traces": "Traces système",
           "relevantLogLinesRead": "Lignes de log pertinentes lues : <strong>{relevantLogLines}</strong>",
-          "stopProcess": "Arrêter le traitement en cours"
+          "cancelProcess": "Arrêter le traitement"
         }
       },
       "admin": {
@@ -294,14 +300,18 @@
       "cannotLoadJobsData": "Une erreur est survenue pendant le chargement des données des traitements"
     },
     "search": "Rechercher",
+    "cancel": "Annuler",
     "close": "Fermer",
     "back": "Retour",
     "save": "Sauvegarder",
+    "add": "Ajouter",
     "remove": "Supprimer",
+    "continue": "Continuer",
     "currentVersion": "Version actuelle",
     "updateTo": "Mettre à jour vers {newVersion}",
     "nameFile": "Nom du fichier",
     "name": "Nom",
+    "value": "Valeur",
     "country": "Pays",
     "files": "Fichiers",
     "filesName": "Nom des fichiers",

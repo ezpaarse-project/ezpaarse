@@ -96,9 +96,9 @@ export default {
       ]
     };
   },
-  async fetch({ store, app }) {
+  async fetch ({ store, app }) {
     try {
-      await store.dispatch('socket/GET_JOBS', app.socket.id);
+      await store.dispatch('socket/GET_JOBS');
       app.socket.on('jobs', data => {
         store.dispatch('socket/SET_JOBS', data);
       });
@@ -111,9 +111,21 @@ export default {
       );
     }
   },
+  computed: {
+    jobs: {
+      get () {
+        return this.$store.state.socket.jobs;
+      }
+    },
+    treatments: {
+      get () {
+        return this.$store.state.process.treatments;
+      }
+    }
+  },
   watch: {
     jobs: {
-      handler() {
+      handler () {
         try {
           this.$store.dispatch('process/GET_TREATMENTS');
         } catch (e) {
@@ -126,20 +138,8 @@ export default {
       deep: true
     }
   },
-  computed: {
-    jobs: {
-      get() {
-        return this.$store.state.socket.jobs;
-      }
-    },
-    treatments: {
-      get() {
-        return this.$store.state.process.treatments;
-      }
-    }
-  },
   methods: {
-    createdAt(date) {
+    createdAt (date) {
       return moment(date).format('DD MMM YYYY - HH:mm:ss');
     }
   }

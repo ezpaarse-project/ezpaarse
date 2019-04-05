@@ -5,79 +5,75 @@
     </v-toolbar-side-icon>
     <v-toolbar-title>ezPAARSE</v-toolbar-title>
 
-    <v-spacer/>
+    <v-spacer />
 
-    <v-toolbar-items>
-      <div class="text-xs-center mt-2">
-        <v-chip>
-          <v-progress-circular
-            v-if="pkbs && pkbs.state === 'synchronizing'"
-            indeterminate
-            color="teal"
-            class="loadingPkbs"
-            :size="16"
-            :width="2"
-          />
+    <v-chip label light>
+      <v-progress-circular
+        v-if="pkbState === 'synchronizing'"
+        class="mr-2"
+        indeterminate
+        color="primary"
+        :size="16"
+        :width="2"
+      />
+      <span v-if="remainingPkbs > 0 && pkbState === 'synchronizing'">
+        {{ $t('ui.header.pkbsRemaining', { pkbs: remainingPkbs }) }}
+      </span>
 
-          <span
-            v-if="pkbs && pkbs.remaining.length > 0 && pkbs.state === 'synchronizing'"
-          >{{ $t('ui.header.pkbsRemaining', { pkbs: pkbs.remaining.length }) }}</span>
-          
-          <span
-            v-if="pkbs && pkbs.state === 'synchronized' && pkbs.remaining.length <= 0"
-          >{{ $t('ui.header.pkbsSynchronized') }}</span>
-        </v-chip>
-      </div>
-      <div class="text-xs-center mt-2">
-        <v-chip v-if="!inProgress">{{ $t('ui.header.noCurrentProcessing') }}</v-chip>
-        <nuxt-link
-          v-else-if="!inProgress && status === 'abort' && status !== 'error' && status !== 'end'  && status !== 'finalisation'"
-          tag="v-chip"
-          to="/process/job"
-        >{{ $t('ui.header.processCanceled') }}</nuxt-link>
-        <nuxt-link
-          v-else-if="!inProgress && status === 'end' && status !== 'error' && status !== 'abort'  && status !== 'finalisation'"
-          tag="v-chip"
-          to="/process/job"
-        >{{ $t('ui.header.processEnd') }}</nuxt-link>
-        <nuxt-link
-          v-else-if="inProgress && status === 'finalisation' &&  status !== 'error' && status !== 'abort'  && status !== 'end'"
-          tag="v-chip"
-          to="/process/job"
-        >{{ $t('ui.header.finalisation') }}</nuxt-link>
-        <nuxt-link
-          v-else
-          tag="v-chip"
-          to="/process/job"
-        >{{ $t('ui.header.currentProcessing', { percent: processProgress }) }}</nuxt-link>
-      </div>
-    </v-toolbar-items>
+      <span v-if="pkbState === 'synchronized' && remainingPkbs === 0">
+        {{ $t('ui.header.pkbsSynchronized') }}
+      </span>
+    </v-chip>
+
+    <v-btn tag="v-chip" to="/process?step=job" class="text-none" light color="white">
+      <span v-if="!jobStatus">
+        {{ $t('ui.header.noCurrentProcessing') }}
+      </span>
+      <span v-else-if="jobStatus === 'abort'">
+        {{ $t('ui.header.processCanceled') }}
+      </span>
+      <span v-else-if="jobStatus === 'end'">
+        {{ $t('ui.header.processEnd') }}
+      </span>
+      <span v-else-if="jobStatus === 'finalisation'">
+        {{ $t('ui.header.finalisation') }}
+      </span>
+      <span v-else-if="jobStatus === 'progress'">
+        {{ $t('ui.header.currentProcessing', { percent: processProgress }) }}
+      </span>
+      <span v-else-if="jobStatus === 'error'">
+        {{ $t('ui.header.processError') }}
+      </span>
+    </v-btn>
   </v-toolbar>
 </template>
 
 <script>
-import { mapActions } from "vuex";
+import { mapActions } from 'vuex';
 
 export default {
   computed: {
-    drawer() {
+    drawer () {
       return this.$store.state.drawer;
     },
-    pkbs() {
-      return this.$store.state.pkbs;
-    },
-    processProgress() {
+    processProgress () {
       return this.$store.state.process.processProgress;
     },
-    inProgress() {
-      return this.$store.state.process.inProgress;
-    },
-    status() {
+    jobStatus () {
       return this.$store.state.process.status;
+    },
+    pkbs () {
+      return this.$store.state.pkbs;
+    },
+    remainingPkbs () {
+      return (this.pkbs.remaining || []).length;
+    },
+    pkbState () {
+      return this.pkbs.state;
     }
   },
   methods: mapActions({
-    setDrawer: "SET_DRAWER"
+    setDrawer: 'SET_DRAWER'
   })
 };
 </script>

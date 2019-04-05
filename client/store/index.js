@@ -1,5 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
+import settings from './settings';
 import process from './process';
 import socket from './socket';
 import snacks from './snacks';
@@ -7,6 +8,7 @@ import api from './api';
 
 const store = () => new Vuex.Store({
   modules: {
+    settings,
     process,
     socket,
     snacks
@@ -27,18 +29,16 @@ const store = () => new Vuex.Store({
     feedback: null,
     users: [],
     userNumber: -1,
-    pkbs: null
+    pkbs: {}
   },
   actions: {
     SET_DRAWER ({ commit }, value) {
       commit('SET_DRAWER', value);
     },
-    /* eslint-disable-next-line */
-    REGISTER ({ commit }, credentials) {
+    REGISTER (ctx, credentials) {
       return api.register(this.$axios, credentials);
     },
-    /* eslint-disable-next-line */
-    SEND_FEEDBACK ({ commit }, data) {
+    SEND_FEEDBACK (ctx, data) {
       return api.sendFeedback(this.$axios, data);
     },
     LOAD_STATUS ({ commit }) {
@@ -53,12 +53,10 @@ const store = () => new Vuex.Store({
         api.feedbackStatus(this.$axios).then(res => commit('SET_FEEDBACK_STATUS', res))
       ]);
     },
-    /* eslint-disable-next-line */
-    UPDATE_REPO ({ commit }, repo) {
+    UPDATE_REPO (ctx, repo) {
       return api.updateRepo(this.$axios, repo);
     },
-    /* eslint-disable-next-line */
-    UPDATE_APP ({ commit }, version) {
+    UPDATE_APP (ctx, version) {
       return api.updateApp(this.$axios, version);
     },
     GET_PLATFORMS ({ commit }) {
@@ -70,43 +68,35 @@ const store = () => new Vuex.Store({
     GET_USERS_LIST ({ commit }) {
       return api.getUsersList(this.$axios).then(res => commit('SET_USERS_LIST', res));
     },
-    /* eslint-disable-next-line */
-    ADD_USER ({ commit }, data) {
+    ADD_USER (ctx, data) {
       return api.addUser(this.$axios, data);
     },
-    /* eslint-disable-next-line */
-    REMOVE_USER ({ commit }, userid) {
+    REMOVE_USER (ctx, userid) {
       return api.removeUser(this.$axios, userid);
     },
-    /* eslint-disable-next-line */
-    EDIT_USER ({ commit }, data) {
+    EDIT_USER (ctx, data) {
       return api.editUser(this.$axios, data);
     },
-    /* eslint-disable-next-line */
-    RESET_PASSWORD ({ commit }, data) {
+    RESET_PASSWORD (ctx, data) {
       return api.resetPassword(this.$axios, data);
     },
-    /* eslint-disable-next-line */
-    SEND_NEW_PASSWORD ({ commit }, data) {
+    SEND_NEW_PASSWORD (ctx, data) {
       return api.sendNewPassword(this.$axios, data);
     },
-    /* eslint-disable-next-line */
-    NOTIFIATE ({ commit }, data) {
+    NOTIFIATE (ctx, data) {
       return api.notifiate(this.$axios, data);
     },
-    /* eslint-disable-next-line */
-    UPDATE_PASSWORD ({ commit }, data) {
+    UPDATE_PASSWORD (ctx, data) {
       return api.updatePassword(this.$axios, data);
     },
-    GET_USER_NUMBER ({ commit }) {
-      return api.getUserNumber(this.$axios).then(res => commit('SET_USER_NUMBER', res));
+    async GET_USER_NUMBER ({ commit }) {
+      commit('SET_USER_NUMBER', await api.getUserNumber(this.$axios));
     },
-    /* eslint-disable-next-line */
-    FRESHINSTALL ({ commit }, data) {
+    FRESHINSTALL (ctx, data) {
       return api.freshInstall(this.$axios, data);
     },
-    LOAD_PKBS ({ commit }) {
-      return api.loadPkbs(this.$axios).then(res => { commit('SET_PKBS', res); });
+    async LOAD_PKBS ({ commit }) {
+      commit('SET_PKBS', await api.loadPkbs(this.$axios));
     },
     SET_PKBS ({ commit }, data) {
       commit('SET_PKBS', data);

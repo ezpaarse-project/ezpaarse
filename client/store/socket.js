@@ -3,7 +3,7 @@ import api from './api';
 export default {
   namespaced: true,
   state: {
-    connect: false,
+    socketid: null,
     report: {
       general: [],
       stats: [],
@@ -13,13 +13,13 @@ export default {
     jobs: 0
   },
   mutations: {
-    SOCKET_CONNECT: (state, data) => {
-      state.connect = data;
+    SET_SOCKETID: (state, id) => {
+      state.socketid = id;
     },
-    SOCKET_REPORT (state, data) {
+    SET_REPORT (state, data) {
       state.report = data;
     },
-    SOCKET_LOGGING (state, data) {
+    PUSH_LOGGING (state, data) {
       state.logging.push(data);
     },
     SET_JOBS (state, data) {
@@ -27,17 +27,17 @@ export default {
     }
   },
   actions: {
-    SOCKET_CONNECT: ({ commit }, data) => {
-      commit('SOCKET_CONNECT', data);
+    SET_SOCKETID: ({ commit }, id) => {
+      commit('SET_SOCKETID', id);
     },
-    SOCKET_REPORT ({ commit }, data) {
-      commit('SOCKET_REPORT', data);
+    SET_REPORT ({ commit }, data) {
+      commit('SET_REPORT', data);
     },
-    SOCKET_LOGGING ({ commit }, data) {
-      commit('SOCKET_LOGGING', JSON.parse(data));
+    PUSH_LOGGING ({ commit }, data) {
+      commit('PUSH_LOGGING', JSON.parse(data));
     },
-    GET_JOBS ({ commit }, data) {
-      return api.getJobs(this.$axios, data).then(res => { commit('SET_JOBS', res); });
+    async GET_JOBS ({ commit, state }) {
+      commit('SET_JOBS', await api.getJobs(this.$axios, state.socketid));
     },
     SET_JOBS ({ commit }, data) {
       commit('SET_JOBS', data);

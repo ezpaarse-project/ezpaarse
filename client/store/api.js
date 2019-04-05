@@ -60,14 +60,14 @@ api.getLogging = (axios, uuid) => axios.get(`/api/logs/${uuid}/job-traces.log`).
 
 api.getLogParser = (axios, data) => axios.put('/api/format/logparser', data).then(res => res.data);
 
-api.saveCustomPredefinedSettings = (axios, data) => axios.post('/api/info/predefined-settings/custom', { settings: data }).then(res => res.data);
+api.savecustomSettings = (axios, data) => axios.post('/api/info/predefined-settings/custom', { settings: data }).then(res => res.data);
 
 /* eslint-disable-next-line */
-api.updateCustomPredefinedSettings = (axios, data) => axios.put(`api/info/predefined-settings/custom/${data._id}`, { settings: data }).then(res => res.data);
+api.updatecustomSettings = (axios, data) => axios.put(`api/info/predefined-settings/custom/${data._id}`, { settings: data }).then(res => res.data);
 
-api.getCustomPredefinedSettings = (axios) => axios.get('/api/info/predefined-settings/custom').then(res => res.data);
+api.getcustomSettings = (axios) => axios.get('/api/info/predefined-settings/custom').then(res => res.data);
 
-api.removeCustomPredefinedSettings = (axios, data) => axios.delete(`/api/info/predefined-settings/custom/${data.id}`).then(res => res.data);
+api.removecustomSettings = (axios, data) => axios.delete(`/api/info/predefined-settings/custom/${data.id}`).then(res => res.data);
 
 api.getTreatmentsByUser = (axios, userId) => axios.get(`/api/jobs/${userId}`).then(res => res.data);
 

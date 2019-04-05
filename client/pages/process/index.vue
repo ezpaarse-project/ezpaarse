@@ -9,163 +9,206 @@
       <v-toolbar-title>{{ $t('ui.pages.process.title') }}</v-toolbar-title>
     </v-toolbar>
 
-    <v-card-text>
-      <h1>{{ $t('ui.pages.process.prepareTreatment') }}</h1>
-
-      <v-alert
-        :value="true"
-        color="teal"
-        xs12
-        sm12
-        outline
-      >
-        <p
-          class="text-xs-justify"
-          v-html="$t('ui.pages.process.explainationLogs')"
-        />
-        <p
-          class="text-xs-justify"
-          v-html="$t('ui.pages.process.explainationTestsLogs', { url: 'https://github.com/ezpaarse-project/ezpaarse-dataset-samples' })"
-        />
-      </v-alert>
-
-      <v-layout
-        row
-        wrap
-      >
-        <v-flex
-          xs6
-          sm6
+    <v-stepper v-model="formStep">
+      <v-stepper-header>
+        <v-stepper-step
+          :edit-icon="$vuetify.icons.complete"
+          :editable="!inProgress"
+          :complete="hasLogFiles"
+          step="1"
         >
-          <h4>{{ $t('ui.pages.process.settings.currentSettings') }}</h4>
-          <span v-if="currentPredefinedSettings">
-            {{ currentPredefinedSettings.fullName }}
-          </span>
-          <span v-if="settingsIsModified">
-            ({{ $t('ui.pages.process.settings.modified') }})
-          </span>
-        </v-flex>
+          {{ $t('ui.pages.process.filesSelection') }}
+        </v-stepper-step>
 
-        <v-flex
-          xs12
-          sm12
+        <v-divider :color="hasLogFiles && formStep > 1 ? 'primary' : ''" />
+
+        <v-stepper-step
+          :edit-icon="$vuetify.icons.complete"
+          :editable="!inProgress"
+          :complete="formStep > 2"
+          step="2"
         >
-          <v-tabs
-            v-model="activeTab"
-            grow
-            dark
-          >
-            <v-tab to="#tab-logs-files">
-              <v-icon class="pr-1">
-                mdi-folder-open
-              </v-icon>
-              {{ $t('ui.pages.process.settings.logFiles') }}
-              <v-spacer />
-            </v-tab>
-            <v-tab to="#tab-log-format">
-              <v-icon class="pr-1">
-                mdi-file-document
-              </v-icon>
-              {{ $t('ui.pages.process.settings.designLogFormat') }}
-              <v-spacer />
-            </v-tab>
-          </v-tabs>
+          {{ $t('ui.pages.process.settings.title') }}
+        </v-stepper-step>
 
-          <v-tabs-items v-model="activeTab">
-            <v-tab-item value="tab-logs-files">
-              <LogFiles />
-            </v-tab-item>
+        <v-divider :color="hasJob && formStep > 2 ? 'primary' : ''" />
 
-            <v-tab-item value="tab-log-format">
-              <LogFormat />
-            </v-tab-item>
-          </v-tabs-items>
-        </v-flex>
+        <v-stepper-step :editable="hasJob" step="3">
+          {{ $t('ui.pages.process.processing') }}
+        </v-stepper-step>
+      </v-stepper-header>
 
-        <v-flex
-          xs12
-          sm12
-          mt-2
-        >
-          <v-expansion-panel expand dark>
-            <v-expansion-panel-content class="teal">
-              <div slot="header">
-                {{ $t('ui.pages.process.settings.title') }}
-              </div>
-              <Settings />
-            </v-expansion-panel-content>
-          </v-expansion-panel>
-        </v-flex>
-      </v-layout>
-    </v-card-text>
+      <v-stepper-items>
+        <v-stepper-content step="1">
+          <v-layout justify-center row>
+            <v-spacer />
+            <v-btn
+              large
+              color="primary"
+              @click="formStep = 2"
+            >
+              {{ $t('ui.continue') }}
+            </v-btn>
+          </v-layout>
+
+          <LogFiles class="ma-1" />
+        </v-stepper-content>
+
+        <v-stepper-content step="2">
+          <v-layout row align-center>
+            <v-btn large @click="formStep = 1">{{ $t('ui.pages.process.filesSelection') }}</v-btn>
+
+            <v-spacer />
+
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on }">
+                <v-btn fab small @click="displayCurl" v-on="on">
+                  <v-icon>mdi-code-tags</v-icon>
+                </v-btn>
+              </template>
+              <span>{{ $t('ui.pages.process.commandLine') }}</span>
+            </v-tooltip>
+
+            <v-btn
+              large
+              color="primary"
+              :disabled="!hasLogFiles"
+              @click="process"
+            >
+              {{ $t('ui.pages.process.startProcessing') }}
+            </v-btn>
+          </v-layout>
+
+          <Settings class="ma-1" />
+        </v-stepper-content>
+
+        <v-stepper-content step="3">
+          <v-layout justify-space-between row>
+            <v-btn large @click="formStep = 1">{{ $t('ui.cancel') }}</v-btn>
+          </v-layout>
+
+          <Treatment class="ma-1" />
+        </v-stepper-content>
+      </v-stepper-items>
+    </v-stepper>
+
+    <v-dialog
+      v-model="curlDialog"
+      max-width="650"
+    >
+      <v-card>
+        <v-card-text>
+          <p v-html="$t('ui.pages.process.curl')" />
+          <v-textarea box :value="curlRequest" height="200"/>
+        </v-card-text>
+
+        <v-card-actions>
+          <v-spacer />
+          <v-btn flat @click="curlDialog = false">
+            {{ $t('ui.close') }}
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-card>
 </template>
 
 <script>
-/* eslint-disable import/no-unresolved */
-/* eslint consistent-return: "off" */
 import LogFiles from '~/components/Process/LogFiles';
-import LogFormat from '~/components/Process/LogFormat';
 import Settings from '~/components/Process/Settings';
+import Treatment from '~/components/Process/Treatment';
 
 export default {
   auth: true,
   components: {
+    Treatment,
     LogFiles,
-    LogFormat,
     Settings
   },
-  data () {
+  asyncData ({ store, query }) {
+    const { status } = store.state.process;
+
+    let formStep = 1;
+
+    if (query.step === 'config') { formStep = 2; }
+    if (query.step === 'job' && status) { formStep = 3; }
+    if (status === 'progress' || status === 'finalisation') { formStep = 3; }
+
     return {
-      activeTab: 'tab-logs-files',
-      paramsSaved: false
+      formStep,
+      curlDialog: false,
+      curlRequest: '',
     };
   },
-  async fetch ({ store, redirect, app }) {
+  async fetch ({ store }) {
     try {
-      if (store.state.process.inProgress && store.state.process.processProgress < 100) {
-        return redirect('/process/job');
-      }
-
-      if (store.state.process.inProgress && store.state.process.processProgress >= 100) {
-        store.dispatch('process/SET_IN_PROGRESS', false);
-      }
+      await store.dispatch('settings/GET_PREDEFINED_SETTINGS');
     } catch (e) {
-      await store.dispatch('snacks/error', app.i18n.t('ui.errors.error'));
+      await store.dispatch('snacks/error', 'ui.errors.cannotLoadPredefinedSettings');
     }
 
-    try { await store.dispatch('process/GET_PREDEFINED_SETTINGS'); } catch (e) {
-      await store.dispatch('snacks/error', `E${e.response.status} - ${this.$t('ui.errors.cannotLoadPredefinedSettings')}`);
-    }
-
-    try { await store.dispatch('process/GET_COUNTRIES'); } catch (e) {
-      await store.dispatch('snacks/error', `E${e.response.status} - ${this.$t('ui.errors.cannotGetCountriesList')}`);
+    try {
+      await store.dispatch('settings/GET_COUNTRIES');
+    } catch (e) {
+      await store.dispatch('snacks/error', 'ui.errors.cannotGetCountriesList');
     }
   },
   computed: {
-    user () {
-      return this.$store.state.user;
+    logFiles () {
+      return this.$store.state.process.logFiles;
     },
-    predefinedSettings () {
-      return this.$store.state.process.predefinedSettings;
+    hasLogFiles () {
+      return Array.isArray(this.logFiles) && this.logFiles.length > 0;
     },
-    currentPredefinedSettings () {
-      return this.$store.state.process.currentPredefinedSettings;
+    inProgress () {
+      const { status } = this.$store.state.process;
+      return status === 'progress' || status === 'finalisation';
     },
-    settingsIsModified () {
-      return this.$store.state.process.settingsIsModified;
-    }
+    hasJob () {
+      return this.$store.state.process.status !== null;
+    },
+    modifiedSettings () {
+      return this.$store.getters['settings/hasBeenModified'];
+    },
+    selectedSetting () {
+      return this.$store.state.settings.selectedSetting;
+    },
   },
   methods: {
-    saveParams () {
-      this.paramsSaved = !this.paramsSaved;
+    process () {
+      this.formStep = 3;
+      const formData = new FormData();
+      const sortByName = (a, b) => (a.file.name.toLowerCase() > b.file.name.toLowerCase() ? 1 : -1);
+      const files = this.logFiles.sort(sortByName);
+
+      files.forEach(f => {
+        formData.append('files[]', f.file);
+      });
+
+      this.$store.dispatch('process/PROCESS', formData);
+    },
+    async displayCurl () {
+      let curl = [`curl -v -X POST http://${window.location.host}`];
+
+      if (this.selectedSetting && !this.modifiedSettings) {
+        curl = [...curl, `-H "ezPAARSE-Predefined-Settings:${this.selectedSetting}"`];
+      } else {
+        const headers = await this.$store.dispatch('settings/GET_HEADERS');
+        curl = [
+          ...curl,
+          ...Object.entries(headers).map(([name, value]) => `-H "${name}: ${value}"`)
+        ];
+      }
+
+      const files = this.logFiles.sort((a, b) => (a.file.name.toLowerCase() > b.file.name.toLowerCase() ? 1 : -1));
+
+      files.forEach(({ file }) => {
+        curl.push(`-F "files[]=@${file.name};type=${file.type}"`);
+      });
+
+      this.curlRequest = curl.join(' \\\n ');
+      this.curlDialog = true;
     }
   }
 };
 </script>
-
-<style scoped>
-.saveParams {
-  float: right;
-}
-</style>
