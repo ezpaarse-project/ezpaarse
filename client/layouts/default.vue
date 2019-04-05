@@ -10,27 +10,27 @@
           color="info"
         >
           <h3>{{ $t('ui.pages.index.demoHeader') }}</h3>
-          <p v-html="$t('ui.pages.index.demoText')"></p>
+          <p>{{ $t('ui.pages.index.demoText') }}</p>
         </v-alert>
         <v-dialog
-            v-model="modal"
-            persistent
-            width="600"
+          v-model="modal"
+          persistent
+          width="600"
+        >
+          <v-card
+            color="primary"
+            dark
           >
-            <v-card
-              color="primary"
-              dark
-            >
-              <v-card-text>
-                {{ $t('ui.ezPAARSEOffline') }}
-                <v-progress-linear
-                  indeterminate
-                  color="white"
-                  class="mb-0"
-                ></v-progress-linear>
-              </v-card-text>
-            </v-card>
-          </v-dialog>
+            <v-card-text>
+              {{ $t('ui.ezPAARSEOffline') }}
+              <v-progress-linear
+                indeterminate
+                color="white"
+                class="mb-0"
+              />
+            </v-card-text>
+          </v-card>
+        </v-dialog>
         <nuxt />
         <Snackbar />
       </v-container>
@@ -39,7 +39,6 @@
 </template>
 
 <script>
-/* eslint-disable import/no-unresolved */
 import Header from '~/components/Header';
 import Drawer from '~/components/Drawer';
 import Snackbar from '~/components/Snackbar.vue';
