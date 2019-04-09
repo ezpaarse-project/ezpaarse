@@ -27,7 +27,7 @@
     "pages": {
       "index": {
         "whatIsEzpaarse": "ezPAARSE, c'est...",
-        "singinEasy": "Enregistrez-vous avant de pouvoir traiter vos logs, c'est simple et rapide.<br/>Vous pourrez ensuite suivre vos traitements et communiquer plus facilement avec l'équipe ezPAARSE.",
+        "signInEasy": "Enregistrez-vous avant de pouvoir traiter vos logs, c'est simple et rapide.<br/>Vous pourrez ensuite suivre vos traitements et communiquer plus facilement avec l'équipe ezPAARSE.",
         "description": "Un <a style=\"color: #ccc;\" href=\"{github}\" target=\"_blank\">logiciel libre</a> qui permet l’analyse, l’enrichissement et l’exploitation des logs d’accès aux ressources électroniques proposées par les <a style=\"color: #ccc;\" href=\"{analogist}\"  target=\"_blank\">plate-formes Web des éditeurs de littérature scientifique</a>. Il se présente sous la forme d'une application Web disposant d'un formulaire et d'une <a style=\"color: #ccc;\" href=\"{doc}\" target=\"_blank\">API</a> permettant l'ingestion manuelle et automatique des logs générées par les serveurs et proxy des établissements.",
         "simpleTool": "Un outil simple et efficace",
         "fewClicksToInstall": "Quelques clics suffisent à l'installer et à analyser vos logs.",

@@ -23,7 +23,6 @@
       </v-form>
 
       <v-card class="mb-3">
-
         <v-container fluid grid-list-lg>
           <v-layout row wrap>
             <v-flex xs6>
@@ -70,7 +69,13 @@
           <div>
             <div class="headline">
               {{ $t('ui.pages.process.logFormat.formatAnalysis') }}
-              <v-progress-circular v-if="loading" :size="18" :width="2" indeterminate color="primary" />
+              <v-progress-circular
+                v-if="loading"
+                :size="18"
+                :width="2"
+                indeterminate
+                color="primary"
+              />
             </div>
             <div class="subheading">
               {{ $t('ui.pages.process.logFormat.firstLogLine') }}
@@ -192,8 +197,8 @@
       <v-btn
         large
         color="primary"
-        @click="process"
         :disabled="!logLines"
+        @click="process"
       >
         {{ $t('ui.pages.process.processlogLines') }}
       </v-btn>

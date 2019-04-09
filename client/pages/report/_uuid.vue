@@ -10,13 +10,13 @@
         {{ $t('ui.pages.process.report.title') }}
       </v-toolbar-title>
     </v-toolbar>
-    
-    <Report :report="report" :download="download" :logging="logging"/>
+
+    <Report :report="report" :download="download" :logging="logging" />
   </v-card>
 </template>
 
 <script>
-import Report from '~/components/Report'
+import Report from '~/components/Report';
 
 export default {
   components: {
@@ -46,17 +46,18 @@ export default {
     },
     logging () {
       const lines = this.$store.state.process.logging.split('\n').map(e => {
-        let match = null;
-        if ((match = /^([a-z0-9:\.-]+)\s(info|error|warning|verbose):(.*)$/i.exec(e)) !== null) {
-          return {
-            date: match[1],
-            level: match[2],
-            message: match[3],
-          }
-        }
+        const match = /^([a-z0-9:.-]+)\s+([a-z]+):(.*)$/i.exec(e);
+
+        if (!match) { return null; }
+
+        return {
+          date: match[1],
+          level: match[2],
+          message: match[3]
+        };
       });
-      return lines;
+      return lines.filter(l => l);
     }
-  },
+  }
 };
 </script>

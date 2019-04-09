@@ -56,7 +56,9 @@
 
         <v-stepper-content step="2">
           <v-layout row align-center>
-            <v-btn large @click="formStep = 1">{{ $t('ui.pages.process.filesSelection') }}</v-btn>
+            <v-btn large @click="formStep = 1">
+              {{ $t('ui.pages.process.filesSelection') }}
+            </v-btn>
 
             <v-spacer />
 
@@ -84,7 +86,9 @@
 
         <v-stepper-content step="3">
           <v-layout justify-space-between row>
-            <v-btn large @click="formStep = 1">{{ $t('ui.cancel') }}</v-btn>
+            <v-btn large @click="formStep = 1">
+              {{ $t('ui.cancel') }}
+            </v-btn>
           </v-layout>
 
           <Treatment class="ma-1" />
@@ -98,8 +102,8 @@
     >
       <v-card>
         <v-card-text>
-          <p v-html="$t('ui.pages.process.curl')" />
-          <v-textarea box :value="curlRequest" height="200"/>
+          <p v-text="$t('ui.pages.process.curl')" />
+          <v-textarea box :value="curlRequest" height="200" />
         </v-card-text>
 
         <v-card-actions>
@@ -137,7 +141,7 @@ export default {
     return {
       formStep,
       curlDialog: false,
-      curlRequest: '',
+      curlRequest: ''
     };
   },
   async fetch ({ store }) {
@@ -172,7 +176,7 @@ export default {
     },
     selectedSetting () {
       return this.$store.state.settings.selectedSetting;
-    },
+    }
   },
   methods: {
     process () {
@@ -200,7 +204,8 @@ export default {
         ];
       }
 
-      const files = this.logFiles.sort((a, b) => (a.file.name.toLowerCase() > b.file.name.toLowerCase() ? 1 : -1));
+      const sortByName = (a, b) => (a.file.name.toLowerCase() > b.file.name.toLowerCase() ? 1 : -1);
+      const files = this.logFiles.sort(sortByName);
 
       files.forEach(({ file }) => {
         curl.push(`-F "files[]=@${file.name};type=${file.type}"`);

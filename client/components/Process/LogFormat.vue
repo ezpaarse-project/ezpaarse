@@ -41,16 +41,23 @@
               card
               height="8px"
               :color="cardColor"
-            >
-            </v-toolbar>
+            />
 
             <v-card-title>
               <div>
                 <div class="headline">
                   {{ $t('ui.pages.process.logFormat.formatAnalysis') }}
-                  <v-progress-circular v-if="loading" :size="18" :width="2" indeterminate color="primary"></v-progress-circular>
+                  <v-progress-circular
+                    v-if="loading"
+                    :size="18"
+                    :width="2"
+                    indeterminate
+                    color="primary"
+                  />
                 </div>
-                <div class="subheading">{{ $t('ui.pages.process.logFormat.firstLogLine') }}</div>
+                <div class="subheading">
+                  {{ $t('ui.pages.process.logFormat.firstLogLine') }}
+                </div>
               </div>
             </v-card-title>
 
@@ -59,14 +66,18 @@
                 {{ $t('ui.pages.process.logFormat.detectionFailed') }}
               </v-card-text>
 
-              <v-expansion-panel v-else expand v-model="expandedPanels">
+              <v-expansion-panel v-else v-model="expandedPanels" expand>
                 <v-expansion-panel-content>
                   <div slot="header">
                     {{ $t('ui.pages.process.logFormat.format') }} ({{ result.proxy }})
                   </div>
                   <template slot="actions">
-                    <v-icon color="success" v-if="result.strictMatch">mdi-check</v-icon>
-                    <v-icon color="error" v-else>mdi-alert-circle</v-icon>
+                    <v-icon v-if="result.strictMatch" color="success">
+                      mdi-check
+                    </v-icon>
+                    <v-icon v-else color="error">
+                      mdi-alert-circle
+                    </v-icon>
                   </template>
                   <v-card>
                     <v-card-text>
@@ -82,8 +93,12 @@
                     {{ $t('ui.pages.process.logFormat.regex') }}
                   </div>
                   <template slot="actions">
-                    <v-icon color="success" v-if="result.strictMatch">mdi-check</v-icon>
-                    <v-icon color="error" v-else>mdi-alert-circle</v-icon>
+                    <v-icon v-if="result.strictMatch" color="success">
+                      mdi-check
+                    </v-icon>
+                    <v-icon v-else color="error">
+                      mdi-alert-circle
+                    </v-icon>
                   </template>
                   <v-card>
                     <v-card-text>
@@ -103,8 +118,12 @@
                     {{ $t('ui.pages.process.logFormat.ecGenerated') }}
                   </div>
                   <template slot="actions">
-                    <v-icon color="success" v-if="result.ec && !hasMissingField">mdi-check</v-icon>
-                    <v-icon color="error" v-else>mdi-alert-circle</v-icon>
+                    <v-icon v-if="result.ec && !hasMissingField" color="success">
+                      mdi-check
+                    </v-icon>
+                    <v-icon v-else color="error">
+                      mdi-alert-circle
+                    </v-icon>
                   </template>
                   <v-card>
                     <v-card-text v-if="hasMissingField">

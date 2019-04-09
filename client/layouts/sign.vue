@@ -47,7 +47,7 @@
                       </v-avatar>
                       {{ $t('ui.pages.index.simpleTool') }}
                     </v-chip>
-                    <span v-html="$t('ui.pages.index.fewClicksToInstall')" />
+                    <span v-text="$t('ui.pages.index.fewClicksToInstall')" />
                   </v-tooltip>
                   <v-tooltip bottom>
                     <v-chip slot="activator">
@@ -58,7 +58,7 @@
                       </v-avatar>
                       {{ $t('ui.pages.index.availableTeam') }}
                     </v-chip>
-                    <span v-html="$t('ui.pages.index.contactUs')" />
+                    <span v-text="$t('ui.pages.index.contactUs')" />
                   </v-tooltip>
                   <v-tooltip bottom>
                     <v-chip slot="activator">
@@ -69,7 +69,7 @@
                       </v-avatar>
                       {{ $t('ui.pages.index.growingCommunity') }}
                     </v-chip>
-                    <span v-html="$t('ui.pages.index.notOnlyFrench')" />
+                    <span v-text="$t('ui.pages.index.notOnlyFrench')" />
                   </v-tooltip>
                 </v-card-text>
               </v-card>
@@ -100,14 +100,14 @@
                 src="~/assets/img/logo.png"
                 alt="ezPAARSE"
               >
-              <p v-html="$t('ui.pages.index.singinEasy')" />
+              <p v-text="$t('ui.pages.index.signInEasy')" />
               <v-alert
                 v-if="appInfos.demo"
                 :value="true"
                 color="info"
               >
                 <h3>{{ $t('ui.pages.index.demoHeader') }}</h3>
-                <p v-html="$t('ui.pages.index.demoText')"></p>
+                <p>{{ $t('ui.pages.index.demoText') }}</p>
               </v-alert>
 
               <nuxt />

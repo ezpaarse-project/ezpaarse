@@ -13,13 +13,13 @@
 
     <v-card-text>
       <p><strong>{{ $t('ui.pages.admin.updates.resources') }}</strong></p>
-      <p v-html="$t('ui.pages.admin.updates.predefinedParameters')" />
+      <p v-text="$t('ui.pages.admin.updates.predefinedParameters')" />
       <p>
         <v-alert
           v-if="resources['local-commits'] || resources['local-changes']"
           :value="true"
           color="red lighten-2"
-          v-html="$t('ui.pages.admin.updates.repoLocalChanges', { repo: 'resources' })"
+          v-text="$t('ui.pages.admin.updates.repoLocalChanges', { repo: 'resources' })"
         />
         <strong>{{ $t('ui.currentVersion') }}</strong> :
         <v-tooltip
@@ -70,7 +70,7 @@
             v-if="middlewares['local-commits'] || middlewares['local-changes']"
             :value="true"
             color="red lighten-2"
-            v-html="$t('ui.pages.admin.updates.repoLocalChanges', { repo: 'middlewares' })"
+            v-text="$t('ui.pages.admin.updates.repoLocalChanges', { repo: 'middlewares' })"
           />
           <strong>{{ $t('ui.currentVersion') }}</strong> :
           <v-tooltip

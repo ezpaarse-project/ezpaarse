@@ -7,7 +7,7 @@
     <v-card-text>
       <p v-html="$t('ui.pages.admin.jobs.currentProcess', { process: jobs.length })"/>
 
-      <v-flex xs12 sm12 v-if="treatments.length > 0">
+      <v-flex v-if="treatments.length > 0" xs12>
         <v-text-field
           v-model="search"
           append-icon="mdi-magnify"
@@ -25,45 +25,61 @@
         item-key="id"
       >
         <template slot="items" slot-scope="props">
-          <td class="text-xs-left">{{ props.item.userId }}</td>
+          <td class="text-xs-left">
+            {{ props.item.userId }}
+          </td>
           <td class="text-xs-left">
             <router-link
               :to="{ path: `/report/${props.item.jobId}` }"
               target="_blank"
-            >{{ props.item.jobId }}</router-link>
+            >
+              {{ props.item.jobId }}
+            </router-link>
           </td>
-          <td class="text-xs-left">{{ createdAt(props.item.createdAt) }}</td>
+          <td class="text-xs-left">
+            {{ createdAt(props.item.createdAt) }}
+          </td>
           <td class="text-xs-left">
             <v-chip
               v-if="props.item.status === 'completed'"
               label
               color="green"
               text-color="white"
-            >{{ $t('ui.pages.admin.jobs.process.completed') }}</v-chip>
+            >
+              {{ $t('ui.pages.admin.jobs.process.completed') }}
+            </v-chip>
             <v-chip
               v-else-if="props.item.status === 'abort'"
               label
               color="blue-grey darken-4"
               text-color="white"
-            >{{ $t('ui.pages.admin.jobs.process.abort') }}</v-chip>
+            >
+              {{ $t('ui.pages.admin.jobs.process.abort') }}
+            </v-chip>
             <v-chip
               v-else-if="props.item.status === 'error'"
               label
               color="red"
               text-color="white"
-            >{{ $t('ui.pages.admin.jobs.process.error') }}</v-chip>
+            >
+              {{ $t('ui.pages.admin.jobs.process.error') }}
+            </v-chip>
             <v-chip
               v-else-if="props.item.status === 'started'"
               label
               color="teal"
               text-color="white"
-            >{{ $t('ui.pages.admin.jobs.process.started') }}</v-chip>
+            >
+              {{ $t('ui.pages.admin.jobs.process.started') }}
+            </v-chip>
             <v-chip
               v-else
               label
               color="primary"
               text-color="white"
-            >{{ props.item.status }}</v-chip>
+            >
+              {{ props.item.status }}
+            </v-chip>
           </td>
         </template>
         <v-alert
@@ -89,10 +105,30 @@ export default {
     return {
       search: '',
       headers: [
-        { text: this.$t('ui.pages.admin.jobs.process.userId'), align: 'left', sortable: true, value: 'userId' },
-        { text: this.$t('ui.pages.admin.jobs.process.jobId'), align: 'left', sortable: false, value: 'jobId' },
-        { text: this.$t('ui.pages.admin.jobs.process.createdAt'), align: 'left', sortable: true, value: 'createdAt' },
-        { text: this.$t('ui.pages.admin.jobs.process.state'), align: 'left', sortable: true, value: 'status' }
+        {
+          text: this.$t('ui.pages.admin.jobs.process.userId'),
+          align: 'left',
+          sortable: true,
+          value: 'userId'
+        },
+        {
+          text: this.$t('ui.pages.admin.jobs.process.jobId'),
+          align: 'left',
+          sortable: false,
+          value: 'jobId'
+        },
+        {
+          text: this.$t('ui.pages.admin.jobs.process.createdAt'),
+          align: 'left',
+          sortable: true,
+          value: 'createdAt'
+        },
+        {
+          text: this.$t('ui.pages.admin.jobs.process.state'),
+          align: 'left',
+          sortable: true,
+          value: 'status'
+        }
       ]
     };
   },

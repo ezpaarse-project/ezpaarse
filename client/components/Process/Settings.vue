@@ -40,13 +40,21 @@
             <v-toolbar-title>{{ $t('ui.pages.process.settings.title') }}</v-toolbar-title>
             <v-spacer />
             <v-toolbar-items class="hidden-xs-only">
-              <v-btn flat @click="openSaveDialog">{{ $t('ui.save') }}</v-btn>
-              <v-btn flat @click="resetSettings">{{ $t('ui.reset') }}</v-btn>
+              <v-btn flat @click="openSaveDialog">
+                {{ $t('ui.save') }}
+              </v-btn>
+              <v-btn flat @click="resetSettings">
+                {{ $t('ui.reset') }}
+              </v-btn>
             </v-toolbar-items>
 
             <v-toolbar-items class="hidden-sm-and-up">
-              <v-btn icon flat @click="openSaveDialog"><v-icon>mdi-content-save</v-icon></v-btn>
-              <v-btn icon flat @click="resetSettings"><v-icon>mdi-undo-variant</v-icon></v-btn>
+              <v-btn icon flat @click="openSaveDialog">
+                <v-icon>mdi-content-save</v-icon>
+              </v-btn>
+              <v-btn icon flat @click="resetSettings">
+                <v-icon>mdi-undo-variant</v-icon>
+              </v-btn>
             </v-toolbar-items>
           </v-toolbar>
 
@@ -284,7 +292,9 @@
                               :href="`https://ezpaarse.readthedocs.io/en/master/configuration/parametres.html#${item.anchor}`"
                               target="_blank"
                             >
-                              <v-icon color="accent">mdi-information</v-icon>
+                              <v-icon color="accent">
+                                mdi-information
+                              </v-icon>
                             </v-btn>
                           </v-list-tile-action>
                         </template>
@@ -305,7 +315,10 @@
 
                   <div class="text-xs-center">
                     <v-btn color="accent" @click="addHeader">
-                      <v-icon left>mdi-plus</v-icon> {{ $t('ui.add') }}
+                      <v-icon left>
+                        mdi-plus
+                      </v-icon>
+                      {{ $t('ui.add') }}
                     </v-btn>
                   </div>
                 </v-card-text>

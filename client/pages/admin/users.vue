@@ -9,15 +9,13 @@
       <v-toolbar-title>
         {{ $t('ui.pages.admin.users.title') }}
       </v-toolbar-title>
-      <v-spacer></v-spacer>
+      <v-spacer />
       <v-tooltip left>
-        <v-btn fab flat small icon slot="activator" @click="dialog = true; user = {
-          username: null,
-          password: null,
-          group: null
-        }">
-          <v-icon>mdi-account-plus</v-icon>
-        </v-btn>
+        <template v-slot:activator="{ on }">
+          <v-btn fab flat small icon v-on="on" @click="openAddDialog">
+            <v-icon>mdi-account-plus</v-icon>
+          </v-btn>
+        </template>
         <span>{{ $t('ui.pages.admin.users.addUser') }}</span>
       </v-tooltip>
     </v-toolbar>
@@ -60,12 +58,14 @@
               slot-scope="props"
             >
               <td class="layout justify-center">
-                <v-icon v-if="$auth.user.username !== props.item.username" small @click="removeUser(props.item.username)">
-                  mdi-delete
-                </v-icon>
-                <v-icon v-if="$auth.user.username !== props.item.username" small @click="dialog = true; user = props.item;">
-                  mdi-pencil
-                </v-icon>
+                <template v-if="$auth.user.username !== props.item.username">
+                  <v-icon small @click="removeUser(props.item.username)">
+                    mdi-delete
+                  </v-icon>
+                  <v-icon small @click="dialog = true; user = props.item;">
+                    mdi-pencil
+                  </v-icon>
+                </template>
               </td>
               <td>
                 {{ props.item.username }}
@@ -86,9 +86,9 @@
     </v-card-text>
 
     <v-dialog
-      @keydown.esc="dialog = false"
       v-model="dialog"
       width="600"
+      @keydown.esc="dialog = false"
     >
       <v-card>
         <v-card-title
@@ -132,7 +132,7 @@
           <v-btn flat @click="dialog = false">
             {{ $t('ui.close') }}
           </v-btn>
-          <v-btn color="primary" @click="saveOrEdit(); dialog = false" :disabled="disabled">
+          <v-btn color="primary" :disabled="disabled" @click="saveOrEdit()">
             {{ $t('ui.save') }}
           </v-btn>
         </v-card-actions>
@@ -223,44 +223,58 @@ export default {
     }
   },
   methods: {
-    saveOrEdit () {
+    openAddDialog () {
+      this.dialog = true;
+      this.user = {
+        username: null,
+        password: null,
+        group: null
+      };
+    },
+    async saveOrEdit () {
       if (this.user._id) {
-        this.$store.dispatch('EDIT_USER', {
+        const data = {
           userid: this.user.username,
           username: this.currentUser.username,
           group: this.currentUser.group
-        }).then(() => {
-          this.$store.dispatch('snacks/info', this.$t('ui.pages.admin.users.updatingInformationOf', {
-            email: this.currentUser.username
-          }));
+        };
 
-          this.$store.dispatch('GET_USERS_LIST').catch(err => {
-            return this.$store.dispatch('snacks/error', `E${err.response.status} - ${this.$t('ui.errors.cannotLoadUsersList')}`);
-          });
+        try {
+          await this.$store.dispatch('EDIT_USER', data);
+        } catch (e) {
+          this.$store.dispatch('snacks/error', `E${e.response.status} - ${this.$t(`ui.errors.${e.response.data.message}`)}`);
+          return;
+        }
 
-          this.currentUser = {};
-          return this.user = {};
-        }).catch(err => {
-          return this.$store.dispatch('snacks/error', `E${err.response.status} - ${this.$t(`ui.errors.${err.response.data.message}`)}`);
-        });
-      }
+        this.$store.dispatch('snacks/info', this.$t('ui.pages.admin.users.updatingInformationOf', {
+          email: this.currentUser.username
+        }));
 
-      if (!this.user._id) {
+        this.user = {};
+      } else {
         const data = {
           userid: this.currentUser.username,
           group: this.currentUser.group,
           password: this.currentUser.password
         };
-        this.$store.dispatch('ADD_USER', data).then(() => {
-          this.$store.dispatch('GET_USERS_LIST').catch(err => {
-            return this.$store.dispatch('snacks/error', `E${err.response.status} - ${this.$t('ui.errors.cannotLoadUsersList')}`);
-          });
 
-          return this.currentUser = {};
-        }).catch(err => {
-          return this.$store.dispatch('snacks/error', `E${err.response.status} - ${this.$t(`ui.errors.${err.response.data.message}`)}`);
-        });
+        try {
+          await this.$store.dispatch('ADD_USER', data);
+        } catch (e) {
+          this.$store.dispatch('snacks/error', `E${e.response.status} - ${this.$t(`ui.errors.${e.response.data.message}`)}`);
+          return;
+        }
       }
+
+      try {
+        await this.$store.dispatch('GET_USERS_LIST');
+      } catch (e) {
+        this.$store.dispatch('snacks/error', `E${e.response.status} - ${this.$t('ui.errors.cannotLoadUsersList')}`);
+        return;
+      }
+
+      this.dialog = false;
+      this.currentUser = {};
     },
     removeUser (userid) {
       if (userid === this.$auth.user.username) {

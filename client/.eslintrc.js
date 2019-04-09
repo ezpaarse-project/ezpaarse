@@ -24,6 +24,7 @@ module.exports = {
     'prefer-template': 1,
     'arrow-parens': 0, // allow paren-less arrow functions
     'no-console': 2, // do not allow console.logs
+    'vue/order-in-components': 0, // for fetch prop
     'no-multi-spaces': [2, {
       exceptions: {
         VariableDeclarator: true,

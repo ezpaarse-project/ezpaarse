@@ -42,7 +42,7 @@
               v-if="platforms['local-commits'] || platforms['local-changes']"
               :value="true"
               color="red lighten-2"
-              v-html="$t('ui.pages.admin.updates.repoLocalChanges', { repo: 'platforms' })"
+              v-text="$t('ui.pages.admin.updates.repoLocalChanges', { repo: 'platforms' })"
             />
             <v-tooltip
               v-if="platforms['from-head'] === 'outdated'"
@@ -231,12 +231,16 @@ export default {
     };
   },
   async fetch ({ store }) {
-    try { await store.dispatch('GET_PLATFORMS'); } catch (e) {
-      await store.dispatch('snacks/error', `E${err.response.status} - ${this.$t('ui.errors.cannotGetPlatforms')}`);
+    try {
+      await store.dispatch('GET_PLATFORMS');
+    } catch (e) {
+      await store.dispatch('snacks/error', `E${e.response.status} - ${this.$t('ui.errors.cannotGetPlatforms')}`);
     }
 
-    try { await store.dispatch('GET_PLATFORMS_CHANGED'); } catch (e) {
-      await store.dispatch('snacks/error', `E${err.response.status} - ${this.$t('ui.errors.cannotGetPlatformsChanged')}`);
+    try {
+      await store.dispatch('GET_PLATFORMS_CHANGED');
+    } catch (e) {
+      await store.dispatch('snacks/error', `E${e.response.status} - ${this.$t('ui.errors.cannotGetPlatformsChanged')}`);
     }
   },
   computed: {

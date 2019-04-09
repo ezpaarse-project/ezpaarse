@@ -24,7 +24,12 @@
 
 <script>
 export default {
-  props: ['error'],
+  props: {
+    error: {
+      type: Object,
+      default: () => ({})
+    }
+  },
   layout: ({ app }) => (app.$auth.user ? 'default' : 'sign')
 };
 </script>

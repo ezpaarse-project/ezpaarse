@@ -61,7 +61,12 @@
 
 <script>
 export default {
-  props: ['userNumber'],
+  props: {
+    userNumber: {
+      type: Number,
+      default: () => 0
+    }
+  },
   data () {
     return {
       credentials: {
@@ -73,28 +78,31 @@ export default {
     };
   },
   methods: {
-    signup () {
+    async signup () {
       if (this.userNumber <= 0 && this.informTeam) {
         this.$store.dispatch('FRESHINSTALL', { mail: this.credentials.userid.trim() });
       }
-      return this.$store.dispatch('REGISTER', {
-        userid: this.credentials.userid.trim(),
-        password: this.credentials.password.trim(),
-        confirm: this.credentials.confirm.trim()
-      }).then(() => {
-        this.$auth.loginWith('local', {
-          data: {
-            userid: this.credentials.userid.trim(),
-            password: this.credentials.password.trim()
-          }
-        }).then(() => {
-          return this.$router.push('/process');
+
+      try {
+        await this.$store.dispatch('REGISTER', {
+          userid: this.credentials.userid.trim(),
+          password: this.credentials.password.trim(),
+          confirm: this.credentials.confirm.trim()
         });
-      }).catch(err => {
-        let message = this.$t('ui.errors.cannotRegister');
-        if (err.response.data.message) message = err.response.data.message;
-        this.$store.dispatch('snacks/error', `E${err.response.status} - ${message}`);
+      } catch (e) {
+        const message = e.response.data.message || this.$t('ui.errors.cannotRegister');
+        this.$store.dispatch('snacks/error', `E${e.response.status} - ${message}`);
+        return;
+      }
+
+      await this.$auth.loginWith('local', {
+        data: {
+          userid: this.credentials.userid.trim(),
+          password: this.credentials.password.trim()
+        }
       });
+
+      this.$router.push('/process');
     }
   }
 };
