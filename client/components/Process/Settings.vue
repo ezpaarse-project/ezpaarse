@@ -378,13 +378,13 @@
           <v-card-actions>
             <v-spacer />
             <v-btn
-              color="error"
+              flat
               @click="saveDialog = false"
             >
               {{ $t('ui.close') }}
             </v-btn>
             <v-btn
-              color="success"
+              color="primary"
               type="submit"
               :loading="saveForm.saving"
               :disabled="!saveForm.isValid"
