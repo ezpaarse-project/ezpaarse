@@ -107,7 +107,7 @@
                 color="info"
               >
                 <h3>{{ $t('ui.pages.index.demoHeader') }}</h3>
-                <p>{{ $t('ui.pages.index.demoText') }}</p>
+                <div>{{ $t('ui.pages.index.demoText') }}</div>
               </v-alert>
 
               <nuxt />
