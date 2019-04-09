@@ -88,10 +88,13 @@
           "defaultParams": "Reset settings",
           "paramsSaved": "Successfully saved settings",
           "deleted": "Setting deleted",
-          "nameUnavailable": "This name is unavailable !",
           "savePredefinedSettings": "Save settings",
           "modified": "modified",
-          "saveAsNew": "Save as new custom predefined settings"
+          "saveAsNew": "Save as new configuration",
+          "nameUnavailable": "This name is unavailable",
+          "identifierUnavailable": "This identifier is unavailable",
+          "fullNameRequired": "Name is required",
+          "identifierRequired": "Identifier is required"
         },
         "logFiles": {
           "clickToAdd": "Click or Drop to add",
@@ -313,6 +316,7 @@
     "nameFile": "File name",
     "name": "Name",
     "value": "Value",
+    "identifier": "Identifier",
     "country": "Country",
     "files": "Files",
     "filesName": "Files name",

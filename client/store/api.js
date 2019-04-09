@@ -1,5 +1,3 @@
-/* eslint no-console: 0 */
-
 const api = {};
 
 api.register = (axios, data) => axios.post('/api/admin/register', data).then(res => res.data);
@@ -60,14 +58,13 @@ api.getLogging = (axios, uuid) => axios.get(`/api/logs/${uuid}/job-traces.log`).
 
 api.getLogParser = (axios, data) => axios.put('/api/format/logparser', data).then(res => res.data);
 
-api.savecustomSettings = (axios, data) => axios.post('/api/info/predefined-settings/custom', { settings: data }).then(res => res.data);
+api.saveCustomSettings = (axios, data) => axios.post('/api/info/predefined-settings/custom', { settings: data }).then(res => res.data);
 
-/* eslint-disable-next-line */
-api.updatecustomSettings = (axios, data) => axios.put(`api/info/predefined-settings/custom/${data._id}`, { settings: data }).then(res => res.data);
+api.updateCustomSettings = (axios, settings) => axios.put(`api/info/predefined-settings/custom/${settings.id}`, { settings }).then(res => res.data);
 
-api.getcustomSettings = (axios) => axios.get('/api/info/predefined-settings/custom').then(res => res.data);
+api.getCustomSettings = (axios) => axios.get('/api/info/predefined-settings/custom').then(res => res.data);
 
-api.removecustomSettings = (axios, data) => axios.delete(`/api/info/predefined-settings/custom/${data.id}`).then(res => res.data);
+api.removeCustomSettings = (axios, id) => axios.delete(`/api/info/predefined-settings/custom/${id}`).then(res => res.data);
 
 api.getTreatmentsByUser = (axios, userId) => axios.get(`/api/jobs/${userId}`).then(res => res.data);
 

@@ -4,6 +4,7 @@ import api from './api';
 
 const defaultSettings = {
   fullName: '',
+  country: '',
   headers: [],
   cryptedFields: ['host', 'login'],
   dateFormat: '',
@@ -13,11 +14,9 @@ const defaultSettings = {
   outputFormat: 'text/csv',
   tracesLevel: 'info',
   counterReports: [],
-  notifications: [],
-  outputFields: {
-    plus: [],
-    minus: []
-  }
+  notificationMails: [],
+  addedFields: [],
+  removedFields: []
 };
 
 /**
@@ -30,17 +29,46 @@ function parseSettings (predefined) {
 
   const settings = JSON.parse(JSON.stringify(defaultSettings));
 
-  // Lowercase headers
+  settings.fullName = predefined.fullName;
+  settings.country = predefined.country;
+  settings.predefined = predefined.predefined;
+  settings.id = predefined.id;
+
+  // Index headers by lowercased name
   const headers = {};
   Object.entries(predefined.headers).forEach(([name, value]) => {
     headers[name.toLowerCase()] = { name, value };
   });
 
+  if (headers['date-format']) {
+    settings.dateFormat = headers['date-format'].value;
+    delete headers['date-format'];
+  }
+  if (headers['force-parser']) {
+    settings.forceParser = headers['force-parser'].value;
+    delete headers['force-parser'];
+  }
+  if (headers['traces-level']) {
+    settings.tracesLevel = headers['traces-level'].value;
+    delete headers['traces-level'];
+  }
+
+  if (headers['accept']) {
+    const { value } = headers['accept'];
+    if (['application/json', 'text/csv', 'text/tab-separated-values'].indexOf(value) !== -1) {
+      settings.outputFormat = value;
+      delete headers['accept'];
+    }
+  }
+
   if (headers['output-fields']) {
     const outputFields = headers['output-fields'].value.split(',').map(f => f.trim()).filter(f => f);
     outputFields.forEach(field => {
-      const type = field.charAt(0) === '-' ? 'minus' : 'plus';
-      settings.outputFields[type].push(field.substr(1));
+      if (field.charAt(0) === '-') {
+        settings.removedFields.push(field.substr(1));
+      } else {
+        settings.addedFields.push(field.substr(1));
+      }
     });
 
     delete headers['output-fields'];
@@ -56,6 +84,26 @@ function parseSettings (predefined) {
     }
 
     delete headers['crypted-fields'];
+  }
+
+  if (headers['counter-reports']) {
+    settings.counterReports = headers['counter-reports'].value.split(',').map(r => r.trim());
+    delete headers['counter-reports'];
+  }
+
+  if (headers['ezpaarse-job-notifications']) {
+    const { value } = headers['ezpaarse-job-notifications'];
+    const reg = /mail<(.+?)>/g;
+
+    settings.notificationMails = [];
+    let match = reg.exec(value);
+
+    while (match) {
+      settings.notificationMails.push(match[1]);
+      match = reg.exec(value);
+    }
+
+    delete headers['ezpaarse-job-notifications'];
   }
 
   Object.values(headers).forEach(({ name, value }) => {
@@ -80,6 +128,7 @@ function getHeaders (settings) {
   if (settings.outputFormat) { headers['Accept'] = settings.outputFormat; }
   if (settings.forceParser) { headers['Force-Parser'] = settings.forceParser; }
   if (settings.dateFormat) { headers['Date-Format'] = settings.dateFormat; }
+  if (settings.tracesLevel) { headers['Traces-Level'] = settings.tracesLevel; }
 
   if (settings.logType && settings.logFormat) {
     headers[`Log-Format-${settings.logType}`] = settings.logFormat;
@@ -93,7 +142,7 @@ function getHeaders (settings) {
 
   // Create notification header
   if (settings.notificationMails) {
-    headers['ezPAARSE-Job-Notifications'] = settings.notifications.map(mail => `mail<${mail.trim()}>`).join(',');
+    headers['ezPAARSE-Job-Notifications'] = settings.notificationMails.map(mail => `mail<${mail.trim()}>`).join(',');
   }
 
   if (settings.cryptedFields && settings.cryptedFields.length > 0) {
@@ -103,10 +152,9 @@ function getHeaders (settings) {
   }
 
   // Create Output-Fields headers
-  if (settings.outputFields) {
-    let { plus, minus } = settings.outputFields;
-    plus = (plus || []).map(f => `+${f}`);
-    minus = (minus || []).map(f => `-${f}`);
+  if (settings.addedFields || settings.removedFields) {
+    const plus = (settings.addedFields || []).map(f => `+${f}`);
+    const minus = (settings.removedFields || []).map(f => `-${f}`);
 
     if ((plus.length + minus.length) > 0) {
       headers['Output-Fields'] = plus.concat(minus).join(',');
@@ -137,8 +185,6 @@ export default {
   state: {
     predefinedSettings: [],
     customSettings: [],
-    settingsIsModified: false,
-    selectedSetting: null,
     countries: [],
     treatments: [],
     settings: JSON.parse(JSON.stringify(defaultSettings))
@@ -148,12 +194,12 @@ export default {
       return state.predefinedSettings.concat(state.customSettings);
     },
     hasBeenModified (state) {
-      if (!state.selectedSetting) {
+      if (!state.settings.id) {
         return !isEqual(state.settings, defaultSettings);
       }
 
       const allSettings = state.predefinedSettings.concat(state.customSettings);
-      const selectedSetting = allSettings.find(s => s.id === state.selectedSetting);
+      const selectedSetting = allSettings.find(s => s.id === state.settings.id);
       return !isEqual(state.settings, parseSettings(selectedSetting));
     }
   },
@@ -164,34 +210,37 @@ export default {
     SET_CUSTOM_SETTINGS (state, data) {
       Vue.set(state, 'customSettings', data);
     },
-    SET_SETTINGS_IS_MODIFIED (state, data) {
-      Vue.set(state, 'settingsIsModified', data);
-    },
     SET_COUNTRIES (state, data) {
       Vue.set(state, 'countries', data);
     },
     SET_SETTINGS (state, settings) {
       Vue.set(state, 'settings', settings);
-    },
-    SET_SELECTED_SETTING (state, key) {
-      Vue.set(state, 'selectedSetting', key);
     }
   },
   actions: {
     async GET_PREDEFINED_SETTINGS ({ commit }) {
       const data = await api.getPredefinedSettings(this.$axios);
       // Change object into an array with key as ID
-      const settings = Object.entries(data).map(([id, setting]) => ({ ...setting, id }));
+      const settings = Object.entries(data).map(([id, setting]) => ({
+        id,
+        ...setting,
+        predefined: true
+      }));
 
       commit('SET_PREDEFINED_SETTINGS', settings);
-      commit('SET_CUSTOM_SETTINGS', await api.getcustomSettings(this.$axios));
+      commit('SET_CUSTOM_SETTINGS', await api.getCustomSettings(this.$axios));
     },
-    APPLY_PREDEFINED_SETTINGS ({ commit, getters }, key) {
+    async GET_CUSTOM_PREDEFINED_SETTINGS ({ commit }) {
+      const data = await api.getCustomSettings(this.$axios);
+      commit('SET_CUSTOM_SETTINGS', data.map(d => parseSettings(d)));
+    },
+    APPLY_PREDEFINED_SETTINGS ({ commit, getters, dispatch }, key) {
       const settings = getters.allSettings.find(s => s.id === key);
 
       if (settings) {
         commit('SET_SETTINGS', parseSettings(settings));
-        commit('SET_SELECTED_SETTING', key);
+      } else {
+        dispatch('RESET_SETTINGS');
       }
     },
     GET_HEADERS ({ state }) {
@@ -199,34 +248,32 @@ export default {
     },
     RESET_SETTINGS ({ commit }) {
       commit('SET_SETTINGS', JSON.parse(JSON.stringify(defaultSettings)));
-      commit('SET_SELECTED_SETTING', null);
     },
-    SAVE_CUSTOM_PREDEFINED_SETTINGS (ctx, data) {
-      return api.savecustomSettings(this.$axios, data);
-    },
-    UPDATE_CUSTOM_PREDEFINED_SETTINGS (ctx, data) {
-      return api.updatecustomSettings(this.$axios, data);
-    },
-    GET_CUSTOM_PREDEFINED_SETTINGS ({ commit }) {
-      return api.getcustomSettings(this.$axios).then(res => {
-        const customSettings = res.map(setting => {
-          /* eslint-disable-next-line */
-          setting.settings.id = setting._id;
-          return setting.settings;
-        });
-        commit('SET_CUSTOM_SETTINGS', customSettings);
+    SAVE_CUSTOM_PREDEFINED_SETTINGS (ctx, settings) {
+      const { id, fullName, country } = settings;
+      return api.saveCustomSettings(this.$axios, {
+        id,
+        fullName,
+        country,
+        headers: getHeaders(settings)
       });
     },
-    GET_COUNTRIES ({ commit }) {
-      return api.getCountries(this.$axios).then(res => {
-        commit('SET_COUNTRIES', res);
+    UPDATE_CUSTOM_PREDEFINED_SETTINGS (ctx, settings) {
+      const { id, fullName, country } = settings;
+      return api.updateCustomSettings(this.$axios, {
+        id,
+        fullName,
+        country,
+        headers: getHeaders(settings)
       });
     },
-    REMOVE_CUSTOM_PREDEFINED_SETTINGS (ctx, data) {
-      return api.removecustomSettings(this.$axios, data);
+    async GET_COUNTRIES ({ commit }) {
+      commit('SET_COUNTRIES', await api.getCountries(this.$axios));
     },
-    SET_SETTINGS_IS_MODIFIED ({ commit }, data) {
-      commit('SET_SETTINGS_IS_MODIFIED', data);
+    async REMOVE_CUSTOM_PREDEFINED_SETTINGS ({ commit, dispatch, state }, id) {
+      await api.removeCustomSettings(this.$axios, id);
+      commit('SET_CUSTOM_SETTINGS', state.customSettings.filter(s => s.id !== id));
+      dispatch('RESET_SETTINGS');
     }
   }
 };

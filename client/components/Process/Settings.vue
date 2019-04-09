@@ -20,8 +20,13 @@
           <template v-slot:item="{ item }">
             <v-list-tile-content>
               <v-list-tile-title v-text="item.fullName" />
-              <v-list-tile-sub-title v-text="item.country" />
+              <v-list-tile-sub-title>
+                {{ item.country }}
+              </v-list-tile-sub-title>
             </v-list-tile-content>
+            <v-list-tile-action>
+              <v-list-tile-action-text>{{ item.id }}</v-list-tile-action-text>
+            </v-list-tile-action>
           </template>
         </v-autocomplete>
       </v-flex>
@@ -35,12 +40,12 @@
             <v-toolbar-title>{{ $t('ui.pages.process.settings.title') }}</v-toolbar-title>
             <v-spacer />
             <v-toolbar-items class="hidden-xs-only">
-              <v-btn flat @click="modal = true">{{ $t('ui.save') }}</v-btn>
+              <v-btn flat @click="openSaveDialog">{{ $t('ui.save') }}</v-btn>
               <v-btn flat @click="resetSettings">{{ $t('ui.reset') }}</v-btn>
             </v-toolbar-items>
 
             <v-toolbar-items class="hidden-sm-and-up">
-              <v-btn icon flat @click="modal = true"><v-icon>mdi-content-save</v-icon></v-btn>
+              <v-btn icon flat @click="openSaveDialog"><v-icon>mdi-content-save</v-icon></v-btn>
               <v-btn icon flat @click="resetSettings"><v-icon>mdi-undo-variant</v-icon></v-btn>
             </v-toolbar-items>
           </v-toolbar>
@@ -127,7 +132,7 @@
 
                     <v-flex xs12>
                       <v-combobox
-                        v-model="settings.notifications"
+                        v-model="settings.notificationMails"
                         :label="$t('ui.pages.process.settings.notificationsEmails')"
                         chips
                         clearable
@@ -152,8 +157,8 @@
                     <v-flex xs12>
                       <v-checkbox
                         v-model="settings.counterReports"
+                        value="jr1"
                         :label="$t('ui.pages.process.settings.counterReports')"
-                        @change="updateCounterFormat"
                       />
                     </v-flex>
 
@@ -162,7 +167,7 @@
                     </v-flex>
                     <v-flex xs6>
                       <v-combobox
-                        v-model="settings.outputFields.plus"
+                        v-model="settings.addedFields"
                         :label="$t('ui.pages.process.settings.add')"
                         chips
                         clearable
@@ -189,7 +194,7 @@
                       pl-2
                     >
                       <v-combobox
-                        v-model="settings.outputFields.minus"
+                        v-model="settings.removedFields"
                         chips
                         clearable
                         :label="$t('ui.pages.process.settings.remove')"
@@ -260,6 +265,7 @@
                     <v-flex xs6 md4>
                       <v-combobox
                         v-model="header.name"
+                        :return-object="false"
                         :items="headers"
                         item-text="name"
                         item-value="name"
@@ -311,95 +317,87 @@
     </v-layout>
 
     <v-dialog
-      v-model="modal"
+      v-model="saveDialog"
       max-width="600"
     >
-      <v-card>
-        <v-card-title class="headline">
-          {{ $t('ui.pages.process.settings.savePredefinedSettings') }} :
-          {{ settings.fullName }}
-        </v-card-title>
-        <v-card-text>
-          <v-switch
-            v-if="settings._id"
-            v-model="saveAsNew"
-            :label="$t('ui.pages.process.settings.saveAsNew')"
-          />
-          <v-container grid-list-md>
-            <v-layout wrap>
-              <v-flex xs12>
-                <v-text-field
-                  v-model="saveFields.fullName"
-                  :label="$t('ui.name')"
-                  box
-                  name="fullName"
-                  required
-                  :error="fullNameError ? true : false"
-                  :error-messages="fullNameError"
-                />
-              </v-flex>
-              <v-flex xs12>
-                <v-autocomplete
-                  v-model="saveFields.country"
-                  :items="countries"
-                  item-value="en"
-                  :item-text="$i18n.locale"
-                  :label="$t('ui.country')"
-                  :return-object="true"
-                  box
-                  name="country"
-                  required
-                >
-                  <template
-                    slot="item"
-                    slot-scope="data"
-                  >
-                    <v-list-tile-content>
-                      <v-list-tile-title v-html="data.item[$i18n.locale]" />
-                    </v-list-tile-content>
-                  </template>
-                </v-autocomplete>
-              </v-flex>
-            </v-layout>
-          </v-container>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn
-            color="error"
-            @click="modal = false"
-          >
-            {{ $t('ui.close') }}
-          </v-btn>
-          <v-btn
-            color="success"
-            :disabled="disabledButtonSave"
-            @click="saveCustomSettings"
-          >
-            {{ $t('ui.save') }}
-          </v-btn>
-        </v-card-actions>
-      </v-card>
+      <v-form ref="saveForm" v-model="saveForm.isValid" @submit.prevent="saveCustomSettings">
+        <v-card>
+          <v-card-title class="headline">
+            {{ $t('ui.pages.process.settings.savePredefinedSettings') }}
+          </v-card-title>
+          <v-card-text>
+            <v-switch
+              v-if="!settings.predefined && settings.id"
+              v-model="saveAsNew"
+              :label="$t('ui.pages.process.settings.saveAsNew')"
+              @change="validateForm"
+            />
+            <v-text-field
+              v-model="saveForm.fullName"
+              :label="$t('ui.name')"
+              box
+              required
+              :rules="[fullNameRequired, nameIsAvailable]"
+            />
+            <v-text-field
+              v-model="saveForm.id"
+              :label="$t('ui.identifier')"
+              box
+              required
+              :rules="[identifierRequired, identifierIsAvailable]"
+            />
+            <v-autocomplete
+              v-model="saveForm.country"
+              :items="countries"
+              :item-text="$i18n.locale"
+              :label="$t('ui.country')"
+              box
+              clearable
+              item-value="en"
+            >
+              <template v-slot:item="{ item }">
+                <v-list-tile-content>
+                  <v-list-tile-title v-text="item[$i18n.locale]" />
+                </v-list-tile-content>
+              </template>
+            </v-autocomplete>
+          </v-card-text>
+          <v-card-actions>
+            <v-spacer />
+            <v-btn
+              color="error"
+              @click="saveDialog = false"
+            >
+              {{ $t('ui.close') }}
+            </v-btn>
+            <v-btn
+              color="success"
+              type="submit"
+              :loading="saveForm.saving"
+              :disabled="!saveForm.isValid"
+            >
+              {{ $t('ui.save') }}
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-form>
     </v-dialog>
   </v-container>
 </template>
 
 <script>
-import isEqual from 'lodash.isequal';
-
 export default {
   data () {
     return {
-      disabledButton: true,
-      disabledButtonSave: true,
-      displaycustomSettings: false,
-      modal: false,
-      fullNameError: null,
-      saveFields: {
+      saveDialog: false,
+      saveAsNew: true,
+      saveForm: {
+        saving: false,
+        isValid: true,
         fullName: '',
+        id: '',
         country: ''
       },
-      saveAsNew: false,
       logTypes: [
         { value: '', text: 'Auto recognition' },
         { value: 'ezproxy', text: 'EZproxy' },
@@ -488,7 +486,7 @@ export default {
   },
   computed: {
     selectedSetting: {
-      get () { return this.$store.state.settings.selectedSetting; },
+      get () { return this.settings.id; },
       set (key) {
         if (key) {
           this.$store.dispatch('settings/APPLY_PREDEFINED_SETTINGS', key);
@@ -497,135 +495,116 @@ export default {
         }
       }
     },
-    settings () { return this.$store.state.settings.settings; },
+    settings () { return this.$store.state.settings.settings || {}; },
     predefinedSettings () { return this.$store.state.settings.predefinedSettings || []; },
     customSettings () { return this.$store.state.settings.customSettings || []; },
     countries () { return this.$store.state.settings.countries; },
-    settingsIsModified: {
-      get () { return this.$store.state.settings.settingsIsModified; },
-      set (newVal) { return this.$store.dispatch('settings/SET_SETTINGS_IS_MODIFIED', newVal); }
-    },
     allSettings () {
-      let items = [
+      return [
         { header: this.$t('ui.pages.process.settings.customSettings') },
-        ...this.customSettings
+        ...this.customSettings,
+        { divider: true },
+        { header: this.$t('ui.pages.process.settings.predefinedSettings') },
+        ...this.predefinedSettings
       ];
-
-      if (!this.displaycustomSettings) {
-        items = items.concat([
-          { divider: true },
-          { header: this.$t('ui.pages.process.settings.predefinedSettings') },
-          ...this.predefinedSettings
-        ]);
-      }
-
-      return items;
     },
     haveLogFormat () {
       return this.settings.logFormat || this.settings.logType;
     },
     settingsIcon () {
-      if (this.settings && this.settings._id && this.$auth.user.group === 'admin') {
+      if (this.selectedSetting && !this.settings.predefined && this.$auth.user.group === 'admin') {
         return 'mdi-delete';
       }
       return null;
     }
   },
-  watch: {
-    // settings: {
-    //   handler (newVal) {
-    //     let changed;
-
-    //     changed = this.predefinedSettings.find(p => p.fullName === newVal.fullName);
-    //     if (!changed) {
-    //       changed = this.customSettings.find(p => p.fullName === newVal.fullName);
-    //     }
-    //     this.disabledButton = !!isEqual(changed, this.settings);
-    //     if (!this.disabledButton) this.settingsIsModified = true;
-    //     this.saveFields.fullName = this.settings.fullName;
-    //     this.saveFields.country = this.countries.find(country => country.en === this.settings.country) || '';
-    //   },
-    //   deep: true
-    // },
-    // saveFields: {
-    //   handler (newVal) {
-    //     const countryTest = this.saveFields.country.en && this.saveFields.country.en.length > 0;
-    //     if (this.saveFields.fullName.length > 0 && countryTest) {
-    //       this.disabledButtonSave = false;
-    //     }
-
-    //     let exists = this.customSettings.find(p => p.fullName === newVal.fullName);
-    //     if (!exists) exists = this.predefinedSettings.find(p => p.fullName === newVal.fullName);
-    //     if (exists && this.saveAsNew) {
-    //       this.disabledButtonSave = true;
-    //       this.fullNameError = this.$t('ui.pages.process.settings.nameUnavailable');
-    //       return false;
-    //     }
-
-    //     if (exists && this.customSettings.length > 0 && !this.settings._id) {
-    //       this.disabledButtonSave = true;
-    //       this.fullNameError = this.$t('ui.pages.process.settings.nameUnavailable');
-    //       return false;
-    //     }
-
-    //     this.disabledButtonSave = false;
-    //     this.fullNameError = null;
-    //     return true;
-    //   },
-    //   deep: true
-    // },
-    saveAsNew () {
-      if (this.saveAsNew) this.saveFields.fullName = '';
-      if (!this.saveAsNew) this.saveFields.fullName = this.settings.fullName;
-    }
-  },
   methods: {
+    openSaveDialog () {
+      this.$refs.saveForm.resetValidation();
+      this.saveForm.fullName = this.settings.fullName || '';
+      this.saveForm.id = this.settings.id || '';
+      this.saveForm.country = this.settings.country || 'France';
+      this.saveAsNew = this.settings.predefined || !this.settings.id;
+      this.saveDialog = true;
+    },
     removeOutputPlus (index) {
-      this.settings.outputFields.plus.splice(index, 1);
+      this.settings.addedFields.splice(index, 1);
     },
     removeOutputMinus (index) {
-      this.settings.outputFields.minus.splice(index, 1);
+      this.settings.removedFields.splice(index, 1);
     },
     removeCryptedField (value) {
       this.settings.cryptedFields.splice(value, 1);
     },
     removeEmail (index) {
-      this.settings.notifications.splice(index, 1);
+      this.settings.notificationMails.splice(index, 1);
     },
-    addHeader (value) {
-      if (value) {
-        this.settings.headers.push({ header: value, value: null });
-      }
-      this.selectedHeader = null;
+    addHeader () {
+      this.settings.headers.push({ name: '', value: '' });
     },
     removeHeader (index) {
       this.settings.headers.splice(index, 1);
     },
-    updateCounterFormat () {
-      if (this.settings.counterReports) { this.settings.counterFormat = 'tsv'; }
-    },
     resetSettings () {
       this.$store.dispatch('settings/RESET_SETTINGS');
     },
-    informations (header) {
-      let head = header.charAt(0).toUpperCase() + header.slice(1);
-      const match = /^Log-Format-(ezproxy|squid|apache)$/i.exec(head);
-      if (match !== null) {
-        head = 'Log-Format-xxx';
+
+    fullNameRequired (value) {
+      return !!(value && value.trim()) || this.$t('ui.pages.process.settings.fullNameRequired');
+    },
+    identifierRequired (value) {
+      return !!(value && value.trim()) || this.$t('ui.pages.process.settings.identifierRequired');
+    },
+
+    nameIsAvailable (value) {
+      const fullName = (value || '').trim().toLowerCase();
+      const allSettings = this.$store.getters['settings/allSettings'];
+      const matchingSetting = allSettings.find(s => (s.fullName || '').toLowerCase() === fullName);
+
+      if (!matchingSetting) {
+        return true;
       }
-      const anchor = this.headers.find(h => head === h.name);
-      if (anchor) window.open(`https://doc.ezpaarse.org/en/master/configuration/parametres.html#${anchor.anchor}`, '_blank');
+
+      if (matchingSetting.id === this.settings.id) {
+        return !this.saveAsNew || this.$t('ui.pages.process.settings.nameUnavailable');
+      }
+
+      return this.$t('ui.pages.process.settings.nameUnavailable');
+    },
+
+    identifierIsAvailable (value) {
+      const id = (value || '').trim();
+      const allSettings = this.$store.getters['settings/allSettings'];
+      const matchingSetting = allSettings.find(s => s.id === id);
+
+      if (!matchingSetting) {
+        return true;
+      }
+
+      if (matchingSetting.id === this.settings.id) {
+        return !this.saveAsNew || this.$t('ui.pages.process.settings.identifierUnavailable');
+      }
+
+      return this.$t('ui.pages.process.settings.identifierUnavailable');
+    },
+
+    validateForm () {
+      this.$refs.saveForm.validate();
     },
 
     async saveCustomSettings () {
-      const customPs = JSON.parse(JSON.stringify(this.settings));
-      customPs.fullName = this.saveFields.fullName;
-      customPs.country = this.saveFields.country.en;
-
-      let saveAction = (!this.saveAsNew && customPs._id) ? 'UPDATE' : 'SAVE';
+      const newSettings = JSON.parse(JSON.stringify(this.settings));
+      newSettings.predefined = undefined;
+      newSettings.fullName = this.saveForm.fullName;
+      newSettings.id = this.saveForm.id;
+      newSettings.country = this.saveForm.country;
 
       try {
-        await this.$store.dispatch(`process/${saveAction}_CUSTOM_PREDEFINED_SETTINGS`, customPs);
+        if (!newSettings.predefined && newSettings.id && !this.saveAsNew) {
+          await this.$store.dispatch('settings/UPDATE_CUSTOM_PREDEFINED_SETTINGS', newSettings);
+        } else {
+          await this.$store.dispatch('settings/SAVE_CUSTOM_PREDEFINED_SETTINGS', newSettings);
+        }
       } catch ({ response }) {
         const status = (response && response.status) || 500;
         this.$store.dispatch('snacks/error', `E${status} - ${this.$t('ui.errors.errorSavePredefinedSettings')}`);
@@ -634,6 +613,7 @@ export default {
 
       try {
         await this.$store.dispatch('settings/GET_PREDEFINED_SETTINGS');
+        await this.$store.dispatch('settings/APPLY_PREDEFINED_SETTINGS', newSettings.id);
       } catch ({ response }) {
         const status = (response && response.status) || 500;
         const message = (response && response.data && response.data.message) || this.$t('ui.errors.cannotLoadPredefinedSettings');
@@ -641,30 +621,17 @@ export default {
         return;
       }
 
-      // this.settings = customPs;
-      this.modal = false;
-      this.disabledButton = true;
-      this.disabledButtonSave = true;
-      this.saveFields.fullName = '';
-      this.saveFields.country = '';
-      this.settingsIsModified = false;
+      this.saveDialog = false;
+      this.$refs.saveForm.reset();
       this.$store.dispatch('snacks/success', this.$t('ui.pages.process.settings.paramsSaved'));
     },
     async removecustomSettings () {
       try {
-        await this.$store.dispatch('settings/REMOVE_CUSTOM_PREDEFINED_SETTINGS', { id: this.settings._id })
+        await this.$store.dispatch('settings/REMOVE_CUSTOM_PREDEFINED_SETTINGS', this.settings.id);
+        this.$store.dispatch('snacks/success', this.$t('ui.pages.process.settings.deleted'));
       } catch ({ response }) {
         const status = (response && response.status) || 500;
         this.$store.dispatch('snacks/error', `E${status} - ${this.$t('ui.errors.cannotRemovePredefinedSettings')}`);
-      }
-
-      this.$store.dispatch('snacks/success', this.$t('ui.pages.process.settings.deleted'));
-
-      try {
-        await this.$store.dispatch('settings/GET_PREDEFINED_SETTINGS');
-      } catch ({ response }) {
-        const status = (response && response.status) || 500;
-        this.$store.dispatch('snacks/error', `E${status} - ${this.$t('ui.errors.cannotLoadPredefinedSettings')}`);
       }
     }
   }

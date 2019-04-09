@@ -56,9 +56,8 @@ export default {
   },
   actions: {
     async PROCESS ({ commit, rootState, dispatch }, formData) {
-      const headers = await dispatch('settings/GET_HEADERS');
+      const headers = await dispatch('settings/GET_HEADERS', null, { root: true });
       const source = CancelToken.source();
-      const qt = source.token;
 
       commit('SET_QUERY_CANCEL_SOURCE', source);
       commit('SET_STATUS', 'progress');
@@ -68,7 +67,7 @@ export default {
           url: `/${uuid.v1()}`,
           method: 'PUT',
           data: formData,
-          cancelToken: qt,
+          cancelToken: source.token,
           headers: {
             ...headers,
             'Socket-ID': rootState.socket.socketid,
@@ -92,8 +91,9 @@ export default {
         }
       } catch ({ response }) {
         commit('SET_STATUS', 'error');
+        // FIXME: response.data.error
         const status = (response && response.headers && response.headers['ezpaarse-status']) || 500;
-        const message = (response && response.headers && response.headers['ezpaarse-status-message']) || 500;
+        const message = (response && response.headers && response.headers['ezpaarse-status-message']) || 'ui.error';
         commit('SET_ERROR', `${status} : ${message}`);
       } finally {
         commit('SET_PROCESS_PROGRESS', 100);

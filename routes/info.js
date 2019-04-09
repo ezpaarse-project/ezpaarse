@@ -2,17 +2,17 @@
 
 'use strict';
 
-var fs         = require('fs-extra');
-var path       = require('path');
-var uuid       = require('uuid');
-var parserlist = require('../lib/parserlist.js');
-var git        = require('../lib/git-tools.js');
-var config     = require('../lib/config.js');
-var pkg        = require('../package.json');
-var trello     = require('../lib/trello-analogist.js');
-var settings   = require('../lib/custom-predefined-settings.js');
-var bodyParser = require('body-parser');
-var auth       = require('../lib/auth-middlewares.js');
+var fs             = require('fs-extra');
+var path           = require('path');
+var uuid           = require('uuid');
+var parserlist     = require('../lib/parserlist.js');
+var git            = require('../lib/git-tools.js');
+var config         = require('../lib/config.js');
+var pkg            = require('../package.json');
+var trello         = require('../lib/trello-analogist.js');
+var customSettings = require('../lib/custom-predefined-settings.js');
+var bodyParser     = require('body-parser');
+var auth           = require('../lib/auth-middlewares.js');
 
 var statusCodes = require(path.join(__dirname, '/../statuscodes.json'));
 
@@ -359,56 +359,69 @@ app.get('/predefined-settings', function (req, res) {
   });
 });
 
-app.get('/predefined-settings/custom', function (req, res) {
-  settings.getAll(function (err, settings) {
-    if (err) { return res.status(500).end(); }
-
-    return res.status(200).json(settings);
-  });
+app.get('/predefined-settings/custom', function (req, res, next) {
+  customSettings.getAll()
+    .then(settings => res.status(200).json(settings))
+    .catch(next);
 });
 
-/* eslint-disable-next-line */
-app.post('/predefined-settings/custom', bodyParser.urlencoded({ extended: true }), bodyParser.json(), auth.ensureAuthenticated(true), function (req, res) {
-  const settings = req.body.settings;
+app.post('/predefined-settings/custom',
+  bodyParser.json(),
+  auth.ensureAuthenticated(true),
+  function (req, res, next) {
+    const settings = req.body.settings;
 
-  if (!settings) return res.status(406).json({ status: 406, message: 'no_settings_set' });
+    if (!settings) {
+      return res.status(406).json({ status: 406, message: 'no_settings_set' });
+    }
 
-  settings.insert(settings, function (err) {
-    if (err) { return res.status(500).end(); }
-
-    return res.status(200).end();
+    customSettings.insert(settings)
+      .then(() => res.status(200).end())
+      .catch(err => {
+        if (err.message === 'already_exists') {
+          err.status = 409;
+        }
+        next(err);
+      });
   });
-});
 
-/* eslint-disable-next-line */
-app.put('/predefined-settings/custom/:id', bodyParser.urlencoded({ extended: true }), bodyParser.json(), auth.ensureAuthenticated(true), function (req, res) {
-  const id = req.params.id;
-  const settings = req.body.settings;
+app.put('/predefined-settings/custom/:id',
+  bodyParser.json(),
+  auth.ensureAuthenticated(true),
+  function (req, res, next) {
+    const id = req.params.id;
+    const settings = req.body.settings;
 
-  const errors = [];
-  if (!id) errors.push('id');
-  if (!settings) errors.push('settings');
-  if (errors.length > 0) return res.status(406).json({ status: 406, fields: errors });
+    const errors = [];
+    if (!id) { errors.push('id'); }
+    if (!settings) { errors.push('settings'); }
 
-  settings.updateOne(id, settings, function (err) {
-    if (err) { return res.status(500).end(); }
+    if (errors.length > 0) {
+      return res.status(406).json({ status: 406, fields: errors });
+    }
 
-    return res.status(200).end();
+    customSettings.updateOne(id, settings)
+      .then(() => res.status(200).end())
+      .catch(err => {
+        if (err.message === 'already_exists') {
+          err.status = 409;
+        }
+        next(err);
+      });
   });
-});
 
-app.delete('/predefined-settings/custom/:id', auth.ensureAuthenticated(true), function (req, res) {
-  const id = req.params.id;
-  if (!id) return res.status(406).json({ status: 406, message: 'unknown_id' });
+app.delete('/predefined-settings/custom/:id',
+  auth.ensureAuthenticated(true),
+  function (req, res, next) {
+    const id = req.params.id;
+    if (!id) {
+      return res.status(406).json({ status: 406, message: 'unknown_id' });
+    }
 
-  settings.delete(id, function (err) {
-    /* eslint-disable-next-line */
-    if (err && err.message === 'id_invalid') return res.status(409).json({ status: 409, message: err.message });
-    if (err) { return res.status(500).end(); }
-
-    return res.status(200).end();
+    customSettings.delete(id)
+      .then(() => res.status(204).end())
+      .catch(next);
   });
-});
 
 /**
 * GET route on /info/domains/:domain:

@@ -156,8 +156,14 @@ app.use('/', require('./routes/logs'));
 
 // API error handler
 app.use((err, req, res, next) => {
-  res.status(err.status || 500);
-  res.write(isDev ? err.stack : err.message);
+  const error = {
+    status: err.status || 500,
+    error: err.message
+  };
+  if (isDev && error.status >= 500) {
+    error.stack = err.stack;
+  }
+  res.status(error.status).json(error);
   res.end();
 });
 

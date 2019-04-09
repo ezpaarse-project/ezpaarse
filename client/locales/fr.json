@@ -65,7 +65,7 @@
           "customSettings": "Paramètres personnalisés",
           "predefinedSettings": "Paramètres prédéfinis",
           "defaultSettings": "par défaut",
-          "saveSettings": "Mémoiriser mes paramètres",
+          "saveSettings": "Mémoriser mes paramètres",
           "logFiles": "Fichiers de logs",
           "designLogFormat": "Concevoir mon format de log",
           "predefinedConfiguration": "Paramétrage prédéfini",
@@ -88,10 +88,13 @@
           "defaultParams": "Réinitialiser paramètres",
           "paramsSaved": "Paramètres enregistrés",
           "deleted": "Paramètre supprimé",
-          "nameUnavailable": "Ce nom n'est pas disponible !",
-          "savePredefinedSettings": "Sauvegarder paramètres",
+          "savePredefinedSettings": "Sauvegarder les paramètres",
           "modified": "modifié",
-          "saveAsNew": "Enregistrer en tant que nouveaux paramètres prédéfinis personnalisés"
+          "saveAsNew": "Sauvegarder en tant que nouveau paramétrage",
+          "nameUnavailable": "Ce nom n'est pas disponible",
+          "identifierUnavailable": "Cet identifiant n'est pas disponible",
+          "fullNameRequired": "Le nom est requis",
+          "identifierRequired": "L'identifiant est requis"
         },
         "logFiles": {
           "clickToAdd": "Cliquez ou déposez pour ajouter",
@@ -312,6 +315,7 @@
     "nameFile": "Nom du fichier",
     "name": "Nom",
     "value": "Valeur",
+    "identifier": "Identifiant",
     "country": "Pays",
     "files": "Fichiers",
     "filesName": "Nom des fichiers",
