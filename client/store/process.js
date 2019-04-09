@@ -84,7 +84,7 @@ export default {
           }
         });
 
-        if (response && response.statusCode === 200) {
+        if (response && response.status === 200) {
           commit('SET_STATUS', 'end');
         } else {
           commit('SET_STATUS', 'error');
