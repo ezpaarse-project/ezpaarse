@@ -45,7 +45,7 @@
             <v-btn
               large
               color="primary"
-              @click="formStep = 2"
+              @click="setFormStep(2)"
             >
               {{ $t('ui.continue') }}
             </v-btn>
@@ -56,7 +56,7 @@
 
         <v-stepper-content step="2">
           <v-layout row align-center>
-            <v-btn large @click="formStep = 1">
+            <v-btn large @click="setFormStep(1)">
               {{ $t('ui.pages.process.filesSelection') }}
             </v-btn>
 
@@ -154,7 +154,7 @@ export default {
   computed: {
     formStep: {
       get () { return this.$store.state.process.step; },
-      set (value) { return this.$store.dispatch('process/SET_PROCESS_STEP', value); }
+      set (value) { return this.setFormStep(value); }
     },
     logFiles () {
       return this.$store.state.process.logFiles;
@@ -177,8 +177,12 @@ export default {
     }
   },
   methods: {
+    setFormStep (value) {
+      this.$store.dispatch('process/SET_PROCESS_STEP', value);
+    },
     process () {
-      this.formStep = 3;
+      this.$store.dispatch('process/SET_PROCESS_STEP', 3);
+
       const formData = new FormData();
       const sortByName = (a, b) => (a.file.name.toLowerCase() > b.file.name.toLowerCase() ? 1 : -1);
       const files = this.logFiles.sort(sortByName);

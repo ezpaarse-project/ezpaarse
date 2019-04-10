@@ -112,13 +112,20 @@ export default {
       commit('SET_STATUS', 'abort');
     },
     SET_PROCESS_STEP ({ commit, state }, value) {
-      let step = parseInt(value, 10);
+      const { status } = state;
+      let newStep = parseInt(value, 10);
 
-      if (state.status === 'progress' || state.status === 'finalization') {
-        step = 3;
+      if (newStep >= 3 && !status) {
+        newStep = state.step;
+      } else if (status === 'progress' || status === 'finalization') {
+        newStep = 3;
+      } else if (newStep < 0) {
+        newStep = 1;
+      } else if (newStep > 3) {
+        newStep = 3;
       }
 
-      commit('SET_PROCESS_STEP', step);
+      commit('SET_PROCESS_STEP', newStep);
     },
     SET_LOG_LINES ({ commit }, data) {
       commit('SET_LOG_LINES', data);
