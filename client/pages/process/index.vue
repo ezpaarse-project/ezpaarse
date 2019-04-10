@@ -86,7 +86,10 @@
 
         <v-stepper-content step="3">
           <v-layout justify-space-between row>
-            <v-btn large @click="formStep = 1">
+            <v-btn large color="error" @click="formStep = 1">
+              <v-icon left>
+                mdi-cancel
+              </v-icon>
               {{ $t('ui.cancel') }}
             </v-btn>
           </v-layout>
@@ -129,17 +132,8 @@ export default {
     LogFiles,
     Settings
   },
-  asyncData ({ store, query }) {
-    const { status } = store.state.process;
-
-    let formStep = 1;
-
-    if (query.step === 'config') { formStep = 2; }
-    if (query.step === 'job' && status) { formStep = 3; }
-    if (status === 'progress' || status === 'finalisation') { formStep = 3; }
-
+  asyncData () {
     return {
-      formStep,
       curlDialog: false,
       curlRequest: ''
     };
@@ -158,6 +152,10 @@ export default {
     }
   },
   computed: {
+    formStep: {
+      get () { return this.$store.state.process.step; },
+      set (value) { return this.$store.dispatch('process/SET_PROCESS_STEP', value); }
+    },
     logFiles () {
       return this.$store.state.process.logFiles;
     },
@@ -166,7 +164,7 @@ export default {
     },
     inProgress () {
       const { status } = this.$store.state.process;
-      return status === 'progress' || status === 'finalisation';
+      return status === 'progress' || status === 'finalization';
     },
     hasJob () {
       return this.$store.state.process.status !== null;

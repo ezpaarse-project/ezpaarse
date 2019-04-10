@@ -8,7 +8,7 @@
       "processCanceled": "Process canceled",
       "processError": "Process error",
       "processEnd": "Process finished",
-      "finalisation": "Finalization of the processing operation"
+      "finalization": "Process finalization"
     },
     "drawer": {
       "notConnected": "Not connected",
@@ -60,6 +60,8 @@
         "explainationTestsLogs": "You want to use test logs to validate your installation, <a href=\"{url}\" target=\"_blank\">we provide them on GitHub</a>.",
         "startProcessing": "Start processing",
         "filesSelection": "Files selection",
+        "finalization": "Finalization...",
+        "finished": "Finished",
         "settings": {
           "title": "Settings",
           "customSettings": "Custom settings",
@@ -147,7 +149,7 @@
           "nb-lines-unknown-errors": "ECs in access denied",
           "descriptions": {
             "nb-lines-ignored": "Number of irrelevant requests. These are mainly downloads of images, css or web scripts that are not directly related to a resource. In a raw log, this number is often high.",
-            "nb-denied-ecs": "List of accesses that have been denied to the user at the time of the click. <br /> Example: attempt to access an item not negotiated in the establishment's bouquet",
+            "nb-denied-ecs": "List of accesses that have been denied to the user at the time of the click. Example: attempt to access an item not negotiated in the establishment's bouquet",
             "nb-lines-duplicate-ecs": "Number of consultations ignored because detected as double-clicks.",
             "nb-lines-ignored-domains": "The ignored domains.",
             "nb-lines-unknown-domains": "Domains not currently managed by ezPAARSE. You can download the complete list of unknown domains encountered by clicking below",
@@ -179,7 +181,7 @@
           "processState": "Processing status",
           "rejects": "Discharges",
           "traces": "System traces",
-          "relevantLogLinesRead": "Relevant log lines read : <strong>{relevantLogLines}</strong>",
+          "relevantLogLinesRead": "Relevant log lines read : {relevantLogLines}",
           "cancelProcess": "Cancel process"
         }
       },

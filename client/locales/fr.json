@@ -8,7 +8,7 @@
       "processCanceled": "Traitement annulé",
       "processError": "Erreur de traitement",
       "processEnd": "Traitement terminé",
-      "finalisation": "Finalisation du traitement"
+      "finalization": "Finalisation du traitement"
     },
     "drawer": {
       "notConnected": "Non connecté",
@@ -60,6 +60,8 @@
         "explainationTestsLogs": "Vous désirez utiliser des logs de test pour valider votre installation, nous en <a href=\"{url}\" target=\"_blank\">mettons à disposition sur GitHub</a>.",
         "startProcessing": "Lancer le traitement",
         "filesSelection": "Sélection des fichiers",
+        "finalization": "Finalisation...",
+        "finished": "Terminé",
         "settings": {
           "title": "Paramètres",
           "customSettings": "Paramètres personnalisés",
@@ -147,7 +149,7 @@
           "nb-lines-unknown-errors": "ECs en accès refusé",
           "descriptions": {
             "nb-lines-ignored": "Nombre de requêtes non pertinentes. Il s'agit principalement de téléchargements d'images, css ou scripts web sans rapport direct avec une ressource. Dans un log brut, ce chiffre est souvent élevé.",
-            "nb-denied-ecs": "Liste des accès qui ont été refusés à l'utilisateur au moment du clic.<br /> Exemple : tentative d'accès à un article non négocié dans le bouquet de l'établissement.",
+            "nb-denied-ecs": "Liste des accès qui ont été refusés à l'utilisateur au moment du clic. Exemple : tentative d'accès à un article non négocié dans le bouquet de l'établissement.",
             "nb-lines-duplicate-ecs": "Nombre de consultations ignorées car détectées comme des double-clics.",
             "nb-lines-ignored-domains": "Les domaines ignorés.",
             "nb-lines-unknown-domains": "Domaines non gérés par ezPAARSE à l'heure actuelle. Vous pouvez télécharger la liste complète des domaines inconnus rencontrés en cliquant ci-dessous.",
@@ -178,7 +180,7 @@
           "processState": "État du traitement",
           "rejects": "Rejets",
           "traces": "Traces système",
-          "relevantLogLinesRead": "Lignes de log pertinentes lues : <strong>{relevantLogLines}</strong>",
+          "relevantLogLinesRead": "Lignes de log pertinentes lues : {relevantLogLines}",
           "cancelProcess": "Arrêter le traitement"
         }
       },

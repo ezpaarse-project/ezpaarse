@@ -8,6 +8,7 @@ let fileId = 1;
 export default {
   namespaced: true,
   state: {
+    step: 1,
     processProgress: 0,
     logLines: '',
     logFiles: [],
@@ -19,6 +20,9 @@ export default {
     treatments: []
   },
   mutations: {
+    SET_PROCESS_STEP (state, step) {
+      Vue.set(state, 'step', step);
+    },
     SET_PROCESS_PROGRESS (state, data) {
       Vue.set(state, 'processProgress', data);
     },
@@ -79,7 +83,7 @@ export default {
               commit('SET_PROCESS_PROGRESS', percent);
             }
             if (percent >= 100) {
-              commit('SET_STATUS', 'finalisation');
+              commit('SET_STATUS', 'finalization');
             }
           }
         });
@@ -106,6 +110,15 @@ export default {
         commit('SET_QUERY_CANCEL_SOURCE', null);
       }
       commit('SET_STATUS', 'abort');
+    },
+    SET_PROCESS_STEP ({ commit, state }, value) {
+      let step = parseInt(value, 10);
+
+      if (state.status === 'progress' || state.status === 'finalization') {
+        step = 3;
+      }
+
+      commit('SET_PROCESS_STEP', step);
     },
     SET_LOG_LINES ({ commit }, data) {
       commit('SET_LOG_LINES', data);

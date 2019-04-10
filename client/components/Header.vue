@@ -25,7 +25,7 @@
       </span>
     </v-chip>
 
-    <v-btn to="/process?step=job" class="text-none" light color="white">
+    <v-btn to="/process" class="text-none" light @click="setStep(3)">
       <span v-if="!jobStatus">
         {{ $t('ui.header.noCurrentProcessing') }}
       </span>
@@ -35,8 +35,8 @@
       <span v-else-if="jobStatus === 'end'">
         {{ $t('ui.header.processEnd') }}
       </span>
-      <span v-else-if="jobStatus === 'finalisation'">
-        {{ $t('ui.header.finalisation') }}
+      <span v-else-if="jobStatus === 'finalization'">
+        {{ $t('ui.header.finalization') }}
       </span>
       <span v-else-if="jobStatus === 'progress'">
         {{ $t('ui.header.currentProcessing', { percent: processProgress }) }}
@@ -73,7 +73,8 @@ export default {
     }
   },
   methods: mapActions({
-    setDrawer: 'SET_DRAWER'
+    setDrawer: 'SET_DRAWER',
+    setStep: 'process/SET_PROCESS_STEP'
   })
 };
 </script>
