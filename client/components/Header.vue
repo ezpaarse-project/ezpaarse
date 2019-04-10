@@ -39,7 +39,7 @@
         {{ $t('ui.header.finalization') }}
       </span>
       <span v-else-if="jobStatus === 'progress'">
-        {{ $t('ui.header.currentProcessing', { percent: processProgress }) }}
+        {{ $t('ui.header.currentProcessing', { percent: progress }) }}
       </span>
       <span v-else-if="jobStatus === 'error'">
         {{ $t('ui.header.processError') }}
@@ -56,8 +56,8 @@ export default {
     drawer () {
       return this.$store.state.drawer;
     },
-    processProgress () {
-      return this.$store.state.process.processProgress;
+    progress () {
+      return this.$store.state.process.progress;
     },
     jobStatus () {
       return this.$store.state.process.status;

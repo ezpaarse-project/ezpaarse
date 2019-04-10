@@ -4,11 +4,7 @@ export default {
   namespaced: true,
   state: {
     socketid: null,
-    report: {
-      general: [],
-      stats: [],
-      rejets: []
-    },
+    report: {},
     logging: [],
     jobs: 0
   },
@@ -19,6 +15,9 @@ export default {
     SET_REPORT (state, data) {
       state.report = data;
     },
+    SET_LOGGING (state, data) {
+      state.logging = data;
+    },
     PUSH_LOGGING (state, data) {
       state.logging.push(data);
     },
@@ -27,6 +26,10 @@ export default {
     }
   },
   actions: {
+    RESET: ({ commit }) => {
+      commit('SET_REPORT', {});
+      commit('SET_LOGGING', []);
+    },
     SET_SOCKETID: ({ commit }, id) => {
       commit('SET_SOCKETID', id);
     },

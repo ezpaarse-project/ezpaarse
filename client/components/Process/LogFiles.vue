@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <v-layout column>
     <v-layout class="dropzone" align-center justify-center fill-height>
       <input
         ref="logFiles"
@@ -7,7 +7,9 @@
         multiple
         @change="handleFilesUpload"
       >
-      <v-flex class="headline grey--text text-xs-center">{{ $t('ui.pages.process.logFiles.clickToAdd') }}</v-flex>
+      <v-flex class="headline grey--text text-xs-center">
+        {{ $t('ui.pages.process.logFiles.clickToAdd') }}
+      </v-flex>
     </v-layout>
 
     <v-data-table
@@ -53,7 +55,7 @@
         <v-icon left>mdi-delete-forever</v-icon> {{ $t('ui.pages.process.logFiles.removeList') }}
       </v-btn>
     </p>
-  </div>
+  </v-layout>
 </template>
 
 <script>

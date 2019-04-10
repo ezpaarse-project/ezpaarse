@@ -1,28 +1,24 @@
 <template>
-  <v-layout
-    row
-    wrap
-    mt-3
-  >
-    <v-flex xs12>
+  <v-layout column>
+    <!-- <v-flex xs12>
       <v-alert
         :value="status === 'end'"
         color="teal"
         xs12
         outline
       >
-        <p
-          class="text-xs-center subheading"
+        <div
+          class="text-xs-center"
           v-html="$t('ui.pages.process.job.infos', {
             excelUrl: 'https://github.com/ezpaarse-project/ezpaarse/raw/master/misc/windows/ezPAARSE-Render.xltm',
             libreOfficeUrl: 'https://github.com/ezpaarse-project/ezpaarse/raw/master/misc/windows/ezPAARSE-Render.ots'
           })"
         />
       </v-alert>
-    </v-flex>
+    </v-flex> -->
 
-    <v-flex
-      v-if="status && status === 'error' && status !== 'abort' && status !== 'end'"
+    <!-- <v-flex
+      v-if="status === 'error'"
       xs12
     >
       <v-alert
@@ -45,79 +41,41 @@
           </ul>
         </span>
       </v-alert>
-    </v-flex>
+    </v-flex> -->
 
-    <v-flex
-      xs12
-    >
-      <v-progress-linear
-        background-color="grey"
-        :color="status === 'error' ? 'error' : 'success'"
-        height="20"
-        :value="processProgress"
-      />
-    </v-flex>
+    <v-progress-linear
+      :color="progressColor"
+      height="15"
+      :value="progress"
+    />
 
-    <v-flex
-      xs12
-      text-xs-right
-    >
-      <p>{{ processProgress }} %</p>
-    </v-flex>
+    <div class="text-xs-center headline">
+      <p v-if="status === 'finalization'">
+        {{ $t('ui.pages.process.finalization') }}
+      </p>
+      <p v-else-if="status === 'end'" class="success--text">
+        {{ $t('ui.pages.process.finished') }}
+      </p>
+      <p v-else-if="status === 'error'" class="error--text">
+        <span v-if="error">
+          {{ error }}
+        </span>
+        <span v-else>
+          {{ $t('ui.errors.error') }}
+        </span>
+      </p>
+      <p v-else>
+        {{ progress }} %
+      </p>
+    </div>
 
-    <v-flex
-      xs6
-      class="text-xs-left"
-    >
-      <v-btn
-        v-if="report && report.general && processProgress >= 100 && status === 'end'"
-        depressed
-        color="green"
-        class="white--text"
-        router
-        :to="{ path: `/report/${report.general['Job-ID']}` }"
-      >
-        <v-icon left>
-          mdi-file
-        </v-icon>
-        {{ $t('ui.pages.process.job.consultReport') }}
-      </v-btn>
-    </v-flex>
-
-    <v-flex
-      xs6
-      sm6
-      class="text-xs-right"
-    >
-      <v-btn
-        v-if="status === 'end' || status === 'error'"
-        depressed
-        color="teal darken-2"
-        class="white--text"
-        @click="newTreatment"
-      >
-        {{ $t('ui.pages.process.job.newProcess') }}
-        <v-icon right>
-          mdi-reload
-        </v-icon>
-      </v-btn>
-
-      <v-btn
-        v-if="status !== 'end' && queryCancelSource"
-        depressed
-        color="error"
-        @click="cancelProcess"
-      >
-        {{ $t('ui.pages.process.job.cancelProcess') }}
-        <v-icon right>
-          mdi-close-circle
-        </v-icon>
-      </v-btn>
-    </v-flex>
-
-    <v-flex v-if="report" xs12 mt-3>
-      <Report :report="report" :logging="logging" :download="report && report.general && status === 'end'" />
-    </v-flex>
+    <Report
+      v-if="report"
+      class="mt-3"
+      :report="report"
+      :logging="logging"
+      :download="report && report.general && status === 'end'"
+    />
   </v-layout>
 </template>
 
@@ -140,11 +98,11 @@ export default {
     logging () {
       return this.$store.state.socket.logging;
     },
-    processProgress () {
-      return this.$store.state.process.processProgress;
+    progress () {
+      return this.$store.state.process.progress;
     },
-    queryCancelSource () {
-      return this.$store.state.process.queryCancelSource;
+    cancelSource () {
+      return this.$store.state.process.cancelSource;
     },
     logFiles () {
       return this.$store.state.process.logFiles;
@@ -157,6 +115,11 @@ export default {
     },
     loggingErrors () {
       return this.logging.filter(log => log.level === 'error');
+    },
+    progressColor () {
+      if (this.status === 'end') { return 'success'; }
+      if (this.status === 'error') { return 'error'; }
+      return 'accent';
     }
   },
   methods: {

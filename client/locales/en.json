@@ -168,8 +168,8 @@
           "dedoublonnage": "Duplicates",
           "files": "Files",
           "first_event": "First consultation",
-          "seeFull": "Maximize the report",
-          "minimizeReport": "Minimize the report"
+          "maximize": "Maximize",
+          "minimize": "Minimize"
         },
         "job": {
           "title": "Ongoing processing(s)",

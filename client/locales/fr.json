@@ -168,8 +168,8 @@
           "dedoublonnage": "Dédoublonnage",
           "files": "Fichiers",
           "first_event": "Première consultation",
-          "seeFull": "Maximiser le rapport",
-          "minimizeReport": "Minimiser le rapport"
+          "maximize": "Maximiser",
+          "minimize": "Minimiser"
         },
         "job": {
           "title": "Traitement(s) en cours",

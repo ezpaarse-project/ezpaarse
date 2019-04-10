@@ -9,22 +9,31 @@ export default {
   namespaced: true,
   state: {
     step: 1,
-    processProgress: 0,
+    progress: 0,
     logLines: '',
     logFiles: [],
-    queryCancelSource: null,
+    cancelSource: null,
+    jobId: null,
     status: null,
     report: null,
-    logging: null,
     error: null,
+    logging: [],
     treatments: []
   },
+  getters: {
+    cancelable (state) {
+      return state.cancelSource !== null;
+    }
+  },
   mutations: {
+    SET_JOB_ID (state, value) {
+      Vue.set(state, 'jobId', value);
+    },
     SET_PROCESS_STEP (state, step) {
       Vue.set(state, 'step', step);
     },
-    SET_PROCESS_PROGRESS (state, data) {
-      Vue.set(state, 'processProgress', data);
+    SET_PROGRESS (state, data) {
+      Vue.set(state, 'progress', data);
     },
     SET_LOG_LINES (state, data) {
       Vue.set(state, 'logLines', data);
@@ -39,8 +48,8 @@ export default {
     CLEAR_LOG_FILES (state) {
       Vue.set(state, 'logFiles', []);
     },
-    SET_QUERY_CANCEL_SOURCE (state, data) {
-      Vue.set(state, 'queryCancelSource', data);
+    SET_CANCEL_SOURCE (state, data) {
+      Vue.set(state, 'cancelSource', data);
     },
     SET_STATUS (state, data) {
       Vue.set(state, 'status', data);
@@ -62,13 +71,22 @@ export default {
     async PROCESS ({ commit, rootState, dispatch }, formData) {
       const headers = await dispatch('settings/GET_HEADERS', null, { root: true });
       const source = CancelToken.source();
+      const jobID = uuid.v1();
 
-      commit('SET_QUERY_CANCEL_SOURCE', source);
+      commit('SET_PROCESS_STEP', 3);
+      commit('SET_ERROR', null);
+      commit('SET_CANCEL_SOURCE', source);
+      commit('SET_PROGRESS', 0);
+      commit('SET_JOB_ID', jobID);
       commit('SET_STATUS', 'progress');
+      commit('SET_REPORT', null);
+      commit('SET_LOGGING', []);
+
+      await dispatch('socket/RESET', null, { root: true });
 
       try {
         const response = await this.$axios({
-          url: `/${uuid.v1()}`,
+          url: `/${jobID}`,
           method: 'PUT',
           data: formData,
           cancelToken: source.token,
@@ -80,7 +98,7 @@ export default {
           onUploadProgress: progressEvent => {
             const percent = Math.floor((progressEvent.loaded * 100) / progressEvent.total);
             if (percent <= 100) {
-              commit('SET_PROCESS_PROGRESS', percent);
+              commit('SET_PROGRESS', percent);
             }
             if (percent >= 100) {
               commit('SET_STATUS', 'finalization');
@@ -100,14 +118,14 @@ export default {
         const message = (response && response.headers && response.headers['ezpaarse-status-message']) || 'ui.error';
         commit('SET_ERROR', `${status} : ${message}`);
       } finally {
-        commit('SET_PROCESS_PROGRESS', 100);
-        commit('SET_QUERY_CANCEL_SOURCE', null);
+        commit('SET_PROGRESS', 100);
+        commit('SET_CANCEL_SOURCE', null);
       }
     },
     CANCEL_PROCESS ({ commit, state }) {
-      if (state.queryCancelSource) {
-        state.queryCancelSource.cancel('Query canceled');
-        commit('SET_QUERY_CANCEL_SOURCE', null);
+      if (state.cancelSource) {
+        state.cancelSource.cancel('Query canceled');
+        commit('SET_CANCEL_SOURCE', null);
       }
       commit('SET_STATUS', 'abort');
     },
@@ -138,9 +156,6 @@ export default {
     },
     CLEAR_LOG_FILES ({ commit }) {
       commit('CLEAR_LOG_FILES');
-    },
-    RESET ({ commit }) {
-      commit('SET_ERROR', null);
     },
     GET_REPORT ({ commit }, data) {
       return api.getReport(this.$axios, data).then(res => {

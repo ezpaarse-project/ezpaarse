@@ -13,7 +13,7 @@
       <v-stepper-header>
         <v-stepper-step
           :edit-icon="$vuetify.icons.complete"
-          :editable="!inProgress"
+          :editable="!jobInProgress"
           :complete="hasLogFiles"
           step="1"
         >
@@ -24,7 +24,7 @@
 
         <v-stepper-step
           :edit-icon="$vuetify.icons.complete"
-          :editable="!inProgress"
+          :editable="!jobInProgress"
           :complete="formStep > 2"
           step="2"
         >
@@ -40,7 +40,7 @@
 
       <v-stepper-items>
         <v-stepper-content step="1">
-          <v-layout justify-center row>
+          <v-layout justify-center row class="mb-3">
             <v-spacer />
             <v-btn
               large
@@ -55,7 +55,7 @@
         </v-stepper-content>
 
         <v-stepper-content step="2">
-          <v-layout row align-center>
+          <v-layout row align-center class="mb-3">
             <v-btn large @click="setFormStep(1)">
               {{ $t('ui.pages.process.filesSelection') }}
             </v-btn>
@@ -85,12 +85,32 @@
         </v-stepper-content>
 
         <v-stepper-content step="3">
-          <v-layout justify-space-between row>
-            <v-btn large color="error" @click="formStep = 1">
+          <v-layout row align-center class="mb-3">
+            <v-btn v-if="jobIsCancelable" large color="error" @click="formStep = 1">
               <v-icon left>
                 mdi-cancel
               </v-icon>
               {{ $t('ui.cancel') }}
+            </v-btn>
+            <v-btn v-else large @click="formStep = 1">
+              <v-icon left>
+                mdi-restart
+              </v-icon>
+              {{ $t('ui.pages.process.job.newProcess') }}
+            </v-btn>
+
+            <v-spacer />
+
+            <v-btn
+              v-if="jobId && !jobInProgress"
+              large
+              :href="resultUrl"
+              color="primary"
+            >
+              <v-icon left>
+                mdi-download
+              </v-icon>
+              {{ $t('ui.pages.process.job.downloadResult') }}
             </v-btn>
           </v-layout>
 
@@ -162,18 +182,29 @@ export default {
     hasLogFiles () {
       return Array.isArray(this.logFiles) && this.logFiles.length > 0;
     },
-    inProgress () {
-      const { status } = this.$store.state.process;
-      return status === 'progress' || status === 'finalization';
+    status () {
+      return this.$store.state.process.status;
+    },
+    jobInProgress () {
+      return this.status === 'progress' || this.status === 'finalization';
+    },
+    jobIsCancelable () {
+      return this.$store.getters['process/cancelable'];
     },
     hasJob () {
-      return this.$store.state.process.status !== null;
+      return this.status !== null;
     },
     modifiedSettings () {
       return this.$store.getters['settings/hasBeenModified'];
     },
     selectedSetting () {
       return this.$store.state.settings.selectedSetting;
+    },
+    jobId () {
+      return this.$store.state.process.jobId;
+    },
+    resultUrl () {
+      return `/${this.jobId}`;
     }
   },
   methods: {
@@ -181,8 +212,6 @@ export default {
       this.$store.dispatch('process/SET_PROCESS_STEP', value);
     },
     process () {
-      this.$store.dispatch('process/SET_PROCESS_STEP', 3);
-
       const formData = new FormData();
       const sortByName = (a, b) => (a.file.name.toLowerCase() > b.file.name.toLowerCase() ? 1 : -1);
       const files = this.logFiles.sort(sortByName);

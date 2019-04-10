@@ -1,18 +1,5 @@
 <template>
-  <v-card>
-    <v-toolbar
-      class="secondary"
-      dense
-      dark
-      card
-    >
-      <v-toolbar-title>
-        {{ $t('ui.pages.process.report.title') }}
-      </v-toolbar-title>
-    </v-toolbar>
-
-    <Report :report="report" :download="download" :logging="logging" />
-  </v-card>
+  <Report :report="report" :download="download" :logging="logging" />
 </template>
 
 <script>
