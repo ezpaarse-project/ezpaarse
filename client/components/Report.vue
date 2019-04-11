@@ -1,5 +1,5 @@
 <template>
-  <v-card v-if="report">
+  <v-card>
     <v-toolbar card dark dense color="secondary">
       <v-toolbar-title>{{ $t('ui.pages.process.report.title') }}</v-toolbar-title>
 
@@ -16,300 +16,130 @@
       </v-toolbar-items>
     </v-toolbar>
 
-    <v-expansion-panel v-if="report" v-model="panel" expand>
+    <v-expansion-panel v-model="panel" expand>
       <v-expansion-panel-content>
-        <div slot="header">
+        <div slot="header" class="title">
           {{ $t('ui.pages.process.job.processState') }}
         </div>
         <v-card>
-          <v-card-text>
-            <v-layout
-              row
-              wrap
-            >
+          <v-container fluid>
+            <v-layout row wrap>
               <v-flex
-                v-if="report.length <= 0"
+                v-for="metric in metrics"
+                :key="metric.label"
+                class="pa-2"
                 xs12
-                pl-2
+                md6
+                lg4
+                xl3
               >
-                <v-progress-linear indeterminate />
-                <p
-                  class="text-xs-left"
-                  v-text="$t('ui.loading')"
-                />
-              </v-flex>
-              <v-flex
-                v-else
-                xs6
-                pl-2
-              >
-                <div class="elevation-1">
-                  <div class="v-table__overflow">
-                    <table class="v-datatable v-table theme--light">
-                      <tbody v-if="report.general">
-                        <tr>
-                          <td class="text-xs-left">
-                            {{ $t('ui.pages.process.report.linesRead') }}
-                          </td>
-                          <td class="text-xs-right">
-                            {{ report.general['nb-lines-input'] }}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td
-                            class="text-xs-left"
-                          >
-                            {{ $t('ui.pages.process.report.ECsGenerated') }}
-                          </td>
-                          <td class="text-xs-right">
-                            {{ report.general['nb-ecs'] }}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td
-                            class="text-xs-left"
-                          >
-                            {{ $t('ui.pages.process.report.treatmentDuration') }}
-                          </td>
-                          <td class="text-xs-right">
-                            {{ report.general['Job-Duration'] }}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td
-                            class="text-xs-left"
-                          >
-                            {{ $t('ui.pages.process.report.logProcessingSpeed') }}
-                          </td>
-                          <td class="text-xs-right">
-                            {{ report.general['process-speed'] }}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td
-                            class="text-xs-left"
-                          >
-                            {{ $t('ui.pages.process.report.ECGenerationSpeed') }}
-                          </td>
-                          <td class="text-xs-right">
-                            {{ report.general['ecs-speed'] }}
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </v-flex>
+                <v-card>
+                  <v-layout row align-center>
+                    <v-flex shrink>
+                      <v-card :color="metric.iconColor" class="ma-2 pa-2">
+                        <v-icon size="40" dark>
+                          {{ metric.icon }}
+                        </v-icon>
+                      </v-card>
+                    </v-flex>
 
-              <v-flex
-                xs6
-                pl-2
-              >
-                <div class="elevation-1">
-                  <div class="v-table__overflow">
-                    <table class="v-datatable v-table theme--light">
-                      <tbody v-if="report.stats">
-                        <tr>
-                          <td
-                            class="text-xs-left"
-                          >
-                            {{ $t('ui.pages.process.report.recognizedPlatforms') }}
-                          </td>
-                          <td class="text-xs-right">
-                            {{ report.stats['platforms'] }}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td
-                            class="text-xs-left"
-                          >
-                            {{ $t('ui.pages.process.report.HTMLConsultations') }}
-                          </td>
-                          <td class="text-xs-right">
-                            {{ report.stats['mime-HTML'] }}
-                          </td>
-                        </tr>
-                        <tr>
-                          <td
-                            class="text-xs-left"
-                          >
-                            {{ $t('ui.pages.process.report.PDFConsultations') }}
-                          </td>
-                          <td class="text-xs-right">
-                            {{ report.stats['mime-PDF'] }}
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
+                    <v-flex>
+                      <v-card-title class="text-xs-right">
+                        <v-spacer />
+                        <div class="text-xs-right">
+                          <div class="headline">
+                            {{ metric.value }}
+                          </div>
+                          <div class="subheading grey--text">
+                            {{ $t(`ui.pages.process.report.${metric.label}`) }}
+                          </div>
+                        </div>
+                      </v-card-title>
+                    </v-flex>
+                  </v-layout>
+                </v-card>
               </v-flex>
             </v-layout>
-          </v-card-text>
+          </v-container>
         </v-card>
       </v-expansion-panel-content>
 
-      <v-expansion-panel-content
-        v-for="(rep, index) in report"
-        :key="index"
-      >
-        <div slot="header">
-          {{ $t(`ui.pages.process.report.${index}`) }}
+      <v-expansion-panel-content v-for="(section, category) in report" :key="category">
+        <div slot="header" class="title">
+          {{ $t(`ui.pages.process.report.${category}`) }}
         </div>
-        <v-card v-if="index !== 'rejets'">
-          <v-card-text>
-            <v-layout row wrap>
-              <v-flex xs12>
-                <div class="v-table__overflow">
-                  <table class="v-datatable v-table theme--light">
-                    <tbody>
-                      <tr v-for="(r, i) in rep" :key="i">
-                        <td class="text-xs-left tr280p">
-                          {{ i }}
-                        </td>
-                        <td v-if="isLink(r)" class="text-xs-left">
-                          <a :href="r" target="_blank">{{ r }}</a>
-                        </td>
-                        <td v-else class="text-xs-left">
-                          {{ r }}
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </v-flex>
-            </v-layout>
-          </v-card-text>
-        </v-card>
+        <v-card>
+          <v-data-table
+            :items="Object.entries(section)"
+            hide-headers
+            hide-actions
+            select-all
+            item-key="name"
+          >
+            <template v-slot:items="{ item }">
+              <tr v-if="category !== 'rejets'">
+                <td>{{ item[0] }}</td>
+                <td v-if="isLink(item[1])" class="text-xs-left">
+                  <a :href="item[1]" target="_blank">{{ item[1] }}</a>
+                </td>
+                <td v-else class="text-xs-left">
+                  {{ item[1] }}
+                </td>
+              </tr>
 
-        <v-card v-if="index === 'rejets'">
-          <v-card-text>
-            <v-layout
-              row
-              wrap
-            >
-              <v-flex
-                xs9
-                pr-2
-              >
-                <div class="elevation-1">
-                  <div class="v-table__overflow">
-                    <table class="v-datatable v-table theme--light">
-                      <tbody v-if="report.rejets">
-                        <tr
-                          v-for="(rej, rejectIndex) in report.rejets"
-                          :key="rejectIndex"
-                          @mouseover="setCurrentReject(rejectIndex)"
-                        >
-                          <td v-if="rejectIndex !== 'nb-lines-unknown-errors'">
-                            {{ $t(`ui.pages.process.report.${rejectIndex}`) }}
-                          </td>
-                          <td v-else>
-                            {{ $t(`ui.pages.process.report.nb-denied-ecs`) }}
-                          </td>
-
-                          <td v-if="rejectIndex !== 'nb-lines-unknown-errors'">
-                            {{ rej }}
-                          </td>
-                          <td v-else>
-                            {{ report.general['nb-denied-ecs'] }}
-                          </td>
-
-                          <td v-if="rejectIndex !== 'nb-lines-unknown-errors'">
-                            <v-progress-linear
-                              v-if="rejectIndex !== 'nb-lines-ignored'"
-                              color="success"
-                              height="15"
-                              :value="rejectPercent(rej)"
-                            />
-                          </td>
-                          <td v-else>
-                            <v-progress-linear
-                              color="success"
-                              height="15"
-                              :value="deniedPercent"
-                            />
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
+              <tr v-else>
+                <td v-if="item[0].startsWith('nb-lines')">
+                  <div>{{ $t(`ui.pages.process.report.${item[0]}`) }}</div>
+                  <div class="grey--text">
+                    {{ $t(`ui.pages.process.report.descriptions.${item[0]}`) }}
                   </div>
-                </div>
-                <br>
-                <p
-                  v-if="report.general"
-                  v-text="$t('ui.pages.process.job.relevantLogLinesRead', { relevantLogLines })"
-                />
-              </v-flex>
+                </td>
+                <td v-else>
+                  {{ item[0] }}
+                </td>
 
-              <v-flex
-                v-if="currentReject"
-                xs3
-                pl-2
-              >
-                <h3 class="headline">
-                  {{ $t(`ui.pages.process.report.${currentReject}`) }}
-                </h3>
-                <br>
-                <p
-                  class="text-xs-justify"
-                  v-text="$t(`ui.pages.process.report.descriptions.${currentReject}`)"
-                />
-              </v-flex>
-            </v-layout>
-          </v-card-text>
+                <td v-if="isLink(item[1])" class="text-xs-left">
+                  <a :href="item[1]" target="_blank">{{ item[1] }}</a>
+                </td>
+                <td v-else class="text-xs-left">
+                  {{ item[1] }}
+                </td>
+
+                <td style="width: 150px">
+                  <v-progress-linear
+                    v-if="item[0].startsWith('nb-lines') && item[0] !== 'nb-lines-ignored'"
+                    color="success"
+                    height="15"
+                    :value="rejectPercent(item[1])"
+                  />
+                </td>
+              </tr>
+            </template>
+          </v-data-table>
         </v-card>
       </v-expansion-panel-content>
 
       <v-expansion-panel-content>
-        <div slot="header">
+        <div slot="header" class="title">
           {{ $t('ui.pages.process.job.traces') }}
         </div>
-        <v-card color="black">
-          <v-card-text>
-            <div
-              v-for="(log, index) in logging"
-              :key="index"
-              class="white--text"
-            >
-              <span v-if="log && log.date">{{ log.date }}</span>
-              <span
-                v-if="log && (log.level === 'info' || log.level === 'verbose')"
-                class="green--text"
-              >
-                {{ log.level }}
-              </span>
-              <span
-                v-if="log && log.level === 'warn'"
-                class="orange--text"
-              >
-                {{ log.level }}
-              </span>
-              <span
-                v-if="log && log.level === 'error'"
-                class="red--text"
-              >
-                {{ log.level }}
-              </span>
-              <span v-if="log && log.message">: {{ log.message }}</span>
-            </div>
-          </v-card-text>
-        </v-card>
+        <Logs :logs="logging" />
       </v-expansion-panel-content>
     </v-expansion-panel>
   </v-card>
 </template>
 
 <script>
+import Logs from '~/components/Logs';
+
 export default {
+  components: {
+    Logs
+  },
   props: {
     report: {
       type: Object,
       default: () => ({})
-    },
-    download: {
-      type: Boolean,
-      default: false
     },
     logging: {
       type: Array,
@@ -318,9 +148,7 @@ export default {
   },
   data () {
     return {
-      panel: [true, false, false, false, false, false, false, false],
-      expended: false,
-      currentReject: null
+      panel: [true, false, false, false, false, false, false, false]
     };
   },
   computed: {
@@ -334,6 +162,61 @@ export default {
     },
     expanded () {
       return this.panel.every(p => p);
+    },
+    metrics () {
+      const general = this.report.general || {};
+      const stats = this.report.stats || {};
+
+      return [
+        {
+          label: 'linesRead',
+          icon: 'mdi-file-search-outline',
+          iconColor: 'amber',
+          value: general['nb-lines-input']
+        },
+        {
+          label: 'ECsGenerated',
+          icon: 'mdi-file-document-box-multiple-outline',
+          iconColor: 'light-green',
+          value: general['nb-ecs']
+        },
+        {
+          label: 'treatmentDuration',
+          icon: 'mdi-timer',
+          iconColor: 'blue-grey',
+          value: general['Job-Duration']
+        },
+        {
+          label: 'logProcessingSpeed',
+          icon: 'mdi-speedometer',
+          iconColor: 'deep-purple lighten-1',
+          value: general['process-speed']
+        },
+        {
+          label: 'ECGenerationSpeed',
+          icon: 'mdi-speedometer',
+          iconColor: 'blue darken-2',
+          value: general['ecs-speed']
+        },
+        {
+          label: 'recognizedPlatforms',
+          icon: 'mdi-hexagon-multiple',
+          iconColor: 'orange',
+          value: stats['platforms']
+        },
+        {
+          label: 'HTMLConsultations',
+          icon: 'mdi-web',
+          iconColor: 'cyan',
+          value: stats['mime-HTML']
+        },
+        {
+          label: 'PDFConsultations',
+          icon: 'mdi-file-pdf',
+          iconColor: 'red',
+          value: stats['mime-PDF']
+        }
+      ];
     }
   },
   methods: {
@@ -342,9 +225,6 @@ export default {
       const a = (rej * 100);
       const b = (this.report.general['nb-lines-input'] - this.report.rejets['nb-lines-ignored']);
       return Math.ceil(a / b);
-    },
-    setCurrentReject (index) {
-      this.currentReject = index;
     },
     expand () {
       this.panel = this.panel.map(() => true);
@@ -358,9 +238,3 @@ export default {
   }
 };
 </script>
-
-<style scoped>
-.tr280p {
-  width: 280px;
-}
-</style>

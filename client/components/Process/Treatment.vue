@@ -1,73 +1,53 @@
 <template>
   <v-layout column>
-    <!-- <v-flex xs12>
-      <v-alert
-        :value="status === 'end'"
-        color="teal"
-        xs12
-        outline
-      >
-        <div
-          class="text-xs-center"
-          v-html="$t('ui.pages.process.job.infos', {
-            excelUrl: 'https://github.com/ezpaarse-project/ezpaarse/raw/master/misc/windows/ezPAARSE-Render.xltm',
-            libreOfficeUrl: 'https://github.com/ezpaarse-project/ezpaarse/raw/master/misc/windows/ezPAARSE-Render.ots'
-          })"
+    <v-card>
+      <v-card-text>
+        <v-progress-linear
+          :color="progressColor"
+          height="15"
+          :value="progress"
         />
-      </v-alert>
-    </v-flex> -->
 
-    <!-- <v-flex
-      v-if="status === 'error'"
-      xs12
-    >
-      <v-alert
-        :value="true"
-        type="error"
-      >
-        <span v-if="error">
-          {{ error }}
-        </span>
-        <span v-else>
-          <ul>
-            {{ $t('ui.errors.error') }}
-            <li
-              v-for="(log, key) in loggingErrors"
-              :key="key"
-              class="ml-4"
-            >
-              {{ log.level }} : {{ log.message }}
-            </li>
-          </ul>
-        </span>
-      </v-alert>
-    </v-flex> -->
+        <div class="text-xs-center headline">
+          <p v-if="status === 'finalization'">
+            {{ $t('ui.pages.process.finalization') }}
+          </p>
+          <p v-else-if="status === 'end'" class="success--text">
+            {{ $t('ui.pages.process.finished') }}
+          </p>
+          <p v-else-if="status === 'error'" class="error--text">
+            <span v-if="error">
+              {{ error }}
+            </span>
+            <span v-else>
+              {{ $t('ui.errors.error') }}
+            </span>
+          </p>
+          <p v-else>
+            {{ progress }} %
+          </p>
+        </div>
 
-    <v-progress-linear
-      :color="progressColor"
-      height="15"
-      :value="progress"
-    />
+        <template v-if="status === 'error' && !error && loggingErrors.length > 0">
+          <p class="red--tex">{{ $t('ui.pages.process.hasLoggingErrors') }}</p>
+          <Logs :logs="loggingErrors" />
+        </template>
 
-    <div class="text-xs-center headline">
-      <p v-if="status === 'finalization'">
-        {{ $t('ui.pages.process.finalization') }}
-      </p>
-      <p v-else-if="status === 'end'" class="success--text">
-        {{ $t('ui.pages.process.finished') }}
-      </p>
-      <p v-else-if="status === 'error'" class="error--text">
-        <span v-if="error">
-          {{ error }}
-        </span>
-        <span v-else>
-          {{ $t('ui.errors.error') }}
-        </span>
-      </p>
-      <p v-else>
-        {{ progress }} %
-      </p>
-    </div>
+        <v-alert
+          :value="status === 'end'"
+          color="info"
+          outline
+        >
+          <div
+            class="text-xs-center"
+            v-html="$t('ui.pages.process.job.infos', {
+              excelUrl: 'https://github.com/ezpaarse-project/ezpaarse/raw/master/misc/windows/ezPAARSE-Render.xltm',
+              libreOfficeUrl: 'https://github.com/ezpaarse-project/ezpaarse/raw/master/misc/windows/ezPAARSE-Render.ots'
+            })"
+          />
+        </v-alert>
+      </v-card-text>
+    </v-card>
 
     <Report
       v-if="report"
@@ -81,10 +61,12 @@
 
 <script>
 import Report from '~/components/Report';
+import Logs from '~/components/Logs';
 
 export default {
   components: {
-    Report
+    Report,
+    Logs
   },
   data () {
     return {
@@ -114,7 +96,7 @@ export default {
       return this.$store.state.process.status;
     },
     loggingErrors () {
-      return this.logging.filter(log => log.level === 'error');
+      return this.logging.filter(log => log.level === 'error').slice(0, 10);
     },
     progressColor () {
       if (this.status === 'end') { return 'success'; }

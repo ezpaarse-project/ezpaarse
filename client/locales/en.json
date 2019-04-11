@@ -62,6 +62,7 @@
         "filesSelection": "Files selection",
         "finalization": "Finalization...",
         "finished": "Finished",
+        "hasLoggingErrors": "The following traces may help to understand the origin of the problem :",
         "settings": {
           "title": "Settings",
           "customSettings": "Custom settings",

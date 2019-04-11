@@ -255,7 +255,7 @@
             {{ $t('ui.pages.process.settings.advancedHeaders') }}
           </div>
           <v-card light>
-            <v-card-text>
+            <v-container fluid grid-list-md>
               <v-layout
                 v-for="(header, index) in settings.headers"
                 :key="index"
@@ -312,7 +312,7 @@
                   {{ $t('ui.add') }}
                 </v-btn>
               </div>
-            </v-card-text>
+            </v-container>
           </v-card>
         </v-expansion-panel-content>
       </v-expansion-panel>
