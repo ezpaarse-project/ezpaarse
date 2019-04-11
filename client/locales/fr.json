@@ -96,7 +96,19 @@
           "nameUnavailable": "Ce nom n'est pas disponible",
           "identifierUnavailable": "Cet identifiant n'est pas disponible",
           "fullNameRequired": "Le nom est requis",
-          "identifierRequired": "L'identifiant est requis"
+          "identifierRequired": "L'identifiant est requis",
+          "autoRecognition": "Reconnaissance auto",
+          "tracesLevel": {
+            "generalInformations": "Informations générales",
+            "errorsOnly": "Erreurs seulement",
+            "warning": "Avertissements sans conséquences"
+          },
+          "headers": {
+            "deduplication": "Dédoublonnage",
+            "anonymization": "Anonymisation",
+            "other": "Autre",
+            "metadataEnrichment": "Enrichissement des métadonnées"
+          }
         },
         "logFiles": {
           "clickToAdd": "Cliquez ou déposez pour ajouter",

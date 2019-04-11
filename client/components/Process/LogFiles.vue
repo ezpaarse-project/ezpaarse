@@ -1,6 +1,13 @@
 <template>
   <v-layout column>
-    <v-layout class="dropzone" align-center justify-center fill-height>
+    <v-layout class="dropzone"
+        align-center
+        justify-center
+        fill-height
+        ref="dropZone"
+        @dragover="dragAndDrop('over')"
+        @dragleave="dragAndDrop('leave')"
+    >
       <input
         ref="logFiles"
         type="file"
@@ -128,6 +135,16 @@ export default {
     },
     clearList () {
       this.$store.dispatch('process/CLEAR_LOG_FILES');
+    },
+    dragAndDrop (event) {
+      if (this.$refs && this.$refs.dropZone) {
+        if (event && event === 'over') {
+          this.$refs.dropZone.classList.add('overlay')
+        }
+        if (event && event === 'leave') {
+          this.$refs.dropZone.classList.remove('overlay')
+        }
+      }
     }
   }
 };
@@ -137,12 +154,9 @@ export default {
 .dropzone {
   position: relative;
   border: 5px dashed #9e9e9e;
+  background-color: transparent;
   border-radius: 3px;
   height: 100px;
-  transition: opacity 0.1s linear;
-}
-.dropzone:hover {
-  opacity: 0.8;
 }
 .dropzone input[type='file'] {
   cursor: pointer;
@@ -152,5 +166,9 @@ export default {
   width: 100%;
   height: 100%;
   opacity: 0;
+}
+.overlay {
+  background-color: rgba(62, 62, 62, 0.3);
+  border-color: #787878;
 }
 </style>

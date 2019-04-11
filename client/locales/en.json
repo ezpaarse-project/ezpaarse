@@ -96,7 +96,19 @@
           "nameUnavailable": "This name is unavailable",
           "identifierUnavailable": "This identifier is unavailable",
           "fullNameRequired": "Name is required",
-          "identifierRequired": "Identifier is required"
+          "identifierRequired": "Identifier is required",
+          "autoRecognition": "Auto recognition",
+          "tracesLevel": {
+            "generalInformations": "General informations",
+            "errorsOnly": "Errors only",
+            "warning": "Warnings without consequences"
+          },
+          "headers": {
+            "deduplication": "Deduplication",
+            "anonymization": "Anonymization",
+            "other": "Other",
+            "metadataEnrichment": "Metadata enrichment"
+          }
         },
         "logFiles": {
           "clickToAdd": "Click or Drop to add",
