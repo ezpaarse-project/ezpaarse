@@ -5,7 +5,7 @@
       <Header />
       <v-container fluid>
         <v-alert
-          :value="!appInfos.demo"
+          :value="appInfos.demo"
           type="info"
           dismissible
           outline
