@@ -28,9 +28,12 @@ export default {
     };
   },
   watch: {
-    messages () {
-      if (!this.visible && this.messages.length) {
-        this.visible = true;
+    messages: {
+      immediate: true,
+      handler () {
+        if (!this.visible && this.messages.length) {
+          this.visible = true;
+        }
       }
     },
     async visible () {
