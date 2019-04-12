@@ -12,165 +12,168 @@
     </v-toolbar>
 
     <v-card-text>
-      <p><strong>{{ $t('ui.pages.admin.updates.resources') }}</strong></p>
-      <p v-text="$t('ui.pages.admin.updates.predefinedParameters')" />
+      <div class="headline">
+        {{ $t('ui.pages.admin.updates.resources') }}
+      </div>
       <p>
-        <v-alert
-          v-if="resources['local-commits'] || resources['local-changes']"
-          :value="true"
-          color="red lighten-2"
-          v-text="$t('ui.pages.admin.updates.repoLocalChanges', { repo: 'resources' })"
-        />
-        <strong>{{ $t('ui.currentVersion') }}</strong> :
-        <v-tooltip
-          v-if="resources['from-head'] === 'outdated'"
-          right
-        >
-          <v-btn
-            slot="activator"
-            depressed
-            color="red lighten-2 white--text"
-            round
-            @click="update('resources')"
-          >
-            {{ resources.current }}<v-icon class="pl-1">
-              mdi-alert-circle
-            </v-icon>
-          </v-btn>
-          <span>{{ $t('ui.updateTo', { newVersion: resources.head }) }}</span>
-        </v-tooltip>
-        <v-btn
-          v-else
-          slot="activator"
-          depressed
-          color="green lighten-2 white--text"
-          round
-        >
-          {{ resources.current }}
-        </v-btn>
-        <v-progress-circular
-          v-if="inUpdate.resources"
-          indeterminate
-          color="teal"
-        />
+        {{ $t('ui.pages.admin.updates.predefinedParameters') }}
       </p>
+
+      <v-alert
+        :value="resources.hasLocalChanges"
+        type="error"
+        v-text="$t('ui.pages.admin.updates.repoLocalChanges', { repo: 'resources' })"
+      />
+
+      <v-layout align-center :column="this.$vuetify.breakpoint.smAndDown">
+        <div class="subheading">
+          {{ $t('ui.currentVersion') }} :
+
+          <v-chip
+            v-if="resources.current"
+            :color="resources.isOutdated ? 'error' : 'success'"
+            dark
+            small
+          >
+            <v-avatar>
+              <v-icon>
+                {{ resources.isOutdated ? 'mdi-alert-circle' : 'mdi-check-circle' }}
+              </v-icon>
+            </v-avatar>
+            {{ resources.current }}
+          </v-chip>
+        </div>
+
+        <v-spacer />
+
+        <v-btn
+          v-if="resources.isOutdated"
+          color="accent"
+          :loading="inUpdate.resources"
+          @click="update('resources')"
+        >
+          <v-icon left>
+            mdi-download
+          </v-icon>
+          {{ $t('ui.update') }}
+        </v-btn>
+      </v-layout>
     </v-card-text>
 
     <v-divider />
 
     <v-card-text>
-      <v-flex
-        xs12
-        sm12
-      >
-        <p><strong>Middlewares</strong></p>
-        <p>{{ $t('ui.pages.admin.updates.middlewaresInfo') }}</p>
-        <p>
-          <v-alert
-            v-if="middlewares['local-commits'] || middlewares['local-changes']"
-            :value="true"
-            color="red lighten-2"
-            v-text="$t('ui.pages.admin.updates.repoLocalChanges', { repo: 'middlewares' })"
-          />
-          <strong>{{ $t('ui.currentVersion') }}</strong> :
-          <v-tooltip
-            v-if="middlewares['from-head'] === 'outdated'"
-            right
+      <div class="headline">
+        {{ $t('ui.pages.admin.updates.middlewares') }}
+      </div>
+      <p>
+        {{ $t('ui.pages.admin.updates.middlewaresInfo') }}
+      </p>
+
+      <v-alert
+        :value="middlewares.hasLocalChanges"
+        type="error"
+        v-text="$t('ui.pages.admin.updates.repoLocalChanges', { repo: 'middlewares' })"
+      />
+
+      <v-layout align-center :column="this.$vuetify.breakpoint.smAndDown">
+        <div class="subheading">
+          {{ $t('ui.currentVersion') }} :
+
+          <v-chip
+            v-if="middlewares.current"
+            :color="middlewares.isOutdated ? 'error' : 'success'"
+            dark
+            small
           >
-            <v-btn
-              slot="activator"
-              depressed
-              color="red lighten-2 white--text"
-              round
-              @click="update('middlewares')"
-            >
-              {{ middlewares.current }}<v-icon class="pl-1">
-                mdi-alert-circle
+            <v-avatar>
+              <v-icon>
+                {{ middlewares.isOutdated ? 'mdi-alert-circle' : 'mdi-check-circle' }}
               </v-icon>
-            </v-btn>
-            <span>{{ $t('ui.updateTo', { newVersion: middlewares.head }) }}</span>
-          </v-tooltip>
-          <v-btn
-            v-else
-            slot="activator"
-            depressed
-            color="green lighten-2 white--text"
-            round
-          >
+            </v-avatar>
             {{ middlewares.current }}
-          </v-btn>
-          <v-progress-circular
-            v-if="inUpdate.middlewares"
-            indeterminate
-            color="teal"
-          />
-        </p>
-      </v-flex>
+          </v-chip>
+        </div>
+
+        <v-spacer />
+
+        <v-btn
+          v-if="middlewares.isOutdated"
+          color="accent"
+          :loading="inUpdate.middlewares"
+          @click="update('middlewares')"
+        >
+          <v-icon left>
+            mdi-download
+          </v-icon>
+          {{ $t('ui.update') }}
+        </v-btn>
+      </v-layout>
     </v-card-text>
 
     <v-divider />
 
     <v-card-text>
-      <v-flex
-        xs12
-        sm12
+      <div class="headline">
+        {{ $t('ui.pages.admin.updates.software') }}
+      </div>
+
+      <v-alert
+        :value="ezpaarse.hasLocalChanges"
+        type="error"
       >
-        <p><strong>{{ $t('ui.pages.admin.updates.software') }}</strong></p>
-        <p>
-          <v-alert
-            v-if="ezpaarse['local-commits'] || ezpaarse['local-changes']"
-            :value="true"
-            color="red lighten-2"
-          >
-            <p>{{ $t('ui.pages.admin.updates.softLocalChanges') }}</p>
-            <p>{{ $t('ui.pages.admin.updates.contactDeploymentService') }}</p>
-          </v-alert>
-          <strong>{{ $t('ui.currentVersion') }}</strong> :
-          <v-tooltip
-            v-if="ezpaarse['from-head'] === 'outdated'"
-            right
-          >
-            <v-btn
-              slot="activator"
-              depressed
-              color="red lighten-2 white--text"
-              round
-              @click="updateApp('latest')"
+        <div>{{ $t('ui.pages.admin.updates.softLocalChanges') }}</div>
+        <div>{{ $t('ui.pages.admin.updates.contactDeploymentService') }}</div>
+      </v-alert>
+
+      <v-layout align-center :column="this.$vuetify.breakpoint.smAndDown">
+        <div>
+          <div class="subheading">
+            {{ $t('ui.currentVersion') }} :
+
+            <v-chip
+              v-if="ezpaarse.current"
+              :color="ezpaarse.isOutdated ? 'error' : 'success'"
+              dark
+              small
             >
-              {{ ezpaarse.current }}<v-icon class="pl-1">
-                mdi-alert-circle
-              </v-icon>
-            </v-btn>
-            <span>{{ $t('ui.updateTo', { newVersion: ezpaarse.head }) }}</span>
-          </v-tooltip>
-          <v-btn
-            v-else
-            slot="activator"
-            depressed
-            color="green lighten-2 white--text"
-            round
-          >
-            {{ ezpaarse.current }}
-          </v-btn>
-          <v-progress-circular
-            v-if="inUpdate.ezpaarse"
-            indeterminate
-            color="teal"
-          />
-          <br>
-          <span v-if="!ezpaarse.isBeta">
-            <a @click="updateApp('latest')">
-              {{ $t('ui.pages.admin.updates.returnToBetaVersion') }}
-            </a>
-          </span>
+              <v-avatar>
+                <v-icon>
+                  {{ ezpaarse.isOutdated ? 'mdi-alert-circle' : 'mdi-check-circle' }}
+                </v-icon>
+              </v-avatar>
+              {{ ezpaarse.current }}
+            </v-chip>
+          </div>
+        </div>
+
+        <v-spacer />
+
+        <v-btn
+          v-if="ezpaarse.isOutdated"
+          color="accent"
+          :loading="inUpdate.ezpaarse"
+          @click="updateApp"
+        >
+          <v-icon left>
+            mdi-download
+          </v-icon>
+          {{ $t('ui.update') }}
+        </v-btn>
+      </v-layout>
+
+      <div>
+        <a @click="updateApp(ezpaarse.isBeta ? 'stable' : 'latest')">
           <span v-if="ezpaarse.isBeta">
-            <a @click="updateApp('stable')">
-              {{ $t('ui.pages.admin.updates.returnToStableVersion') }}
-            </a>
+            {{ $t('ui.pages.admin.updates.returnToStableVersion') }}
           </span>
-        </p>
-        <p>{{ $t('ui.pages.admin.updates.updateDuration') }}</p>
-      </v-flex>
+          <span v-else>
+            {{ $t('ui.pages.admin.updates.returnToBetaVersion') }}
+          </span>
+        </a>
+      </div>
+
+      <p>{{ $t('ui.pages.admin.updates.updateDuration') }}</p>
     </v-card-text>
   </v-card>
 </template>
@@ -190,46 +193,65 @@ export default {
   },
   computed: {
     ezpaarse () {
-      return this.$store.state.ezpaarse;
+      const { ezpaarse } = this.$store.state;
+      return {
+        hasLocalChanges: ezpaarse['local-commits'] || ezpaarse['local-changes'],
+        isOutdated: ezpaarse['from-head'] === 'outdated',
+        ...ezpaarse
+      };
     },
     resources () {
-      return this.$store.state.resources;
+      const { resources } = this.$store.state;
+      return {
+        hasLocalChanges: resources['local-commits'] || resources['local-changes'],
+        isOutdated: resources['from-head'] === 'outdated',
+        ...resources
+      };
     },
     middlewares () {
-      return this.$store.state.middlewares;
+      const { middlewares } = this.$store.state;
+      return {
+        hasLocalChanges: middlewares['local-commits'] || middlewares['local-changes'],
+        isOutdated: middlewares['from-head'] === 'outdated',
+        ...middlewares
+      };
     }
   },
   methods: {
-    update (repo) {
-      if (repo === 'resources') this.inUpdate.resources = true;
-      if (repo === 'middlewares') this.inUpdate.middlewares = true;
-      if (repo === 'ezpaarse') this.inUpdate.ezpaarse = true;
+    async update (repo) {
+      if (!Object.prototype.hasOwnProperty.call(this.inUpdate, repo)) { return; }
+      this.inUpdate[repo] = true;
 
-      this.$store.dispatch('UPDATE_REPO', repo).then(() => {
-        this.$store.dispatch('LOAD_STATUS').catch(err => {
-          this.$store.dispatch('snacks/error', `E${err.response.status} - ${this.$t('ui.errors.cannotLoadStatus')}`);
-        });
-      }).catch(err => {
-        this.$store.dispatch('snacks/error', `E${err.response.status} - ${this.$t('ui.errors.impossibleToUpdate')}`);
-      });
+      try {
+        await this.$store.dispatch('UPDATE_REPO', repo);
+      } catch (e) {
+        this.$store.dispatch('snacks/error', `E${e.response.status} - ${this.$t('ui.errors.impossibleToUpdate')}`);
+      }
 
-      if (repo === 'resources') this.inUpdate.resources = false;
-      if (repo === 'middlewares') this.inUpdate.middlewares = false;
-      if (repo === 'ezpaarse') this.inUpdate.ezpaarse = false;
+      try {
+        await this.$store.dispatch('LOAD_STATUS');
+      } catch (e) {
+        this.$store.dispatch('snacks/error', `E${e.response.status} - ${this.$t('ui.errors.cannotLoadStatus')}`);
+      }
+
+      this.inUpdate[repo] = false;
     },
-    updateApp (version) {
+    async updateApp (target) {
       this.inUpdate.ezpaarse = true;
 
-      const vers = version || (this.ezpaarse.isBeta ? 'latest' : 'stable');
-      this.$store.dispatch('UPDATE_APP', vers).then(() => {
-        this.$store.dispatch('LOAD_STATUS')
-          .then(() => { this.inUpdate.ezpaarse = false; })
-          .catch(err => {
-            this.$store.dispatch('snacks/error', `E${err.response.status} - ${this.$t('ui.errors.cannotLoadStatus')}`);
-          });
-      }).catch(err => {
-        this.$store.dispatch('snacks/error', `E${err.response.status} - ${this.$t('ui.errors.impossibleToUpdate')}`);
-      });
+      const version = target || (this.ezpaarse.isBeta ? 'latest' : 'stable');
+
+      try {
+        await this.$store.dispatch('UPDATE_APP', version);
+      } catch (e) {
+        this.$store.dispatch('snacks/error', `E${e.response.status} - ${this.$t('ui.errors.impossibleToUpdate')}`);
+      }
+
+      try {
+        await this.$store.dispatch('LOAD_STATUS');
+      } catch (e) {
+        this.$store.dispatch('snacks/error', `E${e.response.status} - ${this.$t('ui.errors.cannotLoadStatus')}`);
+      }
 
       this.inUpdate.ezpaarse = false;
     }

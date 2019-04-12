@@ -211,6 +211,7 @@
         "updates": {
           "title": "Mises à jour",
           "resources": "Ressources",
+          "middlewares": "Middlewares",
           "software": "Logiciel",
           "predefinedParameters": "Paramètres prédéfinis et autres ressources indépendantes de la version d'ezPAARSE.",
           "middlewaresInfo": "Éléments de la chaîne de traitement d'ezPAARSE.",
@@ -327,6 +328,7 @@
     "continue": "Continuer",
     "currentVersion": "Version actuelle",
     "updateTo": "Mettre à jour vers {newVersion}",
+    "update": "Mettre à jour",
     "nameFile": "Nom du fichier",
     "name": "Nom",
     "value": "Valeur",
