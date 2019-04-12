@@ -33,11 +33,7 @@
                   <h3 class="mb-0">
                     {{ $t('ui.pages.index.whatIsEzpaarse') }}
                   </h3>
-                  <p v-html="$t('ui.pages.index.description', {
-                    github: 'https://github.com/ezpaarse-project/ezpaarse',
-                    analogist: 'http://analyses.ezpaarse.org/',
-                    doc: 'https://ezpaarse.readthedocs.io/en/master/development/routes.html'
-                  })" />
+                  <p v-html="$t('ui.pages.index.description', descriptionLinks)" />
                   <v-tooltip bottom>
                     <v-chip slot="activator">
                       <v-avatar>
@@ -139,7 +135,6 @@
 </template>
 
 <script>
-/* eslint-disable import/no-unresolved */
 import Snackbar from '~/components/Snackbar.vue';
 
 export default {
@@ -152,7 +147,12 @@ export default {
       locales: [
         { name: 'Français', value: 'fr' },
         { name: 'English', value: 'en' }
-      ]
+      ],
+      descriptionLinks: {
+        github: 'https://github.com/ezpaarse-project/ezpaarse',
+        analogist: 'http://analyses.ezpaarse.org/',
+        doc: 'https://ezpaarse.readthedocs.io/en/master/development/routes.html'
+      }
     };
   },
   computed: {

@@ -242,10 +242,11 @@ export default {
       this.loading = true;
       this.parseFirstLine();
     },
-    parseFirstLine: debounce(async function () {
+    parseFirstLine: debounce(async function parseLine () {
       if (!this.logLines) {
         this.loading = false;
-        return this.result = null;
+        this.result = null;
+        return;
       }
 
       this.loading = true;
@@ -253,10 +254,10 @@ export default {
 
       try {
         this.result = await this.$store.dispatch('process/LOG_PARSER', {
-           proxy: headers['Log-Format'].format,
-           format: headers['Log-Format'].value,
-           dateFormat: headers['Date-Format'],
-           logLines: this.logLines
+          proxy: headers['Log-Format'].format,
+          format: headers['Log-Format'].value,
+          dateFormat: headers['Date-Format'],
+          logLines: this.logLines
         });
       } catch (err) {
         this.$store.dispatch('snacks/error', `E${err.response.status} - ${this.$t('ui.errors.cannotGetlogFormat')}`);

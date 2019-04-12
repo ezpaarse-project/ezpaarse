@@ -29,7 +29,9 @@
         </div>
 
         <template v-if="status === 'error' && !error && loggingErrors.length > 0">
-          <p class="red--tex">{{ $t('ui.pages.process.hasLoggingErrors') }}</p>
+          <p>
+            {{ $t('ui.pages.process.hasLoggingErrors') }}
+          </p>
           <Logs :logs="loggingErrors" />
         </template>
 
@@ -40,10 +42,7 @@
         >
           <div
             class="text-xs-center"
-            v-html="$t('ui.pages.process.job.infos', {
-              excelUrl: 'https://github.com/ezpaarse-project/ezpaarse/raw/master/misc/windows/ezPAARSE-Render.xltm',
-              libreOfficeUrl: 'https://github.com/ezpaarse-project/ezpaarse/raw/master/misc/windows/ezPAARSE-Render.ots'
-            })"
+            v-html="$t('ui.pages.process.job.infos', macroLinks)"
           />
         </v-alert>
       </v-card-text>
@@ -70,7 +69,11 @@ export default {
   },
   data () {
     return {
-      panel: [true, false, false, false]
+      panel: [true, false, false, false],
+      macroLinks: {
+        excelUrl: 'https://github.com/ezpaarse-project/ezpaarse/raw/master/misc/windows/ezPAARSE-Render.xltm',
+        libreOfficeUrl: 'https://github.com/ezpaarse-project/ezpaarse/raw/master/misc/windows/ezPAARSE-Render.ots'
+      }
     };
   },
   computed: {

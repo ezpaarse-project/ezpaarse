@@ -5,7 +5,7 @@
     </v-toolbar>
 
     <v-card-text>
-      <p v-html="$t('ui.pages.admin.jobs.currentProcess', { process: jobs.length })"/>
+      <p v-html="$t('ui.pages.admin.jobs.currentProcess', { process: jobs.length })" />
 
       <v-flex v-if="treatments.length > 0" xs12>
         <v-text-field

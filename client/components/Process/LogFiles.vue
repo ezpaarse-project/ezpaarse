@@ -1,12 +1,13 @@
 <template>
   <v-layout column>
-    <v-layout class="dropzone"
-        align-center
-        justify-center
-        fill-height
-        ref="dropZone"
-        @dragover="dragAndDrop('over')"
-        @dragleave="dragAndDrop('leave')"
+    <v-layout
+      ref="dropZone"
+      class="dropzone"
+      align-center
+      justify-center
+      fill-height
+      @dragover="dragAndDrop('over')"
+      @dragleave="dragAndDrop('leave')"
     >
       <input
         ref="logFiles"
@@ -59,7 +60,10 @@
         color="error"
         @click="clearList"
       >
-        <v-icon left>mdi-delete-forever</v-icon> {{ $t('ui.pages.process.logFiles.removeList') }}
+        <v-icon left>
+          mdi-delete-forever
+        </v-icon>
+        {{ $t('ui.pages.process.logFiles.removeList') }}
       </v-btn>
     </p>
   </v-layout>
@@ -139,10 +143,10 @@ export default {
     dragAndDrop (event) {
       if (this.$refs && this.$refs.dropZone) {
         if (event && event === 'over') {
-          this.$refs.dropZone.classList.add('overlay')
+          this.$refs.dropZone.classList.add('overlay');
         }
         if (event && event === 'leave') {
-          this.$refs.dropZone.classList.remove('overlay')
+          this.$refs.dropZone.classList.remove('overlay');
         }
       }
     }

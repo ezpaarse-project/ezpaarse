@@ -10,7 +10,9 @@
           dismissible
           outline
         >
-          <div class="subheading font-weight-bold">{{ $t('ui.pages.index.demoHeader') }}</div>
+          <div class="subheading font-weight-bold">
+            {{ $t('ui.pages.index.demoHeader') }}
+          </div>
           <div>{{ $t('ui.pages.index.demoText') }}</div>
         </v-alert>
         <v-dialog
