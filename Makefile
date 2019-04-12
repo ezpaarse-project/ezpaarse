@@ -2,7 +2,7 @@
 
 SHELL:=/bin/bash
 
-all: nodejs node-modules platforms-update middlewares-update exclusions-update resources-update checkconfig build-nuxt ## Runs every steps needed to start ezpaarse
+all: nodejs node-modules platforms-update middlewares-update exclusions-update resources-update build-nuxt checkconfig ## Runs every steps needed to start ezpaarse
 
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
