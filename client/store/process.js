@@ -162,10 +162,24 @@ export default {
         commit('SET_REPORT', res);
       });
     },
-    GET_LOGGING ({ commit }, data) {
-      return api.getLogging(this.$axios, data).then(res => {
-        commit('SET_LOGGING', res);
+    async GET_LOGGING ({ commit }, jobId) {
+      const logging = await api.getLogging(this.$axios, jobId);
+
+      if (typeof logging !== 'string') { return; }
+
+      const lines = logging.split('\n').map(e => {
+        const match = /^([a-z0-9:.-]+)\s+([a-z]+):(.*)$/i.exec(e);
+
+        if (!match) { return null; }
+
+        return {
+          date: match[1],
+          level: match[2],
+          message: match[3]
+        };
       });
+
+      commit('SET_LOGGING', lines.filter(l => l));
     },
     LOG_PARSER (ctx, data) {
       return api.getLogParser(this.$axios, data);

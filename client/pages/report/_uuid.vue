@@ -16,15 +16,15 @@ export default {
   },
   async fetch ({ store, params, app }) {
     try {
-      if (params.uuid) await store.dispatch('process/GET_REPORT', params.uuid);
+      await store.dispatch('process/GET_REPORT', params.uuid);
     } catch (e) {
-      await store.dispatch('snacks/error', `E${e.response.status} - ${app.$t('ui.errors.cannotGetReport')}`);
+      store.dispatch('snacks/error', `E${e.response.status} - ${app.i18n.t('ui.errors.cannotGetReport')}`);
     }
 
     try {
-      if (params.uuid) await store.dispatch('process/GET_LOGGING', params.uuid);
+      await store.dispatch('process/GET_LOGGING', params.uuid);
     } catch (e) {
-      await store.dispatch('snacks/error', `E${e.response.status} - ${app.$t('ui.errors.cannotGetLogging')}`);
+      store.dispatch('snacks/error', `E${e.response.status} - ${app.i18n.t('ui.errors.cannotGetLogging')}`);
     }
   },
   computed: {
@@ -32,18 +32,7 @@ export default {
       return this.$store.state.process.report;
     },
     logging () {
-      const lines = this.$store.state.process.logging.split('\n').map(e => {
-        const match = /^([a-z0-9:.-]+)\s+([a-z]+):(.*)$/i.exec(e);
-
-        if (!match) { return null; }
-
-        return {
-          date: match[1],
-          level: match[2],
-          message: match[3]
-        };
-      });
-      return lines.filter(l => l);
+      return this.$store.state.process.logging;
     }
   }
 };
