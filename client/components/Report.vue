@@ -16,7 +16,11 @@
       </v-toolbar-items>
     </v-toolbar>
 
-    <v-expansion-panel v-model="panel" expand>
+    <v-card-text v-if="!report">
+      {{ $t('ui.errors.reportNotLoaded') }}
+    </v-card-text>
+
+    <v-expansion-panel v-else v-model="panel" expand>
       <v-expansion-panel-content>
         <div slot="header" class="title">
           {{ $t('ui.pages.process.job.processState') }}
