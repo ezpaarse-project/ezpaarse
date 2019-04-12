@@ -14,17 +14,17 @@ export default {
       download: true
     };
   },
-  async fetch ({ store, params }) {
+  async fetch ({ store, params, app }) {
     try {
       if (params.uuid) await store.dispatch('process/GET_REPORT', params.uuid);
     } catch (e) {
-      await store.dispatch('snacks/error', `E${e.response.status} - ${this.$t('ui.errors.cannotGetReport')}`);
+      await store.dispatch('snacks/error', `E${e.response.status} - ${app.$t('ui.errors.cannotGetReport')}`);
     }
 
     try {
       if (params.uuid) await store.dispatch('process/GET_LOGGING', params.uuid);
     } catch (e) {
-      await store.dispatch('snacks/error', `E${e.response.status} - ${this.$t('ui.errors.cannotGetLogging')}`);
+      await store.dispatch('snacks/error', `E${e.response.status} - ${app.$t('ui.errors.cannotGetLogging')}`);
     }
   },
   computed: {
