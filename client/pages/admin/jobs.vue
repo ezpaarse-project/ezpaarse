@@ -103,8 +103,27 @@ export default {
   middleware: ['admin'],
   data () {
     return {
-      search: '',
-      headers: [
+      search: ''
+    };
+  },
+  async fetch ({ store, app }) {
+    try {
+      await store.dispatch('socket/GET_JOBS');
+      app.socket.on('jobs', data => {
+        store.dispatch('socket/SET_JOBS', data);
+      });
+
+      await store.dispatch('process/GET_TREATMENTS');
+    } catch (e) {
+      await store.dispatch(
+        'snacks/error',
+        `E${e.response.status} - ${this.$t('ui.errors.cannotGetJobs')}`
+      );
+    }
+  },
+  computed: {
+    headers () {
+      return [
         {
           text: this.$t('ui.pages.admin.jobs.process.userId'),
           align: 'left',
@@ -129,25 +148,8 @@ export default {
           sortable: true,
           value: 'status'
         }
-      ]
-    };
-  },
-  async fetch ({ store, app }) {
-    try {
-      await store.dispatch('socket/GET_JOBS');
-      app.socket.on('jobs', data => {
-        store.dispatch('socket/SET_JOBS', data);
-      });
-
-      await store.dispatch('process/GET_TREATMENTS');
-    } catch (e) {
-      await store.dispatch(
-        'snacks/error',
-        `E${e.response.status} - ${this.$t('ui.errors.cannotGetJobs')}`
-      );
-    }
-  },
-  computed: {
+      ];
+    },
     jobs: {
       get () {
         return this.$store.state.socket.jobs;
