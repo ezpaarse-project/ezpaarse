@@ -5,11 +5,12 @@
       <Header />
       <v-container fluid>
         <v-alert
-          v-if="appInfos.demo"
-          :value="true"
-          color="info"
+          :value="!appInfos.demo"
+          type="info"
+          dismissible
+          outline
         >
-          <h3>{{ $t('ui.pages.index.demoHeader') }}</h3>
+          <div class="subheading font-weight-bold">{{ $t('ui.pages.index.demoHeader') }}</div>
           <div>{{ $t('ui.pages.index.demoText') }}</div>
         </v-alert>
         <v-dialog
