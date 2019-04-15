@@ -146,11 +146,42 @@
               </v-avatar>
               {{ ezpaarse.current }}
             </v-chip>
+
+            <v-chip
+              v-if="ezpaarse.current"
+              color="info"
+              dark
+              small
+              label
+            >
+              <span v-if="ezpaarse.isBeta">
+                {{ $t('ui.pages.admin.updates.beta') }}
+              </span>
+              <span v-else>
+                {{ $t('ui.pages.admin.updates.stable') }}
+              </span>
+            </v-chip>
           </div>
         </div>
 
         <v-spacer />
 
+        <v-btn
+          small
+          :disabled="ezpaarse.tag === ezpaarse.head"
+          :loading="inUpdate.ezpaarse"
+          @click="updateApp(ezpaarse.isBeta ? 'stable' : 'latest')"
+        >
+          <v-icon left>
+            mdi-sync
+          </v-icon>
+          <span v-if="ezpaarse.isBeta">
+            {{ $t('ui.pages.admin.updates.switchToStable') }}
+          </span>
+          <span v-else>
+            {{ $t('ui.pages.admin.updates.switchToBeta') }}
+          </span>
+        </v-btn>
         <v-btn
           small
           :disabled="!ezpaarse.isOutdated"
@@ -164,17 +195,6 @@
           {{ $t('ui.update') }}
         </v-btn>
       </v-layout>
-
-      <div>
-        <a @click="updateApp(ezpaarse.isBeta ? 'stable' : 'latest')">
-          <span v-if="ezpaarse.isBeta">
-            {{ $t('ui.pages.admin.updates.returnToStableVersion') }}
-          </span>
-          <span v-else>
-            {{ $t('ui.pages.admin.updates.returnToBetaVersion') }}
-          </span>
-        </a>
-      </div>
 
       <p>{{ $t('ui.pages.admin.updates.updateDuration') }}</p>
 
@@ -210,7 +230,7 @@ export default {
       const { ezpaarse } = this.$store.state;
       return {
         hasLocalChanges: ezpaarse['local-commits'] || ezpaarse['local-changes'],
-        isOutdated: ezpaarse['from-head'] === 'outdated',
+        isOutdated: ezpaarse[ezpaarse.isBeta ? 'from-head' : 'from-tag'] === 'outdated',
         ...ezpaarse
       };
     },
