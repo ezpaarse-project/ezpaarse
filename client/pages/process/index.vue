@@ -60,11 +60,9 @@
                 </v-btn>
               </template>
 
-              <v-card>
-                <v-card-text class="text-xs-justify" v-html="$t('ui.pages.process.explainationLogs')" />
-
+              <v-card class="text-xs-justify">
+                <v-card-text v-html="$t('ui.pages.process.explainationLogs')" />
                 <v-divider />
-
                 <v-card-text v-html="$t('ui.pages.process.explainationTestsLogs', { url: logSamplesUrl })" />
 
                 <v-card-actions>
