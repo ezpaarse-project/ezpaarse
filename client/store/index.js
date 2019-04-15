@@ -56,8 +56,8 @@ const store = () => new Vuex.Store({
     UPDATE_REPO (ctx, repo) {
       return api.updateRepo(this.$axios, repo);
     },
-    UPDATE_APP (ctx, version) {
-      return api.updateApp(this.$axios, version);
+    UPDATE_APP (ctx, { version, socketId }) {
+      return api.updateApp(this.$axios, version, socketId);
     },
     GET_PLATFORMS ({ commit }) {
       return api.getPlatforms(this.$axios).then(res => commit('SET_PLATFORMS', res));

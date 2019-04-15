@@ -47,7 +47,8 @@
         <v-spacer />
 
         <v-btn
-          v-if="resources.isOutdated"
+          small
+          :disabled="!resources.isOutdated"
           color="accent"
           :loading="inUpdate.resources"
           @click="update('resources')"
@@ -98,7 +99,8 @@
         <v-spacer />
 
         <v-btn
-          v-if="middlewares.isOutdated"
+          small
+          :disabled="!middlewares.isOutdated"
           color="accent"
           :loading="inUpdate.middlewares"
           @click="update('middlewares')"
@@ -150,7 +152,8 @@
         <v-spacer />
 
         <v-btn
-          v-if="ezpaarse.isOutdated"
+          small
+          :disabled="!ezpaarse.isOutdated"
           color="accent"
           :loading="inUpdate.ezpaarse"
           @click="updateApp"
@@ -174,16 +177,24 @@
       </div>
 
       <p>{{ $t('ui.pages.admin.updates.updateDuration') }}</p>
+
+      <Logs v-if="updateLogs" :logs="fullUpdateLogs" max-height="500" />
     </v-card-text>
   </v-card>
 </template>
 
 <script>
+import Logs from '~/components/Logs';
+
 export default {
   auth: true,
   middleware: ['admin'],
+  components: {
+    Logs
+  },
   data () {
     return {
+      updateLogs: '',
       inUpdate: {
         resources: false,
         middlewares: false,
@@ -192,6 +203,9 @@ export default {
     };
   },
   computed: {
+    fullUpdateLogs () {
+      return this.updateLogs.split('\n').map(message => ({ message }));
+    },
     ezpaarse () {
       const { ezpaarse } = this.$store.state;
       return {
@@ -217,6 +231,14 @@ export default {
       };
     }
   },
+  mounted () {
+    this.$socket.on('update-logs', data => {
+      this.updateLogs += data;
+    });
+  },
+  beforeDestroy () {
+    this.$socket.off('update-logs');
+  },
   methods: {
     async update (repo) {
       if (!Object.prototype.hasOwnProperty.call(this.inUpdate, repo)) { return; }
@@ -237,12 +259,15 @@ export default {
       this.inUpdate[repo] = false;
     },
     async updateApp (target) {
+      if (this.inUpdate.ezpaarse) { return; }
+
       this.inUpdate.ezpaarse = true;
+      this.updateLogs = '';
 
       const version = target || (this.ezpaarse.isBeta ? 'latest' : 'stable');
 
       try {
-        await this.$store.dispatch('UPDATE_APP', version);
+        await this.$store.dispatch('UPDATE_APP', { version, socketId: this.$socket.id });
       } catch (e) {
         this.$store.dispatch('snacks/error', `E${e.response.status} - ${this.$t('ui.errors.impossibleToUpdate')}`);
       }

@@ -1,15 +1,15 @@
 <template>
-  <v-card color="black">
+  <v-card color="black" :max-height="maxHeight" class="scrolling">
     <v-card-text class="white--text">
       <div v-for="(log, index) in logs" :key="index">
         <span v-if="log.date" class="grey--text">
           {{ log.date }}
         </span>
-        <span :class="logColor(log.level)">
-          {{ log.level }}
+        <span v-if="log.level" :class="logColor(log.level)">
+          {{ log.level }} :
         </span>
         <span v-if="log.message">
-          : {{ log.message }}
+          {{ log.message }}
         </span>
       </div>
     </v-card-text>
@@ -22,6 +22,10 @@ export default {
     logs: {
       type: Array,
       default: () => ([])
+    },
+    maxHeight: {
+      type: String,
+      default: null
     }
   },
   methods: {
@@ -41,3 +45,9 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+  .scrolling {
+    overflow-y: auto;
+  }
+</style>

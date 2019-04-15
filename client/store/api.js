@@ -16,7 +16,7 @@ api.getMiddlewaresStatus = (axios) => axios.get('/api/admin/middlewares/status')
 
 api.updateRepo = (axios, repo) => axios.put(`/api/admin/${repo}/status`, repo).then(res => res.data);
 
-api.updateApp = (axios, version) => axios.put(`/api/admin/app/status?version=${version}`).then(res => res.data);
+api.updateApp = (axios, version, socketId) => axios.put(`/api/admin/app/status?version=${version}&socket=${socketId}`).then(res => res.data);
 
 api.getPlatforms = (axios) => axios.get('/api/info/platforms').then(res => res.data);
 

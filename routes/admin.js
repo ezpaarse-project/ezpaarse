@@ -1,23 +1,23 @@
 'use strict';
 
-var fs         = require('fs');
-var path       = require('path');
-var bodyParser = require('body-parser');
-var execFile   = require('child_process').execFile;
-var geoip      = require('geoip-lite');
-var parserlist = require('../lib/parserlist.js');
-var config     = require('../lib/config.js');
-var userlist   = require('../lib/userlist.js');
-var mailer     = require('../lib/mailer.js');
-var auth       = require('../lib/auth-middlewares.js');
-var ezJobs     = require('../lib/jobs.js');
-var io         = require('../lib/socketio.js').io;
-var password = require('../lib/password');
+const fs         = require('fs');
+const path       = require('path');
+const bodyParser = require('body-parser');
+const { execFile, spawn }   = require('child_process');
+const geoip      = require('geoip-lite');
+const parserlist = require('../lib/parserlist.js');
+const config     = require('../lib/config.js');
+const userlist   = require('../lib/userlist.js');
+const mailer     = require('../lib/mailer.js');
+const auth       = require('../lib/auth-middlewares.js');
+const ezJobs     = require('../lib/jobs.js');
+const io         = require('../lib/socketio.js').io;
+const password = require('../lib/password');
 
-var emailRegexp = /^[a-z0-9!#$%&'*+/=?^_`{|}~.-]+@[a-z0-9-]+(\.[a-z0-9-]+)*$/i;
+const emailRegexp = /^[a-z0-9!#$%&'*+/=?^_`{|}~.-]+@[a-z0-9-]+(\.[a-z0-9-]+)*$/i;
 
-var { Router } = require('express');
-var app = Router();
+const { Router } = require('express');
+const app = Router();
 
 /**
  * GET route on /jobs
@@ -76,18 +76,34 @@ app.get('/:repo/status', auth.ensureAuthenticated(true),
 app.put('/app/status', auth.ensureAuthenticated(true), auth.authorizeMembersOf('admin'),
   function (req, res) {
 
-    var args = ['--restart'];
+    var args = [];
 
     if (req.query.version === 'latest') { args.push('--latest'); }
     if (req.query.force == 'yes')       { args.push('--force'); }
     if (req.query.rebuild !== 'no')     { args.push('--rebuild'); }
 
-    res.on('finish', function () {
-      res.locals.updating = true;
-      execFile('../lib/bin/update-app.js', args, { cwd: __dirname });
-    });
+    const socket = io().sockets.connected[req.query.socket];
+    if (socket) {
+      socket.join('admin');
+    }
 
-    res.status(200).end();
+    res.locals.updating = true;
+    const child = execFile('../bin/update-app', args, { cwd: __dirname });
+
+    child.stdout.on('data', data => {
+      io().to('admin').emit('update-logs', data);
+    });
+    child.stderr.on('data', data => {
+      io().to('admin').emit('update-logs', data);
+    });
+    child.on('close', () => {
+      res.status(200).end();
+      io().to('admin').emit('update-logs', 'Restarting...');
+
+      setTimeout(() => {
+        spawn('make', ['restart'], { cwd: path.resolve(__dirname, '..') });
+      }, 500);
+    });
   });
 
 /**
