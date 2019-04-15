@@ -33,5 +33,8 @@ export default ({ app, store }) => {
   socket.on('logging', (data) => {
     store.dispatch('socket/PUSH_LOGGING', data);
   });
-  if (!app.socket) app.socket = socket;
+
+  if (!app.socket) {
+    app.socket = socket;
+  }
 };
