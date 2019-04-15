@@ -200,6 +200,26 @@
 
       <Logs v-if="updateLogs" :logs="fullUpdateLogs" max-height="500" />
     </v-card-text>
+
+    <v-dialog v-model="refreshDialog" max-width="400px">
+      <v-card>
+        <v-card-title>
+          <div class="title">{{ $t('ui.pages.admin.updates.updateCompleted') }}</div>
+        </v-card-title>
+        <v-card-text class="text-xs-justify">
+          {{ $t('ui.pages.admin.updates.pleaseRefreshPage') }}
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer />
+          <v-btn flat @click="refreshDialog=false">
+            {{ $t('ui.close') }}
+          </v-btn>
+          <v-btn color="primary" @click="reloadPage(); refreshDialog=false">
+            {{ $t('ui.refresh') }}
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-card>
 </template>
 
@@ -215,6 +235,7 @@ export default {
   data () {
     return {
       updateLogs: '',
+      refreshDialog: false,
       inUpdate: {
         resources: false,
         middlewares: false,
@@ -260,6 +281,9 @@ export default {
     this.$socket.off('update-logs');
   },
   methods: {
+    reloadPage () {
+      window.location.reload();
+    },
     async update (repo) {
       if (!Object.prototype.hasOwnProperty.call(this.inUpdate, repo)) { return; }
       this.inUpdate[repo] = true;
@@ -288,16 +312,23 @@ export default {
 
       try {
         await this.$store.dispatch('UPDATE_APP', { version, socketId: this.$socket.id });
-      } catch (e) {
-        this.$store.dispatch('snacks/error', `E${e.response.status} - ${this.$t('ui.errors.impossibleToUpdate')}`);
+      } catch ({ response }) {
+        const status = (response && response.status) || 500;
+        this.$store.dispatch('snacks/error', `E${status} - ${this.$t('ui.errors.impossibleToUpdate')}`);
       }
+
+      await new Promise(resolve => {
+        this.$socket.once('connect', resolve);
+      });
 
       try {
         await this.$store.dispatch('LOAD_STATUS');
-      } catch (e) {
-        this.$store.dispatch('snacks/error', `E${e.response.status} - ${this.$t('ui.errors.cannotLoadStatus')}`);
+      } catch ({ response }) {
+        const status = (response && response.status) || 500;
+        this.$store.dispatch('snacks/error', `E${status} - ${this.$t('ui.errors.cannotLoadStatus')}`);
       }
 
+      this.refreshDialog = true;
       this.inUpdate.ezpaarse = false;
     }
   }
