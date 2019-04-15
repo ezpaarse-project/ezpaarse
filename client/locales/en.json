@@ -57,7 +57,7 @@
         "processlogLines": "Process your logs lines",
         "prepareTreatment": "Preparation of the treatment",
         "explainationLogs": "Indicate here the logs that you want ezPAARSE to analyze. Your logs may require special settings for ezPAARSE to understand them. If necessary, <a href=\"mailto:ezpaarse@couperin.org\">contact the ezPAARSE team</a> for a configuration help.",
-        "explainationTestsLogs": "You want to use test logs to validate your installation, <a href=\"{url}\" target=\"_blank\">we provide them on GitHub</a>.",
+        "explainationTestsLogs": "Need log samples to validate your installation ? <a href=\"{url}\" target=\"_blank\">we provide some on GitHub</a>.",
         "startProcessing": "Start processing",
         "filesSelection": "Files selection",
         "finalization": "Finalization...",

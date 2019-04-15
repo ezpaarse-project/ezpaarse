@@ -40,8 +40,40 @@
 
       <v-stepper-items>
         <v-stepper-content step="1">
-          <v-layout justify-center row class="mb-3">
+          <v-layout align-center justify-center row class="mb-3">
             <v-spacer />
+
+            <v-menu
+              v-model="fileSelectionHelp"
+              :close-on-content-click="false"
+              :nudge-width="200"
+              max-width="500"
+              offset-x
+              transition="slide-x-transition"
+            >
+              <template v-slot:activator="{ on }">
+                <v-btn
+                  icon
+                  v-on="on"
+                >
+                  <v-icon>mdi-help-circle</v-icon>
+                </v-btn>
+              </template>
+
+              <v-card>
+                <v-card-text class="text-xs-justify" v-html="$t('ui.pages.process.explainationLogs')" />
+
+                <v-divider />
+
+                <v-card-text v-html="$t('ui.pages.process.explainationTestsLogs', { url: logSamplesUrl })" />
+
+                <v-card-actions>
+                  <v-spacer />
+                  <v-btn flat @click="fileSelectionHelp = false">{{ $t('ui.close') }}</v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-menu>
+
             <v-btn
               large
               color="primary"
@@ -154,6 +186,8 @@ export default {
   },
   asyncData () {
     return {
+      logSamplesUrl: 'https://github.com/ezpaarse-project/ezpaarse-dataset-samples',
+      fileSelectionHelp: false,
       curlDialog: false,
       curlRequest: ''
     };
