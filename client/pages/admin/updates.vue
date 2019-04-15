@@ -156,7 +156,7 @@
           :disabled="!ezpaarse.isOutdated"
           color="accent"
           :loading="inUpdate.ezpaarse"
-          @click="updateApp"
+          @click="updateApp()"
         >
           <v-icon left>
             mdi-download
