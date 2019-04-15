@@ -5,22 +5,22 @@ var should  = require('should');
 var helpers = require('./helpers.js');
 
 var infoRoutes = [
-  '/info/platforms',
-  '/info/rtype',
-  '/info/mime',
-  '/info/rid',
-  '/info/fields.json',
-  '/info/codes',
-  '/info/codes/4003',
-  '/info/uuid',
-  '/info/form-predefined',
-  '/info/config'
+  '/api/info/platforms',
+  '/api/info/rtype',
+  '/api/info/mime',
+  '/api/info/rid',
+  '/api/info/fields.json',
+  '/api/info/codes',
+  '/api/info/codes/4003',
+  '/api/info/uuid',
+  '/api/info/form-predefined',
+  '/api/info/config'
 ];
 
 var adminRoutes = [
-  '/app/status',
-  '/platforms/status',
-  '/users'
+  '/api/admin/app/status',
+  '/api/admin/platforms/status',
+  '/api/admin/users'
 ];
 
 function testNextRoute(routes, status, callback) {

@@ -2,7 +2,7 @@
 
 SHELL:=/bin/bash
 
-all: nodejs node-modules platforms-update middlewares-update exclusions-update resources-update checkconfig ## Runs every steps needed to start ezpaarse
+all: nodejs node-modules platforms-update middlewares-update exclusions-update resources-update build-nuxt checkconfig ## Runs every steps needed to start ezpaarse
 
 help:
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
@@ -14,7 +14,7 @@ checkconfig: ## Check node configuration
 	@. ./bin/env; if which node > /dev/null; then ./bin/checkconfig; else echo "Node.js was not found" >&2; fi
 
 start: ## Start ezPAARSE in deamon mode
-	@./bin/ezpaarse start
+	@NODE_ENV=production ./bin/ezpaarse start
 
 stop: ## Stop ezPAARSE started in deamon mode
 	@./bin/ezpaarse stop
@@ -37,8 +37,8 @@ run-debug-docker: ## run ezpaarse in debug mode using docker
 	@# attach to the ezpaarse container in order to be able to stop it easily with CTRL+C
 	@docker attach ezpaarse
 
-build-docker: ## Build ezpaarseproject/ezpaarse:2.14.3 docker image locally
-	@docker build -t ezpaarseproject/ezpaarse:2.14.3 --build-arg http_proxy --build-arg https_proxy .
+build-docker: ## Build ezpaarseproject/ezpaarse:3.0.0 docker image locally
+	@docker build -t ezpaarseproject/ezpaarse:3.0.0 --build-arg http_proxy --build-arg https_proxy .
 
 test-docker: ## Run tests inside the ezpaarse container (needs make run-debug-docker in //)
 	@docker exec -it ezpaarse make test
@@ -110,13 +110,16 @@ nodejs: ## Build node for ezpaarse
 	@test -f /usr/bin/git || sudo apt-get install --yes git
 	@./bin/buildnode
 
+build-nuxt: ## Build Nuxt App
+	@. ./bin/env; npm run build
+
 node-modules: libs
 
 bower:
 	@. ./bin/env; npm run bower
 
 libs:
-	@. ./bin/env; npm install --no-save -q --unsafe-perm || rm ./node_modules -rf && npm install --no-save -q --unsafe-perm
+	@. ./bin/env; npm install --no-save -q --unsafe-perm || (rm ./node_modules -rf && npm install --no-save -q --unsafe-perm)
 
 middlewares-update: ## Clone or update middelwares directory
 	@if test -d middlewares; \

@@ -1,109 +1,34 @@
-/* eslint no-console: 0, no-sync: 0 */
+/* eslint no-console: 0 */
 'use strict';
 
-const express       = require('express');
-const bodyParser    = require('body-parser');
-const errorHandler  = require('errorhandler');
-const morgan        = require('morgan');
-const favicon       = require('serve-favicon');
+const { Nuxt, Builder } = require('nuxt');
+
+const app           = require('express')();
 const cookieSession = require('cookie-session');
 const cookieParser  = require('cookie-parser');
-
-// Set the global variable "ezpaarse"
-require('./lib/global.js');
-
-const pkg           = require('./package.json');
-const config        = require('./lib/config.js');
-const socketIO      = require('./lib/socketio.js');
-const mongo         = require('./lib/mongo.js');
-const http          = require('http');
-const path          = require('path');
-const mkdirp        = require('mkdirp');
-const fs            = require('fs-extra');
-const Reaper        = require('tmp-reaper');
 const auth          = require('./lib/auth-middlewares.js');
-const mailer        = require('./lib/mailer.js');
-const parserlist    = require('./lib/parserlist.js');
-const ecFilter      = require('./lib/ecfilter.js');
-const winston       = require('winston');
-require('./lib/winston-socketio.js');
 const passport      = require('passport');
 const BasicStrategy = require('passport-http').BasicStrategy;
 const LocalStrategy = require('passport-local').Strategy;
-const lsof          = require('lsof');
+const fs            = require('fs-extra');
+const bodyParser    = require('body-parser');
+const errorHandler  = require('errorhandler');
+const morgan        = require('morgan');
+const path          = require('path');
+const config        = require('./lib/config.js');
+const pkg           = require('./package.json');
+const mailer        = require('./lib/mailer.js');
+const useragent     = require('useragent');
 
-winston.addColors({ verbose: 'green', info: 'green', warn: 'yellow', error: 'red' });
+process.env.PORT = config.EZPAARSE_NODEJS_PORT || 59599;
 
-// to have a nice unix process name
-process.title = pkg.name.toLowerCase();
+// connect ezpaarse env to expressjs env
+const env = process.env.NODE_ENV = process.env.NODE_ENV || config.EZPAARSE_ENV;
+app.set('env', env);
 
-const { argv } = require('yargs')
-  .option('pid', {
-    alias: 'pidFile',
-    describe: 'the location of the ezpaarse pid file',
-    default: path.resolve(__dirname, 'ezpaarse.pid')
-  })
-  .option('lsof', {
-    boolean: true,
-    describe: 'periodically prints the number of opened file descriptors'
-  })
-  .option('memory', {
-    boolean: true,
-    describe: 'periodically prints the memory usage'
-  });
+const isDev = app.get('env') !== 'production';
 
-const { format } = winston;
-const logger = winston.createLogger({
-  level: 'info',
-  format: format.combine(
-    format.colorize(),
-    format.timestamp(),
-    format.printf(info => `${info.timestamp} ${info.level}: ${info.message}`)
-  ),
-  transports: [new (winston.transports.Console)()]
-});
-
-mkdirp.sync(path.resolve(__dirname, 'tmp'));
-
-// Setup cleaning jobs for the temporary folder
-if (config.EZPAARSE_TMP_CYCLE && config.EZPAARSE_TMP_LIFETIME) {
-  new Reaper({
-    recursive: true,
-    threshold: config.EZPAARSE_TMP_LIFETIME,
-    every: config.EZPAARSE_TMP_CYCLE
-  }).watch(path.resolve(__dirname, 'tmp'))
-    .on('error', err => logger.error(err.message))
-    .start();
-} else {
-  let err = 'Temporary folder won\'t be automatically cleaned, ';
-  err += 'fill TMP_CYCLE and TMP_LIFETIME in the configuration file.';
-  logger.warn(err);
-}
-
-if (argv.pidFile) {
-  // write pid to ezpaarse.pid file
-  fs.writeFileSync(argv.pidFile, process.pid);
-}
-if (argv.lsof) {
-  (function checklsof() {
-    lsof.raw(process.pid, function (data) {
-      data = data.filter(function (element) {
-        return /^(?:DIR|REG)$/i.test(element.type);
-      });
-      logger.info(`${data.length} file descriptors`);
-      setTimeout(checklsof, 5000);
-    });
-  })();
-}
-
-if (argv.memory) {
-  (function checkMemory() {
-    const memoryUsage = Math.round(process.memoryUsage().rss / 1024 / 1024 * 100) / 100;
-    logger.info(`Memory usage: ${memoryUsage} MiB`);
-    setTimeout(checkMemory, 5000);
-  })();
-}
-
+// Passport (auth)
 passport.serializeUser(function (user, done) {
   done(null, user);
 });
@@ -115,11 +40,13 @@ passport.deserializeUser(function (obj, done) {
 passport.use(new BasicStrategy(auth.login));
 passport.use(new LocalStrategy({ usernameField: 'userid' }, auth.login));
 
-const app = express();
-
-// connect ezpaarse env to expressjs env
-const env = process.env.NODE_ENV = process.env.NODE_ENV || config.EZPAARSE_ENV;
-app.set('env', env);
+app.use(cookieParser('ezpaarseappoftheYEAR'));
+app.use(cookieSession({ //should not be used in PROD
+  key: 'ezpaarse',
+  secret: 'ezpaarseappoftheYEAR'
+}));
+app.use(passport.initialize());
+app.use(passport.session());
 
 switch (env) {
 case 'development':
@@ -133,27 +60,17 @@ case 'production':
 
 app.set('port', config.EZPAARSE_NODEJS_PORT || 3000);
 
-// for dynamics HTML pages (ejs template engine is used)
-// https://github.com/visionmedia/ejs
-app.set('views', path.resolve(__dirname, 'views'));
-app.set('view engine', 'ejs');
-
-// used to expose a favicon in the browser
-// http://www.senchalabs.org/connect/middleware-favicon.html
-app.use(favicon(path.resolve(__dirname, 'public/img/favicon.ico')));
-
-
 /**
  * Send 503 if ezPAARSE is being updated
  */
 app.use(function (req, res, next) {
-  if (!app.locals.updating) { return next(); }
+  if (!res.locals.updating) { return next(); }
 
   fs.exists(path.resolve(__dirname, 'update.lock'), function (exist) {
     if (exist) {
       return res.status(503).send('ezPAARSE is being updated, it should be back in a few minutes');
     }
-    app.locals.updating = false;
+    res.locals.updating = false;
     next();
   });
 });
@@ -173,14 +90,6 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.use(cookieParser('ezpaarseappoftheYEAR'));
-app.use(cookieSession({ //should not be used in PROD
-  key: 'ezpaarse',
-  secret: 'ezpaarseappoftheYEAR'
-}));
-app.use(passport.initialize());
-app.use(passport.session());
-
 // Set the ezPAARSE-Version header in all responses
 app.use(function (req, res, next) {
   res.header('ezPAARSE-Version', pkg.version || 'N/A');
@@ -191,17 +100,6 @@ app.use(function (req, res, next) {
 app.use(function (req, res, next) {
   req.ezBaseURL = 'http://' + (req.headers['x-forwarded-host'] || req.headers.host);
   next();
-});
-
-// used to expose static files from the public folder
-app.use('/assets', express.static(path.resolve(__dirname, 'public')));
-app.use('/assets', function (req, res, next) { res.status(404).end(); });
-app.use('/stylesheets', express.static(path.resolve(__dirname, 'public/stylesheets')));
-app.use('/stylesheets', function (req, res, next) { res.status(404).end(); });
-app.use('/img', express.static(path.resolve(__dirname, 'public/img')));
-app.use('/img', function (req, res, next) { res.status(404).end(); });
-app.use('/doc', function (req, res, next) {
-  res.redirect('http://ezpaarse.readthedocs.io/');
 });
 
 /**
@@ -218,102 +116,72 @@ app.all('*', function (req, res, next) {
 // Handles delegated mails
 app.post('/mail', bodyParser.urlencoded({ extended: true }), bodyParser.json(), mailer.handle);
 
-// log related routes
-require('./routes/views')(app);
-require('./routes/ws')(app);
-require('./routes/info')(app);
-require('./routes/logs')(app);
-require('./routes/feedback')(app);
-require('./lib/castor.js')(app);
-require('./routes/admin')(app);
-require('./routes/auth')(app);
-require('./routes/format')(app);
-
-// For angular HTML5 mode
-app.get('*', function (req, res) {
-  res.render('main');
-});
-
 if (env == 'development') {
   app.use(errorHandler());
 }
 
-start().then(() => {
-  logger.info(`Listening on http://localhost:${app.get('port')}`);
+// Detect browser
+const express = require('express');
+app.set('views', path.resolve(`${__dirname}/public`));
+app.set('view engine', 'html');
+app.use(express.static(__dirname));
+app.engine('html', function (filePath, options, callback) {
+  fs.readFile(filePath, function (err, content) {
+    if (err) return callback(new Error(err));
+
+    return callback(null, content.toString());
+  });
+});
+app.use(function (req, res, next) {
+  const agent = useragent.is(req.headers['user-agent']).ie;
+  if (agent) {
+    return res.render('browser-compatibility.html');
+  }
+  next();
 });
 
-/**
- * Init and start the server
- */
-async function start () {
-  logger.info(`${pkg.name} v${pkg.version} | PID: ${process.pid} | Mode: ${app.get('env')}`);
+// Import API Routes
+app.use('/api/admin', require('./routes/admin'));
+app.use('/api/auth', require('./routes/auth'));
+app.use('/api/feedback', require('./routes/feedback'));
+app.use('/api/format', require('./routes/format'));
+app.use('/api/info', require('./routes/info'));
+app.use('/info', require('./routes/info'));
+app.use('/api/jobs', require('./routes/jobs'));
+app.use('/api/logs', require('./routes/logs'));
+app.use('/api/views', require('./routes/views'));
+app.use('/castor', require('./lib/castor'));
+app.use('/', require('./routes/ws'));
+app.use('/', require('./routes/logs'));
 
-  await connectToMongo();
+// API error handler
+app.use((err, req, res, next) => {
+  const error = {
+    status: err.status || 500,
+    error: err.message
+  };
+  if (isDev && error.status >= 500) {
+    error.stack = err.stack;
+  }
+  res.status(error.status).json(error);
+  res.end();
+});
 
-  const nbRobots = await new Promise((resolve, reject) => {
-    ecFilter.init((err, nbRobots) => {
-      if (err) { reject(err); }
-      else { resolve(nbRobots); }
+// Import and Set Nuxt.js options
+const nuxtConfig = require('./nuxt.config.js');
+nuxtConfig.dev = isDev;
+
+// Init Nuxt.js
+const nuxt = new Nuxt(nuxtConfig);
+app.use(nuxt.render);
+
+// Build only in dev mode
+if (nuxtConfig.dev) {
+  new Builder(nuxt).build()
+    .catch(error => {
+      console.error(error);
+      process.exit(1);
     });
-  });
-
-  try {
-    await parserlist.init();
-  } catch (e) {
-    logger.error(`Failed to initialize parser list: ${e.message}`);
-    process.exit(1);
-  }
-
-  const nbDomains = parserlist.sizeOf('domains');
-  const nbPlatforms = parserlist.sizeOf('platforms');
-  logger.info(`Domains: ${nbDomains} | Platforms: ${nbPlatforms} | Robot hosts: ${nbRobots}`);
-
-  const server = http.createServer(app);
-
-  socketIO.listen(server);
-
-  return new Promise(resolve => server.listen(app.get('port'), resolve));
 }
 
-/**
- * Connect to MongoDB and check that version matches requirements
- */
-async function connectToMongo () {
-  try {
-    await mongo.connect(config.EZPAARSE_MONGO_URL);
-  } catch (err) {
-    logger.error(`Cannot connect to MongoDB at ${config.EZPAARSE_MONGO_URL}`);
-    process.exit(1);
-  }
-
-  let mongoVersion;
-  try {
-    const info = await mongo.serverStatus();
-    mongoVersion = info.version;
-  } catch (err) {
-    logger.error('Cannot fetch MongoDB version');
-    process.exit(1);
-  }
-
-  logger.info(`MongoDB version: ${mongoVersion}`);
-
-  let versions = /^(?<major>[0-9]+)\.(?<minor>[0-9]+)/.exec(mongoVersion);
-
-  const major = parseInt(versions.groups.major);
-  const minor = parseInt(versions.groups.minor);
-
-  if (major < 3 || (major === 3 && minor < 2)) {
-    logger.error('MongoDB server outdated, please install version 3.2.0 or higher');
-    process.exit(1);
-  }
-}
-
-/**
- * To handled CTRL+C events
- */
-function shutdown() {
-  logger.info('Got a stop signal, shutting down...');
-  process.exit(1);
-}
-process.on('SIGTERM', shutdown);
-process.on('SIGINT', shutdown);
+module.exports = app;

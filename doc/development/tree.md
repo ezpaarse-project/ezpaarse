@@ -13,9 +13,7 @@
 │   ├── logformats
 │   ├── outputformats
 │   └── proxyformats
-├── locales [i18n]
-│   ├── en.json
-│   └── fr.json
+├── client [frontend application]
 ├── logs
 ├── middlewares [middleware modul directory]
 │   ├── <.modul.>
@@ -35,6 +33,7 @@
 │   └── windows [windows stuff]
 ├── node_modules [modules for nodejs]
 │   ├── ...
+├── mail-templates [emails templates]
 ├── platforms [platform plugin directory]
 │   ├── .lib [common stuff]
 │   ├── <.platform.>
@@ -72,5 +71,4 @@
 │       └── multiformat
 ├── tmp
 │   └── jobs
-└── views [express/ejs templates directory]
 </pre>

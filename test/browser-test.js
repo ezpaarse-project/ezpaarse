@@ -16,7 +16,7 @@ var host = 'http://localhost:' + config.EZPAARSE_NODEJS_PORT;
 describe('The browser', function () {
 
   it('should correctly download the main page', function () {
-    this.timeout(10000);
+    this.timeout(100000);
     return browser.visit(host);
   });
   it('should correctly load all resources', function (done) {

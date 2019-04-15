@@ -9,9 +9,9 @@ They are written like follows *(in red: the editable zones)*:
   * Double-Click-PDF: <span style="color: red">30</span>
   * Double-Click-MISC: <span style="color: red">20</span>
   * Double-Click-Strategy: <span style="color: red">CLI</span>
-  * Double-Click-C-field: <span style="color: red">NomDuChampCookie</span>
-  * Double-Click-L-field: <span style="color: red">NomDuChampLogin</span>
-  * Double-Click-I-field: <span style="color: red">NomDuChampHost</span>
+  * Double-Click-C-field: <span style="color: red">CookieFieldName</span>
+  * Double-Click-L-field: <span style="color: red">LoginFieldName</span>
+  * Double-Click-I-field: <span style="color: red">HostFiledName</span>
 
 
 ## Parameters (headers) ##
