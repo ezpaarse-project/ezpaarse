@@ -268,7 +268,7 @@ export default {
       }
 
       const sortByName = (a, b) => (a.file.name.toLowerCase() > b.file.name.toLowerCase() ? 1 : -1);
-      const files = this.logFiles.sort(sortByName);
+      const files = this.logFiles.slice().sort(sortByName);
 
       files.forEach(({ file }) => {
         curl.push(`-F "files[]=@${file.name};type=${file.type}"`);

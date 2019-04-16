@@ -214,6 +214,27 @@ export default {
     },
     SET_SETTINGS (state, settings) {
       Vue.set(state, 'settings', settings);
+    },
+    SET_FIELD (state, { name, value }) {
+      Vue.set(state.settings, name, value);
+    },
+    ADD_HEADER (state) {
+      state.settings.headers.push({ name: '', value: '' });
+    },
+    REMOVE_HEADER (state, index) {
+      state.settings.headers.splice(index, 1);
+    },
+    SET_HEADER_NAME (state, { index, value }) {
+      const header = state.settings.headers[index];
+      if (header) {
+        header.name = value;
+      }
+    },
+    SET_HEADER_VALUE (state, { index, value }) {
+      const header = state.settings.headers[index];
+      if (header) {
+        header.value = value;
+      }
     }
   },
   actions: {
@@ -241,6 +262,23 @@ export default {
       } else {
         dispatch('RESET_SETTINGS');
       }
+    },
+    SET_FIELD ({ commit }, { name, value }) {
+      if (name) {
+        commit('SET_FIELD', { name, value });
+      }
+    },
+    ADD_HEADER ({ commit }) {
+      commit('ADD_HEADER');
+    },
+    REMOVE_HEADER ({ commit }, index) {
+      commit('REMOVE_HEADER', index);
+    },
+    SET_HEADER_NAME ({ commit }, { index, value }) {
+      commit('SET_HEADER_NAME', { index, value });
+    },
+    SET_HEADER_VALUE ({ commit }, { index, value }) {
+      commit('SET_HEADER_VALUE', { index, value });
     },
     GET_HEADERS ({ state }) {
       return getHeaders(state.settings);

@@ -59,7 +59,7 @@
               <v-layout row wrap>
                 <v-flex xs4 pr-2>
                   <v-select
-                    v-model="settings.logType"
+                    v-model="logType"
                     :items="logTypes"
                     item-value="value"
                     item-text="text"
@@ -69,7 +69,7 @@
 
                 <v-flex xs4>
                   <v-text-field
-                    v-model="settings.dateFormat"
+                    v-model="dateFormat"
                     :label="$t('ui.pages.process.settings.dateFormat')"
                     placeholder="DD/MMM/YYYY:HH:mm:ss Z"
                     required
@@ -78,7 +78,7 @@
 
                 <v-flex xs4 pl-2>
                   <v-text-field
-                    v-model="settings.forceParser"
+                    v-model="forceParser"
                     :label="$t('ui.pages.process.settings.defaultParser')"
                     placeholder="dspace"
                     required
@@ -90,9 +90,9 @@
                   xs12
                 >
                   <v-text-field
-                    v-model="settings.logFormat"
+                    v-model="logFormat"
                     :label="$t('ui.pages.process.settings.logFormat')"
-                    :value="settings.logFormat"
+                    :value="logFormat"
                   />
                 </v-flex>
               </v-layout>
@@ -115,7 +115,7 @@
                   pr-2
                 >
                   <v-select
-                    v-model="settings.outputFormat"
+                    v-model="outputFormat"
                     :items="outputFormats"
                     :label="$t('ui.pages.process.settings.outputFormat')"
                   />
@@ -123,31 +123,33 @@
 
                 <v-flex xs6>
                   <v-select
-                    v-model="settings.tracesLevel"
-                    :items="tracesLevel"
+                    v-model="tracesLevel"
+                    :items="tracesLevels"
                     :label="$t('ui.pages.process.settings.traceLevel')"
                   />
                 </v-flex>
 
                 <v-flex xs12>
                   <v-combobox
-                    v-model="settings.notificationMails"
+                    v-model="notificationMails"
                     :label="$t('ui.pages.process.settings.notificationsEmails')"
                     chips
                     clearable
                     multiple
-                    append-icon=""
                   >
-                    <template
-                      slot="selection"
-                      slot-scope="data"
-                    >
+                    <template v-slot:selection="{ item, parent, selected }">
                       <v-chip
-                        :selected="data.selected"
-                        close
-                        @input="removeEmail(data.index)"
+                        :selected="selected"
+                        label
+                        small
                       >
-                        <strong>{{ data.item }}</strong>
+                        <span class="pr-2">{{ item }}</span>
+                        <v-icon
+                          small
+                          @click="parent.selectItem(item)"
+                        >
+                          mdi-close
+                        </v-icon>
                       </v-chip>
                     </template>
                   </v-combobox>
@@ -155,7 +157,7 @@
 
                 <v-flex xs12>
                   <v-checkbox
-                    v-model="settings.counterReports"
+                    v-model="counterReports"
                     value="jr1"
                     :label="$t('ui.pages.process.settings.counterReports')"
                   />
@@ -166,23 +168,26 @@
                 </v-flex>
                 <v-flex xs6>
                   <v-combobox
-                    v-model="settings.addedFields"
+                    v-model="addedFields"
                     :label="$t('ui.pages.process.settings.add')"
                     chips
                     clearable
                     multiple
                     append-icon=""
                   >
-                    <template
-                      slot="selection"
-                      slot-scope="data"
-                    >
+                    <template v-slot:selection="{ item, parent, selected }">
                       <v-chip
-                        :selected="data.selected"
-                        close
-                        @input="removeOutputPlus(data.index)"
+                        :selected="selected"
+                        label
+                        small
                       >
-                        <strong>{{ data.item }}</strong>
+                        <span class="pr-2">{{ item }}</span>
+                        <v-icon
+                          small
+                          @click="parent.selectItem(item)"
+                        >
+                          mdi-close
+                        </v-icon>
                       </v-chip>
                     </template>
                   </v-combobox>
@@ -193,23 +198,26 @@
                   pl-2
                 >
                   <v-combobox
-                    v-model="settings.removedFields"
+                    v-model="removedFields"
                     chips
                     clearable
                     :label="$t('ui.pages.process.settings.remove')"
                     multiple
                     append-icon=""
                   >
-                    <template
-                      slot="selection"
-                      slot-scope="data"
-                    >
+                    <template v-slot:selection="{ item, parent, selected }">
                       <v-chip
-                        :selected="data.selected"
-                        close
-                        @input="removeOutputMinus(data.index)"
+                        :selected="selected"
+                        label
+                        small
                       >
-                        <strong>{{ data.item }}</strong>
+                        <span class="pr-2">{{ item }}</span>
+                        <v-icon
+                          small
+                          @click="parent.selectItem(item)"
+                        >
+                          mdi-close
+                        </v-icon>
                       </v-chip>
                     </template>
                   </v-combobox>
@@ -217,23 +225,26 @@
 
                 <v-flex xs12>
                   <v-combobox
-                    v-model="settings.cryptedFields"
+                    v-model="cryptedFields"
                     chips
                     clearable
                     :label="$t('ui.pages.process.settings.cryptedFields')"
                     multiple
                     append-icon=""
                   >
-                    <template
-                      slot="selection"
-                      slot-scope="data"
-                    >
+                    <template v-slot:selection="{ item, parent, selected }">
                       <v-chip
-                        :selected="data.selected"
-                        close
-                        @input="removeCryptedField(data.index)"
+                        :selected="selected"
+                        label
+                        small
                       >
-                        <strong>{{ data.item }}</strong>
+                        <span class="pr-2">{{ item }}</span>
+                        <v-icon
+                          small
+                          @click="parent.selectItem(item)"
+                        >
+                          mdi-close
+                        </v-icon>
                       </v-chip>
                     </template>
                   </v-combobox>
@@ -263,7 +274,7 @@
               >
                 <v-flex xs6 md4>
                   <v-combobox
-                    v-model="header.name"
+                    :value="header.name"
                     :return-object="false"
                     :items="headers"
                     item-text="name"
@@ -271,6 +282,7 @@
                     :label="$t('ui.name')"
                     hide-details
                     solo
+                    @input="value => updateHeaderName(index, value)"
                   >
                     <template slot="item" slot-scope="{ item }">
                       <v-list-tile-content>
@@ -293,13 +305,13 @@
                 </v-flex>
                 <v-flex grow>
                   <v-text-field
-                    v-model="header.value"
                     :value="header.value"
                     append-outer-icon="mdi-close-circle"
                     :label="$t('ui.value')"
                     hide-details
                     solo
                     @click:append-outer="removeHeader(index)"
+                    @input="value => updateHeaderValue(index, value)"
                   />
                 </v-flex>
               </v-layout>
@@ -408,6 +420,50 @@ export default {
     };
   },
   computed: {
+    logType: {
+      get () { return this.settings.logType; },
+      set (value) { this.$store.dispatch('settings/SET_FIELD', { name: 'logType', value }); }
+    },
+    dateFormat: {
+      get () { return this.settings.dateFormat; },
+      set (value) { this.$store.dispatch('settings/SET_FIELD', { name: 'dateFormat', value }); }
+    },
+    forceParser: {
+      get () { return this.settings.forceParser; },
+      set (value) { this.$store.dispatch('settings/SET_FIELD', { name: 'forceParser', value }); }
+    },
+    logFormat: {
+      get () { return this.settings.logFormat; },
+      set (value) { this.$store.dispatch('settings/SET_FIELD', { name: 'logFormat', value }); }
+    },
+    outputFormat: {
+      get () { return this.settings.outputFormat; },
+      set (value) { this.$store.dispatch('settings/SET_FIELD', { name: 'outputFormat', value }); }
+    },
+    tracesLevel: {
+      get () { return this.settings.tracesLevel; },
+      set (value) { this.$store.dispatch('settings/SET_FIELD', { name: 'tracesLevel', value }); }
+    },
+    notificationMails: {
+      get () { return this.settings.notificationMails; },
+      set (value) { this.$store.dispatch('settings/SET_FIELD', { name: 'notificationMails', value }); }
+    },
+    counterReports: {
+      get () { return this.settings.counterReports; },
+      set (value) { this.$store.dispatch('settings/SET_FIELD', { name: 'counterReports', value }); }
+    },
+    addedFields: {
+      get () { return this.settings.addedFields; },
+      set (value) { this.$store.dispatch('settings/SET_FIELD', { name: 'addedFields', value }); }
+    },
+    removedFields: {
+      get () { return this.settings.removedFields; },
+      set (value) { this.$store.dispatch('settings/SET_FIELD', { name: 'removedFields', value }); }
+    },
+    cryptedFields: {
+      get () { return this.settings.cryptedFields; },
+      set (value) { this.$store.dispatch('settings/SET_FIELD', { name: 'cryptedFields', value }); }
+    },
     selectedSetting: {
       get () { return this.settings.id; },
       set (key) {
@@ -432,7 +488,7 @@ export default {
       ];
     },
     haveLogFormat () {
-      return this.settings.logFormat || this.settings.logType;
+      return this.logFormat || this.logType;
     },
     settingsIcon () {
       if (this.selectedSetting && !this.settings.predefined && this.$auth.user.group === 'admin') {
@@ -448,7 +504,7 @@ export default {
         { value: 'squid', text: 'Squid' }
       ];
     },
-    tracesLevel () {
+    tracesLevels () {
       return [
         { value: 'info', text: this.$t('ui.pages.process.settings.tracesLevel.generalInformations') },
         { value: 'error', text: this.$t('ui.pages.process.settings.tracesLevel.errorsOnly') },
@@ -534,35 +590,27 @@ export default {
       this.saveAsNew = this.settings.predefined || !this.settings.id;
       this.saveDialog = true;
     },
-    removeOutputPlus (index) {
-      this.settings.addedFields.splice(index, 1);
-    },
-    removeOutputMinus (index) {
-      this.settings.removedFields.splice(index, 1);
-    },
-    removeCryptedField (value) {
-      this.settings.cryptedFields.splice(value, 1);
-    },
-    removeEmail (index) {
-      this.settings.notificationMails.splice(index, 1);
-    },
     addHeader () {
-      this.settings.headers.push({ name: '', value: '' });
+      this.$store.dispatch('settings/ADD_HEADER');
     },
     removeHeader (index) {
-      this.settings.headers.splice(index, 1);
+      this.$store.dispatch('settings/REMOVE_HEADER', index);
+    },
+    updateHeaderName (index, value) {
+      this.$store.dispatch('settings/SET_HEADER_NAME', { index, value });
+    },
+    updateHeaderValue (index, value) {
+      this.$store.dispatch('settings/SET_HEADER_VALUE', { index, value });
     },
     resetSettings () {
       this.$store.dispatch('settings/RESET_SETTINGS');
     },
-
     fullNameRequired (value) {
       return !!(value && value.trim()) || this.$t('ui.pages.process.settings.fullNameRequired');
     },
     identifierRequired (value) {
       return !!(value && value.trim()) || this.$t('ui.pages.process.settings.identifierRequired');
     },
-
     nameIsAvailable (value) {
       const fullName = (value || '').trim().toLowerCase();
       const allSettings = this.$store.getters['settings/allSettings'];

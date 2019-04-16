@@ -27,7 +27,7 @@
           <v-layout row wrap>
             <v-flex xs6>
               <v-select
-                v-model="settings.logType"
+                v-model="logType"
                 :items="logTypes"
                 item-value="value"
                 item-text="text"
@@ -37,7 +37,7 @@
 
             <v-flex xs6>
               <v-text-field
-                v-model="settings.dateFormat"
+                v-model="dateFormat"
                 :label="$t('ui.pages.process.settings.dateFormat')"
                 placeholder="DD/MMM/YYYY:HH:mm:ss Z"
                 required
@@ -45,13 +45,13 @@
             </v-flex>
 
             <v-flex
-              v-if="settings.logType"
+              v-if="logType"
               xs12
             >
               <v-text-field
-                v-model="settings.logFormat"
+                v-model="logFormat"
                 :label="$t('ui.pages.process.settings.logFormat')"
-                :value="settings.logFormat"
+                :value="logFormat"
               />
             </v-flex>
           </v-layout>
@@ -248,19 +248,22 @@ export default {
     settings () {
       return this.$store.state.settings.settings;
     },
-    format () {
-      return this.settings && this.settings.logFormat;
+    logFormat: {
+      get () { return this.settings && this.settings.logFormat; },
+      set (value) { this.$store.dispatch('settings/SET_FIELD', { name: 'logFormat', value }); }
     },
-    proxy () {
-      return this.settings && this.settings.logType;
+    logType: {
+      get () { return this.settings && this.settings.logType; },
+      set (value) { this.$store.dispatch('settings/SET_FIELD', { name: 'logType', value }); }
     },
-    dateFormat () {
-      return this.settings && this.settings.dateFormat;
+    dateFormat: {
+      get () { return this.settings && this.settings.dateFormat; },
+      set (value) { this.$store.dispatch('settings/SET_FIELD', { name: 'dateFormat', value }); }
     }
   },
   watch: {
-    format () { this.onChange(); },
-    proxy () { this.onChange(); },
+    logFormat () { this.onChange(); },
+    logType () { this.onChange(); },
     dateFormat () { this.onChange(); }
   },
   methods: {
@@ -280,9 +283,9 @@ export default {
 
       try {
         this.result = await this.$store.dispatch('process/LOG_PARSER', {
-          proxy: this.settings.logType,
-          format: this.settings.logFormat,
-          dateFormat: this.settings.dateFormat,
+          proxy: this.logType,
+          format: this.logFormat,
+          dateFormat: this.dateFormat,
           logLines: this.logLines
         });
       } catch (e) {
