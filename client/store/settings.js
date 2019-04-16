@@ -141,7 +141,7 @@ function getHeaders (settings) {
   }
 
   // Create notification header
-  if (settings.notificationMails) {
+  if (Array.isArray(settings.notificationMails) && settings.notificationMails.length > 0) {
     headers['ezPAARSE-Job-Notifications'] = settings.notificationMails.map(mail => `mail<${mail.trim()}>`).join(',');
   }
 
