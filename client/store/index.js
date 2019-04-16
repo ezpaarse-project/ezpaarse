@@ -1,19 +1,8 @@
 import Vue from 'vue';
-import Vuex from 'vuex';
-import settings from './settings';
-import process from './process';
-import socket from './socket';
-import snacks from './snacks';
 import api from './api';
 
-const store = () => new Vuex.Store({
-  modules: {
-    settings,
-    process,
-    socket,
-    snacks
-  },
-  state: {
+export default {
+  state: () => ({
     appInfos: {
       version: '0.0.0',
       uptime: '0d 0h 0m 0s',
@@ -30,7 +19,7 @@ const store = () => new Vuex.Store({
     users: [],
     userNumber: -1,
     pkbs: {}
-  },
+  }),
   actions: {
     SET_DRAWER ({ commit }, value) {
       commit('SET_DRAWER', value);
@@ -146,6 +135,4 @@ const store = () => new Vuex.Store({
       Vue.set(state, 'appInfos', data);
     }
   }
-});
-
-export default store;
+};

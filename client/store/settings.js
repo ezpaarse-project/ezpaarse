@@ -181,14 +181,13 @@ function getHeaders (settings) {
 }
 
 export default {
-  namespaced: true,
-  state: {
+  state: () => ({
     predefinedSettings: [],
     customSettings: [],
     countries: [],
     treatments: [],
     settings: JSON.parse(JSON.stringify(defaultSettings))
-  },
+  }),
   getters: {
     allSettings (state) {
       return state.predefinedSettings.concat(state.customSettings);

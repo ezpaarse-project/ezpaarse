@@ -6,8 +6,7 @@ import api from './api';
 let fileId = 1;
 
 export default {
-  namespaced: true,
-  state: {
+  state: () => ({
     step: 1,
     progress: 0,
     logLines: '',
@@ -19,7 +18,7 @@ export default {
     error: null,
     logging: [],
     treatments: []
-  },
+  }),
   getters: {
     cancelable (state) {
       return state.cancelSource !== null;

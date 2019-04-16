@@ -1,13 +1,12 @@
 import api from './api';
 
 export default {
-  namespaced: true,
-  state: {
+  state: () => ({
     socketid: null,
     report: {},
     logging: [],
     jobs: 0
-  },
+  }),
   mutations: {
     SET_SOCKETID: (state, id) => {
       state.socketid = id;

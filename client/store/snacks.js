@@ -1,8 +1,7 @@
 export default {
-  namespaced: true,
-  state: {
+  state: () => ({
     messages: []
-  },
+  }),
   actions: {
     error ({ commit }, text) {
       commit('addMessage', { text, color: 'error' });
