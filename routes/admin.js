@@ -2,6 +2,7 @@
 
 const fs         = require('fs');
 const path       = require('path');
+const Boom       = require('boom');
 const bodyParser = require('body-parser');
 const { execFile, spawn }   = require('child_process');
 const geoip      = require('geoip-lite');
@@ -37,7 +38,7 @@ app.get('/jobs', auth.ensureAuthenticated(true), auth.authorizeMembersOf('admin'
  * To know if there are incoming changes in a repository
  */
 app.get('/:repo/status', auth.ensureAuthenticated(true),
-  function (req, res) {
+  function (req, res, next) {
     var gitScript = path.join(__dirname, '../bin/git-status');
     var directory;
 
@@ -51,20 +52,18 @@ app.get('/:repo/status', auth.ensureAuthenticated(true),
       directory = path.join(__dirname, '..');
       break;
     default:
-      return res.status(500).end();
+      return next(Boom.notAcceptable('invalid_repository'));
     }
 
     execFile(gitScript, { cwd: directory }, function (error, stdout) {
-      if (error || !stdout) {
-        res.status(500).end();
-        return;
-      }
+      if (error) { return next(error); }
+      if (!stdout) { return next(Boom.badImplementation()); }
 
       try {
         var result = JSON.parse(stdout);
         res.status(200).json(result);
       } catch (e) {
-        res.status(500).end();
+        return next(e);
       }
     });
   }
@@ -110,9 +109,9 @@ app.put('/app/status', auth.ensureAuthenticated(true), auth.authorizeMembersOf('
  * GET route on /users
  * To get the user list
  */
-app.get('/users', auth.ensureAuthenticated(true), function (req, res) {
+app.get('/users', auth.ensureAuthenticated(true), function (req, res, next) {
   userlist.getAll(function (err, users) {
-    if (err) { return res.status(500).end(); }
+    if (err) { return next(err); }
 
     res.set('Content-Type', 'application/json; charset=utf-8');
     res.set('ezPAARSE-Logged-User', req.user.username);
@@ -124,9 +123,9 @@ app.get('/users', auth.ensureAuthenticated(true), function (req, res) {
  * GET route on /usersnumber
  * To get the number of registered users
  */
-app.get('/usersnumber', function (req, res) {
+app.get('/usersnumber', function (req, res, next) {
   userlist.length(function (err, length) {
-    if (err) { return res.status(500).end(); }
+    if (err) { return next(err); }
 
     res.status(200).send(length.toString());
   });
@@ -137,33 +136,27 @@ app.get('/usersnumber', function (req, res) {
  * To sign up
  */
 app.post('/register', bodyParser.urlencoded({ extended: true }), bodyParser.json(),
-  function (req, res) {
+  function (req, res, next) {
     var userid   = req.body.userid;
     var password = req.body.password;
     var confirm  = req.body.confirm;
 
-    var sendErr = function (status, message) {
-      res.status(status).json({ status, message }).end();
-      // res.writeHead(status, { 'ezPAARSE-Status-Message': message });
-      // res.end();
-    };
-
     if (!userid || !password || !confirm) {
-      return sendErr(400, 'fillAllFields');
+      return next(Boom.badRequest('fillAllFields'));
     }
 
     // Regex used by angular
     if (!emailRegexp.test(userid)) {
-      return sendErr(400, 'invalidAddress');
+      return next(Boom.badRequest('invalidAddress'));
     }
 
     if (password != confirm) {
-      return sendErr(400, 'passwordDoesNotMatch');
+      return next(Boom.badRequest('passwordDoesNotMatch'));
     }
 
     userlist.get(userid, function (err, user) {
-      if (err) { res.status(500).end(); }
-      if (user) { return sendErr(409, 'userAlreadyExists'); }
+      if (err) { return next(err); }
+      if (user) { return next(Boom.conflict('userAlreadyExists')); }
 
       var cryptedPassword = userlist.crypt(userid, password);
 
@@ -174,7 +167,8 @@ app.post('/register', bodyParser.urlencoded({ extended: true }), bodyParser.json
         createdAt: new Date()
       }, function (err, user) {
 
-        if (err || !user) { return res.status(500).end(); }
+        if (err) { return next(err); }
+        if (!user) { return next(Boom.badImplementation()); }
 
         var copyUser = {};
         for (var prop in user) {
@@ -183,8 +177,7 @@ app.post('/register', bodyParser.urlencoded({ extended: true }), bodyParser.json
 
         req.logIn(user, function (err) {
           if (err) {
-            res.status(500).end();
-            return;
+            return next(err);
           }
           res.status(201).json(copyUser);
         });
@@ -225,29 +218,23 @@ app.post('/register', bodyParser.urlencoded({ extended: true }), bodyParser.json
  * To add a user as admin
  */
 app.post('/users/', auth.ensureAuthenticated(true), auth.authorizeMembersOf('admin'),
-  bodyParser.urlencoded({ extended: true }), bodyParser.json(), function (req, res) {
+  bodyParser.urlencoded({ extended: true }), bodyParser.json(), function (req, res, next) {
     var userid   = req.body.userid;
     var password = req.body.password;
     var group    = req.body.group || 'user';
 
-    var sendErr = function (status, message) {
-      res.status(status).json({ status, message }).end();
-      // res.writeHead(status, { 'ezPAARSE-Status-Message': message });
-      // res.end();
-    };
-
     if (!userid || !password) {
-      return sendErr(400, 'fillAllFields');
+      return next(Boom.badRequest('fillAllFields'));
     }
 
     // Regex used by angular
     if (!emailRegexp.test(userid)) {
-      return sendErr(400, 'invalidAddress');
+      return next(Boom.badRequest('invalidAddress'));
     }
 
     userlist.get(userid, function (err, user) {
-      if (err) { res.status(500).end(); }
-      if (user) { return sendErr(409, 'userAlreadyExists'); }
+      if (err) { return next(err); }
+      if (user) { return next(Boom.conflict('userAlreadyExists')); }
 
       var cryptedPassword = userlist.crypt(userid, password);
 
@@ -258,7 +245,8 @@ app.post('/users/', auth.ensureAuthenticated(true), auth.authorizeMembersOf('adm
         createdAt: new Date()
       }, function (err, user) {
 
-        if (err || !user) { return res.status(500).end(); }
+        if (err) { return next(err); }
+        if (!user) { return next(Boom.badImplementation()); }
 
         var copyUser = {};
         for (var prop in user) {
@@ -276,18 +264,15 @@ app.post('/users/', auth.ensureAuthenticated(true), auth.authorizeMembersOf('adm
  * To remove a user
  */
 app.delete(/^\/users\/(.+)$/, auth.ensureAuthenticated(true),
-  auth.authorizeMembersOf('admin'), function (req, res) {
+  auth.authorizeMembersOf('admin'), function (req, res, next) {
     var username = req.params[0];
     if (username == req.user.username) {
-      res.status(403).json({ status: 403, message: 'cannotDeleteYourself' }).end();
-      // res.set('ezPAARSE-Status-Message', 'cant_delete_yourself');
-      // res.status(403).end();
-    } else {
-      userlist.remove(username, function (err) {
-        if (err) { res.status(500).end(); }
-        res.status(204).end();
-      });
+      return next(Boom.forbidden('cannotDeleteYourself'));
     }
+    userlist.remove(username, function (err) {
+      if (err) { return next(err); }
+      res.status(204).end();
+    });
   }
 );
 
@@ -296,11 +281,11 @@ app.delete(/^\/users\/(.+)$/, auth.ensureAuthenticated(true),
  * To change a user
  */
 app.post(/^\/users\/(.+)$/, auth.ensureAuthenticated(true), auth.authorizeMembersOf('admin'),
-  bodyParser.urlencoded({ extended: true }), bodyParser.json(), function (req, res) {
+  bodyParser.urlencoded({ extended: true }), bodyParser.json(), function (req, res, next) {
     var mail = req.params[0];
     userlist.get(mail, function (err, user) {
-      if (err) { return res.status(500).end(); }
-      if (!user) { return res.status(404).end(); }
+      if (err) { return next(err); }
+      if (!user) { return next(Boom.notFound()); }
 
       var body   = req.body;
       var change = {};
@@ -308,9 +293,7 @@ app.post(/^\/users\/(.+)$/, auth.ensureAuthenticated(true), auth.authorizeMember
       if (body.username) {
         // Regex used by angular
         if (!emailRegexp.test(body.username)) {
-          res.status(400).json({ status: 400, message: 'invalidAddress' }).end();
-          // res.header('ezPAARSE-Status-Message', 'invalid_address');
-          // return res.status(400).end();
+          return next(Boom.badRequest('invalidAddress'));
         }
 
         change.username = body.username;
@@ -318,15 +301,13 @@ app.post(/^\/users\/(.+)$/, auth.ensureAuthenticated(true), auth.authorizeMember
 
       if (body.group && body.group != user.group) {
         if (mail == req.user.username) {
-          res.status(400).json({ status: 400, message: 'cannotChangeYourOwnGroup' }).end();
-          // res.header('ezPAARSE-Status-Message', 'cant_change_your_own_group');
-          // return res.status(400).end();
+          return next(Boom.badRequest('cannotChangeYourOwnGroup'));
         }
         change.group = body.group;
       }
 
       userlist.set(user.username, change, function (err, newUser) {
-        if (err) { return res.status(500).end(); }
+        if (err) { return next(err); }
 
         delete newUser.password;
         res.status(200).json(newUser);
@@ -340,26 +321,29 @@ app.post(/^\/users\/(.+)$/, auth.ensureAuthenticated(true), auth.authorizeMember
  * To reset a user password
  */
 /* eslint-disable-next-line */
-app.post('/passwords', bodyParser.urlencoded({ extended: true }), bodyParser.json(), function (req, res) {
+app.post('/passwords', bodyParser.urlencoded({ extended: true }), bodyParser.json(), function (req, res, next) {
   const username = req.body.username;
   const locale = req.body.locale || 'en';
-  if (!username) return res.status(400).end();
+  if (!username) { return next(Boom.badRequest('missingUsername')); }
 
   userlist.get(username, function (err, user) {
-    if (err) { return res.status(500).end(); }
-    if (!user) { return res.status(404).json({ status: 404, message: 'userNotFound' }); }
+    if (err) { return next(err); }
+    if (!user) { return next(Boom.notFound('userNotFound')); }
 
     password.genereateUniqId(username, function (err, result, uuid) {
-      if (err || !uuid) return res.status(500).end();
-      if (!result) return res.status(404).end();
+      if (err || !uuid) { return next(err); }
+      if (!result) { return next(Boom.notFound()); }
 
-      /* eslint-disable-next-line */
-      const url = `${req.protocol}://${req.get('x-forwarded-host') || req.get('host')}/password/${uuid}`;
+      const host = req.get('x-forwarded-host') || req.get('host');
+      const url = `${req.protocol}://${host}/password/${uuid}`;
+
       mailer.generate(`password/${locale}`, { url }, function (err, html, text) {
-        if (err) return res.status(500).end();
+        if (err) { return next(err); }
 
-        /* eslint-disable-next-line */
-        const subject = locale === 'fr' ? 'Réinitialisation de votre mot de passe' : 'Resetting your password';
+        const subject = locale === 'fr'
+          ? 'Réinitialisation de votre mot de passe'
+          : 'Resetting your password';
+
         mailer.mail()
           .subject(`[ezPAARSE] ${subject}`)
           .html(html)
@@ -367,7 +351,8 @@ app.post('/passwords', bodyParser.urlencoded({ extended: true }), bodyParser.jso
           .from(config.EZPAARSE_ADMIN_MAIL)
           .to(username)
           .send(function (err) {
-            return res.status(err ? 500 : 200).end();
+            if (err) { return next(err); }
+            res.status(200).end();
           });
       });
     });
@@ -375,30 +360,35 @@ app.post('/passwords', bodyParser.urlencoded({ extended: true }), bodyParser.jso
 });
 
 /* eslint-disable-next-line */
-app.put('/passwords', bodyParser.urlencoded({ extended: true }), bodyParser.json(), function (req, res) {
+app.put('/passwords', bodyParser.urlencoded({ extended: true }), bodyParser.json(), function (req, res, next) {
   const pwd = req.body.credentials.password;
   const pwdRepeat = req.body.credentials.password_repeat;
   const uuid = req.body.uuid;
 
-  if (!pwd || !pwdRepeat || !uuid) return res.status(400).json({ status: 400, message: 'error' });
-  /* eslint-disable-next-line */
-  if (pwd !== pwdRepeat) return res.status(400).json({ status: 400, message: 'passwordDoesNotMatch' });
+  if (!pwd || !pwdRepeat || !uuid) {
+    return next(Boom.badRequest());
+  }
+  if (pwd !== pwdRepeat) {
+    return next(Boom.badRequest('passwordDoesNotMatch'));
+  }
 
   password.getUser(uuid, function (err, result) {
-    if (err) return res.status(500).json({ status: 500 });
-    if (!result) return res.status(500).json({ status: 500, message: 'error' });
+    if (err) { return next(err); }
+    if (!result) { return next(Boom.badImplementation()); }
 
     const currentDate = Date.now();
 
-    /* eslint-disable-next-line */
-    if (currentDate > result.expirationDate) return res.status(500).json({ status: 500, message: 'expirationDate' });
+    if (currentDate > result.expirationDate) {
+      return next(Boom.resourceGone('expirationDate'));
+    }
 
     const cryptedPassword = userlist.crypt(result.username, pwd);
+
     userlist.set(result.username, 'password', cryptedPassword, function (err) {
-      if (err) return res.status(500).json({ status: 500, message: 'passwordNotSet' });
+      if (err) { return next(Boom.badImplementation('passwordNotSet')); }
 
       userlist.set(result.username, 'expirationDate', 0, function (err) {
-        if (err) return res.status(500).json({ status: 500, message: 'passwordNotSet' });
+        if (err) { return next(Boom.badImplementation('passwordNotSet')); }
 
         return res.status(200).end();
       });
@@ -411,36 +401,31 @@ app.put('/passwords', bodyParser.urlencoded({ extended: true }), bodyParser.json
  * To change profile settings
  */
 app.post('/profile', auth.ensureAuthenticated(true),
-  bodyParser.urlencoded({ extended: true }), bodyParser.json(), function (req, res) {
+  bodyParser.urlencoded({ extended: true }), bodyParser.json(), function (req, res, next) {
     userlist.get(req.user.username, function (err, user) {
-      if (err) { return res.status(500).end(); }
-      if (!user) { return res.status(404).end(); }
+      if (err) { return next(err); }
+      if (!user) { return next(Boom.notFound()); }
 
       var body = req.body;
 
       switch (body.section) {
       case 'password':
         if (!body.oldPassword || !body.newPassword || !body.confirm) {
-          return res.status(400).json({ status: 400, message: 'fillAllFields' }).end();
-          // res.set('ezPAARSE-Status-Message', 'fill_all_fields');
-          // return res.status(400).end();
+          return next(Boom.badRequest('fillAllFields'));
         } else if (body.newPassword != body.confirm) {
-          return res.status(400).json({ status: 400, message: 'passwordDoesNotMatch' }).end();
-          // res.set('ezPAARSE-Status-Message', 'password_does_not_match');
-          // return res.status(400).end();
+          return next(Boom.badRequest('passwordDoesNotMatch'));
         }
 
         var oldCryptedPassword = userlist.crypt(user.username, body.oldPassword);
 
         if (user.password != oldCryptedPassword) {
-          return res.status(400).json({ status: 400, message: 'wrongPassword' }).end();
-          // res.set('ezPAARSE-Status-Message', 'wrong_password');
-          // return res.status(400).end();
+          return next(Boom.badRequest('wrongPassword'));
         }
 
         var newPassword = userlist.crypt(user.username, body.newPassword);
         userlist.set(user.username, 'password', newPassword, function (err) {
-          return res.status(err ? 500 : 204).end();
+          if (err) { return next(err); }
+          return res.status(204).end();
         });
         break;
       case 'notifications':
@@ -448,13 +433,12 @@ app.post('/profile', auth.ensureAuthenticated(true),
           body.notifiate = (body.notifiate.toLowerCase() !== 'false');
         }
         userlist.set(user.username, 'notifiate', !!body.notifiate, function (err) {
-          return res.status(err ? 500 : 204).end();
+          if (err) { return next(err); }
+          return res.status(204).end();
         });
         break;
       default:
-        return res.status(400).json({ status: 400, message: 'badSection' }).end();
-        // res.set('ezPAARSE-Status-Message', 'bad_section');
-        // res.status(400).end();
+        return next(Boom.badRequest('badSection'));
       }
     });
   }
@@ -464,19 +448,19 @@ app.post('/profile', auth.ensureAuthenticated(true),
  * Update a git folder
  */
 app.put('/:repo/status', auth.ensureAuthenticated(true), auth.authorizeMembersOf('admin'),
-  function (req, res) {
+  function (req, res, next) {
     const repo = req.params.repo;
     const repos = ['resources', 'middlewares', 'platforms'];
 
     if (repos.indexOf(repo) === -1) {
-      return res.status(406).json({ error: `valid repos : ${repos.join(', ')}` });
+      return next(Boom.notAcceptable(`valid repos : ${repos.join(', ')}`));
     }
 
     const directory = path.join(__dirname, '..', repo);
     const gitScript = path.join(__dirname, '../bin/git-update');
 
     execFile(gitScript, { cwd: directory }, function (error) {
-      if (error) { return res.status(500).end(); }
+      if (error) { return next(error); }
 
       switch (repo) {
       case 'resources':
@@ -502,7 +486,7 @@ app.put('/:repo/status', auth.ensureAuthenticated(true), auth.authorizeMembersOf
         res.status(200).end();
         break;
       default:
-        res.status(500).end();
+        return next(Boom.badImplementation());
       }
     });
   }

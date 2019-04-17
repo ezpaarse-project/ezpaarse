@@ -1,16 +1,24 @@
 'use strict';
 
 var logParser = require('../lib/logparser');
+var Boom = require('boom');
 var bodyParser = require('body-parser');
 var { Router } = require('express');
 var app = Router();
 
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+
 /**
 *  Get a browserified version of the log parser
 */
-app.put('/logparser', bodyParser.urlencoded({ extended: true }), bodyParser.json(), (req, res) => {
-  if (!req.body) { return res.status(400); }
-  if (typeof req.body.logLines !== 'string') { return res.status(400); }
+app.put('/logparser', (req, res, next) => {
+  if (!req.body) {
+    return next(Boom.badRequest('noBody'));
+  }
+  if (typeof req.body.logLines !== 'string') {
+    return next(Boom.badRequest('missingLogLinesField'));
+  }
 
   const logLine = req.body.logLines.split('\n')[0];
 

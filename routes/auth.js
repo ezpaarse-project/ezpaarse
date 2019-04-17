@@ -1,21 +1,20 @@
-// ##EZPAARSE
-
 'use strict';
 
-var bodyParser = require('body-parser');
-var auth       = require('../lib/auth-middlewares.js');
-var userlist   = require('../lib/userlist.js');
-var passport   = require('passport');
+const bodyParser = require('body-parser');
+const auth       = require('../lib/auth-middlewares.js');
+const userlist   = require('../lib/userlist.js');
+const passport   = require('passport');
 
-var { Router } = require('express');
-var app = Router();
+const { Router } = require('express');
+const app = Router();
 
 /**
  * Retrieve current logged
  */
 app.get('/session', auth.ensureAuthenticated(false), function (req, res, next) {
   userlist.get(req.user.username, function (err, user) {
-    if (err) { return res.status(500).end(); }
+    if (err) { return next(err); }
+
     res.status(200).json({
       _id: user._id,
       username: user.username,
@@ -30,9 +29,9 @@ app.get('/session', auth.ensureAuthenticated(false), function (req, res, next) {
  * Login
  */
 app.post('/login', bodyParser.urlencoded({ extended: true }), bodyParser.json(),
-  passport.authenticate('local'), function (req, res, net) {
+  passport.authenticate('local'), function (req, res) {
     if (req.body.remember) {
-      req.sessionCookies.maxAge = 15778462980; //6 months
+      req.sessionCookies.maxAge = 15778462980; // 6 months
     } else {
       req.sessionCookies.expires = false;
     }

@@ -19,6 +19,7 @@ const config        = require('./lib/config.js');
 const pkg           = require('./package.json');
 const mailer        = require('./lib/mailer.js');
 const useragent     = require('useragent');
+const Boom          = require('boom');
 
 process.env.PORT = config.EZPAARSE_NODEJS_PORT || 59599;
 
@@ -154,17 +155,23 @@ app.use('/castor', require('./lib/castor'));
 app.use('/', require('./routes/ws'));
 app.use('/', require('./routes/logs'));
 
+app.use('/api', (req, res, next) => {
+  next(Boom.notFound());
+});
+
 // API error handler
 app.use((err, req, res, next) => {
-  const error = {
-    status: err.status || 500,
-    error: err.message
-  };
-  if (isDev && error.status >= 500) {
-    error.stack = err.stack;
+  if (err.isBoom) {
+    return res.status(err.output.statusCode).json(err.output.payload);
   }
-  res.status(error.status).json(error);
-  res.end();
+
+  const error = err.isBoom ? err : Boom.boomify(err, { statusCode: err.statusCode });
+
+  if (isDev && error.isServer) {
+    error.output.payload.stack = error.stack;
+  }
+
+  res.status(error.output.statusCode).json(error.output.payload);
 });
 
 // Import and Set Nuxt.js options
