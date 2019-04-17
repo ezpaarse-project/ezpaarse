@@ -49,7 +49,7 @@ app.post('/login', bodyParser.urlencoded({ extended: true }), bodyParser.json(),
 /**
  * Logout
  */
-app.get('/logout', function (req, res, next) {
+app.post('/logout', function (req, res) {
   req.logout();
   res.status(204).end();
 });
