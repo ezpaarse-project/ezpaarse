@@ -37,7 +37,7 @@
         color="primary"
         type="submit"
         :loading="loading"
-        :disabled="validForm"
+        :disabled="!validForm"
       >
         {{ $t('ui.signin') }}
       </v-btn>
