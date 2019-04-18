@@ -1,8 +1,5 @@
 <template>
-  <v-form
-    method="post"
-    @submit.prevent="signin"
-  >
+  <v-form v-model="validForm" @submit.prevent="signin">
     <v-card-text>
       <v-text-field
         v-model="credentials.userid"
@@ -10,6 +7,7 @@
         name="userid"
         label="Email"
         type="email"
+        :rules="[isRequired]"
       />
       <v-text-field
         id="password"
@@ -18,6 +16,7 @@
         name="password"
         :label="$t('ui.password')"
         type="password"
+        :rules="[isRequired]"
       />
       <v-checkbox
         v-model="credentials.remember"
@@ -37,7 +36,8 @@
       <v-btn
         color="primary"
         type="submit"
-        :disabled="!credentials.userid || !credentials.password"
+        :loading="loading"
+        :disabled="validForm"
       >
         {{ $t('ui.signin') }}
       </v-btn>
@@ -51,35 +51,47 @@ import get from 'lodash.get';
 export default {
   data () {
     return {
+      loading: false,
+      validForm: true,
       credentials: {
-        userid: null,
-        password: null,
+        userid: '',
+        password: '',
         remember: false
       }
     };
   },
   methods: {
-    signin () {
-      return this.$auth.login({
-        data: {
-          userid: this.credentials.userid.trim(),
-          password: this.credentials.password.trim(),
-          remember: this.credentials.remember
-        }
-      }).then(() => {
-        this.$store.dispatch('GET_APP_INFOS');
-        this.$store.dispatch('LOAD_PKBS');
-        this.$store.dispatch('LOAD_STATUS');
-        this.$router.push('/process');
-      }).catch(err => {
-        const status = get(err, 'response.status', 500);
+    isRequired (value) {
+      return !!(value && value.trim()) || this.$t('ui.fieldRequired');
+    },
+    async signin () {
+      this.loading = true;
 
-        if (status === 401) {
+      try {
+        await this.$auth.login({
+          data: {
+            userid: this.credentials.userid.trim(),
+            password: this.credentials.password.trim(),
+            remember: this.credentials.remember
+          }
+        });
+      } catch (e) {
+        const status = get(e, 'response.status', 500);
+
+        if (status === 400 || status === 401) {
           this.$store.dispatch('snacks/error', 'ui.errors.badCredentials');
         } else {
           this.$store.dispatch('snacks/error', 'ui.errors.error');
         }
-      });
+        this.loading = false;
+        return;
+      }
+
+      this.$store.dispatch('GET_APP_INFOS');
+      this.$store.dispatch('LOAD_PKBS');
+      this.$store.dispatch('LOAD_STATUS');
+      this.$router.push('/process');
+      this.loading = false;
     }
   }
 };

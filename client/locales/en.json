@@ -352,6 +352,7 @@
     "signup": "Sign up",
     "rememberMe": "Remember me",
     "confirmPassword": "Confirm your password",
+    "fieldRequired": "This field is required",
     "language": "Language",
     "send": "Envoyer",
     "informTeamWarning": "You just installed ezPAARSE and you're going to create the administrator account. With your agreement, we would like to be informed about this installation. The e-mail address filled above and the version of ezPAARSE you installed will be sent to <strong>{recipients}</strong>.",
