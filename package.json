@@ -42,6 +42,7 @@
     "lazy": "~1.0.11",
     "lines-skipper": "0.0.5",
     "lodash.debounce": "^4.0.8",
+    "lodash.get": "^4.4.2",
     "lodash.isequal": "^4.5.0",
     "lsof": "0.1.0",
     "mime": "^2.3.1",
