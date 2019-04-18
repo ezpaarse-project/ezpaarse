@@ -283,6 +283,7 @@ app.delete(/^\/users\/(.+)$/, auth.ensureAuthenticated(true),
 app.post(/^\/users\/(.+)$/, auth.ensureAuthenticated(true), auth.authorizeMembersOf('admin'),
   bodyParser.urlencoded({ extended: true }), bodyParser.json(), function (req, res, next) {
     var mail = req.params[0];
+
     userlist.get(mail, function (err, user) {
       if (err) { return next(err); }
       if (!user) { return next(Boom.notFound()); }
@@ -290,7 +291,7 @@ app.post(/^\/users\/(.+)$/, auth.ensureAuthenticated(true), auth.authorizeMember
       var body   = req.body;
       var change = {};
 
-      if (body.username) {
+      if (typeof body.username === 'string') {
         // Regex used by angular
         if (!emailRegexp.test(body.username)) {
           return next(Boom.badRequest('invalidAddress'));
@@ -299,7 +300,7 @@ app.post(/^\/users\/(.+)$/, auth.ensureAuthenticated(true), auth.authorizeMember
         change.username = body.username;
       }
 
-      if (body.group && body.group != user.group) {
+      if (body.group && body.group !== user.group) {
         if (mail == req.user.username) {
           return next(Boom.badRequest('cannotChangeYourOwnGroup'));
         }
