@@ -233,6 +233,7 @@
           "noUsers": "Aucun utilisateur",
           "usersPerPage": "Utilisateurs par page",
           "allUsers": "Tous",
+          "editUser": "Éditer \"{email}\"",
           "noMatchingUser": "Aucun utilisateur ne correspond à la recherche",
           "userUpdated": "Utilisateur mis à jour",
           "addUser": "Ajouter un utilisateur",

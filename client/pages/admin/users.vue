@@ -94,7 +94,7 @@
           primary-title
         >
           <span v-if="user && user.password">
-            {{ $t('ui.pages.admin.users.updatingInformationOf', { email: user.username }) }}
+            {{ $t('ui.pages.admin.users.editUser', { email: user.username }) }}
           </span>
           <span v-else>
             {{ $t('ui.pages.admin.users.addUser') }}
