@@ -84,10 +84,10 @@ export default {
         this.email = null;
         this.comment = null;
         this.checkbox = true;
-        this.$store.dispatch('snacks/success', this.$t('ui.pages.feedback.hasSent'));
+        this.$store.dispatch('snacks/success', 'ui.pages.feedback.hasSent');
         this.feedBackSend = false;
-      }).catch(err => {
-        this.$store.dispatch('snacks/error', `E${err.response.status} - ${this.$t('ui.errors.cannotSendFeedback')}`);
+      }).catch(() => {
+        this.$store.dispatch('snacks/error', 'ui.errors.cannotSendFeedback');
         this.feedBackSend = false;
       });
     },

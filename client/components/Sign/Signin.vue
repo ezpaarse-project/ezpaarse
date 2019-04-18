@@ -46,6 +46,8 @@
 </template>
 
 <script>
+import get from 'lodash.get';
+
 export default {
   data () {
     return {
@@ -70,8 +72,12 @@ export default {
         this.$store.dispatch('LOAD_STATUS');
         this.$router.push('/process');
       }).catch(err => {
-        if (err.response.status !== 200) {
-          this.$store.dispatch('snacks/error', `E${err.response.status} - ${this.$t('ui.errors.badCredentials')}`);
+        const status = get(err, 'response.status', 500);
+
+        if (status === 401) {
+          this.$store.dispatch('snacks/error', 'ui.errors.badCredentials');
+        } else {
+          this.$store.dispatch('snacks/error', 'ui.errors.error');
         }
       });
     }

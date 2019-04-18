@@ -234,8 +234,8 @@
           "noUsers": "No users",
           "usersPerPage": "Users per page",
           "allUsers": "All",
-          "noUserFoundWithEmail": "No users found with this email {search}",
-          "updatingInformationOf": "Updating of the information of {email}",
+          "noMatchingUser": "No user matching the search",
+          "userUpdated": "User updated",
           "addUser": "Add a user",
           "groups": {
             "admin": "Administrator",

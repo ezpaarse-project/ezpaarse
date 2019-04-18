@@ -14,8 +14,8 @@ export default {
       if (app.$auth.user) {
         await store.dispatch('process/GET_TREATMENTS_BY_USER', app.$auth.user.username);
       }
-    } catch (err) {
-      this.$store.dispatch('snacks/error', `E${err.response.status} - ${this.$t('ui.errors.cannotLoadJobsData')}`);
+    } catch (e) {
+      this.$store.dispatch('snacks/error', 'ui.errors.cannotLoadJobsData');
     }
   }
 };

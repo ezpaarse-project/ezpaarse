@@ -63,16 +63,22 @@ export default {
     };
   },
   async fetch ({ store }) {
-    try { await store.dispatch('GET_USER_NUMBER'); } catch (e) {
-      await store.dispatch('snacks/error', `E${e.response.status} - ${this.$t('ui.errors.cannotLoadUserNumber')}`);
+    try {
+      await store.dispatch('GET_USER_NUMBER');
+    } catch (e) {
+      await store.dispatch('snacks/error', 'ui.errors.cannotLoadUserNumber');
     }
 
-    try { await store.dispatch('GET_APP_INFOS'); } catch (e) {
-      await store.dispatch('snacks/error', `E${e.response.status} - ${this.$t('ui.errors.cannotGetAppInfos')}`);
+    try {
+      await store.dispatch('GET_APP_INFOS');
+    } catch (e) {
+      await store.dispatch('snacks/error', 'ui.errors.cannotGetAppInfos');
     }
 
-    try { await store.dispatch('GET_FEEDBACK_STATUS'); } catch (e) {
-      await store.dispatch('snacks/error', `E${e.response.status} - ${this.$t('ui.errors.cannotGetAppInfos')}`);
+    try {
+      await store.dispatch('GET_FEEDBACK_STATUS');
+    } catch (e) {
+      await store.dispatch('snacks/error', 'ui.errors.cannotGetAppInfos');
     }
   },
   computed: {

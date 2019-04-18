@@ -289,8 +289,7 @@ export default {
           logLines: this.logLines
         });
       } catch (e) {
-        const status = (e && e.response && e.response.status) || 500;
-        this.$store.dispatch('snacks/error', `E${status} - ${this.$t('ui.errors.cannotGetlogFormat')}`);
+        this.$store.dispatch('snacks/error', 'ui.errors.cannotGetlogFormat');
       }
 
       this.loading = false;

@@ -291,13 +291,13 @@ export default {
       try {
         await this.$store.dispatch('UPDATE_REPO', repo);
       } catch (e) {
-        this.$store.dispatch('snacks/error', `E${e.response.status} - ${this.$t('ui.errors.impossibleToUpdate')}`);
+        this.$store.dispatch('snacks/error', 'ui.errors.impossibleToUpdate');
       }
 
       try {
         await this.$store.dispatch('LOAD_STATUS');
       } catch (e) {
-        this.$store.dispatch('snacks/error', `E${e.response.status} - ${this.$t('ui.errors.cannotLoadStatus')}`);
+        this.$store.dispatch('snacks/error', 'ui.errors.cannotLoadStatus');
       }
 
       this.inUpdate[repo] = false;
@@ -312,9 +312,8 @@ export default {
 
       try {
         await this.$store.dispatch('UPDATE_APP', { version, socketId: this.$socket.id });
-      } catch ({ response }) {
-        const status = (response && response.status) || 500;
-        this.$store.dispatch('snacks/error', `E${status} - ${this.$t('ui.errors.impossibleToUpdate')}`);
+      } catch (e) {
+        this.$store.dispatch('snacks/error', 'ui.errors.impossibleToUpdate');
       }
 
       await new Promise(resolve => {
@@ -323,9 +322,8 @@ export default {
 
       try {
         await this.$store.dispatch('LOAD_STATUS');
-      } catch ({ response }) {
-        const status = (response && response.status) || 500;
-        this.$store.dispatch('snacks/error', `E${status} - ${this.$t('ui.errors.cannotLoadStatus')}`);
+      } catch (e) {
+        this.$store.dispatch('snacks/error', 'ui.errors.cannotLoadStatus');
       }
 
       this.refreshDialog = true;

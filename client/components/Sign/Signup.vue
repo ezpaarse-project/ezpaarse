@@ -60,6 +60,8 @@
 </template>
 
 <script>
+import get from 'lodash.get';
+
 export default {
   props: {
     userNumber: {
@@ -90,8 +92,8 @@ export default {
           confirm: this.credentials.confirm.trim()
         });
       } catch (e) {
-        const message = e.response.data.message || this.$t('ui.errors.cannotRegister');
-        this.$store.dispatch('snacks/error', `E${e.response.status} - ${message}`);
+        const message = get(e, 'response.data.message', 'cannotRegister');
+        this.$store.dispatch('snacks/error', `ui.errors.${message}`);
         return;
       }
 

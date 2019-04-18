@@ -24,9 +24,9 @@
         />
         <v-text-field
           id="password"
-          v-model="credentials.password_repeat"
+          v-model="credentials.passwordConfirm"
           prepend-icon="mdi-lock"
-          name="password_repeat"
+          name="passwordConfirm"
           :label="$t('ui.pages.profile.confirm')"
           type="password"
           required
@@ -36,7 +36,7 @@
           <v-btn
             color="primary"
             type="submit"
-            :disabled="samePassword === false"
+            :disabled="!samePassword"
           >
             {{ $t('ui.send') }}
           </v-btn>
@@ -47,6 +47,8 @@
 </template>
 
 <script>
+import get from 'lodash.get';
+
 export default {
   auth: false,
   layout: 'sign',
@@ -54,33 +56,33 @@ export default {
     return {
       credentials: {
         password: null,
-        password_repeat: null
-      },
-      samePassword: false
+        passwordConfirm: null
+      }
     };
   },
-  watch: {
-    credentials: {
-      handler () {
-        if (this.credentials.password === this.credentials.password_repeat) {
-          this.samePassword = true;
-        } else {
-          this.samePassword = false;
-        }
-      },
-      deep: true
+  computed: {
+    samePassword () {
+      return this.credentials.password === this.credentials.passwordConfirm;
     }
   },
   methods: {
-    reset () {
-      this.$store.dispatch('SEND_NEW_PASSWORD', { credentials: this.credentials, uuid: this.$route.params.uuid }).then(() => {
-        this.$store.dispatch('snacks/success', this.$t('ui.pages.profile.passwordUpdated'));
-        return this.$router.push('/');
-      }).catch(err => {
-        if (err) return this.$store.dispatch('snacks/error', `E${err.response.status} - ${this.$t(`ui.errors.${err.response.data.message}`)}`);
-        if (err.response.data.message === 'expirationDate') return this.$router.push('/');
-        return this.$router.push('/');
-      });
+    async reset () {
+      try {
+        await this.$store.dispatch('SEND_NEW_PASSWORD', {
+          credentials: this.credentials,
+          uuid: this.$route.params.uuid
+        });
+      } catch (e) {
+        const message = get(e, 'response.data.message', 'error');
+        this.$store.dispatch('snacks/error', `ui.errors.${message}`);
+        if (message === 'expirationDate') {
+          this.$router.push('/');
+        }
+        return;
+      }
+
+      this.$store.dispatch('snacks/success', 'ui.pages.profile.passwordUpdated');
+      this.$router.push('/');
     }
   }
 };

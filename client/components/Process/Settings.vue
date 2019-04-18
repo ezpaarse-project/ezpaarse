@@ -400,6 +400,8 @@
 </template>
 
 <script>
+import get from 'lodash.get';
+
 export default {
   data () {
     return {
@@ -660,33 +662,30 @@ export default {
         } else {
           await this.$store.dispatch('settings/SAVE_CUSTOM_PREDEFINED_SETTINGS', newSettings);
         }
-      } catch ({ response }) {
-        const status = (response && response.status) || 500;
-        this.$store.dispatch('snacks/error', `E${status} - ${this.$t('ui.errors.errorSavePredefinedSettings')}`);
+      } catch (err) {
+        this.$store.dispatch('snacks/error', 'ui.errors.errorSavePredefinedSettings');
         return;
       }
 
       try {
         await this.$store.dispatch('settings/GET_PREDEFINED_SETTINGS');
         await this.$store.dispatch('settings/APPLY_PREDEFINED_SETTINGS', newSettings.id);
-      } catch ({ response }) {
-        const status = (response && response.status) || 500;
-        const message = (response && response.data && response.data.message) || this.$t('ui.errors.cannotLoadPredefinedSettings');
-        this.$store.dispatch('snacks/error', `E${status} - ${message}`);
+      } catch (err) {
+        const message = get(err, 'response.data.message', 'cannotLoadPredefinedSettings');
+        this.$store.dispatch('snacks/error', `ui.errors.${message}`);
         return;
       }
 
       this.saveDialog = false;
       this.$refs.saveForm.reset();
-      this.$store.dispatch('snacks/success', this.$t('ui.pages.process.settings.paramsSaved'));
+      this.$store.dispatch('snacks/success', 'ui.pages.process.settings.paramsSaved');
     },
     async removecustomSettings () {
       try {
         await this.$store.dispatch('settings/REMOVE_CUSTOM_PREDEFINED_SETTINGS', this.settings.id);
-        this.$store.dispatch('snacks/success', this.$t('ui.pages.process.settings.deleted'));
-      } catch ({ response }) {
-        const status = (response && response.status) || 500;
-        this.$store.dispatch('snacks/error', `E${status} - ${this.$t('ui.errors.cannotRemovePredefinedSettings')}`);
+        this.$store.dispatch('snacks/success', 'ui.pages.process.settings.deleted');
+      } catch (err) {
+        this.$store.dispatch('snacks/error', 'ui.errors.cannotRemovePredefinedSettings');
       }
     }
   }

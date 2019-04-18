@@ -46,6 +46,8 @@
 </template>
 
 <script>
+import get from 'lodash.get';
+
 export default {
   auth: false,
   layout: 'sign',
@@ -55,22 +57,25 @@ export default {
     };
   },
   fetch ({ app, redirect }) {
-    if (app.$auth.user) return redirect('/process');
-    return true;
+    if (app.$auth.user) {
+      redirect('/process');
+    }
   },
   methods: {
-    reset () {
-      this.$store.dispatch('RESET_PASSWORD', { username: this.userid, locale: this.$i18n.locale })
-        .then(() => {
-          this.$store.dispatch('snacks/success', this.$t('ui.pages.profile.emailSent'));
-          return this.$router.push('/');
-        })
-        .catch(err => {
-          if (err && err.response.data.message) {
-            return this.$store.dispatch('snacks/error', `E${err.response.status} - ${this.$t(`ui.errors.${err.response.data.message}`)}`);
-          }
-          return this.$store.dispatch('snacks/error', `E${err.response.status} - ${this.$t('ui.errors.cannotResetPassword')}`);
+    async reset () {
+      try {
+        await this.$store.dispatch('RESET_PASSWORD', {
+          username: this.userid,
+          locale: this.$i18n.locale
         });
+      } catch (e) {
+        const message = get(e, 'response.data.message', 'cannotResetPassword');
+        this.$store.dispatch('snacks/error', `ui.errors.${message}`);
+        return;
+      }
+
+      this.$store.dispatch('snacks/success', 'ui.pages.profile.emailSent');
+      this.$router.push('/');
     }
   }
 };

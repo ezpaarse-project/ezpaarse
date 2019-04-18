@@ -182,7 +182,7 @@ export default {
     LogFiles,
     Settings
   },
-  asyncData () {
+  data () {
     return {
       logSamplesUrl: 'https://github.com/ezpaarse-project/ezpaarse-dataset-samples',
       fileSelectionHelp: false,

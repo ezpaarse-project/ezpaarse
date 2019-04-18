@@ -234,13 +234,13 @@ export default {
     try {
       await store.dispatch('GET_PLATFORMS');
     } catch (e) {
-      await store.dispatch('snacks/error', `E${e.response.status} - ${this.$t('ui.errors.cannotGetPlatforms')}`);
+      await store.dispatch('snacks/error', 'ui.errors.cannotGetPlatforms');
     }
 
     try {
       await store.dispatch('GET_PLATFORMS_CHANGED');
     } catch (e) {
-      await store.dispatch('snacks/error', `E${e.response.status} - ${this.$t('ui.errors.cannotGetPlatformsChanged')}`);
+      await store.dispatch('snacks/error', 'ui.errors.cannotGetPlatformsChanged');
     }
   },
   computed: {
@@ -301,21 +301,31 @@ export default {
     }
   },
   methods: {
-    updatePlatforms () {
+    async updatePlatforms () {
       this.inUpdate = true;
-      this.$store.dispatch('UPDATE_REPO', 'platforms').then(() => {
-        this.$store.dispatch('GET_PLATFORMS').then(() => {
-          this.$store.dispatch('LOAD_STATUS').then(() => {
-            this.inUpdate = false;
-          }).catch(err => {
-            this.$store.dispatch('snacks/error', `E${err.response.status} - ${this.$t('ui.errors.cannotLoadStatus')}`);
-          });
-        }).catch(err => {
-          this.$store.dispatch('snacks/error', `E${err.response.status} - ${this.$t('ui.errors.cannotGetPlatforms')}`);
-        });
-      }).catch(err => {
-        this.$store.dispatch('snacks/error', `E${err.response.status} - ${this.$t('ui.errors.impossibleToUpdate')}`);
-      });
+
+      try {
+        this.$store.dispatch('UPDATE_REPO', 'platforms');
+      } catch (e) {
+        this.$store.dispatch('snacks/error', 'ui.errors.impossibleToUpdate');
+        return;
+      }
+
+      try {
+        this.$store.dispatch('GET_PLATFORMS');
+      } catch (e) {
+        this.$store.dispatch('snacks/error', 'ui.errors.cannotGetPlatforms');
+        return;
+      }
+
+      try {
+        this.$store.dispatch('LOAD_STATUS');
+      } catch (e) {
+        this.$store.dispatch('snacks/error', 'ui.errors.cannotLoadStatus');
+        return;
+      }
+
+      this.inUpdate = false;
     }
   }
 };
