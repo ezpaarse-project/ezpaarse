@@ -87,9 +87,6 @@ export default {
         return;
       }
 
-      this.$store.dispatch('GET_APP_INFOS');
-      this.$store.dispatch('LOAD_PKBS');
-      this.$store.dispatch('LOAD_STATUS');
       this.$router.push('/process');
       this.loading = false;
     }
