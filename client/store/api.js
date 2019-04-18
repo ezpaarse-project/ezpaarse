@@ -48,7 +48,7 @@ api.loadPkbs = (axios) => axios.get('/castor/status').then(res => res.data);
 
 api.getPredefinedSettings = (axios) => axios.get('/api/info/predefined-settings').then(res => res.data);
 
-api.getCountries = (axios) => axios.get('/api/info/countries').then(res => res.data);
+api.getCountries = (axios) => axios.get('/api/info/countries.json').then(res => res.data);
 
 api.getAppInfos = (axios) => axios.get('/api/info/app').then(res => res.data);
 

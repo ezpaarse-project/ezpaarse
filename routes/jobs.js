@@ -1,5 +1,6 @@
 'use strict';
 
+const Boom       = require('boom');
 const bodyParser = require('body-parser');
 const auth       = require('../lib/auth-middlewares.js');
 const treatment  = require('../lib/treatment.js');
@@ -9,7 +10,7 @@ const app = Router();
 
 app.get('/:userId', auth.ensureAuthenticated(true), (req, res, next) => {
   treatment.findAllByUser(req.params.userId, (err, result) => {
-    if (err) return next(err);
+    if (err) { return next(err); }
 
     return res.json(result);
   });
@@ -17,7 +18,7 @@ app.get('/:userId', auth.ensureAuthenticated(true), (req, res, next) => {
 
 app.get('/', auth.ensureAuthenticated(true), auth.authorizeMembersOf('admin'), (req, res, next) => {
   treatment.findAll((err, result) => {
-    if (err) return next(err);
+    if (err) { return next(err); }
 
     return res.json(result);
   });
@@ -25,10 +26,10 @@ app.get('/', auth.ensureAuthenticated(true), auth.authorizeMembersOf('admin'), (
 
 app.post('/', bodyParser.urlencoded({ extended: true }), bodyParser.json(),
   auth.ensureAuthenticated(true), (req, res, next)  => {
-    if (!req.body.userId || !req.body.uuid) return next('No body set');
+    if (!req.body.userId || !req.body.uuid) { return next(Boom.badRequest('NoBodySet')); }
 
     treatment.insert(req.body.userId, req.body.uuid, (err, result) => {
-      if (err || !result) return next(err);
+      if (err) { return next(err); }
 
       return res.status(200).json(result);
     });

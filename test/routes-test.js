@@ -13,7 +13,6 @@ var infoRoutes = [
   '/api/info/codes',
   '/api/info/codes/4003',
   '/api/info/uuid',
-  '/api/info/form-predefined',
   '/api/info/config'
 ];
 

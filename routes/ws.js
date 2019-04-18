@@ -4,6 +4,7 @@ var fs = require('fs-extra');
 var uuid = require('uuid');
 var path = require('path');
 var mime = require('mime');
+var Boom = require('boom');
 var Job = require('../lib/job.js');
 var ezJobs = require('../lib/jobs.js');
 var rgf = require('../lib/readgrowingfile.js');
@@ -17,7 +18,7 @@ var app = Router();
  * ?filename=myname can be used to force a specific filename for the download
  * Example: /3e167f80-aa9f-11e2-b9c5-c7c7ad0be3cd
  */
-app.get(uuidRegExp, function (req, res) {
+app.get(uuidRegExp, function (req, res, next) {
   var rid = req.params[0];
   var job = ezJobs[rid];
   var requestedName = req.query.filename;
@@ -46,12 +47,12 @@ app.get(uuidRegExp, function (req, res) {
 
     fs.readdir(jobDir, function (err, files) {
       if (err) {
-        res.status(err.code == 'ENOENT' ? 404 : 500);
-        return res.end();
+        return next(err.code == 'ENOENT' ? Boom.notFound() : err);
       }
 
       var reg = /.*\.job-ecs(\.[a-z]+){1,2}$/;
       var filename;
+
       for (var i = files.length - 1; i >= 0; i--) {
         filename = files[i];
 
@@ -69,8 +70,8 @@ app.get(uuidRegExp, function (req, res) {
           return;
         }
       }
-      res.status(404);
-      res.end();
+
+      next(Boom.notFound());
     });
   }
 });

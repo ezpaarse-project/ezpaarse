@@ -3,6 +3,7 @@
 var fs     = require('fs-extra');
 var path   = require('path');
 var moment = require('moment');
+var Boom   = require('boom');
 
 var { Router } = require('express');
 var app = Router();
@@ -13,7 +14,7 @@ var jobidPattern = '^/([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{
 * GET route on /:rid/job-report.{html|json}
 * Used to get a report file
 */
-app.get(new RegExp(jobidPattern + '/job-report\\.(html|json)$'), function (req, res) {
+app.get(new RegExp(jobidPattern + '/job-report\\.(html|json)$'), function (req, res, next) {
   var requestID  = req.params[0];
   var format     = req.params[1];
   var reportFile = path.join(__dirname, '/../tmp/jobs/',
@@ -25,7 +26,7 @@ app.get(new RegExp(jobidPattern + '/job-report\\.(html|json)$'), function (req, 
 
   fs.exists(reportFile, function (exists) {
     if (!exists) {
-      return res.status(404).end();
+      return next(Boom.notFound());
     }
 
     switch (format) {
@@ -35,14 +36,14 @@ app.get(new RegExp(jobidPattern + '/job-report\\.(html|json)$'), function (req, 
 
     case 'html':
       fs.readFile(reportFile, function (err, data) {
-        if (err) { return res.status(500).end(); }
+        if (err) { return next(err); }
 
         var report;
 
         try {
           report = JSON.parse(data);
         } catch (e) {
-          return res.status(500).end();
+          return next(err);
         }
 
         var title = 'Rapport d\'exécution';
@@ -56,7 +57,7 @@ app.get(new RegExp(jobidPattern + '/job-report\\.(html|json)$'), function (req, 
       break;
 
     default:
-      res.status(406).end();
+      return next(Boom.notAcceptable());
     }
   });
 });
@@ -66,7 +67,7 @@ app.get(new RegExp(jobidPattern + '/job-report\\.(html|json)$'), function (req, 
 * Used to get a logfile
 */
 app.get(new RegExp(jobidPattern + '/([a-zA-Z0-9\\-_]+(?:\\.[a-z]{2,4}){1,2})$'),
-  function (req, res) {
+  function (req, res, next) {
     var requestID = req.params[0];
     var filename  = req.params[1];
     var logFile   = path.join(__dirname, '/../tmp/jobs/',
@@ -77,7 +78,9 @@ app.get(new RegExp(jobidPattern + '/([a-zA-Z0-9\\-_]+(?:\\.[a-z]{2,4}){1,2})$'),
     );
 
     fs.stat(logFile, function (err, stats) {
-      if (err) { return res.status(err.code == 'ENOENT' ? 404 : 500).end(); }
+      if (err) {
+        return next(err.code == 'ENOENT' ? Boom.notFound() : err);
+      }
 
       // download as an attachment if file size is >500ko
       // open it in directly in the browser if file size is <500ko

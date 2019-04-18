@@ -1,57 +1,51 @@
 <template>
-  <v-form
-    method="post"
-    @submit.prevent="signup"
-  >
+  <v-form v-model="validForm" @submit.prevent="signup">
     <v-card-text>
-      <v-form>
-        <v-text-field
-          v-model="credentials.userid"
-          prepend-icon="mdi-account"
-          name="email"
-          label="Email"
-          type="email"
+      <v-text-field
+        v-model="credentials.userid"
+        prepend-icon="mdi-account"
+        label="Email"
+        type="email"
+        :rules="[isRequired]"
+      />
+      <v-text-field
+        id="password"
+        v-model="credentials.password"
+        prepend-icon="mdi-lock"
+        :label="$t('ui.password')"
+        type="password"
+        :rules="[isRequired]"
+      />
+      <v-text-field
+        id="confirmPassword"
+        v-model="credentials.confirm"
+        prepend-icon="mdi-lock"
+        :label="$t('ui.confirmPassword')"
+        type="password"
+        :rules="[isRequired, matchesPassword]"
+      />
+      <v-alert
+        :value="userNumber === 0"
+        color="primary"
+        outline
+      >
+        <v-checkbox
+          v-model="informTeam"
+          :label="$t('ui.informTeam')"
         />
-        <v-text-field
-          id="password"
-          v-model="credentials.password"
-          prepend-icon="mdi-lock"
-          name="password"
-          :label="$t('ui.password')"
-          type="password"
+        <p
+          class="text-xs-justify"
+          v-html="$t('ui.informTeamWarning', { recipients: 'ezpaarse@couperin.org' })"
         />
-        <v-text-field
-          id="confirmPassword"
-          v-model="credentials.confirm"
-          prepend-icon="mdi-lock"
-          name="confirmPassword"
-          :label="$t('ui.confirmPassword')"
-          type="password"
-        />
-        <v-alert
-          v-if="userNumber <= 0"
-          :value="true"
-          color="teal lighten-2"
-          outline
-        >
-          <v-checkbox
-            v-model="informTeam"
-            :label="$t('ui.informTeam')"
-          />
-          <p
-            class="text-xs-justify"
-            v-html="$t('ui.informTeamWarning', { recipients: 'ezpaarse@couperin.org' })"
-          />
-        </v-alert>
-      </v-form>
+      </v-alert>
     </v-card-text>
     <v-card-actions>
       <v-spacer />
       <v-btn
         color="primary"
         type="submit"
-        :disabled="!credentials.userid || !credentials.password
-          || !credentials.confirm || credentials.password !== credentials.confirm"
+        :loading="loading"
+        :disabled="!validForm"
       >
         {{ $t('ui.signup') }}
       </v-btn>
@@ -60,6 +54,8 @@
 </template>
 
 <script>
+import get from 'lodash.get';
+
 export default {
   props: {
     userNumber: {
@@ -74,11 +70,21 @@ export default {
         password: null,
         confirm: null
       },
-      informTeam: true
+      informTeam: true,
+      validForm: true,
+      loading: false
     };
   },
   methods: {
+    isRequired (value) {
+      return !!(value && value.trim()) || this.$t('ui.fieldRequired');
+    },
+    matchesPassword (value) {
+      return (value === this.credentials.password) || this.$t('ui.errors.passwordDoesNotMatch');
+    },
     async signup () {
+      this.loading = true;
+
       if (this.userNumber <= 0 && this.informTeam) {
         this.$store.dispatch('FRESHINSTALL', { mail: this.credentials.userid.trim() });
       }
@@ -90,8 +96,9 @@ export default {
           confirm: this.credentials.confirm.trim()
         });
       } catch (e) {
-        const message = e.response.data.message || this.$t('ui.errors.cannotRegister');
-        this.$store.dispatch('snacks/error', `E${e.response.status} - ${message}`);
+        const message = get(e, 'response.data.message', 'cannotRegister');
+        this.$store.dispatch('snacks/error', `ui.errors.${message}`);
+        this.loading = false;
         return;
       }
 
@@ -103,6 +110,7 @@ export default {
       });
 
       this.$router.push('/process');
+      this.loading = false;
     }
   }
 };

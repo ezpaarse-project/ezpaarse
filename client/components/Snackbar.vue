@@ -7,7 +7,12 @@
     :color="currentMessage.color"
     :timeout="currentMessage.timeout"
   >
-    {{ $t(currentMessage.text) }}
+    <span v-if="$te(currentMessage.text)">
+      {{ $t(currentMessage.text) }}
+    </span>
+    <span v-else>
+      {{ $t('ui.errors.error') }}
+    </span>
     <v-btn
       dark
       flat

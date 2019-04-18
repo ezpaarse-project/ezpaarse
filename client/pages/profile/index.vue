@@ -77,6 +77,8 @@
 </template>
 
 <script>
+import get from 'lodash.get';
+
 export default {
   auth: true,
   data () {
@@ -87,38 +89,39 @@ export default {
     };
   },
   methods: {
-    notifiate () {
-      this.$store.dispatch('NOTIFIATE', {
-        user: {
-          username: this.$auth.user.username
-        },
-        section: 'notifications',
-        notifiate: this.$auth.user.notifiate
-      }).catch(err => {
-        this.$store.dispatch('snacks/error', `E${err.response.status} - ${this.$t('ui.errors.cannotNotifiate')}`);
-      });
+    async notifiate () {
+      try {
+        await this.$store.dispatch('NOTIFIATE', {
+          user: {
+            username: this.$auth.user.username
+          },
+          section: 'notifications',
+          notifiate: this.$auth.user.notifiate
+        });
+      } catch (e) {
+        this.$store.dispatch('snacks/error', 'ui.errors.cannotNotifiate');
+      }
     },
-    updatePassword () {
-      this.$store.dispatch('UPDATE_PASSWORD', {
-        user: {
-          username: this.$auth.user.username
-        },
-        section: 'password',
-        oldPassword: this.oldPassword.trim(),
-        newPassword: this.newPassword.trim(),
-        confirm: this.confirm.trim()
-      }).then(() => {
-        this.oldPassword = '';
-        this.newPassword = '';
-        this.confirm = '';
-        this.$store.dispatch('snacks/success', this.$t('ui.pages.profile.passwordUpdated'));
-      }).catch(err => {
-        if (!err.response.data.message) {
-          this.$store.dispatch('snacks/error', `E${err.response.status} - ${this.$t('ui.errors.cannotUpdatePassword')}`);
-        } else {
-          this.$store.dispatch('snacks/error', this.$t(`ui.errors.${err.response.data.message}`));
-        }
-      });
+    async updatePassword () {
+      try {
+        await this.$store.dispatch('UPDATE_PASSWORD', {
+          user: {
+            username: this.$auth.user.username
+          },
+          section: 'password',
+          oldPassword: this.oldPassword.trim(),
+          newPassword: this.newPassword.trim(),
+          confirm: this.confirm.trim()
+        });
+      } catch (e) {
+        const message = get(e, 'response.data.message', 'cannotUpdatePassword');
+        this.$store.dispatch('snacks/error', `ui.errors.${message}`);
+      }
+
+      this.oldPassword = '';
+      this.newPassword = '';
+      this.confirm = '';
+      this.$store.dispatch('snacks/success', 'ui.pages.profile.passwordUpdated');
     }
   }
 };

@@ -72,14 +72,12 @@
               </td>
               <td>{{ $t(`ui.pages.admin.users.groups.${props.item.group}`) }}</td>
             </template>
-            <v-alert
+            <template
               slot="no-results"
-              :value="true"
-              color="info"
               icon="mdi-alert-circle"
             >
-              {{ $t('ui.pages.admin.users.noUserFoundWithEmail', { search }) }}
-            </v-alert>
+              {{ $t('ui.pages.admin.users.noMatchingUser') }}
+            </template>
           </v-data-table>
         </v-flex>
       </v-layout>
@@ -96,7 +94,7 @@
           primary-title
         >
           <span v-if="user && user.password">
-            {{ $t('ui.pages.admin.users.updatingInformationOf', { email: user.username }) }}
+            {{ $t('ui.pages.admin.users.editUser', { email: user.username }) }}
           </span>
           <span v-else>
             {{ $t('ui.pages.admin.users.addUser') }}
@@ -143,6 +141,7 @@
 
 <script>
 import isEqual from 'lodash.isequal';
+import get from 'lodash.get';
 
 export default {
   auth: true,
@@ -163,7 +162,7 @@ export default {
     try {
       await store.dispatch('GET_USERS_LIST');
     } catch (e) {
-      await store.dispatch('snacks/error', `E${e.response.status} - ${this.$t('ui.errors.cannotLoadUsersList')}`);
+      await store.dispatch('snacks/error', 'ui.errors.cannotLoadUsersList');
     }
   },
   computed: {
@@ -242,13 +241,12 @@ export default {
         try {
           await this.$store.dispatch('EDIT_USER', data);
         } catch (e) {
-          this.$store.dispatch('snacks/error', `E${e.response.status} - ${this.$t(`ui.errors.${e.response.data.message}`)}`);
+          const message = get(e, 'response.data.message', 'error');
+          this.$store.dispatch('snacks/error', `ui.errors.${message}`);
           return;
         }
 
-        this.$store.dispatch('snacks/info', this.$t('ui.pages.admin.users.updatingInformationOf', {
-          email: this.currentUser.username
-        }));
+        this.$store.dispatch('snacks/info', 'ui.pages.admin.users.userUpdated');
 
         this.user = {};
       } else {
@@ -261,7 +259,8 @@ export default {
         try {
           await this.$store.dispatch('ADD_USER', data);
         } catch (e) {
-          this.$store.dispatch('snacks/error', `E${e.response.status} - ${this.$t(`ui.errors.${e.response.data.message}`)}`);
+          const message = get(e, 'response.data.message', 'error');
+          this.$store.dispatch('snacks/error', `ui.errors.${message}`);
           return;
         }
       }
@@ -269,26 +268,32 @@ export default {
       try {
         await this.$store.dispatch('GET_USERS_LIST');
       } catch (e) {
-        this.$store.dispatch('snacks/error', `E${e.response.status} - ${this.$t('ui.errors.cannotLoadUsersList')}`);
+        const message = get(e, 'response.data.message', 'cannotLoadUsersList');
+        this.$store.dispatch('snacks/error', `ui.errors.${message}`);
         return;
       }
 
       this.dialog = false;
       this.currentUser = {};
     },
-    removeUser (userid) {
+    async removeUser (userid) {
       if (userid === this.$auth.user.username) {
-        return this.$store.dispatch('snacks/error', this.$t('ui.errors.cannotDeleteYourself'));
+        this.$store.dispatch('snacks/error', 'ui.errors.cannotDeleteYourself');
+        return;
       }
 
-      this.$store.dispatch('REMOVE_USER', userid).then(() => {
-        this.$store.dispatch('GET_USERS_LIST').catch(err => {
-          this.$store.dispatch('snacks/error', `E${err.response.status} - ${this.$t('ui.errors.cannotLoadUsersList')}`);
-        });
-      }).catch(err => {
-        this.$store.dispatch('snacks/error', `E${err.response.status} - ${this.$t('ui.errors.cannotRemoveUser')}`);
-      });
-      return false;
+      try {
+        await this.$store.dispatch('REMOVE_USER', userid);
+      } catch (e) {
+        this.$store.dispatch('snacks/error', 'ui.errors.cannotRemoveUser');
+        return;
+      }
+
+      try {
+        await this.$store.dispatch('GET_USERS_LIST');
+      } catch (e) {
+        this.$store.dispatch('snacks/error', 'ui.errors.cannotLoadUsersList');
+      }
     }
   }
 };

@@ -182,7 +182,7 @@ export default {
     LogFiles,
     Settings
   },
-  asyncData () {
+  data () {
     return {
       logSamplesUrl: 'https://github.com/ezpaarse-project/ezpaarse-dataset-samples',
       fileSelectionHelp: false,
@@ -246,7 +246,7 @@ export default {
     process () {
       const formData = new FormData();
       const sortByName = (a, b) => (a.file.name.toLowerCase() > b.file.name.toLowerCase() ? 1 : -1);
-      const files = this.logFiles.sort(sortByName);
+      const files = this.logFiles.slice().sort(sortByName);
 
       files.forEach(f => {
         formData.append('files[]', f.file);
