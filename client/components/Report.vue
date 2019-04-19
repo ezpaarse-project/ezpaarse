@@ -164,8 +164,13 @@ export default {
     relevantLogLines () {
       return this.report.general['nb-lines-input'] - this.report.rejets['nb-lines-ignored'];
     },
+    nbSections () {
+      // Add 2 for job state and traces which are not report sections
+      if (typeof this.report !== 'object') { return 2; }
+      return Object.keys(this.report).length + 2;
+    },
     expanded () {
-      return this.panel.every(p => p);
+      return this.panel.length >= this.nbSections && this.panel.every(p => p);
     },
     metrics () {
       const general = this.report.general || {};
@@ -231,7 +236,7 @@ export default {
       return Math.ceil(a / b);
     },
     expand () {
-      this.panel = this.panel.map(() => true);
+      this.panel = (new Array(this.nbSections)).fill(true);
     },
     collapse () {
       this.panel = this.panel.map(() => false);
