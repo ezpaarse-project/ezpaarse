@@ -25,7 +25,32 @@
       <v-card class="mb-3">
         <v-container fluid grid-list-lg>
           <v-layout row wrap>
-            <v-flex xs6>
+            <v-flex xs12>
+              <v-autocomplete
+                v-model="selectedSetting"
+                :items="allSettings"
+                item-text="fullName"
+                item-value="id"
+                :label="$t('ui.pages.process.settings.predefinedConfiguration')"
+                solo
+                clearable
+                hide-details
+              >
+                <template v-slot:item="{ item }">
+                  <v-list-tile-content>
+                    <v-list-tile-title v-text="item.fullName" />
+                    <v-list-tile-sub-title>
+                      {{ item.country }}
+                    </v-list-tile-sub-title>
+                  </v-list-tile-content>
+                  <v-list-tile-action>
+                    <v-list-tile-action-text>{{ item.id }}</v-list-tile-action-text>
+                  </v-list-tile-action>
+                </template>
+              </v-autocomplete>
+            </v-flex>
+
+            <v-flex xs12 sm6>
               <v-select
                 v-model="logType"
                 :items="logTypes"
@@ -35,7 +60,7 @@
               />
             </v-flex>
 
-            <v-flex xs6>
+            <v-flex xs12 sm6>
               <v-text-field
                 v-model="dateFormat"
                 :label="$t('ui.pages.process.settings.dateFormat')"
@@ -228,6 +253,19 @@ export default {
       ]
     };
   },
+  async fetch ({ store }) {
+    try {
+      await store.dispatch('settings/GET_PREDEFINED_SETTINGS');
+    } catch (e) {
+      await store.dispatch('snacks/error', 'ui.errors.cannotLoadPredefinedSettings');
+    }
+
+    try {
+      await store.dispatch('settings/GET_COUNTRIES');
+    } catch (e) {
+      await store.dispatch('snacks/error', 'ui.errors.cannotGetCountriesList');
+    }
+  },
   computed: {
     cardColor () {
       if (!this.result) { return 'info'; }
@@ -247,6 +285,27 @@ export default {
     },
     settings () {
       return this.$store.state.settings.settings;
+    },
+    predefinedSettings () { return this.$store.state.settings.predefinedSettings || []; },
+    customSettings () { return this.$store.state.settings.customSettings || []; },
+    allSettings () {
+      return [
+        { header: this.$t('ui.pages.process.settings.customSettings') },
+        ...this.customSettings,
+        { divider: true },
+        { header: this.$t('ui.pages.process.settings.predefinedSettings') },
+        ...this.predefinedSettings
+      ];
+    },
+    selectedSetting: {
+      get () { return this.settings.id; },
+      set (key) {
+        if (key) {
+          this.$store.dispatch('settings/APPLY_PREDEFINED_SETTINGS', key);
+        } else {
+          this.$store.dispatch('settings/RESET_SETTINGS');
+        }
+      }
     },
     logFormat: {
       get () { return this.settings && this.settings.logFormat; },
