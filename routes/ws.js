@@ -1,17 +1,15 @@
 'use strict';
 
-var fs = require('fs-extra');
-var uuid = require('uuid');
-var path = require('path');
-var mime = require('mime');
-var Boom = require('boom');
-var Job = require('../lib/job.js');
-var ezJobs = require('../lib/jobs.js');
-var rgf = require('../lib/readgrowingfile.js');
-var uuidRegExp = /^\/([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})\/?$/;
+const fs = require('fs-extra');
+const uuid = require('uuid');
+const path = require('path');
+const mime = require('mime');
+const Boom = require('boom');
+const Job = require('../lib/job.js');
+const uuidRegExp = /^\/([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})\/?$/;
 
-var { Router } = require('express');
-var app = Router();
+const { Router } = require('express');
+const app = Router();
 
 /**
  * Route used for deferred ECs downloads
@@ -19,65 +17,36 @@ var app = Router();
  * Example: /3e167f80-aa9f-11e2-b9c5-c7c7ad0be3cd
  */
 app.get(uuidRegExp, function (req, res, next) {
-  var rid = req.params[0];
-  var job = ezJobs[rid];
-  var requestedName = req.query.filename;
+  const rid = req.params[0];
+  const requestedName = req.query.filename;
+  const jobDir = path.resolve(__dirname, '../tmp/jobs/', rid.charAt(0), rid.charAt(1), rid);
 
-  // check if this job exists
-  if (job && job.ecsPath && job.ecsStream) {
+  fs.readdir(jobDir, function (err, files) {
+    if (err) {
+      return next(err.code == 'ENOENT' ? Boom.notFound() : err);
+    }
 
-    var name = path.basename(job.ecsPath);
-    if (requestedName) { name = requestedName + '.' + job.fileExtension; }
+    const reg = /.*\.job-ecs(\.[a-z]+){1,2}$/;
+    const filename = files.find(name => reg.test(name));
+
+    if (!filename) {
+      return next(Boom.notFound());
+    }
+
+    const ext = filename.split('.').pop();
+    const name = requestedName ? `${requestedName}.${ext}` : `${rid.substr(0, 8)}_${filename}`;
 
     res.writeHead(200, {
-      'Content-Type': job.contentType,
-      'Content-Disposition': 'attachment; filename="' + name + '"'
+      'Content-Type': mime.getType(ext),
+      'Content-Disposition': `attachment; filename="${name}"`
     });
 
-    // if job is still running (ECs are still writen in the temp file)
-    // use the GrowingFile module to stream the result to the HTTP response
-    rgf.readGrowingFile({
-      sourceFilePath: job.ecsPath,
-      onData: function (data) { res.write(data); },
-      isStillGrowing: function () { return (job.ecsStream != null); },
-      endCallback: function () { res.end(); }
-    });
-  } else {
-    var jobDir = path.join(__dirname, '/../tmp/jobs/', rid.charAt(0), rid.charAt(1), rid);
-
-    fs.readdir(jobDir, function (err, files) {
-      if (err) {
-        return next(err.code == 'ENOENT' ? Boom.notFound() : err);
-      }
-
-      var reg = /.*\.job-ecs(\.[a-z]+){1,2}$/;
-      var filename;
-
-      for (var i = files.length - 1; i >= 0; i--) {
-        filename = files[i];
-
-        if (reg.test(filename)) {
-          var ext = filename.split('.').pop();
-          var name;
-          if (requestedName) { name = requestedName + '.' + ext; }
-          else { name = rid.substr(0, 8) + '_' + filename; }
-
-          res.writeHead(200, {
-            'Content-Type': mime.getType(ext),
-            'Content-Disposition': 'attachment; filename="' + name + '"'
-          });
-          fs.createReadStream(path.join(jobDir, filename)).pipe(res);
-          return;
-        }
-      }
-
-      next(Boom.notFound());
-    });
-  }
+    fs.createReadStream(path.resolve(jobDir, filename)).pipe(res);
+  });
 });
 
 function startJob(req, res) {
-  var jobID = req.params[0] || uuid.v1();
+  const jobID = req.params[0] || uuid.v1();
   new Job(req, res, jobID, { resIsDeferred: !!req.params[0] })._run();
 }
 
