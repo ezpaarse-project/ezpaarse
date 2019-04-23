@@ -193,7 +193,7 @@ export default {
       return state.predefinedSettings.concat(state.customSettings);
     },
     hasBeenModified (state) {
-      if (!state.settings.id) {
+      if (!state.settings || !state.settings.id) {
         return !isEqual(state.settings, defaultSettings);
       }
 
