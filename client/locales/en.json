@@ -131,6 +131,13 @@
           "ecGenerated": "Generated consultation event (basic, no enrichment)",
           "property": "Property",
           "value": "Value",
+          "formatDiscovering": "Format discovering",
+          "findForMe": "Find for me !",
+          "findMyFormat": "Find my format",
+          "clickToFindOut": "Your log format might be already supported by one of our predefined settings. Click below to find out !",
+          "foundSettings": "We found compatible settings.",
+          "noSettingsFound": "No compatible settings were found.",
+          "tryingSettings": "Please wait, we are testing our predefined settings...",
           "detectionFailed": "The automatic detection failed to determine the format of your log lines",
           "missing": {
             "date": "No date detected. The date is necessary in order to deduplicate the consultation events.",

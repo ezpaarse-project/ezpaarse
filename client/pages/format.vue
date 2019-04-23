@@ -7,7 +7,89 @@
       card
     >
       <v-toolbar-title>{{ $t('ui.pages.process.settings.designLogFormat') }}</v-toolbar-title>
+
+      <v-spacer />
+
+      <v-toolbar-items>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+            <v-btn
+              icon
+              :disabled="!logLines"
+              :loading="tryingSettings"
+              @click="discoverModal = true"
+              v-on="on"
+            >
+              <v-icon>mdi-auto-fix</v-icon>
+            </v-btn>
+          </template>
+          <span>{{ $t('ui.pages.process.logFormat.findForMe') }}</span>
+        </v-tooltip>
+      </v-toolbar-items>
     </v-toolbar>
+
+    <v-dialog
+      v-model="discoverModal"
+      :persistent="tryingSettings"
+      width="600"
+    >
+      <v-card>
+        <v-toolbar card dense dark color="primary">
+          <v-toolbar-title>
+            {{ $t('ui.pages.process.logFormat.formatDiscovering') }}
+          </v-toolbar-title>
+        </v-toolbar>
+
+        <v-card-text v-if="tryingSettings" class="text-xs-center">
+          <div>{{ $t('ui.pages.process.logFormat.tryingSettings') }}</div>
+        </v-card-text>
+
+        <v-card-text v-else-if="!matchingSettings" class="text-xs-center">
+          <div>{{ $t('ui.pages.process.logFormat.clickToFindOut') }}</div>
+        </v-card-text>
+
+        <v-card-text v-else-if="matchingSettings.length > 0" class="text-xs-center">
+          <div>{{ $t('ui.pages.process.logFormat.foundSettings') }}</div>
+        </v-card-text>
+
+        <v-card-text v-else class="text-xs-center">
+          <div>{{ $t('ui.pages.process.logFormat.noSettingsFound') }}</div>
+        </v-card-text>
+
+        <v-list v-if="matchingSettings && matchingSettings.length > 0">
+          <v-list-tile
+            v-for="s in matchingSettings"
+            :key="s.id"
+            :disabled="tryingSettings"
+            @click="selectedSetting = s.id; discoverModal = false"
+          >
+            <v-list-tile-content>
+              <v-list-tile-title>{{ s.fullName }}</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </v-list>
+
+        <v-divider />
+
+        <v-card-actions>
+          <v-spacer />
+          <v-btn flat :disabled="tryingSettings" @click="discoverModal = false">
+            {{ $t('ui.close') }}
+          </v-btn>
+          <v-btn
+            color="primary"
+            :disabled="!logLines || tryingSettings"
+            :loading="tryingSettings"
+            @click="tryPredefinedSettings"
+          >
+            <v-icon left>
+              mdi-auto-fix
+            </v-icon>
+            {{ $t('ui.pages.process.logFormat.findMyFormat') }}
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
 
     <v-card-text>
       <v-form class="mb-3">
@@ -241,6 +323,9 @@ export default {
       result: null,
       loading: false,
       expandedPanels: [true, false, false],
+      matchingSettings: null,
+      tryingSettings: false,
+      discoverModal: false,
       ecHeaders: [
         { text: 'property', value: 'property' },
         { text: 'value', value: 'value' }
@@ -284,7 +369,7 @@ export default {
       set (newVal) { this.$store.dispatch('process/SET_LOG_LINES', newVal); }
     },
     settings () {
-      return this.$store.state.settings.settings;
+      return this.$store.state.settings.settings || {};
     },
     predefinedSettings () { return this.$store.state.settings.predefinedSettings || []; },
     customSettings () { return this.$store.state.settings.customSettings || []; },
@@ -328,10 +413,14 @@ export default {
   methods: {
     onChange () {
       this.loading = true;
-      this.parseFirstLine();
+      this.debouncedParsing();
     },
 
-    parseFirstLine: debounce(async function parseFirstLine () {
+    debouncedParsing: debounce(function debouncedParsing () {
+      this.parseFirstLine();
+    }, 1000),
+
+    async parseFirstLine () {
       if (!this.logLines) {
         this.loading = false;
         this.result = null;
@@ -352,7 +441,30 @@ export default {
       }
 
       this.loading = false;
-    }, 1000),
+    },
+
+    async tryPredefinedSettings () {
+      if (!this.logLines) { return; }
+
+      this.matchingSettings = [];
+      this.discoverModal = true;
+      this.tryingSettings = true;
+
+      for (let i = 0; i < this.allSettings.length; i += 1) {
+        const setting = this.allSettings[i];
+        if (setting && setting.id) {
+          // eslint-disable-next-line no-await-in-loop
+          await this.$store.dispatch('settings/APPLY_PREDEFINED_SETTINGS', setting.id);
+          // eslint-disable-next-line no-await-in-loop
+          await this.parseFirstLine();
+          if (this.result && this.result.strictMatch) {
+            this.matchingSettings.push(setting);
+          }
+        }
+      }
+
+      this.tryingSettings = false;
+    },
 
     process () {
       this.$store.dispatch('process/PROCESS', this.logLines);

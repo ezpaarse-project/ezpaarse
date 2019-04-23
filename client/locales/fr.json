@@ -131,6 +131,13 @@
           "ecGenerated": "Événement de consultation généré (basique, sans enrichissement)",
           "property": "Propriété",
           "value": "Valeur",
+          "formatDiscovering": "Découverte de format",
+          "findForMe": "Trouvez pour moi !",
+          "findMyFormat": "Trouvez mon format",
+          "clickToFindOut": "Votre format de log est peut-être déjà supporté par l'un de nos paramétrages prédéfinis. Cliquez ci-dessous pour le découvrir !",
+          "foundSettings": "Nous avons trouvé des paramètrages compatibles.",
+          "noSettingsFound": "Nous n'avons pas trouvé de paramétrage compatible.",
+          "tryingSettings": "Veuillez patienter, nous testons nos formats prédéfinis...",
           "detectionFailed": "La détection automatique n'a pas pu déterminer le format de vos lignes de log",
           "missing": {
             "date": "Pas de date détectée. La date est nécessaire afin de pouvoir dédoublonner les événements de consultation.",
