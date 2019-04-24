@@ -262,7 +262,11 @@
             "completed": "Terminé",
             "abort": "Stoppé",
             "error": "Erreur"
-          }
+          },
+          "jobsPerPage": "Traitements par page",
+          "noJobs": "Il n'y a aucun historique de traitements.",
+          "startDate": "Date de début",
+          "endDate": "Date de fin"
         },
         "report": {
           "title": "Rapport"

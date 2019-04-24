@@ -74,7 +74,6 @@
     "vue": "^2.6.10",
     "vue-i18n": "^8.4.0",
     "vue-localstorage": "^0.6.2",
-    "vue-tour": "^1.1.0",
     "vuetify": "^1.5.9",
     "vuex": "^3.1.0",
     "winston": "^3.1.0",

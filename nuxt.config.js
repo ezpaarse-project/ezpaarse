@@ -55,8 +55,7 @@ module.exports = {
   plugins: [
     '~/plugins/vuetify.js',
     '~/plugins/i18n.js',
-    '~/plugins/socket.js',
-    '~/plugins/vue-tour.js'
+    '~/plugins/socket.js'
   ],
   /*
   ** Global CSS
