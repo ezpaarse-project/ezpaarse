@@ -79,14 +79,12 @@ describe('The server', function () {
       helpers.post('/', logFile, headers, function (err, res, body) {
         if (!res) { throw new Error('ezPAARSE is not running'); }
         if (err)  { throw err; }
+
         res.should.have.status(400);
+        const response = JSON.parse(body);
 
-        should.ok(body === '', 'The body is not empty');
-        res.headers.should.have.property('ezpaarse-status');
-        res.headers.should.have.property('ezpaarse-status-message');
-
-        var status = res.headers['ezpaarse-status'];
-        status.should.equal('4012', 'ezPAARSE returned a wrong status header');
+        response.should.have.property('message');
+        response.should.have.property('code', 4012);
 
         done();
       });
@@ -101,14 +99,12 @@ describe('The server', function () {
       helpers.post('/', logFile, headers, function (err, res, body) {
         if (!res) { throw new Error('ezPAARSE is not running'); }
         if (err)  { throw err; }
+
         res.should.have.status(400);
+        const response = JSON.parse(body);
 
-        should.ok(body === '', 'The body is not empty');
-        res.headers.should.have.property('ezpaarse-status');
-        res.headers.should.have.property('ezpaarse-status-message');
-
-        var status = res.headers['ezpaarse-status'];
-        status.should.equal('4013', 'ezPAARSE returned a wrong status header');
+        response.should.have.property('message');
+        response.should.have.property('code', 4013);
 
         done();
       });

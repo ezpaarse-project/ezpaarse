@@ -45,9 +45,12 @@ app.get(uuidRegExp, function (req, res, next) {
   });
 });
 
-function startJob(req, res) {
+function startJob(req, res, next) {
   const jobID = req.params[0] || uuid.v1();
-  new Job(req, res, jobID, { resIsDeferred: !!req.params[0] })._run();
+  const job = new Job(req, res, jobID, { resIsDeferred: !!req.params[0] });
+  job._run()
+    .then(() => res.end())
+    .catch(next);
 }
 
 /**
