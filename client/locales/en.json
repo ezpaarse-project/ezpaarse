@@ -264,7 +264,11 @@
             "completed": "Completed",
             "abort": "Abort",
             "error": "Error"
-          }
+          },
+          "jobsPerPage": "Processing per page",
+          "noJobs": "There is no treatment history.",
+          "startDate": "Start date",
+          "endDate": "End date"
         },
         "report": {
           "title": "Report"

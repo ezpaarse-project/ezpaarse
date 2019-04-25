@@ -157,75 +157,85 @@ export default {
   },
   computed: {
     deniedPercent () {
-      const a = (this.report.general['nb-denied-ecs'] * 100);
-      const b = (this.report.general['nb-lines-input'] - this.report.rejets['nb-lines-ignored']);
-      return Math.ceil(a / b);
+      if (this.report) {
+        const a = (this.report.general['nb-denied-ecs'] * 100);
+        const b = (this.report.general['nb-lines-input'] - this.report.rejets['nb-lines-ignored']);
+        return Math.ceil(a / b);
+      }
     },
     relevantLogLines () {
-      return this.report.general['nb-lines-input'] - this.report.rejets['nb-lines-ignored'];
+      if (this.report) {
+        return this.report.general['nb-lines-input'] - this.report.rejets['nb-lines-ignored'];
+      }
     },
     nbSections () {
-      // Add 2 for job state and traces which are not report sections
-      if (typeof this.report !== 'object') { return 2; }
-      return Object.keys(this.report).length + 2;
+      if (this.report) {
+        // Add 2 for job state and traces which are not report sections
+        if (typeof this.report !== 'object') { return 2; }
+        return Object.keys(this.report).length + 2;
+      }
     },
     expanded () {
-      return this.panel.length >= this.nbSections && this.panel.every(p => p);
+      if (this.report) {
+        return this.panel.length >= this.nbSections && this.panel.every(p => p);
+      }
     },
     metrics () {
-      const general = this.report.general || {};
-      const stats = this.report.stats || {};
+      if (this.report) {
+        const general = this.report.general || {};
+        const stats = this.report.stats || {};
 
-      return [
-        {
-          label: 'linesRead',
-          icon: 'mdi-file-search-outline',
-          iconColor: 'amber',
-          value: general['nb-lines-input']
-        },
-        {
-          label: 'ECsGenerated',
-          icon: 'mdi-file-document-box-multiple-outline',
-          iconColor: 'light-green',
-          value: general['nb-ecs']
-        },
-        {
-          label: 'treatmentDuration',
-          icon: 'mdi-timer',
-          iconColor: 'blue-grey',
-          value: general['Job-Duration']
-        },
-        {
-          label: 'logProcessingSpeed',
-          icon: 'mdi-speedometer',
-          iconColor: 'deep-purple lighten-1',
-          value: general['process-speed']
-        },
-        {
-          label: 'ECGenerationSpeed',
-          icon: 'mdi-speedometer',
-          iconColor: 'blue darken-2',
-          value: general['ecs-speed']
-        },
-        {
-          label: 'recognizedPlatforms',
-          icon: 'mdi-hexagon-multiple',
-          iconColor: 'orange',
-          value: stats['platforms']
-        },
-        {
-          label: 'HTMLConsultations',
-          icon: 'mdi-web',
-          iconColor: 'cyan',
-          value: stats['mime-HTML']
-        },
-        {
-          label: 'PDFConsultations',
-          icon: 'mdi-file-pdf',
-          iconColor: 'red',
-          value: stats['mime-PDF']
-        }
-      ];
+        return [
+          {
+            label: 'linesRead',
+            icon: 'mdi-file-search-outline',
+            iconColor: 'amber',
+            value: general['nb-lines-input']
+          },
+          {
+            label: 'ECsGenerated',
+            icon: 'mdi-file-document-box-multiple-outline',
+            iconColor: 'light-green',
+            value: general['nb-ecs']
+          },
+          {
+            label: 'treatmentDuration',
+            icon: 'mdi-timer',
+            iconColor: 'blue-grey',
+            value: general['Job-Duration']
+          },
+          {
+            label: 'logProcessingSpeed',
+            icon: 'mdi-speedometer',
+            iconColor: 'deep-purple lighten-1',
+            value: general['process-speed']
+          },
+          {
+            label: 'ECGenerationSpeed',
+            icon: 'mdi-speedometer',
+            iconColor: 'blue darken-2',
+            value: general['ecs-speed']
+          },
+          {
+            label: 'recognizedPlatforms',
+            icon: 'mdi-hexagon-multiple',
+            iconColor: 'orange',
+            value: stats['platforms']
+          },
+          {
+            label: 'HTMLConsultations',
+            icon: 'mdi-web',
+            iconColor: 'cyan',
+            value: stats['mime-HTML']
+          },
+          {
+            label: 'PDFConsultations',
+            icon: 'mdi-file-pdf',
+            iconColor: 'red',
+            value: stats['mime-PDF']
+          }
+        ];
+      }
     }
   },
   methods: {
