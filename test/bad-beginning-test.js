@@ -29,12 +29,12 @@ describe('A file whose first line is incorrect', function () {
     helpers.post('/', logFile, headers, function (err, res, body) {
       if (!res) { throw new Error('ezPAARSE is not running'); }
       if (err)  { throw err; }
-      should.ok(body === '', 'The body is not empty');
+
       res.should.have.status(400);
-      res.headers.should.have.property('ezpaarse-status');
-      res.headers.should.have.property('ezpaarse-status-message');
-      var status = res.headers['ezpaarse-status'];
-      status.should.equal('4003', 'ezPAARSE returned a wrong status header');
+      const response = JSON.parse(body);
+
+      response.should.have.property('message');
+      response.should.have.property('code', 4003);
       done();
     });
   });

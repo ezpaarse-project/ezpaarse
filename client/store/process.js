@@ -1,6 +1,7 @@
 import { CancelToken } from 'axios';
 import Vue from 'vue';
 import uuid from 'uuid';
+import get from 'lodash.get';
 import api from './api';
 
 let fileId = 1;
@@ -110,12 +111,9 @@ export default {
         } else {
           commit('SET_STATUS', 'error');
         }
-      } catch ({ response }) {
+      } catch (e) {
         commit('SET_STATUS', 'error');
-        // FIXME: response.data.error
-        const status = (response && response.headers && response.headers['ezpaarse-status']) || 500;
-        const message = (response && response.headers && response.headers['ezpaarse-status-message']) || 'ui.error';
-        commit('SET_ERROR', `${status} : ${message}`);
+        commit('SET_ERROR', get(e, 'response.data.message'));
       } finally {
         commit('SET_PROGRESS', 100);
         commit('SET_CANCEL_SOURCE', null);

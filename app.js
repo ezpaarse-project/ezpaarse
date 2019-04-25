@@ -161,17 +161,13 @@ app.use('/api', (req, res, next) => {
 
 // API error handler
 app.use((err, req, res, next) => {
-  if (err.isBoom) {
-    return res.status(err.output.statusCode).json(err.output.payload);
-  }
-
   const error = err.isBoom ? err : Boom.boomify(err, { statusCode: err.statusCode });
 
   if (isDev && error.isServer) {
     error.output.payload.stack = error.stack;
   }
 
-  res.status(error.output.statusCode).json(error.output.payload);
+  res.status(error.output.statusCode).set(error.output.headers).json(error.output.payload);
 });
 
 // Import and Set Nuxt.js options

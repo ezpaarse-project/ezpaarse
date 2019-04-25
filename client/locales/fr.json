@@ -253,6 +253,7 @@
           "title": "Traitements",
           "currentProcess": "Il y a <strong>{process}</strong> traitement(s) en cours.",
           "noDataFoundWith": "Aucune données trouvé pour : {search}",
+          "anonymous": "Anonyme",
           "process": {
             "userId": "Utilisateur(s)",
             "jobId": "Traitement(s)",

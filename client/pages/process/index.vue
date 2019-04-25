@@ -116,7 +116,7 @@
 
         <v-stepper-content step="3">
           <v-layout row align-center class="mb-3">
-            <v-btn v-if="jobIsCancelable" large color="error" @click="formStep = 1">
+            <v-btn v-if="jobIsCancelable" large color="error" @click="cancelJob">
               <v-icon left>
                 mdi-cancel
               </v-icon>
@@ -240,6 +240,9 @@ export default {
     }
   },
   methods: {
+    cancelJob () {
+      this.$store.dispatch('process/CANCEL_PROCESS');
+    },
     setFormStep (value) {
       this.$store.dispatch('process/SET_PROCESS_STEP', value);
     },

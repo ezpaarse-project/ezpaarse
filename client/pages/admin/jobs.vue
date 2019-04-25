@@ -80,24 +80,25 @@
         class="elevation-1"
         item-key="id"
       >
-        <template slot="items" slot-scope="props">
+        <template v-slot:items="{ item }">
           <td class="text-xs-left">
-            {{ props.item.userId }}
+            <span v-if="item.userId">{{ item.userId }}</span>
+            <span v-else>{{ $t('ui.pages.admin.jobs.anonymous') }}</span>
           </td>
           <td class="text-xs-left">
             <router-link
-              :to="{ path: `/report/${props.item.jobId}` }"
+              :to="{ path: `/report/${item.jobId}` }"
               target="_blank"
             >
-              {{ props.item.jobId }}
+              {{ item.jobId }}
             </router-link>
           </td>
           <td class="text-xs-left">
-            {{ props.item.createdAt, $i18n.locale | formatDate }}
+            {{ item.createdAt, $i18n.locale | formatDate }}
           </td>
           <td class="text-xs-left">
             <v-chip
-              v-if="props.item.status === 'completed'"
+              v-if="item.status === 'completed'"
               label
               color="green"
               text-color="white"
@@ -105,7 +106,7 @@
               {{ $t('ui.pages.admin.jobs.process.completed') }}
             </v-chip>
             <v-chip
-              v-else-if="props.item.status === 'abort'"
+              v-else-if="item.status === 'abort'"
               label
               color="blue-grey darken-4"
               text-color="white"
@@ -113,7 +114,7 @@
               {{ $t('ui.pages.admin.jobs.process.abort') }}
             </v-chip>
             <v-chip
-              v-else-if="props.item.status === 'error'"
+              v-else-if="item.status === 'error'"
               label
               color="red"
               text-color="white"
@@ -121,7 +122,7 @@
               {{ $t('ui.pages.admin.jobs.process.error') }}
             </v-chip>
             <v-chip
-              v-else-if="props.item.status === 'started'"
+              v-else-if="item.status === 'started'"
               label
               color="teal"
               text-color="white"
@@ -134,7 +135,7 @@
               color="primary"
               text-color="white"
             >
-              {{ props.item.status }}
+              {{ item.status }}
             </v-chip>
           </td>
         </template>
