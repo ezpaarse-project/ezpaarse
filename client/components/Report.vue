@@ -135,6 +135,7 @@
 
 <script>
 import Logs from '~/components/Logs';
+import get from 'lodash.get';
 
 export default {
   components: {
@@ -157,93 +158,82 @@ export default {
   },
   computed: {
     deniedPercent () {
-      if (this.report) {
-        const a = (this.report.general['nb-denied-ecs'] * 100);
-        const b = (this.report.general['nb-lines-input'] - this.report.rejets['nb-lines-ignored']);
-        return Math.ceil(a / b);
-      }
+      const nbDenied = get(this, 'report.general[\'nb-denied-ecs\']', 0);
+      return Math.ceil(nbDenied / this.relevantLogLines * 100);
     },
     relevantLogLines () {
-      if (this.report) {
-        return this.report.general['nb-lines-input'] - this.report.rejets['nb-lines-ignored'];
-      }
+      const nbInput = get(this, 'report.general[\'nb-lines-input\']', 0);
+      const nbIgnored = get(this, 'report.general[\'nb-lines-ignored\']', 0);
+      return nbInput - nbIgnored;
     },
     nbSections () {
-      if (this.report) {
-        // Add 2 for job state and traces which are not report sections
-        if (typeof this.report !== 'object') { return 2; }
-        return Object.keys(this.report).length + 2;
-      }
+      // Add 2 for job state and traces which are not report sections
+      if (!this.report || typeof this.report !== 'object') { return 2; }
+      return Object.keys(this.report).length + 2;
     },
     expanded () {
-      if (this.report) {
-        return this.panel.length >= this.nbSections && this.panel.every(p => p);
-      }
+      return this.panel.length >= this.nbSections && this.panel.every(p => p);
     },
     metrics () {
-      if (this.report) {
-        const general = this.report.general || {};
-        const stats = this.report.stats || {};
+      const general = get(this, 'report.general', {});
+      const stats = get(this, 'report.stats', {});
 
-        return [
-          {
-            label: 'linesRead',
-            icon: 'mdi-file-search-outline',
-            iconColor: 'amber',
-            value: general['nb-lines-input']
-          },
-          {
-            label: 'ECsGenerated',
-            icon: 'mdi-file-document-box-multiple-outline',
-            iconColor: 'light-green',
-            value: general['nb-ecs']
-          },
-          {
-            label: 'treatmentDuration',
-            icon: 'mdi-timer',
-            iconColor: 'blue-grey',
-            value: general['Job-Duration']
-          },
-          {
-            label: 'logProcessingSpeed',
-            icon: 'mdi-speedometer',
-            iconColor: 'deep-purple lighten-1',
-            value: general['process-speed']
-          },
-          {
-            label: 'ECGenerationSpeed',
-            icon: 'mdi-speedometer',
-            iconColor: 'blue darken-2',
-            value: general['ecs-speed']
-          },
-          {
-            label: 'recognizedPlatforms',
-            icon: 'mdi-hexagon-multiple',
-            iconColor: 'orange',
-            value: stats['platforms']
-          },
-          {
-            label: 'HTMLConsultations',
-            icon: 'mdi-web',
-            iconColor: 'cyan',
-            value: stats['mime-HTML']
-          },
-          {
-            label: 'PDFConsultations',
-            icon: 'mdi-file-pdf',
-            iconColor: 'red',
-            value: stats['mime-PDF']
-          }
-        ];
-      }
+      return [
+        {
+          label: 'linesRead',
+          icon: 'mdi-file-search-outline',
+          iconColor: 'amber',
+          value: general['nb-lines-input']
+        },
+        {
+          label: 'ECsGenerated',
+          icon: 'mdi-file-document-box-multiple-outline',
+          iconColor: 'light-green',
+          value: general['nb-ecs']
+        },
+        {
+          label: 'treatmentDuration',
+          icon: 'mdi-timer',
+          iconColor: 'blue-grey',
+          value: general['Job-Duration']
+        },
+        {
+          label: 'logProcessingSpeed',
+          icon: 'mdi-speedometer',
+          iconColor: 'deep-purple lighten-1',
+          value: general['process-speed']
+        },
+        {
+          label: 'ECGenerationSpeed',
+          icon: 'mdi-speedometer',
+          iconColor: 'blue darken-2',
+          value: general['ecs-speed']
+        },
+        {
+          label: 'recognizedPlatforms',
+          icon: 'mdi-hexagon-multiple',
+          iconColor: 'orange',
+          value: stats['platforms']
+        },
+        {
+          label: 'HTMLConsultations',
+          icon: 'mdi-web',
+          iconColor: 'cyan',
+          value: stats['mime-HTML']
+        },
+        {
+          label: 'PDFConsultations',
+          icon: 'mdi-file-pdf',
+          iconColor: 'red',
+          value: stats['mime-PDF']
+        }
+      ];
     }
   },
   methods: {
     // FIXME
-    rejectPercent (rej) {
-      const a = (rej * 100);
-      const b = (this.report.general['nb-lines-input'] - this.report.rejets['nb-lines-ignored']);
-      return Math.ceil(a / b);
+    rejectPercent (nbRejets) {
+      return Math.ceil(nbRejets / this.relevantLogLines * 100);
     },
     expand () {
       this.panel = (new Array(this.nbSections)).fill(true);
