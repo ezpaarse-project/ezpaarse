@@ -65,21 +65,17 @@ ezpaarse_stop() {
   if [ "$EZPAARSE_ENV" == "development" ]; then
     kill `cat $EZPAARSE_PIDFILE`
   else
-    $FOREVER_CMD stop -p $EZPAARSE_PATH $EZPAARSE_APPFILE 1>/dev/null
+    $FOREVER_CMD stopall -p $EZPAARSE_PATH 1>/dev/null
   fi
 }
 
 ezpaarse_restart() {
-  if [ "$EZPAARSE_ENV" == "development" ]; then
-    ezpaarse_stop
-    ezpaarse_start
-  else
-    $FOREVER_CMD restart -p $EZPAARSE_PATH $EZPAARSE_APPFILE 1>/dev/null
-  fi
+  ezpaarse_stop
+  ezpaarse_start
 }
 
 ezpaarse_status() {
-  echo `$FOREVER_CMD list | grep $EZPAARSE_APPFILE | wc -l`
+  echo `$FOREVER_CMD list | grep $EZPAARSE_PATH | wc -l`
 }
 
 case $1 in
