@@ -363,13 +363,13 @@ app.post('/passwords', bodyParser.urlencoded({ extended: true }), bodyParser.jso
 /* eslint-disable-next-line */
 app.put('/passwords', bodyParser.urlencoded({ extended: true }), bodyParser.json(), function (req, res, next) {
   const pwd = req.body.credentials.password;
-  const pwdRepeat = req.body.credentials.password_repeat;
+  const passwordConfirm = req.body.credentials.passwordConfirm;
   const uuid = req.body.uuid;
 
-  if (!pwd || !pwdRepeat || !uuid) {
+  if (!pwd || !passwordConfirm || !uuid) {
     return next(Boom.badRequest());
   }
-  if (pwd !== pwdRepeat) {
+  if (pwd !== passwordConfirm) {
     return next(Boom.badRequest('passwordDoesNotMatch'));
   }
 
