@@ -101,12 +101,14 @@ app.post('/', async function (req, res, next) {
     jobID.charAt(0),
     jobID.charAt(1),
     jobID,
-    'report.json');
+    'report.json'
+  );
 
-  fs.readFile(reportFile, function (err, content) {
-    if (err && err.code !== 'ENOENT') { return next(err); }
-
-    mail.attach('report.json', content.toString());
+  fs.readFile(reportFile, 'utf-8', function (err, content) {
+    if (err) {
+      return next(err.code !== 'ENOENT' ? err : Boom.conflict('reportDoesNotExist'));
+    }
+    mail.attach('report.json', content);
     sendMail();
   });
 });
