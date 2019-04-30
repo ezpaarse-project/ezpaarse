@@ -275,10 +275,13 @@
         }
       },
       "feedback": {
-        "email": "Your feedback will be sent to&nbsp;<a href=\"mailto:ezpaarse@couperin.org\" class=\"white--text\">ezpaarse@couperin.org</a>. A copy will be sent to you at the address indicated below.",
-        "hasSent": "Your feedback has been sent.",
-        "unavailable": "This page is currently unavailable.",
-        "treatments": "Treatments",
+        "emailWillBeSent": "Your feedback will be sent to&nbsp;<a href=\"mailto:{recipient}\">{recipient}</a>. A copy will be sent to you at the address indicated below.",
+        "hasBeenSent": "Your feedback has been sent.",
+        "unavailable": "Feedback sending is currently unavailable.",
+        "email": "Email",
+        "message": "Message",
+        "sendBrowserVersion": "Send the version of my browser",
+        "sendReport": "Send a process report",
         "treatmentOf": "Process of"
       }
     },
@@ -334,7 +337,8 @@
       "cannotGetlogFormat": "Impossible to retrieve the ifformations from the first log line.",
       "error": "One or more errors have occurred.",
       "userNotFound": "No account corresponds to this email address.",
-      "cannotLoadJobsData": "An error occurred while loading the processing data"
+      "cannotLoadJobsData": "An error occurred while loading the processing data",
+      "reportDoesNotExist": "The selected report does not exist anymore"
     },
     "search": "Search",
     "cancel": "Cancel",

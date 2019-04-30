@@ -4,68 +4,96 @@
       <v-toolbar-title>{{ $t('ui.drawer.feedback') }}</v-toolbar-title>
     </v-toolbar>
 
-    <v-card-text>
-      <v-layout row wrap>
-        <v-flex v-if="feedback" xs12 sm12>
-          <v-alert :value="true" color="blue" v-html="$t('ui.pages.feedback.email')" />
+    <v-card-text v-if="checkingFeedback" class="text-xs-center">
+      <v-progress-circular indeterminate />
+    </v-card-text>
 
-          <v-text-field
-            v-if="$auth && $auth.user"
-            label="Email"
-            type="email"
-            :value="$auth.user.username"
-            disabled
-          />
+    <v-card-text v-else-if="!recipient">
+      {{ $t('ui.pages.feedback.unavailable') }}
+    </v-card-text>
 
-          <v-text-field v-else v-model="email" label="Email" type="email" />
+    <v-card-text v-else>
+      <v-alert
+        :value="recipient"
+        outline
+        type="info"
+        class="mb-3"
+        v-html="$t('ui.pages.feedback.emailWillBeSent', { recipient })"
+      />
 
-          <v-textarea v-model="comment" label="Message" />
+      <v-form ref="feedbackForm" v-model="formIsValid" @submit.prevent="sendFeedBack">
+        <v-text-field
+          v-model="email"
+          :label="$t('ui.pages.feedback.email')"
+          type="email"
+          :disabled="$auth.loggedIn"
+          :rules="[isRequired]"
+        />
 
-          <v-select
-            v-if="treatments"
-            v-model="jobID"
-            :items="treatments"
-            :item-text="textDate"
-            item-value="jobId"
-            :label="$t('ui.pages.feedback.treatments')"
-          />
+        <v-textarea
+          v-model="comment"
+          :label="$t('ui.pages.feedback.message')"
+          :rules="[isRequired]"
+        />
 
-          <v-checkbox v-model="checkbox" label="Envoyer la version de mon navigateur" />
+        <v-select
+          v-model="jobID"
+          :disabled="treatments.length === 0"
+          :items="treatments"
+          :item-text="textDate"
+          item-value="jobId"
+          clearable
+          :label="$t('ui.pages.feedback.sendReport')"
+        />
 
+        <v-checkbox v-model="sendBrowser" :label="$t('ui.pages.feedback.sendBrowserVersion')" />
+
+        <p class="text-xs-center">
           <v-btn
-            class="teal white--text"
-            :disabled="($auth && $auth.user) ? !comment : (!comment && !email)"
-            @click="sendFeedBack"
+            large
+            color="primary"
+            type="submit"
+            :disabled="!formIsValid"
+            :loading="sendingFeedback"
           >
+            <v-icon left>
+              mdi-send
+            </v-icon>
             {{ $t('ui.send') }}
           </v-btn>
-          <v-progress-circular v-if="feedBackSend" indeterminate color="teal" />
-        </v-flex>
-
-        <v-flex v-else xs12 sm12>
-          <v-alert :value="true" color="blue" v-text="$t('ui.pages.feedback.unavailable')" />
-        </v-flex>
-      </v-layout>
+        </p>
+      </v-form>
     </v-card-text>
   </v-card>
 </template>
 
 <script>
 import moment from 'moment';
+import get from 'lodash.get';
 
 export default {
   data () {
     return {
-      email: null,
+      formIsValid: false,
+      checkingFeedback: false,
+      email: this.$auth.user && this.$auth.user.username,
       comment: null,
-      browser: null,
-      checkbox: true,
-      feedBackSend: false,
+      sendBrowser: true,
+      sendingFeedback: false,
       jobID: null
     };
   },
+  async mounted () {
+    this.checkingFeedback = true;
+
+    try {
+      await this.$store.dispatch('GET_FEEDBACK_STATUS');
+    } finally {
+      this.checkingFeedback = false;
+    }
+  },
   computed: {
-    feedback () {
+    recipient () {
       return this.$store.state.feedback;
     },
     treatments () {
@@ -73,23 +101,38 @@ export default {
     }
   },
   methods: {
-    sendFeedBack () {
-      this.feedBackSend = true;
-      this.$store.dispatch('SEND_FEEDBACK', {
-        mail: (this.$auth && this.$auth.user) ? this.$auth.user.username : this.email,
-        comment: this.comment,
-        browser: this.checkbox ? navigator.userAgent : null,
-        jobID: this.jobID
-      }).then(() => {
-        this.email = null;
-        this.comment = null;
-        this.checkbox = true;
-        this.$store.dispatch('snacks/success', 'ui.pages.feedback.hasSent');
-        this.feedBackSend = false;
-      }).catch(() => {
-        this.$store.dispatch('snacks/error', 'ui.errors.cannotSendFeedback');
-        this.feedBackSend = false;
-      });
+    isRequired (value) {
+      return !!(value && value.trim()) || this.$t('ui.fieldRequired');
+    },
+    async sendFeedBack () {
+      this.sendingFeedback = true;
+
+      try {
+        await this.$store.dispatch('SEND_FEEDBACK', {
+          mail: (this.$auth && this.$auth.user) ? this.$auth.user.username : this.email,
+          comment: this.comment,
+          browser: this.sendBrowser ? navigator.userAgent : null,
+          jobID: this.jobID
+        });
+      } catch (e) {
+        let message = get(e, 'response.data.message');
+
+        if (message !== 'reportDoesNotExist') {
+          message = 'cannotSendFeedback';
+        }
+
+        this.$store.dispatch('snacks/error', `ui.errors.${message}`);
+        this.sendingFeedback = false;
+        return;
+      }
+
+      this.email = this.$auth.user && this.$auth.user.username;
+      this.comment = null;
+      this.sendBrowser = true;
+      this.sendingFeedback = false;
+      this.jobID = null;
+      this.$refs.feedbackForm.resetValidation();
+      this.$store.dispatch('snacks/success', 'ui.pages.feedback.hasBeenSent');
     },
     textDate (e) {
       const time = moment(e.createdAt).format(this.$i18n.locale === 'fr' ? 'DD MMM YYYY - HH:mm' : 'YYYY MMM DD - HH:mm');

@@ -15,7 +15,7 @@ export default {
     resources: {},
     middlewares: {},
     drawer: true,
-    feedback: null,
+    feedback: {},
     users: [],
     userNumber: -1,
     pkbs: {}

@@ -274,10 +274,13 @@
         }
       },
       "feedback": {
-        "email": "Votre feedback sera envoyé à&nbsp;<a href=\"mailto:ezpaarse@couperin.org\" class=\"white--text\">ezpaarse@couperin.org</a>. Une copie vous sera transmise à l'adresse indiquée ci-dessous.",
-        "hasSent": "Votre feedback a été envoyé.",
-        "unavailable": "Cette page est actuellement indisponible.",
-        "treatments": "Traitements",
+        "emailWillBeSent": "Votre feedback sera envoyé à&nbsp;<a href=\"mailto:{recipient}\">{recipient}</a>. Une copie vous sera transmise à l'adresse indiquée ci-dessous.",
+        "hasBeenSent": "Votre feedback a été envoyé.",
+        "unavailable": "L'envoi de feedback est actuellement indisponible.",
+        "email": "Email",
+        "message": "Message",
+        "sendBrowserVersion": "Envoyer la version de mon navigateur",
+        "sendReport": "Envoyer un rapport de traitement",
         "treatmentOf": "Traitement du"
       }
     },
@@ -333,7 +336,8 @@
       "cannotGetlogFormat": "Impossible de récupérer les informations de la première ligne de log.",
       "error": "Une ou plusieurs erreurs se sont produites.",
       "userNotFound": "Aucun compte ne correspond à cette adresse email.",
-      "cannotLoadJobsData": "Une erreur est survenue pendant le chargement des données des traitements"
+      "cannotLoadJobsData": "Une erreur est survenue pendant le chargement des données des traitements",
+      "reportDoesNotExist": "Le rapport sélectionné n'existe plus"
     },
     "search": "Rechercher",
     "cancel": "Annuler",

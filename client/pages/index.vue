@@ -74,12 +74,6 @@ export default {
     } catch (e) {
       await store.dispatch('snacks/error', 'ui.errors.cannotGetAppInfos');
     }
-
-    try {
-      await store.dispatch('GET_FEEDBACK_STATUS');
-    } catch (e) {
-      await store.dispatch('snacks/error', 'ui.errors.cannotGetAppInfos');
-    }
   },
   computed: {
     userNumber () {
