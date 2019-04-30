@@ -20,6 +20,17 @@ export default {
     userNumber: -1,
     pkbs: {}
   }),
+  getters: {
+    hasPlatformsUpdates (state) {
+      return state.platforms['from-head'] === 'outdated';
+    },
+    hasGeneralUpdates (state) {
+      if (state.middlewares['from-head'] === 'outdated') { return true; }
+      if (state.resources['from-head'] === 'outdated') { return true; }
+      if (state.ezpaarse[state.ezpaarse.isBeta ? 'from-head' : 'from-tag'] === 'outdated') { return true; }
+      return false;
+    }
+  },
   actions: {
     SET_DRAWER ({ commit }, value) {
       commit('SET_DRAWER', value);

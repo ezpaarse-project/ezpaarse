@@ -132,7 +132,7 @@
         <v-list-tile slot="activator">
           <v-list-tile-title>Administration</v-list-tile-title>
           <v-list-tile-action
-            v-if="dataIsOutdated"
+            v-if="hasAvailableUpdates"
           >
             <v-icon>mdi-alert-circle</v-icon>
           </v-list-tile-action>
@@ -144,7 +144,7 @@
           ripple
         >
           <v-list-tile-title>{{ $t('ui.drawer.admin.platforms') }}</v-list-tile-title>
-          <v-list-tile-action v-if="platforms && platforms['from-head'] === 'outdated'">
+          <v-list-tile-action v-if="hasPlatformsUpdates">
             <v-icon>mdi-alert-circle</v-icon>
           </v-list-tile-action>
         </v-list-tile>
@@ -156,7 +156,7 @@
         >
           <v-list-tile-title>{{ $t('ui.drawer.admin.updates') }}</v-list-tile-title>
           <v-list-tile-action
-            v-if="dataIsOutdated"
+            v-if="hasGeneralUpdates"
           >
             <v-icon>mdi-alert-circle</v-icon>
           </v-list-tile-action>
@@ -272,25 +272,14 @@ export default {
     appInfos () {
       return this.$store.state.appInfos;
     },
-    ezpaarse () {
-      return this.$store.state.ezpaarse;
+    hasAvailableUpdates () {
+      return this.hasPlatformsUpdates || this.hasGeneralUpdates;
     },
-    platforms () {
-      return this.$store.state.platforms;
+    hasPlatformsUpdates () {
+      return this.$store.getters.hasPlatformsUpdates;
     },
-    resources () {
-      return this.$store.state.resources;
-    },
-    middlewares () {
-      return this.$store.state.middlewares;
-    },
-    feedback () {
-      return this.$store.state.feedback;
-    },
-    dataIsOutdated () {
-      const mid = (this.middlewares && this.middlewares['from-head'] === 'outdated');
-      const res = (this.resources && this.resources['from-head'] === 'outdated');
-      return mid || res;
+    hasGeneralUpdates () {
+      return this.$store.getters.hasGeneralUpdates;
     }
   },
   methods: {
