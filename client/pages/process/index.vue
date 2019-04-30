@@ -63,11 +63,15 @@
               <v-card class="text-xs-justify">
                 <v-card-text v-html="$t('ui.pages.process.explainationLogs')" />
                 <v-divider />
-                <v-card-text v-html="$t('ui.pages.process.explainationTestsLogs', { url: logSamplesUrl })" />
+                <v-card-text
+                  v-html="$t('ui.pages.process.explainationTestsLogs', { url: logSamplesUrl })"
+                />
 
                 <v-card-actions>
                   <v-spacer />
-                  <v-btn flat @click="fileSelectionHelp = false">{{ $t('ui.close') }}</v-btn>
+                  <v-btn flat @click="fileSelectionHelp = false">
+                    {{ $t('ui.close') }}
+                  </v-btn>
                 </v-card-actions>
               </v-card>
             </v-menu>
@@ -217,6 +221,9 @@ export default {
     status () {
       return this.$store.state.process.status;
     },
+    settings () {
+      return this.$store.state.settings.settings || {};
+    },
     jobInProgress () {
       return this.status === 'progress' || this.status === 'finalization';
     },
@@ -228,9 +235,6 @@ export default {
     },
     modifiedSettings () {
       return this.$store.getters['settings/hasBeenModified'];
-    },
-    selectedSetting () {
-      return this.$store.state.settings.selectedSetting;
     },
     jobId () {
       return this.$store.state.process.jobId;
@@ -260,8 +264,8 @@ export default {
     async displayCurl () {
       let curl = [`curl -v -X POST http://${window.location.host}`];
 
-      if (this.selectedSetting && !this.modifiedSettings) {
-        curl = [...curl, `-H "ezPAARSE-Predefined-Settings:${this.selectedSetting}"`];
+      if (this.settings.id && !this.modifiedSettings) {
+        curl = [...curl, `-H "ezPAARSE-Predefined-Settings:${this.settings.id}"`];
       } else {
         const headers = await this.$store.dispatch('settings/GET_HEADERS');
         curl = [
