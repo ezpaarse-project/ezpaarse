@@ -17,7 +17,7 @@
         <v-list-tile-content>
           <v-list-tile-title v-text="item.fullName" />
           <v-list-tile-sub-title>
-            {{ item.country }}
+            {{ item.country | alphaToName($i18n.locale) }}
           </v-list-tile-sub-title>
         </v-list-tile-content>
         <v-list-tile-action>
@@ -401,8 +401,16 @@
 
 <script>
 import get from 'lodash.get';
+import i18nIsoCode  from 'i18n-iso-countries';
+i18nIsoCode.registerLocale(require('i18n-iso-countries/langs/en.json'));
+i18nIsoCode.registerLocale(require('i18n-iso-countries/langs/fr.json'));
 
 export default {
+  filters: {
+    alphaToName (alpha, locale) {
+      return i18nIsoCode.getName(alpha, locale);
+    }
+  },
   data () {
     return {
       saveDialog: false,

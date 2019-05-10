@@ -37,6 +37,7 @@
     "forever": "~0.15.3",
     "fs-extra": "^7.0.0",
     "geoip-lite": "^1.2.2",
+    "i18n-iso-countries": "^4.0.0",
     "iconv-lite": "^0.4.24",
     "jschardet": "^1.6.0",
     "lazy": "~1.0.11",
