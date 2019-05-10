@@ -59,7 +59,7 @@
             >
               <td class="layout justify-center">
                 <template v-if="$auth.user.username !== props.item.username">
-                  <v-icon small @click="removeUser(props.item.username)">
+                  <v-icon small @click="removeDialog = true; selectedUser = props.item.username;">
                     mdi-delete
                   </v-icon>
                   <v-icon small @click="dialog = true; user = props.item;">
@@ -136,6 +136,21 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <v-dialog
+      v-model="removeDialog"
+      @keydown.esc="removeDialog = false"
+      max-width="600">
+      <v-card>
+        <v-card-title class="headline">{{ $t('ui.pages.admin.users.deletingUser') }}</v-card-title>
+        <v-card-text v-html="$t('ui.pages.admin.users.confirmSentence', { selectedUser })"></v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn flat @click="removeDialog = false">Fermer</v-btn>
+          <v-btn color="primary" @click="removeUser(selectedUser)">Supprimer</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </v-card>
 </template>
 
@@ -151,6 +166,8 @@ export default {
       user: {},
       currentUser: {},
       dialog: false,
+      removeDialog: false,
+      selectedUser: null,
       disabled: true,
       search: '',
       pagination: {
@@ -284,6 +301,9 @@ export default {
 
       try {
         await this.$store.dispatch('REMOVE_USER', userid);
+        this.removeDialog = false;
+        this.selectedUser = null;
+        this.$store.dispatch('snacks/success', `ui.pages.admin.users.userDeleted`);
       } catch (e) {
         this.$store.dispatch('snacks/error', 'ui.errors.cannotRemoveUser');
         return;

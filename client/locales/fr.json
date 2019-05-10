@@ -247,7 +247,10 @@
           "groups": {
             "admin": "Administrateur",
             "user": "Utilisateur"
-          }
+          },
+          "deletingUser": "Suppréssion d'un utilisateur",
+          "confirmSentence": "Vous êtes sur le point de supprimer l'utilisateur <b>{selectedUser}</b>, êtes-vous sur de vouloir le supprimer ?",
+          "userDeleted": "L'utilisateur a bien été supprimé."
         },
         "jobs": {
           "title": "Traitements",
