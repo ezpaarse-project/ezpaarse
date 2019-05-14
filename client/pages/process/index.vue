@@ -139,6 +139,7 @@
               v-if="jobId && !jobInProgress"
               large
               :href="resultUrl"
+              target="_blank"
               color="primary"
             >
               <v-icon left>

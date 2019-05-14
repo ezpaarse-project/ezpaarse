@@ -248,7 +248,10 @@
           "groups": {
             "admin": "Administrator",
             "user": "User"
-          }
+          },
+          "deletingUser": "Deleting a user",
+          "confirmSentence": "You are about to delete the user <b>{selectedUser}</b>, are you sure you want to delete him?",
+          "userDeleted": "The user has been deleted."
         },
         "jobs": {
           "title": "Treatments",
