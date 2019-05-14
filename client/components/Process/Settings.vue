@@ -364,7 +364,7 @@
               v-model="saveForm.country"
               :items="countries"
               item-text="name"
-              item-value="alpha3"
+              item-value="alpha2"
               :label="$t('ui.country')"
               box
               clearable
@@ -484,11 +484,7 @@ export default {
     customSettings () { return this.$store.state.settings.customSettings || []; },
     countries () {
       const alpha2Countries = Object.entries(i18nIsoCode.getNames(this.$i18n.locale));
-
-      return alpha2Countries.map(([alpha2, name]) => ({
-        name,
-        alpha3: i18nIsoCode.alpha2ToAlpha3(alpha2)
-      }));
+      return alpha2Countries.map(([alpha2, name]) => ({ name, alpha2 }));
     },
     allSettings () {
       return [
