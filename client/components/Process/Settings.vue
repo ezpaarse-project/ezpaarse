@@ -16,7 +16,7 @@
       <template v-slot:item="{ item }">
         <v-list-tile-content>
           <v-list-tile-title v-text="item.fullName" />
-          <v-list-tile-sub-title>
+          <v-list-tile-sub-title v-if="item.country">
             {{ item.country | alphaToName($i18n.locale) }}
           </v-list-tile-sub-title>
         </v-list-tile-content>
@@ -363,18 +363,12 @@
             <v-autocomplete
               v-model="saveForm.country"
               :items="countries"
-              :item-text="$i18n.locale"
+              item-text="name"
+              item-value="alpha3"
               :label="$t('ui.country')"
               box
               clearable
-              item-value="en"
-            >
-              <template v-slot:item="{ item }">
-                <v-list-tile-content>
-                  <v-list-tile-title v-text="item[$i18n.locale]" />
-                </v-list-tile-content>
-              </template>
-            </v-autocomplete>
+            />
           </v-card-text>
           <v-card-actions>
             <v-spacer />
@@ -402,13 +396,14 @@
 <script>
 import get from 'lodash.get';
 import i18nIsoCode  from 'i18n-iso-countries';
+
 i18nIsoCode.registerLocale(require('i18n-iso-countries/langs/en.json'));
 i18nIsoCode.registerLocale(require('i18n-iso-countries/langs/fr.json'));
 
 export default {
   filters: {
     alphaToName (alpha, locale) {
-      return i18nIsoCode.getName(alpha, locale);
+      return i18nIsoCode.getName(alpha, locale) || alpha;
     }
   },
   data () {
@@ -487,7 +482,14 @@ export default {
     settings () { return this.$store.state.settings.settings || {}; },
     predefinedSettings () { return this.$store.state.settings.predefinedSettings || []; },
     customSettings () { return this.$store.state.settings.customSettings || []; },
-    countries () { return this.$store.state.settings.countries; },
+    countries () {
+      const alpha2Countries = Object.entries(i18nIsoCode.getNames(this.$i18n.locale));
+
+      return alpha2Countries.map(([alpha2, name]) => ({
+        name,
+        alpha3: i18nIsoCode.alpha2ToAlpha3(alpha2)
+      }));
+    },
     allSettings () {
       return [
         { header: this.$t('ui.pages.process.settings.customSettings') },
