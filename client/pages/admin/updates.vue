@@ -204,7 +204,9 @@
     <v-dialog v-model="refreshDialog" max-width="400px">
       <v-card>
         <v-card-title>
-          <div class="title">{{ $t('ui.pages.admin.updates.updateCompleted') }}</div>
+          <div class="title">
+            {{ $t('ui.pages.admin.updates.updateCompleted') }}
+          </div>
         </v-card-title>
         <v-card-text class="text-xs-justify">
           {{ $t('ui.pages.admin.updates.pleaseRefreshPage') }}
