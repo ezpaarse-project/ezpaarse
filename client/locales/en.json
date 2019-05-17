@@ -208,11 +208,15 @@
       "admin": {
         "platforms": {
           "title": "Platforms",
+          "platform": "Platform",
+          "certifications": "Certifications",
+          "package": "Package",
+          "date": "Date",
           "noPlatforms": "No platforms at the moment",
           "platformsPerPage": "Platforms per page",
           "allPlatformsPerPage": "All",
-          "noCertifications": "No certification yet",
-          "noPlatformFoundWithName": "No platform found with this name : {search}",
+          "update": "Update",
+          "noPlatformFound": "No platform matching search",
           "newPlatformsAvailable": "De nouvelles plateformes sont disponibles",
           "entries": "Entries"
         },

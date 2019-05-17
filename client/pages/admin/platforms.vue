@@ -12,191 +12,136 @@
     </v-toolbar>
 
     <v-card-text>
-      <v-layout
-        row
-        wrap
-      >
-        <v-flex
-          xs12
-          sm12
-        >
-          <p v-if="platformsChanged && platformsChanged.length > 0">
-            <v-alert
-              :value="true"
-              color="teal lighten-2"
-            >
-              <h4>{{ $t('ui.pages.admin.platforms.newPlatformsAvailable') }}</h4>
-              <ul>
-                <li
-                  v-for="(platform, key) in platformsChanged"
-                  :key="key"
-                >
-                  {{ key }}
-                </li>
-              </ul>
-            </v-alert>
-          </p>
-          <p>
-            <strong>{{ $t('ui.currentVersion') }}</strong> :
-            <v-alert
-              v-if="platforms['local-commits'] || platforms['local-changes']"
-              :value="true"
-              color="red lighten-2"
-              v-text="$t('ui.pages.admin.updates.repoLocalChanges', { repo: 'platforms' })"
-            />
-            <v-tooltip
-              v-if="platforms['from-head'] === 'outdated'"
-              right
-            >
-              <v-btn
-                slot="activator"
-                depressed
-                color="red lighten-2 white--text"
-                round
-                @click="updatePlatforms"
-              >
-                {{ platforms.current }}<v-icon class="pl-1">
-                  mdi-alert-circle
-                </v-icon>
-              </v-btn>
-              <span>{{ $t('ui.updateTo', { newVersion: platforms.head }) }}</span>
-            </v-tooltip>
-            <v-btn
-              v-else
-              slot="activator"
-              depressed
-              color="green lighten-2 white--text"
-              round
-            >
-              {{ platforms.current }}
-            </v-btn>
-            <v-progress-circular
-              v-if="inUpdate"
-              indeterminate
-              color="teal"
-            />
-          </p>
-        </v-flex>
+      <v-alert
+        :value="platforms.hasLocalChanges"
+        type="error"
+        v-text="$t('ui.pages.admin.updates.repoLocalChanges', { repo: 'platforms' })"
+      />
 
-        <v-flex
-          xs12
-          sm12
-        >
-          <v-text-field
-            v-model="search"
-            append-icon="mdi-magnify"
-            :label="$t('ui.search')"
-            single-line
-          />
-        </v-flex>
+      <v-layout align-center :column="this.$vuetify.breakpoint.smAndDown">
+        <div class="subheading">
+          {{ $t('ui.currentVersion') }} :
 
-        <v-flex
-          xs12
-          sm12
-        >
-          <v-data-table
-            :headers="headers"
-            :items="platformsItems"
-            :no-data-text="$t('ui.pages.admin.platforms.noPlatforms')"
-            :rows-per-page-text="$t('ui.pages.admin.platforms.platformsPerPage')"
-            prev-icon="mdi-menu-left"
-            next-icon="mdi-menu-right"
-            sort-icon="mdi-menu-down"
-            :rows-per-page-items="rowsPerPage"
-            :search="search"
-            :pagination.sync="pagination"
-            class="elevation-1"
+          <v-chip
+            v-if="platforms.current"
+            :color="platforms.isOutdated ? 'error' : 'success'"
+            dark
+            small
           >
-            <template
-              slot="items"
-              slot-scope="props"
-            >
-              <td style="width: 30px;">
-                <v-icon
-                  v-if="props.item['pkb-packages'].length > 0 && props.item.pkb"
-                  @click="currentPlatform = props.item; dialog = true"
-                >
-                  mdi-file-document
-                </v-icon>
-              </td>
-              <td>
-                <a
-                  :href="props.item.docurl"
-                  target="_blank"
-                >
-                  {{ props.item.longname }}
-                </a>
-              </td>
-              <td v-if="props.item.certifications">
-                <span
-                  v-for="(certification, k) in props.item.certifications"
-                  :key="k"
-                  class="mr-1"
-                >
-                  <a
-                    href="https://blog.ezpaarse.org/2017/06/certification-h-et-p-des-plateformes-traitees-dans-ezpaarse/"
-                    target="_blank"
-                  >
-                    <img
-                      slot="activator"
-                      :src="`/img/certifications/${certification}.png`"
-                      :alt="`Certification ${certification}`"
-                      width="25"
-                    >
-                  </a>
-                </span>
-              </td>
-              <td v-else>
-                {{ $t('ui.pages.admin.platforms.noCertifications') }}
-              </td>
-            </template>
-            <v-alert
-              slot="no-results"
-              :value="true"
-              color="info"
-              icon="mdi-alert-circle"
-            >
-              {{ $t('ui.pages.admin.platforms.noPlatformFoundWithName', { search }) }}
-            </v-alert>
-          </v-data-table>
-        </v-flex>
+            <v-avatar>
+              <v-icon>
+                {{ platforms.isOutdated ? 'mdi-alert-circle' : 'mdi-check-circle' }}
+              </v-icon>
+            </v-avatar>
+            {{ platforms.current }}
+          </v-chip>
+        </div>
+
+        <v-spacer />
+
+        <v-btn
+          small
+          :disabled="!platforms.isOutdated"
+          color="accent"
+          :loading="updating"
+          @click="updatePlatforms"
+        >
+          <v-icon left>
+            mdi-download
+          </v-icon>
+          {{ $t('ui.update') }}
+        </v-btn>
       </v-layout>
     </v-card-text>
 
+    <v-card-text>
+      <v-text-field
+        v-model="search"
+        append-icon="mdi-magnify"
+        :label="$t('ui.search')"
+        solo
+      />
+    </v-card-text>
+
+    <v-data-table
+      :headers="headers"
+      :items="platformsItems"
+      :no-data-text="$t('ui.pages.admin.platforms.noPlatforms')"
+      :no-results-text="$t('ui.pages.admin.platforms.noPlatformFound')"
+      :rows-per-page-text="$t('ui.pages.admin.platforms.platformsPerPage')"
+      :rows-per-page-items="rowsPerPage"
+      :search="search"
+      :pagination.sync="pagination"
+    >
+      <template v-slot:items="{ item }">
+        <td>
+          <v-icon
+            v-if="item['pkb-packages'].length > 0"
+            @click="selectedPlatform = item; pkbDialog = true"
+          >
+            mdi-file-document
+          </v-icon>
+        </td>
+
+        <td>
+          <a
+            :href="item.docurl"
+            target="_blank"
+          >
+            {{ item.longname }}
+          </a>
+        </td>
+
+        <td>
+          <span
+            v-for="(certification, k) in item.certifications"
+            :key="k"
+            class="mr-1"
+          >
+            <a
+              href="https://blog.ezpaarse.org/2017/06/certification-h-et-p-des-plateformes-traitees-dans-ezpaarse/"
+              target="_blank"
+            >
+              <img
+                :src="`/img/certifications/${certification}.png`"
+                :alt="`Certification ${certification}`"
+                width="25"
+              >
+            </a>
+          </span>
+        </td>
+
+        <td class="text-xs-center">
+          <v-icon v-if="platformsChanged[item.name]" color="info">
+            mdi-arrow-up-bold-circle
+          </v-icon>
+        </td>
+      </template>
+    </v-data-table>
+
     <v-dialog
-      v-if="currentPlatform.pkb && dialog"
-      v-model="currentPlatform"
+      v-model="pkbDialog"
       width="600"
     >
       <v-card>
-        <v-card-title
-          class="headline teal lighten-2 white--text"
-          primary-title
-        >
-          {{ currentPlatform.longname }}
+        <v-card-title class="title primary white--text">
+          {{ selectedPlatform.longname }}
         </v-card-title>
 
-        <v-card-text>
-          <v-data-table
-            :headers="pkbsHeaders"
-            :items="currentPlatform['pkb-packages']"
-            :rows-per-page-text="$t('ui.pages.admin.platforms.platformsPerPage')"
-            prev-icon="mdi-menu-left"
-            next-icon="mdi-menu-right"
-            sort-icon="mdi-menu-down"
-            :rows-per-page-items="rowsPerPage"
-            class="elevation-1"
-          >
-            <template
-              slot="items"
-              slot-scope="props"
-            >
-              <td>{{ props.item.name }}</td>
-              <td>{{ props.item.entries }}</td>
-              <td>{{ props.item.date }}</td>
-            </template>
-          </v-data-table>
-        </v-card-text>
+        <v-divider />
+
+        <v-data-table
+          :headers="pkbsHeaders"
+          :items="selectedPlatform['pkb-packages']"
+          :rows-per-page-text="$t('ui.pages.admin.platforms.platformsPerPage')"
+          :rows-per-page-items="rowsPerPage"
+        >
+          <template v-slot:items="{ item }">
+            <td>{{ item.name }}</td>
+            <td>{{ item.entries }}</td>
+            <td>{{ item.date }}</td>
+          </template>
+        </v-data-table>
 
         <v-divider />
 
@@ -205,7 +150,7 @@
           <v-btn
             color="primary"
             flat
-            @click="dialog = false"
+            @click="pkbDialog = false"
           >
             {{ $t('ui.close') }}
           </v-btn>
@@ -221,9 +166,9 @@ export default {
   middleware: ['admin'],
   data () {
     return {
-      inUpdate: false,
-      dialog: false,
-      currentPlatform: false,
+      updating: false,
+      pkbDialog: false,
+      selectedPlatform: false,
       search: '',
       pagination: {
         rowsPerPage: 10
@@ -245,7 +190,12 @@ export default {
   },
   computed: {
     platforms () {
-      return this.$store.state.platforms;
+      const { platforms } = this.$store.state;
+      return {
+        hasLocalChanges: platforms['local-commits'] || platforms['local-changes'],
+        isOutdated: platforms['from-head'] === 'outdated',
+        ...platforms
+      };
     },
     platformsItems () {
       return this.$store.state.platformsItems;
@@ -258,26 +208,34 @@ export default {
         {
           text: 'PKBs',
           align: 'left',
-          sortable: false
+          sortable: false,
+          width: '10px'
         },
         {
-          text: this.$t('ui.pages.admin.platforms.title'),
+          text: this.$t('ui.pages.admin.platforms.platform'),
           align: 'left',
           sortable: true,
           value: 'longname'
         },
         {
-          text: 'Certifications',
+          text: this.$t('ui.pages.admin.platforms.certifications'),
           align: 'left',
           sortable: true,
-          value: 'certifications'
+          value: 'certifications',
+          width: '10px'
+        },
+        {
+          text: this.$t('ui.pages.admin.platforms.update'),
+          align: 'left',
+          sortable: false,
+          width: '10px'
         }
       ];
     },
     pkbsHeaders () {
       return [
         {
-          text: 'Package',
+          text: this.$t('ui.pages.admin.platforms.package'),
           sortable: false,
           value: 'name'
         },
@@ -287,7 +245,7 @@ export default {
           value: 'entries'
         },
         {
-          text: 'Date',
+          text: this.$t('ui.pages.admin.platforms.date'),
           sortable: false,
           value: 'date'
         }
@@ -302,37 +260,34 @@ export default {
   },
   methods: {
     async updatePlatforms () {
-      this.inUpdate = true;
+      this.updating = true;
 
       try {
-        this.$store.dispatch('UPDATE_REPO', 'platforms');
+        await this.$store.dispatch('UPDATE_REPO', 'platforms');
       } catch (e) {
         this.$store.dispatch('snacks/error', 'ui.errors.impossibleToUpdate');
+        this.updating = false;
         return;
       }
 
       try {
-        this.$store.dispatch('GET_PLATFORMS');
+        await this.$store.dispatch('GET_PLATFORMS');
       } catch (e) {
         this.$store.dispatch('snacks/error', 'ui.errors.cannotGetPlatforms');
+        this.updating = false;
         return;
       }
 
       try {
-        this.$store.dispatch('LOAD_STATUS');
+        await this.$store.dispatch('LOAD_STATUS');
       } catch (e) {
         this.$store.dispatch('snacks/error', 'ui.errors.cannotLoadStatus');
+        this.updating = false;
         return;
       }
 
-      this.inUpdate = false;
+      this.updating = false;
     }
   }
 };
 </script>
-
-<style scoped>
-  .v-progress-circular {
-    margin: 1rem;
-  }
-</style>

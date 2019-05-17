@@ -207,12 +207,16 @@
       "admin": {
         "platforms": {
           "title": "Plateformes",
-          "noPlatforms": "Aucune plateformes pour le moment",
+          "platform": "Plateforme",
+          "certifications": "Certifications",
+          "package": "Paquet",
+          "date": "Date",
+          "noPlatforms": "Aucune plateforme pour le moment",
           "platformsPerPage": "Plateformes par page",
           "allPlatformsPerPage": "Toutes",
-          "noCertifications": "Aucune certification",
-          "noPlatformFoundWithName": "Aucune plateforme trouvée avec ce nom : {search}",
-          "newPlatformsAvailable": "New platforms are available",
+          "update": "Mise à jour",
+          "noPlatformFound": "Aucune plateforme ne correspond à la recherche",
+          "newPlatformsAvailable": "Nouvelles plateformes disponibles",
           "entries": "Entrées"
         },
         "updates": {
@@ -229,7 +233,7 @@
           "updateCompleted": "Mise à jour terminée",
           "pleaseRefreshPage": "ezPAARSE a été mis à jour. Certains changements peuvent nécessiter de recharger la page.",
           "updateDuration": "Mettre à jour ezPAARSE peut prendre plusieurs minutes. Le serveur sera mis hors-ligne le temps de l'opération.",
-          "repoLocalChanges": "Des modifications locales semblent avoir été apportées au répertoire des {repo}. Il est possible que les prochaines mises à jour échouent.",
+          "repoLocalChanges": "Des modifications locales semblent avoir été apportées au répertoire {repo}. Il est possible que les prochaines mises à jour échouent.",
           "softLocalChanges": "Des modifications locales semblent avoir été apportées au code source du logiciel. Il est possible que les prochaines mises à jour échouent.",
           "contactDeploymentService": "En cas de problème, nous vous invitons à contacter le service en charge du déploiement.",
           "upwardStable": "La version actuelle du logiciel présente des changements ultérieurs à la dernière version stable. Cliquez sur le bouton ci-dessus si vous souhaitez revenir à la dernière version stable."
@@ -248,7 +252,7 @@
             "admin": "Administrateur",
             "user": "Utilisateur"
           },
-          "deletingUser": "Suppréssion d'un utilisateur",
+          "deletingUser": "Suppression d'un utilisateur",
           "confirmSentence": "Vous êtes sur le point de supprimer l'utilisateur <b>{selectedUser}</b>, êtes-vous sur de vouloir le supprimer ?",
           "userDeleted": "L'utilisateur a bien été supprimé."
         },
