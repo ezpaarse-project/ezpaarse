@@ -38,9 +38,13 @@
                 clearable
                 @click:clear="datePicker.startDate = null"
                 v-on="on"
-              ></v-text-field>
+              />
             </template>
-            <v-date-picker v-model="datePicker.startDate" :locale="$i18n.locale" @input="datePicker.startDateMenu = false"></v-date-picker>
+            <v-date-picker
+              v-model="datePicker.startDate"
+              :locale="$i18n.locale"
+              @input="datePicker.startDateMenu = false"
+            />
           </v-menu>
         </v-flex>
         <v-flex xs12 sm2>
@@ -63,9 +67,13 @@
                 clearable
                 @click:clear="datePicker.endDate = null"
                 v-on="on"
-              ></v-text-field>
+              />
             </template>
-            <v-date-picker v-model="datePicker.endDate" :locale="$i18n.locale" @input="datePicker.endDateMenu = false"></v-date-picker>
+            <v-date-picker
+              v-model="datePicker.endDate"
+              :locale="$i18n.locale"
+              @input="datePicker.endDateMenu = false"
+            />
           </v-menu>
         </v-flex>
       </v-layout>
@@ -73,6 +81,7 @@
       <v-data-table
         :items="treatments"
         :no-data-text="$t('ui.pages.admin.jobs.noJobs')"
+        :no-results-text="$t('ui.pages.admin.jobs.noDataFound')"
         :rows-per-page-text="$t('ui.pages.admin.jobs.jobsPerPage')"
         :pagination.sync="pagination"
         :headers="headers"
@@ -139,14 +148,6 @@
             </v-chip>
           </td>
         </template>
-        <v-alert
-          slot="no-results"
-          :value="true"
-          color="info"
-          icon="mdi-alert-circle"
-        >
-          {{ $t('ui.pages.admin.jobs.noDataFoundWith', { search }) }}
-        </v-alert>
       </v-data-table>
     </v-card-text>
   </v-card>
@@ -234,7 +235,7 @@ export default {
     treatments: {
       get () {
         if (!this.datePicker.startDate) {
-           return this.$store.state.process.treatments;
+          return this.$store.state.process.treatments;
         }
 
         const currentDate = new Date().toISOString().substr(0, 10);

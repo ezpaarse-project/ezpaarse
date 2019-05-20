@@ -27,10 +27,7 @@
       hide-actions
       class="elevation-1 my-3"
     >
-      <template
-        slot="items"
-        slot-scope="props"
-      >
+      <template v-slot:items="props">
         <td class="justify-center layout px-0">
           <v-icon
             small
@@ -47,7 +44,7 @@
         </td>
       </template>
 
-      <template slot="footer">
+      <template v-slot:footer>
         <td :colspan="headers.length" class="text-xs-right">
           {{ logFiles.length }} {{ $t('ui.pages.process.logFiles.selectedFiles') }}
           ({{ totalFileSize }} {{ $t('ui.pages.process.logFiles.total') }})

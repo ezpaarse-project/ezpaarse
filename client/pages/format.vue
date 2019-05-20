@@ -197,10 +197,10 @@
 
           <v-expansion-panel v-else v-model="expandedPanels" expand>
             <v-expansion-panel-content>
-              <div slot="header">
-                {{ $t('ui.pages.process.logFormat.format') }} ({{ result.proxy }})
-              </div>
-              <template slot="actions">
+              <template v-slot:header>
+                <div>{{ $t('ui.pages.process.logFormat.format') }} ({{ result.proxy }})</div>
+              </template>
+              <template v-slot:actions>
                 <v-icon v-if="result.strictMatch" color="success">
                   mdi-check
                 </v-icon>
@@ -218,10 +218,10 @@
             </v-expansion-panel-content>
 
             <v-expansion-panel-content>
-              <div slot="header">
-                {{ $t('ui.pages.process.logFormat.regex') }}
-              </div>
-              <template slot="actions">
+              <template v-slot:header>
+                <div>{{ $t('ui.pages.process.logFormat.regex') }}</div>
+              </template>
+              <template v-slot:actions>
                 <v-icon v-if="result.strictMatch" color="success">
                   mdi-check
                 </v-icon>
@@ -243,10 +243,10 @@
             </v-expansion-panel-content>
 
             <v-expansion-panel-content>
-              <div slot="header">
-                {{ $t('ui.pages.process.logFormat.ecGenerated') }}
-              </div>
-              <template slot="actions">
+              <template v-slot:header>
+                <div>{{ $t('ui.pages.process.logFormat.ecGenerated') }}</div>
+              </template>
+              <template v-slot:actions>
                 <v-icon v-if="result.ec && !hasMissingField" color="success">
                   mdi-check
                 </v-icon>
@@ -276,10 +276,10 @@
                     :items="ecProps"
                     class="elevation-1"
                   >
-                    <template slot="headers" slot-scope="props">
+                    <template v-slot:headers="{ headers }">
                       <tr>
                         <th
-                          v-for="header in props.headers"
+                          v-for="header in headers"
                           :key="header.text"
                         >
                           {{ $t(`ui.pages.process.logFormat.${header.text}`) }}
@@ -287,9 +287,9 @@
                       </tr>
                     </template>
 
-                    <template slot="items" slot-scope="props">
-                      <td>{{ props.item.name }}</td>
-                      <td>{{ props.item.value }}</td>
+                    <template v-slot:items="{ item }">
+                      <td>{{ item.name }}</td>
+                      <td>{{ item.value }}</td>
                     </template>
                   </v-data-table>
                 </v-card-text>

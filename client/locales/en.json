@@ -16,7 +16,9 @@
       "designLogFormat": "Design my log format",
       "signout": "Sign out",
       "feedback": "Report a problem",
+      "documentation": "Documentation",
       "admin": {
+        "administration": "Administration",
         "platforms": "Platforms",
         "updates": "Updates",
         "users": "Users",
@@ -260,7 +262,7 @@
         "jobs": {
           "title": "Treatments",
           "currentProcess": "There is <strong>{process}</strong> processing(s) in progress.",
-          "noDataFoundWith": "No data found for : {search}",
+          "noJobFound": "No process matching search",
           "anonymous": "Anonymous",
           "process": {
             "userId": "User(s)",

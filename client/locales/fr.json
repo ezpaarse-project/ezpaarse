@@ -16,7 +16,9 @@
       "designLogFormat": "Concevoir mon format de log",
       "signout": "Se déconnecter",
       "feedback": "Signaler un problème",
+      "documentation": "Documentation",
       "admin": {
+        "administration": "Administration",
         "platforms": "Plateformes",
         "updates": "Mises à jour",
         "users": "Utilisateurs",
@@ -259,7 +261,7 @@
         "jobs": {
           "title": "Traitements",
           "currentProcess": "Il y a <strong>{process}</strong> traitement(s) en cours.",
-          "noDataFoundWith": "Aucune données trouvé pour : {search}",
+          "noJobFound": "Aucun traitement ne correspond à la recherche",
           "anonymous": "Anonyme",
           "process": {
             "userId": "Utilisateur(s)",

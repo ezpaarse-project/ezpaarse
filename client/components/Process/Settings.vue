@@ -51,9 +51,9 @@
 
       <v-expansion-panel expand>
         <v-expansion-panel-content>
-          <div slot="header">
-            {{ $t('ui.pages.process.settings.input') }}
-          </div>
+          <template v-slot:header>
+            <div>{{ $t('ui.pages.process.settings.input') }}</div>
+          </template>
           <v-card light>
             <v-card-text>
               <v-layout row wrap>
@@ -101,9 +101,9 @@
         </v-expansion-panel-content>
 
         <v-expansion-panel-content>
-          <div slot="header">
-            {{ $t('ui.pages.process.settings.output') }}
-          </div>
+          <template v-slot:header>
+            <div>{{ $t('ui.pages.process.settings.output') }}</div>
+          </template>
           <v-card light>
             <v-card-text>
               <v-layout
@@ -262,9 +262,9 @@
         </v-expansion-panel-content>
 
         <v-expansion-panel-content>
-          <div slot="header">
-            {{ $t('ui.pages.process.settings.advancedHeaders') }}
-          </div>
+          <template v-slot:header>
+            <div>{{ $t('ui.pages.process.settings.advancedHeaders') }}</div>
+          </template>
           <v-card light>
             <v-container fluid grid-list-md>
               <v-layout
@@ -284,7 +284,7 @@
                     solo
                     @input="value => updateHeaderName(index, value)"
                   >
-                    <template slot="item" slot-scope="{ item }">
+                    <template v-slot:item="{ item }">
                       <v-list-tile-content>
                         {{ item.name }}
                       </v-list-tile-content>

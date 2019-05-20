@@ -23,31 +23,18 @@
           <v-list-tile-title>ezPAARSE</v-list-tile-title>
 
           <v-list-tile-sub-title v-if="appInfos.version">
-            <v-menu>
-              <span
-                slot="activator"
-                flat
-              >
-                Version: {{ appInfos.version }} <v-icon dark>
-                  mdi-menu-down
-                </v-icon>
-              </span>
-
-              <v-list>
-                <v-list-tile
-                  href="https://github.com/ezpaarse-project/ezpaarse#readme"
-                  target="_blank"
-                >
-                  <v-list-tile-action>
-                    <v-icon>mdi-github-box</v-icon>
-                  </v-list-tile-action>
-
-                  <v-list-tile-content>
-                    GitHub
-                  </v-list-tile-content>
-                </v-list-tile>
-              </v-list>
-            </v-menu>
+            <v-btn
+              small
+              outline
+              class="ma-0"
+              href="https://github.com/ezpaarse-project/ezpaarse#readme"
+              target="_blank"
+            >
+              Version: {{ appInfos.version }}
+              <v-icon right>
+                mdi-github-circle
+              </v-icon>
+            </v-btn>
           </v-list-tile-sub-title>
         </v-list-tile-content>
       </v-list-tile>
@@ -129,14 +116,18 @@
         prepend-icon="mdi-settings"
         append-icon="mdi-chevron-down"
       >
-        <v-list-tile slot="activator">
-          <v-list-tile-title>Administration</v-list-tile-title>
-          <v-list-tile-action
-            v-if="hasAvailableUpdates"
-          >
-            <v-icon>mdi-alert-circle</v-icon>
-          </v-list-tile-action>
-        </v-list-tile>
+        <template v-slot:activator>
+          <v-list-tile>
+            <v-list-tile-content>
+              <v-list-tile-title>{{ $t('ui.drawer.admin.administration') }}</v-list-tile-title>
+            </v-list-tile-content>
+            <v-list-tile-action
+              v-if="hasAvailableUpdates"
+            >
+              <v-icon>mdi-alert-circle</v-icon>
+            </v-list-tile-action>
+          </v-list-tile>
+        </template>
 
         <v-list-tile
           router
@@ -193,7 +184,7 @@
           <v-icon>mdi-library-books</v-icon>
         </v-list-tile-action>
         <v-list-tile-content>
-          <v-list-tile-title>Documentation</v-list-tile-title>
+          <v-list-tile-title>{{ $t('ui.drawer.documentation') }}</v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
 
@@ -202,11 +193,13 @@
         prepend-icon="mdi-translate"
         append-icon="mdi-chevron-down"
       >
-        <v-list-tile slot="activator">
-          <v-list-tile-content>
-            <v-list-tile-title>{{ $t('ui.language') }}</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
+        <template v-slot:activator>
+          <v-list-tile>
+            <v-list-tile-content>
+              <v-list-tile-title>{{ $t('ui.language') }}</v-list-tile-title>
+            </v-list-tile-content>
+          </v-list-tile>
+        </template>
 
         <v-list-tile
           v-for="lang in locales"

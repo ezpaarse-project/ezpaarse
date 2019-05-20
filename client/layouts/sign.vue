@@ -35,36 +35,42 @@
                   </h3>
                   <p v-html="$t('ui.pages.index.description', descriptionLinks)" />
                   <v-tooltip bottom>
-                    <v-chip slot="activator">
-                      <v-avatar>
-                        <v-icon right>
-                          mdi-thumb-up-outline
-                        </v-icon>
-                      </v-avatar>
-                      {{ $t('ui.pages.index.simpleTool') }}
-                    </v-chip>
+                    <template v-slot:activator="{ on }">
+                      <v-chip v-on="on">
+                        <v-avatar>
+                          <v-icon right>
+                            mdi-thumb-up-outline
+                          </v-icon>
+                        </v-avatar>
+                        {{ $t('ui.pages.index.simpleTool') }}
+                      </v-chip>
+                    </template>
                     <span v-text="$t('ui.pages.index.fewClicksToInstall')" />
                   </v-tooltip>
                   <v-tooltip bottom>
-                    <v-chip slot="activator">
-                      <v-avatar>
-                        <v-icon right>
-                          mdi-comment
-                        </v-icon>
-                      </v-avatar>
-                      {{ $t('ui.pages.index.availableTeam') }}
-                    </v-chip>
+                    <template v-slot:activator="{ on }">
+                      <v-chip v-on="on">
+                        <v-avatar>
+                          <v-icon right>
+                            mdi-comment
+                          </v-icon>
+                        </v-avatar>
+                        {{ $t('ui.pages.index.availableTeam') }}
+                      </v-chip>
+                    </template>
                     <span v-text="$t('ui.pages.index.contactUs')" />
                   </v-tooltip>
                   <v-tooltip bottom>
-                    <v-chip slot="activator">
-                      <v-avatar>
-                        <v-icon right>
-                          mdi-account-group
-                        </v-icon>
-                      </v-avatar>
-                      {{ $t('ui.pages.index.growingCommunity') }}
-                    </v-chip>
+                    <template v-slot:activator="{ on }">
+                      <v-chip v-on="on">
+                        <v-avatar>
+                          <v-icon right>
+                            mdi-account-group
+                          </v-icon>
+                        </v-avatar>
+                        {{ $t('ui.pages.index.growingCommunity') }}
+                      </v-chip>
+                    </template>
                     <span v-text="$t('ui.pages.index.notOnlyFrench')" />
                   </v-tooltip>
                 </v-card-text>

@@ -22,9 +22,11 @@
 
     <v-expansion-panel v-else v-model="panel" expand>
       <v-expansion-panel-content>
-        <div slot="header" class="title">
-          {{ $t('ui.pages.process.job.processState') }}
-        </div>
+        <template v-slot:header>
+          <div class="title">
+            {{ $t('ui.pages.process.job.processState') }}
+          </div>
+        </template>
         <v-card>
           <v-container fluid>
             <v-layout row wrap>
@@ -69,9 +71,11 @@
       </v-expansion-panel-content>
 
       <v-expansion-panel-content v-for="(section, category) in report" :key="category">
-        <div slot="header" class="title">
-          {{ $t(`ui.pages.process.report.${category}`) }}
-        </div>
+        <template v-slot:header>
+          <div class="title">
+            {{ $t(`ui.pages.process.report.${category}`) }}
+          </div>
+        </template>
         <v-card>
           <v-data-table
             :items="Object.entries(section)"
@@ -124,9 +128,11 @@
       </v-expansion-panel-content>
 
       <v-expansion-panel-content>
-        <div slot="header" class="title">
-          {{ $t('ui.pages.process.job.traces') }}
-        </div>
+        <template v-slot:header>
+          <div class="title">
+            {{ $t('ui.pages.process.job.traces') }}
+          </div>
+        </template>
         <Logs :logs="logging" />
       </v-expansion-panel-content>
     </v-expansion-panel>

@@ -37,25 +37,19 @@
           />
         </v-flex>
 
-        <v-flex
-          xs12
-          sm12
-        >
+        <v-flex xs12>
           <v-data-table
             :headers="headers"
             :items="users"
             :no-data-text="$t('ui.pages.admin.users.noUsers')"
+            :no-results-text="$t('ui.pages.admin.users.noMatchingUser')"
             :rows-per-page-text="$t('ui.pages.admin.users.usersPerPage')"
-            prev-icon="mdi-menu-left"
-            next-icon="mdi-menu-right"
-            sort-icon="mdi-menu-down"
             :search="search"
             :pagination.sync="pagination"
             class="elevation-1"
           >
             <template
-              slot="items"
-              slot-scope="props"
+              v-slot:items="props"
             >
               <td class="layout justify-center">
                 <template v-if="$auth.user.username !== props.item.username">
@@ -71,12 +65,6 @@
                 {{ props.item.username }}
               </td>
               <td>{{ $t(`ui.pages.admin.users.groups.${props.item.group}`) }}</td>
-            </template>
-            <template
-              slot="no-results"
-              icon="mdi-alert-circle"
-            >
-              {{ $t('ui.pages.admin.users.noMatchingUser') }}
             </template>
           </v-data-table>
         </v-flex>
@@ -139,15 +127,20 @@
 
     <v-dialog
       v-model="removeDialog"
+      max-width="600"
       @keydown.esc="removeDialog = false"
-      max-width="600">
+    >
       <v-card>
         <v-card-title class="headline">{{ $t('ui.pages.admin.users.deletingUser') }}</v-card-title>
-        <v-card-text v-html="$t('ui.pages.admin.users.confirmSentence', { selectedUser })"></v-card-text>
+        <v-card-text v-html="$t('ui.pages.admin.users.confirmSentence', { selectedUser })" />
         <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn flat @click="removeDialog = false">Fermer</v-btn>
-          <v-btn color="primary" @click="removeUser(selectedUser)">Supprimer</v-btn>
+          <v-spacer />
+          <v-btn flat @click="removeDialog = false">
+            {{ $t('ui.close') }}
+          </v-btn>
+          <v-btn color="primary" @click="removeUser(selectedUser)">
+            {{ $t('ui.remove') }}
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -303,7 +296,7 @@ export default {
         await this.$store.dispatch('REMOVE_USER', userid);
         this.removeDialog = false;
         this.selectedUser = null;
-        this.$store.dispatch('snacks/success', `ui.pages.admin.users.userDeleted`);
+        this.$store.dispatch('snacks/success', 'ui.pages.admin.users.userDeleted');
       } catch (e) {
         this.$store.dispatch('snacks/error', 'ui.errors.cannotRemoveUser');
         return;
