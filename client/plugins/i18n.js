@@ -1,10 +1,13 @@
-/* eslint-disable import/no-unresolved */
 import Vue from 'vue';
 import VueI18n from 'vue-i18n';
 import moment from 'moment';
+import i18nIsoCode from 'i18n-iso-countries';
 
 import en from '~/locales/en.json';
 import fr from '~/locales/fr.json';
+
+i18nIsoCode.registerLocale(require('i18n-iso-countries/langs/en.json'));
+i18nIsoCode.registerLocale(require('i18n-iso-countries/langs/fr.json'));
 
 Vue.use(VueI18n);
 moment.locale('fr');

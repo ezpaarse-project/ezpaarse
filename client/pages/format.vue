@@ -11,6 +11,9 @@
       <v-spacer />
 
       <v-toolbar-items>
+        <v-btn flat @click="saveModal = true">
+          {{ $t('ui.save') }}
+        </v-btn>
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
             <v-btn
@@ -27,6 +30,8 @@
         </v-tooltip>
       </v-toolbar-items>
     </v-toolbar>
+
+    <SettingsSaver :visible.sync="saveModal" />
 
     <v-dialog
       v-model="discoverModal"
@@ -122,7 +127,7 @@
                   <v-list-tile-content>
                     <v-list-tile-title v-text="item.fullName" />
                     <v-list-tile-sub-title>
-                      {{ item.country }}
+                      {{ item.country | alphaToName($i18n.locale) }}
                     </v-list-tile-sub-title>
                   </v-list-tile-content>
                   <v-list-tile-action>
@@ -315,9 +320,19 @@
 
 <script>
 import debounce from 'lodash.debounce';
+import i18nIsoCode from 'i18n-iso-countries';
+import SettingsSaver from '~/components/SettingsSaver';
 
 export default {
   auth: true,
+  components: {
+    SettingsSaver
+  },
+  filters: {
+    alphaToName (alpha, locale) {
+      return i18nIsoCode.getName(alpha, locale) || alpha;
+    }
+  },
   data () {
     return {
       result: null,
@@ -326,6 +341,7 @@ export default {
       matchingSettings: null,
       tryingSettings: false,
       discoverModal: false,
+      saveModal: false,
       ecHeaders: [
         { text: 'property', value: 'property' },
         { text: 'value', value: 'value' }

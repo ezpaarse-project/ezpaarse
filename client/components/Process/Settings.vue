@@ -330,77 +330,18 @@
       </v-expansion-panel>
     </v-card>
 
-    <v-dialog
-      v-model="saveDialog"
-      max-width="600"
-    >
-      <v-form ref="saveForm" v-model="saveForm.isValid" @submit.prevent="saveCustomSettings">
-        <v-card>
-          <v-card-title class="headline">
-            {{ $t('ui.pages.process.settings.savePredefinedSettings') }}
-          </v-card-title>
-          <v-card-text>
-            <v-switch
-              v-if="!settings.predefined && settings.id"
-              v-model="saveAsNew"
-              :label="$t('ui.pages.process.settings.saveAsNew')"
-              @change="validateForm"
-            />
-            <v-text-field
-              v-model="saveForm.fullName"
-              :label="$t('ui.name')"
-              box
-              required
-              :rules="[fullNameRequired, nameIsAvailable]"
-            />
-            <v-text-field
-              v-model="saveForm.id"
-              :label="$t('ui.identifier')"
-              box
-              required
-              :rules="[identifierRequired, identifierIsAvailable]"
-            />
-            <v-autocomplete
-              v-model="saveForm.country"
-              :items="countries"
-              item-text="name"
-              item-value="alpha2"
-              :label="$t('ui.country')"
-              box
-              clearable
-            />
-          </v-card-text>
-          <v-card-actions>
-            <v-spacer />
-            <v-btn
-              flat
-              @click="saveDialog = false"
-            >
-              {{ $t('ui.close') }}
-            </v-btn>
-            <v-btn
-              color="primary"
-              type="submit"
-              :loading="saveForm.saving"
-              :disabled="!saveForm.isValid"
-            >
-              {{ $t('ui.save') }}
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-form>
-    </v-dialog>
+    <SettingsSaver :visible.sync="saveDialog" />
   </v-layout>
 </template>
 
 <script>
-import get from 'lodash.get';
-import i18nIsoCode  from 'i18n-iso-countries';
-
-i18nIsoCode.registerLocale(require('i18n-iso-countries/langs/en.json'));
-i18nIsoCode.registerLocale(require('i18n-iso-countries/langs/fr.json'));
+import i18nIsoCode from 'i18n-iso-countries';
+import SettingsSaver from '~/components/SettingsSaver';
 
 export default {
+  components: {
+    SettingsSaver
+  },
   filters: {
     alphaToName (alpha, locale) {
       return i18nIsoCode.getName(alpha, locale) || alpha;
@@ -409,14 +350,6 @@ export default {
   data () {
     return {
       saveDialog: false,
-      saveAsNew: true,
-      saveForm: {
-        saving: false,
-        isValid: true,
-        fullName: '',
-        id: '',
-        country: ''
-      },
       outputFormats: [
         { value: 'text/csv', text: 'CSV' },
         { value: 'text/tab-separated-values', text: 'TSV' },
@@ -482,10 +415,6 @@ export default {
     settings () { return this.$store.state.settings.settings || {}; },
     predefinedSettings () { return this.$store.state.settings.predefinedSettings || []; },
     customSettings () { return this.$store.state.settings.customSettings || []; },
-    countries () {
-      const alpha2Countries = Object.entries(i18nIsoCode.getNames(this.$i18n.locale));
-      return alpha2Countries.map(([alpha2, name]) => ({ name, alpha2 }));
-    },
     allSettings () {
       return [
         { header: this.$t('ui.pages.process.settings.customSettings') },
@@ -591,11 +520,6 @@ export default {
   },
   methods: {
     openSaveDialog () {
-      this.$refs.saveForm.resetValidation();
-      this.saveForm.fullName = this.settings.fullName || '';
-      this.saveForm.id = this.settings.id || '';
-      this.saveForm.country = this.settings.country || 'France';
-      this.saveAsNew = this.settings.predefined || !this.settings.id;
       this.saveDialog = true;
     },
     addHeader () {
@@ -612,79 +536,6 @@ export default {
     },
     resetSettings () {
       this.$store.dispatch('settings/RESET_SETTINGS');
-    },
-    fullNameRequired (value) {
-      return !!(value && value.trim()) || this.$t('ui.pages.process.settings.fullNameRequired');
-    },
-    identifierRequired (value) {
-      return !!(value && value.trim()) || this.$t('ui.pages.process.settings.identifierRequired');
-    },
-    nameIsAvailable (value) {
-      const fullName = (value || '').trim().toLowerCase();
-      const allSettings = this.$store.getters['settings/allSettings'];
-      const matchingSetting = allSettings.find(s => (s.fullName || '').toLowerCase() === fullName);
-
-      if (!matchingSetting) {
-        return true;
-      }
-
-      if (matchingSetting.id === this.settings.id) {
-        return !this.saveAsNew || this.$t('ui.pages.process.settings.nameUnavailable');
-      }
-
-      return this.$t('ui.pages.process.settings.nameUnavailable');
-    },
-
-    identifierIsAvailable (value) {
-      const id = (value || '').trim();
-      const allSettings = this.$store.getters['settings/allSettings'];
-      const matchingSetting = allSettings.find(s => s.id === id);
-
-      if (!matchingSetting) {
-        return true;
-      }
-
-      if (matchingSetting.id === this.settings.id) {
-        return !this.saveAsNew || this.$t('ui.pages.process.settings.identifierUnavailable');
-      }
-
-      return this.$t('ui.pages.process.settings.identifierUnavailable');
-    },
-
-    validateForm () {
-      this.$refs.saveForm.validate();
-    },
-
-    async saveCustomSettings () {
-      const newSettings = JSON.parse(JSON.stringify(this.settings));
-      newSettings.predefined = undefined;
-      newSettings.fullName = this.saveForm.fullName;
-      newSettings.id = this.saveForm.id;
-      newSettings.country = this.saveForm.country;
-
-      try {
-        if (!newSettings.predefined && newSettings.id && !this.saveAsNew) {
-          await this.$store.dispatch('settings/UPDATE_CUSTOM_PREDEFINED_SETTINGS', newSettings);
-        } else {
-          await this.$store.dispatch('settings/SAVE_CUSTOM_PREDEFINED_SETTINGS', newSettings);
-        }
-      } catch (err) {
-        this.$store.dispatch('snacks/error', 'ui.errors.errorSavePredefinedSettings');
-        return;
-      }
-
-      try {
-        await this.$store.dispatch('settings/GET_PREDEFINED_SETTINGS');
-        await this.$store.dispatch('settings/APPLY_PREDEFINED_SETTINGS', newSettings.id);
-      } catch (err) {
-        const message = get(err, 'response.data.message', 'cannotLoadPredefinedSettings');
-        this.$store.dispatch('snacks/error', `ui.errors.${message}`);
-        return;
-      }
-
-      this.saveDialog = false;
-      this.$refs.saveForm.reset();
-      this.$store.dispatch('snacks/success', 'ui.pages.process.settings.paramsSaved');
     },
     async removecustomSettings () {
       try {
