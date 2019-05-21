@@ -9,7 +9,7 @@
     <v-list
       v-if="!mini"
       dark
-      class="pa-1 teal"
+      class="pa-1 primary"
     >
       <v-list-tile
         avatar

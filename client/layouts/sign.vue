@@ -11,7 +11,7 @@
         <v-card
           flat
           height="100%"
-          color="teal white--text"
+          color="primary"
           tile
         >
           <v-container

@@ -77,10 +77,7 @@
       @keydown.esc="dialog = false"
     >
       <v-card>
-        <v-card-title
-          class="headline teal white--text"
-          primary-title
-        >
+        <v-card-title class="title primary white--text">
           <span v-if="user && user.password">
             {{ $t('ui.pages.admin.users.editUser', { email: user.username }) }}
           </span>

@@ -12,7 +12,7 @@
     </v-toolbar>
 
     <v-card-text class="text-xs-center">
-      <h1 class="display-4 font-weight-black teal--text">
+      <h1 class="display-4 font-weight-black primary--text">
         {{ error.statusCode }}
       </h1>
       <h4 class="headline">
