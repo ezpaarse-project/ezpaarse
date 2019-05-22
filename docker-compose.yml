@@ -14,6 +14,11 @@ services:
       no_proxy: ${no_proxy}
       NODE_ENV: "production"
       EZPAARSE_MONGO_URL: "mongodb://ezpaarse_db:27017/ezpaarse"
+    volumes:
+      - ./platforms:/opt/ezpaarse/platforms
+      - ./middlewares:/opt/ezpaarse/middlewares
+      - ./resources:/opt/ezpaarse/resources
+      - ./exclusions:/opt/ezpaarse/exclusions
     tty: true         # to have nice debug(...) outputs
     stdin_open: true  # to be able to use CTRL+C to stop the container
     ports:

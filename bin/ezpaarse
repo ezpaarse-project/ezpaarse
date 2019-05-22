@@ -18,12 +18,6 @@
 [ -z "$EZPAARSE_LOGDIR" ] && EZPAARSE_LOGDIR="$EZPAARSE_PATH/logs"
 [ -z "$FOREVER_CMD" ] && FOREVER_CMD="forever"
 
-# check make build has been called
-if [ ! -d $EZPAARSE_PATH/build/ ]; then
-  echo "$EZPAARSE_NAME error: please run make build before anything" >&2
-  exit 1
-fi
-
 DAEMON=true
 for i in "$@"; do
   if [ $i == "--no-daemon" ]; then
