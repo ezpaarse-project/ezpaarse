@@ -18,6 +18,7 @@ const path          = require('path');
 const config        = require('./lib/config.js');
 const pkg           = require('./package.json');
 const mailer        = require('./lib/mailer.js');
+const userlist      = require('./lib/userlist.js');
 const useragent     = require('useragent');
 const Boom          = require('boom');
 
@@ -30,12 +31,12 @@ app.set('env', env);
 const isDev = app.get('env') !== 'production';
 
 // Passport (auth)
-passport.serializeUser(function (user, done) {
-  done(null, user);
+passport.serializeUser((user, done) => {
+  done(null, user.username);
 });
 
-passport.deserializeUser(function (obj, done) {
-  done(null, obj);
+passport.deserializeUser((username, done) => {
+  userlist.get(username, done);
 });
 
 passport.use(new BasicStrategy(auth.login));
