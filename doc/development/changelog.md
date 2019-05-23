@@ -3,8 +3,11 @@
 ## 3.0.0 - 3.0.6 ##
 ##### 2019/05/23 #####
 - Update client interface
-- Adding new features
+- New format discovering feature
+- Custom settings can be saved
 - Code refactoring
+- Fix Docker build
+- Update Node.js (10.15.3)
 
 ## 2.13.0 - 2.14.3 ##
 ##### 2019/01/31 #####
