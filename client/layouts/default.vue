@@ -1,8 +1,8 @@
 <template>
-  <v-app id="ezpaarse">
+  <v-app id="ezpaarse" :dark="dark">
     <v-content>
-      <Drawer />
       <Header />
+      <Drawer />
       <v-container fluid>
         <v-alert
           :value="appInfos.demo"
@@ -71,6 +71,9 @@ export default {
     },
     disconnected () {
       return !this.$store.state.socket.socketid;
+    },
+    dark () {
+      return this.$store.state.dark;
     }
   },
   watch: {

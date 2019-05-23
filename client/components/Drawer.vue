@@ -3,42 +3,11 @@
     v-model="drawer"
     app
     fixed
+    clipped
+    left
     disable-route-watcher
     :mini-variant="mini"
   >
-    <v-list
-      v-if="!mini"
-      dark
-      class="pa-1 primary"
-    >
-      <v-list-tile
-        avatar
-        tag="div"
-      >
-        <v-list-tile-avatar>
-          <img src="~/assets/img/logo-white.svg">
-        </v-list-tile-avatar>
-
-        <v-list-tile-content>
-          <v-list-tile-title>ezPAARSE</v-list-tile-title>
-
-          <v-list-tile-sub-title v-if="appInfos.version">
-            <v-btn
-              small
-              outline
-              class="ma-0"
-              href="https://github.com/ezpaarse-project/ezpaarse#readme"
-              target="_blank"
-            >
-              Version: {{ appInfos.version }}
-              <v-icon right>
-                mdi-github-circle
-              </v-icon>
-            </v-btn>
-          </v-list-tile-sub-title>
-        </v-list-tile-content>
-      </v-list-tile>
-    </v-list>
 
     <v-layout
       v-if="!mini"
@@ -236,6 +205,46 @@
         </v-list-tile-content>
       </v-list-tile>
     </v-list>
+
+    <v-divider />
+
+    <v-list class="bottomList">
+       <v-list-tile>
+        <v-list-tile-content class="text-xs-center">
+          <v-list-tile-sub-title>
+            <v-tooltip top>
+              <template v-slot:activator="{ on }">
+                <v-btn small flat icon v-on="on" @click="dark = !dark">
+                  <v-icon v-if="dark">mdi-white-balance-sunny</v-icon>
+                  <v-icon v-else>mdi-weather-night</v-icon>
+                </v-btn>
+              </template>
+              <span v-if="dark">{{ $t('ui.theme.light') }}</span>
+              <span v-else>{{ $t('ui.theme.dark') }}</span>
+            </v-tooltip>
+          </v-list-tile-sub-title>
+        </v-list-tile-content>
+      </v-list-tile>
+
+      <v-list-tile>
+        <v-list-tile-content class="text-xs-center">
+          <v-list-tile-sub-title v-if="appInfos.version">
+            <v-btn
+              small
+              outline
+              class="ma-0"
+              href="https://github.com/ezpaarse-project/ezpaarse#readme"
+              target="_blank"
+            >
+              Version: {{ appInfos.version }}
+              <v-icon right>
+                mdi-github-circle
+              </v-icon>
+            </v-btn>
+          </v-list-tile-sub-title>
+        </v-list-tile-content>
+      </v-list-tile>
+    </v-list>
   </v-navigation-drawer>
 </template>
 
@@ -244,6 +253,7 @@ export default {
   data () {
     return {
       mini: false,
+      switch1: true,
       locales: [
         { name: 'Français', value: 'fr' },
         { name: 'English', value: 'en' }
@@ -273,6 +283,10 @@ export default {
     },
     hasGeneralUpdates () {
       return this.$store.getters.hasGeneralUpdates;
+    },
+    dark: {
+      get () { return this.$store.state.dark; },
+      set (newVal) { this.$store.dispatch('SET_DARK', newVal) }
     }
   },
   methods: {
@@ -283,3 +297,12 @@ export default {
   }
 };
 </script>
+
+<style scoped>
+.bottomList {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+</style>

@@ -54,7 +54,7 @@
           <template v-slot:header>
             <div>{{ $t('ui.pages.process.settings.input') }}</div>
           </template>
-          <v-card light>
+          <v-card>
             <v-card-text>
               <v-layout row wrap>
                 <v-flex xs4 pr-2>
@@ -104,7 +104,7 @@
           <template v-slot:header>
             <div>{{ $t('ui.pages.process.settings.output') }}</div>
           </template>
-          <v-card light>
+          <v-card>
             <v-card-text>
               <v-layout
                 row
@@ -265,7 +265,7 @@
           <template v-slot:header>
             <div>{{ $t('ui.pages.process.settings.advancedHeaders') }}</div>
           </template>
-          <v-card light>
+          <v-card>
             <v-container fluid grid-list-md>
               <v-layout
                 v-for="(header, index) in settings.headers"

@@ -18,7 +18,8 @@ export default {
     feedback: {},
     users: [],
     userNumber: -1,
-    pkbs: {}
+    pkbs: {},
+    dark: false
   }),
   getters: {
     hasPlatformsUpdates (state) {
@@ -106,6 +107,9 @@ export default {
     },
     GET_FEEDBACK_STATUS ({ commit }) {
       return api.feedbackStatus(this.$axios).then(res => commit('SET_FEEDBACK_STATUS', res));
+    },
+    SET_DARK ({ commit }, value) {
+      commit('SET_DARK', value);
     }
   },
   mutations: {
@@ -144,6 +148,9 @@ export default {
     },
     SET_APP_INFOS (state, data) {
       Vue.set(state, 'appInfos', data);
+    },
+    SET_DARK (state, value) {
+      Vue.set(state, 'dark', value);
     }
   }
 };

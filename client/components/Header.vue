@@ -1,13 +1,16 @@
 <template>
-  <v-toolbar app dark fixed color="primary">
+  <v-toolbar app fixed clipped-left :color="dark ? '' : 'primary'">
     <v-toolbar-side-icon @click.stop="setDrawer(!drawer)">
-      <v-icon>mdi-menu</v-icon>
+      <v-icon color="white">mdi-menu</v-icon>
     </v-toolbar-side-icon>
-    <v-toolbar-title>ezPAARSE</v-toolbar-title>
+    <v-toolbar-title class="white--text">
+      <img class="ezPAARSELogo" src="~/assets/img/logo-white.svg" /> 
+      ezPAARSE
+    </v-toolbar-title>
 
     <v-spacer />
 
-    <v-chip label light>
+    <v-chip label>
       <v-progress-circular
         v-if="pkbState === 'synchronizing'"
         class="mr-2"
@@ -25,7 +28,7 @@
       </span>
     </v-chip>
 
-    <v-btn to="/process" class="text-none" light @click="setStep(3)">
+    <v-btn to="/process" class="text-none" @click="setStep(3)">
       <span v-if="!jobStatus">
         {{ $t('ui.header.noCurrentProcessing') }}
       </span>
@@ -70,6 +73,9 @@ export default {
     },
     pkbState () {
       return this.pkbs.state;
+    },
+    dark () {
+      return this.$store.state.dark;
     }
   },
   methods: mapActions({
@@ -83,5 +89,10 @@ export default {
 .loadingPkbs {
   width: 50%;
   margin-right: 5px;
+}
+.ezPAARSELogo {
+  width: 32px;
+  height: 32px;
+  vertical-align: middle;
 }
 </style>
