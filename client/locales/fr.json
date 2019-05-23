@@ -349,8 +349,8 @@
       "reportDoesNotExist": "Le rapport sélectionné n'existe plus"
     },
     "theme": {
-      "dark": "Theme sombre",
-      "light": "Theme clair"
+      "dark": "Thème sombre",
+      "light": "Thème clair"
     },
     "search": "Rechercher",
     "cancel": "Annuler",
