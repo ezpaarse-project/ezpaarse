@@ -253,7 +253,6 @@ export default {
   data () {
     return {
       mini: false,
-      switch1: true,
       locales: [
         { name: 'Français', value: 'fr' },
         { name: 'English', value: 'en' }
