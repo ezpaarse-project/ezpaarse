@@ -349,6 +349,10 @@
       "cannotLoadJobsData": "An error occurred while loading the processing data",
       "reportDoesNotExist": "The selected report does not exist anymore"
     },
+    "theme": {
+      "dark": "Dark theme",
+      "light": "Light theme"
+    },
     "search": "Search",
     "cancel": "Cancel",
     "close": "Close",
