@@ -232,6 +232,8 @@
           "switchToBeta": "Passer en version beta",
           "stable": "STABLE",
           "beta": "BETA",
+          "unversioned": "Non versionné",
+          "cannotUpdate": "La méthode d'installation de cette instance d'ezPAARSE ne permet pas sa mise à jour en ligne. Si vous utilisez Docker, veuillez mettre à jour ezPAARSE par ce biais. Autrement, nous vous invitons à contacter le service en charge du déploiement.",
           "updateCompleted": "Mise à jour terminée",
           "pleaseRefreshPage": "ezPAARSE a été mis à jour. Certains changements peuvent nécessiter de recharger la page.",
           "updateDuration": "Mettre à jour ezPAARSE peut prendre plusieurs minutes. Le serveur sera mis hors-ligne le temps de l'opération.",

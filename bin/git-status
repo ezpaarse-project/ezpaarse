@@ -20,6 +20,7 @@ _DIR="${1:-${PWD}}"
 TAG=true
 
 [ ! -d "$_DIR" ] && { echo "Error: Directory $_DIR not found."; exit 2; }
+[ ! -d "$_DIR/.git" ] && { echo '{ "is-git-repo": false }'; exit 0; }
 
 cd $_DIR
 git fetch 1>/dev/null
@@ -37,7 +38,7 @@ fi
 LATEST_COMMIT=`git describe origin/$CURRENT_BRANCH --always`
 FULL_VERSION=`git describe --always`
 
-RESULT="{\"current\":\"$FULL_VERSION\",\"head\":\"$LATEST_COMMIT\",\"tag\":\"$LATEST_TAG\","
+RESULT="{\"is-git-repo\": true, \"current\":\"$FULL_VERSION\",\"head\":\"$LATEST_COMMIT\",\"tag\":\"$LATEST_TAG\","
 
 # Commits from HEAD to origin
 COMMITS_UPWARD_HEAD=`git log HEAD..origin/$CURRENT_BRANCH --oneline | wc -l`

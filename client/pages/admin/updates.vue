@@ -115,7 +115,20 @@
 
     <v-divider />
 
-    <v-card-text>
+    <v-card-text v-if="!ezpaarse.isGitRepo">
+      <div class="headline">
+        {{ $t('ui.pages.admin.updates.software') }}
+      </div>
+      <div class="subheading">
+        {{ $t('ui.currentVersion') }} :
+        <v-chip small>
+          {{ $t('ui.pages.admin.updates.unversioned') }}
+        </v-chip>
+      </div>
+      <p>{{ $t('ui.pages.admin.updates.cannotUpdate') }}</p>
+    </v-card-text>
+
+    <v-card-text v-else>
       <div class="headline">
         {{ $t('ui.pages.admin.updates.software') }}
       </div>
@@ -129,39 +142,32 @@
       </v-alert>
 
       <v-layout align-center :column="this.$vuetify.breakpoint.smAndDown">
-        <div>
-          <div class="subheading">
-            {{ $t('ui.currentVersion') }} :
+        <div class="subheading">
+          {{ $t('ui.currentVersion') }} :
 
-            <v-chip
-              v-if="ezpaarse.current"
-              :color="ezpaarse.isOutdated ? 'error' : 'success'"
-              dark
-              small
-            >
-              <v-avatar>
-                <v-icon>
-                  {{ ezpaarse.isOutdated ? 'mdi-alert-circle' : 'mdi-check-circle' }}
-                </v-icon>
-              </v-avatar>
-              {{ ezpaarse.current }}
-            </v-chip>
+          <v-chip
+            v-if="ezpaarse.current"
+            :color="ezpaarse.isOutdated ? 'error' : 'success'"
+            dark
+            small
+          >
+            <v-avatar>
+              <v-icon>
+                {{ ezpaarse.isOutdated ? 'mdi-alert-circle' : 'mdi-check-circle' }}
+              </v-icon>
+            </v-avatar>
+            {{ ezpaarse.current }}
+          </v-chip>
 
-            <v-chip
-              v-if="ezpaarse.current"
-              color="info"
-              dark
-              small
-              label
-            >
-              <span v-if="ezpaarse.isBeta">
-                {{ $t('ui.pages.admin.updates.beta') }}
-              </span>
-              <span v-else>
-                {{ $t('ui.pages.admin.updates.stable') }}
-              </span>
-            </v-chip>
-          </div>
+          <v-chip
+            v-if="ezpaarse.isBeta"
+            color="info"
+            dark
+            small
+            label
+          >
+            {{ $t('ui.pages.admin.updates.beta') }}
+          </v-chip>
         </div>
 
         <v-spacer />
@@ -254,6 +260,7 @@ export default {
       return {
         hasLocalChanges: ezpaarse['local-commits'] || ezpaarse['local-changes'],
         isOutdated: ezpaarse[ezpaarse.isBeta ? 'from-head' : 'from-tag'] === 'outdated',
+        isGitRepo: ezpaarse['is-git-repo'] !== false,
         ...ezpaarse
       };
     },
