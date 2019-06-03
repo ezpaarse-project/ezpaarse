@@ -165,6 +165,7 @@
             dark
             small
             label
+            class="text-uppercase"
           >
             {{ $t('ui.pages.admin.updates.beta') }}
           </v-chip>
@@ -201,6 +202,24 @@
           {{ $t('ui.update') }}
         </v-btn>
       </v-layout>
+
+      <div class="my-2">
+        {{ $t('ui.pages.admin.updates.latestVersions') }}
+        <ul>
+          <li>
+            {{ $t('ui.pages.admin.updates.stable') }}
+            <v-chip small>
+              {{ ezpaarse.tag }}
+            </v-chip>
+          </li>
+          <li>
+            {{ $t('ui.pages.admin.updates.beta') }}
+            <v-chip small>
+              {{ ezpaarse.head }}
+            </v-chip>
+          </li>
+        </ul>
+      </div>
 
       <p>{{ $t('ui.pages.admin.updates.updateDuration') }}</p>
 
