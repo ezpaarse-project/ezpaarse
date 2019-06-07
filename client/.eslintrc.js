@@ -25,6 +25,7 @@ module.exports = {
     'arrow-parens': 0, // allow paren-less arrow functions
     'no-console': 2, // do not allow console.logs
     'vue/order-in-components': 0, // for fetch prop
+    'vue/no-v-html': 0, // because v-html is only used for trusted content
     'no-multi-spaces': [2, {
       exceptions: {
         VariableDeclarator: true,
