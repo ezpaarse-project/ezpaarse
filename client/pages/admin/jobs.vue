@@ -81,7 +81,7 @@
       <v-data-table
         :items="treatments"
         :no-data-text="$t('ui.pages.admin.jobs.noJobs')"
-        :no-results-text="$t('ui.pages.admin.jobs.noDataFound')"
+        :no-results-text="$t('ui.pages.admin.jobs.noJobFound')"
         :rows-per-page-text="$t('ui.pages.admin.jobs.jobsPerPage')"
         :pagination.sync="pagination"
         :headers="headers"
@@ -147,18 +147,55 @@
               {{ item.status }}
             </v-chip>
           </td>
+          <td>
+            <v-menu bottom left>
+              <template v-slot:activator="{ on }">
+                <v-btn icon v-on="on">
+                  <v-icon>mdi-dots-vertical</v-icon>
+                </v-btn>
+              </template>
+
+              <v-list>
+                <v-list-tile avatar :href="`/${item.jobId}`" target="_blank">
+                  <v-list-tile-avatar>
+                    <v-icon>mdi-download</v-icon>
+                  </v-list-tile-avatar>
+
+                  <v-list-tile-title>
+                    {{ $t('ui.pages.process.job.downloadResult') }}
+                  </v-list-tile-title>
+                </v-list-tile>
+
+                <v-list-tile avatar @click="jobId = item.jobId; uploaderDialog = true">
+                  <v-list-tile-avatar>
+                    <v-icon>mdi-cloud-upload</v-icon>
+                  </v-list-tile-avatar>
+
+                  <v-list-tile-title>
+                    {{ $t('ui.ezmesure.loadIntoEzmesure') }}
+                  </v-list-tile-title>
+                </v-list-tile>
+              </v-list>
+            </v-menu>
+          </td>
         </template>
       </v-data-table>
     </v-card-text>
+
+    <EzmesureUploader :visible.sync="uploaderDialog" :job-id="jobId" />
   </v-card>
 </template>
 
 <script>
 import moment from 'moment';
+import EzmesureUploader from '~/components/EzmesureUploader';
 
 export default {
   auth: true,
   middleware: ['admin'],
+  components: {
+    EzmesureUploader
+  },
   filters: {
     formatDate (...args) {
       if (args && !args[0]) return null;
@@ -168,6 +205,8 @@ export default {
   data () {
     return {
       search: '',
+      uploaderDialog: false,
+      jobId: '',
       datePicker: {
         startDateMenu: false,
         startDate: null,
@@ -217,13 +256,21 @@ export default {
           text: this.$t('ui.pages.admin.jobs.process.createdAt'),
           align: 'left',
           sortable: true,
-          value: 'createdAt'
+          value: 'createdAt',
+          width: '200px'
         },
         {
           text: this.$t('ui.pages.admin.jobs.process.state'),
           align: 'left',
           sortable: true,
-          value: 'status'
+          value: 'status',
+          width: '150px'
+        },
+        {
+          text: this.$t('ui.actions'),
+          align: 'left',
+          sortable: false,
+          width: '100px'
         }
       ];
     },

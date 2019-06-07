@@ -152,6 +152,7 @@ app.use('/info', require('./routes/info'));
 app.use('/api/jobs', require('./routes/jobs'));
 app.use('/api/logs', require('./routes/logs'));
 app.use('/api/views', require('./routes/views'));
+app.use('/api/ezmesure', require('./routes/ezmesure'));
 app.use('/castor', require('./lib/castor'));
 app.use('/', require('./routes/ws'));
 app.use('/', require('./routes/logs'));

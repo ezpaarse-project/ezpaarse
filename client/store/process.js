@@ -119,6 +119,9 @@ export default {
         commit('SET_CANCEL_SOURCE', null);
       }
     },
+    UPLOAD_TO_EZMESURE (ctx, { jobId, data }) {
+      return api.uploadToEzMesure(this.$axios, jobId, data);
+    },
     CANCEL_PROCESS ({ commit, state }) {
       if (state.cancelSource) {
         state.cancelSource.cancel('Query canceled');

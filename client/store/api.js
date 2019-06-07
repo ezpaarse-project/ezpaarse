@@ -70,4 +70,6 @@ api.getTreatmentsByUser = (axios, userId) => axios.get(`/api/jobs/${userId}`).th
 
 api.getTreatments = (axios) => axios.get('/api/jobs').then(res => res.data);
 
+api.uploadToEzMesure = (axios, jobId, data) => axios.post(`/api/ezmesure/${jobId}`, data).then(res => res.data);
+
 export default api;

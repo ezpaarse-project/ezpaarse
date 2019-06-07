@@ -26,6 +26,20 @@
         "predefinedSettings": "Custom predefined settings"
       }
     },
+    "ezmesure": {
+      "loadIntoEzmesure": "Load into ezMESURE",
+      "toPreprod": "Send to preproduction instance",
+      "indice": "Target index",
+      "token": "Authentication token",
+      "load": "Load",
+      "fileLoaded": "Load completed",
+      "errorsFound": "Errors have been encountered",
+      "metrics": {
+        "inserted": "Insérés",
+        "updated": "Mis à jour",
+        "failed": "Erreurs"
+      }
+    },
     "pages": {
       "index": {
         "whatIsEzpaarse": "ezPAARSE, is...",
@@ -356,6 +370,7 @@
       "dark": "Dark theme",
       "light": "Light theme"
     },
+    "actions": "Actions",
     "search": "Search",
     "cancel": "Cancel",
     "close": "Close",

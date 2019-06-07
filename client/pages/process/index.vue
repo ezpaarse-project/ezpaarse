@@ -77,7 +77,6 @@
             </v-menu>
 
             <v-btn
-              large
               color="primary"
               @click="setFormStep(2)"
             >
@@ -90,7 +89,7 @@
 
         <v-stepper-content step="2">
           <v-layout row align-center class="mb-3">
-            <v-btn large @click="setFormStep(1)">
+            <v-btn @click="setFormStep(1)">
               {{ $t('ui.pages.process.filesSelection') }}
             </v-btn>
 
@@ -106,7 +105,6 @@
             </v-tooltip>
 
             <v-btn
-              large
               color="primary"
               :disabled="!hasLogFiles"
               @click="process"
@@ -120,13 +118,13 @@
 
         <v-stepper-content step="3">
           <v-layout row align-center class="mb-3">
-            <v-btn v-if="jobIsCancelable" large color="error" @click="cancelJob">
+            <v-btn v-if="jobIsCancelable" color="error" @click="cancelJob">
               <v-icon left>
                 mdi-cancel
               </v-icon>
               {{ $t('ui.cancel') }}
             </v-btn>
-            <v-btn v-else large @click="formStep = 1">
+            <v-btn v-else @click="formStep = 1">
               <v-icon left>
                 mdi-restart
               </v-icon>
@@ -135,9 +133,23 @@
 
             <v-spacer />
 
+            <v-tooltip v-if="jobId && !jobInProgress" bottom>
+              <template v-slot:activator="{ on }">
+                <v-btn
+                  fab
+                  small
+                  color="secondary"
+                  @click="uploaderDialog = true"
+                  v-on="on"
+                >
+                  <v-icon>mdi-cloud-upload</v-icon>
+                </v-btn>
+              </template>
+              <span>{{ $t('ui.ezmesure.loadIntoEzmesure') }}</span>
+            </v-tooltip>
+
             <v-btn
               v-if="jobId && !jobInProgress"
-              large
               :href="resultUrl"
               target="_blank"
               color="primary"
@@ -153,6 +165,8 @@
         </v-stepper-content>
       </v-stepper-items>
     </v-stepper>
+
+    <EzmesureUploader :visible.sync="uploaderDialog" :job-id="jobId" />
 
     <v-dialog
       v-model="curlDialog"
@@ -179,19 +193,22 @@
 import LogFiles from '~/components/Process/LogFiles';
 import Settings from '~/components/Process/Settings';
 import Treatment from '~/components/Process/Treatment';
+import EzmesureUploader from '~/components/EzmesureUploader';
 
 export default {
   auth: true,
   components: {
     Treatment,
     LogFiles,
-    Settings
+    Settings,
+    EzmesureUploader
   },
   data () {
     return {
       logSamplesUrl: 'https://github.com/ezpaarse-project/ezpaarse-dataset-samples',
       fileSelectionHelp: false,
       curlDialog: false,
+      uploaderDialog: false,
       curlRequest: ''
     };
   },

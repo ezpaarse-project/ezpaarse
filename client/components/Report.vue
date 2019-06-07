@@ -39,31 +39,12 @@
                 lg4
                 xl3
               >
-                <v-card>
-                  <v-layout row align-center>
-                    <v-flex shrink>
-                      <v-card :color="metric.iconColor" class="ma-2 pa-2">
-                        <v-icon size="40" dark>
-                          {{ metric.icon }}
-                        </v-icon>
-                      </v-card>
-                    </v-flex>
-
-                    <v-flex>
-                      <v-card-title class="text-xs-right">
-                        <v-spacer />
-                        <div class="text-xs-right">
-                          <div class="headline">
-                            {{ metric.value }}
-                          </div>
-                          <div class="subheading grey--text">
-                            {{ $t(`ui.pages.process.report.${metric.label}`) }}
-                          </div>
-                        </div>
-                      </v-card-title>
-                    </v-flex>
-                  </v-layout>
-                </v-card>
+                <Metric
+                  :label="$t(`ui.pages.process.report.${metric.label}`)"
+                  :value="metric.value"
+                  :icon="metric.icon"
+                  :color="metric.iconColor"
+                />
               </v-flex>
             </v-layout>
           </v-container>
@@ -140,11 +121,13 @@
 </template>
 
 <script>
+import Metric from '~/components/Metric';
 import Logs from '~/components/Logs';
 import get from 'lodash.get';
 
 export default {
   components: {
+    Metric,
     Logs
   },
   props: {
