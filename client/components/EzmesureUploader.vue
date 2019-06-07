@@ -69,6 +69,11 @@
               :append-icon="showToken ? 'mdi-eye' : 'mdi-eye-off'"
               @click:append="showToken = !showToken"
             />
+
+            <div
+              class="caption text-xs-right"
+              v-html="$t('ui.ezmesure.findYourToken', { url: tokenUrl })"
+            />
           </v-card-text>
         </v-fade-transition>
 
@@ -155,6 +160,9 @@ export default {
   },
 
   computed: {
+    tokenUrl () {
+      return `https://${this.preprod ? 'ezmesure-preprod' : 'ezmesure'}.couperin.org/myspace#tab-token`;
+    },
     errors () {
       if (this.result && Array.isArray(this.result.errors)) {
         return this.result.errors;

@@ -29,11 +29,12 @@
     "ezmesure": {
       "loadIntoEzmesure": "Load into ezMESURE",
       "toPreprod": "Send to preproduction instance",
-      "indice": "Target index",
+      "indice": "Depository index",
       "token": "Authentication token",
       "load": "Load",
       "fileLoaded": "Load completed",
       "errorsFound": "Errors have been encountered",
+      "findYourToken": "Retrieve your authentication token in your <a href=\"{url}\" target=\"_blank\">ezMESURE space</a>.",
       "metrics": {
         "inserted": "Insérés",
         "updated": "Mis à jour",
