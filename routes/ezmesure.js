@@ -27,7 +27,7 @@ app.post('/:jobId', bodyParser.json(), (req, res, next) => {
       return next(err.code === 'ENOENT' ? Boom.notFound() : err);
     }
 
-    const reg = /.*\.job-ecse(\.[a-z]+){1,2}$/;
+    const reg = /.*\.job-ecs(\.[a-z]+){1,2}$/;
     const filename = files.find(name => reg.test(name));
 
     if (!filename) {
