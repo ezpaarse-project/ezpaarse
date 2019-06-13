@@ -1,13 +1,25 @@
 # Changelog #
 
+## 3.1.0 ##
+#### (2019/06/12) ####
+- Security updates
+- Dark theme
+- Upload to ezMESURE from the web client
+- Fix jobs history cleaning
+- Improve software update page
+
+
 ## 3.0.0 - 3.0.6 ##
 ##### 2019/05/23 #####
-- Update client interface
+- Various client interface enhancements
 - New format discovering feature
 - Custom settings can be saved
 - Code refactoring
 - Fix Docker build
+- Fix session handling when the user does not exist anymore
 - Update Node.js (10.15.3)
+- Downloading the result of an ongoing job is not possible anymore
+- The API now sends consistent JSON errors
 
 ## 2.13.0 - 2.14.3 ##
 ##### 2019/01/31 #####
