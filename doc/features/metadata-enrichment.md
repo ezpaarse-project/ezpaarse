@@ -1,7 +1,7 @@
 # Metadata enrichment #
 
 **Middlewares** can be used to enrich access events by querying external APIs.
-By default, ezPAARSE is configured for using 4 enrichment middlewares: 
+By default, ezPAARSE is configured for using 4 enrichment middlewares:
   * istex
   * crossref
   * sudoc
@@ -16,7 +16,7 @@ When sending requests to an external API, things can go wrong and ezPAARSE will 
 
 Firstly, the API has to be available: if it is not the case, our advice is to wait a bit and launch an ezPAARSE job again.
 
-Secondly, your ezPAARSE instance has to be authorized reaching out to the external API. 
+Secondly, your ezPAARSE instance has to be authorized reaching out to the external API.
 If you work behind a proxy (the proxy being at your institution level) it should be declared in your environment variables: you have to check that HTTP_PROXY and HTTPS_PROXY (and their lowercase counterparts) are known from the machine where your ezpaarse instance is installed. Once checked, you will have to restart your instance (`make stop`, then `make start`) so they are taken in account by the crossref middleware used by ezpaarse
 
 Less probably, if your proxy is correctly declared in the environments variables but won't let the queries go out: there is a tweak to be made at the institution proxy level. You can correctly process logs as soon as the proxy is configured to let those queries go out.
@@ -34,8 +34,9 @@ The Crossref middleware uses the `DOI` found in access events to request metadat
   * **crossref-Enrich**: set to `false` to disable crossref enrichment. Enabled by default.
   * **crossref-TTL**: lifetime of cached documents, in seconds. Defaults to `7 days (3600 * 24 * 7)`
   * **crossref-throttle**: minimum time to wait between queries, in milliseconds. Defaults to `200`ms
-  * **crossref-paquet-size**: maximum number of identifiers to send for query in a single request. Defaults to `50` 
+  * **crossref-paquet-size**: maximum number of identifiers to send for query in a single request. Defaults to `50`
   * **crossref-buffer-size**: maximum number of memorised access events before sending a request. Defaults to `1000`
+  * **crossref-license**: set to `true` to get the `license` field as JSON. Disabled by default.
 
 ## Configuring Sudoc Middleware Call ##
 
@@ -62,4 +63,4 @@ ISTEX middleware is automatically activated on ISTEX logs
 ### Headers ###
   * **istex-enrich** : set to `true` to enable ISTEX enrichment. Disabled by default.
   * **istex-ttl** : lifetime of cached documents, in seconds. Defaults to `7 days (3600 * 24 * 7)`.
-  * **istex-throttle** : minimum time to wait between queries, in milliseconds. Defaults to `500`. 
+  * **istex-throttle** : minimum time to wait between queries, in milliseconds. Defaults to `500`.
