@@ -50,6 +50,18 @@ Parses the URL associated with a consultation event (by calling the appropriate 
 ### qualifier
 Checks consultation events' qualification. See the [dedicated page](../features/qualification.html) for more detail.
 
+### session-id
+Generate COUNTER compliant session IDs in the field `session_id` by concatenating the date, hour of day, and one of the following :
+  - the user ID (default field: login)
+  - the cookie ID (default field: cookie)
+  - both the IP (default field: host) and the user agent (default field: user-agent)
+
+Default fields can be changed with the [Session-ID-Fields](../configuration/parametres.html#session-id-fields) header.
+
+Examples of generated IDs :
+  - 2019-06-09|08|john.doo
+  - 2018-12-25|00|157.244.176.142|Opera/9.80 (X11; Linux i686; U; ru) Presto/2.8.131 Version/11.11
+
 ### sudoc
 Enriches consultation events with [Sudoc](http://www.sudoc.abes.fr) data, especially the PPN (that identify Sudoc records)
 
@@ -87,11 +99,11 @@ module.exports = function articleCounter() {
   // Processing function
   return function count(ec, next) {
     if (!ec) { return next(); }
-    
+
     if (ec.rtype === 'ARTICLE') {
       this.report.inc('general', 'nb-articles');
     }
-    
+
     next();
   };
 };
@@ -104,7 +116,7 @@ This middleware is a bit more advanced. It's activated by giving a field name in
 ```javascript
 module.exports = function mandatoryField() {
   this.logger.verbose('Initializing mandatory field');
-  
+
   let mandatoryField = req.header('Mandatory-Field');
 
   if (mandatoryField && mandatoryField.includes(' ')) {

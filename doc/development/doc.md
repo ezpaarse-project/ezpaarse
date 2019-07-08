@@ -12,7 +12,7 @@ sudo pip install sphinx_rtd_theme sphinx-autobuild
 Then move to the `doc` directory and type :
 
 ```bash
-make serve
+make autobuild
 ```
 
 Finally, visit [http://localhost:8000/](http://localhost:8000/).
