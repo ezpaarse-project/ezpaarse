@@ -60,6 +60,11 @@
         append-icon="mdi-magnify"
         :label="$t('ui.search')"
         solo
+        hide-details
+      />
+      <v-checkbox
+        v-model="onlyOutdated"
+        :label="$t('ui.pages.admin.platforms.onlyOutdated')"
       />
     </v-card-text>
 
@@ -169,6 +174,7 @@ export default {
       updating: false,
       pkbDialog: false,
       selectedPlatform: false,
+      onlyOutdated: false,
       search: '',
       pagination: {
         rowsPerPage: 10
@@ -198,7 +204,8 @@ export default {
       };
     },
     platformsItems () {
-      return this.$store.state.platformsItems;
+      const platforms = this.$store.state.platformsItems;
+      return this.onlyOutdated ? platforms.filter(p => this.platformsChanged[p.name]) : platforms;
     },
     platformsChanged () {
       return this.$store.state.platformsChanged;

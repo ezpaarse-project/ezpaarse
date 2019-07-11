@@ -225,6 +225,7 @@
       "admin": {
         "platforms": {
           "title": "Platforms",
+          "onlyOutdated": "Only show outdated platforms",
           "platform": "Platform",
           "certifications": "Certifications",
           "package": "Package",

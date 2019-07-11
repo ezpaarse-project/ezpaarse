@@ -224,6 +224,7 @@
       "admin": {
         "platforms": {
           "title": "Plateformes",
+          "onlyOutdated": "Afficher uniquement les plateformes obsolètes",
           "platform": "Plateforme",
           "certifications": "Certifications",
           "package": "Paquet",
