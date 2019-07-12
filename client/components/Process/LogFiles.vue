@@ -45,24 +45,30 @@
       </template>
 
       <template v-slot:footer>
-        <td :colspan="headers.length" class="text-xs-right">
-          {{ logFiles.length }} {{ $t('ui.pages.process.logFiles.selectedFiles') }}
-          ({{ totalFileSize }} {{ $t('ui.pages.process.logFiles.total') }})
+        <td :colspan="headers.length">
+          <v-layout align-center>
+            <v-flex shrink class="text-xs-left">
+              <v-btn
+                color="error"
+                outline
+                small
+                @click="clearList"
+              >
+                <v-icon left>
+                  mdi-delete-forever
+                </v-icon>
+                {{ $t('ui.pages.process.logFiles.removeList') }}
+              </v-btn>
+            </v-flex>
+
+            <v-flex class="text-xs-right">
+              {{ logFiles.length }} {{ $t('ui.pages.process.logFiles.selectedFiles') }}
+              ({{ totalFileSize }} {{ $t('ui.pages.process.logFiles.total') }})
+            </v-flex>
+          </v-layout>
         </td>
       </template>
     </v-data-table>
-
-    <p v-if="logFiles.length > 0" class="text-xs-right">
-      <v-btn
-        color="error"
-        @click="clearList"
-      >
-        <v-icon left>
-          mdi-delete-forever
-        </v-icon>
-        {{ $t('ui.pages.process.logFiles.removeList') }}
-      </v-btn>
-    </p>
   </v-layout>
 </template>
 
