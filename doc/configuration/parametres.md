@@ -144,16 +144,16 @@ Set the publisher_name field to a predefined value.
 For example: Force-ECField-Publisher: 'IRevues'.
 
 ### Session-ID-Fields
-Change the fields used to generate session IDs. By default, the generator uses either `login`, `cookie`, or a combination of `host` and `user-agent`, and store the generated ID in `session_id`. You can customize those fields by providing a mapping separated by commas.
+Change the fields used to generate session IDs and user IDs. By default, the generator uses either `login`, `cookie`, or a combination of `host` and `user-agent`, and store the generated IDs in `session_id` and `user_id`. You can customize those fields by providing a mapping separated by commas.
 
 Default mapping :
 ```
-  user: login, cookie: cookie, host: host, useragent: user-agent, session: session_id
+  user: login, cookie: cookie, host: host, useragent: user-agent, session: session_id, userid: user_id
 ```
 
-If your user ID is in the `userid` field :
+If your user login is in the `user_login` field :
 ```
-  user: userid
+  user: user_login
 ```
 
 ### Extract ###
