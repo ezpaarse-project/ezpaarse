@@ -70,6 +70,9 @@ Examples of generated session IDs :
   - 2019-06-09|08|john.doo
   - 2018-12-25|00|157.244.176.142|Opera/9.80 (X11; Linux i686; U; ru) Presto/2.8.131 Version/11.11
 
+### unpaywall
+Get OpenAccess metadata from Unpaywall. API usage is limited to `100 000` DOIs per day.
+
 ### sudoc
 Enriches consultation events with [Sudoc](http://www.sudoc.abes.fr) data, especially the PPN (that identify Sudoc records)
 

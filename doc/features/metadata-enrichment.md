@@ -64,3 +64,16 @@ ISTEX middleware is automatically activated on ISTEX logs
   * **istex-enrich** : set to `true` to enable ISTEX enrichment. Disabled by default.
   * **istex-ttl** : lifetime of cached documents, in seconds. Defaults to `7 days (3600 * 24 * 7)`.
   * **istex-throttle** : minimum time to wait between queries, in milliseconds. Defaults to `500`.
+
+## Configuring Unpaywall Middleware Call ##
+
+The Unpaywall middleware uses the `DOI` found in access events to request Open Acess metadata using the Unpaywall API. Limited to `100 000` DOIs per day.
+
+### Headers ###
+  * **unpaywall-cache**: set to `false` to disable result caching. Enabled by default.
+  * **unpaywall-TTL**: lifetime of cached documents, in seconds. Defaults to `7 days (3600 * 24 * 7)`
+  * **unpaywall-throttle**: minimum time to wait between each packet of queries, in milliseconds. Defaults to `100`ms
+  * **unpaywall-paquet-size**: maximum number of DOIs to request in parallel. Defaults to `5`
+  * **unpaywall-buffer-size**: maximum number of memorised access events before sending requests. Defaults to `100`
+  * **unpaywall-email**: the email to use for API calls. Defaults to `YOUR_EMAIL`.
+
