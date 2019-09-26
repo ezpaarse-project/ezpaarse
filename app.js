@@ -98,9 +98,12 @@ app.use(function (req, res, next) {
   next();
 });
 
-// calculate the baseurl depending on reverse proxy variables
+/**
+ * Set base URL depending on headers
+ * Uses X-Forwarded-Proto and X-Forwarded-Host if provided by a reverse proxy
+ */
 app.use(function (req, res, next) {
-  req.ezBaseURL = 'http://' + (req.headers['x-forwarded-host'] || req.headers.host);
+  req.ezBaseURL = `${req.protocol}://${req.hostname}`;
   next();
 });
 
