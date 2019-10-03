@@ -57,7 +57,9 @@ The default array contains the following fields:
 If `true`, it shows a warning informing users that the instance is a demo, and thus not adapted to process large log files. This warning now appears on our demo instance hosted on [http://ezpaarse.couperin.org](http://ezpaarse.couperin.org)
 The default value is set to `false`.
 
-### EZPAARSE_MIDDLEWARES" ###
+### EZPAARSE_DEFAULT_HEADERS
+An object representing default headers to be used for each job. Can be overriden by predefined settings and actual job headers.
+
 Contains an array of middleware names, in the order they are going to be launched by ezPAARSE during a process.
 The default array contains the following middlewares:
 
