@@ -103,7 +103,8 @@ app.use(function (req, res, next) {
  * Uses X-Forwarded-Proto and X-Forwarded-Host if provided by a reverse proxy
  */
 app.use(function (req, res, next) {
-  req.ezBaseURL = `${req.protocol}://${req.hostname}`;
+  const host = req.headers['x-forwarded-host'] || req.headers.host;
+  req.ezBaseURL = `${req.protocol}://${host}`;
   next();
 });
 
