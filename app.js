@@ -27,6 +27,7 @@ process.env.PORT = config.EZPAARSE_NODEJS_PORT || 59599;
 // connect ezpaarse env to expressjs env
 const env = process.env.NODE_ENV = process.env.NODE_ENV || config.EZPAARSE_ENV;
 app.set('env', env);
+app.set('trust proxy', true);
 
 const isDev = app.get('env') !== 'production';
 
@@ -103,7 +104,7 @@ app.use(function (req, res, next) {
  * Uses X-Forwarded-Proto and X-Forwarded-Host if provided by a reverse proxy
  */
 app.use(function (req, res, next) {
-  const host = req.headers['x-forwarded-host'] || req.headers.host;
+  const host = req.header('x-forwarded-host') || req.headers.host;
   req.ezBaseURL = `${req.protocol}://${host}`;
   next();
 });
