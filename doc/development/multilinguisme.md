@@ -1,4 +1,4 @@
-# Website languages #
+# Website languages
 
 ezPAARSE is available in french and in english.
 

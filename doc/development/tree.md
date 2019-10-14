@@ -1,7 +1,7 @@
-# Tree structure #
+# Tree structure
 
 
-<pre>
+```
 .
 ├── bin [ezpaarse ecosystem binaries commands]
 ├── doc [markdown documentation source files]
@@ -71,4 +71,4 @@
 │       └── multiformat
 ├── tmp
 │   └── jobs
-</pre>
+```

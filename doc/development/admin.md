@@ -1,8 +1,8 @@
-# Administration API #
+# Administration API
 
 Every function listed in this page may be used directly from the administration section in the application.
 
-## Create an administrator ##
+## Create an administrator
 
 If no user has been registered yet, any attempt to connect triggers an admin creation form.
 
@@ -20,18 +20,18 @@ To create an administrator account without the help of the form, please use the 
   </tr>
 </table>
 
-#### Possible outputs ####
+#### Possible outputs
 
 - **201 Created** : The admin has been created.
 - **400 Bad Request** : Missing parameter.
 - **409 Conflict** : There's already an admin.
 - **500 Internal Server Error** : Creation failed.
 
-#### Exemple curl ####
+#### Exemple curl
 ```bash
 curl -X POST --data "userid=foo@foo.fr&password=bar&confirm=bar" http://localhost:59599/api/admin/register
 ```
-## Get running jobs ##
+## Get running jobs
 <table>
   <tr>
       <th style="text-align:left;width:140px;">Path</th>
@@ -47,14 +47,14 @@ curl -X POST --data "userid=foo@foo.fr&password=bar&confirm=bar" http://localhos
 
 Outputs a JSON table with the IDs of the jobs that are currently running.
 
-#### Exemple curl ####
+#### Exemple curl
 ```bash
 curl -X GET --proxy "" -u "admin:password" http://localhost:59599/api/admin/jobs
 ```
 
-## Users management ##
+## Users management
 
-### List users ###
+### List users
 
 <table>
   <tr>
@@ -71,12 +71,12 @@ curl -X GET --proxy "" -u "admin:password" http://localhost:59599/api/admin/jobs
 
 Outputs a JSON table with the complete list of users.
 
-#### Exemple curl ####
+#### Exemple curl
 ```bash
 curl -X GET --proxy "" -u "admin:password" http://localhost:59599/api/admin/users
 ```
 
-### Add a user ###
+### Add a user
 <table>
   <tr>
       <th style="text-align:left;width:140px;">Path</th>
@@ -90,7 +90,7 @@ curl -X GET --proxy "" -u "admin:password" http://localhost:59599/api/admin/user
   </tr>
 </table>
 
-#### Possible outputs ####
+#### Possible outputs
 
 - **201 Created** : User has been created.
 - **400 Bad Request** : Missing parameter.
@@ -99,7 +99,7 @@ curl -X GET --proxy "" -u "admin:password" http://localhost:59599/api/admin/user
 
 When the creation succeeds, the output contains a complete information about the user in JSON format.
 
-#### Exemple curl ####
+#### Exemple curl
 ```bash
 curl -X POST --proxy "" -u "admin:password" --data "userid=foo@foo.net&password=bar&group=user" http://localhost:59599/api/admin/users/
 ```
@@ -118,7 +118,7 @@ curl -X POST --proxy "" -u "admin:password" --data "userid=foo@foo.net&password=
   </tr>
 </table>
 
-#### Possible outputs ####
+#### Possible outputs
 
 - **200 OK** : User updated.
 - **400 Bad Request** : Missing parameter.
@@ -127,7 +127,7 @@ curl -X POST --proxy "" -u "admin:password" --data "userid=foo@foo.net&password=
 
 When the update succeeds, the output contains the updated user in JSON format.
 
-#### Exemple curl ####
+#### Exemple curl
 ```bash
 curl -X POST --proxy "" -u "admin:password" --data "group=admin" http://localhost:59599/api/admin/users/foo@foo.net
 ```
@@ -146,13 +146,13 @@ curl -X POST --proxy "" -u "admin:password" --data "group=admin" http://localhos
   </tr>
 </table>
 
-#### Possible output ####
+#### Possible output
 
 - **204 No Content** : User has been deleted.
 - **404 Not Found** : User not found.
 - **403 Forbidden** : The admin has tried to delete the admin account.
 
-#### Example curl ####
+#### Example curl
 ```bash
 curl -v -X DELETE -u "admin:password" http://localhost:59599/api/admin/users/foo@foo.net
 ```
@@ -171,20 +171,20 @@ curl -v -X DELETE -u "admin:password" http://localhost:59599/api/admin/users/foo
   </tr>
 </table>
 
-#### Possible output ####
+#### Possible output
 
 - **200 OK** : The password has been reset.
 - **404 Not Found** : User not found.
 
-#### Example curl ####
+#### Example curl
 ```bash
 curl -v -X DELETE -u "admin:password" http://localhost:59599/api/admin/users/foo@foo.net
 ```
 
-## Repositories update ##
+## Repositories update
 The URLs below allow for updating the different parts of ezPAARSE.
 
-### Check the state of a repository ###
+### Check the state of a repository
 <table>
   <tr>
       <th style="text-align:left;width:140px;">Path</th>
@@ -213,12 +213,12 @@ The URLs below allow for updating the different parts of ezPAARSE.
   </tr>
 </table>
 
-#### Possible feedbacks ####
+#### Possible feedbacks
 
 - **200 OK** : Checking normally completed.
 - **500 Internal Server Error** : Checking failed.
 
-#### Response body ####
+#### Response body
 The server reply with a JSON response containing various things about the git status of the given repository.
 
 Example:
@@ -234,12 +234,12 @@ Example:
 }
 ```
 
-#### Example curl ####
+#### Example curl
 ```bash
 curl -X GET -u "admin:password" http://localhost:59599/api/admin/platforms/status
 ```
 
-### Update a repository ###
+### Update a repository
 <table>
   <tr>
       <th style="text-align:left;width:140px;">Path</th>
@@ -268,12 +268,12 @@ curl -X GET -u "admin:password" http://localhost:59599/api/admin/platforms/statu
   </tr>
 </table>
 
-#### Example curl ####
+#### Example curl
 ```bash
 curl -X PUT -u "admin:password" http://localhost:59599/api/adminplatforms/status
 ```
 
-#### Possible outputs ####
+#### Possible outputs
 
 - **200 OK** : Platforms have been updated
 - **500 Internal Server Error** : Update failed.

@@ -1,6 +1,6 @@
-# Alerts #
+# Alerts
 
-## Principles ##
+## Principles
 When you process log files with ezPAARSE, a number of processing indicators are generated:
   * number of log lines read,
   * number of rejected log line,
@@ -8,14 +8,14 @@ When you process log files with ezPAARSE, a number of processing indicators are 
 
 Those indicators can be used to detect anomalies during the processing, based on figures considered as "normal".
 
-## How to know if alerts have been generated? ##
+## How to know if alerts have been generated?
 The list of alerts is available in the [processing report](../essential/report.html#alerts). If the mail notification is activated, you'll also receive this list with the email that is sent when the processing has completed.
 
 **NB**: the activation of the alert system needs a sufficient quantity of relevant log lines. The activation threshold is set in the `config.json` file, with the `activationThreshold` key. It can also be modified with the **Alerts-Activation-Threshold** header.
 
-## Available Alerts ##
+## Available Alerts
 
-### Unknown Domains ###
+### Unknown Domains
 This alert is generated when a domain frequently appears in the log lines but no associated parser has been found. The appearence rate is calculated with the sum of relevant log lines.
 
 ```

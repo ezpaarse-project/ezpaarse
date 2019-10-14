@@ -1,4 +1,4 @@
-# Double-click deduplication #
+# Double-click deduplication
 
 The `Double-Click` headers are optional. They set the deduplication applied to access events. By default, the deduplication is performed following the COUNTER algorithm (available on [page 4 of Annex D](http://couperin.org/images/stories/documents/Statistiques/COUNTER/V4_FR/appd_fr.pdf))
 
@@ -14,7 +14,7 @@ They are written like follows *(in red: the editable zones)*:
   * Double-Click-I-field: <span style="color: red">HostFiledName</span>
 
 
-## Parameters (headers) ##
+## Parameters (headers)
 
 -   **Double-Click-Removal:** COUNTER deduplication activated *(true by default)*. If this header is used, it means the deduplication is not activated (with the *false* value) and the other Double-Click- headers are useless.
 
@@ -32,7 +32,7 @@ They are written like follows *(in red: the editable zones)*:
 
 
 Usage:
-```shell
+```bash
 curl -v -X POST --proxy "" --no-buffer\
   -F "file=@test/dataset/sd.duplicates.log"\
   -H 'Log-Format-ezproxy: %h %u %{session}<[a-zA-Z0-9\\-]+> %t "%r" %s'\

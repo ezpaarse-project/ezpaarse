@@ -1,8 +1,8 @@
-# How to Use ezPAARSE #
+# How to use
 
-## Run the server ##
+## Run the server
 
-ezPAARSE launches from the command line. 
+ezPAARSE launches from the command line.
 
 Use the following commands from the installation directory to start and stop the server:
 
@@ -13,7 +13,7 @@ make restart # restart the server
 make status  # check the server status
 ```
 
-## Let's Parse ! ##
+## Let's Parse !
 
 Visit [http://localhost:59599/](http://localhost:59599/) and create the first administrator of your local ezPAARSE instance. Administrators can manage the registered users and trigger updates from the web interface.
 

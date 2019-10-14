@@ -1,4 +1,4 @@
-# Consultation/Access Events #
+# Consultation/Access Events
 
 A consultation event (also known as "access event") is what ezPAARSE produces when it detects an actual consultation of e-resource in the logs. Each consultation event is generated with some generic data found in the original log line (date, user login, URL of the resource...), and is enriched with various methods.
 
@@ -6,7 +6,7 @@ By default, ezPAARSE produces a CSV output with a limited amount of fields. You 
 
 Here is a list of fields that can be found in the consultation events :
 
-## Typical Properties of an Access Event ##
+## Typical Properties of an Access Event
 <table>
   <thead>
     <tr>
@@ -137,55 +137,48 @@ Here is a list of fields that can be found in the consultation events :
 For more information, see all the [fields](../configuration/parametres.html#output-fields) you can request.
 
 
-## Resources' identifiers ##
+## Resources' identifiers
 
 The identifier of a resource allows to characterize the access events associated with it. It can take the values defined in the table below (loaded from [the settings of ezPAARSE](https://github.com/ezpaarse-project/ezpaarse-platforms/blob/master/fields.json)). A resource can also be characterized by several identifiers at the same time (eg. a proprietary identifier and an ISBN).
 
-<table>
-  <thead>
-    <tr>
-      <th>Code</th>
-      <th>Description</th>
-    </tr>
-  </thead>
+<FieldsTable :rows="rids" />
 
-  <tbody id="ridTable"></tbody>
-</table>
-
-### UnitId ###
+### UnitId
 
 The unitid contains the most accurate identifier for a consultation event on a platform (ie. which describes it with the finest granularity). This identifier does not exclude the use of other identifiers. It is used for the deduplication of access events according to the [COUNTER](http://www.projectcounter.org/) standard in use and provides librarians with useful indicators.
 
 This may be the `DOI` or a more complex identifier that will spot as precisely as possible what has been consulted (eg. a paragraph of an article of a page of a book).
 
-## Resources Types (rtype) ##
+## Resources Types (rtype)
 
 The type of a resource allows to know the nature of a resource and characterize the associated access event. It can take one of the values defined in the table below (loaded from [settings of ezPAARSE](https://github.com/ezpaarse-project/ezpaarse-platforms/blob/master/fields.json)).
 
-<table>
-  <thead>
-    <tr>
-      <th>Code</th>
-      <th>Description</th>
-    </tr>
-  </thead>
+<FieldsTable :rows="rtypes" />
 
-  <tbody id="rtypeTable"></tbody>
-</table>
-
-## Resources Formats (mime) ##
+## Resources Formats (mime)
 
 The format of a resource allows to characterize the associated access event. It can take one of the values defined in the table below (loaded from the [settings of ezPAARSE](https://github.com/ezpaarse-project/ezpaarse-platforms/blob/master/fields.json)).
 
-<table>
-  <thead>
-    <tr>
-      <th>Code</th>
-      <th>Description</th>
-    </tr>
-  </thead>
+<FieldsTable :rows="mimes" />
 
-  <tbody id="mimeTable"></tbody>
-</table>
+<script>
+import axios from 'axios';
 
-<script type="text/javascript" src="../_static/fields.js"></script>
+const sortByCode = (a, b) => a.code > b.code ? 1 : -1
+
+export default {
+  data () {
+    return {
+      rtypes: [],
+      mimes: [],
+      rids: [],
+    }
+  },
+  async mounted () {
+    const { data } = await axios.get('https://raw.githubusercontent.com/ezpaarse-project/ezpaarse-platforms/master/fields.json');
+    this.rtypes = (data.rtype || []).sort(sortByCode);
+    this.mimes = (data.mime || []).sort(sortByCode);
+    this.rids = (data.rid || []).sort(sortByCode);
+  }
+}
+</script>

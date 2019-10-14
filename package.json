@@ -75,6 +75,7 @@
     "vue": "^2.6.10",
     "vue-i18n": "^8.4.0",
     "vue-localstorage": "^0.6.2",
+    "vuepress": "^1.2.0",
     "vuetify": "^1.5.9",
     "vuex": "^3.1.0",
     "winston": "^3.1.0",
@@ -108,7 +109,9 @@
     "lint": "eslint --ext .js,.vue lib/ test/ routes/ middlewares/ client/",
     "dev": "NODE_ENV=development nodemon -i 'test/*.js' -i 'platforms/*.js' -i 'middlewares/*.js' -i 'resources/*.js' -i client -i tmp ./server.js -e js",
     "start": "node server.js",
-    "build": "nuxt build --no-generate"
+    "build": "nuxt build --no-generate",
+    "docs:dev": "vuepress dev doc",
+    "docs:build": "vuepress build doc"
   },
   "husky": {
     "hooks": {

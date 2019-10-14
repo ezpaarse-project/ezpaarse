@@ -1,4 +1,4 @@
-# Application core #
+# Application core
 
 Developper-oriented documentation for ezPAARSE's core.
 The documentation dedicated to contributions for parsers, pkbs and scrapers can be found in [this section](./platforms.html).
@@ -21,7 +21,7 @@ The following options can be used to run ezPAARSE.
 * ``--lsof``: displays the number of open file descriptors every 5 seconds
 
 Example :
-```console
+```bash
 . ./bin/env
 node app.js --memory
 ```
@@ -29,14 +29,14 @@ node app.js --memory
 ## Launching the ezPAARSE's unit tests
 
 Use the makefile to launch the tests:
-```console
+```bash
   make test
 ```
 
 To test a specific function, use mocha and indicate the path of the test file as a parameter
 
 Eg for testing custom formats:
-```console
+```bash
 . ./bin/env
 mocha ./test/custom-formats-test
 ```
@@ -44,12 +44,12 @@ mocha ./test/custom-formats-test
 To perform only one functionality test, use mocha and set the path of the test file as a parameter and then specify (with ``-g``) the test number (two figures) like ``@xx``.
 
 For example, for the second test about the custom formats:
-```console
+```bash
 . ./bin/env
 mocha ./test/custom-formats-test -g @02
 ```
 
-## Generate a new ezPAARSE version ##
+## Generate a new ezPAARSE version
 
 To generate a new version of ezPAARSE you need to be member of the ezPAARSE Team.
 
@@ -59,14 +59,13 @@ For the ezPAARSE Team:
 - Check you are on the master version or run a `git checkout master`
 - Use npm to generate the new version by using the appropriate options to tag the version
 
-```console
+```bash
 npm version [<newversion> | major | minor | patch | premajor | preminor | prepatch | prerelease | from-git]
 ```
 Example :
 
-```console
-ubuntu@v-ubuntu:~/ezpaarse$ npm version patch
-v2.9.4
+```bash
+npm version patch
 git push
 git push --tags
 ```

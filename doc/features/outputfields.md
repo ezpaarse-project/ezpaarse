@@ -1,4 +1,4 @@
-### Output Fields ###
+### Output Fields
 
 The `Output-Fields` header adds or removes fields to those ezPAARSE returns by default when it generates access events.
 
@@ -14,7 +14,7 @@ Please note that the personalized fields in the [log format](../essential/format
 
 The `Output-Fields` header is composed with a list of comma separated fields, each one preceded with a **+** or **-** signs, depending on whether it has to be added or removed.
 
-#### Example ####
-```shell
+#### Example
+```bash
 curl -X POST --proxy "" --no-buffer -H 'Output-Fields: -host,-login,+datetime' --data-binary @test/dataset/sd.2012-11-30.300.log  http://127.0.0.1:59599 -v
 ```

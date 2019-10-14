@@ -1,17 +1,17 @@
-# Parameters #
+# Parameters
 
 The ezPAARSE jobs can be configured using HTTP headers. Please find the list of available headers below.
 
 
-### Content-Encoding ###
+### Content-Encoding
 Encoding of the data sent.
 *(supported: gzip, deflate)*
 
-### Response-Encoding ###
+### Response-Encoding
 Encoding of the data sent back by server.
 *(supported: gzip, deflate)*
 
-### Accept ###
+### Accept
 Output format.
 Supported:
   - text/csv (by default)
@@ -19,21 +19,21 @@ Supported:
   - application/json
   - application/jsonstream (one JSON object per line)
 
-### Log-Format-xxx ###
+### Log-Format-xxx
 Format of the log lines in input, depends on the proxy *xxx* used. [See the available formats](../essential/formats.html)
 
-### Date-Format ###
+### Date-Format
 Date format used in the logs sent. Default is: 'DD/MMM/YYYY:HH:mm:ss Z'.
 
-### Crypted-Fields ###
+### Crypted-Fields
 Comma-separated list of fields that will be crypted in the results, or `none` to disable crypting. Defaults to `host,login`.
 
 **Caution**: each job uses a random salt for crypting, so crypted values for the same acces events but from distinct jobs are not identical.
 
-### Output-Fields ###
+### Output-Fields
 To specify the fields to include in the output (if the format allows it). [(More information)](../features/outputfields.html)
 
-### Traces-Level ###
+### Traces-Level
 To specify the verbosity level from ezPAARSE's feedback. The higher levels include the lower ones.
   - **error**: blocking errors, abnormal treatment termination.
   - **warn**: errors not fatal to the treatment.
@@ -42,7 +42,7 @@ To specify the verbosity level from ezPAARSE's feedback. The higher levels inclu
   - **silly**: every detail of the treatment (parser not found, line ignored, unsuccessful search in a pkb...).
 
 
-### Reject-Files ###
+### Reject-Files
 List of the reject files to create, separated by commas.
 
 Possible values are:
@@ -60,45 +60,45 @@ Set to `none` by default.
 
 We recommend to set it to `all` when you start using ezPAARSE, to fully understand the filtering and exclusion system.
 
-### Double-Click-xxx ###
+### Double-Click-xxx
 Parameters used for deduplication. [(More information)](../features/doubleclick.html).
 
-### Request-Charset ###
+### Request-Charset
 Character map used for input. [(see supported encodings)](https://github.com/ashtuchkin/iconv-lite#supported-encodings).
 
-### Response-Charset ###
+### Response-Charset
 Character map used for output. [(see supported encodings)](https://github.com/ashtuchkin/iconv-lite#supported-encodings).
 
-### Max-Parse-Attempts ###
+### Max-Parse-Attempts
 Maximum number of lines that ezPAARSE will attempt to parse in order to check the log format.
 
-### Clean-Only ###
+### Clean-Only
 If set to `true`, ezPAARSE will just filter out the lines we are sure are irrelevant and output only the relevant ones.
 The goal when using this parameter is to reduce the size of the log file, if you need to store it for further treatment.
-#### Video Demonstration ####
+#### Video Demonstration
 This [screencast](https://www.youtube.com/watch?v=I3D6lO4wDZo) demonstrates the usage of the Clean-Only parameter (ie the cleaning of a log file for size reduction and ease of storage)
 
-### Force-Parser ###
+### Force-Parser
 If URLs don't have 'domain' part, use this parameter to force right parser to be used. Usefull for Open Access log analysis which don't have domain part in URL (all URLs comes form the same domain).
 For example: Force-Parser: 'dspace'.
 Can be use in conjonction with Force-ECField-Publisher.
 
-### COUNTER-Reports ###
+### COUNTER-Reports
 List of COUNTER reports to create (ex: JR1, BR2). Download links are accessible in the `stats` section of the treatment report. [(More information)](../features/counter.html)
 
-### COUNTER-Format ###
+### COUNTER-Format
 COUNTER report formats: `XML` (by default) ou `CSV`.
 
-### COUNTER-Customer ###
+### COUNTER-Customer
 Name and/or email of the customer to include in the COUNTER reports, following the form `name`, `<email>` or `name<email>`. (By default :`ezPAARSE<admin email>`)
 
-### COUNTER-Vendor ###
+### COUNTER-Vendor
 Name and/or email of the publisher  to include in the COUNTER reports, following the form `name`, `<email>` or `name<email>`. (By default :`platform42`, without email)
 
-### Geoip ###
+### Geoip
 Listing of the geolocation informations to be added to the results. By default `geoip-longitude, geoip-latitude, geoip-country`. `all` can be used to include every fiel available, or `none` to deactivate geolocation altogether. [(More information)](../features/geolocalisation.html)
 
-### ezPAARSE-Job-Notifications ###
+### ezPAARSE-Job-Notifications
 Listing of notifications to send when treatment is done, written as `action<cible>` and separated by commas. Currently available: `mail<adress>`
 
 ### ezPAARSE-Middlewares
@@ -120,26 +120,26 @@ By default, they will be inserted at the end of the chain, before `qualifier`. Y
 'ezPAARSE-Middlewares': '(only) crossref'
 ```
 
-### ezPAARSE-Enrich ###
+### ezPAARSE-Enrich
 Set to `false` to deactivate data enrichment (geoip and knowledge bases). Any other value will leave the data enrichment active.
 
-### ezPAARSE-Predefined-Settings ###
+### ezPAARSE-Predefined-Settings
 Tells ezPAARSE to use a predefined set of parameters. For example: `inist` for INIST-CNRS parameters.
 
-### ezPAARSE-Filter-Redirects ###
+### ezPAARSE-Filter-Redirects
 Set to `false` to prevent lines with HTTP status codes 301, 302 from being filtered and discarded.
 
-### ezPAARSE-Filter-Status ###
+### ezPAARSE-Filter-Status
 Set to `false` to disable filtering on status codes.
 
-### Disable-Filters ###
+### Disable-Filters
 Disable filters applying to robots or arbitrary hosts/domains. (defaults to `none`).
 Possible values (separated by commas): `robots`, `ignored-hosts`, `ignored-domains`.
 Set to `all` to disable all above filters.
 
 **NB**: when robots are not filtered, add the `robot` field to the output in order to know which consultations were made by robots.
 
-### Force-ECField-Publisher ###
+### Force-ECField-Publisher
 Set the publisher_name field to a predefined value.
 For example: Force-ECField-Publisher: 'IRevues'.
 
@@ -156,7 +156,7 @@ If your user login is in the `user_login` field :
   user: user_login
 ```
 
-### Extract ###
+### Extract
 Extract values from a field and dispatch them in new fields. The syntax is the following : `source_field => extract_expression => destination_fields`
 
 #### Examples:
@@ -185,21 +185,21 @@ The following splits the **login** field with the regular expression `/[\_]+/` a
 'Extract': 'login => split(/[_]+/) => firstname,lastname'
 ```
 
-## Metadata enrichment ##
+## Metadata enrichment
 The use of middlewares to enrich access events with metadata coming from external APIs is controlled by headers.
 
-### Crossref ###
+### Crossref
 
 [(More information)](../features/metadata-enrichment.html#configuring-crossref-middleware-call)
 
-### Sudoc ###
+### Sudoc
 
 [(More information)](../features/metadata-enrichment.html#configuring-sudoc-middleware-call)
 
-### HAL ###
+### HAL
 
 [(More information)](../features/metadata-enrichment.html#configuring-hal-middleware-call)
 
-### ISTEX ###
+### ISTEX
 
 [(More information)](../features/metadata-enrichment.html#configuring-istex-middleware-call)

@@ -1,18 +1,17 @@
-# Documentation #
+# Documentation
 
-In order to build the documentation locally, you need [Sphinx](http://www.sphinx-doc.org/) and the Sphinx theme for [ReadTheDocs](https://readthedocs.org/). For convenience, the instructions below include a live-reload server.
+The documentation you are reading just now is powered by [Vuepress](https://vuepress.vuejs.org).
 
-First, install the dependencies :
-
-```bash
-sudo apt-get install python python-pip python-sphinx
-sudo pip install sphinx_rtd_theme sphinx-autobuild
-```
-
-Then move to the `doc` directory and type :
+You can run a live server with the following command :
 
 ```bash
-make autobuild
+npm run docs:dev
 ```
 
-Finally, visit [http://localhost:8000/](http://localhost:8000/).
+To generate static assets, run :
+
+```bash
+npm run docs:build
+```
+
+The documentation is generated in `doc/.vuepress/dist/` and can be deployed to any static file server.

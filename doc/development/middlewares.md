@@ -1,16 +1,17 @@
-# Middlewares #
+# Middlewares
 
 NB: The middlewares have their [own dedicated repository](https://github.com/ezpaarse-project/ezpaarse-middlewares).
 
-## What is a middleware ? ##
+## What is a middleware ?
 
 Middlewares are functions that constitute the processing chain. The middlewares are successively applied to the consultation events processed by ezPAARSE and turnthem into the definitive form they will have when the events are eventually written in the result file.
 
-## How to load a middleware ? ##
+## How to load a middleware ?
 
 To become part of the processing chain, a middleware must have its name (*ie* the name of its file, without the `.js` suffix) added to the `EZPAARSE_MIDDLEWARES` array in the config file. The order of declaration in the array determines the order in which middlewares are called.
 
-## Existing Middlewares ##
+## Existing Middlewares
+
 ### anonymizer
 Anonymizes a list of fields
 
@@ -79,7 +80,7 @@ Enriches consultation events with [Sudoc](http://www.sudoc.abes.fr) data, especi
 ### throttler
 Regulates the consultation events' stream
 
-## How to create a middleware ? ##
+## How to create a middleware ?
 
 ### Specifications
 Each middleware must have its own directory, with `index.js` as entrypoint, and must export a function that will serve as `initiator`. The initiator function must return either the actual processing function, or a `promise` that will then return it. In case of failure during the initialization, returning an `Error` object (or rejecting the `promise`) will abort the job. The error object should be extended with a `status` property that specify the status code to send back (defaults to **500**), and optionally a `code` property for the ezPAARSE-specific status (inserted in the header **ezPAARSE-Status**). The error message will be inserted in the header **ezPAARSE-Status-Message**.

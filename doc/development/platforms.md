@@ -1,6 +1,6 @@
-# Platforms #
+# Platforms
 
-## Prerequisites for the development: git(hub) user's guide  ##
+## Prerequisites for the development: git(hub) user's guide
 
 As a developer, you first have to sign up to [Github](https://github.com/) to be able to contribute to ezPAARSE and:
 
@@ -45,7 +45,7 @@ git push
 
 Note: unless you have a privileged access (from the ezPAARSE team), you must first "fork" the ezPAARSE github repository in order to work on that copy. Once you are satisfied with your changes, you can submit your work to the team by sending a ["pull request"](https://help.github.com/articles/using-pull-requests). Your job will be reviewed and integrated by the team, if no problem is detected. The team then provides write access rights to regular contributors, in order to facilitate contributions.
 
-## How does a parser work? ##
+## How does a parser work?
 
 A parser takes the form of an executable `parser.js` file accompanied by a description file [manifest.json](https://github.com/ezpaarse-project/ezpaarse-platforms/blob/master/sd/manifest.json) and a validation structure (contained in the `test` directory, see below).
 
@@ -60,7 +60,7 @@ The parser outputs a stream of JSON objects, one per line and for each analyzed 
 Its usage is documented when you call it with the `--help` option.
 An [example parser](https://github.com/ezpaarse-project/ezpaarse-platforms/blob/master/js-parser-skeleton/parser.js) is available.
 
-### Usage Examples ###
+### Usage Examples
 ```bash
 echo "http://www.sciencedirect.com:80/science/bookseries/00652296" | ./parser.js
 #{"unitid":"00652296","print_identifier":"0065-2296","title_id":"00652296","rtype":"BOOKSERIE","mime":"MISC"}
@@ -70,7 +70,7 @@ echo '{ "url": "http://www.sciencedirect.com:80/science/bookseries/00652296", "s
 ```
 
 
-## Writing a Parser ##
+## Writing a Parser
 
 Parsers are written in **Javascript**. A good knowledge of the language is not really necessary to write a parser. Most of the code being outsourced in a common file for all parsers, only the URL analysis function must be adapted, making the code short and relatively simple. Most parsers still require a basic knowledge of **regular expressions**.
 
@@ -154,11 +154,11 @@ Knowledge bases are loaded by ezPAARSE and their structure must be previously co
 
 [More on AnalogIST](http://analogist.couperin.org/platforms/contribute/parser)
 
-## Running a specific test ##
+## Running a specific test
 
 For testing a specific feature, use mocha and give the path of the test file as a parameter.
 For example, to test custom formats:
-```console
+```bash
 . ./bin/env
 mocha ./test/custom-formats-test
 ```
@@ -166,7 +166,7 @@ mocha ./test/custom-formats-test
 For running only one feature test, use mocha and give the path of the test file and the two-digit number (``@xx``) of the test (with ``-g``) as parameters.
 
 For example, running only the second test of personalized formats will look like:
-```console
+```bash
 . ./bin/env
 mocha ./test/custom-formats-test -g @02
 ```

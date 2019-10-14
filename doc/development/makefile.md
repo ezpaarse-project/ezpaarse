@@ -1,19 +1,19 @@
-# Makefile #
+# Makefile
 
 The makefile is located in the root directory and is used, among others, to launch tests,
 to generate the documentation, to check that the coding rules are respected.
 
-## Node modules installation ##
+## Node modules installation
 
-```console
+```bash
 make nodejs
 ```
 
 Download, compile and configure the modules that are necessary for the application to run.
 
-## Mocha tests ##
+## Mocha tests
 
-```console
+```bash
 make test
 ```
 
@@ -23,20 +23,20 @@ The test files are located in the ``test/`` folder and all the filenames follow 
 
 Note : don't forget to restart the application if the source code has been modified.
 
-```console
+```bash
 make test-pkb
 ```
 Checks that the knowledge base files used by the parsers are well formed and coherent.
 
-```console
+```bash
 make test-pkb-verbose
 ```
 Checks that the knowledge base files used by the parsers are well formed and coherent with a detailed output.
 
 
-## Checking coding rules ##
+## Checking coding rules
 
-```console
+```bash
 make lint
 ```
 

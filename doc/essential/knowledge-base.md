@@ -1,6 +1,6 @@
-# Knowledge bases #
+# Knowledge bases
 
-## What is a knowledge base? ##
+## What is a knowledge base?
 
 A **PKB** (read _Publisher Knowledge Base_) is simply an organized list making the link between normalized metadata (eg. ISSN, DOI, journal title, etc.) and proprietary resource identifier(s) used by a vendor.
 
@@ -18,13 +18,13 @@ For example:
 
 **Warning** : PKB identifiers **must be unique**. If an identifier appears more than once (in one or more PKB files), **only one occurrence** will be taken in account.
 
-## How is a Knowledge Base used? ##
+## How is a Knowledge Base used?
 
-### ezPAARSE < 2.1.0 ###
+### ezPAARSE < 2.1.0
 
 When a resource carrying a vendor identifier `title_id` is met, the associated knowledge base is built from the KBART files and loaded to memory. ezPAARSE can then link the proprietary identifier with all the metadata available and add it to the access event that has been generated.
 
-### ezPAARSE since 2.1.0 ###
+### ezPAARSE since 2.1.0
 
 As knowledge bases are growing and take too much RAM space, ezPAARSE stores them in a mongoDB database to query the metadata associated with the proprietary identifiers. For that purpose, ezPAARSE runs [CastorJS](https://github.com/castorjs/castor-load) in the background to keep the database and PKB files synchronized. This keeps the memory footprint of ezPAARSE at a minimum, but also requires additional startup time to perform the synchronization, especially on first startup.
 

@@ -1,11 +1,11 @@
-# Ecosystem #
+# Ecosystem
 
 
 ## platform-init
 This Command Line Interactive (CLI) utility creates the structure for a platform's parser. It asks a series of questions and generates the repository structure for the parser with a manifest.json file, a parser's skeleton and an empty test file. The command is interactive and doesn't take any parameter.
 
 Example:
-```
+```bash
 cd ezpaarse/
 . ./bin/env
 platform-init
@@ -91,9 +91,9 @@ Anonymize critical data in a log file
 Usage: node ./loganonymizer --input=[string] --output=[string] --proxy=[string] --format[string]
 
 Options:
-  --input, -i   the input data to clean                      
-  --output, -o  the destination where to send the result to  
-  --proxy, -p   the proxy which generated the log file       
+  --input, -i   the input data to clean
+  --output, -o  the destination where to send the result to
+  --proxy, -p   the proxy which generated the log file
   --format, -f  the format of log lines (ex: %h %u [%t] "%r")
 ```
 
@@ -117,10 +117,10 @@ Usage: node ./logextractor --fields=[string] --separator=";"
 Options:
   --fields, -f            fields to extract from log lines (ex: url,login,host)  [required]
   --separator, --sep, -s  character to use between each field                    [required]  [default: "\t"]
-  --input, -i             a file to extract the fields from (default: stdin)   
+  --input, -i             a file to extract the fields from (default: stdin)
   --output, -o            a file to write the result into (default: stdout)
-  --proxy, -p             the proxy which generated the log file               
-  --format, -t            the format of log lines (ex: %h %u [%t] "%r")        
+  --proxy, -p             the proxy which generated the log file
+  --format, -t            the format of log lines (ex: %h %u [%t] "%r")
 
 ```
 
@@ -227,9 +227,9 @@ Check a platform knowledge base file.
   Usage: node ./bin/pkbvalidator [-cfsv] pkb_file1.txt [pkb_file2.txt]
 
 Options:
-  --silent, -s   If provided, no output generated.           
+  --silent, -s   If provided, no output generated.
   --csv, -c      If provided, the error-output will be a csv.
-  --verbose, -v  show stats of checking.                     
+  --verbose, -v  show stats of checking.
 ```
 
 
@@ -250,13 +250,13 @@ Examples of use :
 ```bash
 # Simple case, process ezproxy.log and write results to result.csv
 ezp process ezproxy.log --out result.csv
-  
+
 # Same as above, and download the report file
 ezp process ezproxy.log --out result.csv --download job-report.html
-  
+
 # Download the report file with a custom path
 ezp process ezproxy.log --out result.csv --download job-report.html:./reports/report.html
-  
+
 # Reading from stdin and redirecting stdout to file
 cat ezproxy.log | ezp process > result.csv
 ```
@@ -280,7 +280,7 @@ Examples of use :
 ```bash
 # Simple case, processing files recursively from ezproxy-logs and storing results in ezproxy-results
 ezp bulk -r ezproxy-logs/ ezproxy-results/
-  
+
 # Activating reject files and downloading unqualified log lines along results
 ezp bulk -r ezproxy-logs/ ezproxy-results/ -H "Reject-Files: all" --download lines-unqualified-ecs.log
 ```
@@ -318,6 +318,6 @@ Enrich a csv with geolocalisation from host ip.
   Usage: node ./bin/hostlocalize [-s] [-f string | -k string]
 
 Options:
-  --hostkey, -k  the field name containing host ip (default "host").           
+  --hostkey, -k  the field name containing host ip (default "host").
   --file, -f     A csv file to parse. If absent, will read from standard input.
 ```

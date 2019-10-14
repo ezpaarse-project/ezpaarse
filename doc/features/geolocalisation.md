@@ -1,4 +1,4 @@
-### Geolocation ###
+### Geolocation
 
 The geolocation is based on the IP address found in the host field from the log files. The `Geoip` header allows to choose which data is to be added to the results, or to deactivate the geolocation altogether.
 
@@ -8,16 +8,16 @@ The library used for this is [geoip-lite](https://github.com/bluesmoon/node-geoi
 
 The [geolocation data is informative](http://en.wikipedia.org/wiki/Geolocation_software) and depends on the country as well as the internet access provider.
 
-#### Parameters (headers) ####
+#### Parameters (headers)
 
-**Geoip:** geolocation data that can be added to the results. 
+**Geoip:** geolocation data that can be added to the results.
 
 By default: `geoip-longitude, geoip-latitude, geoip-country`
 
   * `all` can be used to include all possible fields
-  * `none` to deactivate the geolocation. 
+  * `none` to deactivate the geolocation.
 
-The available fields are: 
+The available fields are:
   * `geoip-host`: IP address being geolocalized
   * `geoip-country`2 characters code indicating the country (eg: `FR` for `France`)
   * `geoip-region`: 2 characters code indicating the region (eg: `A8` for `Île-de-France`)
@@ -28,7 +28,7 @@ The available fields are:
 
 
 Usage example:
-```shell
+```bash
 curl -v -X POST --proxy "" --no-buffer \
   -F "file=@test/dataset/geolocalize.log" \
   -H 'Geoip: all' \
@@ -38,12 +38,12 @@ Advanced usage example:
 
 This example uses the ''csv2geojson'' and ''geojsonio-cli'' librairies.
 
-```shell
+```bash
 npm install csv2geojson geojsonio-cli
 ```
 It is then possible to directly visualize the results on a map.
 
-```shell
+```bash
 curl -X POST http://127.0.0.1:59599 \
   --proxy "" \
   --no-buffer \
@@ -54,10 +54,10 @@ curl -X POST http://127.0.0.1:59599 \
   | geojsonio
 ```
 
-That opens a web browser with the following graphical representation : 
+That opens a web browser with the following graphical representation :
 
 <img src="../_static/images/ezPAARSE-SR16-02.jpg" alt="EDP Sciences Anonyme" style="width: 600px"/>
 
-##### Video Demonstration #####
+##### Video Demonstration
 
 This [screencast](https://www.youtube.com/watch?v=SXSIb7oczbI) demonstrates the previous usage (ie geolocation information visualized on a map)
