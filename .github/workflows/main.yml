@@ -2,7 +2,7 @@ name: Build and deploy documentation
 on:
   push:
     branches:
-    - master
+    - vuepress
 jobs:
   build:
     runs-on: ubuntu-latest
