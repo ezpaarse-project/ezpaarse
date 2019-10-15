@@ -3,6 +3,8 @@ on:
   push:
     branches:
     - vuepress
+    paths:
+    - 'doc/**'
 jobs:
   build:
     runs-on: ubuntu-latest
