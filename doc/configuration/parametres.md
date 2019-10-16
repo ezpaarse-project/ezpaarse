@@ -28,7 +28,13 @@ Date format used in the logs sent. Default is: 'DD/MMM/YYYY:HH:mm:ss Z'.
 ### Crypted-Fields
 Comma-separated list of fields that will be crypted in the results, or `none` to disable crypting. Defaults to `host,login`.
 
-**Caution**: each job uses a random salt for crypting, so crypted values for the same acces events but from distinct jobs are not identical.
+**Caution**: each job uses a random salt for crypting, so crypted values for the same access event but from distinct jobs are not identical. Use the `Crypted-Salt` header to change this behavior.
+
+### Crypting-Salt
+A specific crypting key to use if you want fields to be crypted the same way accross different jobs.
+
+### Crypting-Algorithm
+The algorithm that should be used to crypt fields. It must be supported by the version of OpenSSL that is installed on the platform. On recent releases of OpenSSL, `openssl list -digest-algorithms` will display the available algorithms.
 
 ### Output-Fields
 To specify the fields to include in the output (if the format allows it). [(More information)](../features/outputfields.html)
