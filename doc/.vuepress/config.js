@@ -2,6 +2,7 @@ module.exports = {
   title: 'ezPAARSE',
   description: 'Usage analyzer for your e-resources',
   serviceWorker: true,
+  base: '/ezpaarse/',
   head: [
     ['link', { rel: 'icon', href: '/favicon.ico' }]
   ],
