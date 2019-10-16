@@ -2,19 +2,21 @@ name: Build and deploy documentation
 on:
   push:
     branches:
-    - master
-    - vuepress
+      - master
+      - vuepress
+    paths:
+      - 'doc/**'
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - name: Checkout
-      uses: actions/checkout@master
-    - name: Build and Deploy
-      uses: JamesIves/github-pages-deploy-action@2.0.3
-      env:
-        ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-        BASE_BRANCH: vuepress
-        BRANCH: gh-pages
-        FOLDER: doc/.vuepress/dist
-        BUILD_SCRIPT: npm install && npm run docs:build
+      - name: Checkout
+        uses: actions/checkout@master
+      - name: Build and Deploy
+        uses: JamesIves/github-pages-deploy-action@2.0.3
+        env:
+          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
+          BASE_BRANCH: vuepress
+          BRANCH: gh-pages
+          FOLDER: doc/.vuepress/dist
+          BUILD_SCRIPT: npm install && npm run docs:build
