@@ -2,9 +2,8 @@ name: Build and deploy documentation
 on:
   push:
     branches:
+    - master
     - vuepress
-    paths:
-    - 'doc/**'
 jobs:
   build:
     runs-on: ubuntu-latest
