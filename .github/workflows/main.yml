@@ -2,7 +2,7 @@ name: Build and deploy documentation
 on:
   push:
     branches:
-      - vuepress
+      - master
     paths:
       - 'doc/**'
 jobs:
@@ -15,7 +15,7 @@ jobs:
         uses: JamesIves/github-pages-deploy-action@2.0.3
         env:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-          BASE_BRANCH: vuepress
+          BASE_BRANCH: master
           BRANCH: gh-pages
           FOLDER: doc/.vuepress/dist
           BUILD_SCRIPT: npm install && npm run docs:build
