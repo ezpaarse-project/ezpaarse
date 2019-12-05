@@ -1,5 +1,5 @@
 {
-  "name": "ezPAARSE",
+  "name": "ezpaarse",
   "version": "3.2.3",
   "private": true,
   "repository": {
@@ -10,7 +10,7 @@
     "node": ">=8.1.4"
   },
   "dependencies": {
-    "@ezpaarse-project/ezpaarse": "^1.1.2",
+    "@ezpaarse-project/ezpaarse": "^2.0.0",
     "@mdi/font": "^3.5.95",
     "@nuxtjs/auth": "^4.5.3",
     "@nuxtjs/axios": "^5.3.6",
