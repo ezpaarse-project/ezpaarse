@@ -5,7 +5,7 @@ services:
 
   ezpaarse:
     container_name: ezpaarse
-    image: ezpaarseproject/ezpaarse:3.2.4
+    image: ezpaarseproject/ezpaarse:3.2.5
     links:
       - ezpaarse_db
     environment:
