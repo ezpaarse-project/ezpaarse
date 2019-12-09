@@ -85,6 +85,17 @@
           </v-layout>
 
           <LogFiles class="ma-1" />
+
+           <v-layout align-center justify-center row class="mt-3">
+            <v-spacer />
+
+            <v-btn
+              color="primary"
+              @click="setFormStep(2)"
+            >
+              {{ $t('ui.continue') }}
+            </v-btn>
+          </v-layout>
         </v-stepper-content>
 
         <v-stepper-content step="2">
@@ -124,7 +135,7 @@
               </v-icon>
               {{ $t('ui.cancel') }}
             </v-btn>
-            <v-btn v-else @click="formStep = 1">
+            <v-btn v-else @click="formStep = 1" color="blue darken-4" class="white--text">
               <v-icon left>
                 mdi-restart
               </v-icon>
