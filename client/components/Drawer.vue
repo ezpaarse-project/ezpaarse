@@ -48,6 +48,16 @@
             {{ $t('ui.drawer.notConnected') }}
           </v-list-tile-title>
         </v-list-tile-content>
+        <v-list-tile-action v-if="$auth.loggedIn">
+          <v-tooltip right>
+            <template>
+              <v-btn flat icon slot="activator" @click="logout">
+                <v-icon>mdi-logout</v-icon>
+              </v-btn>
+            </template>
+            <span>{{ $t('ui.drawer.signout') }}</span>
+          </v-tooltip>
+        </v-list-tile-action>
       </v-list-tile>
 
       <v-divider />
@@ -191,17 +201,6 @@
         </v-list-tile-action>
         <v-list-tile-content>
           <v-list-tile-title>{{ $t('ui.drawer.feedback') }}</v-list-tile-title>
-        </v-list-tile-content>
-      </v-list-tile>
-      <v-list-tile
-        v-if="$auth.loggedIn"
-        @click="logout()"
-      >
-        <v-list-tile-action>
-          <v-icon>mdi-logout</v-icon>
-        </v-list-tile-action>
-        <v-list-tile-content>
-          <v-list-tile-title>{{ $t('ui.drawer.signout') }}</v-list-tile-title>
         </v-list-tile-content>
       </v-list-tile>
     </v-list>

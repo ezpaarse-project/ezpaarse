@@ -102,7 +102,7 @@
                 src="~/assets/img/logo.png"
                 alt="ezPAARSE"
               >
-              <p v-text="$t('ui.pages.index.signInEasy')" />
+              <p v-html="$t('ui.pages.index.signInEasy')" />
               <v-alert
                 v-if="appInfos.demo"
                 :value="true"
