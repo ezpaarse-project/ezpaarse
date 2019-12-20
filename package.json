@@ -10,6 +10,7 @@
     "node": ">=8.1.4"
   },
   "dependencies": {
+    "@ezpaarse-project/ezmesure": "^2.2.2",
     "@ezpaarse-project/ezpaarse": "^2.0.3",
     "@mdi/font": "^3.5.95",
     "@nuxtjs/auth": "^4.5.3",
@@ -33,7 +34,6 @@
     "ejs": "^2.6.1",
     "errorhandler": "~1.5.0",
     "express": "^4.16.3",
-    "ezmesure": "^1.8.1",
     "faker": "~4.1.0",
     "forever": "^1.0.0",
     "fs-extra": "^7.0.0",

@@ -4,7 +4,7 @@ const Boom       = require('boom');
 const path       = require('path');
 const bodyParser = require('body-parser');
 const fs         = require('fs-extra');
-const ezmesure   = require('ezmesure');
+const ezmesure   = require('@ezpaarse-project/ezmesure');
 
 const { Router } = require('express');
 const app = Router();
