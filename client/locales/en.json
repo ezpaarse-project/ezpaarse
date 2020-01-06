@@ -22,7 +22,7 @@
         "platforms": "Platforms",
         "updates": "Updates",
         "users": "Users",
-        "jobs": "Treatments",
+        "jobs": "Process",
         "predefinedSettings": "Custom predefined settings"
       }
     },
@@ -72,7 +72,7 @@
         "curl": "Copy the following command to run the query with cURL using the current setting of the form. You may need to change the instance URL, the file path or add options like <code>--proxy</code> or <code>--no-buffer</code>",
         "processlogFiles": "Process your logs files",
         "processlogLines": "Process your logs lines",
-        "prepareTreatment": "Preparation of the treatment",
+        "prepareTreatment": "Preparation of the process",
         "explainationLogs": "Indicate here the logs that you want ezPAARSE to analyze. Your logs may require special settings for ezPAARSE to understand them. If necessary, <a href=\"mailto:ezpaarse@couperin.org\">contact the ezPAARSE team</a> for a configuration help.",
         "explainationTestsLogs": "Need log samples to validate your installation ? <a href=\"{url}\" target=\"_blank\">we provide some on GitHub</a>.",
         "startProcessing": "Start processing",
@@ -166,7 +166,7 @@
           "title": "Report",
           "linesRead": "Lines read",
           "ECsGenerated": "ECs generated",
-          "treatmentDuration": "Duration of treatment",
+          "treatmentDuration": "Duration of process",
           "logProcessingSpeed": "Log processing speed",
           "ECGenerationSpeed": "EC generation speed",
           "recognizedPlatforms": "Recognized Platforms",
@@ -214,7 +214,7 @@
           "infos": "ezPAARSE has finished processing your logs. Macros <a href=\"{excelUrl}\">Excel</a> and <a href=\"{libreOfficeUrl}\">LibreOffice</a> are at your disposal if you wish to have a first visual overview of the results.",
           "downloadResult": "Download result",
           "consultReport": "Consult report",
-          "newProcess": "New treatment",
+          "newProcess": "New process",
           "processState": "Processing status",
           "rejects": "Discharges",
           "traces": "System traces",
@@ -279,13 +279,13 @@
           "userDeleted": "The user has been deleted."
         },
         "jobs": {
-          "title": "Treatments",
+          "title": "Process",
           "currentProcess": "There is <strong>{process}</strong> processing(s) in progress.",
           "noJobFound": "No process matching search",
           "anonymous": "Anonymous",
           "process": {
             "userId": "User(s)",
-            "jobId": "Treatment(s)",
+            "jobId": "Process",
             "createdAt": "Start",
             "state": "Status",
             "started": "In process",
@@ -294,7 +294,7 @@
             "error": "Error"
           },
           "jobsPerPage": "Processing per page",
-          "noJobs": "There is no treatment history.",
+          "noJobs": "There is no process history.",
           "startDate": "Start date",
           "endDate": "End date"
         },
