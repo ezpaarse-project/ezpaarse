@@ -98,22 +98,25 @@
         </td>
 
         <td>
-          <span
-            v-for="(certification, k) in item.certifications"
-            :key="k"
-            class="mr-1"
+          <a v-if="item.certifications && item.certifications.humanCertified"
+            href="https://blog.ezpaarse.org/2017/06/certification-h-et-p-des-plateformes-traitees-dans-ezpaarse/"
+            target="_blank"
+            style="text-decoration: none;"
           >
-            <a
-              href="https://blog.ezpaarse.org/2017/06/certification-h-et-p-des-plateformes-traitees-dans-ezpaarse/"
-              target="_blank"
-            >
-              <img
-                :src="`/img/certifications/${certification}.png`"
-                :alt="`Certification ${certification}`"
-                width="25"
-              >
-            </a>
-          </span>
+            <v-avatar target="_blank" size="24" color="#F4B48B">
+              <span class="white--text">H</span>
+            </v-avatar>
+          </a>
+
+          <a v-if="item.certifications && item.certifications.publisherCertified"
+            href="https://blog.ezpaarse.org/2017/06/certification-h-et-p-des-plateformes-traitees-dans-ezpaarse/"
+            target="_blank"
+            style="text-decoration: none;"
+          >
+            <v-avatar size="24" color="#5AB9C1">
+              <span class="white--text">P</span>
+            </v-avatar>
+          </a>
         </td>
 
         <td class="text-xs-center">
