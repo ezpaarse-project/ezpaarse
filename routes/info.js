@@ -195,7 +195,9 @@ app.get('/platforms', function (req, res, next) {
             if (match) {
               getCertifications(manifest.docurl).then(res => {
                 manifest['certifications'] = res;
-              }).catch(err => readNextDir(callback));
+              }).catch(err => {
+                return readNextDir(callback);
+              });
             }
           } catch (e) {
             return readNextDir(callback);
