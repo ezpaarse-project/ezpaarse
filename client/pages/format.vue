@@ -147,6 +147,16 @@
                   </v-list-tile-action>
                 </template>
                 <template v-slot:append-outer>
+                  <v-icon
+                    v-if="selectedSetting"
+                    key="downloadPredefinedSettings"
+                    class="mt-1"
+                    color="info"
+                    @click="downloadPredefinedSettings"
+                    v-on="on"
+                  >
+                    mdi-delete
+                  </v-icon>
                   <v-tooltip bottom>
                     <template v-slot:activator="{ on }">
                       <v-icon
