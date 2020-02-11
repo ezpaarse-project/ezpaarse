@@ -209,7 +209,8 @@ export default {
     },
     currentUser: {
       handler () {
-        if (this.user._id) {
+        const { _id: userId } = this.user;
+        if (userId) {
           this.disabled = isEqual(this.currentUser, this.user);
         } else {
           this.disabled = isEqual(this.currentUser, this.user);
@@ -238,7 +239,8 @@ export default {
       };
     },
     async saveOrEdit () {
-      if (this.user._id) {
+      const { _id: userId } = this.user;
+      if (userId) {
         const data = {
           userid: this.user.username,
           username: this.currentUser.username,

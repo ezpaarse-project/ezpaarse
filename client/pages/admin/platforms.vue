@@ -98,7 +98,8 @@
         </td>
 
         <td>
-          <a v-if="item.certifications && item.certifications.humanCertified"
+          <a
+            v-if="item.certifications && item.certifications.humanCertified"
             href="https://blog.ezpaarse.org/2017/06/certification-h-et-p-des-plateformes-traitees-dans-ezpaarse/"
             target="_blank"
             style="text-decoration: none;"
@@ -108,7 +109,8 @@
             </v-avatar>
           </a>
 
-          <a v-if="item.certifications && item.certifications.publisherCertified"
+          <a
+            v-if="item.certifications && item.certifications.publisherCertified"
             href="https://blog.ezpaarse.org/2017/06/certification-h-et-p-des-plateformes-traitees-dans-ezpaarse/"
             target="_blank"
             style="text-decoration: none;"

@@ -8,7 +8,6 @@
     disable-route-watcher
     :mini-variant="mini"
   >
-
     <v-layout
       v-if="!mini"
       row
@@ -51,7 +50,7 @@
         <v-list-tile-action v-if="$auth.loggedIn">
           <v-tooltip right>
             <template>
-              <v-btn flat icon slot="activator" @click="logout">
+              <v-btn slot="activator" flat icon @click="logout">
                 <v-icon>mdi-logout</v-icon>
               </v-btn>
             </template>
@@ -208,14 +207,18 @@
     <v-divider />
 
     <v-list class="bottomList">
-       <v-list-tile>
+      <v-list-tile>
         <v-list-tile-content class="text-xs-center">
           <v-list-tile-sub-title>
             <v-tooltip top>
               <template v-slot:activator="{ on }">
                 <v-btn small flat icon v-on="on" @click="dark = !dark">
-                  <v-icon v-if="dark">mdi-white-balance-sunny</v-icon>
-                  <v-icon v-else>mdi-weather-night</v-icon>
+                  <v-icon v-if="dark">
+                    mdi-white-balance-sunny
+                  </v-icon>
+                  <v-icon v-else>
+                    mdi-weather-night
+                  </v-icon>
                 </v-btn>
               </template>
               <span v-if="dark">{{ $t('ui.theme.light') }}</span>
@@ -284,7 +287,7 @@ export default {
     },
     dark: {
       get () { return this.$store.state.dark; },
-      set (newVal) { this.$store.dispatch('SET_DARK', newVal) }
+      set (newVal) { this.$store.dispatch('SET_DARK', newVal); }
     }
   },
   methods: {
