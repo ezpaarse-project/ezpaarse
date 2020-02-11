@@ -11,9 +11,21 @@
       <v-spacer />
 
       <v-toolbar-items>
-        <v-btn flat @click="saveModal = true">
+        <v-btn flat @click="saveModal = true; importSetting = false">
           {{ $t('ui.save') }}
         </v-btn>
+        <v-tooltip bottom>
+          <template v-slot:activator="{ on }">
+            <v-btn
+              icon
+              v-on="on"
+              @click="saveModal = true; importSetting = true"
+            >
+              <v-icon>mdi-upload</v-icon>
+            </v-btn>
+          </template>
+          <span>Importer un prédefini</span>
+        </v-tooltip>
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
             <v-btn
@@ -31,7 +43,7 @@
       </v-toolbar-items>
     </v-toolbar>
 
-    <SettingsSaver :visible.sync="saveModal" />
+    <SettingsSaver :visible.sync="saveModal" :import-setting.sync="importSetting" />
 
     <v-dialog
       v-model="discoverModal"
@@ -134,6 +146,23 @@
                     <v-list-tile-action-text>{{ item.id }}</v-list-tile-action-text>
                   </v-list-tile-action>
                 </template>
+                <template v-slot:append-outer>
+                  <v-tooltip bottom>
+                    <template v-slot:activator="{ on }">
+                      <v-icon
+                        v-if="selectedSetting"
+                        key="downloadPredefinedSettings"
+                        class="mt-1"
+                        color="info"
+                        @click="downloadPredefinedSettings"
+                        v-on="on"
+                      >
+                        mdi-download
+                      </v-icon>
+                    </template>
+                    <span>Télécharger le prédefini</span>
+                  </v-tooltip>
+                </template>
               </v-autocomplete>
             </v-flex>
 
@@ -216,7 +245,12 @@
               <v-card>
                 <v-card-text>
                   <div v-if="result.format">
-                    <span class="green--text">{{ result.format.substr(0, result.formatBreak) }}</span><span class="red--text">{{ result.format.substr(result.formatBreak) }}</span>
+                    <span class="green--text">
+                      {{ result.format.substr(0, result.formatBreak) }}
+                    </span>
+                    <span class="red--text">
+                      {{ result.format.substr(result.formatBreak) }}
+                    </span>
                   </div>
                 </v-card-text>
               </v-card>
@@ -237,7 +271,12 @@
               <v-card>
                 <v-card-text>
                   <div v-if="result.regexp">
-                    <span class="green--text">{{ result.regexp.substr(0, result.regexpBreak) }}</span><span class="red--text">{{ result.regexp.substr(result.regexpBreak) }}</span>
+                    <span class="green--text">
+                      {{ result.regexp.substr(0, result.regexpBreak) }}
+                    </span>
+                    <span class="red--text">
+                      {{ result.regexp.substr(result.regexpBreak) }}
+                    </span>
                   </div>
 
                   <div v-else>
@@ -321,6 +360,7 @@
 <script>
 import debounce from 'lodash.debounce';
 import i18nIsoCode from 'i18n-iso-countries';
+import { saveAs } from 'file-saver';
 import SettingsSaver from '~/components/SettingsSaver';
 
 export default {
@@ -351,7 +391,8 @@ export default {
         { value: 'ezproxy', text: 'EZproxy' },
         { value: 'apache', text: 'Apache' },
         { value: 'squid', text: 'Squid' }
-      ]
+      ],
+      importSetting: false
     };
   },
   async fetch ({ store }) {
@@ -485,6 +526,15 @@ export default {
     process () {
       this.$store.dispatch('process/PROCESS', this.logLines);
       this.$router.push('/process');
+    },
+
+    downloadPredefinedSettings () {
+      const selectedSetting = this.allSettings.find(s => s.id === this.selectedSetting);
+      if (selectedSetting) {
+        delete selectedSetting['_id'];
+        return saveAs(new Blob([JSON.stringify(selectedSetting, null, 2)], { type: 'application/json;charset=utf-8' }), `${this.selectedSetting}.json`);
+      }
+      return null;
     }
   }
 };
