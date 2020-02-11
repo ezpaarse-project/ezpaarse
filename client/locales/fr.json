@@ -109,6 +109,7 @@
           "paramsSaved": "Paramètres enregistrés",
           "deleted": "Paramètre supprimé",
           "savePredefinedSettings": "Sauvegarder les paramètres",
+          "importPredefinedSettings": "Importer des paramètres",
           "modified": "modifié",
           "saveAsNew": "Sauvegarder en tant que nouveau paramétrage",
           "nameUnavailable": "Ce nom n'est pas disponible",

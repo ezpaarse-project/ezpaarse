@@ -311,6 +311,9 @@ export default {
       await api.removeCustomSettings(this.$axios, id);
       commit('SET_CUSTOM_SETTINGS', state.customSettings.filter(s => s.id !== id));
       dispatch('RESET_SETTINGS');
+    },
+    testUploadFile ({ commit }, setting) {
+      commit('SET_SETTINGS', parseSettings(setting));
     }
   }
 };

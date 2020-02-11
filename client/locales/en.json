@@ -109,6 +109,7 @@
           "paramsSaved": "Successfully saved settings",
           "deleted": "Setting deleted",
           "savePredefinedSettings": "Save settings",
+          "importPredefinedSettings": "Importer settings",
           "modified": "modified",
           "saveAsNew": "Save as new configuration",
           "nameUnavailable": "This name is unavailable",
