@@ -11,7 +11,6 @@
       solo
       clearable
       hide-details
-      @click:append-outer="removecustomSettings"
     >
       <template v-slot:item="{ item }">
         <v-list-tile-content>
@@ -24,6 +23,31 @@
           <v-list-tile-action-text>{{ item.id }}</v-list-tile-action-text>
         </v-list-tile-action>
       </template>
+      <template v-if="settings.id" v-slot:append-outer>
+        <v-menu offset-y>
+          <template v-slot:activator="{ on }">
+            <v-icon v-on="on">
+              mdi-dots-vertical
+            </v-icon>
+          </template>
+          <v-list>
+            <v-list-tile>
+              <v-list-tile-content>
+                <v-list-tile-title style="cursor: pointer;" @click="removecustomSettings">
+                  {{ $t('ui.remove') }}
+                </v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+            <v-list-tile>
+              <v-list-tile-content>
+                <v-list-tile-title style="cursor: pointer;" @click="downloadPredefinedSettings">
+                  {{ $t('ui.export') }}
+                </v-list-tile-title>
+              </v-list-tile-content>
+            </v-list-tile>
+          </v-list>
+        </v-menu>
+      </template>
     </v-autocomplete>
 
     <v-card v-if="settings">
@@ -31,16 +55,28 @@
         <v-toolbar-title>{{ $t('ui.pages.process.settings.title') }}</v-toolbar-title>
         <v-spacer />
         <v-toolbar-items class="hidden-xs-only">
-          <v-btn flat @click="openSaveDialog">
+          <v-btn flat @click="openSaveDialog(false)">
             {{ $t('ui.save') }}
           </v-btn>
           <v-btn flat @click="resetSettings">
             {{ $t('ui.reset') }}
           </v-btn>
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on }">
+              <v-btn
+                icon
+                v-on="on"
+                @click="openSaveDialog(true)"
+              >
+                <v-icon>mdi-download</v-icon>
+              </v-btn>
+            </template>
+            <span>{{ $t('ui.pages.process.settings.importPredefinedSettings') }}</span>
+          </v-tooltip>
         </v-toolbar-items>
 
         <v-toolbar-items class="hidden-sm-and-up">
-          <v-btn icon flat @click="openSaveDialog">
+          <v-btn icon flat @click="openSaveDialog(false)">
             <v-icon>mdi-content-save</v-icon>
           </v-btn>
           <v-btn icon flat @click="resetSettings">
@@ -330,12 +366,13 @@
       </v-expansion-panel>
     </v-card>
 
-    <SettingsSaver :visible.sync="saveDialog" />
+    <SettingsSaver :visible.sync="saveDialog" :import-setting="importSetting" />
   </v-layout>
 </template>
 
 <script>
 import i18nIsoCode from 'i18n-iso-countries';
+import { saveAs } from 'file-saver';
 import SettingsSaver from '~/components/SettingsSaver';
 
 export default {
@@ -350,6 +387,7 @@ export default {
   data () {
     return {
       saveDialog: false,
+      importSetting: false,
       outputFormats: [
         { value: 'text/csv', text: 'CSV' },
         { value: 'text/tab-separated-values', text: 'TSV' },
@@ -519,8 +557,14 @@ export default {
     }
   },
   methods: {
-    openSaveDialog () {
+    openSaveDialog (importSetting) {
       this.saveDialog = true;
+
+      if (importSetting) {
+        this.importSetting = importSetting;
+      } else {
+        this.importSetting = false;
+      }
     },
     addHeader () {
       this.$store.dispatch('settings/ADD_HEADER');
@@ -544,6 +588,14 @@ export default {
       } catch (err) {
         this.$store.dispatch('snacks/error', 'ui.errors.cannotRemovePredefinedSettings');
       }
+    },
+    downloadPredefinedSettings () {
+      const selectedSetting = this.allSettings.find(s => s.id === this.selectedSetting);
+      if (selectedSetting) {
+        delete selectedSetting['_id'];
+        return saveAs(new Blob([JSON.stringify(selectedSetting, null, 2)], { type: 'application/json;charset=utf-8' }), `${this.selectedSetting}.json`);
+      }
+      return null;
     }
   }
 };

@@ -312,7 +312,7 @@ export default {
       commit('SET_CUSTOM_SETTINGS', state.customSettings.filter(s => s.id !== id));
       dispatch('RESET_SETTINGS');
     },
-    testUploadFile ({ commit }, setting) {
+    uploadFile ({ commit }, setting) {
       commit('SET_SETTINGS', parseSettings(setting));
     }
   }

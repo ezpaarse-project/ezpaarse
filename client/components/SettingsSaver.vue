@@ -101,7 +101,8 @@ export default {
       isValid: true,
       fullName: '',
       id: '',
-      country: ''
+      country: '',
+      fileUploaded: false
     };
   },
 
@@ -203,6 +204,7 @@ export default {
       const reader = new FileReader();
       reader.readAsText(file, 'UTF-8');
       reader.onload = (evt) => {
+        this.fileUploaded = true;
         let setting;
         try {
           setting = JSON.parse(evt.target.result);
@@ -210,13 +212,17 @@ export default {
           this.fullName = setting.fullName;
           this.country = setting.country;
           this.saveAsNew = true;
-          this.$store.dispatch('settings/testUploadFile', setting);
+          this.$store.dispatch('settings/uploadFile', setting);
         } catch (err) {
           return this.$store.dispatch('snacks/error', 'ui.errors.cannotLoadPredefinedSettings');
         }
+        this.validateForm();
         return setting;
       };
-      reader.onerror = () => this.$store.dispatch('snacks/error', 'ui.errors.cannotLoadPredefinedSettings');
+      reader.onerror = () => {
+        this.fileUploaded = true;
+        return this.$store.dispatch('snacks/error', 'ui.errors.cannotLoadPredefinedSettings');
+      }
     }
   }
 };

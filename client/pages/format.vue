@@ -11,21 +11,9 @@
       <v-spacer />
 
       <v-toolbar-items>
-        <v-btn flat @click="saveModal = true; importSetting = false">
+        <v-btn flat @click="saveModal = true">
           {{ $t('ui.save') }}
         </v-btn>
-        <v-tooltip bottom>
-          <template v-slot:activator="{ on }">
-            <v-btn
-              icon
-              v-on="on"
-              @click="saveModal = true; importSetting = true"
-            >
-              <v-icon>mdi-upload</v-icon>
-            </v-btn>
-          </template>
-          <span>Importer un prédefini</span>
-        </v-tooltip>
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
             <v-btn
@@ -43,7 +31,7 @@
       </v-toolbar-items>
     </v-toolbar>
 
-    <SettingsSaver :visible.sync="saveModal" :import-setting.sync="importSetting" />
+    <SettingsSaver :visible.sync="saveModal" />
 
     <v-dialog
       v-model="discoverModal"
@@ -145,33 +133,6 @@
                   <v-list-tile-action>
                     <v-list-tile-action-text>{{ item.id }}</v-list-tile-action-text>
                   </v-list-tile-action>
-                </template>
-                <template v-slot:append-outer>
-                  <v-icon
-                    v-if="selectedSetting"
-                    key="downloadPredefinedSettings"
-                    class="mt-1"
-                    color="info"
-                    @click="downloadPredefinedSettings"
-                    v-on="on"
-                  >
-                    mdi-delete
-                  </v-icon>
-                  <v-tooltip bottom>
-                    <template v-slot:activator="{ on }">
-                      <v-icon
-                        v-if="selectedSetting"
-                        key="downloadPredefinedSettings"
-                        class="mt-1"
-                        color="info"
-                        @click="downloadPredefinedSettings"
-                        v-on="on"
-                      >
-                        mdi-download
-                      </v-icon>
-                    </template>
-                    <span>Télécharger le prédefini</span>
-                  </v-tooltip>
                 </template>
               </v-autocomplete>
             </v-flex>
@@ -370,7 +331,6 @@
 <script>
 import debounce from 'lodash.debounce';
 import i18nIsoCode from 'i18n-iso-countries';
-import { saveAs } from 'file-saver';
 import SettingsSaver from '~/components/SettingsSaver';
 
 export default {
@@ -536,15 +496,6 @@ export default {
     process () {
       this.$store.dispatch('process/PROCESS', this.logLines);
       this.$router.push('/process');
-    },
-
-    downloadPredefinedSettings () {
-      const selectedSetting = this.allSettings.find(s => s.id === this.selectedSetting);
-      if (selectedSetting) {
-        delete selectedSetting['_id'];
-        return saveAs(new Blob([JSON.stringify(selectedSetting, null, 2)], { type: 'application/json;charset=utf-8' }), `${this.selectedSetting}.json`);
-      }
-      return null;
     }
   }
 };

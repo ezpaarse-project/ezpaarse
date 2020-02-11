@@ -380,6 +380,7 @@
     "save": "Sauvegarder",
     "add": "Ajouter",
     "remove": "Supprimer",
+    "export": "Exporter",
     "refresh": "Actualiser",
     "continue": "Continuer",
     "currentVersion": "Version actuelle",

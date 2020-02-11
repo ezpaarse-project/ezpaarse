@@ -381,6 +381,7 @@
     "save": "Save",
     "add": "Add",
     "remove": "Delete",
+    "export": "Export",
     "refresh": "Refresh",
     "continue": "Continue",
     "currentVersion": "Current version",
