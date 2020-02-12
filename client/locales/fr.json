@@ -102,6 +102,8 @@
           "outputFields": "Champs en sortie",
           "add": "Ajouter...",
           "remove": "Enlever...",
+          "removeSettingTitle": "Supprimer paramètre",
+          "removeSetting": "Vous êtes sur le point de supprimer un paramètre, êtes-vous sur de vouloir le supprimer ?",
           "cryptedFields": "Champs cryptés",
           "counterReportDetail": "* Les rapports ne sont pas certifiés COUNTER, cependant l'algorithme de dédoublonnage et les formats de sortie suivent les recommandations.",
           "advancedHeaders": "Headers (avancé)",

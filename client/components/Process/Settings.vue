@@ -33,14 +33,38 @@
           <v-list>
             <v-list-tile>
               <v-list-tile-content>
-                <v-list-tile-title style="cursor: pointer;" @click="removecustomSettings">
-                  {{ $t('ui.remove') }}
-                </v-list-tile-title>
+                <v-dialog v-model="removeSetting" max-width="600">
+                  <template v-slot:activator="{ on }">
+                    <v-list-tile-title style="cursor: pointer;" v-on="on">
+                      {{ $t('ui.remove') }}
+                    </v-list-tile-title>
+                  </template>
+                  <v-card>
+                    <v-card-title
+                      class="title primary white--text"
+                      v-text="$t('ui.pages.process.settings.removeSettingTitle')"
+                    />
+                    <v-card-text
+                      class="text-center py-3"
+                      @click="removeSetting = false"
+                      v-text="$t('ui.pages.process.settings.removeSetting')"
+                    />
+                    <v-card-actions>
+                      <v-btn text v-text="$t('ui.remove')" />
+                      <v-btn
+                        color="red"
+                        dark
+                        @click="removecustomSettings"
+                        v-text="$t('ui.remove')"
+                      />
+                    </v-card-actions>
+                  </v-card>
+                </v-dialog>
               </v-list-tile-content>
             </v-list-tile>
-            <v-list-tile>
+            <v-list-tile @click="downloadPredefinedSettings">
               <v-list-tile-content>
-                <v-list-tile-title style="cursor: pointer;" @click="downloadPredefinedSettings">
+                <v-list-tile-title style="cursor: pointer;">
                   {{ $t('ui.export') }}
                 </v-list-tile-title>
               </v-list-tile-content>
@@ -388,6 +412,7 @@ export default {
     return {
       saveDialog: false,
       importSetting: false,
+      removeSetting: false,
       outputFormats: [
         { value: 'text/csv', text: 'CSV' },
         { value: 'text/tab-separated-values', text: 'TSV' },
@@ -588,10 +613,12 @@ export default {
       } catch (err) {
         this.$store.dispatch('snacks/error', 'ui.errors.cannotRemovePredefinedSettings');
       }
+      this.removeSetting = false;
     },
     downloadPredefinedSettings () {
-      const selectedSetting = this.allSettings.find(s => s.id === this.selectedSetting);
-      if (selectedSetting) {
+      const setting = this.allSettings.find(s => s.id === this.selectedSetting);
+      if (setting) {
+        const selectedSetting = JSON.parse(JSON.stringify(setting));
         delete selectedSetting['_id'];
         return saveAs(new Blob([JSON.stringify(selectedSetting, null, 2)], { type: 'application/json;charset=utf-8' }), `${this.selectedSetting}.json`);
       }

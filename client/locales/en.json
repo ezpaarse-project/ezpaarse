@@ -102,6 +102,8 @@
           "outputFields": "Output fields",
           "add": "Add...",
           "remove": "Remove...",
+          "removeSettingTitle": "Delete parameter",
+          "removeSetting": "You are about to delete a parameter, are you sure you want to delete it ?",
           "cryptedFields": "Crypted fields",
           "counterReportDetail": "* The reports are not COUNTER certified, however the deduplication algorithm and output formats follow the recommendations.",
           "advancedHeaders": "Headers (advanced)",
