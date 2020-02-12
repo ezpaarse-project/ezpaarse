@@ -209,12 +209,7 @@ export default {
     },
     currentUser: {
       handler () {
-        const { _id: userId } = this.user;
-        if (userId) {
-          this.disabled = isEqual(this.currentUser, this.user);
-        } else {
-          this.disabled = isEqual(this.currentUser, this.user);
-        }
+        this.disabled = isEqual(this.currentUser, this.user);
 
         if (this.currentUser.username) {
           this.currentUser.username = this.currentUser.username.trim();
