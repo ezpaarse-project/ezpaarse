@@ -6,10 +6,16 @@
   >
     <v-form ref="saveForm" v-model="isValid" @submit.prevent="saveCustomSettings">
       <v-card>
-        <v-card-title class="headline">
+        <v-card-title v-if="importSetting" class="headline">
+          {{ $t('ui.pages.process.settings.importPredefinedSettings') }}
+        </v-card-title>
+        <v-card-title v-else class="headline">
           {{ $t('ui.pages.process.settings.savePredefinedSettings') }}
         </v-card-title>
         <v-card-text>
+          <p v-if="importSetting">
+            <input ref="upload" type="file" name="upload" @change="uploadSetting">
+          </p>
           <v-switch
             v-show="!settings.predefined && settings.id"
             v-model="saveAsNew"
@@ -71,6 +77,10 @@ export default {
     visible: {
       type: Boolean,
       default: () => false
+    },
+    importSetting: {
+      type: Boolean,
+      default: () => false
     }
   },
   watch: {
@@ -91,7 +101,8 @@ export default {
       isValid: true,
       fullName: '',
       id: '',
-      country: ''
+      country: '',
+      fileUploaded: false
     };
   },
 
@@ -184,6 +195,33 @@ export default {
       this.setVisibility(false);
       this.$refs.saveForm.reset();
       this.$store.dispatch('snacks/success', 'ui.pages.process.settings.paramsSaved');
+    },
+
+    uploadSetting () {
+      const file = this.$refs.upload.files[0];
+      if (!file || file.type !== 'application/json') return;
+
+      const reader = new FileReader();
+      reader.readAsText(file, 'UTF-8');
+      reader.onload = (evt) => {
+        this.fileUploaded = true;
+        let setting;
+        try {
+          setting = JSON.parse(evt.target.result);
+          this.id = setting.id;
+          this.fullName = setting.fullName;
+          this.country = setting.country;
+          this.$store.dispatch('settings/uploadFile', setting);
+        } catch (err) {
+          return this.$store.dispatch('snacks/error', 'ui.errors.cannotLoadPredefinedSettings');
+        }
+        this.validateForm();
+        return setting;
+      };
+      reader.onerror = () => {
+        this.fileUploaded = true;
+        return this.$store.dispatch('snacks/error', 'ui.errors.cannotLoadPredefinedSettings');
+      }
     }
   }
 };

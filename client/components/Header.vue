@@ -1,10 +1,12 @@
 <template>
   <v-toolbar app fixed clipped-left :color="dark ? '' : 'primary'">
     <v-toolbar-side-icon @click.stop="setDrawer(!drawer)">
-      <v-icon color="white">mdi-menu</v-icon>
+      <v-icon color="white">
+        mdi-menu
+      </v-icon>
     </v-toolbar-side-icon>
     <v-toolbar-title class="white--text">
-      <img class="ezPAARSELogo" src="~/assets/img/logo-white.svg" /> 
+      <img class="ezPAARSELogo" src="~/assets/img/logo-white.svg">
       ezPAARSE
     </v-toolbar-title>
 

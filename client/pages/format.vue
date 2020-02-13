@@ -216,7 +216,12 @@
               <v-card>
                 <v-card-text>
                   <div v-if="result.format">
-                    <span class="green--text">{{ result.format.substr(0, result.formatBreak) }}</span><span class="red--text">{{ result.format.substr(result.formatBreak) }}</span>
+                    <span class="green--text">
+                      {{ result.format.substr(0, result.formatBreak) }}
+                    </span>
+                    <span class="red--text">
+                      {{ result.format.substr(result.formatBreak) }}
+                    </span>
                   </div>
                 </v-card-text>
               </v-card>
@@ -237,7 +242,12 @@
               <v-card>
                 <v-card-text>
                   <div v-if="result.regexp">
-                    <span class="green--text">{{ result.regexp.substr(0, result.regexpBreak) }}</span><span class="red--text">{{ result.regexp.substr(result.regexpBreak) }}</span>
+                    <span class="green--text">
+                      {{ result.regexp.substr(0, result.regexpBreak) }}
+                    </span>
+                    <span class="red--text">
+                      {{ result.regexp.substr(result.regexpBreak) }}
+                    </span>
                   </div>
 
                   <div v-else>
@@ -351,7 +361,8 @@ export default {
         { value: 'ezproxy', text: 'EZproxy' },
         { value: 'apache', text: 'Apache' },
         { value: 'squid', text: 'Squid' }
-      ]
+      ],
+      importSetting: false
     };
   },
   async fetch ({ store }) {

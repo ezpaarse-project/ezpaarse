@@ -11,7 +11,7 @@ const parserlist     = require('../lib/parserlist.js');
 const git            = require('../lib/git-tools.js');
 const config         = require('../lib/config.js');
 const pkg            = require('../package.json');
-const trello         = require('../lib/trello-analogist.js');
+const analogist      = require('../lib/analogist.js');
 const customSettings = require('../lib/custom-predefined-settings.js');
 const auth           = require('../lib/auth-middlewares.js');
 
@@ -86,128 +86,137 @@ app.get('/platforms', function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'X-Requested-With');
 
-  trello.getCertifications(function (certifications) {
-    const status = req.query.status;
+  const status = req.query.status;
 
-    const platformsFolder = path.resolve(__dirname, '../platforms');
+  const platformsFolder = path.resolve(__dirname, '../platforms');
 
-    fs.readdir(platformsFolder, function (err, folders) {
-      if (err) { return next(err); }
+  fs.readdir(platformsFolder, function (err, folders) {
+    if (err) { return next(err); }
 
-      const kbartReg  = /(.*)_([0-9]{4}-[0-9]{2}-[0-9]{2})\.txt$/;
-      const platforms = [];
-      let i = 0;
+    const kbartReg  = /(.*)_([0-9]{4}-[0-9]{2}-[0-9]{2})\.txt$/;
+    const platforms = [];
+    let i = 0;
 
-      const countEntries = function (file, callback) {
-        const stream = fs.createReadStream(file);
-        let count  = 0;
-        let buffer = '';
+    const countEntries = function (file, callback) {
+      const stream = fs.createReadStream(file);
+      let count  = 0;
+      let buffer = '';
 
-        stream.on('error', function (err) { callback(err, 0); });
-        stream.on('readable', function () {
-          const data = stream.read();
-          if (!data) { return; }
+      stream.on('error', function (err) { callback(err, 0); });
+      stream.on('readable', function () {
+        const data = stream.read();
+        if (!data) { return; }
 
-          buffer += data.toString();
+        buffer += data.toString();
 
-          let index = buffer.indexOf('\n');
+        let index = buffer.indexOf('\n');
 
-          while (index >= 0) {
-            if (buffer.substr(0, index).trim().length > 0) { count++; }
-            buffer = buffer.substr(++index);
-            index  = buffer.indexOf('\n');
-          }
-        });
-        stream.on('end', function () { callback(null, Math.max(--count, 0)); });
-      };
+        while (index >= 0) {
+          if (buffer.substr(0, index).trim().length > 0) { count++; }
+          buffer = buffer.substr(++index);
+          index  = buffer.indexOf('\n');
+        }
+      });
+      stream.on('end', function () { callback(null, Math.max(--count, 0)); });
+    };
 
-      const getPkbPackages = function (pkbDir, callback) {
-        fs.readdir(pkbDir, function (err, files) {
-          if (err && err.code != 'ENOENT') { return callback(err); }
+    const getPkbPackages = function (pkbDir, callback) {
+      fs.readdir(pkbDir, function (err, files) {
+        if (err && err.code != 'ENOENT') { return callback(err); }
 
-          files = files || [];
-          const dates = {};
+        files = files || [];
+        const dates = {};
 
-          (function nextFile(cb) {
+        (function nextFile(cb) {
 
-            const file = files.pop();
-            if (!file) { return cb(); }
+          const file = files.pop();
+          if (!file) { return cb(); }
 
-            const match = kbartReg.exec(file);
-            if (!match) { return nextFile(cb); }
+          const match = kbartReg.exec(file);
+          if (!match) { return nextFile(cb); }
 
-            const pkg  = match[1];
-            const date = match[2];
+          const pkg  = match[1];
+          const date = match[2];
 
-            countEntries(path.join(pkbDir, file), function (err, count) {
-              if (!dates[pkg] || dates[pkg].date < date) {
-                dates[pkg] = { date: date, entries: 0 };
-              }
+          countEntries(path.join(pkbDir, file), function (err, count) {
+            if (!dates[pkg] || dates[pkg].date < date) {
+              dates[pkg] = { date: date, entries: 0 };
+            }
 
-              dates[pkg].entries += count;
+            dates[pkg].entries += count;
 
-              nextFile(cb);
+            nextFile(cb);
+          });
+        })(function () {
+
+          const packages = [];
+
+          for (const i in dates) {
+            packages.push({
+              name: i,
+              date: dates[i].date,
+              entries: dates[i].entries
             });
-          })(function () {
+          }
 
-            const packages = [];
+          callback(null, packages);
+        });
+      });
+    };
 
-            for (const i in dates) {
-              packages.push({
-                name: i,
-                date: dates[i].date,
-                entries: dates[i].entries
+    const getCertifications = async function (docurl) {
+      try {
+        const certifications = await analogist.getCertifications(docurl);
+        return certifications || {};
+      } catch (err) {
+        return {};
+      }
+    };
+
+    (function readNextDir(callback) {
+      const folder = folders[i++];
+
+      if (!folder) { return callback(); }
+      if (folder == 'js-parser-skeleton') { return readNextDir(callback); }
+
+      const configFile = path.join(platformsFolder, folder, 'manifest.json');
+      const parserFile = path.join(platformsFolder, folder, 'parser.js');
+
+      fs.exists(parserFile, function (exists) {
+        if (!exists) { return readNextDir(callback); }
+
+        fs.readFile(configFile, async function (err, content) {
+          if (err) { return readNextDir(callback); }
+
+          let manifest;
+          try {
+            manifest = JSON.parse(content);
+            const match = /^http:\/\/([a-z.-]+)\/platforms\/([a-z0-9]+)$/i.exec(manifest.docurl);
+            if (match) {
+              getCertifications(manifest.docurl).then(res => {
+                manifest['certifications'] = res;
+              }).catch(err => {
+                return readNextDir(callback);
               });
             }
+          } catch (e) {
+            return readNextDir(callback);
+          }
 
-            callback(null, packages);
+          if (!manifest.name || (status && manifest.status != status)) {
+            return readNextDir(callback);
+          }
+
+          getPkbPackages(path.join(platformsFolder, folder, 'pkb'), function (err, packages) {
+            if (!err) { manifest['pkb-packages'] = packages; }
+
+            platforms.push(manifest);
+            readNextDir(callback);
           });
         });
-      };
-
-      (function readNextDir(callback) {
-        const folder = folders[i++];
-
-        if (!folder) { return callback(); }
-        if (folder == 'js-parser-skeleton') { return readNextDir(callback); }
-
-        const configFile = path.join(platformsFolder, folder, 'manifest.json');
-        const parserFile = path.join(platformsFolder, folder, 'parser.js');
-
-        fs.exists(parserFile, function (exists) {
-          if (!exists) { return readNextDir(callback); }
-
-          fs.readFile(configFile, function (err, content) {
-            if (err) { return readNextDir(callback); }
-
-            let manifest;
-            try {
-              manifest = JSON.parse(content);
-              const match = /^http:\/\/([a-z.]+)\/platforms\/([a-z0-9]+)$/i.exec(manifest.docurl);
-              if (match !== null) {
-                if (certifications[match[2]]) {
-                  manifest.certifications = certifications[match[2]];
-                }
-              }
-            } catch (e) {
-              return readNextDir(callback);
-            }
-
-            if (!manifest.name || (status && manifest.status != status)) {
-              return readNextDir(callback);
-            }
-
-            getPkbPackages(path.join(platformsFolder, folder, 'pkb'), function (err, packages) {
-              if (!err) { manifest['pkb-packages'] = packages; }
-
-              platforms.push(manifest);
-              readNextDir(callback);
-            });
-          });
-        });
-      })(function () {
-        res.status(200).json(platforms);
       });
+    })(function () {
+      res.status(200).json(platforms);
     });
   });
 });
