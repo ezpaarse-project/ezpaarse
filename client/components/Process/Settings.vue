@@ -46,11 +46,15 @@
                     />
                     <v-card-text
                       class="text-center py-3"
-                      @click="removeSetting = false"
                       v-text="$t('ui.pages.process.settings.removeSetting')"
                     />
                     <v-card-actions>
-                      <v-btn text v-text="$t('ui.remove')" />
+                      <v-spacer />
+                      <v-btn
+                        flat
+                        @click="removeSetting = false"
+                        v-text="$t('ui.close')"
+                      />
                       <v-btn
                         color="red"
                         dark
@@ -584,12 +588,7 @@ export default {
   methods: {
     openSaveDialog (importSetting) {
       this.saveDialog = true;
-
-      if (importSetting) {
-        this.importSetting = importSetting;
-      } else {
-        this.importSetting = false;
-      }
+      this.importSetting = importSetting || false;
     },
     addHeader () {
       this.$store.dispatch('settings/ADD_HEADER');
@@ -620,9 +619,9 @@ export default {
       if (setting) {
         const selectedSetting = JSON.parse(JSON.stringify(setting));
         delete selectedSetting['_id'];
-        return saveAs(new Blob([JSON.stringify(selectedSetting, null, 2)], { type: 'application/json;charset=utf-8' }), `${this.selectedSetting}.json`);
+        saveAs(new Blob([JSON.stringify(selectedSetting, null, 2)], { type: 'application/json;charset=utf-8' }), `${this.selectedSetting}.json`);
       }
-      return null;
+      this.selectedSetting = '';
     }
   }
 };

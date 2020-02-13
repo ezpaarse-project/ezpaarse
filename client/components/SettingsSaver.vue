@@ -211,7 +211,6 @@ export default {
           this.id = setting.id;
           this.fullName = setting.fullName;
           this.country = setting.country;
-          this.saveAsNew = true;
           this.$store.dispatch('settings/uploadFile', setting);
         } catch (err) {
           return this.$store.dispatch('snacks/error', 'ui.errors.cannotLoadPredefinedSettings');
