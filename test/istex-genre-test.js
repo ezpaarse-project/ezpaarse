@@ -1,15 +1,15 @@
 /*global describe, it*/
 'use strict';
 
-var path    = require('path');
-var should  = require('should');
-var helpers = require('./helpers.js');
+const path    = require('path');
+const should  = require('should');
+const helpers = require('./helpers.js');
 
-var logFile = path.join(__dirname, 'dataset/istex-rtype-test.log');
+const logFile = path.join(__dirname, 'dataset/istex-rtype-test.log');
 
 describe('istex consultations rtype', function () {
   it('should be correctly enriched (@01)', function (done) {
-    var headers = {
+    const headers = {
       'Accept': 'application/json',
       'Force-Parser': 'istex',
       'Istex-Enrich': true,
@@ -21,7 +21,7 @@ describe('istex consultations rtype', function () {
       if (err)  { throw err; }
       res.statusCode.should.equal(200, 'expected 200, got ' + res.statusCode);
 
-      var result = JSON.parse(body);
+      const result = JSON.parse(body);
       result.should.be.an.instanceOf(Array).and.have.lengthOf(17);
 
       // [istex_genre, istex_rtype, rtype]
@@ -68,7 +68,7 @@ describe('istex consultations rtype', function () {
         should.equal(ec['rtype'], expected[index][2]);
       });
 
-      var reportURL = res.headers['job-report'];
+      const reportURL = res.headers['job-report'];
       should.exist(reportURL, 'The header "Job-Report" was not sent by the server');
 
       helpers.get(reportURL, function (error, response, reportBody) {
@@ -77,7 +77,7 @@ describe('istex consultations rtype', function () {
         response.statusCode.should.equal(200,
           'failed to get the report, server responded with a code ' + response.statusCode);
 
-        var report = JSON.parse(reportBody);
+        const report = JSON.parse(reportBody);
         report.should.have.property('general');
         report.general.should.have.property('Job-Done');
         report.general['Job-Done'].should.not.equal(false, 'Istex has not completed treatment');
@@ -85,5 +85,5 @@ describe('istex consultations rtype', function () {
         done();
       });
     });
-  });
+  }).timeout(10000);
 });
