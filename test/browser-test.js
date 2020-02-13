@@ -1,36 +1,35 @@
 /*global describe, it*/
 'use strict';
 
-var Browser = require('zombie');
-var assert  = require('assert');
-var config  = require('../lib/config.js');
+const Browser = require('zombie');
+const assert  = require('assert');
+const config  = require('../lib/config.js');
 
-var browser = new Browser({
-  silent: true,
-  proxy: null,
-  features: 'scripts css img'
-});
+const host = `http://localhost:${config.EZPAARSE_NODEJS_PORT || 59599}/`;
 
-var host = 'http://localhost:' + config.EZPAARSE_NODEJS_PORT;
-
-describe('The browser', function () {
-
-  it('should correctly download the main page', function () {
-    this.timeout(100000);
-    return browser.visit(host);
+describe('The browser', () => {
+  const browser = new Browser({
+    silent: true,
+    features: 'scripts css img',
   });
-  it('should correctly load all resources', function (done) {
 
-    browser.resources.forEach(function (resource) {
-      var url = resource.request.url;
+  it('should correctly load page and all resources', (done) => {
+    browser.visit(host, () => {
+      browser.assert.success();
 
-      assert(resource.response, url + ' did not return');
+      browser.assert.text('title', 'ezPAARSE');
 
-      var statusCode = resource.response.status;
-      assert([200, 304, 401, 501].indexOf(statusCode) !== -1,
-        url + ' returned with a code ' + statusCode);
+      browser.resources.forEach((resource) => {
+        const url = resource.request.url;
+        if (url.indexOf('Roboto') === -1) {
+          assert(resource.response, url + ' did not return');
+
+          const statusCode = resource.response.status;
+          assert([200, 304, 401, 501].indexOf(statusCode) !== -1,
+            url + ' returned with a code ' + statusCode);
+        }
+      });
+      done();
     });
-
-    done();
-  });
+  }).timeout(10000);
 });
