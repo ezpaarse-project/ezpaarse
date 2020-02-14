@@ -46,5 +46,5 @@ describe('istex consultations', function () {
         done();
       });
     });
-  });
+  }).timeout(10000);
 });
