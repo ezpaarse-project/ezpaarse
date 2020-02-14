@@ -85,5 +85,5 @@ describe('istex consultations rtype', function () {
         done();
       });
     });
-  });
+  }).timeout(10000);
 });
