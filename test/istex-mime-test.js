@@ -126,5 +126,5 @@ describe('istex consultations test mime', function () {
         done();
       });
     });
-  });
+  }).timeout(10000);
 });
