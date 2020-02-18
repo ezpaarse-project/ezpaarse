@@ -164,15 +164,6 @@ app.get('/platforms', function (req, res, next) {
       });
     };
 
-    const getCertifications = async function (docurl) {
-      try {
-        const certifications = await analogist.getCertifications(docurl);
-        return certifications || {};
-      } catch (err) {
-        return {};
-      }
-    };
-
     (function readNextDir(callback) {
       const folder = folders[i++];
 
@@ -193,11 +184,7 @@ app.get('/platforms', function (req, res, next) {
             manifest = JSON.parse(content);
             const match = /^http:\/\/([a-z.-]+)\/platforms\/([a-z0-9]+)$/i.exec(manifest.docurl);
             if (match) {
-              getCertifications(manifest.docurl).then(res => {
-                manifest['certifications'] = res;
-              }).catch(err => {
-                return readNextDir(callback);
-              });
+              manifest['certifications'] = await analogist.getCertifications(manifest.docurl);
             }
           } catch (e) {
             return readNextDir(callback);

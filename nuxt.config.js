@@ -1,5 +1,7 @@
 'use strict';
 
+const colors = require('vuetify/es5/util/colors').default;
+
 module.exports = {
   /*
   ** Headers of the page
@@ -13,7 +15,6 @@ module.exports = {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css?family=Roboto' }
     ]
   },
   mode: 'spa',
@@ -52,23 +53,45 @@ module.exports = {
   router: {
     middleware: [ 'auth' ]
   },
+  buildModules: [
+    '@nuxtjs/vuetify'
+  ],
   plugins: [
-    '~/plugins/vuetify.js',
-    '~/plugins/i18n.js',
-    '~/plugins/socket.js'
+    { src: '~/plugins/axios.js', ssr: false },
+    { src: '~/plugins/i18n.js', ssr: false },
+    { src: '~/plugins/socket.js', ssr: false }
   ],
   /*
   ** Global CSS
   */
-  css: [
-    '@mdi/font/css/materialdesignicons.min.css',
-    'vuetify/dist/vuetify.min.css'
-  ],
+  css: [],
   /*
   ** Add global packages
   */
   build: {
-    analyze: false
+    extend (config, ctx) {}
   },
-  srcDir: 'client/'
+  srcDir: 'client/',
+  vuetify: {
+    font: {
+      family: 'Roboto',
+    },
+    icons: {
+      iconfont: 'mdi',
+    },
+    theme: {
+      themes: {
+        dark: {
+          primary: colors.teal,
+          secondary: colors.grey.darken3,
+          accent: colors.blue.base
+        },
+        light: {
+          primary: colors.teal,
+          secondary: colors.grey.darken3,
+          accent: colors.blue.base
+        }
+      }
+    }
+  }
 };
