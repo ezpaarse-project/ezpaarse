@@ -39,7 +39,7 @@ export default {
       commit('PUSH_LOGGING', JSON.parse(data));
     },
     async GET_JOBS ({ commit, state }) {
-      commit('SET_JOBS', await api.getJobs(this.$axios, state.socketid));
+      commit('SET_JOBS', await api.getJobs(state.socketid));
     },
     SET_JOBS ({ commit }, data) {
       commit('SET_JOBS', data);

@@ -4,16 +4,13 @@
       class="secondary"
       dark
       dense
-      card
+      flat
     >
-      <v-toolbar-title>{{ $t('ui.passwordForgotten') }}</v-toolbar-title>
+      <v-toolbar-title v-text="$t('ui.passwordForgotten')" />
     </v-toolbar>
 
     <v-card-text>
-      <v-form
-        method="post"
-        @submit.prevent="reset"
-      >
+      <v-form method="post" @submit.prevent="reset">
         <v-card-text>
           <v-text-field
             v-model="userid"
@@ -29,16 +26,14 @@
             color="primary"
             type="submit"
             :disabled="!userid"
-          >
-            {{ $t('ui.reset') }}
-          </v-btn>
+            v-text="$t('ui.reset')"
+          />
           <v-btn
             color="error"
             router
             :to="{ path: '/' }"
-          >
-            {{ $t('ui.back') }}
-          </v-btn>
+            v-text="$t('ui.back')"
+          />
         </v-card-actions>
       </v-form>
     </v-card-text>

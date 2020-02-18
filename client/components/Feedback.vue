@@ -4,18 +4,16 @@
       <v-toolbar-title>{{ $t('ui.drawer.feedback') }}</v-toolbar-title>
     </v-toolbar>
 
-    <v-card-text v-if="checkingFeedback" class="text-xs-center">
+    <v-card-text v-if="checkingFeedback" class="text-center">
       <v-progress-circular indeterminate />
     </v-card-text>
 
-    <v-card-text v-else-if="!recipient">
-      {{ $t('ui.pages.feedback.unavailable') }}
-    </v-card-text>
+    <v-card-text v-else-if="!recipient" v-text="$t('ui.pages.feedback.unavailable')" />
 
     <v-card-text v-else>
       <v-alert
         :value="recipient"
-        outline
+        outlined
         type="info"
         class="mb-3"
         v-html="$t('ui.pages.feedback.emailWillBeSent', { recipient })"
@@ -48,7 +46,7 @@
 
         <v-checkbox v-model="sendBrowser" :label="$t('ui.pages.feedback.sendBrowserVersion')" />
 
-        <p class="text-xs-center">
+        <p class="text-center">
           <v-btn
             large
             color="primary"
@@ -59,7 +57,7 @@
             <v-icon left>
               mdi-send
             </v-icon>
-            {{ $t('ui.send') }}
+            <span v-text="$t('ui.send')" />
           </v-btn>
         </p>
       </v-form>

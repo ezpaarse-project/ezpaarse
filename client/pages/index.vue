@@ -1,5 +1,5 @@
 <template>
-  <v-card v-if="!feedback">
+  <v-card>
     <v-tabs
       v-model="activeTab"
       grow
@@ -8,6 +8,7 @@
       <v-tab
         v-if="userNumber > 0"
         to="#tab-signin"
+        class="body-2"
       >
         <v-icon class="pr-1">
           mdi-account
@@ -16,6 +17,7 @@
       <v-tab
         to="#tab-signup"
         color="primary"
+        class="body-2"
       >
         <v-icon class="pr-1">
           mdi-account-plus
@@ -27,38 +29,22 @@
       v-else
       :user-number="userNumber"
     />
-    <v-flex xs4 sm4 right text-xs-right>
-      <v-btn color="primary" @click="feedback = true">
-        {{ $t('ui.drawer.feedback') }}
-      </v-btn>
-    </v-flex>
-  </v-card>
-  <v-card v-else flat>
-    <Feedback />
-    <v-flex xs4 sm4 right text-xs-right>
-      <v-btn color="primary" @click="feedback = false">
-        {{ $t('ui.back') }}
-      </v-btn>
-    </v-flex>
   </v-card>
 </template>
 
 <script>
-import Signin from '~/components/Sign/Signin';
-import Signup from '~/components/Sign/Signup';
-import Feedback from '~/components/Feedback';
+import Signin from '~/components/Sign/Signin.vue';
+import Signup from '~/components/Sign/Signup.vue';
 
 export default {
   auth: true,
   layout: 'sign',
   components: {
     Signin,
-    Signup,
-    Feedback
+    Signup
   },
   data () {
     return {
-      feedback: false,
       activeTab: 'tab-signin'
     };
   },

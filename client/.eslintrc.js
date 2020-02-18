@@ -36,7 +36,7 @@ module.exports = {
     'no-unused-vars': ['error', { 'args': 'after-used' }],
     'dot-notation': 0,
     'import/no-unresolved': 0,
-    'vue/max-attributes-per-line': ['warning', {
+    'vue/max-attributes-per-line': [1, {
       'singleline': 4,
       'multiline': {
         'max': 1,

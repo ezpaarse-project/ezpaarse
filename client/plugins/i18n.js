@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import Vue from 'vue';
 import VueI18n from 'vue-i18n';
 import moment from 'moment';

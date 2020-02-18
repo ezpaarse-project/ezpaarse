@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import Feedback from '~/components/Feedback';
+import Feedback from '~/components/Feedback.vue';
 
 export default {
   components: {

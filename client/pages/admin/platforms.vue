@@ -1,14 +1,7 @@
 <template>
   <v-card>
-    <v-toolbar
-      class="secondary"
-      dense
-      dark
-      card
-    >
-      <v-toolbar-title>
-        {{ $t('ui.pages.admin.platforms.title') }}
-      </v-toolbar-title>
+    <v-toolbar class="secondary" dense dark flat>
+      <v-toolbar-title v-text="$t('ui.pages.admin.platforms.title')" />
     </v-toolbar>
 
     <v-card-text>
@@ -28,8 +21,8 @@
             dark
             small
           >
-            <v-avatar>
-              <v-icon>
+            <v-avatar left>
+              <v-icon small>
                 {{ platforms.isOutdated ? 'mdi-alert-circle' : 'mdi-check-circle' }}
               </v-icon>
             </v-avatar>
@@ -73,10 +66,9 @@
       :items="platformsItems"
       :no-data-text="$t('ui.pages.admin.platforms.noPlatforms')"
       :no-results-text="$t('ui.pages.admin.platforms.noPlatformFound')"
-      :rows-per-page-text="$t('ui.pages.admin.platforms.platformsPerPage')"
-      :rows-per-page-items="rowsPerPage"
+      :footer-props="footerProps"
       :search="search"
-      :pagination.sync="pagination"
+      :items-per-page="itemsPerPage"
     >
       <template v-slot:items="{ item }">
         <td>
@@ -92,25 +84,24 @@
           <a
             :href="item.docurl"
             target="_blank"
-          >
-            {{ item.longname }}
-          </a>
+            v-text="item.longname"
+          />
         </td>
 
         <td>
           <a
-            v-if="item.certifications && item.certifications.humanCertified"
+            v-if="item.certifications && item.certifications.human"
             href="https://blog.ezpaarse.org/2017/06/certification-h-et-p-des-plateformes-traitees-dans-ezpaarse/"
             target="_blank"
             style="text-decoration: none;"
           >
-            <v-avatar target="_blank" size="24" color="#F4B48B">
+            <v-avatar size="24" color="#F4B48B">
               <span class="white--text">H</span>
             </v-avatar>
           </a>
 
           <a
-            v-if="item.certifications && item.certifications.publisherCertified"
+            v-if="item.certifications && item.certifications.publisher"
             href="https://blog.ezpaarse.org/2017/06/certification-h-et-p-des-plateformes-traitees-dans-ezpaarse/"
             target="_blank"
             style="text-decoration: none;"
@@ -121,7 +112,7 @@
           </a>
         </td>
 
-        <td class="text-xs-center">
+        <td class="text-center">
           <v-icon v-if="platformsChanged[item.name]" color="info">
             mdi-arrow-up-bold-circle
           </v-icon>
@@ -159,7 +150,7 @@
           <v-spacer />
           <v-btn
             color="primary"
-            flat
+            text
             @click="pkbDialog = false"
           >
             {{ $t('ui.close') }}
@@ -181,9 +172,7 @@ export default {
       selectedPlatform: false,
       onlyOutdated: false,
       search: '',
-      pagination: {
-        rowsPerPage: 10
-      }
+      itemsPerPage: 10
     };
   },
   async fetch ({ store }) {
@@ -227,13 +216,13 @@ export default {
           text: this.$t('ui.pages.admin.platforms.platform'),
           align: 'left',
           sortable: true,
-          value: 'longname'
+          value: 'longname',
+          width: '300px'
         },
         {
           text: this.$t('ui.pages.admin.platforms.certifications'),
           align: 'left',
           sortable: true,
-          value: 'certifications',
           width: '10px'
         },
         {
@@ -243,6 +232,12 @@ export default {
           width: '10px'
         }
       ];
+    },
+    footerProps () {
+      return {
+        itemsPerPageText: this.$t('ui.pages.admin.platforms.platformsPerPage'),
+        itemsPerPageOptions: [this.itemsPerPage, 30, 50, -1]
+      };
     },
     pkbsHeaders () {
       return [

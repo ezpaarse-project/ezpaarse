@@ -1,74 +1,62 @@
 <template>
   <v-card>
-    <v-toolbar
-      class="secondary"
-      dense
-      dark
-      card
-    >
-      <v-toolbar-title>
-        {{ $t('ui.pages.admin.users.title') }}
-      </v-toolbar-title>
+    <v-toolbar class="secondary" dense dark flat>
+      <v-toolbar-title v-text="$t('ui.pages.admin.users.title')" />
       <v-spacer />
       <v-tooltip left>
         <template v-slot:activator="{ on }">
-          <v-btn fab flat small icon v-on="on" @click="openAddDialog">
+          <v-btn fab text small icon v-on="on" @click="openAddDialog">
             <v-icon>mdi-account-plus</v-icon>
           </v-btn>
         </template>
-        <span>{{ $t('ui.pages.admin.users.addUser') }}</span>
+        <span v-text="$t('ui.pages.admin.users.addUser')" />
       </v-tooltip>
     </v-toolbar>
 
     <v-card-text>
-      <v-layout
-        row
-        wrap
-      >
-        <v-flex
-          xs12
-          sm12
-        >
-          <v-text-field
-            v-model="search"
-            append-icon="mdi-magnify"
-            :label="$t('ui.search')"
-            single-line
-          />
-        </v-flex>
+      <v-container>
+        <v-layout row wrap>
+          <v-flex xs12 sm12>
+            <v-text-field
+              v-model="search"
+              append-icon="mdi-magnify"
+              :label="$t('ui.search')"
+              single-line
+            />
+          </v-flex>
 
-        <v-flex xs12>
-          <v-data-table
-            :headers="headers"
-            :items="users"
-            :no-data-text="$t('ui.pages.admin.users.noUsers')"
-            :no-results-text="$t('ui.pages.admin.users.noMatchingUser')"
-            :rows-per-page-text="$t('ui.pages.admin.users.usersPerPage')"
-            :search="search"
-            :pagination.sync="pagination"
-            class="elevation-1"
-          >
-            <template
-              v-slot:items="props"
+          <v-flex xs12>
+            <v-data-table
+              :headers="headers"
+              :items="users"
+              :no-data-text="$t('ui.pages.admin.users.noUsers')"
+              :no-results-text="$t('ui.pages.admin.users.noMatchingUser')"
+              :search="search"
+              :footer-props="footerProps"
+              :items-per-page="itemsPerPage"
+              class="elevation-1"
             >
-              <td class="layout justify-center">
-                <template v-if="$auth.user.username !== props.item.username">
-                  <v-icon small @click="removeDialog = true; selectedUser = props.item.username;">
-                    mdi-delete
-                  </v-icon>
-                  <v-icon small @click="dialog = true; user = props.item;">
-                    mdi-pencil
-                  </v-icon>
-                </template>
-              </td>
-              <td>
-                {{ props.item.username }}
-              </td>
-              <td>{{ $t(`ui.pages.admin.users.groups.${props.item.group}`) }}</td>
-            </template>
-          </v-data-table>
-        </v-flex>
-      </v-layout>
+              <template v-slot:item.group="{ item }">
+                {{ $t(`ui.pages.admin.users.groups.${item.group}`) }}
+              </template>
+              <template v-slot:item.action="{ item }">
+                <v-icon
+                  v-if="$auth.user.username !== item.username"
+                  small @click="removeDialog = true; selectedUser = item.username;"
+                >
+                  mdi-delete
+                </v-icon>
+                <v-icon
+                  v-if="$auth.user.username !== item.username"
+                  small @click="dialog = true; user = item;"
+                >
+                  mdi-pencil
+                </v-icon>
+              </template>
+            </v-data-table>
+          </v-flex>
+        </v-layout>
+      </v-container>
     </v-card-text>
 
     <v-dialog
@@ -78,12 +66,11 @@
     >
       <v-card>
         <v-card-title class="title primary white--text">
-          <span v-if="user && user.password">
-            {{ $t('ui.pages.admin.users.editUser', { email: user.username }) }}
-          </span>
-          <span v-else>
-            {{ $t('ui.pages.admin.users.addUser') }}
-          </span>
+          <span
+            v-if="user && user.password"
+            v-text="$t('ui.pages.admin.users.editUser', { email: user.username })"
+          />
+          <span v-else v-text="$t('ui.pages.admin.users.addUser')" />
         </v-card-title>
 
         <v-card-text>
@@ -112,12 +99,14 @@
 
         <v-card-actions>
           <v-spacer />
-          <v-btn flat @click="dialog = false">
-            {{ $t('ui.close') }}
-          </v-btn>
-          <v-btn color="primary" :disabled="disabled" @click="saveOrEdit()">
-            {{ $t('ui.save') }}
-          </v-btn>
+          <v-btn class="body-2" text @click="dialog = false" v-text="$t('ui.close')" />
+          <v-btn
+            class="body-2"
+            color="primary"
+            :disabled="disabled"
+            @click="saveOrEdit()"
+            v-text="$t('ui.save')"
+          />
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -128,16 +117,17 @@
       @keydown.esc="removeDialog = false"
     >
       <v-card>
-        <v-card-title class="headline">{{ $t('ui.pages.admin.users.deletingUser') }}</v-card-title>
+        <v-card-title class="headline" v-text="$t('ui.pages.admin.users.deletingUser')" />
         <v-card-text v-html="$t('ui.pages.admin.users.confirmSentence', { selectedUser })" />
         <v-card-actions>
           <v-spacer />
-          <v-btn flat @click="removeDialog = false">
-            {{ $t('ui.close') }}
-          </v-btn>
-          <v-btn color="primary" @click="removeUser(selectedUser)">
-            {{ $t('ui.remove') }}
-          </v-btn>
+          <v-btn class="body-2" text @click="removeDialog = false" v-text="$t('ui.close')" />
+          <v-btn
+            class="body-2"
+            color="primary"
+            @click="removeUser(selectedUser)"
+            v-text="$t('ui.remove')"
+          />
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -160,9 +150,7 @@ export default {
       selectedUser: null,
       disabled: true,
       search: '',
-      pagination: {
-        rowsPerPage: 10
-      }
+      itemsPerPage: 10
     };
   },
   async fetch ({ store }) {
@@ -179,10 +167,6 @@ export default {
     headers () {
       return [
         {
-          sortable: false,
-          width: 10
-        },
-        {
           text: 'Email',
           align: 'left',
           sortable: true,
@@ -193,8 +177,21 @@ export default {
           align: 'left',
           sortable: true,
           value: 'group'
+        },
+        {
+          text: 'Actions',
+          value: 'action',
+          sortable: false,
+          align: 'right',
+          width: 20
         }
       ];
+    },
+    footerProps () {
+      return {
+        itemsPerPageText: this.$t('ui.pages.admin.users.usersPerPage'),
+        itemsPerPageOptions: [this.itemsPerPage, 30, 50, -1]
+      };
     },
     items () {
       return [

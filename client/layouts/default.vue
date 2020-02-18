@@ -8,7 +8,7 @@
           :value="appInfos.demo"
           type="info"
           dismissible
-          outline
+          outlined
         >
           <div class="subheading font-weight-bold">
             {{ $t('ui.pages.index.demoHeader') }}

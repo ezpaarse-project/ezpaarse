@@ -1,79 +1,74 @@
 <template>
   <v-card>
-    <v-toolbar card dark dense color="secondary">
-      <v-toolbar-title>{{ $t('ui.pages.process.report.title') }}</v-toolbar-title>
+    <v-toolbar flat dark dense color="secondary">
+      <v-toolbar-title v-text="$t('ui.pages.process.report.title')" />
 
       <v-spacer />
 
       <v-toolbar-items>
-        <v-btn v-if="!expanded" icon flat @click="expand">
-          <v-icon>mdi-arrow-expand</v-icon>
+        <v-btn v-if="expanded" icon text @click="collapse">
+          <v-icon>mdi-arrow-collapse</v-icon>
         </v-btn>
 
-        <v-btn v-else icon flat @click="collapse">
-          <v-icon>mdi-arrow-collapse</v-icon>
+        <v-btn v-else icon text @click="expand">
+          <v-icon>mdi-arrow-expand</v-icon>
         </v-btn>
       </v-toolbar-items>
     </v-toolbar>
 
-    <v-card-text v-if="!report">
-      {{ $t('ui.errors.reportNotLoaded') }}
-    </v-card-text>
+    <v-card-text v-if="!report" v-text="$t('ui.errors.reportNotLoaded')" />
 
-    <v-expansion-panel v-else v-model="panel" expand>
-      <v-expansion-panel-content>
-        <template v-slot:header>
-          <div class="title">
-            {{ $t('ui.pages.process.job.processState') }}
-          </div>
-        </template>
-        <v-card>
-          <v-container fluid>
-            <v-layout row wrap>
-              <v-flex
-                v-for="metric in metrics"
-                :key="metric.label"
-                class="pa-2"
-                xs12
-                md6
-                lg4
-                xl3
-              >
-                <Metric
-                  :label="$t(`ui.pages.process.report.${metric.label}`)"
-                  :value="metric.value"
-                  :icon="metric.icon"
-                  :color="metric.iconColor"
-                />
-              </v-flex>
-            </v-layout>
-          </v-container>
-        </v-card>
-      </v-expansion-panel-content>
+    <v-expansion-panels v-else v-model="panels" multiple accordion>
+      <v-expansion-panel>
+        <v-expansion-panel-header
+          class="subtitle-1"
+          v-text="$t('ui.pages.process.job.processState')"
+        />
+        <v-expansion-panel-content>
+          <v-card flat>
+            <v-container fluid>
+              <v-layout row wrap>
+                <v-flex
+                  v-for="metric in metrics"
+                  :key="metric.label"
+                  class="pa-2"
+                  xs12
+                  md6
+                  lg4
+                  xl3
+                >
+                  <Metric
+                    :label="$t(`ui.pages.process.report.${metric.label}`)"
+                    :value="metric.value"
+                    :icon="metric.icon"
+                    :color="metric.iconColor"
+                  />
+                </v-flex>
+              </v-layout>
+            </v-container>
+          </v-card>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
 
-      <v-expansion-panel-content v-for="(section, category) in report" :key="category">
-        <template v-slot:header>
-          <div class="title">
-            {{ $t(`ui.pages.process.report.${category}`) }}
-          </div>
-        </template>
-        <v-card>
+      <v-expansion-panel v-for="(section, category) in report" :key="category">
+        <v-expansion-panel-header
+          class="subtitle-1"
+          v-text="$t(`ui.pages.process.report.${category}`)"
+        />
+        <v-expansion-panel-content>
           <v-data-table
             :items="Object.entries(section)"
-            hide-headers
-            hide-actions
-            select-all
+            hide-default-headers
+            hide-default-footer
             item-key="name"
           >
-            <template v-slot:items="{ item }">
+            <template v-slot:item="{ item }">
               <tr v-if="category !== 'rejets'">
                 <td>{{ item[0] }}</td>
                 <td v-if="isLink(item[1])" class="text-xs-left">
-                  <a :href="item[1]" target="_blank">{{ item[1] }}</a>
+                  <a :href="item[1]" target="_blank" v-text="item[1]" />
                 </td>
-                <td v-else class="text-xs-left">
-                  {{ item[1] }}
-                </td>
+                <td v-else class="text-left" v-text="item[1]" />
               </tr>
 
               <tr v-else>
@@ -83,16 +78,12 @@
                     {{ $t(`ui.pages.process.report.descriptions.${item[0]}`) }}
                   </div>
                 </td>
-                <td v-else>
-                  {{ item[0] }}
-                </td>
+                <td v-else v-text="item[0]" />
 
-                <td v-if="isLink(item[1])" class="text-xs-left">
-                  <a :href="item[1]" target="_blank">{{ item[1] }}</a>
+                <td v-if="isLink(item[1])" class="text-left">
+                  <a :href="item[1]" target="_blank" v-text="item[1]" />
                 </td>
-                <td v-else class="text-xs-left">
-                  {{ item[1] }}
-                </td>
+                <td v-else class="text-left" v-text="item[1]" />
 
                 <td style="width: 150px">
                   <v-progress-linear
@@ -105,25 +96,23 @@
               </tr>
             </template>
           </v-data-table>
-        </v-card>
-      </v-expansion-panel-content>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
 
-      <v-expansion-panel-content>
-        <template v-slot:header>
-          <div class="title">
-            {{ $t('ui.pages.process.job.traces') }}
-          </div>
-        </template>
-        <Logs :logs="logging" />
-      </v-expansion-panel-content>
-    </v-expansion-panel>
+      <v-expansion-panel>
+        <v-expansion-panel-header class="subtitle-1" v-text="$t('ui.pages.process.job.traces')" />
+        <v-expansion-panel-content>
+          <Logs :logs="logging" />
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+    </v-expansion-panels>
   </v-card>
 </template>
 
 <script>
-import Metric from '~/components/Metric';
-import Logs from '~/components/Logs';
 import get from 'lodash.get';
+import Metric from '~/components/Metric.vue';
+import Logs from '~/components/Logs.vue';
 
 export default {
   components: {
@@ -142,7 +131,7 @@ export default {
   },
   data () {
     return {
-      panel: [true, false, false, false, false, false, false, false]
+      panels: [0]
     };
   },
   computed: {
@@ -161,7 +150,7 @@ export default {
       return Object.keys(this.report).length + 2;
     },
     expanded () {
-      return this.panel.length >= this.nbSections && this.panel.every(p => p);
+      return this.panels.length === this.nbSections;
     },
     metrics () {
       const general = get(this, 'report.general', {});
@@ -220,15 +209,19 @@ export default {
     }
   },
   methods: {
-    // FIXME
+    // FIXME : must be a computed property
     rejectPercent (nbRejets) {
       return Math.ceil(nbRejets / this.relevantLogLines * 100);
     },
     expand () {
-      this.panel = (new Array(this.nbSections)).fill(true);
+      for (let i = 0; i < this.nbSections; i += 1) {
+        if (this.panels[i] !== i) {
+          this.panels.push(i);
+        }
+      }
     },
     collapse () {
-      this.panel = this.panel.map(() => false);
+      this.panels = [];
     },
     isLink (value) {
       return /^https?:\/\//i.test(value);

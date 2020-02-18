@@ -25,7 +25,8 @@
     </v-card-text>
     <v-card-actions>
       <v-btn
-        flat
+        class="body-2"
+        text
         router
         :to="{ path: '/password' }"
         ripple
@@ -36,6 +37,7 @@
       <v-btn
         color="primary"
         type="submit"
+        class="body-2"
         :loading="loading"
         :disabled="!validForm"
       >

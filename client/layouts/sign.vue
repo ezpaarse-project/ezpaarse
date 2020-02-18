@@ -1,48 +1,23 @@
 <template>
   <v-app id="ezpaarse-sign">
-    <v-layout
-      row
-      wrap
-    >
-      <v-flex
-        xs12
-        sm6
-      >
-        <v-card
-          flat
-          height="100%"
-          color="primary"
-          tile
-        >
-          <v-container
-            fill-height
-            grid-list-md
-            text-xs-center
-          >
-            <v-layout
-              row
-              wrap
-              align-center
-            >
-              <v-card
-                flat
-                color="transparent"
-                class="white--text"
-              >
-                <v-card-text class="headline">
-                  <h3 class="mb-0">
-                    {{ $t('ui.pages.index.whatIsEzpaarse') }}
-                  </h3>
+    <v-layout row wrap>
+      <v-flex xs12 sm6>
+        <v-card text height="100%" color="primary" tile>
+          <v-container fill-height grid-list-md text-center>
+            <v-layout row wrap align-center>
+              <v-card text color="transparent" outlined>
+                <v-card-text class="headline white--text">
+                  <h3 class="mb-0" v-html="$t('ui.pages.index.whatIsEzpaarse')" />
                   <p v-html="$t('ui.pages.index.description', descriptionLinks)" />
                   <v-tooltip bottom>
                     <template v-slot:activator="{ on }">
                       <v-chip v-on="on">
-                        <v-avatar>
-                          <v-icon right>
+                        <v-avatar left>
+                          <v-icon small>
                             mdi-thumb-up-outline
                           </v-icon>
                         </v-avatar>
-                        {{ $t('ui.pages.index.simpleTool') }}
+                        <span v-text="$t('ui.pages.index.simpleTool')" />
                       </v-chip>
                     </template>
                     <span v-text="$t('ui.pages.index.fewClicksToInstall')" />
@@ -50,12 +25,12 @@
                   <v-tooltip bottom>
                     <template v-slot:activator="{ on }">
                       <v-chip v-on="on">
-                        <v-avatar>
-                          <v-icon right>
+                        <v-avatar left>
+                          <v-icon small>
                             mdi-comment
                           </v-icon>
                         </v-avatar>
-                        {{ $t('ui.pages.index.availableTeam') }}
+                        <span v-text="$t('ui.pages.index.availableTeam')" />
                       </v-chip>
                     </template>
                     <span v-text="$t('ui.pages.index.contactUs')" />
@@ -63,12 +38,12 @@
                   <v-tooltip bottom>
                     <template v-slot:activator="{ on }">
                       <v-chip v-on="on">
-                        <v-avatar>
-                          <v-icon right>
+                        <v-avatar left>
+                          <v-icon small>
                             mdi-account-group
                           </v-icon>
                         </v-avatar>
-                        {{ $t('ui.pages.index.growingCommunity') }}
+                        <span v-text="$t('ui.pages.index.growingCommunity')" />
                       </v-chip>
                     </template>
                     <span v-text="$t('ui.pages.index.notOnlyFrench')" />
@@ -80,57 +55,83 @@
         </v-card>
       </v-flex>
 
-      <v-flex
-        xs12
-        sm6
-      >
-        <v-container
-          fill-height
-          grid-list-md
-          text-xs-center
-        >
-          <v-layout
-            row
-            wrap
-            align-center
-          >
-            <v-flex
-              xs12
-              sm12
-            >
+      <v-flex xs12 sm6>
+        <v-container fill-height grid-list-md text-center>
+          <v-layout row wrap align-center>
+            <v-flex xs12 sm12>
               <img
-                src="~/assets/img/logo.png"
+                :src="require('@/static/img/logo.png')"
                 alt="ezPAARSE"
+                width="254px"
               >
-              <p v-html="$t('ui.pages.index.signInEasy')" />
-              <v-alert
-                v-if="appInfos.demo"
-                :value="true"
-                color="info"
-              >
-                <h3>{{ $t('ui.pages.index.demoHeader') }}</h3>
-                <div>{{ $t('ui.pages.index.demoText') }}</div>
-              </v-alert>
+              <p class="body-2" v-html="$t('ui.pages.index.signInEasy')" />
 
-              <nuxt />
+              <v-card v-if="appInfos.demo" color="info" class="white--text my-3">
+                <v-toolbar height="8px" color="blue darken-2" flat />
 
-              <v-flex
-                xs12
-                sm12
-                md5
-              >
-                <v-select
-                  v-model="locale"
-                  :items="locales"
-                  :label="$t('ui.language')"
-                  item-text="name"
-                  item-value="value"
-                  persistent-hint
-                  return-object
-                  single-line
-                  @change="$i18n.locale = locale.value"
-                />
-              </v-flex>
+                <v-list-item two-line>
+                  <v-list-item-content>
+                    <v-list-item-title
+                      class="white--text title"
+                      v-text="$t('ui.pages.index.demoHeader')"
+                    />
+                    <v-list-item-subtitle
+                      class="white--text"
+                      v-text="$t('ui.pages.index.demoText')"
+                    />
+                  </v-list-item-content>
+                </v-list-item>
+              </v-card>
+
+              <Feedback v-if="feedback" />
+              <span v-else>
+                <nuxt />
+              </span>
+
+              <v-layout row wrap>
+                <v-flex xs12 sm12 md3>
+                  <v-select
+                    v-model="locale"
+                    :items="locales"
+                    :label="$t('ui.language')"
+                    item-text="name"
+                    item-value="value"
+                    persistent-hint
+                    return-object
+                    single-line
+                    @change="$i18n.locale = locale.value"
+                  />
+                </v-flex>
+                <v-spacer />
+                <v-flex
+                  v-if="!feedback"
+                  xs12
+                  sm12
+                  md9
+                  class="text-right"
+                >
+                  <v-btn
+                    color="primary"
+                    class="body-2 mt-3"
+                    @click="feedback = true"
+                    v-text="$t('ui.drawer.feedback')"
+                  />
+                </v-flex>
+                <v-flex
+                  v-if="feedback"
+                  xs12
+                  sm12
+                  md9
+                  class="text-right"
+                >
+                  <v-btn
+                    color="primary"
+                    class="body-2 mt-3"
+                    @click="feedback = false"
+                    v-text="$t('ui.back')"
+                  />
+                </v-flex>
+              </v-layout>
             </v-flex>
           </v-layout>
         </v-container>
@@ -142,13 +143,16 @@
 
 <script>
 import Snackbar from '~/components/Snackbar.vue';
+import Feedback from '~/components/Feedback.vue';
 
 export default {
   components: {
-    Snackbar
+    Snackbar,
+    Feedback
   },
   data () {
     return {
+      feedback: false,
       locale: this.$i18n.locale,
       locales: [
         { name: 'Français', value: 'fr' },
@@ -157,7 +161,7 @@ export default {
       descriptionLinks: {
         github: 'https://github.com/ezpaarse-project/ezpaarse',
         analogist: 'http://analyses.ezpaarse.org/',
-        doc: 'https://ezpaarse.readthedocs.io/en/master/development/routes.html'
+        doc: 'https://ezpaarse-project.github.io/ezpaarse/development/routes.html'
       }
     };
   },

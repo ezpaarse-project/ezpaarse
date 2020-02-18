@@ -40,7 +40,7 @@
           </v-card-text>
 
           <v-card-text v-else key="form">
-            <v-alert outline color="error" :value="error">
+            <v-alert outlined color="error" :value="error">
               <span v-if="errorMessage">{{ errorMessage }}</span>
               <span v-else>{{ $t('ui.errors.error') }}</span>
             </v-alert>
@@ -55,7 +55,7 @@
               prepend-inner-icon="mdi-database"
               :label="$t('ui.ezmesure.indice')"
               :disabled="uploading"
-              outline
+              outlined
               required
             />
             <v-text-field
@@ -64,7 +64,7 @@
               :label="$t('ui.ezmesure.token')"
               :disabled="uploading"
               :type="showToken ? 'text' : 'password'"
-              outline
+              outlined
               required
               :append-icon="showToken ? 'mdi-eye' : 'mdi-eye-off'"
               @click:append="showToken = !showToken"
@@ -83,7 +83,7 @@
           <v-scale-transition origin="center center">
             <v-btn
               v-if="result"
-              flat
+              text
               @click="result = null"
             >
               {{ $t('ui.back') }}
@@ -93,7 +93,7 @@
           <v-spacer />
 
           <v-btn
-            flat
+            text
             @click="setVisibility(false)"
           >
             {{ $t('ui.close') }}

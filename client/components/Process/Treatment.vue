@@ -8,20 +8,16 @@
           :value="progress"
         />
 
-        <div class="text-xs-center headline">
-          <p v-if="status === 'finalization'">
-            {{ $t('ui.pages.process.finalization') }}
-          </p>
-          <p v-else-if="status === 'end'" class="success--text">
-            {{ $t('ui.pages.process.finished') }}
-          </p>
+        <div class="text-center headline">
+          <p v-if="status === 'finalization'" v-text="$t('ui.pages.process.finalization')" />
+          <p
+            v-else-if="status === 'end'"
+            class="success--text"
+            v-text="$t('ui.pages.process.finished')"
+          />
           <p v-else-if="status === 'error'" class="error--text">
-            <span v-if="error">
-              {{ error }}
-            </span>
-            <span v-else>
-              {{ $t('ui.errors.error') }}
-            </span>
+            <span v-if="error" v-text="error" />
+            <span v-else v-text="$t('ui.errors.error')" />
           </p>
           <p v-else>
             {{ progress }} %
@@ -29,21 +25,12 @@
         </div>
 
         <template v-if="status === 'error' && !error && loggingErrors.length > 0">
-          <p>
-            {{ $t('ui.pages.process.hasLoggingErrors') }}
-          </p>
+          <p v-text="$t('ui.pages.process.hasLoggingErrors')" />
           <Logs :logs="loggingErrors" />
         </template>
 
-        <v-alert
-          :value="status === 'end'"
-          color="info"
-          outline
-        >
-          <div
-            class="text-xs-center"
-            v-html="$t('ui.pages.process.job.infos', macroLinks)"
-          />
+        <v-alert :value="status === 'end'" color="info" outlined>
+          <div class="text-center" v-html="$t('ui.pages.process.job.infos', macroLinks)" />
         </v-alert>
       </v-card-text>
     </v-card>
@@ -59,8 +46,8 @@
 </template>
 
 <script>
-import Report from '~/components/Report';
-import Logs from '~/components/Logs';
+import Report from '~/components/Report.vue';
+import Logs from '~/components/Logs.vue';
 
 export default {
   components: {
