@@ -21,7 +21,7 @@ describe('The browser', () => {
 
       browser.resources.forEach((resource) => {
         const url = resource.request.url;
-        if (url.indexOf('Roboto') === -1) {
+        if (!url.toLowerCase().includes('roboto') && !url.toLowerCase().includes('mdi')) {
           assert(resource.response, url + ' did not return');
 
           const statusCode = resource.response.status;
