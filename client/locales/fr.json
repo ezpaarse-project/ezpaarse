@@ -239,7 +239,11 @@
           "update": "Mise à jour",
           "noPlatformFound": "Aucune plateforme ne correspond à la recherche",
           "newPlatformsAvailable": "Nouvelles plateformes disponibles",
-          "entries": "Entrées"
+          "entries": "Entrées",
+          "humanCertification": "Certification humaine",
+          "human": "Humain",
+          "publisherCertification": "Certification éditeur",
+          "publisher": "Éditeur"
         },
         "updates": {
           "title": "Mises à jour",

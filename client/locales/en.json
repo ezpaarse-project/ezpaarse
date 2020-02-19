@@ -240,7 +240,11 @@
           "update": "Update",
           "noPlatformFound": "No platform matching search",
           "newPlatformsAvailable": "De nouvelles plateformes sont disponibles",
-          "entries": "Entries"
+          "entries": "Entries",
+          "humanCertification": "Human certification",
+          "human": "Humain",
+          "publisherCertification": "Publisher certification",
+          "publisher": "Publisher"
         },
         "updates": {
           "title": "Updates",

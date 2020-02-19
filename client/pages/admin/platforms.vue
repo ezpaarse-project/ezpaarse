@@ -64,10 +64,10 @@
           </v-flex>
 
           <v-flex sx12 sm12 md3>
-            <v-select
+            <v-combobox
               v-model="searchCertifications"
-              item-text="name"
-              item-value="id"
+              :item-text="(obj) => (obj)['name']"
+              :item-value="(obj) => (obj)['id']"
               append-icon="mdi-tag"
               :items="certifications"
               class="mx-1"
@@ -77,7 +77,35 @@
               single-line
               multiple
               clearable
-            />
+            >
+              <template v-slot:selection="{ attrs, item, parent }">
+                <v-chip
+                  :key="item.id"
+                  v-bind="attrs"
+                >
+                  <v-avatar
+                    class="white--text"
+                    left
+                    :color="item.color"
+                    v-text="item.id.toUpperCase().substr(0, 1)"
+                  />
+                  {{ item.name }}
+                  <v-icon small @click="parent.selectItem(item)">
+                    mdi-close
+                  </v-icon>
+                </v-chip>
+              </template>
+              <template v-slot:item="{ item }">
+                <span v-text="item.name" />
+                <v-list-item-avatar
+                  class="white--text"
+                  style="margin-left: 10px"
+                  size="24"
+                  :color="item.color"
+                  v-text="item.id.toUpperCase().substr(0, 1)"
+                />
+              </template>
+            </v-combobox>
           </v-flex>
         </v-layout>
       </v-container>
@@ -220,19 +248,18 @@ export default {
     platformsItems () {
       const certifications = this.searchCertifications;
 
-      const platforms = this.$store.state.platformsItems.filter((p) => {
+      return this.$store.state.platformsItems.filter((p) => {
+        if (this.onlyOutdated && !this.platformsChanged[p.name]) {
+          return false;
+        }
         if (certifications.length) {
           return certifications.some((certification) => {
-            return p.certifications && p.certifications[certification];
+            return p.certifications && p.certifications[certification.id];
           });
         }
 
         return true;
-      }).sort((a, b) => {
-        return a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1;
-      });
-
-      return this.onlyOutdated ? platforms.filter(p => this.platformsChanged[p.name]) : platforms;
+      }).sort((a, b) => (a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1));
     },
     platformsChanged () {
       return this.$store.state.platformsChanged;
@@ -304,11 +331,13 @@ export default {
       return [
         {
           id: 'human',
-          name: 'Humain'
+          name: this.$t('ui.pages.admin.platforms.human'),
+          color: '#F4B48B'
         },
         {
           id: 'publisher',
-          name: 'Publisher'
+          name: this.$t('ui.pages.admin.platforms.publisher'),
+          color: '#5AB9C1'
         }
       ];
     }
