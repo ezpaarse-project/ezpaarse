@@ -8,8 +8,8 @@
     <v-form ref="saveForm" v-model="isValid" @submit.prevent="uploadToEzMesure">
       <v-card>
         <v-card-title class="title primary white--text">
-          <span v-if="result">{{ $t('ui.ezmesure.fileLoaded') }}</span>
-          <span v-else>{{ $t('ui.ezmesure.loadIntoEzmesure') }}</span>
+          <span v-if="result" v-text="$t('ui.ezmesure.fileLoaded')" />
+          <span v-else v-text="$t('ui.ezmesure.loadIntoEzmesure')" />
         </v-card-title>
 
         <v-fade-transition mode="out-in">
@@ -41,8 +41,8 @@
 
           <v-card-text v-else key="form">
             <v-alert outlined color="error" :value="error">
-              <span v-if="errorMessage">{{ errorMessage }}</span>
-              <span v-else>{{ $t('ui.errors.error') }}</span>
+              <span v-if="errorMessage" v-text="errorMessage" />
+              <span v-else v-text="$t('ui.errors.error')" />
             </v-alert>
 
             <v-switch
@@ -85,9 +85,8 @@
               v-if="result"
               text
               @click="result = null"
-            >
-              {{ $t('ui.back') }}
-            </v-btn>
+              v-text="$t('ui.back')"
+            />
           </v-scale-transition>
 
           <v-spacer />
@@ -95,9 +94,8 @@
           <v-btn
             text
             @click="setVisibility(false)"
-          >
-            {{ $t('ui.close') }}
-          </v-btn>
+            v-text="$t('ui.close')"
+          />
 
           <v-scale-transition origin="center center">
             <v-btn
@@ -106,9 +104,8 @@
               type="submit"
               :loading="uploading"
               :disabled="!isValid"
-            >
-              {{ $t('ui.ezmesure.load') }}
-            </v-btn>
+              v-text="$t('ui.ezmesure.load')"
+            />
           </v-scale-transition>
         </v-card-actions>
       </v-card>
@@ -117,8 +114,8 @@
 </template>
 
 <script>
-import Metric from '~/components/Metric';
 import get from 'lodash.get';
+import Metric from '~/components/Metric.vue';
 
 export default {
   props: {

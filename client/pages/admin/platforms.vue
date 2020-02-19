@@ -70,64 +70,57 @@
       :search="search"
       :items-per-page="itemsPerPage"
     >
-      <template v-slot:items="{ item }">
-        <td>
-          <v-icon
-            v-if="item['pkb-packages'].length > 0"
-            @click="selectedPlatform = item; pkbDialog = true"
-          >
-            mdi-file-document
-          </v-icon>
-        </td>
+      <template v-slot:item.pkbs="{ item }">
+        <v-icon
+          v-if="item['pkb-packages'].length > 0"
+          @click="selectedPlatform = item; pkbDialog = true"
+        >
+          mdi-file-document
+        </v-icon>
+      </template>
 
-        <td>
-          <a
-            :href="item.docurl"
-            target="_blank"
-            v-text="item.longname"
-          />
-        </td>
+      <template v-slot:item.longname="{ item }">
+        <a
+          :href="item.docurl"
+          target="_blank"
+          v-text="item.longname"
+        />
+      </template>
 
-        <td>
-          <a
-            v-if="item.certifications && item.certifications.human"
-            href="https://blog.ezpaarse.org/2017/06/certification-h-et-p-des-plateformes-traitees-dans-ezpaarse/"
-            target="_blank"
-            style="text-decoration: none;"
-          >
-            <v-avatar size="24" color="#F4B48B">
-              <span class="white--text">H</span>
-            </v-avatar>
-          </a>
+      <template v-slot:item.certifications="{ item }">
+        <a
+          v-if="item.certifications && item.certifications.human"
+          href="https://blog.ezpaarse.org/2017/06/certification-h-et-p-des-plateformes-traitees-dans-ezpaarse/"
+          target="_blank"
+          style="text-decoration: none;"
+        >
+          <v-avatar size="24" color="#F4B48B">
+            <span class="white--text">H</span>
+          </v-avatar>
+        </a>
 
-          <a
-            v-if="item.certifications && item.certifications.publisher"
-            href="https://blog.ezpaarse.org/2017/06/certification-h-et-p-des-plateformes-traitees-dans-ezpaarse/"
-            target="_blank"
-            style="text-decoration: none;"
-          >
-            <v-avatar size="24" color="#5AB9C1">
-              <span class="white--text">P</span>
-            </v-avatar>
-          </a>
-        </td>
+        <a
+          v-if="item.certifications && item.certifications.publisher"
+          href="https://blog.ezpaarse.org/2017/06/certification-h-et-p-des-plateformes-traitees-dans-ezpaarse/"
+          target="_blank"
+          style="text-decoration: none;"
+        >
+          <v-avatar size="24" color="#5AB9C1">
+            <span class="white--text">P</span>
+          </v-avatar>
+        </a>
+      </template>
 
-        <td class="text-center">
-          <v-icon v-if="platformsChanged[item.name]" color="info">
-            mdi-arrow-up-bold-circle
-          </v-icon>
-        </td>
+      <template v-slot:item.update="{ item }">
+        <v-icon v-if="platformsChanged[item.name]" color="info">
+          mdi-arrow-up-bold-circle
+        </v-icon>
       </template>
     </v-data-table>
 
-    <v-dialog
-      v-model="pkbDialog"
-      width="600"
-    >
+    <v-dialog v-model="pkbDialog" width="600">
       <v-card>
-        <v-card-title class="title primary white--text">
-          {{ selectedPlatform.longname }}
-        </v-card-title>
+        <v-card-title class="title primary white--text" v-text="selectedPlatform.longname" />
 
         <v-divider />
 
@@ -138,9 +131,9 @@
           :rows-per-page-items="rowsPerPage"
         >
           <template v-slot:items="{ item }">
-            <td>{{ item.name }}</td>
-            <td>{{ item.entries }}</td>
-            <td>{{ item.date }}</td>
+            <td v-text="item.name" />
+            <td v-text="item.entries" />
+            <td v-text="item.date" />
           </template>
         </v-data-table>
 
@@ -152,9 +145,8 @@
             color="primary"
             text
             @click="pkbDialog = false"
-          >
-            {{ $t('ui.close') }}
-          </v-btn>
+            v-text="$t('ui.close')"
+          />
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -208,28 +200,31 @@ export default {
       return [
         {
           text: 'PKBs',
-          align: 'left',
-          sortable: false,
-          width: '10px'
+          value: 'pkbs',
+          align: 'center',
+          sortable: true,
+          width: 10
         },
         {
           text: this.$t('ui.pages.admin.platforms.platform'),
           align: 'left',
           sortable: true,
           value: 'longname',
-          width: '300px'
+          width: 300
         },
         {
           text: this.$t('ui.pages.admin.platforms.certifications'),
-          align: 'left',
+          align: 'center',
           sortable: true,
-          width: '10px'
+          value: 'certifications',
+          width: 10
         },
         {
           text: this.$t('ui.pages.admin.platforms.update'),
-          align: 'left',
-          sortable: false,
-          width: '10px'
+          align: 'center',
+          sortable: true,
+          value: 'update',
+          width: 10
         }
       ];
     },

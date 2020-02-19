@@ -153,7 +153,7 @@
             </template>
 
             <v-list>
-              <v-list-item avatar :href="`/${item.jobId}`" target="_blank">
+              <v-list-item :href="`/${item.jobId}`" target="_blank">
                 <v-list-item-avatar>
                   <v-icon>mdi-download</v-icon>
                 </v-list-item-avatar>
@@ -161,7 +161,7 @@
                 <v-list-item-title v-text="$t('ui.pages.process.job.downloadResult')" />
               </v-list-item>
 
-              <v-list-item avatar @click="jobId = item.jobId; uploaderDialog = true">
+              <v-list-item @click="jobId = item.jobId; uploaderDialog = true">
                 <v-list-item-avatar>
                   <v-icon>mdi-cloud-upload</v-icon>
                 </v-list-item-avatar>
