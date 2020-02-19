@@ -160,6 +160,7 @@
                     fab
                     small
                     color="secondary"
+                    class="mr-5"
                     @click="uploaderDialog = true"
                     v-on="on"
                   >
