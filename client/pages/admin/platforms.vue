@@ -48,13 +48,39 @@
     </v-card-text>
 
     <v-card-text>
-      <v-text-field
-        v-model="search"
-        append-icon="mdi-magnify"
-        :label="$t('ui.search')"
-        solo
-        hide-details
-      />
+      <v-container>
+        <v-layout row wrap>
+          <v-flex sx12 sm12 md9>
+            <v-text-field
+
+              v-model="search"
+              class="mx-1"
+              append-icon="mdi-magnify"
+              :label="$t('ui.search')"
+              solo
+              hide-details
+              clearable
+            />
+          </v-flex>
+
+          <v-flex sx12 sm12 md3>
+            <v-select
+              v-model="searchCertifications"
+              item-text="name"
+              item-value="id"
+              append-icon="mdi-tag"
+              :items="certifications"
+              class="mx-1"
+              label="Certification"
+              solo
+              hide-details
+              single-line
+              multiple
+              clearable
+            />
+          </v-flex>
+        </v-layout>
+      </v-container>
       <v-checkbox
         v-model="onlyOutdated"
         :label="$t('ui.pages.admin.platforms.onlyOutdated')"
@@ -164,7 +190,8 @@ export default {
       selectedPlatform: false,
       onlyOutdated: false,
       search: '',
-      itemsPerPage: 10
+      itemsPerPage: 10,
+      searchCertifications: []
     };
   },
   async fetch ({ store }) {
@@ -183,6 +210,7 @@ export default {
   computed: {
     platforms () {
       const { platforms } = this.$store.state;
+
       return {
         hasLocalChanges: platforms['local-commits'] || platforms['local-changes'],
         isOutdated: platforms['from-head'] === 'outdated',
@@ -190,7 +218,20 @@ export default {
       };
     },
     platformsItems () {
-      const platforms = this.$store.state.platformsItems;
+      const certifications = this.searchCertifications;
+
+      const platforms = this.$store.state.platformsItems.filter((p) => {
+        if (certifications.length) {
+          return certifications.some((certification) => {
+            return p.certifications && p.certifications[certification];
+          });
+        }
+
+        return true;
+      }).sort((a, b) => {
+        return a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1;
+      });
+
       return this.onlyOutdated ? platforms.filter(p => this.platformsChanged[p.name]) : platforms;
     },
     platformsChanged () {
@@ -215,7 +256,7 @@ export default {
         {
           text: this.$t('ui.pages.admin.platforms.certifications'),
           align: 'center',
-          sortable: true,
+          sortable: false,
           value: 'certifications',
           width: 10
         },
@@ -258,6 +299,18 @@ export default {
         text: this.$t('ui.pages.admin.platforms.allPlatformsPerPage'),
         value: -1
       }];
+    },
+    certifications () {
+      return [
+        {
+          id: 'human',
+          name: 'Humain'
+        },
+        {
+          id: 'publisher',
+          name: 'Publisher'
+        }
+      ];
     }
   },
   methods: {
