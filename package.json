@@ -105,7 +105,6 @@
     "insertversion:docker": "sed -i \"s#\\(image: ezpaarseproject/ezpaarse:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" docker-compose.yml",
     "insertversion:makefile": "sed -i \"s#\\(ezpaarseproject/ezpaarse:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" Makefile",
     "version": "npm run insertversion:docker && npm run insertversion:makefile && git add docker-compose.yml Makefile",
-    "postversion": "git push && git push --tags",
     "lint": "eslint --ext .js,.vue lib/ test/ routes/ middlewares/ client/",
     "dev": "NODE_ENV=development nodemon -i 'test/*.js' -i 'platforms/*.js' -i 'middlewares/*.js' -i 'resources/*.js' -i client -i tmp ./server.js -e js",
     "start": "node server.js",
