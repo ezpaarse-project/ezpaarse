@@ -110,11 +110,11 @@
           ripple
         >
           <v-list-item-title class="body-2" v-text="$t('ui.drawer.admin.platforms')" />
-          <v-list-item-icon>
-            <v-icon>mdi-format-list-bulleted-square</v-icon>
-          </v-list-item-icon>
           <v-list-item-icon v-if="hasPlatformsUpdates">
             <v-icon>mdi-alert-circle</v-icon>
+          </v-list-item-icon>
+          <v-list-item-icon>
+            <v-icon>mdi-format-list-bulleted-square</v-icon>
           </v-list-item-icon>
         </v-list-item>
 
@@ -124,11 +124,11 @@
           ripple
         >
           <v-list-item-title class="body-2" v-text="$t('ui.drawer.admin.updates')" />
-          <v-list-item-icon>
-            <v-icon>mdi-cached</v-icon>
-          </v-list-item-icon>
           <v-list-item-icon v-if="hasGeneralUpdates">
             <v-icon>mdi-alert-circle</v-icon>
+          </v-list-item-icon>
+          <v-list-item-icon>
+            <v-icon>mdi-cached</v-icon>
           </v-list-item-icon>
         </v-list-item>
 
