@@ -173,7 +173,7 @@
           "logProcessingSpeed": "Log processing speed",
           "ECGenerationSpeed": "EC generation speed",
           "recognizedPlatforms": "Recognized Platforms",
-          "HTMLC Consultations": "HTML Consultations",
+          "HTMLConsultations": "HTML Consultations",
           "PDFConsultations": "PDF Consultations",
           "nb-lines-ignored": "Ignored lines",
           "nb-denied-ecs": "ECs denied access",
