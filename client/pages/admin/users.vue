@@ -42,13 +42,15 @@
               <template v-slot:item.action="{ item }">
                 <v-icon
                   v-if="$auth.user.username !== item.username"
-                  small @click="removeDialog = true; selectedUser = item.username;"
+                  small
+                  @click="removeDialog = true;selectedUser = item.username;"
                 >
                   mdi-delete
                 </v-icon>
                 <v-icon
                   v-if="$auth.user.username !== item.username"
-                  small @click="dialog = true; user = item;"
+                  small
+                  @click="dialog = true; user = item;"
                 >
                   mdi-pencil
                 </v-icon>
@@ -82,7 +84,11 @@
           <v-text-field
             v-if="!currentUser._id"
             v-model="currentUser.password"
+            :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+            :type="showPassword ? 'text' : 'password'"
             label="Password"
+            class="input-group--focused"
+            @click:append="showPassword = !showPassword"
           />
 
           <v-select
@@ -150,7 +156,8 @@ export default {
       selectedUser: null,
       disabled: true,
       search: '',
-      itemsPerPage: 10
+      itemsPerPage: 10,
+      showPassword: false
     };
   },
   async fetch ({ store }) {
