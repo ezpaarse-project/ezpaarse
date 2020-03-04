@@ -27,16 +27,18 @@
       hide-default-footer
       class="elevation-1 my-3"
     >
-      <template v-slot:item="{ item }">
-        <td class="text-center">
-          <v-icon small @click="removeLogsFile(item.id)">
-            mdi-delete
-          </v-icon>
-        </td>
-        <td v-text="item.file.name" />
-        <td class="text-right">
-          {{ item.file.size | prettyBytes }}
-        </td>
+      <template v-slot:body="{ items }">
+        <tr v-for="(item, key) in items" :key="index">
+          <td class="text-center">
+            <v-icon small @click="removeLogsFile(item.id)">
+              mdi-delete
+            </v-icon>
+          </td>
+          <td v-text="item.file.name" />
+          <td class="text-right">
+            {{ item.file.size | prettyBytes }}
+          </td>
+        </tr>
       </template>
 
       <template v-slot:footer>
