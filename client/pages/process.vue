@@ -18,7 +18,7 @@
         <v-divider :color="hasLogFiles && formStep > 1 ? 'primary' : ''" />
 
         <v-stepper-step
-          :edit-icon="$vuetify.icons.complete"
+          edit-icon="mdi-check"
           :editable="!jobInProgress"
           :complete="formStep > 2"
           step="2"
