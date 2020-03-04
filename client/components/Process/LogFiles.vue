@@ -28,7 +28,7 @@
       class="elevation-1 my-3"
     >
       <template v-slot:body="{ items }">
-        <tr v-for="(item, key) in items" :key="index">
+        <tr v-for="(item, index) in items" :key="index">
           <td class="text-center">
             <v-icon small @click="removeLogsFile(item.id)">
               mdi-delete
