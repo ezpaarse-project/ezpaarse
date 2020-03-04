@@ -330,7 +330,7 @@
                   </v-flex>
                 </v-layout>
 
-                <div class="text-center">
+                <div class="text-center mt-3">
                   <v-btn color="accent" @click="addHeader">
                     <v-icon left>
                       mdi-plus
