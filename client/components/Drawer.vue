@@ -200,55 +200,43 @@
       </v-list-item>
     </v-list>
 
-    <v-divider />
-
-    <v-list class="bottomList">
-      <v-list-item>
-        <v-list-item-content class="text-center">
-          <v-list-item-subtitle>
-            <v-tooltip top>
-              <template v-slot:activator="{ on }">
-                <v-btn
-                  small
-                  text
-                  icon
-                  v-on="on"
-                  @click="$vuetify.theme.dark = !$vuetify.theme.dark"
-                >
-                  <v-icon v-if="$vuetify.theme.dark">
-                    mdi-white-balance-sunny
-                  </v-icon>
-                  <v-icon v-else>
-                    mdi-weather-night
-                  </v-icon>
-                </v-btn>
-              </template>
-              <span v-if="$vuetify.theme.dark" v-text="$t('ui.theme.light')" />
-              <span v-else v-text="$t('ui.theme.dark')" />
-            </v-tooltip>
-          </v-list-item-subtitle>
-        </v-list-item-content>
-      </v-list-item>
-
-      <v-list-item>
-        <v-list-item-content class="text-center">
-          <v-list-item-subtitle v-if="appInfos.version">
+    <template v-slot:append>
+      <div class="pa-2 text-center">
+        <v-tooltip top>
+          <template v-slot:activator="{ on }">
             <v-btn
               small
-              outlined
-              class="ma-0"
-              href="https://github.com/ezpaarse-project/ezpaarse#readme"
-              target="_blank"
+              text
+              icon
+              v-on="on"
+              @click="$vuetify.theme.dark = !$vuetify.theme.dark"
             >
-              Version: {{ appInfos.version }}
-              <v-icon right>
-                mdi-github-circle
+              <v-icon v-if="$vuetify.theme.dark">
+                mdi-white-balance-sunny
+              </v-icon>
+              <v-icon v-else>
+                mdi-weather-night
               </v-icon>
             </v-btn>
-          </v-list-item-subtitle>
-        </v-list-item-content>
-      </v-list-item>
-    </v-list>
+          </template>
+          <span v-if="$vuetify.theme.dark" v-text="$t('ui.theme.light')" />
+          <span v-else v-text="$t('ui.theme.dark')" />
+        </v-tooltip>
+
+        <v-spacer />
+
+        <v-btn
+          small
+          outlined
+          class="ma-3"
+          href="https://github.com/ezpaarse-project/ezpaarse#readme"
+          target="_blank"
+        >
+          Version: {{ appInfos.version }}
+          <v-icon right> mdi-github-circle</v-icon>
+        </v-btn>
+      </div>
+    </template>
   </v-navigation-drawer>
 </template>
 
