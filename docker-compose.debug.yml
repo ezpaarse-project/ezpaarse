@@ -1,5 +1,5 @@
 # ezpaarse docker-compose.debug.yml dedicated for developements
-version: '2'
+version: '3'
 
 services:
 
@@ -9,8 +9,6 @@ services:
     working_dir: /app
     volumes:
       - .:/app
-    links:
-      - ezpaarse_db
     environment:
       http_proxy: ${http_proxy}
       https_proxy: ${https_proxy}

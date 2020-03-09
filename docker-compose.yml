@@ -1,13 +1,11 @@
 # ezpaarse docker-compose.yml dedicated to production
-version: '2'
+version: '3'
 
 services:
 
   ezpaarse:
     container_name: ezpaarse
     image: ezpaarseproject/ezpaarse:3.2.9
-    links:
-      - ezpaarse_db
     environment:
       http_proxy:  ${http_proxy}
       https_proxy: ${https_proxy}
