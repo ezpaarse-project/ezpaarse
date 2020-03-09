@@ -8,12 +8,10 @@
           :value="appInfos.demo"
           type="info"
           dismissible
-          outline
+          outlined
         >
-          <div class="subheading font-weight-bold">
-            {{ $t('ui.pages.index.demoHeader') }}
-          </div>
-          <div>{{ $t('ui.pages.index.demoText') }}</div>
+          <div class="subheading font-weight-bold" v-text="$t('ui.pages.index.demoHeader')" />
+          <div v-text="$t('ui.pages.index.demoText')" />
         </v-alert>
         <v-dialog
           v-model="modal"
@@ -24,7 +22,7 @@
             color="primary"
             dark
           >
-            <v-card-text>
+            <v-card-text class="pt-3">
               {{ $t('ui.ezPAARSEOffline') }}
               <v-progress-linear
                 indeterminate
@@ -42,8 +40,8 @@
 </template>
 
 <script>
-import Header from '~/components/Header';
-import Drawer from '~/components/Drawer';
+import Header from '~/components/Header.vue';
+import Drawer from '~/components/Drawer.vue';
 import Snackbar from '~/components/Snackbar.vue';
 
 export default {

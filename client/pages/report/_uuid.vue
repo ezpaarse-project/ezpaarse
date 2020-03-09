@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import Report from '~/components/Report';
+import Report from '~/components/Report.vue';
 
 export default {
   components: {

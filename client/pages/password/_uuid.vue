@@ -4,16 +4,13 @@
       class="secondary"
       dark
       dense
-      card
+      flat
     >
-      <v-toolbar-title>{{ $t('ui.passwordForgotten') }}</v-toolbar-title>
+      <v-toolbar-title v-text="$t('ui.passwordForgotten')" />
     </v-toolbar>
 
     <v-card-text>
-      <v-form
-        method="post"
-        @submit.prevent="reset"
-      >
+      <v-form method="post" @submit.prevent="reset">
         <v-text-field
           v-model="credentials.password"
           prepend-icon="mdi-lock"
@@ -37,9 +34,8 @@
             color="primary"
             type="submit"
             :disabled="!samePassword"
-          >
-            {{ $t('ui.send') }}
-          </v-btn>
+            v-text="$t('ui.send')"
+          />
         </v-card-actions>
       </v-form>
     </v-card-text>

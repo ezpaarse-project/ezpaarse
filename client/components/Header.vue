@@ -1,12 +1,8 @@
 <template>
-  <v-toolbar app fixed clipped-left :color="dark ? '' : 'primary'">
-    <v-toolbar-side-icon @click.stop="setDrawer(!drawer)">
-      <v-icon color="white">
-        mdi-menu
-      </v-icon>
-    </v-toolbar-side-icon>
+  <v-app-bar app fixed clipped-left color="primary">
+    <v-app-bar-nav-icon dark @click.stop="setDrawer(!drawer)" />
     <v-toolbar-title class="white--text">
-      <img class="ezPAARSELogo" src="~/assets/img/logo-white.svg">
+      <img class="ezPAARSELogo" :src="require('@/static/img/logo-white.svg')">
       ezPAARSE
     </v-toolbar-title>
 
@@ -15,42 +11,35 @@
     <v-chip label>
       <v-progress-circular
         v-if="pkbState === 'synchronizing'"
-        class="mr-2"
+        class="mx-2"
         indeterminate
         color="primary"
         :size="16"
         :width="2"
       />
-      <span v-if="remainingPkbs > 0 && pkbState === 'synchronizing'">
-        {{ $t('ui.header.pkbsRemaining', { pkbs: remainingPkbs }) }}
-      </span>
+      <span
+        v-if="remainingPkbs > 0 && pkbState === 'synchronizing'"
+        v-text="$t('ui.header.pkbsRemaining', { pkbs: remainingPkbs })"
+      />
 
-      <span v-if="pkbState === 'synchronized' && remainingPkbs === 0">
-        {{ $t('ui.header.pkbsSynchronized') }}
-      </span>
+      <span
+        v-if="pkbState === 'synchronized' && remainingPkbs === 0"
+        v-text="$t('ui.header.pkbsSynchronized')"
+      />
     </v-chip>
 
-    <v-btn to="/process" class="text-none" @click="setStep(3)">
-      <span v-if="!jobStatus">
-        {{ $t('ui.header.noCurrentProcessing') }}
-      </span>
-      <span v-else-if="jobStatus === 'abort'">
-        {{ $t('ui.header.processCanceled') }}
-      </span>
-      <span v-else-if="jobStatus === 'end'">
-        {{ $t('ui.header.processEnd') }}
-      </span>
-      <span v-else-if="jobStatus === 'finalization'">
-        {{ $t('ui.header.finalization') }}
-      </span>
-      <span v-else-if="jobStatus === 'progress'">
-        {{ $t('ui.header.currentProcessing', { percent: progress }) }}
-      </span>
-      <span v-else-if="jobStatus === 'error'">
-        {{ $t('ui.header.processError') }}
-      </span>
+    <v-btn to="/process" class="text-none mx-2 body-2" @click="setStep(3)">
+      <span v-if="!jobStatus" v-text="$t('ui.header.noCurrentProcessing')" />
+      <span v-else-if="jobStatus === 'abort'" v-text="$t('ui.header.processCanceled')" />
+      <span v-else-if="jobStatus === 'end'" v-text="$t('ui.header.processEnd')" />
+      <span v-else-if="jobStatus === 'finalization'" v-text="$t('ui.header.finalization')" />
+      <span
+        v-else-if="jobStatus === 'progress'"
+        v-text="$t('ui.header.currentProcessing', { percent: progress })"
+      />
+      <span v-else-if="jobStatus === 'error'" v-text="$t('ui.header.processError')" />
     </v-btn>
-  </v-toolbar>
+  </v-app-bar>
 </template>
 
 <script>

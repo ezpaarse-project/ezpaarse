@@ -1,19 +1,12 @@
 <template>
   <v-card>
-    <v-toolbar
-      class="secondary"
-      dark
-      dense
-      card
-    >
-      <v-toolbar-title>{{ $t('ui.pages.process.settings.designLogFormat') }}</v-toolbar-title>
+    <v-toolbar class="secondary" dark dense flat>
+      <v-toolbar-title v-text="$t('ui.pages.process.settings.designLogFormat')" />
 
       <v-spacer />
 
       <v-toolbar-items>
-        <v-btn flat @click="saveModal = true">
-          {{ $t('ui.save') }}
-        </v-btn>
+        <v-btn text @click="saveModal = true" v-text="$t('ui.save')" />
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
             <v-btn
@@ -26,7 +19,7 @@
               <v-icon>mdi-auto-fix</v-icon>
             </v-btn>
           </template>
-          <span>{{ $t('ui.pages.process.logFormat.findForMe') }}</span>
+          <span v-text="$t('ui.pages.process.logFormat.findForMe')" />
         </v-tooltip>
       </v-toolbar-items>
     </v-toolbar>
@@ -39,50 +32,64 @@
       width="600"
     >
       <v-card>
-        <v-toolbar card dense dark color="primary">
-          <v-toolbar-title>
-            {{ $t('ui.pages.process.logFormat.formatDiscovering') }}
-          </v-toolbar-title>
+        <v-toolbar flat dense dark color="primary">
+          <v-toolbar-title v-text="$t('ui.pages.process.logFormat.formatDiscovering')" />
         </v-toolbar>
 
-        <v-card-text v-if="tryingSettings" class="text-xs-center">
-          <div>{{ $t('ui.pages.process.logFormat.tryingSettings') }}</div>
-        </v-card-text>
+        <v-card-text
+          v-if="tryingSettings"
+          div
+          class="text-center mt-2"
+          v-text="$t('ui.pages.process.logFormat.tryingSettings')"
+        />
 
-        <v-card-text v-else-if="!matchingSettings" class="text-xs-center">
-          <div>{{ $t('ui.pages.process.logFormat.clickToFindOut') }}</div>
-        </v-card-text>
+        <v-card-text
+          v-else-if="!matchingSettings"
+          class="text-center mt-2"
+          v-text="$t('ui.pages.process.logFormat.clickToFindOut')"
+        />
 
-        <v-card-text v-else-if="matchingSettings.length > 0" class="text-xs-center">
-          <div>{{ $t('ui.pages.process.logFormat.foundSettings') }}</div>
-        </v-card-text>
+        <v-card-text
+          v-else-if="matchingSettings.length > 0"
+          div
+          class="text-center mt-2"
+          v-text="$t('ui.pages.process.logFormat.foundSettings')"
+        />
 
-        <v-card-text v-else class="text-xs-center">
-          <div>{{ $t('ui.pages.process.logFormat.noSettingsFound') }}</div>
-        </v-card-text>
+        <v-card-text
+          v-else
+          div
+          class="text-center mt-2"
+          v-text="$t('ui.pages.process.logFormat.noSettingsFound')"
+        />
 
         <v-list v-if="matchingSettings && matchingSettings.length > 0">
-          <v-list-tile
+          <v-list-item
             v-for="s in matchingSettings"
             :key="s.id"
             :disabled="tryingSettings"
             @click="selectedSetting = s.id; discoverModal = false"
           >
-            <v-list-tile-content>
-              <v-list-tile-title>{{ s.fullName }}</v-list-tile-title>
-            </v-list-tile-content>
-          </v-list-tile>
+            <v-list-item-content>
+              <v-list-item-title v-text="s.fullName" />
+            </v-list-item-content>
+          </v-list-item>
         </v-list>
 
         <v-divider />
 
         <v-card-actions>
           <v-spacer />
-          <v-btn flat :disabled="tryingSettings" @click="discoverModal = false">
-            {{ $t('ui.close') }}
-          </v-btn>
+          <v-btn
+            text
+            class="body-2"
+            :disabled="tryingSettings"
+            @click="discoverModal = false"
+            v-text="$t('ui.close')"
+          />
           <v-btn
             color="primary"
+            class="body-2"
             :disabled="!logLines || tryingSettings"
             :loading="tryingSettings"
             @click="tryPredefinedSettings"
@@ -124,15 +131,15 @@
                 hide-details
               >
                 <template v-slot:item="{ item }">
-                  <v-list-tile-content>
-                    <v-list-tile-title v-text="item.fullName" />
-                    <v-list-tile-sub-title>
+                  <v-list-item-content>
+                    <v-list-item-title v-text="item.fullName" />
+                    <v-list-item-subtitle>
                       {{ item.country | alphaToName($i18n.locale) }}
-                    </v-list-tile-sub-title>
-                  </v-list-tile-content>
-                  <v-list-tile-action>
-                    <v-list-tile-action-text>{{ item.id }}</v-list-tile-action-text>
-                  </v-list-tile-action>
+                    </v-list-item-subtitle>
+                  </v-list-item-content>
+                  <v-list-item-action>
+                    <v-list-item-action-text v-text="item.id" />
+                  </v-list-item-action>
                 </template>
               </v-autocomplete>
             </v-flex>
@@ -156,10 +163,7 @@
               />
             </v-flex>
 
-            <v-flex
-              v-if="logType"
-              xs12
-            >
+            <v-flex v-if="logType" xs12>
               <v-text-field
                 v-model="logFormat"
                 :label="$t('ui.pages.process.settings.logFormat')"
@@ -171,11 +175,7 @@
       </v-card>
 
       <v-card>
-        <v-toolbar
-          card
-          height="8px"
-          :color="cardColor"
-        />
+        <v-toolbar height="8px" :color="cardColor" flat />
 
         <v-card-title>
           <div>
@@ -189,16 +189,18 @@
                 color="primary"
               />
             </div>
-            <div class="subheading">
+            <div class="subtitle-1">
               {{ $t('ui.pages.process.logFormat.firstLogLine') }}
             </div>
           </div>
         </v-card-title>
 
         <template v-if="result">
-          <v-card-text v-if="result.autoDetect && !result.strictMatch" class="red--text">
-            {{ $t('ui.pages.process.logFormat.detectionFailed') }}
-          </v-card-text>
+          <v-card-text
+            v-if="result.autoDetect && !result.strictMatch"
+            class="red--text"
+            v-text="$t('ui.pages.process.logFormat.detectionFailed')"
+          />
 
           <v-expansion-panel v-else v-model="expandedPanels" expand>
             <v-expansion-panel-content>
@@ -216,12 +218,14 @@
               <v-card>
                 <v-card-text>
                   <div v-if="result.format">
-                    <span class="green--text">
-                      {{ result.format.substr(0, result.formatBreak) }}
-                    </span>
-                    <span class="red--text">
-                      {{ result.format.substr(result.formatBreak) }}
-                    </span>
+                    <span
+                      class="green--text"
+                      v-text="result.format.substr(0, result.formatBreak)"
+                    />
+                    <span
+                      class="red--text"
+                      v-text="result.format.substr(result.formatBreak)"
+                    />
                   </div>
                 </v-card-text>
               </v-card>
@@ -242,17 +246,17 @@
               <v-card>
                 <v-card-text>
                   <div v-if="result.regexp">
-                    <span class="green--text">
-                      {{ result.regexp.substr(0, result.regexpBreak) }}
-                    </span>
-                    <span class="red--text">
-                      {{ result.regexp.substr(result.regexpBreak) }}
-                    </span>
+                    <span
+                      class="green--text"
+                      v-text="result.regexp.substr(0, result.regexpBreak)"
+                    />
+                    <span
+                      class="red--text"
+                      v-text="result.regexp.substr(result.regexpBreak)"
+                    />
                   </div>
 
-                  <div v-else>
-                    {{ $t('ui.pages.process.logFormat.regexFailed') }}
-                  </div>
+                  <div v-else v-text="$t('ui.pages.process.logFormat.regexFailed')" />
                 </v-card-text>
               </v-card>
             </v-expansion-panel-content>
@@ -276,7 +280,7 @@
                     :value="true"
                     color="warning"
                     icon="mdi-alert-outline"
-                    outline
+                    outlined
                   >
                     {{ $t(`ui.pages.process.logFormat.missing.${missing}`) }}
                   </v-alert>
@@ -296,15 +300,14 @@
                         <th
                           v-for="header in headers"
                           :key="header.text"
-                        >
-                          {{ $t(`ui.pages.process.logFormat.${header.text}`) }}
-                        </th>
+                          v-text="$t(`ui.pages.process.logFormat.${header.text}`)"
+                        />
                       </tr>
                     </template>
 
                     <template v-slot:items="{ item }">
-                      <td>{{ item.name }}</td>
-                      <td>{{ item.value }}</td>
+                      <td v-text="item.name" />
+                      <td v-text="item.value" />
                     </template>
                   </v-data-table>
                 </v-card-text>
@@ -315,15 +318,14 @@
       </v-card>
     </v-card-text>
 
-    <v-card-text class="text-xs-center">
+    <v-card-text class="text-center">
       <v-btn
         large
         color="primary"
         :disabled="!logLines"
         @click="process"
-      >
-        {{ $t('ui.pages.process.processlogLines') }}
-      </v-btn>
+        v-text="$t('ui.pages.process.processlogLines')"
+      />
     </v-card-text>
   </v-card>
 </template>
@@ -331,7 +333,7 @@
 <script>
 import debounce from 'lodash.debounce';
 import i18nIsoCode from 'i18n-iso-countries';
-import SettingsSaver from '~/components/SettingsSaver';
+import SettingsSaver from '~/components/SettingsSaver.vue';
 
 export default {
   auth: true,

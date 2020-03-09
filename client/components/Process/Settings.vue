@@ -13,15 +13,15 @@
       hide-details
     >
       <template v-slot:item="{ item }">
-        <v-list-tile-content>
-          <v-list-tile-title v-text="item.fullName" />
-          <v-list-tile-sub-title v-if="item.country">
+        <v-list-item-content>
+          <v-list-item-title v-text="item.fullName" />
+          <v-list-item-subtitle v-if="item.country">
             {{ item.country | alphaToName($i18n.locale) }}
-          </v-list-tile-sub-title>
-        </v-list-tile-content>
-        <v-list-tile-action>
-          <v-list-tile-action-text>{{ item.id }}</v-list-tile-action-text>
-        </v-list-tile-action>
+          </v-list-item-subtitle>
+        </v-list-item-content>
+        <v-list-item-action>
+          <v-list-item-action-text v-text="item.id" />
+        </v-list-item-action>
       </template>
       <template v-if="settings.id" v-slot:append-outer>
         <v-menu offset-y>
@@ -31,13 +31,15 @@
             </v-icon>
           </template>
           <v-list>
-            <v-list-tile>
-              <v-list-tile-content>
+            <v-list-item>
+              <v-list-item-content>
                 <v-dialog v-model="removeSetting" max-width="600">
                   <template v-slot:activator="{ on }">
-                    <v-list-tile-title style="cursor: pointer;" v-on="on">
-                      {{ $t('ui.remove') }}
-                    </v-list-tile-title>
+                    <v-list-item-title
+                      style="cursor: pointer;"
+                      v-on="on"
+                      v-text="$t('ui.remove')"
+                    />
                   </template>
                   <v-card>
                     <v-card-title
@@ -51,7 +53,7 @@
                     <v-card-actions>
                       <v-spacer />
                       <v-btn
-                        flat
+                        text
                         @click="removeSetting = false"
                         v-text="$t('ui.close')"
                       />
@@ -64,38 +66,30 @@
                     </v-card-actions>
                   </v-card>
                 </v-dialog>
-              </v-list-tile-content>
-            </v-list-tile>
-            <v-list-tile @click="downloadPredefinedSettings">
-              <v-list-tile-content>
-                <v-list-tile-title style="cursor: pointer;">
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item @click="downloadPredefinedSettings">
+              <v-list-item-content>
+                <v-list-item-title style="cursor: pointer;">
                   {{ $t('ui.export') }}
-                </v-list-tile-title>
-              </v-list-tile-content>
-            </v-list-tile>
+                </v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
           </v-list>
         </v-menu>
       </template>
     </v-autocomplete>
 
     <v-card v-if="settings">
-      <v-toolbar color="secondary" dark card dense>
-        <v-toolbar-title>{{ $t('ui.pages.process.settings.title') }}</v-toolbar-title>
+      <v-toolbar color="secondary" dark flat dense>
+        <v-toolbar-title v-text="$t('ui.pages.process.settings.title')" />
         <v-spacer />
         <v-toolbar-items class="hidden-xs-only">
-          <v-btn flat @click="openSaveDialog(false)">
-            {{ $t('ui.save') }}
-          </v-btn>
-          <v-btn flat @click="resetSettings">
-            {{ $t('ui.reset') }}
-          </v-btn>
+          <v-btn text @click="openSaveDialog(false)" v-text="$t('ui.save')" />
+          <v-btn text @click="resetSettings" v-text="$t('ui.reset')" />
           <v-tooltip bottom>
             <template v-slot:activator="{ on }">
-              <v-btn
-                icon
-                v-on="on"
-                @click="openSaveDialog(true)"
-              >
+              <v-btn icon v-on="on" @click="openSaveDialog(true)">
                 <v-icon>mdi-download</v-icon>
               </v-btn>
             </template>
@@ -104,294 +98,251 @@
         </v-toolbar-items>
 
         <v-toolbar-items class="hidden-sm-and-up">
-          <v-btn icon flat @click="openSaveDialog(false)">
+          <v-btn icon text @click="openSaveDialog(false)">
             <v-icon>mdi-content-save</v-icon>
           </v-btn>
-          <v-btn icon flat @click="resetSettings">
+          <v-btn icon text @click="resetSettings">
             <v-icon>mdi-undo-variant</v-icon>
           </v-btn>
         </v-toolbar-items>
       </v-toolbar>
 
-      <v-expansion-panel expand>
-        <v-expansion-panel-content>
-          <template v-slot:header>
-            <div>{{ $t('ui.pages.process.settings.input') }}</div>
-          </template>
-          <v-card>
-            <v-card-text>
-              <v-layout row wrap>
-                <v-flex xs4 pr-2>
-                  <v-select
-                    v-model="logType"
-                    :items="logTypes"
-                    item-value="value"
-                    item-text="text"
-                    :label="$t('ui.pages.process.settings.typeOfLog')"
-                  />
-                </v-flex>
+      <v-expansion-panels accordion multiple>
+        <v-expansion-panel expand>
+          <v-expansion-panel-header v-text="$t('ui.pages.process.settings.input')" />
+          <v-expansion-panel-content>
+            <v-card flat>
+              <v-card-text>
+                <v-layout row wrap>
+                  <v-flex xs4 pr-2>
+                    <v-select
+                      v-model="logType"
+                      :items="logTypes"
+                      item-value="value"
+                      item-text="text"
+                      :label="$t('ui.pages.process.settings.typeOfLog')"
+                    />
+                  </v-flex>
 
-                <v-flex xs4>
-                  <v-text-field
-                    v-model="dateFormat"
-                    :label="$t('ui.pages.process.settings.dateFormat')"
-                    placeholder="DD/MMM/YYYY:HH:mm:ss Z"
-                    required
-                  />
-                </v-flex>
+                  <v-flex xs4>
+                    <v-text-field
+                      v-model="dateFormat"
+                      :label="$t('ui.pages.process.settings.dateFormat')"
+                      placeholder="DD/MMM/YYYY:HH:mm:ss Z"
+                      required
+                    />
+                  </v-flex>
 
-                <v-flex xs4 pl-2>
-                  <v-text-field
-                    v-model="forceParser"
-                    :label="$t('ui.pages.process.settings.defaultParser')"
-                    placeholder="dspace"
-                    required
-                  />
-                </v-flex>
+                  <v-flex xs4 pl-2>
+                    <v-text-field
+                      v-model="forceParser"
+                      :label="$t('ui.pages.process.settings.defaultParser')"
+                      placeholder="dspace"
+                      required
+                    />
+                  </v-flex>
 
-                <v-flex
-                  v-if="haveLogFormat"
-                  xs12
-                >
-                  <v-text-field
-                    v-model="logFormat"
-                    :label="$t('ui.pages.process.settings.logFormat')"
-                    :value="logFormat"
-                  />
-                </v-flex>
-              </v-layout>
-            </v-card-text>
-          </v-card>
-        </v-expansion-panel-content>
+                  <v-flex v-if="haveLogFormat" xs12>
+                    <v-text-field
+                      v-model="logFormat"
+                      :label="$t('ui.pages.process.settings.logFormat')"
+                      :value="logFormat"
+                    />
+                  </v-flex>
+                </v-layout>
+              </v-card-text>
+            </v-card>
+          </v-expansion-panel-content>
+        </v-expansion-panel>
 
-        <v-expansion-panel-content>
-          <template v-slot:header>
-            <div>{{ $t('ui.pages.process.settings.output') }}</div>
-          </template>
-          <v-card>
-            <v-card-text>
-              <v-layout
-                row
-                wrap
-              >
-                <v-flex
-                  xs6
-                  pr-2
-                >
-                  <v-select
-                    v-model="outputFormat"
-                    :items="outputFormats"
-                    :label="$t('ui.pages.process.settings.outputFormat')"
-                  />
-                </v-flex>
+        <v-expansion-panel>
+          <v-expansion-panel-header v-text="$t('ui.pages.process.settings.output')" />
+          <v-expansion-panel-content>
+            <v-card flat>
+              <v-card-text>
+                <v-layout row wrap>
+                  <v-flex xs6 pr-2>
+                    <v-select
+                      v-model="outputFormat"
+                      :items="outputFormats"
+                      :label="$t('ui.pages.process.settings.outputFormat')"
+                    />
+                  </v-flex>
 
-                <v-flex xs6>
-                  <v-select
-                    v-model="tracesLevel"
-                    :items="tracesLevels"
-                    :label="$t('ui.pages.process.settings.traceLevel')"
-                  />
-                </v-flex>
+                  <v-flex xs6>
+                    <v-select
+                      v-model="tracesLevel"
+                      :items="tracesLevels"
+                      :label="$t('ui.pages.process.settings.traceLevel')"
+                    />
+                  </v-flex>
 
-                <v-flex xs12>
-                  <v-combobox
-                    v-model="notificationMails"
-                    :label="$t('ui.pages.process.settings.notificationsEmails')"
-                    chips
-                    clearable
-                    multiple
-                  >
-                    <template v-slot:selection="{ item, parent, selected }">
-                      <v-chip
-                        :selected="selected"
-                        label
-                        small
-                      >
-                        <span class="pr-2">{{ item }}</span>
-                        <v-icon
-                          small
-                          @click="parent.selectItem(item)"
-                        >
-                          mdi-close
-                        </v-icon>
-                      </v-chip>
-                    </template>
-                  </v-combobox>
-                </v-flex>
-
-                <v-flex xs12>
-                  <v-checkbox
-                    v-model="counterReports"
-                    value="jr1"
-                    :label="$t('ui.pages.process.settings.counterReports')"
-                  />
-                </v-flex>
-
-                <v-flex xs12>
-                  <h4>{{ $t('ui.pages.process.settings.outputFields') }} :</h4>
-                </v-flex>
-                <v-flex xs6>
-                  <v-combobox
-                    v-model="addedFields"
-                    :label="$t('ui.pages.process.settings.add')"
-                    chips
-                    clearable
-                    multiple
-                    append-icon=""
-                  >
-                    <template v-slot:selection="{ item, parent, selected }">
-                      <v-chip
-                        :selected="selected"
-                        label
-                        small
-                      >
-                        <span class="pr-2">{{ item }}</span>
-                        <v-icon
-                          small
-                          @click="parent.selectItem(item)"
-                        >
-                          mdi-close
-                        </v-icon>
-                      </v-chip>
-                    </template>
-                  </v-combobox>
-                </v-flex>
-
-                <v-flex
-                  xs6
-                  pl-2
-                >
-                  <v-combobox
-                    v-model="removedFields"
-                    chips
-                    clearable
-                    :label="$t('ui.pages.process.settings.remove')"
-                    multiple
-                    append-icon=""
-                  >
-                    <template v-slot:selection="{ item, parent, selected }">
-                      <v-chip
-                        :selected="selected"
-                        label
-                        small
-                      >
-                        <span class="pr-2">{{ item }}</span>
-                        <v-icon
-                          small
-                          @click="parent.selectItem(item)"
-                        >
-                          mdi-close
-                        </v-icon>
-                      </v-chip>
-                    </template>
-                  </v-combobox>
-                </v-flex>
-
-                <v-flex xs12>
-                  <v-combobox
-                    v-model="cryptedFields"
-                    chips
-                    clearable
-                    :label="$t('ui.pages.process.settings.cryptedFields')"
-                    multiple
-                    append-icon=""
-                  >
-                    <template v-slot:selection="{ item, parent, selected }">
-                      <v-chip
-                        :selected="selected"
-                        label
-                        small
-                      >
-                        <span class="pr-2">{{ item }}</span>
-                        <v-icon
-                          small
-                          @click="parent.selectItem(item)"
-                        >
-                          mdi-close
-                        </v-icon>
-                      </v-chip>
-                    </template>
-                  </v-combobox>
-                </v-flex>
-
-                <v-flex
-                  xs12
-                  mt-3
-                >
-                  {{ $t('ui.pages.process.settings.counterReportDetail') }}
-                </v-flex>
-              </v-layout>
-            </v-card-text>
-          </v-card>
-        </v-expansion-panel-content>
-
-        <v-expansion-panel-content>
-          <template v-slot:header>
-            <div>{{ $t('ui.pages.process.settings.advancedHeaders') }}</div>
-          </template>
-          <v-card>
-            <v-container fluid grid-list-md>
-              <v-layout
-                v-for="(header, index) in settings.headers"
-                :key="index"
-                row
-              >
-                <v-flex xs6 md4>
-                  <v-combobox
-                    :value="header.name"
-                    :return-object="false"
-                    :items="headers"
-                    item-text="name"
-                    item-value="name"
-                    :label="$t('ui.name')"
-                    hide-details
-                    solo
-                    @input="value => updateHeaderName(index, value)"
-                  >
-                    <template v-slot:item="{ item }">
-                      <v-list-tile-content>
-                        {{ item.name }}
-                      </v-list-tile-content>
-                      <v-spacer />
-                      <v-list-tile-action @click.stop>
-                        <v-btn
-                          icon
-                          :href="`https://ezpaarse.readthedocs.io/en/master/configuration/parametres.html#${item.anchor}`"
-                          target="_blank"
-                        >
-                          <v-icon color="accent">
-                            mdi-information
+                  <v-flex xs12>
+                    <v-combobox
+                      v-model="notificationMails"
+                      :label="$t('ui.pages.process.settings.notificationsEmails')"
+                      chips
+                      clearable
+                      multiple
+                    >
+                      <template v-slot:selection="{ item, parent }">
+                        <v-chip label small>
+                          <span class="pr-2" v-text="item" />
+                          <v-icon small @click="parent.selectItem(item)">
+                            mdi-close
                           </v-icon>
-                        </v-btn>
-                      </v-list-tile-action>
-                    </template>
-                  </v-combobox>
-                </v-flex>
-                <v-flex grow>
-                  <v-text-field
-                    :value="header.value"
-                    append-outer-icon="mdi-close-circle"
-                    :label="$t('ui.value')"
-                    hide-details
-                    solo
-                    @click:append-outer="removeHeader(index)"
-                    @input="value => updateHeaderValue(index, value)"
-                  />
-                </v-flex>
-              </v-layout>
+                        </v-chip>
+                      </template>
+                    </v-combobox>
+                  </v-flex>
 
-              <div class="text-xs-center">
-                <v-btn color="accent" @click="addHeader">
-                  <v-icon left>
-                    mdi-plus
-                  </v-icon>
-                  {{ $t('ui.add') }}
-                </v-btn>
-              </div>
-            </v-container>
-          </v-card>
-        </v-expansion-panel-content>
-      </v-expansion-panel>
+                  <v-flex xs12>
+                    <v-checkbox
+                      v-model="counterReports"
+                      value="jr1"
+                      :label="$t('ui.pages.process.settings.counterReports')"
+                    />
+                  </v-flex>
+
+                  <v-flex xs12>
+                    <h4>{{ $t('ui.pages.process.settings.outputFields') }} :</h4>
+                  </v-flex>
+                  <v-flex xs6>
+                    <v-combobox
+                      v-model="addedFields"
+                      :label="$t('ui.pages.process.settings.add')"
+                      chips
+                      clearable
+                      multiple
+                      append-icon=""
+                    >
+                      <template v-slot:selection="{ item, parent }">
+                        <v-chip label small>
+                          <span class="pr-2" v-text="item" />
+                          <v-icon small @click="parent.selectItem(item)">
+                            mdi-close
+                          </v-icon>
+                        </v-chip>
+                      </template>
+                    </v-combobox>
+                  </v-flex>
+
+                  <v-flex xs6 pl-2>
+                    <v-combobox
+                      v-model="removedFields"
+                      chips
+                      clearable
+                      :label="$t('ui.pages.process.settings.remove')"
+                      multiple
+                      append-icon=""
+                    >
+                      <template v-slot:selection="{ item, parent }">
+                        <v-chip label small>
+                          <span class="pr-2">{{ item }}</span>
+                          <v-icon small @click="parent.selectItem(item)">
+                            mdi-close
+                          </v-icon>
+                        </v-chip>
+                      </template>
+                    </v-combobox>
+                  </v-flex>
+
+                  <v-flex xs12>
+                    <v-combobox
+                      v-model="cryptedFields"
+                      chips
+                      clearable
+                      :label="$t('ui.pages.process.settings.cryptedFields')"
+                      multiple
+                      append-icon=""
+                    >
+                      <template v-slot:selection="{ item, parent }">
+                        <v-chip label small>
+                          <span class="pr-2" v-text="item" />
+                          <v-icon small @click="parent.selectItem(item)">
+                            mdi-close
+                          </v-icon>
+                        </v-chip>
+                      </template>
+                    </v-combobox>
+                  </v-flex>
+
+                  <v-flex
+                    xs12
+                    mt-3
+                    v-text="$t('ui.pages.process.settings.counterReportDetail')"
+                  />
+                </v-layout>
+              </v-card-text>
+            </v-card>
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+
+        <v-expansion-panel>
+          <v-expansion-panel-header v-text="$t('ui.pages.process.settings.advancedHeaders')" />
+          <v-expansion-panel-content>
+            <v-card flat>
+              <v-container fluid grid-list-md>
+                <v-layout
+                  v-for="(header, index) in settings.headers"
+                  :key="index"
+                  row
+                >
+                  <v-flex xs6 md4>
+                    <v-combobox
+                      :value="header.name"
+                      :return-object="false"
+                      :items="headers"
+                      item-text="name"
+                      item-value="name"
+                      :label="$t('ui.name')"
+                      hide-details
+                      solo
+                      @input="value => updateHeaderName(index, value)"
+                    >
+                      <template v-slot:item="{ item }">
+                        <v-list-item-content v-text="item.name" />
+                        <v-spacer />
+                        <v-list-item-action @click.stop>
+                          <v-btn
+                            icon
+                            :href="`https://ezpaarse.readthedocs.io/en/master/configuration/parametres.html#${item.anchor}`"
+                            target="_blank"
+                          >
+                            <v-icon color="accent">
+                              mdi-information
+                            </v-icon>
+                          </v-btn>
+                        </v-list-item-action>
+                      </template>
+                    </v-combobox>
+                  </v-flex>
+                  <v-flex grow>
+                    <v-text-field
+                      :value="header.value"
+                      append-outer-icon="mdi-close-circle"
+                      :label="$t('ui.value')"
+                      hide-details
+                      solo
+                      @click:append-outer="removeHeader(index)"
+                      @input="value => updateHeaderValue(index, value)"
+                    />
+                  </v-flex>
+                </v-layout>
+
+                <div class="text-center mt-3">
+                  <v-btn color="accent" @click="addHeader">
+                    <v-icon left>
+                      mdi-plus
+                    </v-icon>
+                    <span v-text="$t('ui.add')" />
+                  </v-btn>
+                </div>
+              </v-container>
+            </v-card>
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+      </v-expansion-panels>
     </v-card>
 
     <SettingsSaver :visible.sync="saveDialog" :import-setting="importSetting" />
@@ -401,7 +352,7 @@
 <script>
 import i18nIsoCode from 'i18n-iso-countries';
 import { saveAs } from 'file-saver';
-import SettingsSaver from '~/components/SettingsSaver';
+import SettingsSaver from '~/components/SettingsSaver.vue';
 
 export default {
   components: {

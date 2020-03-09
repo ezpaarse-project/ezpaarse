@@ -6,12 +6,16 @@
   >
     <v-form ref="saveForm" v-model="isValid" @submit.prevent="saveCustomSettings">
       <v-card>
-        <v-card-title v-if="importSetting" class="headline">
-          {{ $t('ui.pages.process.settings.importPredefinedSettings') }}
-        </v-card-title>
-        <v-card-title v-else class="headline">
-          {{ $t('ui.pages.process.settings.savePredefinedSettings') }}
-        </v-card-title>
+        <v-card-title
+          v-if="importSetting"
+          class="headline"
+          v-text="$t('ui.pages.process.settings.importPredefinedSettings')"
+        />
+        <v-card-title
+          v-else
+          class="headline"
+          v-text="$t('ui.pages.process.settings.savePredefinedSettings')"
+        />
         <v-card-text>
           <p v-if="importSetting">
             <input ref="upload" type="file" name="upload" @change="uploadSetting">
@@ -25,14 +29,14 @@
           <v-text-field
             v-model="fullName"
             :label="$t('ui.name')"
-            box
+            filled
             required
             :rules="[fullNameRequired, nameIsAvailable]"
           />
           <v-text-field
             v-model="id"
             :label="$t('ui.identifier')"
-            box
+            filled
             required
             :rules="[identifierRequired, identifierIsAvailable]"
           />
@@ -42,26 +46,27 @@
             item-text="name"
             item-value="alpha2"
             :label="$t('ui.country')"
-            box
+            filled
             clearable
           />
         </v-card-text>
         <v-card-actions>
           <v-spacer />
           <v-btn
-            flat
+            class="body-2"
+            text
             @click="setVisibility(false)"
           >
             {{ $t('ui.close') }}
           </v-btn>
           <v-btn
+            class="body-2"
             color="primary"
             type="submit"
             :loading="saving"
             :disabled="!isValid"
-          >
-            {{ $t('ui.save') }}
-          </v-btn>
+            v-text="$t('ui.save')"
+          />
         </v-card-actions>
       </v-card>
     </v-form>
@@ -86,6 +91,7 @@ export default {
   watch: {
     visible (value) {
       if (value) {
+        if (!this.$refs.saveForm) { return; }
         this.$refs.saveForm.resetValidation();
         this.fullName = this.settings.fullName || '';
         this.id = this.settings.id || '';

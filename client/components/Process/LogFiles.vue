@@ -5,7 +5,6 @@
       class="dropzone"
       align-center
       justify-center
-      fill-height
       @dragover="dragAndDrop('over')"
       @dragleave="dragAndDrop('leave')"
     >
@@ -15,58 +14,49 @@
         multiple
         @change="handleFilesUpload"
       >
-      <v-flex class="headline grey--text text-xs-center">
-        {{ $t('ui.pages.process.logFiles.clickToAdd') }}
-      </v-flex>
+      <v-flex
+        class="headline grey--text text-center"
+        v-text="$t('ui.pages.process.logFiles.clickToAdd')"
+      />
     </v-layout>
 
     <v-data-table
       v-if="logFiles.length > 0"
       :headers="headers"
       :items="logFiles"
-      hide-actions
+      hide-default-footer
       class="elevation-1 my-3"
     >
-      <template v-slot:items="props">
-        <td class="justify-center layout px-0">
-          <v-icon
-            small
-            @click="removeLogsFile(props.item.id)"
-          >
-            mdi-delete
-          </v-icon>
-        </td>
-        <td>
-          {{ props.item.file.name }}
-        </td>
-        <td class="text-xs-right">
-          {{ props.item.file.size | prettyBytes }}
-        </td>
+      <template v-slot:body="{ items }">
+        <tr v-for="(item, index) in items" :key="index">
+          <td class="text-center">
+            <v-icon small @click="removeLogsFile(item.id)">
+              mdi-delete
+            </v-icon>
+          </td>
+          <td v-text="item.file.name" />
+          <td class="text-right">
+            {{ item.file.size | prettyBytes }}
+          </td>
+        </tr>
       </template>
 
       <template v-slot:footer>
-        <td :colspan="headers.length">
-          <v-layout align-center>
-            <v-flex shrink class="text-xs-left">
-              <v-btn
-                color="error"
-                outline
-                small
-                @click="clearList"
-              >
-                <v-icon left>
-                  mdi-delete-forever
-                </v-icon>
-                {{ $t('ui.pages.process.logFiles.removeList') }}
-              </v-btn>
-            </v-flex>
+        <v-toolbar dense flat class="my-2">
+          <v-btn color="error" outlined small @click="clearList">
+            <v-icon left>
+              mdi-delete-forever
+            </v-icon>
+            <span v-text="$t('ui.pages.process.logFiles.removeList')" />
+          </v-btn>
 
-            <v-flex class="text-xs-right">
-              {{ logFiles.length }} {{ $t('ui.pages.process.logFiles.selectedFiles') }}
-              ({{ totalFileSize }} {{ $t('ui.pages.process.logFiles.total') }})
-            </v-flex>
-          </v-layout>
-        </td>
+          <v-spacer />
+
+          <span>
+            {{ logFiles.length }} {{ $t('ui.pages.process.logFiles.selectedFiles') }}
+            ({{ totalFileSize }} {{ $t('ui.pages.process.logFiles.total') }})
+          </span>
+        </v-toolbar>
       </template>
     </v-data-table>
   </v-layout>
@@ -83,10 +73,12 @@ export default {
       return prettyBytes(size);
     }
   },
-  data () {
-    return {
-      headers: [
+  computed: {
+    headers () {
+      return [
         {
+          text: '',
+          value: 'action',
           sortable: false,
           width: 10
         },
@@ -102,26 +94,8 @@ export default {
           sortable: false,
           value: 'size'
         }
-      ],
-      steps: [
-        {
-          target: '#addFiles',
-          content: 'Cliquez ou déposez les fichiers a traiter.',
-          params: {
-            placement: 'top'
-          }
-        },
-        {
-          target: '#logFiles',
-          content: 'Traiter le ou les fichiers de logs.',
-          params: {
-            placement: 'top'
-          }
-        }
-      ]
-    };
-  },
-  computed: {
+      ];
+    },
     logFiles () {
       return this.$store.state.process.logFiles;
     },

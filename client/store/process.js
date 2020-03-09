@@ -1,5 +1,6 @@
-import { CancelToken } from 'axios';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import Vue from 'vue';
+import { CancelToken } from 'axios';
 import uuid from 'uuid';
 import get from 'lodash.get';
 import api from './api';
@@ -120,7 +121,7 @@ export default {
       }
     },
     UPLOAD_TO_EZMESURE (ctx, { jobId, data }) {
-      return api.uploadToEzMesure(this.$axios, jobId, data);
+      return api.uploadToEzMesure(jobId, data);
     },
     CANCEL_PROCESS ({ commit, state }) {
       if (state.cancelSource) {
@@ -158,12 +159,12 @@ export default {
       commit('CLEAR_LOG_FILES');
     },
     GET_REPORT ({ commit }, data) {
-      return api.getReport(this.$axios, data).then(res => {
+      return api.getReport(data).then(res => {
         commit('SET_REPORT', res);
       });
     },
     async GET_LOGGING ({ commit }, jobId) {
-      const logging = await api.getLogging(this.$axios, jobId);
+      const logging = await api.getLogging(jobId);
 
       if (typeof logging !== 'string') { return; }
 
@@ -182,13 +183,13 @@ export default {
       commit('SET_LOGGING', lines.filter(l => l));
     },
     LOG_PARSER (ctx, data) {
-      return api.getLogParser(this.$axios, data);
+      return api.getLogParser(data);
     },
     GET_TREATMENTS_BY_USER ({ commit }, userId) {
-      return api.getTreatmentsByUser(this.$axios, userId).then(res => commit('SET_TREATMENTS', res));
+      return api.getTreatmentsByUser(userId).then(res => commit('SET_TREATMENTS', res));
     },
     GET_TREATMENTS ({ commit }) {
-      return api.getTreatments(this.$axios).then(res => commit('SET_TREATMENTS', res));
+      return api.getTreatments().then(res => commit('SET_TREATMENTS', res));
     }
   }
 };

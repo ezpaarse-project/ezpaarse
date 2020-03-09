@@ -26,9 +26,9 @@ app.get('/session', auth.ensureAuthenticated(false), function (req, res, next) {
 app.post('/login', bodyParser.urlencoded({ extended: true }), bodyParser.json(),
   passport.authenticate('local'), function (req, res) {
     if (req.body.remember) {
-      req.sessionCookies.maxAge = 15778462980; // 6 months
+      req.session.cookie.maxAge = 15778462980; // 6 months
     } else {
-      req.sessionCookies.expires = false;
+      req.session.cookie.expires = false;
     }
     res.status(200).json({
       _id: req.user._id,

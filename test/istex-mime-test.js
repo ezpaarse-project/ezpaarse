@@ -1,27 +1,27 @@
 /*global describe, it*/
 'use strict';
 
-var path    = require('path');
-var should  = require('should');
-var helpers = require('./helpers.js');
+const path    = require('path');
+const should  = require('should');
+const helpers = require('./helpers.js');
 
 // ce test est a la fois pour tester les mimes et les rtypes
-var logFile = path.join(__dirname, 'dataset/istex-mime-test.log');
+const logFile = path.join(__dirname, 'dataset/istex-mime-test.log');
 
-describe('istex consultations test mime', function () {
-  it('should be correctly enriched (@01)', function (done) {
-    var headers = {
+describe('istex consultations test mime', () => {
+  it('should be correctly enriched (@01)', (done) => {
+    const headers = {
       'Accept': 'application/json',
       'Force-Parser': 'istex',
       'Istex-Enrich': true
     };
 
-    helpers.post('/', logFile, headers, function (err, res, body) {
+    helpers.post('/', logFile, headers, (err, res, body) => {
       if (!res) { throw new Error('ezPAARSE is not running'); }
       if (err)  { throw err; }
       res.statusCode.should.equal(200, 'expected 200, got ' + res.statusCode);
 
-      var result = JSON.parse(body);
+      const result = JSON.parse(body);
       result.should.be.an.instanceOf(Array).and.have.lengthOf(21);
       ///document/55420CDEEA0F6538E215A511C72E2E5E57570138/fulltext/original
       should.equal(result[0]['mime'], 'PDF');
@@ -109,16 +109,16 @@ describe('istex consultations test mime', function () {
       should.equal(result[20]['rtype'], 'MISC');
 
 
-      var reportURL = res.headers['job-report'];
+      const reportURL = res.headers['job-report'];
       should.exist(reportURL, 'The header "Job-Report" was not sent by the server');
 
-      helpers.get(reportURL, function (error, response, reportBody) {
+      helpers.get(reportURL, (error, response, reportBody) => {
         if (!response) { throw new Error('ezPAARSE is not running'); }
         if (error)     { throw error; }
         response.statusCode.should.equal(200,
           'failed to get the report, server responded with a code ' + response.statusCode);
 
-        var report = JSON.parse(reportBody);
+        const report = JSON.parse(reportBody);
         report.should.have.property('general');
         report.general.should.have.property('Job-Done');
         report.general['Job-Done'].should.not.equal(false, 'Istex has not completed treatment');
@@ -126,5 +126,5 @@ describe('istex consultations test mime', function () {
         done();
       });
     });
-  }).timeout(10000);
+  }).timeout(30000);
 });

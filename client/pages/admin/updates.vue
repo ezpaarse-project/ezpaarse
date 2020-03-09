@@ -1,23 +1,14 @@
 <template>
   <v-card>
-    <v-toolbar
-      class="secondary"
-      dense
-      dark
-      card
-    >
+    <v-toolbar class="secondary" dense dark flat>
       <v-toolbar-title>
         {{ $t('ui.pages.admin.updates.title') }}
       </v-toolbar-title>
     </v-toolbar>
 
     <v-card-text>
-      <div class="headline">
-        {{ $t('ui.pages.admin.updates.resources') }}
-      </div>
-      <p>
-        {{ $t('ui.pages.admin.updates.predefinedParameters') }}
-      </p>
+      <div class="headline" v-text="$t('ui.pages.admin.updates.resources')" />
+      <p v-text="$t('ui.pages.admin.updates.predefinedParameters')" />
 
       <v-alert
         :value="resources.hasLocalChanges"
@@ -35,8 +26,8 @@
             dark
             small
           >
-            <v-avatar>
-              <v-icon>
+            <v-avatar left>
+              <v-icon small>
                 {{ resources.isOutdated ? 'mdi-alert-circle' : 'mdi-check-circle' }}
               </v-icon>
             </v-avatar>
@@ -64,12 +55,8 @@
     <v-divider />
 
     <v-card-text>
-      <div class="headline">
-        {{ $t('ui.pages.admin.updates.middlewares') }}
-      </div>
-      <p>
-        {{ $t('ui.pages.admin.updates.middlewaresInfo') }}
-      </p>
+      <div class="headline" v-text="$t('ui.pages.admin.updates.middlewares')" />
+      <p v-text="$t('ui.pages.admin.updates.middlewaresInfo')" />
 
       <v-alert
         :value="middlewares.hasLocalChanges"
@@ -87,8 +74,8 @@
             dark
             small
           >
-            <v-avatar>
-              <v-icon>
+            <v-avatar left>
+              <v-icon small>
                 {{ middlewares.isOutdated ? 'mdi-alert-circle' : 'mdi-check-circle' }}
               </v-icon>
             </v-avatar>
@@ -116,29 +103,23 @@
     <v-divider />
 
     <v-card-text v-if="!ezpaarse.isGitRepo">
-      <div class="headline">
-        {{ $t('ui.pages.admin.updates.software') }}
-      </div>
+      <div class="headline" v-text="$t('ui.pages.admin.updates.software')" />
       <div class="subheading">
         {{ $t('ui.currentVersion') }} :
-        <v-chip small>
-          {{ $t('ui.pages.admin.updates.unversioned') }}
-        </v-chip>
+        <v-chip small v-text="$t('ui.pages.admin.updates.unversioned')" />
       </div>
-      <p>{{ $t('ui.pages.admin.updates.cannotUpdate') }}</p>
+      <p v-text="$t('ui.pages.admin.updates.cannotUpdate')" />
     </v-card-text>
 
     <v-card-text v-else>
-      <div class="headline">
-        {{ $t('ui.pages.admin.updates.software') }}
-      </div>
+      <div class="headline" v-text="$t('ui.pages.admin.updates.software')" />
 
       <v-alert
         :value="ezpaarse.hasLocalChanges"
         type="error"
       >
-        <div>{{ $t('ui.pages.admin.updates.softLocalChanges') }}</div>
-        <div>{{ $t('ui.pages.admin.updates.contactDeploymentService') }}</div>
+        <div v-text="$t('ui.pages.admin.updates.softLocalChanges')" />
+        <div v-text="$t('ui.pages.admin.updates.contactDeploymentService')" />
       </v-alert>
 
       <v-layout align-center :column="this.$vuetify.breakpoint.smAndDown">
@@ -151,8 +132,8 @@
             dark
             small
           >
-            <v-avatar>
-              <v-icon>
+            <v-avatar left>
+              <v-icon small>
                 {{ ezpaarse.isOutdated ? 'mdi-alert-circle' : 'mdi-check-circle' }}
               </v-icon>
             </v-avatar>
@@ -166,14 +147,14 @@
             small
             label
             class="text-uppercase"
-          >
-            {{ $t('ui.pages.admin.updates.beta') }}
-          </v-chip>
+            v-text="$t('ui.pages.admin.updates.beta')"
+          />
         </div>
 
         <v-spacer />
 
         <v-btn
+          class="mr-5"
           small
           :disabled="ezpaarse.tag === ezpaarse.head"
           :loading="inUpdate.ezpaarse"
@@ -182,12 +163,8 @@
           <v-icon left>
             mdi-sync
           </v-icon>
-          <span v-if="ezpaarse.isBeta">
-            {{ $t('ui.pages.admin.updates.switchToStable') }}
-          </span>
-          <span v-else>
-            {{ $t('ui.pages.admin.updates.switchToBeta') }}
-          </span>
+          <span v-if="ezpaarse.isBeta" v-text="$t('ui.pages.admin.updates.switchToStable')" />
+          <span v-else v-text="$t('ui.pages.admin.updates.switchToBeta')" />
         </v-btn>
         <v-btn
           small
@@ -206,22 +183,18 @@
       <div class="my-2">
         {{ $t('ui.pages.admin.updates.latestVersions') }}
         <ul>
-          <li>
+          <li class="py-1">
             {{ $t('ui.pages.admin.updates.stable') }}
-            <v-chip small>
-              {{ ezpaarse.tag }}
-            </v-chip>
+            <v-chip small v-text="ezpaarse.tag" />
           </li>
-          <li>
+          <li class="py-1">
             {{ $t('ui.pages.admin.updates.beta') }}
-            <v-chip small>
-              {{ ezpaarse.head }}
-            </v-chip>
+            <v-chip small v-text="ezpaarse.head" />
           </li>
         </ul>
       </div>
 
-      <p>{{ $t('ui.pages.admin.updates.updateDuration') }}</p>
+      <p v-text="$t('ui.pages.admin.updates.updateDuration')" />
 
       <Logs v-if="updateLogs" :logs="fullUpdateLogs" max-height="500" />
     </v-card-text>
@@ -229,21 +202,21 @@
     <v-dialog v-model="refreshDialog" max-width="400px">
       <v-card>
         <v-card-title>
-          <div class="title">
-            {{ $t('ui.pages.admin.updates.updateCompleted') }}
-          </div>
+          <div class="title" v-text="$t('ui.pages.admin.updates.updateCompleted')" />
         </v-card-title>
-        <v-card-text class="text-xs-justify">
-          {{ $t('ui.pages.admin.updates.pleaseRefreshPage') }}
-        </v-card-text>
+        <v-card-text
+          class="text-xs-justify"
+          v-text="$t('ui.pages.admin.updates.pleaseRefreshPage')"
+        />
         <v-card-actions>
           <v-spacer />
-          <v-btn flat @click="refreshDialog=false">
-            {{ $t('ui.close') }}
-          </v-btn>
-          <v-btn color="primary" @click="reloadPage(); refreshDialog=false">
-            {{ $t('ui.refresh') }}
-          </v-btn>
+          <v-btn class="body-2" text @click="refreshDialog = false" v-text="$t('ui.close')" />
+          <v-btn
+            class="body-2"
+            color="primary"
+            @click="reloadPage(); refreshDialog = false"
+            v-text="$t('ui.refresh')"
+          />
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -251,7 +224,7 @@
 </template>
 
 <script>
-import Logs from '~/components/Logs';
+import Logs from '~/components/Logs.vue';
 
 export default {
   auth: true,

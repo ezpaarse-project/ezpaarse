@@ -1,5 +1,6 @@
-import isEqual from 'lodash.isequal';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import Vue from 'vue';
+import isEqual from 'lodash.isequal';
 import api from './api';
 
 const defaultSettings = {
@@ -239,7 +240,7 @@ export default {
   },
   actions: {
     async GET_PREDEFINED_SETTINGS ({ commit }) {
-      const data = await api.getPredefinedSettings(this.$axios);
+      const data = await api.getPredefinedSettings();
       // Change object into an array with key as ID
       const settings = Object.entries(data).map(([id, setting]) => ({
         id,
@@ -248,10 +249,10 @@ export default {
       }));
 
       commit('SET_PREDEFINED_SETTINGS', settings);
-      commit('SET_CUSTOM_SETTINGS', await api.getCustomSettings(this.$axios));
+      commit('SET_CUSTOM_SETTINGS', await api.getCustomSettings());
     },
     async GET_CUSTOM_PREDEFINED_SETTINGS ({ commit }) {
-      const data = await api.getCustomSettings(this.$axios);
+      const data = await api.getCustomSettings();
       commit('SET_CUSTOM_SETTINGS', data.map(d => parseSettings(d)));
     },
     APPLY_PREDEFINED_SETTINGS ({ commit, getters, dispatch }, key) {
@@ -288,7 +289,7 @@ export default {
     },
     SAVE_CUSTOM_PREDEFINED_SETTINGS (ctx, settings) {
       const { id, fullName, country } = settings;
-      return api.saveCustomSettings(this.$axios, {
+      return api.saveCustomSettings({
         id,
         fullName,
         country,
@@ -297,7 +298,7 @@ export default {
     },
     UPDATE_CUSTOM_PREDEFINED_SETTINGS (ctx, settings) {
       const { id, fullName, country } = settings;
-      return api.updateCustomSettings(this.$axios, {
+      return api.updateCustomSettings({
         id,
         fullName,
         country,
@@ -305,10 +306,10 @@ export default {
       });
     },
     async GET_COUNTRIES ({ commit }) {
-      commit('SET_COUNTRIES', await api.getCountries(this.$axios));
+      commit('SET_COUNTRIES', await api.getCountries());
     },
     async REMOVE_CUSTOM_PREDEFINED_SETTINGS ({ commit, dispatch, state }, id) {
-      await api.removeCustomSettings(this.$axios, id);
+      await api.removeCustomSettings(id);
       commit('SET_CUSTOM_SETTINGS', state.customSettings.filter(s => s.id !== id));
       dispatch('RESET_SETTINGS');
     },

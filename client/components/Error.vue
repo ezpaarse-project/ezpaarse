@@ -6,15 +6,11 @@
       dark
       card
     >
-      <v-toolbar-title>
-        {{ $t(`ui.errors.title`) }}
-      </v-toolbar-title>
+      <v-toolbar-title v-text="$t('ui.errors.title')" />
     </v-toolbar>
     {{ route }}
-    <v-card-text class="text-xs-center">
-      <h1 class="display-4 font-weight-black primary--text">
-        {{ error.statusCode }}
-      </h1>
+    <v-card-text class="text-center">
+      <h1 class="display-4 font-weight-black primary--text" v-text="error.statusCode" />
       <h4 class="headline">
         {{ $t(`ui.errors.${error.statusCode}`) }}
       </h4>
@@ -22,9 +18,8 @@
         color="primary"
         class="white--text mt-5"
         @click="back"
-      >
-        {{ $t('ui.back') }}
-      </v-btn>
+        v-text="$t('ui.back')"
+      />
     </v-card-text>
   </v-card>
 </template>

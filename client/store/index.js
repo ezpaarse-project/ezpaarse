@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import Vue from 'vue';
 import api from './api';
 
@@ -18,8 +19,7 @@ export default {
     feedback: {},
     users: [],
     userNumber: -1,
-    pkbs: {},
-    dark: false
+    pkbs: {}
   }),
   getters: {
     hasPlatformsUpdates (state) {
@@ -37,79 +37,76 @@ export default {
       commit('SET_DRAWER', value);
     },
     REGISTER (ctx, credentials) {
-      return api.register(this.$axios, credentials);
+      return api.register(credentials);
     },
     SEND_FEEDBACK (ctx, data) {
-      return api.sendFeedback(this.$axios, data);
+      return api.sendFeedback(data);
     },
     LOAD_STATUS ({ commit }) {
       return Promise.all([
-        api.getAppStatus(this.$axios).then(res => {
+        api.getAppStatus().then(res => {
           res.isBeta = !/^[0-9]+\.[0-9]+\.[0-9]+$/.test(res.current);
           commit('SET_APP_STATUS', res);
         }),
-        api.getPlatformsStatus(this.$axios).then(res => commit('SET_PLATFORMS_STATUS', res)),
-        api.getResourcesStatus(this.$axios).then(res => commit('SET_RESOURCES_STATUS', res)),
-        api.getMiddlewaresStatus(this.$axios).then(res => commit('SET_MIDDLEWARES_STATUS', res)),
-        api.feedbackStatus(this.$axios).then(res => commit('SET_FEEDBACK_STATUS', res))
+        api.getPlatformsStatus().then(res => commit('SET_PLATFORMS_STATUS', res)),
+        api.getResourcesStatus().then(res => commit('SET_RESOURCES_STATUS', res)),
+        api.getMiddlewaresStatus().then(res => commit('SET_MIDDLEWARES_STATUS', res)),
+        api.feedbackStatus().then(res => commit('SET_FEEDBACK_STATUS', res))
       ]);
     },
     UPDATE_REPO (ctx, repo) {
-      return api.updateRepo(this.$axios, repo);
+      return api.updateRepo(repo);
     },
     UPDATE_APP (ctx, { version, socketId }) {
-      return api.updateApp(this.$axios, version, socketId);
+      return api.updateApp(version, socketId);
     },
     GET_PLATFORMS ({ commit }) {
-      return api.getPlatforms(this.$axios).then(res => commit('SET_PLATFORMS', res));
+      return api.getPlatforms().then(res => commit('SET_PLATFORMS', res));
     },
     GET_PLATFORMS_CHANGED ({ commit }) {
-      return api.getPlatformsChanged(this.$axios).then(res => commit('SET_PLATFORMS_CHANGED', res));
+      return api.getPlatformsChanged().then(res => commit('SET_PLATFORMS_CHANGED', res));
     },
     GET_USERS_LIST ({ commit }) {
-      return api.getUsersList(this.$axios).then(res => commit('SET_USERS_LIST', res));
+      return api.getUsersList().then(res => commit('SET_USERS_LIST', res));
     },
     ADD_USER (ctx, data) {
-      return api.addUser(this.$axios, data);
+      return api.addUser(data);
     },
     REMOVE_USER (ctx, userid) {
-      return api.removeUser(this.$axios, userid);
+      return api.removeUser(userid);
     },
     EDIT_USER (ctx, data) {
-      return api.editUser(this.$axios, data);
+      return api.editUser(data);
     },
     RESET_PASSWORD (ctx, data) {
-      return api.resetPassword(this.$axios, data);
+      return api.resetPassword(data);
     },
     SEND_NEW_PASSWORD (ctx, data) {
-      return api.sendNewPassword(this.$axios, data);
+      return api.sendNewPassword(data);
     },
     NOTIFIATE (ctx, data) {
-      return api.notifiate(this.$axios, data);
+      return api.notifiate(data);
     },
     UPDATE_PASSWORD (ctx, data) {
-      return api.updatePassword(this.$axios, data);
+      return api.updatePassword(data);
     },
     async GET_USER_NUMBER ({ commit }) {
-      commit('SET_USER_NUMBER', await api.getUserNumber(this.$axios));
+      commit('SET_USER_NUMBER', await api.getUserNumber());
     },
     FRESHINSTALL (ctx, data) {
-      return api.freshInstall(this.$axios, data);
+      return api.freshInstall(data);
     },
     async LOAD_PKBS ({ commit }) {
-      commit('SET_PKBS', await api.loadPkbs(this.$axios));
+      commit('SET_PKBS', await api.loadPkbs());
     },
     SET_PKBS ({ commit }, data) {
       commit('SET_PKBS', data);
     },
     GET_APP_INFOS ({ commit }) {
-      return api.getAppInfos(this.$axios).then(res => { commit('SET_APP_INFOS', res); });
+      return api.getAppInfos().then(res => { commit('SET_APP_INFOS', res); });
     },
     GET_FEEDBACK_STATUS ({ commit }) {
-      return api.feedbackStatus(this.$axios).then(res => commit('SET_FEEDBACK_STATUS', res));
-    },
-    SET_DARK ({ commit }, value) {
-      commit('SET_DARK', value);
+      return api.feedbackStatus().then(res => commit('SET_FEEDBACK_STATUS', res));
     }
   },
   mutations: {
@@ -148,9 +145,6 @@ export default {
     },
     SET_APP_INFOS (state, data) {
       Vue.set(state, 'appInfos', data);
-    },
-    SET_DARK (state, value) {
-      Vue.set(state, 'dark', value);
     }
   }
 };

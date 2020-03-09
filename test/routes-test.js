@@ -1,10 +1,10 @@
 /*global describe, it*/
 'use strict';
 
-var should  = require('should');
-var helpers = require('./helpers.js');
+const should  = require('should');
+const helpers = require('./helpers.js');
 
-var infoRoutes = [
+const infoRoutes = [
   '/api/info/platforms',
   '/api/info/rtype',
   '/api/info/mime',
@@ -16,19 +16,19 @@ var infoRoutes = [
   '/api/info/config'
 ];
 
-var adminRoutes = [
+const adminRoutes = [
   '/api/admin/app/status',
   '/api/admin/platforms/status',
   '/api/admin/users'
 ];
 
 function testNextRoute(routes, status, callback) {
-  var route = routes.pop();
+  const route = routes.pop();
   if (!route) {
     callback();
     return;
   }
-  helpers.get(route, function (err, res) {
+  helpers.get(route, (err, res) => {
     if (!res) { throw new Error('ezPAARSE is not running'); }
     if (err)  { throw err; }
     should.ok(res.statusCode == status, 'The route ' + route
@@ -37,11 +37,11 @@ function testNextRoute(routes, status, callback) {
   });
 }
 
-describe('The server', function () {
+describe('The server', () => {
   it('correctly handle all info routes (@01)', function (done) {
     testNextRoute(infoRoutes, 200, done);
-  });
+  }).timeout(10000);
   it('correctly handle all admin routes (@02)', function (done) {
     testNextRoute(adminRoutes, 401, done);
-  });
+  }).timeout(10000);
 });

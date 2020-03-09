@@ -7,246 +7,236 @@
     left
     disable-route-watcher
     :mini-variant="mini"
+    width="300"
   >
-    <v-layout
-      v-if="!mini"
-      row
-      justify-center
-    >
+    <v-list class="text-center">
       <v-btn
         v-for="link in links"
         :key="link.icon"
+        class="mx-2"
         icon
         target="_blank"
         :title="link.title"
         :href="link.href"
       >
-        <v-icon>{{ link.icon }}</v-icon>
+        <v-icon dark v-text="link.icon" />
       </v-btn>
-    </v-layout>
+    </v-list>
 
     <v-divider />
 
     <v-list>
-      <v-list-tile
-        avatar
-        tag="div"
+      <v-list-item
         router
         :to="{ path: '/profile' }"
       >
-        <v-list-tile-avatar>
+        <v-list-item-avatar>
           <v-icon large>
             mdi-account-circle
           </v-icon>
-        </v-list-tile-avatar>
-        <v-list-tile-content>
-          <v-list-tile-title v-if="$auth.loggedIn">
-            {{ $auth.user.username }}
-          </v-list-tile-title>
-          <v-list-tile-title v-else>
-            {{ $t('ui.drawer.notConnected') }}
-          </v-list-tile-title>
-        </v-list-tile-content>
-        <v-list-tile-action v-if="$auth.loggedIn">
+        </v-list-item-avatar>
+        <v-list-item-content>
+          <v-list-item-title v-if="$auth.loggedIn" class="body-2" v-text="$auth.user.username" />
+          <v-list-item-title v-else v-text="$t('ui.drawer.notConnected')" />
+        </v-list-item-content>
+        <v-list-item-icon v-if="$auth.loggedIn">
           <v-tooltip right>
-            <template>
-              <v-btn slot="activator" flat icon @click="logout">
+            <template v-slot:activator="{ on }">
+              <v-btn
+                text
+                icon
+                v-on="on"
+                @click="logout"
+              >
                 <v-icon>mdi-logout</v-icon>
               </v-btn>
             </template>
-            <span>{{ $t('ui.drawer.signout') }}</span>
+            <span v-text="$t('ui.drawer.signout')" />
           </v-tooltip>
-        </v-list-tile-action>
-      </v-list-tile>
+        </v-list-item-icon>
+      </v-list-item>
+    </v-list>
 
-      <v-divider />
+    <v-divider />
 
-      <v-list-tile
+    <v-list pt-0>
+      <v-list-item
         v-if="$auth.loggedIn"
         router
         :to="{ path: '/process' }"
         ripple
       >
-        <v-list-tile-action>
+        <v-list-item-icon>
           <v-icon>mdi-cloud-upload</v-icon>
-        </v-list-tile-action>
-        <v-list-tile-content>
-          <v-list-tile-title>{{ $t('ui.drawer.processLogs') }}</v-list-tile-title>
-        </v-list-tile-content>
-      </v-list-tile>
+        </v-list-item-icon>
+        <v-list-item-content>
+          <v-list-item-title class="body-2" v-text="$t('ui.drawer.processLogs')" />
+        </v-list-item-content>
+      </v-list-item>
 
-      <v-list-tile
+      <v-list-item
         v-if="$auth.loggedIn"
         router
         :to="{ path: '/format' }"
         ripple
       >
-        <v-list-tile-action>
+        <v-list-item-icon>
           <v-icon>mdi-file-find</v-icon>
-        </v-list-tile-action>
-        <v-list-tile-content>
-          <v-list-tile-title>{{ $t('ui.drawer.designLogFormat') }}</v-list-tile-title>
-        </v-list-tile-content>
-      </v-list-tile>
+        </v-list-item-icon>
+        <v-list-item-content>
+          <v-list-item-title class="body-2" v-text="$t('ui.drawer.designLogFormat')" />
+        </v-list-item-content>
+      </v-list-item>
 
       <v-list-group
-        v-if="!mini && $auth.user && $auth.user.group === 'admin'"
+        v-if="$auth.user && $auth.user.group === 'admin'"
+        no-action
         prepend-icon="mdi-settings"
         append-icon="mdi-chevron-down"
+        :value="$nuxt.$route.name && $nuxt.$route.name.indexOf('admin') !== -1"
       >
         <template v-slot:activator>
-          <v-list-tile>
-            <v-list-tile-content>
-              <v-list-tile-title>{{ $t('ui.drawer.admin.administration') }}</v-list-tile-title>
-            </v-list-tile-content>
-            <v-list-tile-action
-              v-if="hasAvailableUpdates"
-            >
-              <v-icon>mdi-alert-circle</v-icon>
-            </v-list-tile-action>
-          </v-list-tile>
+          <v-list-item-title class="body-2" v-text="$t('ui.drawer.admin.administration')" />
+          <v-list-item-icon
+            v-if="hasAvailableUpdates"
+          >
+            <v-icon>mdi-alert-circle</v-icon>
+          </v-list-item-icon>
         </template>
 
-        <v-list-tile
+        <v-list-item
           router
           :to="{ path: '/admin/platforms' }"
           ripple
         >
-          <v-list-tile-title>{{ $t('ui.drawer.admin.platforms') }}</v-list-tile-title>
-          <v-list-tile-action v-if="hasPlatformsUpdates">
+          <v-list-item-title class="body-2" v-text="$t('ui.drawer.admin.platforms')" />
+          <v-list-item-icon v-if="hasPlatformsUpdates">
             <v-icon>mdi-alert-circle</v-icon>
-          </v-list-tile-action>
-        </v-list-tile>
+          </v-list-item-icon>
+          <v-list-item-icon>
+            <v-icon>mdi-format-list-bulleted-square</v-icon>
+          </v-list-item-icon>
+        </v-list-item>
 
-        <v-list-tile
+        <v-list-item
           router
           :to="{ path: '/admin/updates' }"
           ripple
         >
-          <v-list-tile-title>{{ $t('ui.drawer.admin.updates') }}</v-list-tile-title>
-          <v-list-tile-action
-            v-if="hasGeneralUpdates"
-          >
+          <v-list-item-title class="body-2" v-text="$t('ui.drawer.admin.updates')" />
+          <v-list-item-icon v-if="hasGeneralUpdates">
             <v-icon>mdi-alert-circle</v-icon>
-          </v-list-tile-action>
-        </v-list-tile>
+          </v-list-item-icon>
+          <v-list-item-icon>
+            <v-icon>mdi-cached</v-icon>
+          </v-list-item-icon>
+        </v-list-item>
 
-        <v-list-tile
+        <v-list-item
           router
           :to="{ path: '/admin/users' }"
           ripple
         >
-          <v-list-tile-content>
-            <v-list-tile-title>{{ $t('ui.drawer.admin.users') }}</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
+          <v-list-item-content>
+            <v-list-item-title class="body-2" v-text="$t('ui.drawer.admin.users')" />
+          </v-list-item-content>
+          <v-list-item-icon>
+            <v-icon>mdi-account-group</v-icon>
+          </v-list-item-icon>
+        </v-list-item>
 
-        <v-list-tile
+        <v-list-item
           router
           :to="{ path: '/admin/jobs' }"
           ripple
         >
-          <v-list-tile-content>
-            <v-list-tile-title>{{ $t('ui.drawer.admin.jobs') }}</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
+          <v-list-item-content>
+            <v-list-item-title class="body-2" v-text="$t('ui.drawer.admin.jobs')" />
+          </v-list-item-content>
+          <v-list-item-icon>
+            <v-icon>mdi-cog-clockwise</v-icon>
+          </v-list-item-icon>
+        </v-list-item>
       </v-list-group>
 
-      <v-list-tile
+      <v-list-item
         router
-        href="https://ezpaarse.readthedocs.io/en/master/"
+        href="https://ezpaarse-project.github.io/ezpaarse/"
         target="_blank"
         ripple
       >
-        <v-list-tile-action>
+        <v-list-item-icon>
           <v-icon>mdi-library-books</v-icon>
-        </v-list-tile-action>
-        <v-list-tile-content>
-          <v-list-tile-title>{{ $t('ui.drawer.documentation') }}</v-list-tile-title>
-        </v-list-tile-content>
-      </v-list-tile>
+        </v-list-item-icon>
+        <v-list-item-content>
+          <v-list-item-title class="body-2" v-text="$t('ui.drawer.documentation')" />
+        </v-list-item-content>
+      </v-list-item>
 
-      <v-list-group
-        v-if="!mini"
-        prepend-icon="mdi-translate"
-        append-icon="mdi-chevron-down"
-      >
+      <v-list-group no-action append-icon="mdi-chevron-down" prepend-icon="mdi-translate">
         <template v-slot:activator>
-          <v-list-tile>
-            <v-list-tile-content>
-              <v-list-tile-title>{{ $t('ui.language') }}</v-list-tile-title>
-            </v-list-tile-content>
-          </v-list-tile>
+          <v-list-item-title class="body-2" v-text="$t('ui.language')" />
         </template>
 
-        <v-list-tile
-          v-for="lang in locales"
-          :key="lang.value"
-          @click="$i18n.locale = lang.value"
-        >
-          <v-list-tile-content>
-            <v-list-tile-title>{{ lang.name }}</v-list-tile-title>
-          </v-list-tile-content>
-        </v-list-tile>
+        <v-list-item v-for="lang in locales" :key="lang.value" @click="$i18n.locale = lang.value">
+          <v-list-item-title class="body-2" v-text="lang.name" />
+          <v-list-item-icon>
+            <img width="24" :src="require(`@/static/img/${lang.value}.png`)">
+          </v-list-item-icon>
+        </v-list-item>
       </v-list-group>
 
-      <v-list-tile
+      <v-list-item
         router
         :to="{ path: '/feedback' }"
         ripple
       >
-        <v-list-tile-action>
+        <v-list-item-icon>
           <v-icon>mdi-message-alert</v-icon>
-        </v-list-tile-action>
-        <v-list-tile-content>
-          <v-list-tile-title>{{ $t('ui.drawer.feedback') }}</v-list-tile-title>
-        </v-list-tile-content>
-      </v-list-tile>
+        </v-list-item-icon>
+        <v-list-item-content>
+          <v-list-item-title class="body-2" v-text="$t('ui.drawer.feedback')" />
+        </v-list-item-content>
+      </v-list-item>
     </v-list>
 
-    <v-divider />
-
-    <v-list class="bottomList">
-      <v-list-tile>
-        <v-list-tile-content class="text-xs-center">
-          <v-list-tile-sub-title>
-            <v-tooltip top>
-              <template v-slot:activator="{ on }">
-                <v-btn small flat icon v-on="on" @click="dark = !dark">
-                  <v-icon v-if="dark">
-                    mdi-white-balance-sunny
-                  </v-icon>
-                  <v-icon v-else>
-                    mdi-weather-night
-                  </v-icon>
-                </v-btn>
-              </template>
-              <span v-if="dark">{{ $t('ui.theme.light') }}</span>
-              <span v-else>{{ $t('ui.theme.dark') }}</span>
-            </v-tooltip>
-          </v-list-tile-sub-title>
-        </v-list-tile-content>
-      </v-list-tile>
-
-      <v-list-tile>
-        <v-list-tile-content class="text-xs-center">
-          <v-list-tile-sub-title v-if="appInfos.version">
+    <template v-slot:append>
+      <div class="pa-2 text-center">
+        <v-tooltip top>
+          <template v-slot:activator="{ on }">
             <v-btn
               small
-              outline
-              class="ma-0"
-              href="https://github.com/ezpaarse-project/ezpaarse#readme"
-              target="_blank"
+              text
+              icon
+              v-on="on"
+              @click="$vuetify.theme.dark = !$vuetify.theme.dark"
             >
-              Version: {{ appInfos.version }}
-              <v-icon right>
-                mdi-github-circle
+              <v-icon v-if="$vuetify.theme.dark">
+                mdi-white-balance-sunny
+              </v-icon>
+              <v-icon v-else>
+                mdi-weather-night
               </v-icon>
             </v-btn>
-          </v-list-tile-sub-title>
-        </v-list-tile-content>
-      </v-list-tile>
-    </v-list>
+          </template>
+          <span v-if="$vuetify.theme.dark" v-text="$t('ui.theme.light')" />
+          <span v-else v-text="$t('ui.theme.dark')" />
+        </v-tooltip>
+
+        <v-spacer />
+
+        <v-btn
+          small
+          outlined
+          class="ma-3"
+          href="https://github.com/ezpaarse-project/ezpaarse#readme"
+          target="_blank"
+        >
+          Version: {{ appInfos.version }}
+          <v-icon right> mdi-github-circle</v-icon>
+        </v-btn>
+      </div>
+    </template>
   </v-navigation-drawer>
 </template>
 
@@ -284,10 +274,6 @@ export default {
     },
     hasGeneralUpdates () {
       return this.$store.getters.hasGeneralUpdates;
-    },
-    dark: {
-      get () { return this.$store.state.dark; },
-      set (newVal) { this.$store.dispatch('SET_DARK', newVal); }
     }
   },
   methods: {

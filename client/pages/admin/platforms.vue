@@ -1,14 +1,7 @@
 <template>
   <v-card>
-    <v-toolbar
-      class="secondary"
-      dense
-      dark
-      card
-    >
-      <v-toolbar-title>
-        {{ $t('ui.pages.admin.platforms.title') }}
-      </v-toolbar-title>
+    <v-toolbar class="secondary" dense dark flat>
+      <v-toolbar-title v-text="$t('ui.pages.admin.platforms.title')" />
     </v-toolbar>
 
     <v-card-text>
@@ -28,8 +21,8 @@
             dark
             small
           >
-            <v-avatar>
-              <v-icon>
+            <v-avatar left>
+              <v-icon small>
                 {{ platforms.isOutdated ? 'mdi-alert-circle' : 'mdi-check-circle' }}
               </v-icon>
             </v-avatar>
@@ -55,13 +48,67 @@
     </v-card-text>
 
     <v-card-text>
-      <v-text-field
-        v-model="search"
-        append-icon="mdi-magnify"
-        :label="$t('ui.search')"
-        solo
-        hide-details
-      />
+      <v-container>
+        <v-layout row wrap>
+          <v-flex sx12 sm12 md9>
+            <v-text-field
+
+              v-model="search"
+              class="mx-1"
+              append-icon="mdi-magnify"
+              :label="$t('ui.search')"
+              solo
+              hide-details
+              clearable
+            />
+          </v-flex>
+
+          <v-flex sx12 sm12 md3>
+            <v-combobox
+              v-model="searchCertifications"
+              :item-text="(obj) => (obj)['name']"
+              :item-value="(obj) => (obj)['id']"
+              append-icon="mdi-tag"
+              :items="certifications"
+              class="mx-1"
+              label="Certification"
+              solo
+              hide-details
+              single-line
+              multiple
+              clearable
+            >
+              <template v-slot:selection="{ attrs, item, parent }">
+                <v-chip
+                  :key="item.id"
+                  v-bind="attrs"
+                >
+                  <v-avatar
+                    class="white--text"
+                    left
+                    :color="item.color"
+                    v-text="item.id.toUpperCase().substr(0, 1)"
+                  />
+                  {{ item.name }}
+                  <v-icon small @click="parent.selectItem(item)">
+                    mdi-close
+                  </v-icon>
+                </v-chip>
+              </template>
+              <template v-slot:item="{ item }">
+                <span v-text="item.name" />
+                <v-list-item-avatar
+                  class="white--text"
+                  style="margin-left: 10px"
+                  size="24"
+                  :color="item.color"
+                  v-text="item.id.toUpperCase().substr(0, 1)"
+                />
+              </template>
+            </v-combobox>
+          </v-flex>
+        </v-layout>
+      </v-container>
       <v-checkbox
         v-model="onlyOutdated"
         :label="$t('ui.pages.admin.platforms.onlyOutdated')"
@@ -73,70 +120,61 @@
       :items="platformsItems"
       :no-data-text="$t('ui.pages.admin.platforms.noPlatforms')"
       :no-results-text="$t('ui.pages.admin.platforms.noPlatformFound')"
-      :rows-per-page-text="$t('ui.pages.admin.platforms.platformsPerPage')"
-      :rows-per-page-items="rowsPerPage"
+      :footer-props="footerProps"
       :search="search"
-      :pagination.sync="pagination"
+      :items-per-page="itemsPerPage"
     >
-      <template v-slot:items="{ item }">
-        <td>
-          <v-icon
-            v-if="item['pkb-packages'].length > 0"
-            @click="selectedPlatform = item; pkbDialog = true"
-          >
-            mdi-file-document
-          </v-icon>
-        </td>
+      <template v-slot:item.pkbs="{ item }">
+        <v-icon
+          v-if="item['pkb-packages'].length > 0"
+          @click="selectedPlatform = item; pkbDialog = true"
+        >
+          mdi-file-document
+        </v-icon>
+      </template>
 
-        <td>
-          <a
-            :href="item.docurl"
-            target="_blank"
-          >
-            {{ item.longname }}
-          </a>
-        </td>
+      <template v-slot:item.longname="{ item }">
+        <a
+          :href="item.docurl"
+          target="_blank"
+          v-text="item.longname"
+        />
+      </template>
 
-        <td>
-          <a
-            v-if="item.certifications && item.certifications.humanCertified"
-            href="https://blog.ezpaarse.org/2017/06/certification-h-et-p-des-plateformes-traitees-dans-ezpaarse/"
-            target="_blank"
-            style="text-decoration: none;"
-          >
-            <v-avatar target="_blank" size="24" color="#F4B48B">
-              <span class="white--text">H</span>
-            </v-avatar>
-          </a>
+      <template v-slot:item.certifications="{ item }">
+        <a
+          v-if="item.certifications && item.certifications.human"
+          href="https://blog.ezpaarse.org/2017/06/certification-h-et-p-des-plateformes-traitees-dans-ezpaarse/"
+          target="_blank"
+          style="text-decoration: none;"
+        >
+          <v-avatar size="24" color="#F4B48B">
+            <span class="white--text">H</span>
+          </v-avatar>
+        </a>
 
-          <a
-            v-if="item.certifications && item.certifications.publisherCertified"
-            href="https://blog.ezpaarse.org/2017/06/certification-h-et-p-des-plateformes-traitees-dans-ezpaarse/"
-            target="_blank"
-            style="text-decoration: none;"
-          >
-            <v-avatar size="24" color="#5AB9C1">
-              <span class="white--text">P</span>
-            </v-avatar>
-          </a>
-        </td>
+        <a
+          v-if="item.certifications && item.certifications.publisher"
+          href="https://blog.ezpaarse.org/2017/06/certification-h-et-p-des-plateformes-traitees-dans-ezpaarse/"
+          target="_blank"
+          style="text-decoration: none;"
+        >
+          <v-avatar size="24" color="#5AB9C1">
+            <span class="white--text">P</span>
+          </v-avatar>
+        </a>
+      </template>
 
-        <td class="text-xs-center">
-          <v-icon v-if="platformsChanged[item.name]" color="info">
-            mdi-arrow-up-bold-circle
-          </v-icon>
-        </td>
+      <template v-slot:item.update="{ item }">
+        <v-icon v-if="platformsChanged[item.name]" color="info">
+          mdi-arrow-up-bold-circle
+        </v-icon>
       </template>
     </v-data-table>
 
-    <v-dialog
-      v-model="pkbDialog"
-      width="600"
-    >
+    <v-dialog v-model="pkbDialog" width="600">
       <v-card>
-        <v-card-title class="title primary white--text">
-          {{ selectedPlatform.longname }}
-        </v-card-title>
+        <v-card-title class="title primary white--text" v-text="selectedPlatform.longname" />
 
         <v-divider />
 
@@ -147,9 +185,9 @@
           :rows-per-page-items="rowsPerPage"
         >
           <template v-slot:items="{ item }">
-            <td>{{ item.name }}</td>
-            <td>{{ item.entries }}</td>
-            <td>{{ item.date }}</td>
+            <td v-text="item.name" />
+            <td v-text="item.entries" />
+            <td v-text="item.date" />
           </template>
         </v-data-table>
 
@@ -159,11 +197,10 @@
           <v-spacer />
           <v-btn
             color="primary"
-            flat
+            text
             @click="pkbDialog = false"
-          >
-            {{ $t('ui.close') }}
-          </v-btn>
+            v-text="$t('ui.close')"
+          />
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -181,9 +218,8 @@ export default {
       selectedPlatform: false,
       onlyOutdated: false,
       search: '',
-      pagination: {
-        rowsPerPage: 10
-      }
+      itemsPerPage: 10,
+      searchCertifications: []
     };
   },
   async fetch ({ store }) {
@@ -202,6 +238,7 @@ export default {
   computed: {
     platforms () {
       const { platforms } = this.$store.state;
+
       return {
         hasLocalChanges: platforms['local-commits'] || platforms['local-changes'],
         isOutdated: platforms['from-head'] === 'outdated',
@@ -209,8 +246,20 @@ export default {
       };
     },
     platformsItems () {
-      const platforms = this.$store.state.platformsItems;
-      return this.onlyOutdated ? platforms.filter(p => this.platformsChanged[p.name]) : platforms;
+      const certifications = this.searchCertifications;
+
+      return this.$store.state.platformsItems.filter((p) => {
+        if (this.onlyOutdated && !this.platformsChanged[p.name]) {
+          return false;
+        }
+        if (certifications.length) {
+          return certifications.some((certification) => {
+            return p.certifications && p.certifications[certification.id];
+          });
+        }
+
+        return true;
+      }).sort((a, b) => (a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1));
     },
     platformsChanged () {
       return this.$store.state.platformsChanged;
@@ -219,30 +268,39 @@ export default {
       return [
         {
           text: 'PKBs',
-          align: 'left',
-          sortable: false,
-          width: '10px'
+          value: 'pkbs',
+          align: 'center',
+          sortable: true,
+          width: 10
         },
         {
           text: this.$t('ui.pages.admin.platforms.platform'),
           align: 'left',
           sortable: true,
-          value: 'longname'
+          value: 'longname',
+          width: 300
         },
         {
           text: this.$t('ui.pages.admin.platforms.certifications'),
-          align: 'left',
-          sortable: true,
+          align: 'center',
+          sortable: false,
           value: 'certifications',
-          width: '10px'
+          width: 10
         },
         {
           text: this.$t('ui.pages.admin.platforms.update'),
-          align: 'left',
-          sortable: false,
-          width: '10px'
+          align: 'center',
+          sortable: true,
+          value: 'update',
+          width: 10
         }
       ];
+    },
+    footerProps () {
+      return {
+        itemsPerPageText: this.$t('ui.pages.admin.platforms.platformsPerPage'),
+        itemsPerPageOptions: [this.itemsPerPage, 30, 50, -1]
+      };
     },
     pkbsHeaders () {
       return [
@@ -268,6 +326,20 @@ export default {
         text: this.$t('ui.pages.admin.platforms.allPlatformsPerPage'),
         value: -1
       }];
+    },
+    certifications () {
+      return [
+        {
+          id: 'human',
+          name: this.$t('ui.pages.admin.platforms.human'),
+          color: '#F4B48B'
+        },
+        {
+          id: 'publisher',
+          name: this.$t('ui.pages.admin.platforms.publisher'),
+          color: '#5AB9C1'
+        }
+      ];
     }
   },
   methods: {

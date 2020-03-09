@@ -27,7 +27,7 @@
       <v-alert
         :value="userNumber === 0"
         color="primary"
-        outline
+        outlined
       >
         <v-checkbox
           v-model="informTeam"
@@ -44,6 +44,7 @@
       <v-btn
         color="primary"
         type="submit"
+        class="body-2"
         :loading="loading"
         :disabled="!validForm"
       >

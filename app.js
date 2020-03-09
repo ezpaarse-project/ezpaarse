@@ -4,10 +4,12 @@
 const { Nuxt, Builder } = require('nuxt');
 
 const app           = require('express')();
-const cookieSession = require('cookie-session');
+const session       = require('express-session');
+const MongoStore    = require('connect-mongo')(session);
 const cookieParser  = require('cookie-parser');
 const auth          = require('./lib/auth-middlewares.js');
 const passport      = require('passport');
+
 const BasicStrategy = require('passport-http').BasicStrategy;
 const LocalStrategy = require('passport-local').Strategy;
 const fs            = require('fs-extra');
@@ -44,9 +46,12 @@ passport.use(new BasicStrategy(auth.login));
 passport.use(new LocalStrategy({ usernameField: 'userid' }, auth.login));
 
 app.use(cookieParser('ezpaarseappoftheYEAR'));
-app.use(cookieSession({ //should not be used in PROD
-  key: 'ezpaarse',
-  secret: 'ezpaarseappoftheYEAR'
+app.use(session({
+  name: 'ezpaarse',
+  secret: 'ezpaarseappoftheYEAR',
+  resave: false,
+  saveUninitialized: true,
+  store: new MongoStore({ url: config.EZPAARSE_MONGO_URL })
 }));
 app.use(passport.initialize());
 app.use(passport.session());

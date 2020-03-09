@@ -2,15 +2,11 @@
   <v-card color="black" :max-height="maxHeight" class="scrolling">
     <v-card-text class="white--text">
       <div v-for="(log, index) in logs" :key="index">
-        <span v-if="log.date" class="grey--text">
-          {{ log.date }}
-        </span>
+        <span v-if="log.date" class="grey--text" v-text="log.date" />
         <span v-if="log.level" :class="logColor(log.level)">
           {{ log.level }} :
         </span>
-        <span v-if="log.message">
-          {{ log.message }}
-        </span>
+        <span v-if="log.message" v-text="log.message" />
       </div>
     </v-card-text>
   </v-card>

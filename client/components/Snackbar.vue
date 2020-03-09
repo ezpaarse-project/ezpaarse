@@ -15,7 +15,7 @@
     </span>
     <v-btn
       dark
-      flat
+      text
       @click.native="visible = false"
     >
       {{ $t('ui.close') }}
