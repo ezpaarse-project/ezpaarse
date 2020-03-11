@@ -6,6 +6,10 @@ module.exports = {
   head: [
     ['link', { rel: 'icon', href: '/favicon.ico' }]
   ],
+  plugins: [
+    '@vuepress/plugin-back-to-top',
+    require.resolve('./components/SearchBox')
+  ],
   themeConfig: {
     repo: 'ezpaarse-project/ezpaarse',
     docsDir: 'doc',
