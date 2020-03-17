@@ -79,6 +79,42 @@ Enriches consultation events with [Sudoc](http://www.sudoc.abes.fr) data, especi
 ### [throttler](https://github.com/ezpaarse-project/ezpaarse-middlewares/tree/master/throttler)
 Regulates the consultation events' stream
 
+## Middlewares loaded by default
+<table>
+  <thead>
+    <tr>
+      <th colspan="3">Middlewares</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>filter</td>
+      <td>parser</td>
+      <td>deduplicator</td>
+    </tr>
+    <tr>
+      <td>istex</td>
+      <td>crossref</td>
+      <td>sudoc</td>
+    </tr>
+    <tr>
+      <td>hal</td>
+      <td>enhancer</td>
+      <td>geolocalizer</td>
+    </tr>
+    <tr>
+      <td>cut</td>
+      <td>on-campus-counter</td>
+      <td>qualifier</td>
+    </tr>
+    <tr>
+      <td>anonymizer</td>
+      <td></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
 ## How to create a middleware ?
 
 ### Specifications
