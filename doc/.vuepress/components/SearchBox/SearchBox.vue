@@ -17,7 +17,7 @@
     >
 
     <ul
-      v-if="showSuggestions"
+      v-if="showSuggestions && suggestions && suggestions.length"
       class="suggestions"
       :class="{ 'align-right': alignRight }"
       @mouseleave="unfocus"
@@ -39,7 +39,7 @@
             <strong class="text--primary">
               {{ suggestion.title }}
             </strong>
-            > <span v-html="suggestion.content"></span>
+            > <span class="text--primary" v-text="suggestion.terms.join(' ')"></span>
           </span>
         </a>
       </li>
@@ -48,79 +48,97 @@
 </template>
 
 <script>
-import Flexsearch from "flexsearch";
+import MiniSearch from 'minisearch';
+import stripHtmltags from 'striptags';
+import removeMarkdown from 'remove-markdown';
 
 export default {
   data () {
     return {
-      index: null,
+      miniSearch: null,
       focused: false,
       focusIndex: 0,
       query: ''
-    };
+    }
   },
   mounted () {
-    document.addEventListener('keydown', this.onHotkey);
+    document.addEventListener('keydown', this.onHotkey)
 
-    this.index = new Flexsearch({
-      tokzenize: 'full',
-      encode: 'extra',
-      threshold: 1,
-      resolution: 3,
-      doc: {
-        id: 'key',
-        field: ['title', 'content']
+    this.miniSearch = new MiniSearch({
+      fields: ['title', 'content'],
+      storeFields: ['title', 'path'],
+      searchOptions: {
+        fuzzy: 0,
+        processTerm: (term) => term.toLowerCase()
       }
-    });
+    })
 
-    const { pages } = this.$site;
-    this.index.add(pages);
+    const pages = []
+
+    for (let i = 0; i < this.$site.pages.length; i += 1) {
+      this.$site.pages[i].content = removeMarkdown(stripHtmltags(this.$site.pages[i].content.toLowerCase()))
+      pages.push({
+        id: i,
+        ...this.$site.pages[i],
+      })
+    }
+
+    this.miniSearch.addAll(pages)
   },
   beforeDestroy () {
-    document.removeEventListener('keydown', this.onHotkey);
+    document.removeEventListener('keydown', this.onHotkey)
   },
   computed: {
     suggestions () {
       const query = this.query.trim().toLowerCase();
       if (!query) {
-        return;
+        return
       }
 
-      return this.index.search(query, 10).map((page) => {
-        return this.getPageInfo(page);
-      });
+      const queryWords = query.split(' ')
+      const search = this.miniSearch.search(query)
+
+      const res = search.filter((search) => {
+        if (search.terms.length !== queryWords.length) {
+          return false
+        }
+
+        return true
+      })
+
+      return res
     },
     showSuggestions () {
-      return  this.focused && this.suggestions && this.suggestions.length;
+      return this.focused && this.suggestions && this.suggestions.length
     },
     alignRight () {
-      const navCount = (this.$site.themeConfig.nav || []).length;
-      const repo = this.$site.repo ? 1 : 0;
-      return navCount + repo <= 2;
+      const navCount = (this.$site.themeConfig.nav || []).length
+      const repo = this.$site.repo ? 1 : 0
+      return navCount + repo <= 2
     }
   },
   methods: {
     onHotkey (event) {
       if (event.srcElement === document.body && SEARCH_HOTKEYS.includes(event.key)) {
-        this.$refs.input.focus();
-        event.preventDefault();
+        this.$refs.input.focus()
+        event.preventDefault()
       }
     },
     onUp () {
       if (this.showSuggestions) {
         if (this.focusIndex > 0) {
-          this.focusIndex--;
+          this.focusIndex--
         } else {
-          this.focusIndex = this.suggestions.length - 1;
+          this.focusIndex = this.suggestions.length - 1
         }
       }
     },
     onDown () {
       if (this.showSuggestions) {
         if (this.focusIndex < this.suggestions.length - 1) {
-          this.focusIndex++;
+          this.focusIndex++
         } else {
-          this.focusIndex = 0;
+          this.focusIndex = 0
         }
       }
     },
@@ -128,42 +146,18 @@ export default {
       if (!this.showSuggestions) {
         return
       }
-      const path = this.suggestions[index].path;
+      const path = this.suggestions[index].path
       if (this.$route.path !== path) {
-        this.$router.push(this.suggestions[index].path);
+        this.$router.push(this.suggestions[index].path)
       };
-      this.query = '';
-      this.focusIndex = 0;
+      this.query = ''
+      this.focusIndex = 0
     },
     focus (index) {
-      this.focusIndex = index;
+      this.focusIndex = index
     },
     unfocus () {
-      this.focusIndex = -1;
-    },
-    getPageInfo (page) {
-      const position = page.content
-        .toLowerCase()
-        .indexOf(this.query.toLowerCase());
-
-      let content = page.content
-        .slice(Math.max(position, 0), Math.max(position, 0) + 30)
-        .toLowerCase()
-        .replace(/[\W_]+/g, ' ');
-
-      const queryWords = this.query.split(' ').filter((v, i, a) => !!v && a.indexOf(v) === i);
-      for (const word of queryWords) {
-        const index = content.indexOf(word.toLowerCase());
-        if (index >= 0) {
-          content = content.replace(new RegExp(word, 'gi'), `<strong class="text--primary">${word}</strong>`);
-        }
-      }
-
-      return {
-        title: page.title,
-        path: page.path,
-        content
-      };
+      this.focusIndex = -1
     }
   }
 }
