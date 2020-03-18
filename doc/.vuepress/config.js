@@ -86,6 +86,11 @@ module.exports = {
           '/development/multilinguisme.md'
         ]
       },
+      {
+        title: 'Middlewares',
+        collapsable: false,
+        children: require('./middlewares.json')
+      }
     ]
   }
 }

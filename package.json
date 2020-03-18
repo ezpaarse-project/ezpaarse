@@ -41,6 +41,7 @@
     "forever": "^1.0.0",
     "fs-extra": "^7.0.0",
     "geoip-lite": "^1.2.2",
+    "glob": "^7.1.6",
     "i18n-iso-countries": "^4.0.0",
     "iconv-lite": "^0.4.24",
     "jschardet": "^1.6.0",
@@ -114,8 +115,8 @@
     "dev": "NODE_ENV=development nodemon -i 'test/*.js' -i 'platforms/*.js' -i 'middlewares/*.js' -i 'resources/*.js' -i client -i tmp ./server.js -e js",
     "start": "node server.js",
     "build": "nuxt build --no-generate",
-    "docs:dev": "vuepress dev doc",
-    "docs:build": "vuepress build doc"
+    "docs:build": "vuepress build doc",
+    "docs:dev": "nodemon --watch './middlewares/**' -e js,md,json --exec 'node ./middlewares-docs.js; vuepress dev doc' ./middlewares-docs.js"
   },
   "husky": {
     "hooks": {

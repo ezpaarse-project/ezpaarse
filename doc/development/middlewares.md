@@ -16,6 +16,8 @@ To become part of the processing chain, a middleware must have its name (*ie* th
 Anonymizes a list of fields
 
 ### [crossref](https://github.com/ezpaarse-project/ezpaarse-middlewares/tree/master/crossref)
+> External enrichment
+
 Enriches consultation events with [crossref](http://search.crossref.org/) data from their [API](http://search.crossref.org/help/api)
 
 ### [cut](https://github.com/ezpaarse-project/ezpaarse-middlewares/tree/master/cut)
@@ -27,7 +29,7 @@ Removes duplicate consultation events, based on the COUNTER algorithm for double
 ### [enhancer](https://github.com/ezpaarse-project/ezpaarse-middlewares/tree/master/enhancer)
 Enhances consultation events with information found in a pkb (issn, eissn, doi, title_id)
 
-### [DEPRECATED]  [field-splitter](https://github.com/ezpaarse-project/ezpaarse-middlewares/tree/master/field-splitter)
+### [DEPRECATED] [field-splitter](https://github.com/ezpaarse-project/ezpaarse-middlewares/tree/master/field-splitter)
 
 ### [filter](https://github.com/ezpaarse-project/ezpaarse-middlewares/tree/master/filter)
 Filters irrelevant consultation events
@@ -36,9 +38,13 @@ Filters irrelevant consultation events
 Geolocalize consultation events based on an IP address
 
 ### [hal](https://github.com/ezpaarse-project/ezpaarse-middlewares/tree/master/hal)
+> External enrichment
+
 Enriches consultation events with [HAL](https://hal.archives-ouvertes.fr/) data from their [API](https://api.archives-ouvertes.fr/docs/search)
 
 ### [istex](https://github.com/ezpaarse-project/ezpaarse-middlewares/tree/master/istex)
+> External enrichment
+
 Enriches consultation events with [istex](http://www.istex.fr/) data from their [API](https://api.istex.fr/documentation/)
 
 ### [on-campus-counter](https://github.com/ezpaarse-project/ezpaarse-middlewares/tree/master/on-campus-counter)
@@ -70,10 +76,14 @@ Examples of generated session IDs :
   - 2019-06-09|08|john.doe
   - 2018-12-25|00|157.244.176.142|Opera/9.80 (X11; Linux i686; U; ru) Presto/2.8.131 Version/11.11
 
-### [ubpaywall](https://github.com/ezpaarse-project/ezpaarse-middlewares/tree/master/ubpaywall)
+### [unpaywall](https://github.com/ezpaarse-project/ezpaarse-middlewares/tree/master/unpaywall)
+> External enrichment
+
 Get OpenAccess metadata from Unpaywall. API usage is limited to `100 000` DOIs per day.
 
 ### [sudoc](https://github.com/ezpaarse-project/ezpaarse-middlewares/tree/master/sudoc)
+> External enrichment
+
 Enriches consultation events with [Sudoc](http://www.sudoc.abes.fr) data, especially the PPN (that identify Sudoc records)
 
 ### [throttler](https://github.com/ezpaarse-project/ezpaarse-middlewares/tree/master/throttler)
