@@ -89,6 +89,9 @@ Enriches consultation events with [Sudoc](http://www.sudoc.abes.fr) data, especi
 ### [throttler](https://github.com/ezpaarse-project/ezpaarse-middlewares/tree/master/throttler)
 Regulates the consultation events' stream
 
+
+[^footnote]: This is a footnote.
+
 ## Middlewares loaded by default
 <table>
   <thead>
@@ -98,27 +101,27 @@ Regulates the consultation events' stream
   </thead>
   <tbody>
     <tr>
-      <td>filter</td>
-      <td>parser</td>
-      <td>deduplicator</td>
+      <td><span style="font-size: 12px">1.</span> filter</td>
+      <td><span style="font-size: 12px">2.</span>parser</td>
+      <td><span style="font-size: 12px">3.</span>deduplicator</td>
     </tr>
     <tr>
-      <td>istex</td>
-      <td>crossref</td>
-      <td>sudoc</td>
+      <td><span style="font-size: 12px">4.</span>istex</td>
+      <td><span style="font-size: 12px">5.</span>crossref</td>
+      <td><span style="font-size: 12px">6.</span>sudoc</td>
     </tr>
     <tr>
-      <td>hal</td>
-      <td>enhancer</td>
-      <td>geolocalizer</td>
+      <td><span style="font-size: 12px">7.</span>hal</td>
+      <td><span style="font-size: 12px">8.</span>enhancer</td>
+      <td><span style="font-size: 12px">9.</span>geolocalizer</td>
     </tr>
     <tr>
-      <td>cut</td>
-      <td>on-campus-counter</td>
-      <td>qualifier</td>
+      <td><span style="font-size: 12px">10.</span>cut</td>
+      <td><span style="font-size: 12px">11.</span>on-campus-counter</td>
+      <td><span style="font-size: 12px">12.</span>qualifier</td>
     </tr>
     <tr>
-      <td>anonymizer</td>
+      <td><span style="font-size: 12px">13.</span>anonymizer</td>
       <td></td>
       <td></td>
     </tr>
