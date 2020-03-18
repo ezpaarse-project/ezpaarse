@@ -89,9 +89,6 @@ Enriches consultation events with [Sudoc](http://www.sudoc.abes.fr) data, especi
 ### [throttler](https://github.com/ezpaarse-project/ezpaarse-middlewares/tree/master/throttler)
 Regulates the consultation events' stream
 
-
-[^footnote]: This is a footnote.
-
 ## Middlewares loaded by default
 <table>
   <thead>
