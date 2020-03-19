@@ -20,7 +20,7 @@ const logger = winston.createLogger({
 
 const links = [];
 
-const dir = path.resolve(__dirname, 'doc', 'development', 'middlewares');
+const dir = path.resolve(__dirname, 'doc', 'middlewares');
 if (!fs.existsSync(dir)) {
   logger.info(chalk.green(`Create ${dir} folder.`));
   fs.mkdirSync(dir);
@@ -38,13 +38,12 @@ glob('./middlewares/**/*.md',
     files.forEach((file) => {
       try {
         const normalizedPath = path.normalize(path.dirname(file));
-        links.push(`/development/${normalizedPath}.md`);
+        links.push(`/${normalizedPath}.md`);
 
         const middlewareName = normalizedPath.split('/')[1];
         const destination = path.resolve(
           __dirname,
           'doc',
-          'development',
           'middlewares',
           `${middlewareName}.md`
         );
