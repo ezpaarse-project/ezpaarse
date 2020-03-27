@@ -1,3 +1,48 @@
+const fs = require('fs');
+const path = require('path');
+
+/**
+ *
+ * @param {String} dir the directory to read
+ * @param {String} root the root directory used to resolved relative path
+ */
+function findMarkdownFiles(dir, root) {
+  root = root || dir;
+
+  const files = fs.readdirSync(dir)
+    .map(filename => ({
+      name: filename,
+      path: path.resolve(dir, filename),
+      stat: fs.statSync(path.resolve(dir, filename))
+    }))
+    .filter(file => file.name !== 'node_modules');
+
+  return files.reduce((acc, file) => {
+    if (file.stat.isDirectory()) {
+      return acc.concat(findMarkdownFiles(file.path, root));
+    }
+
+    if (dir === root || !file.stat.isFile() || !file.name.endsWith('.md')) {
+      return acc;
+    }
+
+    const relativePath = path.relative(root, file.path).replace(/\.md$/, '.html');
+
+    acc.push({
+      path: path.normalize(`/middlewares/${relativePath}`),
+      filePath: file.path,
+      showInSidebar: file.name === 'README.md',
+      frontmatter: {
+        editLink: false
+      }
+    })
+    return acc.concat()
+  }, []);
+}
+
+const mwRootDir = path.resolve(__dirname, '../../middlewares');
+const mwPages = findMarkdownFiles(mwRootDir);
+
 module.exports = {
   title: 'ezPAARSE',
   description: 'Usage analyzer for your e-resources',
@@ -10,6 +55,7 @@ module.exports = {
     '@vuepress/plugin-back-to-top',
     require.resolve('./components/SearchBox')
   ],
+  additionalPages: mwPages,
   themeConfig: {
     repo: 'ezpaarse-project/ezpaarse',
     docsDir: 'doc',
@@ -89,7 +135,7 @@ module.exports = {
       {
         title: 'Middlewares',
         collapsable: false,
-        children: require('./middlewares.json')
+        children: mwPages.filter(page => page.showInSidebar).map(page => page.path)
       }
     ]
   }
