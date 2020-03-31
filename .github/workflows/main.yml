@@ -5,6 +5,8 @@ on:
       - master
     paths:
       - 'doc/**'
+  repository_dispatch:
+    types: [middlewares-update]
 jobs:
   build:
     runs-on: ubuntu-latest
