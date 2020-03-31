@@ -33,12 +33,14 @@
           :href="suggestion.path"
           @click.prevent
         >
-          <span class="page-title">
-            <strong class="text--primary">
-              {{ suggestion.title }}
-            </strong>
-            > <span class="text--primary" v-text="suggestion.terms.join(' ')"></span>
-          </span>
+          <div class="page-title" v-text="suggestion.title"></div>
+          <div
+            v-for="(context, cIndex) in suggestion.contexts"
+            :key="cIndex"
+            class="page-context"
+            v-html="context.text"
+          >
+          </div>
         </a>
       </li>
     </ul>
@@ -64,22 +66,17 @@ export default {
 
     this.miniSearch = new MiniSearch({
       fields: ['title', 'content'],
-      storeFields: ['title', 'path'],
+      storeFields: ['title', 'path', 'content'],
       searchOptions: {
-        fuzzy: 0,
-        processTerm: (term) => term.toLowerCase()
+        fuzzy: 0.2
       }
     })
 
-    const pages = []
-
-    for (let i = 0; i < this.$site.pages.length; i += 1) {
-      this.$site.pages[i].content = removeMarkdown(stripHtmltags(this.$site.pages[i].content.toLowerCase()))
-      pages.push({
-        id: i,
-        ...this.$site.pages[i],
-      })
-    }
+    const pages = this.$site.pages.map(page => ({
+      ...page,
+      id: page.key,
+      content: removeMarkdown(stripHtmltags(page.content))
+    }))
 
     this.miniSearch.addAll(pages)
   },
@@ -89,22 +86,49 @@ export default {
   computed: {
     suggestions () {
       const query = this.query.trim().toLowerCase();
-      if (!query) {
+      if (query.length < 3) {
         return
       }
 
-      const queryWords = query.split(' ')
-      const search = this.miniSearch.search(query)
+      const results = this.miniSearch.search(query).slice(0, 5)
 
-      const res = search.filter((search) => {
-        if (search.terms.length !== queryWords.length) {
-          return false
+      return results.map((result = {}) => {
+        const { terms = [], content = '' } = result
+        const loweredContent = content.toLowerCase()
+        const contextLength = 25
+        const contexts = []
+
+        terms.forEach((term) => {
+          let termStart = loweredContent.indexOf(term);
+
+          while (termStart >= 0 && contexts.length < 3) {
+            const termEnd = termStart + term.length
+            const ctxStart = termStart - contextLength
+            const ctxEnd = termEnd + contextLength
+
+            const hasBeenEncountered = contexts.some(({ range: [start, end] }) => (termStart >= start && termStart <= end))
+
+            if (!hasBeenEncountered) {
+              let text = `...${content.substring(ctxStart, termStart)}`
+              text += `<span class="text--primary">${content.substring(termStart, termEnd)}</span>`
+              text += `${content.substring(termEnd, ctxEnd)}...`
+              contexts.push({
+                text,
+                range: [ctxStart, ctxEnd]
+              })
+            }
+
+            termStart = loweredContent.indexOf(term, ctxEnd);
+          }
+        })
+
+        return {
+          ...result,
+          contexts
         }
-
-        return true
       })
 
-      return res
+      return results
     },
     showSuggestions () {
       return this.focused && this.suggestions && this.suggestions.length
@@ -146,7 +170,7 @@ export default {
       }
       const path = this.suggestions[index].path
       if (this.$route.path !== path) {
-        this.$router.push(this.suggestions[index].path)
+        this.$router.push(path)
       };
       this.query = ''
       this.focusIndex = 0
@@ -191,12 +215,12 @@ export default {
 
   .suggestions {
     background: #fff;
-    width: 20rem;
+    width: 25rem;
     position: absolute;
     top: 1.5rem;
     border: 1px solid darken($borderColor, 10%);
     border-radius: 6px;
-    padding: 0.4rem;
+    padding: 0.2rem;
     list-style-type: none;
 
     &.align-right {
@@ -206,21 +230,25 @@ export default {
 
   .suggestion {
     line-height: 1.4;
-    padding: 0.4rem 0.6rem;
+    padding: 0.4rem 0.4rem;
     border-radius: 4px;
     cursor: pointer;
 
     a {
       white-space: normal;
-      color: lighten($textColor, 35%);
+      display: block;
 
       .page-title {
-        font-weight: 600;
+        font-size: 1.2em;
+        background-color: $accentColor;
+        color: #ffffff;
+        padding: 0.2em 0.4em;
+        border-radius: 4px;
       }
 
-      .header {
-        font-size: 0.9em;
-        margin-left: 0.25em;
+      .page-context {
+        font-size: 1em;
+        color: grey;
       }
     }
 
