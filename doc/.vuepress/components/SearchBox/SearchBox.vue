@@ -6,7 +6,6 @@
       aria-label="Search"
       autocomplete="off"
       spellcheck="false"
-      ref="search"
       placeholder="Search"
       :class="{ 'focused': focused }"
       @focus="focused = true"
@@ -25,7 +24,6 @@
       <li
         v-for="(suggestion, index) in suggestions"
         :key="index"
-        :ref="`suggestion_${suggestion}`"
         class="suggestion"
         :class="{ focused: index === focusIndex }"
         @mousedown="go(index)"
