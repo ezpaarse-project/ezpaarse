@@ -47,7 +47,7 @@ describe('The server', function () {
       });
     });
 
-    it('and does not filter them if ezPAARSE-Filter-Status is set to false (@01a)', function (done) {
+    it('and does not filter them if ezPAARSE-Filter-Status is set to false (@02)', function (done) {
       var headers = {
         'Accept' : 'application/json',
         'crossref-enrich' : 'false',
@@ -66,9 +66,34 @@ describe('The server', function () {
         done();
       });
     });
+
+    it('and only filters status listed in ezPAARSE-Filter-Status (@03)', function (done) {
+      const validStatus = ['206', '403', '503'];
+      const headers = {
+        'Accept' : 'application/json',
+        'crossref-enrich' : 'false',
+        'ezPAARSE-Filter-Status': validStatus.join(',')
+      };
+      helpers.post('/', multipleStatus, headers, function (err, res, body) {
+        if (!res) { throw new Error('ezPAARSE is not running'); }
+        if (err)  { throw err; }
+        res.should.have.status(200);
+
+        should.exist(body);
+        should.ok(body.length, 'The server returned an empty response');
+        var json = JSON.parse(body);
+        json.should.be.an.instanceOf(Array);
+        should.ok(json.length === 3, 'Expected 3 ECs, but got ' + json.length);
+        json.forEach((ec) => {
+          ec.should.have.property('status');
+          ec.status.should.be.equalOneOf(validStatus);
+        });
+        done();
+      });
+    });
   });
   describe('receives a log with redundant consultations on the HTTP POST / route', function () {
-    it('and sends back a deduplicated output file using session (@02)', function (done) {
+    it('and sends back a deduplicated output file using session (@04)', function (done) {
       var headers = {
         'Accept'               : 'application/json',
         'crossref-enrich'      : 'false',
@@ -100,7 +125,7 @@ describe('The server', function () {
     });
   });
   describe('receives a log with redundant consultations on the HTTP POST / route', function () {
-    it('and sends back a deduplicated output file using login (@03)', function (done) {
+    it('and sends back a deduplicated output file using login (@05)', function (done) {
       var headers = {
         'Accept'              : 'application/json',
         'crossref-enrich'     : 'false',
@@ -132,7 +157,7 @@ describe('The server', function () {
     });
   });
   describe('receives a log with redundant consultations on the HTTP POST / route', function () {
-    it('and sends back a deduplicated output file using IP (@04)', function (done) {
+    it('and sends back a deduplicated output file using IP (@06)', function (done) {
       var headers = {
         'Accept'              : 'application/json',
         'crossref-enrich'     : 'false',
@@ -165,7 +190,7 @@ describe('The server', function () {
   });
 
   describe('receives a log with many redundant consultations on the HTTP POST / route', function () {
-    it('and sends back a deduplicated output file (@05)', function (done) {
+    it('and sends back a deduplicated output file (@07)', function (done) {
       var headers = {
         'Accept'               : 'application/json',
         'crossref-enrich'      : 'false',
@@ -198,7 +223,7 @@ describe('The server', function () {
   });
 
   describe('receives a log with only two redundant HTML consultations on the HTTP POST / route', function () {
-    it('and sends back a deduplicated output file (@05)', function (done) {
+    it('and sends back a deduplicated output file (@08)', function (done) {
       var headers = {
         'Accept'               : 'application/json',
         'crossref-enrich'      : 'false',
@@ -230,7 +255,7 @@ describe('The server', function () {
     });
   });
   describe('receives a log with redundant consultations', function () {
-    it('and deduplicates them into the same window (@06)', function (done) {
+    it('and deduplicates them into the same window (@09)', function (done) {
       var headers = {
         'Accept'               : 'application/json',
         'crossref-enrich' : 'false',
