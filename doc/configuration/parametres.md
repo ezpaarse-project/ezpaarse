@@ -136,8 +136,14 @@ Tells ezPAARSE to use a predefined set of parameters. For example: `inist` for I
 Set to `false` to prevent lines with HTTP status codes 301, 302 from being filtered and discarded.
 
 ### ezPAARSE-Filter-Status
-Set to `false` to disable filtering on status codes, or provide a comma-seperated list of status codes that should be kept.
+Set to `false` to disable filtering on status codes, or provide a comma-separated list of status codes that should be kept.
 If you provide your own list, ECs with a status of `401` or `403` won't be marked as denied, and will be present in the main result file.
+
+#### Example
+Only keep status 200, 201 and 403
+```
+'ezPAARSE-Filter-Status': '200,201,403'
+```
 
 ### Disable-Filters
 Disable filters applying to robots or arbitrary hosts/domains. (defaults to `none`).
