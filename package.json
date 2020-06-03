@@ -111,11 +111,21 @@
     "insertversion:makefile": "sed -i \"s#\\(ezpaarseproject/ezpaarse:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" Makefile",
     "version": "npm run insertversion:docker && npm run insertversion:makefile && git add docker-compose.yml Makefile",
     "lint": "eslint --ext .js,.vue lib/ test/ routes/ middlewares/ client/",
-    "dev": "NODE_ENV=development nodemon -i 'test/*.js' -i 'platforms/*.js' -i 'middlewares/*.js' -i 'resources/*.js' -i client -i tmp ./server.js -e js",
+    "dev": "NODE_ENV=development nodemon -e js server.js",
     "start": "node server.js",
     "build": "nuxt build --no-generate",
     "docs:build": "vuepress build doc",
     "docs:dev": "vuepress dev doc"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "test/*",
+      "platforms/*",
+      "middlewares/*",
+      "resources/*",
+      "tmp",
+      "client"
+    ]
   },
   "husky": {
     "hooks": {
