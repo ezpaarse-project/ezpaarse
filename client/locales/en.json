@@ -36,9 +36,9 @@
       "errorsFound": "Errors have been encountered",
       "findYourToken": "Retrieve your authentication token in your <a href=\"{url}\" target=\"_blank\">ezMESURE space</a>.",
       "metrics": {
-        "inserted": "Insérés",
-        "updated": "Mis à jour",
-        "failed": "Erreurs"
+        "inserted": "Inserted",
+        "updated": "Updated",
+        "failed": "Failed"
       }
     },
     "pages": {
@@ -84,7 +84,7 @@
           "title": "Settings",
           "customSettings": "Custom settings",
           "predefinedSettings": "Predefined settings",
-          "defaultSettings": "default",
+          "defaultSettings": "Default",
           "saveSettings": "Remember my settings",
           "logFiles": "Log files",
           "designLogFormat": "Design my log format",
@@ -112,7 +112,7 @@
           "deleted": "Setting deleted",
           "savePredefinedSettings": "Save settings",
           "importPredefinedSettings": "Importer settings",
-          "modified": "modified",
+          "modified": "Modified",
           "saveAsNew": "Save as new configuration",
           "nameUnavailable": "This name is unavailable",
           "identifierUnavailable": "This identifier is unavailable",
@@ -120,7 +120,7 @@
           "identifierRequired": "Identifier is required",
           "autoRecognition": "Auto recognition",
           "tracesLevel": {
-            "generalInformations": "General informations",
+            "generalInformations": "General information",
             "errorsOnly": "Errors only",
             "warning": "Warnings without consequences"
           },
@@ -134,8 +134,8 @@
         "logFiles": {
           "clickToAdd": "Click or Drop to add",
           "removeList": "Delete list",
-          "selectedFiles": "selected files",
-          "total": "total"
+          "selectedFiles": "Selected files",
+          "total": "Total"
         },
         "logFormat": {
           "copyPast": "Copy/paste your log lines here",
@@ -239,10 +239,10 @@
           "allPlatformsPerPage": "All",
           "update": "Update",
           "noPlatformFound": "No platform matching search",
-          "newPlatformsAvailable": "De nouvelles plateformes sont disponibles",
+          "newPlatformsAvailable": "New platforms are available",
           "entries": "Entries",
           "humanCertification": "Human certification",
-          "human": "Humain",
+          "human": "Human",
           "publisherCertification": "Publisher certification",
           "publisher": "Publisher"
         },
@@ -355,22 +355,22 @@
       "cannotGetAppInfos": "The information about ezPAARSE could not be loaded.",
       "cannotLoadPKBS": "The PKB information could not be loaded.",
       "cannotLoadStatus": "Status information about ezPAARSE could not be loaded.",
-      "cannotGetPlatforms": "Impossible to load platform data.",
-      "cannotGetPlatformsChanged": "Impossible to load the list of modified platforms.",
+      "cannotGetPlatforms": "Unable to load platform data.",
+      "cannotGetPlatformsChanged": "Unable to load the list of modified platforms.",
       "impossibleToUpdate": "Unable to update.",
-      "CannotLoadUsersList": "Impossible to load the user list.",
-      "cannotRemoveUser": "Impossible to delete the user.",
+      "CannotLoadUsersList": "Unable to load the user list.",
+      "cannotRemoveUser": "Unable to delete the user.",
       "cannotSendFeedback": "The feedback could not be sent.",
-      "cannotResetPassword": "Impossible to update the password.",
+      "cannotResetPassword": "Unable to update the password.",
       "cannotGetReport": "Unable to retrieve the requested report.",
       "cannotGetLogging": "Unable to recover system traces.",
       "cannotGetJobs": "Unable to retrieve current processing.",
-      "cannotGetCountriesList": "Impossible to retrieve the list of countries.",
+      "cannotGetCountriesList": "Unable to retrieve the list of countries.",
       "CannotLoadUserNumber": "Unable to load the number of users.",
       "cannotRegister": "Unable to register",
       "cannotNotifiate": "Unable to enable email notification.",
-      "cannotUpdatePassword": "Impossible to update the password.",
-      "cannotGetlogFormat": "Impossible to retrieve the ifformations from the first log line.",
+      "cannotUpdatePassword": "Unable to update the password.",
+      "cannotGetlogFormat": "Unable to retrieve the information from the first log line.",
       "error": "One or more errors have occurred.",
       "userNotFound": "No account corresponds to this email address.",
       "cannotLoadJobsData": "An error occurred while loading the processing data",
@@ -403,7 +403,7 @@
     "filesName": "Files name",
     "size": "Size",
     "password": "Password",
-    "passwordForgotten": "Password forgottent ?",
+    "passwordForgotten": "Forgot Password?",
     "reset": "Reset",
     "login": "Log in",
     "signin": "Sign in",
@@ -412,10 +412,10 @@
     "confirmPassword": "Confirm your password",
     "fieldRequired": "This field is required",
     "language": "Language",
-    "send": "Envoyer",
+    "send": "Send",
     "informTeamWarning": "You just installed ezPAARSE and you're going to create the administrator account. With your agreement, we would like to be informed about this installation. The e-mail address filled above and the version of ezPAARSE you installed will be sent to <strong>{recipients}</strong>.",
     "informTeam": "Inform the team",
-    "loading": "Chargement en cours...",
-    "ezPAARSEOffline": "ezPAARSE is not responding. This message will automatically disappear when the connection is reestablished."
+    "loading": "Loading...",
+    "ezPAARSEOfflLine": "ezPAARSE is not responding. This message will automatically disappear when the connection is reestablished."
   }
 }
