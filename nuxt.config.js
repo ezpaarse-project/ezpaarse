@@ -1,6 +1,7 @@
 'use strict';
 
 const colors = require('vuetify/es5/util/colors').default;
+const config = require('./lib/config');
 
 module.exports = {
   /*
@@ -27,7 +28,8 @@ module.exports = {
   },
   modules: [
     '@nuxtjs/axios',
-    '@nuxtjs/auth'
+    '@nuxtjs/auth',
+    'nuxt-i18n',
   ],
   axios: {
     proxy: true
@@ -58,7 +60,6 @@ module.exports = {
   ],
   plugins: [
     { src: '~/plugins/axios.js', ssr: false },
-    { src: '~/plugins/i18n.js', ssr: false },
     { src: '~/plugins/socket.js', ssr: false }
   ],
   /*
@@ -93,5 +94,32 @@ module.exports = {
         }
       }
     }
+  },
+  i18n: {
+    baseUrl: config.EZPAARSE_PARENT_URL,
+    locales: [
+      {
+        name: 'Français',
+        code: 'fr',
+        iso: 'fr-FR',
+        file: 'fr.json',
+      },
+      {
+        name: 'English',
+        code: 'en',
+        iso: 'en-US',
+        file: 'en.json',
+      },
+    ],
+    defaultLocale: config.DEFAULT_LOCALE,
+    lazy: true,
+    langDir: 'locales/',
+    strategy: 'prefix_except_default',
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieKey: 'ezpaarse_i18n',
+      alwaysRedirect: true,
+      fallbackLocale: 'en',
+    },
   }
 };

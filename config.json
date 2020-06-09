@@ -77,5 +77,6 @@
   "EZPAARSE_ALERTS": {
     "activationThreshold": 1000,
     "unknownDomainsRate": 10
-  }
+  },
+  "DEFAULT_LOCALE": "fr"
 }

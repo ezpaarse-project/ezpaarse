@@ -95,7 +95,7 @@
 
         <template v-slot:item.jobId="{ item }">
           <router-link
-            :to="{ path: `/report/${item.jobId}` }"
+            :to="localePath({ path: `/report/${item.jobId}` })"
             target="_blank"
             v-text="item.jobId"
           />
@@ -153,7 +153,7 @@
             </template>
 
             <v-list>
-              <v-list-item :href="`/${item.jobId}`" target="_blank">
+              <v-list-item :href="localePath(`/${item.jobId}`)" target="_blank">
                 <v-list-item-avatar>
                   <v-icon>mdi-download</v-icon>
                 </v-list-item-avatar>

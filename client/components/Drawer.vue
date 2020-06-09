@@ -28,7 +28,7 @@
     <v-list>
       <v-list-item
         router
-        :to="{ path: '/profile' }"
+        :to="localePath({ path: '/profile' })"
       >
         <v-list-item-avatar>
           <v-icon large>
@@ -63,7 +63,7 @@
       <v-list-item
         v-if="$auth.loggedIn"
         router
-        :to="{ path: '/process' }"
+        :to="localePath({ path: '/process' })"
         ripple
       >
         <v-list-item-icon>
@@ -77,7 +77,7 @@
       <v-list-item
         v-if="$auth.loggedIn"
         router
-        :to="{ path: '/format' }"
+        :to="localePath({ path: '/format' })"
         ripple
       >
         <v-list-item-icon>
@@ -91,7 +91,7 @@
       <v-list-group
         v-if="$auth.user && $auth.user.group === 'admin'"
         no-action
-        prepend-icon="mdi-settings"
+        prepend-icon="mdi-cog"
         append-icon="mdi-chevron-down"
         :value="$nuxt.$route.name && $nuxt.$route.name.indexOf('admin') !== -1"
       >
@@ -106,7 +106,7 @@
 
         <v-list-item
           router
-          :to="{ path: '/admin/platforms' }"
+          :to="localePath({ path: '/admin/platforms' })"
           ripple
         >
           <v-list-item-title class="body-2" v-text="$t('ui.drawer.admin.platforms')" />
@@ -120,7 +120,7 @@
 
         <v-list-item
           router
-          :to="{ path: '/admin/updates' }"
+          :to="localePath({ path: '/admin/updates' })"
           ripple
         >
           <v-list-item-title class="body-2" v-text="$t('ui.drawer.admin.updates')" />
@@ -134,7 +134,7 @@
 
         <v-list-item
           router
-          :to="{ path: '/admin/users' }"
+          :to="localePath({ path: '/admin/users' })"
           ripple
         >
           <v-list-item-content>
@@ -147,7 +147,7 @@
 
         <v-list-item
           router
-          :to="{ path: '/admin/jobs' }"
+          :to="localePath({ path: '/admin/jobs' })"
           ripple
         >
           <v-list-item-content>
@@ -166,7 +166,7 @@
         ripple
       >
         <v-list-item-icon>
-          <v-icon>mdi-library-books</v-icon>
+          <v-icon>mdi-text-box-multiple</v-icon>
         </v-list-item-icon>
         <v-list-item-content>
           <v-list-item-title class="body-2" v-text="$t('ui.drawer.documentation')" />
@@ -178,17 +178,22 @@
           <v-list-item-title class="body-2" v-text="$t('ui.language')" />
         </template>
 
-        <v-list-item v-for="lang in locales" :key="lang.value" @click="$i18n.locale = lang.value">
-          <v-list-item-title class="body-2" v-text="lang.name" />
+        <v-list-item
+          v-for="locale in $i18n.locales"
+          :key="locale.code"
+          router
+          :to="switchLocalePath(locale.code)"
+        >
+          <v-list-item-title class="body-2" v-text="locale.name" />
           <v-list-item-icon>
-            <img width="24" :src="require(`@/static/img/${lang.value}.png`)">
+            <img width="24" :src="require(`@/static/img/${locale.code}.png`)">
           </v-list-item-icon>
         </v-list-item>
       </v-list-group>
 
       <v-list-item
         router
-        :to="{ path: '/feedback' }"
+        :to="localePath({ path: '/feedback' })"
         ripple
       >
         <v-list-item-icon>
@@ -233,7 +238,9 @@
           target="_blank"
         >
           Version: {{ appInfos.version }}
-          <v-icon right> mdi-github-circle</v-icon>
+          <v-icon right>
+            mdi-github
+          </v-icon>
         </v-btn>
       </div>
     </template>
@@ -245,14 +252,10 @@ export default {
   data () {
     return {
       mini: false,
-      locales: [
-        { name: 'Français', value: 'fr' },
-        { name: 'English', value: 'en' }
-      ],
       links: [
         { icon: 'mdi-home', href: 'http://www.ezpaarse.org/' },
         { icon: 'mdi-email', href: 'mailto:ezpaarse@couperin.org' },
-        { icon: 'mdi-twitter-box', href: 'https://twitter.com/ezpaarse' },
+        { icon: 'mdi-twitter', href: 'https://twitter.com/ezpaarse' },
         { icon: 'mdi-comment-text-outline', href: 'http://blog.ezpaarse.org/' },
         { icon: 'mdi-youtube', href: 'https://www.youtube.com/channel/UCcR-0UE9WjYiwS4fMG2T4tQ' }
       ]

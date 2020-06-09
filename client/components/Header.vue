@@ -28,7 +28,7 @@
       />
     </v-chip>
 
-    <v-btn to="/process" class="text-none mx-2 body-2" @click="setStep(3)">
+    <v-btn :to="localePath({ path: '/process' })" class="text-none mx-2 body-2" @click="setStep(3)">
       <span v-if="!jobStatus" v-text="$t('ui.header.noCurrentProcessing')" />
       <span v-else-if="jobStatus === 'abort'" v-text="$t('ui.header.processCanceled')" />
       <span v-else-if="jobStatus === 'end'" v-text="$t('ui.header.processEnd')" />
