@@ -27,7 +27,10 @@ The default value is set to `production`
 The default value is set to `59599`
 
 ### EZPAARSE_NODEJS_VERSION
-The default value is set to `6.6.0`
+The default value is set to `10.15.3`
+
+### DEFAULT_LOCALE
+The default value is set to `fr`
 
 ### EZPAARSE_OUTPUT_FIELDS
 Contains an array of field names that are going to be present in the result file produced by ezPAARSE.
