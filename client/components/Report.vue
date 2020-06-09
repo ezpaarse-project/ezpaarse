@@ -66,7 +66,7 @@
               <tr v-if="category !== 'rejets'">
                 <td>{{ item[0] }}</td>
                 <td v-if="isLink(item[1])" class="text-xs-left">
-                  <a :href="item[1]" target="_blank" v-text="item[1]" />
+                  <a :href="localePath(item[1])" target="_blank" v-text="item[1]" />
                 </td>
                 <td v-else class="text-left" v-text="item[1]" />
               </tr>
@@ -81,7 +81,7 @@
                 <td v-else v-text="item[0]" />
 
                 <td v-if="isLink(item[1])" class="text-left">
-                  <a :href="item[1]" target="_blank" v-text="item[1]" />
+                  <a :href="localePath(item[1])" target="_blank" v-text="item[1]" />
                 </td>
                 <td v-else class="text-left" v-text="item[1]" />
 

@@ -12,7 +12,7 @@
   "dependencies": {
     "@ezpaarse-project/ezmesure": "^2.2.2",
     "@ezpaarse-project/ezpaarse": "^2.0.3",
-    "@mdi/font": "^3.5.95",
+    "@mdi/font": "^5.3.45",
     "@nuxtjs/auth": "^4.5.3",
     "@nuxtjs/axios": "^5.3.6",
     "@nuxtjs/vuetify": "^1.10.3",
@@ -60,6 +60,7 @@
     "nodemailer": "^4.6.8",
     "nodemon": "^1.18.9",
     "nuxt": "^2.11.0",
+    "nuxt-i18n": "^6.12.2",
     "passport": "^0.4.0",
     "passport-http": "~0.3.0",
     "passport-local": "~1.0.0",
@@ -78,7 +79,6 @@
     "type-is": "~1.6.15",
     "useragent": "^2.3.0",
     "uuid": "^3.3.2",
-    "vue-i18n": "^8.4.0",
     "vue-localstorage": "^0.6.2",
     "vuex": "^3.1.0",
     "winston": "^3.1.0",
@@ -118,11 +118,13 @@
     "docs:dev": "vuepress dev doc"
   },
   "nodemonConfig": {
+    "watch": [
+      "test/*.js",
+      "platforms/*.js",
+      "middlewares/*.js",
+      "resources/*.js"
+    ],
     "ignore": [
-      "test/*",
-      "platforms/*",
-      "middlewares/*",
-      "resources/*",
       "tmp",
       "client"
     ]

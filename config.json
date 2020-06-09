@@ -7,6 +7,7 @@
   "EZPAARSE_ENV": "production",
   "EZPAARSE_NODEJS_PORT": "59599",
   "EZPAARSE_NODEJS_VERSION": "10.15.3",
+  "DEFAULT_LOCALE": "fr",
   "EZPAARSE_OUTPUT_FIELDS":
   [
     "datetime",
