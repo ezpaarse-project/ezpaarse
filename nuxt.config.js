@@ -96,7 +96,6 @@ module.exports = {
     }
   },
   i18n: {
-    baseUrl: config.EZPAARSE_PARENT_URL,
     locales: [
       {
         name: 'Français',
