@@ -61,6 +61,7 @@
             hide-default-headers
             hide-default-footer
             item-key="name"
+            disable-pagination
           >
             <template v-slot:item="{ item }">
               <tr v-if="category !== 'rejets'">
