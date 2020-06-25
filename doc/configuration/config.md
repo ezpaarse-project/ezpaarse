@@ -9,6 +9,19 @@ The default value is set to `ezpaarse@couperin.org`
 To avoid the setup of a local SMTP server, you can delegate the management of user feedback (via the online form) to another ezPAARSE instance (called a "parent" instance).
 The default value is set to `http://ezpaarse-preprod.couperin.org`
 
+### EZPAARSE_SMTP_SERVER
+If you want to use a specific SMTP server to send emails, set the value to a JSON object that is compatible with [nodemailer options](https://nodemailer.com/smtp/#general-options).
+
+#### Example
+```json
+{
+  "EZPAARSE_SMTP_SERVER": {
+    "host": "smtp.intra.org",
+    "port": 25
+  }
+}
+```
+
 ### EZPAARSE_FEEDBACK_RECIPIENTS
 The mail adress where the users feedback get sent.
 The default value is set to `ezpaarse@couperin.org`
