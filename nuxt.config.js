@@ -110,6 +110,7 @@ module.exports = {
         file: 'en.json',
       },
     ],
+    baseUrl: '/',
     defaultLocale: config.DEFAULT_LOCALE,
     lazy: true,
     langDir: 'locales/',
