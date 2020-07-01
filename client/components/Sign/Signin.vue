@@ -28,7 +28,7 @@
         class="body-2"
         text
         router
-        :to="localePath({ path: '/password' })"
+        :to="{ path: '/password' }"
         ripple
       >
         {{ $t('ui.passwordForgotten') }}

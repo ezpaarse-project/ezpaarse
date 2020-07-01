@@ -31,7 +31,7 @@
           <v-btn
             color="error"
             router
-            :to="localePath({ path: '/' })"
+            :to="{ path: '/' }"
             v-text="$t('ui.back')"
           />
         </v-card-actions>

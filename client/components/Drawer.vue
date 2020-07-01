@@ -28,7 +28,7 @@
     <v-list>
       <v-list-item
         router
-        :to="localePath({ path: '/profile' })"
+        :to="{ path: '/profile' }"
       >
         <v-list-item-avatar>
           <v-icon large>
@@ -63,7 +63,7 @@
       <v-list-item
         v-if="$auth.loggedIn"
         router
-        :to="localePath({ path: '/process' })"
+        :to="{ path: '/process' }"
         ripple
       >
         <v-list-item-icon>
@@ -77,7 +77,7 @@
       <v-list-item
         v-if="$auth.loggedIn"
         router
-        :to="localePath({ path: '/format' })"
+        :to="{ path: '/format' }"
         ripple
       >
         <v-list-item-icon>
@@ -106,7 +106,7 @@
 
         <v-list-item
           router
-          :to="localePath({ path: '/admin/platforms' })"
+          :to="{ path: '/admin/platforms' }"
           ripple
         >
           <v-list-item-title class="body-2" v-text="$t('ui.drawer.admin.platforms')" />
@@ -120,7 +120,7 @@
 
         <v-list-item
           router
-          :to="localePath({ path: '/admin/updates' })"
+          :to="{ path: '/admin/updates' }"
           ripple
         >
           <v-list-item-title class="body-2" v-text="$t('ui.drawer.admin.updates')" />
@@ -134,7 +134,7 @@
 
         <v-list-item
           router
-          :to="localePath({ path: '/admin/users' })"
+          :to="{ path: '/admin/users' }"
           ripple
         >
           <v-list-item-content>
@@ -147,7 +147,7 @@
 
         <v-list-item
           router
-          :to="localePath({ path: '/admin/jobs' })"
+          :to="{ path: '/admin/jobs' }"
           ripple
         >
           <v-list-item-content>
@@ -181,8 +181,7 @@
         <v-list-item
           v-for="locale in $i18n.locales"
           :key="locale.code"
-          router
-          :to="switchLocalePath(locale.code)"
+          @click="$i18n.setLocale(locale.code)"
         >
           <v-list-item-title class="body-2" v-text="locale.name" />
           <v-list-item-icon>
@@ -193,7 +192,7 @@
 
       <v-list-item
         router
-        :to="localePath({ path: '/feedback' })"
+        :to="{ path: '/feedback' }"
         ripple
       >
         <v-list-item-icon>

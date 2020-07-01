@@ -114,7 +114,7 @@ module.exports = {
     defaultLocale: config.DEFAULT_LOCALE,
     lazy: true,
     langDir: 'locales/',
-    strategy: 'prefix_except_default',
+    strategy: 'no_prefix',
     detectBrowserLanguage: {
       useCookie: true,
       cookieKey: 'ezpaarse_i18n',

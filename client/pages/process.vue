@@ -172,7 +172,7 @@
 
               <v-btn
                 v-if="jobId && !jobInProgress"
-                :href="localePath(resultUrl)"
+                :href="resultUrl"
                 target="_blank"
                 color="primary"
               >
