@@ -28,7 +28,7 @@ describe('istex consultations rtype', function () {
       const expected = [
         // /document/55420CDEEA0F6538E215A511C72E2E5E57570138/fulltext/original
         ['brief-communication', 'fulltext', 'ARTICLE' ],
-        // /document/FFFFECE31185AD0CD6638205503ABBF7C3AEFBC3/metadata/xml
+        // /document/FFFFE83ADC4E41D5FC3E9EA789C66B8FE9723711/metadata/xml
         ['research-article', 'metadata', 'METADATA' ],
         // /document/FFFFD010AA7CB80B5EE02241C77FBB354F17278B/metadata/mods
         ['book-reviews', 'metadata', 'METADATA'],
