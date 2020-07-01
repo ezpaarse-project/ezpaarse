@@ -513,6 +513,7 @@ export default {
         { name: 'ezPAARSE-Enrich', anchor: 'ezpaarse-enrich' },
         { name: 'ezPAARSE-Predefined-Settings', anchor: 'ezpaarse-predefined-settings' },
         { name: 'ezPAARSE-Filter-Redirects', anchor: 'ezpaarse-filter-redirects' },
+        { name: 'ezPAARSE-Filter-Status', anchor: 'ezpaarse-filter-status' },
         { name: 'Disable-Filters', anchor: 'disable-filters' },
         { name: 'Force-ECField-Publisher', anchor: 'force-ecfield-publisher' },
         { name: 'Extract', anchor: 'extract' },
@@ -532,7 +533,8 @@ export default {
         { name: 'Hal-throttle', anchor: 'hal' },
         { name: 'Istex-enrich', anchor: 'istex' },
         { name: 'Istex-ttl', anchor: 'istex' },
-        { name: 'Istex-throttle', anchor: 'istex' }
+        { name: 'Istex-throttle', anchor: 'istex' },
+        { name: 'Populate-Fields' }
       ];
     }
   },
