@@ -306,7 +306,7 @@
                         <v-list-item-action @click.stop>
                           <v-btn
                             icon
-                            :href="`https://ezpaarse.readthedocs.io/en/master/configuration/parametres.html#${item.anchor}`"
+                            :href="`https://ezpaarse-project.github.io/ezpaarse/configuration/parametres.html#${item.anchor}`"
                             target="_blank"
                           >
                             <v-icon color="accent">
