@@ -303,7 +303,7 @@
                       <template v-slot:item="{ item }">
                         <v-list-item-content v-text="item.name" />
                         <v-spacer />
-                        <v-list-item-action @click.stop>
+                        <v-list-item-action v-if="item.anchor" @click.stop>
                           <v-btn
                             icon
                             :href="`https://ezpaarse-project.github.io/ezpaarse/configuration/parametres.html#${item.anchor}`"
