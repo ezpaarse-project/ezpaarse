@@ -166,7 +166,7 @@ export default {
         },
         {
           label: 'ECsGenerated',
-          icon: 'mdi-file-document-box-multiple-outline',
+          icon: 'mdi-text-box-multiple-outline',
           iconColor: 'light-green',
           value: general['nb-ecs']
         },
