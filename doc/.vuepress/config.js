@@ -53,7 +53,16 @@ module.exports = {
   ],
   plugins: [
     '@vuepress/plugin-back-to-top',
-    require.resolve('./components/SearchBox')
+    [
+      "vuepress-plugin-meilisearch",
+      {
+        hostUrl: 'http://localhost:7700',
+        apiKey: 'doc.ezpaarse.org',
+        indexUid: 'ezpaarse',
+        placeholder: 'Search',
+        maxSuggestions: 10
+      }
+    ]
   ],
   additionalPages: mwPages,
   themeConfig: {
@@ -125,7 +134,6 @@ module.exports = {
           '/development/makefile.md',
           '/development/core.md',
           '/development/platforms.md',
-          '/development/middlewares.md',
           '/development/tools.md',
           '/development/doc.md',
           '/development/tree.md',
@@ -135,7 +143,16 @@ module.exports = {
       {
         title: 'Middlewares',
         collapsable: false,
-        children: mwPages.filter(page => page.showInSidebar).map(page => page.path)
+        children: [
+          '/middlewares/infos.md',
+          '/middlewares/usage.md',
+          '/middlewares/create.md',
+          {
+            title: 'Available middlewares',
+            collapsable: false,
+            children: mwPages.filter(page => page.showInSidebar).map(page => page.path)
+          }
+        ]
       }
     ]
   }

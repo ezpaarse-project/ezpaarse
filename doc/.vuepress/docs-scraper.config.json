@@ -1,0 +1,53 @@
+{
+  "index_uid": "ezpaarse",
+  "start_urls": [
+    "https://ezpaarse-project.github.io/ezpaarse/",
+    {
+      "url": "https://blog.ezpaarse.org/2020/01/communication-qui-sommes-nous-en-2020/",
+      "selector_keys": "blog"
+    }
+  ],
+  "selectors": {
+    "default": {
+      "lvl0": {
+        "selector": ".sidebar-heading.open",
+        "global": true,
+        "default_value": "Documentation"
+      },
+      "lvl1": ".theme-default-content h1",
+      "lvl2": ".theme-default-content h2",
+      "lvl3": ".theme-default-content h3",
+      "lvl4": ".theme-default-content h4",
+      "lvl5": ".theme-default-content h5",
+      "text": ".theme-default-content p, .theme-default-content li"
+    },
+    "blog": {
+      "lvl0": {
+        "selector": ".site-header",
+        "global": true,
+        "default_value": "Blog ezPAARSE"
+      },
+      "lvl1": ".content-area h1",
+      "text": ".content-area .entry-content p"
+    }
+  },
+  "strip_chars": " .,;:#",
+  "scrap_start_urls": true,
+  "custom_settings": {
+    "synonyms": {
+      "relevancy": [
+        "relevant",
+        "relevance"
+      ],
+      "relevant": [
+        "relevancy",
+        "relevance"
+      ],
+      "relevance": [
+        "relevancy",
+        "relevant"
+      ]
+    }
+  },
+  "nb_hits": 915
+}
