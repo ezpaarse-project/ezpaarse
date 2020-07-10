@@ -202,118 +202,99 @@
             v-text="$t('ui.pages.process.logFormat.detectionFailed')"
           />
 
-          <v-expansion-panel v-else v-model="expandedPanels" expand>
-            <v-expansion-panel-content>
-              <template v-slot:header>
+          <v-expansion-panels v-else v-model="expandedPanels" multiple accordion>
+            <v-expansion-panel>
+              <v-expansion-panel-header disable-icon-rotate>
                 <div>{{ $t('ui.pages.process.logFormat.format') }} ({{ result.proxy }})</div>
-              </template>
-              <template v-slot:actions>
-                <v-icon v-if="result.strictMatch" color="success">
-                  mdi-check
-                </v-icon>
-                <v-icon v-else color="error">
-                  mdi-alert-circle
-                </v-icon>
-              </template>
-              <v-card>
-                <v-card-text>
-                  <div v-if="result.format">
-                    <span
-                      class="green--text"
-                      v-text="result.format.substr(0, result.formatBreak)"
-                    />
-                    <span
-                      class="red--text"
-                      v-text="result.format.substr(result.formatBreak)"
-                    />
-                  </div>
-                </v-card-text>
-              </v-card>
-            </v-expansion-panel-content>
+                <template v-slot:actions>
+                  <v-icon v-if="result.strictMatch" color="success">
+                    mdi-check
+                  </v-icon>
+                  <v-icon v-else color="error">
+                    mdi-alert-circle
+                  </v-icon>
+                </template>
+              </v-expansion-panel-header>
 
-            <v-expansion-panel-content>
-              <template v-slot:header>
+              <v-expansion-panel-content>
+                <div v-if="result.format">
+                  <span
+                    class="green--text"
+                    v-text="result.format.substr(0, result.formatBreak)"
+                  />
+                  <span
+                    class="red--text"
+                    v-text="result.format.substr(result.formatBreak)"
+                  />
+                </div>
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+
+            <v-expansion-panel>
+              <v-expansion-panel-header disable-icon-rotate>
                 <div>{{ $t('ui.pages.process.logFormat.regex') }}</div>
-              </template>
-              <template v-slot:actions>
-                <v-icon v-if="result.strictMatch" color="success">
-                  mdi-check
-                </v-icon>
-                <v-icon v-else color="error">
-                  mdi-alert-circle
-                </v-icon>
-              </template>
-              <v-card>
-                <v-card-text>
-                  <div v-if="result.regexp">
-                    <span
-                      class="green--text"
-                      v-text="result.regexp.substr(0, result.regexpBreak)"
-                    />
-                    <span
-                      class="red--text"
-                      v-text="result.regexp.substr(result.regexpBreak)"
-                    />
-                  </div>
+                <template v-slot:actions>
+                  <v-icon v-if="result.strictMatch" color="success">
+                    mdi-check
+                  </v-icon>
+                  <v-icon v-else color="error">
+                    mdi-alert-circle
+                  </v-icon>
+                </template>
+              </v-expansion-panel-header>
 
-                  <div v-else v-text="$t('ui.pages.process.logFormat.regexFailed')" />
-                </v-card-text>
-              </v-card>
-            </v-expansion-panel-content>
+              <v-expansion-panel-content>
+                <div v-if="result.regexp">
+                  <span
+                    class="green--text"
+                    v-text="result.regexp.substr(0, result.regexpBreak)"
+                  />
+                  <span
+                    class="red--text"
+                    v-text="result.regexp.substr(result.regexpBreak)"
+                  />
+                </div>
 
-            <v-expansion-panel-content>
-              <template v-slot:header>
+                <div v-else v-text="$t('ui.pages.process.logFormat.regexFailed')" />
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+
+            <v-expansion-panel>
+              <v-expansion-panel-header disable-icon-rotate>
                 <div>{{ $t('ui.pages.process.logFormat.ecGenerated') }}</div>
-              </template>
-              <template v-slot:actions>
-                <v-icon v-if="result.ec && !hasMissingField" color="success">
-                  mdi-check
-                </v-icon>
-                <v-icon v-else color="error">
-                  mdi-alert-circle
-                </v-icon>
-              </template>
-              <v-card>
-                <v-card-text v-if="hasMissingField">
-                  <v-alert
-                    v-for="missing in result.missing" :key="missing"
-                    :value="true"
-                    color="warning"
-                    icon="mdi-alert-outline"
-                    outlined
-                  >
-                    {{ $t(`ui.pages.process.logFormat.missing.${missing}`) }}
-                  </v-alert>
-                </v-card-text>
+                <template v-slot:actions>
+                  <v-icon v-if="result.ec && !hasMissingField" color="success">
+                    mdi-check
+                  </v-icon>
+                  <v-icon v-else color="error">
+                    mdi-alert-circle
+                  </v-icon>
+                </template>
+              </v-expansion-panel-header>
 
-                <v-card-text>
-                  <v-data-table
-                    :headers="ecHeaders"
-                    hide-actions
-                    :pagination="{ rowsPerPage: -1 }"
-                    item-key="name"
-                    :items="ecProps"
-                    class="elevation-1"
-                  >
-                    <template v-slot:headers="{ headers }">
-                      <tr>
-                        <th
-                          v-for="header in headers"
-                          :key="header.text"
-                          v-text="$t(`ui.pages.process.logFormat.${header.text}`)"
-                        />
-                      </tr>
-                    </template>
+              <v-expansion-panel-content>
+                <v-alert
+                  v-for="missing in result.missing"
+                  :key="missing"
+                  :value="hasMissingField"
+                  color="warning"
+                  icon="mdi-alert-outline"
+                  outlined
+                >
+                  {{ $t(`ui.pages.process.logFormat.missing.${missing}`) }}
+                </v-alert>
 
-                    <template v-slot:items="{ item }">
-                      <td v-text="item.name" />
-                      <td v-text="item.value" />
-                    </template>
-                  </v-data-table>
-                </v-card-text>
-              </v-card>
-            </v-expansion-panel-content>
-          </v-expansion-panel>
+                <v-data-table
+                  :headers="ecHeaders"
+                  hide-default-footer
+                  disable-pagination
+                  item-key="name"
+                  :items="ecProps"
+                  class="elevation-1"
+                />
+              </v-expansion-panel-content>
+            </v-expansion-panel>
+          </v-expansion-panels>
         </template>
       </v-card>
     </v-card-text>
@@ -349,15 +330,11 @@ export default {
     return {
       result: null,
       loading: false,
-      expandedPanels: [true, false, false],
+      expandedPanels: [0],
       matchingSettings: null,
       tryingSettings: false,
       discoverModal: false,
       saveModal: false,
-      ecHeaders: [
-        { text: 'property', value: 'property' },
-        { text: 'value', value: 'value' }
-      ],
       logTypes: [
         { value: '', text: 'Auto recognition' },
         { value: 'ezproxy', text: 'EZproxy' },
@@ -381,6 +358,12 @@ export default {
     }
   },
   computed: {
+    ecHeaders () {
+      return [
+        { text: this.$t('ui.pages.process.logFormat.property'), value: 'name' },
+        { text: this.$t('ui.pages.process.logFormat.value'), value: 'value' }
+      ];
+    },
     cardColor () {
       if (!this.result) { return 'info'; }
       if (this.result.strictMatch) { return this.hasMissingField ? 'warning' : 'success'; }
