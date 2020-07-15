@@ -2,10 +2,10 @@
 
 **Middlewares** can be used to enrich access events by querying external APIs.
 By default, ezPAARSE is configured for using 4 enrichment middlewares:
-  * istex
-  * crossref
-  * sudoc
-  * hal
+  * [istex](#configuring-istex-middleware-call)
+  * [crossref](#configuring-crossref-middleware-call)
+  * [sudoc](#configuring-sudoc-middleware-call)
+  * [hal](#configuring-hal-middleware-call)
 
 For more details on middlewares, you can read the [dedicated section](../development/middlewares.html).
 
@@ -28,52 +28,20 @@ However, the results are temporarily cached in the mongoDB database, to prevent 
 
 ## Configuring Crossref Middleware Call
 
-The Crossref middleware uses the `DOI` found in access events to request metadata using the [node-crossref](https://www.npmjs.com/package/meta-doi) module.
-
-### Headers
-  * **crossref-Enrich**: set to `false` to disable crossref enrichment. Enabled by default.
-  * **crossref-TTL**: lifetime of cached documents, in seconds. Defaults to `7 days (3600 * 24 * 7)`
-  * **crossref-throttle**: minimum time to wait between queries, in milliseconds. Defaults to `200`ms
-  * **crossref-paquet-size**: maximum number of identifiers to send for query in a single request. Defaults to `50`
-  * **crossref-buffer-size**: maximum number of memorised access events before sending a request. Defaults to `1000`
-  * **crossref-license**: set to `true` to get the `license` field as JSON. Disabled by default.
+[View documentation](/middlewares/crossref/README.html)
 
 ## Configuring Sudoc Middleware Call
 
-### Headers
-  * **sudoc-Enrich**: set to `true` to enable Sudoc enrichment. Disabled by default.
-  * **sudoc-TTL**: lifetime of cached documents, in seconds. Defaults to `7 days (3600 * 24 * 7)`.
-  * **sudoc-Throttle** : minimum time to wait between queries, in milliseconds. Defaults to `500`.
+[View documentation](/middlewares/sudoc/README.html)
 
 ## Configuring HAL Middleware Call
 
-The HAL middleware uses the `hal-identifier` found in the access events to request metadata using the [node-hal](https://www.npmjs.com/package/methal)
-
-### Headers
-  * **HAL-Enrich**: set to `true` to enable HAL enrichment. Disabled by default.
-  * **HAL-TTL**: lifetime of cached documents, in seconds. Defaults to `7 days (3600 * 24 * 7)`.
-  * **HAL-Throttle**: minimum time to wait between queries, in milliseconds. Defaults to `500`.
+[View documentation](/middlewares/hal/README.html)
 
 ## Configuring ISTEX Middleware Call
 
-The ISTEX middleware uses the `istex-identifier` found in the access events to request metadata using the [node-istex](hhttps://www.npmjs.com/package/node-istex)
-
-ISTEX middleware is automatically activated on ISTEX logs
-
-### Headers
-  * **istex-enrich** : set to `true` to enable ISTEX enrichment. Disabled by default.
-  * **istex-ttl** : lifetime of cached documents, in seconds. Defaults to `7 days (3600 * 24 * 7)`.
-  * **istex-throttle** : minimum time to wait between queries, in milliseconds. Defaults to `500`.
+[View documentation](/middlewares/istex/README.html)
 
 ## Configuring Unpaywall Middleware Call
 
-The Unpaywall middleware uses the `DOI` found in access events to request Open Acess metadata using the Unpaywall API. Limited to `100 000` DOIs per day.
-
-### Headers
-  * **unpaywall-cache**: set to `false` to disable result caching. Enabled by default.
-  * **unpaywall-TTL**: lifetime of cached documents, in seconds. Defaults to `7 days (3600 * 24 * 7)`
-  * **unpaywall-throttle**: minimum time to wait between each packet of queries, in milliseconds. Defaults to `100`ms
-  * **unpaywall-paquet-size**: maximum number of DOIs to request in parallel. Defaults to `10`
-  * **unpaywall-buffer-size**: maximum number of memorised access events before sending requests. Defaults to `200`
-  * **unpaywall-email**: the email to use for API calls. Defaults to `YOUR_EMAIL`.
-
+[View documentation](/middlewares/unpaywall/README.html)

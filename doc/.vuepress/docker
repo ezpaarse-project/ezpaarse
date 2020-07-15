@@ -1,3 +1,0 @@
-docker run -p 7700:7700 -v $(pwd)/data.ms:/data.ms --name meilisearch getmeili/meilisearch
-
-docker run -t --rm --network=host -e MEILISEARCH_HOST_URL='http://localhost:7700' -e MEILISEARCH_API_KEY='' -e HTTPS_PROXY="http://proxyout.inist.fr:8080" -v $(pwd)/workspace/ezpaarse/doc/.vuepress/docs-scraper.config.json:/docs-scraper/config.json getmeili/docs-scraper:latest pipenv run ./docs_scraper config.json
