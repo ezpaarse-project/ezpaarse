@@ -28,20 +28,20 @@ However, the results are temporarily cached in the mongoDB database, to prevent 
 
 ## Configuring Crossref Middleware Call
 
-[View documentation](/middlewares/crossref/README.html)
+[View documentation](../middlewares/crossref/doc.md)
 
 ## Configuring Sudoc Middleware Call
 
-[View documentation](/middlewares/sudoc/README.html)
+[View documentation](../middlewares/sudoc/doc.md)
 
 ## Configuring HAL Middleware Call
 
-[View documentation](/middlewares/hal/README.html)
+[View documentation](../middlewares/hal/doc.md)
 
 ## Configuring ISTEX Middleware Call
 
-[View documentation](/middlewares/istex/README.html)
+[View documentation](../middlewares/istex/doc.md)
 
 ## Configuring Unpaywall Middleware Call
 
-[View documentation](/middlewares/unpaywall/README.html)
+[View documentation](../middlewares/unpaywall/doc.md)

@@ -26,7 +26,11 @@ function findMarkdownFiles(dir, root) {
       return acc;
     }
 
-    const relativePath = path.relative(root, file.path).replace(/\.md$/, '.html');
+    let relativePath = path.relative(root, file.path).replace(/\.md$/, '.html');
+
+    if (relativePath.indexOf('README')) {
+      relativePath = relativePath.replace('README', 'doc')
+    }
 
     acc.push({
       path: path.normalize(`/middlewares/${relativePath}`),
