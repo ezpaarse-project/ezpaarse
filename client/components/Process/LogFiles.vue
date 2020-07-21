@@ -29,13 +29,13 @@
     >
       <template v-slot:body="{ items }">
         <tr v-for="(item, index) in items" :key="index">
-          <td class="text-center">
+          <td class="text-center pl-4">
             <v-icon small @click="removeLogsFile(item.id)">
               mdi-delete
             </v-icon>
           </td>
           <td v-text="item.file.name" />
-          <td class="text-right">
+          <td class="text-right pr-5">
             {{ item.file.size | prettyBytes }}
           </td>
         </tr>
