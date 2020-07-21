@@ -1,6 +1,6 @@
 <template>
   <v-app id="ezpaarse" :dark="dark">
-    <v-content>
+    <v-main>
       <Header />
       <Drawer />
       <v-container fluid>
@@ -35,7 +35,7 @@
         <nuxt />
         <Snackbar />
       </v-container>
-    </v-content>
+    </v-main>
   </v-app>
 </template>
 
