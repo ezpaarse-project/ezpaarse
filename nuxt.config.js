@@ -56,7 +56,7 @@ module.exports = {
   },
   buildModules: [],
   plugins: [
-    { src: '~/plugins/vuetify.js', ssr: false },
+    { src: '~/plugins/vuetify.js' },
     { src: '~/plugins/axios.js', ssr: false },
     { src: '~/plugins/socket.js', ssr: false }
   ],
