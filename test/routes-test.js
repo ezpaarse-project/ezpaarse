@@ -5,7 +5,7 @@ const should  = require('should');
 const helpers = require('./helpers.js');
 
 const infoRoutes = [
-  '/api/info/platforms',
+  // '/api/info/platforms',
   '/api/info/rtype',
   '/api/info/mime',
   '/api/info/rid',
