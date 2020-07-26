@@ -1,6 +1,5 @@
 'use strict';
 
-const colors = require('vuetify/es5/util/colors').default;
 const config = require('./lib/config');
 
 module.exports = {
@@ -55,10 +54,9 @@ module.exports = {
   router: {
     middleware: [ 'auth' ]
   },
-  buildModules: [
-    '@nuxtjs/vuetify'
-  ],
+  buildModules: [],
   plugins: [
+    { src: '~/plugins/vuetify.js' },
     { src: '~/plugins/axios.js', ssr: false },
     { src: '~/plugins/socket.js', ssr: false }
   ],
@@ -73,28 +71,6 @@ module.exports = {
     extend (config, ctx) {}
   },
   srcDir: 'client/',
-  vuetify: {
-    font: {
-      family: 'Roboto',
-    },
-    icons: {
-      iconfont: 'mdi',
-    },
-    theme: {
-      themes: {
-        dark: {
-          primary: colors.teal,
-          secondary: colors.grey.darken3,
-          accent: colors.blue.base
-        },
-        light: {
-          primary: colors.teal,
-          secondary: colors.grey.darken3,
-          accent: colors.blue.base
-        }
-      }
-    }
-  },
   i18n: {
     locales: [
       {
