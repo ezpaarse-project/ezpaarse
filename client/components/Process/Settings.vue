@@ -318,7 +318,25 @@
                     </v-combobox>
                   </v-flex>
                   <v-flex grow>
+                    <v-combobox
+                      v-if="header.name.toLowerCase() === 'ezpaarse-middlewares'"
+                      :return-object="false"
+                      :items="middlewares"
+                      :value="header.value"
+                      hide-selected
+                      multiple
+                      single-line
+                      clearable
+                      chips
+                      hide-details
+                      solo
+                      deletable-chips
+                      append-outer-icon="mdi-close-circle"
+                      @click:append-outer="removeHeader(index)"
+                      @input="value => updateHeaderValue(index, value)"
+                    />
                     <v-text-field
+                      v-if="header.name !== 'ezPAARSE-Middlewares'"
                       :value="header.value"
                       append-outer-icon="mdi-close-circle"
                       :label="$t('ui.value')"
@@ -536,6 +554,9 @@ export default {
         { name: 'Istex-throttle', anchor: 'istex' },
         { name: 'Populate-Fields' }
       ];
+    },
+    middlewares () {
+      return this.$store.state.middlewaresItems;
     }
   },
   methods: {

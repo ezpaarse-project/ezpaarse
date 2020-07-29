@@ -2,6 +2,8 @@
 import Vue from 'vue';
 import isEqual from 'lodash.isequal';
 import api from './api';
+import co from 'co';
+import { head } from 'request';
 
 const defaultSettings = {
   fullName: '',
@@ -111,6 +113,11 @@ function parseSettings (predefined) {
     if (/^Log-Format-[a-z]+$/i.test(name)) {
       settings.logFormat = value;
       settings.logType = name.substr(11).toLowerCase();
+    } else if (name.toLowerCase() === 'ezpaarse-middlewares') {
+      settings.headers.push({
+        name,
+        value: value.split(',').map(r => r.trim())
+      });
     } else {
       settings.headers.push({ name, value });
     }
@@ -164,16 +171,23 @@ function getHeaders (settings) {
 
   if (Array.isArray(settings.headers)) {
     settings.headers.forEach(({ name, value }) => {
+      let headerValue = value;
       if (!name || !value) { return; }
 
       // Look case-insensitively for a header with the same name
       const headerNames = Object.keys(headers);
       const existingHeader = headerNames.find(h => h.toLowerCase() === name.toLowerCase());
 
+      if (name.toLowerCase() === 'ezpaarse-middlewares') {
+        if (Array.isArray(headerValue)) {
+          headerValue = headerValue.join(',');
+        }
+      }
+
       if (existingHeader) {
-        headers[existingHeader] = value;
+        headers[existingHeader] = headerValue;
       } else {
-        headers[name] = value;
+        headers[name] = headerValue;
       }
     });
   }

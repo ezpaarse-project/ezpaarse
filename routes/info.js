@@ -209,6 +209,58 @@ app.get('/platforms', function (req, res, next) {
 });
 
 /**
+* GET route on /info/middlewares
+*/
+app.get('/middlewares', function (req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'X-Requested-With');
+
+  try {
+    const middlewaresFolder = path.resolve(__dirname, '../middlewares');
+
+    const folders = fs.readdirSync(middlewaresFolder);
+
+    const middlewares = [];
+
+    folders.forEach((folder) => {
+      const folderPath = path.resolve(middlewaresFolder, folder);
+      if (folder.charAt(0) !== '.' && fs.statSync(folderPath).isDirectory()) {
+        middlewares.push(folder);
+      }
+    });
+    return res.status(200).json(middlewares);
+  } catch (e) {
+    return next(e);
+  }
+});
+
+/**
+* GET route on /info/middlewares/changed
+*/
+app.get('/middlewares/changed', function (req, res, next) {
+  git.changed({ cwd: path.join(__dirname, '../middlewares') }, function (err, files) {
+    if (err) { return next(err); }
+
+    const changed = {};
+
+    files.forEach(function (file) {
+      const members = file.split('/');
+
+      if (members.length < 2) { return; }
+
+      const middleware = members.shift();
+
+      if (middleware.charAt(0) === '.' || middleware === 'js-parser-skeleton') { return; }
+      if (!changed[middleware]) { changed[middleware] = []; }
+
+      changed[middleware].push(members.join('/'));
+    });
+
+    res.status(200).json(changed);
+  });
+});
+
+/**
 * GET route on /info/fields.json
 */
 app.get(/^\/(fields|rid|mime|rtype)(?:\.json)?$/, function (req, res, next) {

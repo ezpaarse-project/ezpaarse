@@ -13,8 +13,10 @@ export default {
     platforms: {},
     platformsItems: [],
     platformsChanged: [],
-    resources: {},
     middlewares: {},
+    middlewaresItems: [],
+    middlewaresChanged: [],
+    resources: {},
     drawer: true,
     feedback: {},
     users: [],
@@ -24,6 +26,9 @@ export default {
   getters: {
     hasPlatformsUpdates (state) {
       return state.platforms['from-head'] === 'outdated';
+    },
+    hasMiddlewaresUpdates (state) {
+      return state.middlewares['from-head'] === 'outdated';
     },
     hasGeneralUpdates (state) {
       if (state.middlewares['from-head'] === 'outdated') { return true; }
@@ -65,6 +70,12 @@ export default {
     },
     GET_PLATFORMS_CHANGED ({ commit }) {
       return api.getPlatformsChanged().then(res => commit('SET_PLATFORMS_CHANGED', res));
+    },
+    GET_MIDDLEWARES ({ commit }) {
+      return api.getMiddlewares().then(res => commit('SET_MIDDLEWARES', res));
+    },
+    GET_MIDDLEWARES_CHANGED ({ commit }) {
+      return api.getMiddlewaresChanged().then(res => commit('SET_MIDDLEWARES_CHANGED', res));
     },
     GET_USERS_LIST ({ commit }) {
       return api.getUsersList().then(res => commit('SET_USERS_LIST', res));
@@ -133,6 +144,12 @@ export default {
     },
     SET_PLATFORMS_CHANGED (state, platforms) {
       Vue.set(state, 'platformsChanged', platforms);
+    },
+    SET_MIDDLEWARES (state, middlewares) {
+      Vue.set(state, 'middlewaresItems', middlewares);
+    },
+    SET_MIDDLEWARES_CHANGED (state, middlewares) {
+      Vue.set(state, 'middlewaresChanged', middlewares);
     },
     SET_USERS_LIST (state, users) {
       Vue.set(state, 'users', users);

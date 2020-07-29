@@ -120,6 +120,20 @@
 
         <v-list-item
           router
+          :to="{ path: '/admin/middlewares' }"
+          ripple
+        >
+          <v-list-item-title class="body-2" v-text="$t('ui.drawer.admin.middlewares')" />
+          <v-list-item-icon v-if="hasMiddlewaresUpdates">
+            <v-icon>mdi-alert-circle</v-icon>
+          </v-list-item-icon>
+          <v-list-item-icon>
+            <v-icon>mdi-middleware-outline</v-icon>
+          </v-list-item-icon>
+        </v-list-item>
+
+        <v-list-item
+          router
           :to="{ path: '/admin/updates' }"
           ripple
         >
@@ -269,10 +283,13 @@ export default {
       return this.$store.state.appInfos;
     },
     hasAvailableUpdates () {
-      return this.hasPlatformsUpdates || this.hasGeneralUpdates;
+      return this.hasPlatformsUpdates || this.hasGeneralUpdates || this.hasMiddlewaresUpdates;
     },
     hasPlatformsUpdates () {
       return this.$store.getters.hasPlatformsUpdates;
+    },
+    hasMiddlewaresUpdates () {
+      return this.$store.getters.hasMiddlewaresUpdates;
     },
     hasGeneralUpdates () {
       return this.$store.getters.hasGeneralUpdates;

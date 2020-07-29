@@ -245,6 +245,12 @@ export default {
     } catch (e) {
       await store.dispatch('snacks/error', 'ui.errors.cannotGetCountriesList');
     }
+
+    try {
+      await store.dispatch('GET_MIDDLEWARES');
+    } catch (e) {
+      await store.dispatch('snacks/error', 'ui.errors.cannotGetMiddlewares');
+    }
   },
   computed: {
     formStep: {
