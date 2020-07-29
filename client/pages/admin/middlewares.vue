@@ -63,6 +63,7 @@
               clearable
             />
           </v-flex>
+          <v-checkbox v-model="middlewaresByDefault" label="Middlewares utilisés par défaut" />
         </v-layout>
       </v-container>
     </v-card-text>
@@ -76,11 +77,27 @@
       :items-per-page="itemsPerPage"
     >
       <template v-slot:item.name="{ item }">
-        {{ item }}
+        <a
+          :href="`https://ezpaarse-project.github.io/ezpaarse/middlewares/${item.name}/README.html`"
+          target="_blank"
+          v-text="item.name"
+        />
+        <v-chip
+          v-if="item.default"
+          class="ma-2"
+          label
+          small
+          color="primary"
+          v-text="$t('ui.pages.admin.middlewares.default')"
+        />
+      </template>
+
+      <template v-slot:item.default="{ item }">
+        {{ item.default }}
       </template>
 
       <template v-slot:item.update="{ item }">
-        <v-icon v-if="middlewaresChanged[item]" color="info">
+        <v-icon v-if="middlewaresChanged[item.name]" color="info">
           mdi-arrow-up-bold-circle
         </v-icon>
       </template>
@@ -97,7 +114,8 @@ export default {
       updating: false,
       onlyOutdated: false,
       search: '',
-      itemsPerPage: 10
+      itemsPerPage: 10,
+      middlewaresByDefault: false
     };
   },
   async fetch ({ store }) {
@@ -128,16 +146,20 @@ export default {
     },
     middlewaresItems () {
       return this.$store.state.middlewaresItems.filter((middleware) => {
-        if (this.onlyOutdated && !this.middlewaresChanged[middleware]) {
+        if (this.onlyOutdated && !this.middlewaresChanged[middleware.name]) {
           return false;
         }
 
-        if (!middleware.includes(this.search)) {
+        if (!middleware.name.includes(this.search)) {
+          return false;
+        }
+
+        if (this.middlewaresByDefault && !middleware.default) {
           return false;
         }
 
         return true;
-      }).sort((a, b) => (a.toLowerCase() < b.toLowerCase() ? -1 : 1));
+      }).sort((a, b) => (a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1));
     },
     headers () {
       return [
@@ -145,15 +167,13 @@ export default {
           text: this.$t('ui.pages.admin.middlewares.middleware'),
           align: 'left',
           sortable: false,
-          value: 'name',
-          width: 300
+          value: 'name'
         },
         {
           text: this.$t('ui.pages.admin.middlewares.update'),
-          align: 'center',
+          align: 'right',
           sortable: false,
-          value: 'update',
-          width: 10
+          value: 'update'
         }
       ];
     },

@@ -254,7 +254,8 @@
           "middlewaresPerPage": "Middlewares per page",
           "allMiddlewaresPerPage": "All",
           "noMiddlewares": "No middlewares at the moment",
-          "noMiddlewareFound": "No middleware matching search"
+          "noMiddlewareFound": "No middleware matching search",
+          "default": "Default"
         },
         "updates": {
           "title": "Updates",

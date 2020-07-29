@@ -253,7 +253,8 @@
           "middlewaresPerPage": "Middlewares par page",
           "allMiddlewaresPerPage": "Toutes",
           "noMiddlewares": "Aucun middleware pour le moment",
-          "noMiddlewareFound": "Aucun middleware ne correspond à la recherche"
+          "noMiddlewareFound": "Aucun middleware ne correspond à la recherche",
+          "default": "Défaut"
         },
         "updates": {
           "title": "Mises à jour",

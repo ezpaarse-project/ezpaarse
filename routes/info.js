@@ -220,12 +220,17 @@ app.get('/middlewares', function (req, res, next) {
 
     const folders = fs.readdirSync(middlewaresFolder);
 
+    const defaultMiddlewares = config.EZPAARSE_MIDDLEWARES;
+
     const middlewares = [];
 
     folders.forEach((folder) => {
       const folderPath = path.resolve(middlewaresFolder, folder);
       if (folder.charAt(0) !== '.' && fs.statSync(folderPath).isDirectory()) {
-        middlewares.push(folder);
+        middlewares.push({
+          name: folder,
+          default: defaultMiddlewares.includes(folder),
+        });
       }
     });
     return res.status(200).json(middlewares);

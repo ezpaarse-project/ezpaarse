@@ -371,6 +371,7 @@
 import i18nIsoCode from 'i18n-iso-countries';
 import { saveAs } from 'file-saver';
 import SettingsSaver from '~/components/SettingsSaver.vue';
+import middlewaresVue from '../../pages/admin/middlewares.vue';
 
 export default {
   components: {
@@ -556,7 +557,7 @@ export default {
       ];
     },
     middlewares () {
-      return this.$store.state.middlewaresItems;
+      return this.$store.state.middlewaresItems.map((middleware) => middleware.name);
     }
   },
   methods: {
