@@ -7,9 +7,7 @@ script: "make test-pkb; make test"
 services:
   - mongodb
 env:
-  - CXX=g++-4.8
-  - EZPAARSE_ENV=production
-  - EZPAARSE_DEBUG_LEVEL=pkb
+  - CXX=g++-4.8 EZPAARSE_ENV=production EZPAARSE_DEBUG_LEVEL=pkb
 addons:
   apt:
     sources:
