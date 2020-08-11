@@ -1,9 +1,15 @@
 language: generic
-script: "export EZPAARSE_ENV=\"production\"; export EZPAARSE_DEBUG_LEVEL=\"pkb\"; make && make start && sleep 300; make test-pkb; make test"
+install: "make"
+before_script:
+  - "make start"
+  - "until [[ "$(curl -sS http://localhost:59599/castor/status)" == *"synchronized"* ]]; do echo 'Waiting for PKB sync'; sleep 10; done"
+script: "make test-pkb; make test"
 services:
   - mongodb
 env:
   - CXX=g++-4.8
+  - EZPAARSE_ENV=production
+  - EZPAARSE_DEBUG_LEVEL=pkb
 addons:
   apt:
     sources:
