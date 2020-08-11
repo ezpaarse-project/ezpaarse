@@ -13,8 +13,7 @@ addons:
 notifications:
   email:
     recipients:
-      - ezpaarse-team@googlegroups.com
-      - dominique.lechaudel@gmail.com
+      - ezteam@couperin.org
     on_success: change
     on_failure: always
   slack:
