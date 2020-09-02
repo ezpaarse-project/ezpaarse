@@ -85,9 +85,14 @@ The goal when using this parameter is to reduce the size of the log file, if you
 This [screencast](https://www.youtube.com/watch?v=I3D6lO4wDZo) demonstrates the usage of the Clean-Only parameter (ie the cleaning of a log file for size reduction and ease of storage)
 
 ### Force-Parser
-If URLs don't have 'domain' part, use this parameter to force right parser to be used. Usefull for Open Access log analysis which don't have domain part in URL (all URLs comes form the same domain).
-For example: Force-Parser: 'dspace'.
-Can be use in conjonction with Force-ECField-Publisher.
+If URLs don't have a `domain` part, use this parameter to force the right parser to be used. Useful for Open Access logs analysis, which don't have a domain part in the URL (all URLs comes from the same domain).
+
+Example:
+```
+Force-Parser: 'dspace'
+```
+
+Can be used in conjonction with [Force-ECField-Publisher](#force-ecfield-publisher).
 
 ### COUNTER-Reports
 List of COUNTER reports to create (ex: JR1, BR2). Download links are accessible in the `stats` section of the treatment report. [(More information)](../features/counter.html)
