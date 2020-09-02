@@ -186,7 +186,7 @@
           "nb-lines-unordered-ecs": "Chronological anomalies",
           "nb-lines-ignored-hosts": "Hosts ignored",
           "nb-lines-robots-ecs": "Robots",
-          "nb-lines-unknown-errors": "ECs in access denied",
+          "nb-lines-unknown-errors": "Unknown errors",
           "descriptions": {
             "nb-lines-ignored": "Number of irrelevant requests. These are mainly downloads of images, css or web scripts that are not directly related to a resource. In a raw log, this number is often high.",
             "nb-denied-ecs": "List of accesses that have been denied to the user at the time of the click. Example: attempt to access an item not negotiated in the establishment's bouquet",

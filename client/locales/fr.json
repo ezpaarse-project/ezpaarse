@@ -186,7 +186,7 @@
           "nb-lines-unordered-ecs": "Anomalies chronologiques",
           "nb-lines-ignored-hosts": "Hosts ignorés",
           "nb-lines-robots-ecs": "Robots",
-          "nb-lines-unknown-errors": "ECs en accès refusé",
+          "nb-lines-unknown-errors": "Erreurs inconnues",
           "descriptions": {
             "nb-lines-ignored": "Nombre de requêtes non pertinentes. Il s'agit principalement de téléchargements d'images, css ou scripts web sans rapport direct avec une ressource. Dans un log brut, ce chiffre est souvent élevé.",
             "nb-denied-ecs": "Liste des accès qui ont été refusés à l'utilisateur au moment du clic. Exemple : tentative d'accès à un article non négocié dans le bouquet de l'établissement.",
