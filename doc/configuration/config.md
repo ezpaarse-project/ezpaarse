@@ -76,6 +76,16 @@ The default value is set to `false`.
 ### EZPAARSE_DEFAULT_HEADERS
 An object representing default headers to be used for each job. Can be overriden by predefined settings and actual job headers.
 
+#### Example
+
+```json
+{
+  "EZPAARSE_DEFAULT_HEADERS": {
+    "Crypting-Salt": "OU0qTpLOmC"
+  }
+}
+```
+
 ### EZPAARSE_MIDDLEWARES"
 Contains an array of middleware names, in the order they are going to be launched by ezPAARSE during a process.
 The default array contains the following middlewares:
