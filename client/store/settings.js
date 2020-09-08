@@ -2,8 +2,6 @@
 import Vue from 'vue';
 import isEqual from 'lodash.isequal';
 import api from './api';
-import co from 'co';
-import { head } from 'request';
 
 const defaultSettings = {
   fullName: '',
