@@ -9,7 +9,7 @@ services:
     environment:
       http_proxy:  ${http_proxy}
       https_proxy: ${https_proxy}
-      no_proxy: "${no_proxy}"
+      no_proxy: ${no_proxy}
       NODE_ENV: "production"
       EZPAARSE_MONGO_URL: "mongodb://ezpaarse_db:27017/ezpaarse"
     volumes:
