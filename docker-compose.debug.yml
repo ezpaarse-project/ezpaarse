@@ -12,7 +12,7 @@ services:
     environment:
       http_proxy: ${http_proxy}
       https_proxy: ${https_proxy}
-      no_proxy: "${no_proxy},zotero"
+      no_proxy: "${no_proxy}"
       DEBUG: ${DEBUG}
       NODE_ENV: "development"
       EZPAARSE_MONGO_URL: "mongodb://ezpaarse_db:27017/ezpaarse"
@@ -28,10 +28,3 @@ services:
     command: --smallfiles
     ports:
       - 27017:27017
-
-  zotero:
-    container_name: zotero
-    image: zotero/translation-server
-    environment:
-      http_proxy:  ${http_proxy}
-      https_proxy: ${https_proxy}
