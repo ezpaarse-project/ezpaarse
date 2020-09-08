@@ -211,32 +211,72 @@ app.get('/platforms', function (req, res, next) {
 /**
 * GET route on /info/middlewares
 */
-app.get('/middlewares', function (req, res, next) {
+async function getMiddlewaresData() {
+  const middlewaresFolder = path.resolve(__dirname, '../middlewares');
+  const defaultMiddlewares = config.EZPAARSE_MIDDLEWARES;
+  const middlewares = [];
+
+  let folders = [];
+  try {
+    folders = await fs.readdir(middlewaresFolder);
+  } catch (e) {
+    return [];
+  }
+
+  for (let i = 0; i < folders.length; i += 1) {
+    const folderPath = path.resolve(middlewaresFolder, folders[i]);
+
+    if (folders[i].charAt(0) !== '.' && folders[i] !== 'node_modules') {
+      let stat;
+      try {
+        stat = await fs.lstat(folderPath);
+      // eslint-disable-next-line no-empty
+      } catch (e) {}
+
+      if (stat.isDirectory()) {
+        const manifestPath = path.resolve(middlewaresFolder, folders[i], 'manifest.json');
+
+        let manifestExists;
+        try {
+          manifestExists = await fs.lstat(manifestPath, fs.F_OK);
+          // eslint-disable-next-line no-empty
+        } catch (e) {}
+
+        let headers = [];
+
+        if (manifestExists) {
+          try {
+            const manifestContent = await fs.readFile(manifestPath);
+            const manifest = JSON.parse(manifestContent);
+            headers = manifest.headers;
+            // eslint-disable-next-line no-empty
+          } catch (e) {}
+        }
+
+        middlewares.push({
+          name: folders[i],
+          headers,
+          default: defaultMiddlewares.includes(folders[i]),
+        });
+      }
+    }
+  }
+
+  return middlewares;
+}
+
+app.get('/middlewares', async function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'X-Requested-With');
 
+  let middlewares = [];
   try {
-    const middlewaresFolder = path.resolve(__dirname, '../middlewares');
-
-    const folders = fs.readdirSync(middlewaresFolder);
-
-    const defaultMiddlewares = config.EZPAARSE_MIDDLEWARES;
-
-    const middlewares = [];
-
-    folders.forEach((folder) => {
-      const folderPath = path.resolve(middlewaresFolder, folder);
-      if (folder.charAt(0) !== '.' && fs.statSync(folderPath).isDirectory()) {
-        middlewares.push({
-          name: folder,
-          default: defaultMiddlewares.includes(folder),
-        });
-      }
-    });
-    return res.status(200).json(middlewares);
+    middlewares = await getMiddlewaresData();
   } catch (e) {
-    return next(e);
+    return res.status(200).json([]);
   }
+
+  return res.status(200).json(middlewares);
 });
 
 /**

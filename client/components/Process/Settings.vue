@@ -293,6 +293,7 @@
                       :value="header.name"
                       :return-object="false"
                       :items="headers"
+                      name="headers"
                       item-text="name"
                       item-value="name"
                       :label="$t('ui.name')"
@@ -312,6 +313,18 @@
                             <v-icon color="accent">
                               mdi-information
                             </v-icon>
+                          </v-btn> 
+                        </v-list-item-action>
+
+                        <v-list-item-action v-if="item.middleware" @click.stop>
+                          <v-btn
+                            icon
+                            :href="`https://ezpaarse-project.github.io/ezpaarse/middlewares/${item.middleware}/README.html`"
+                            target="_blank"
+                          >
+                            <v-icon color="accent">
+                              mdi-information
+                            </v-icon>
                           </v-btn>
                         </v-list-item-action>
                       </template>
@@ -319,7 +332,7 @@
                   </v-flex>
                   <v-flex grow>
                     <v-combobox
-                      v-if="header.name.toLowerCase() === 'ezpaarse-middlewares'"
+                      v-if="header.name && header.name.toLowerCase() === 'ezpaarse-middlewares'"
                       :return-object="false"
                       :items="middlewares"
                       :value="header.value"
@@ -371,7 +384,6 @@
 import i18nIsoCode from 'i18n-iso-countries';
 import { saveAs } from 'file-saver';
 import SettingsSaver from '~/components/SettingsSaver.vue';
-import middlewaresVue from '../../pages/admin/middlewares.vue';
 
 export default {
   components: {
@@ -486,7 +498,7 @@ export default {
       ];
     },
     headers () {
-      return [
+      const headers = [
         { header: 'Encodage' },
         { name: 'Response-Encoding', anchor: 'response-encoding' },
         { name: 'Request-Charset', anchor: 'request-charset' },
@@ -519,9 +531,6 @@ export default {
         { name: 'Double-Click-L-Field', anchor: 'double-click-xxx' },
         { name: 'Double-Click-I-Field', anchor: 'double-click-xxx' },
         { divider: true },
-        { header: this.$t('ui.pages.process.settings.headers.anonymization') },
-        { name: 'Crypted-Fields', anchor: 'crypted-fields' },
-        { divider: true },
         { header: this.$t('ui.pages.process.settings.headers.other') },
         { name: 'Traces-Level', anchor: 'traces-level' },
         { name: 'Reject-Files', anchor: 'reject-files' },
@@ -529,32 +538,30 @@ export default {
         { name: 'Force-Parser', anchor: 'force-parser' },
         { name: 'Geoip', anchor: 'geoip' },
         { name: 'ezPAARSE-Job-Notifications', anchor: 'ezpaarse-job-notifications' },
-        { name: 'ezPAARSE-Enrich', anchor: 'ezpaarse-enrich' },
         { name: 'ezPAARSE-Predefined-Settings', anchor: 'ezpaarse-predefined-settings' },
         { name: 'ezPAARSE-Filter-Redirects', anchor: 'ezpaarse-filter-redirects' },
         { name: 'ezPAARSE-Filter-Status', anchor: 'ezpaarse-filter-status' },
         { name: 'Disable-Filters', anchor: 'disable-filters' },
         { name: 'Force-ECField-Publisher', anchor: 'force-ecfield-publisher' },
         { name: 'Extract', anchor: 'extract' },
-        { name: 'ezPAARSE-Middlewares', anchor: 'ezpaarse-middlewares' },
-        { divider: true },
-        { header: this.$t('ui.pages.process.settings.headers.metadataEnrichment') },
-        { name: 'Crossref-enrich', anchor: 'crossref' },
-        { name: 'Crossref-ttl', anchor: 'crossref' },
-        { name: 'Crossref-throttle', anchor: 'crossref' },
-        { name: 'Crossref-paquet-size', anchor: 'crossref' },
-        { name: 'Crossref-buffer-size', anchor: 'crossref' },
-        { name: 'Sudoc-enrich', anchor: 'sudoc' },
-        { name: 'Sudoc-ttl', anchor: 'sudoc' },
-        { name: 'Sudoc-throttle', anchor: 'sudoc' },
-        { name: 'Hal-enrich', anchor: 'hal' },
-        { name: 'Hal-ttl', anchor: 'hal' },
-        { name: 'Hal-throttle', anchor: 'hal' },
-        { name: 'Istex-enrich', anchor: 'istex' },
-        { name: 'Istex-ttl', anchor: 'istex' },
-        { name: 'Istex-throttle', anchor: 'istex' },
-        { name: 'Populate-Fields' }
+        { name: 'ezPAARSE-Middlewares', anchor: 'ezpaarse-middlewares' }
       ];
+
+      this.$store.state.middlewaresItems.forEach((middleware) => {
+        if (middleware.headers.length) {
+          headers.push({ divider: true });
+          headers.push({ header: middleware.name });
+
+          middleware.headers.forEach((header) => {
+            headers.push({
+              name: header.name,
+              middleware: middleware.name
+            });
+          });
+        }
+      });
+
+      return headers;
     },
     middlewares () {
       return this.$store.state.middlewaresItems.map((middleware) => middleware.name);
