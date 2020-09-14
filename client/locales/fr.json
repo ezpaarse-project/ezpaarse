@@ -248,13 +248,10 @@
         },
         "middlewares": {
           "title": "Middlewares",
-          "middleware": "Middleware",
+          "middlewares": "Middlewares",
           "update": "Mise à jour",
-          "middlewaresPerPage": "Middlewares par page",
-          "allMiddlewaresPerPage": "Toutes",
-          "noMiddlewares": "Aucun middleware pour le moment",
-          "noMiddlewareFound": "Aucun middleware ne correspond à la recherche",
-          "default": "Défaut"
+          "default": "Réglage par Défaut",
+          "defaultsMiddlewares": "Middlewares par défaut"
         },
         "updates": {
           "title": "Mises à jour",

@@ -14,6 +14,7 @@ const pkg            = require('../package.json');
 const analogist      = require('../lib/analogist.js');
 const customSettings = require('../lib/custom-predefined-settings.js');
 const auth           = require('../lib/auth-middlewares.js');
+const dbConfig       = require('../lib/db-config.js');
 
 const statusCodes = require(path.join(__dirname, '/../statuscodes.json'));
 
@@ -213,8 +214,66 @@ app.get('/platforms', function (req, res, next) {
 */
 async function getMiddlewaresData() {
   const middlewaresFolder = path.resolve(__dirname, '../middlewares');
-  const defaultMiddlewares = config.EZPAARSE_MIDDLEWARES;
-  const middlewares = [];
+
+  let defaultMiddlewares = config.EZPAARSE_MIDDLEWARES;
+
+  try {
+    const result = await dbConfig.getConfig('middlewares');
+    if (result && result.data) {
+      defaultMiddlewares = result.data;
+    }
+  // eslint-disable-next-line no-empty
+  } catch (e) {}
+
+  const middlewares = {
+    defaults: defaultMiddlewares,
+    others: []
+  };
+
+  let folders = [];
+  try {
+    folders = await fs.readdir(middlewaresFolder);
+  } catch (e) {
+    return [];
+  }
+
+  for (let i = 0; i < folders.length; i += 1) {
+    const folderPath = path.resolve(middlewaresFolder, folders[i]);
+
+    if (folders[i].charAt(0) !== '.' && folders[i] !== 'node_modules') {
+      if (!middlewares.defaults.includes(folders[i])) {
+
+        let stat;
+        try {
+          stat = await fs.lstat(folderPath);
+        // eslint-disable-next-line no-empty
+        } catch (e) {}
+
+        if (stat.isDirectory()) {
+          middlewares.others.push(folders[i]);
+        }
+      }
+    }
+  }
+
+  return middlewares;
+}
+
+app.get('/middlewares', async function (req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'X-Requested-With');
+
+  try {
+    const middlewares = await getMiddlewaresData();
+    return res.status(200).json(middlewares);
+  } catch (e) {
+    return res.status(200).json([]);
+  }
+});
+
+app.get('/middlewares/headers', async function (req, res, next) {
+  const middlewaresFolder = path.resolve(__dirname, '../middlewares');
+  let middlewares = [];
 
   let folders = [];
   try {
@@ -255,28 +314,13 @@ async function getMiddlewaresData() {
 
         middlewares.push({
           name: folders[i],
-          headers,
-          default: defaultMiddlewares.includes(folders[i]),
+          headers
         });
       }
     }
   }
 
-  return middlewares;
-}
-
-app.get('/middlewares', async function (req, res, next) {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'X-Requested-With');
-
-  let middlewares = [];
-  try {
-    middlewares = await getMiddlewaresData();
-  } catch (e) {
-    return res.status(200).json([]);
-  }
-
-  return res.status(200).json(middlewares);
+  return res.json(middlewares).end();
 });
 
 /**

@@ -249,13 +249,10 @@
         },
         "middlewares": {
           "title": "Middlewares",
-          "middleware": "Middleware",
+          "middlewares": "Middlewares",
           "update": "Update",
-          "middlewaresPerPage": "Middlewares per page",
-          "allMiddlewaresPerPage": "All",
-          "noMiddlewares": "No middlewares at the moment",
-          "noMiddlewareFound": "No middleware matching search",
-          "default": "Default"
+          "default": "Default Setting",
+          "defaultsMiddlewares": "Defaults middlewares"
         },
         "updates": {
           "title": "Updates",

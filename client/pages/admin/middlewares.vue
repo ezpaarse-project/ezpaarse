@@ -50,81 +50,90 @@
     </v-card-text>
 
     <v-card-text>
-      <v-container>
-        <v-layout row wrap>
-          <v-flex sx12 sm12 md12>
-            <v-text-field
-              v-model="search"
-              class="mx-1"
-              append-icon="mdi-magnify"
-              :label="$t('ui.search')"
-              solo
-              hide-details
-              clearable
-            />
+      <v-container fluid>
+        <v-layout align-start justify-center>
+          <v-flex xs4 class="elevation-1 mx-3">
+            <v-list subheader>
+              <v-subheader>
+                {{ $t('ui.pages.admin.middlewares.defaultsMiddlewares') }}
+                <v-spacer />
+                <v-tooltip left>
+                  <template v-slot:activator="{ on }">
+                    <v-btn
+                      fab
+                      icon
+                      small
+                      :loading="loading"
+                      v-on="on"
+                      @click="resetMiddlewares"
+                    >
+                      <v-icon dark>
+                        mdi-reload
+                      </v-icon>
+                    </v-btn>
+                  </template>
+                  <span v-text="$t('ui.pages.admin.middlewares.default')" />
+                </v-tooltip>
+              </v-subheader>
+              <vuedraggable
+                v-model="defaultsMiddlewares"
+                :options="{ group: 'middlewares' }"
+                @change="watchDefaultsMiddlewares"
+              >
+                <v-list-item
+                  v-for="(middleware, key) in defaultsMiddlewares"
+                  :key="key"
+                  @click.stop
+                >
+                  <v-list-item-content>
+                    <v-list-item-title v-text="middleware" />
+                  </v-list-item-content>
+                </v-list-item>
+              </vuedraggable>
+            </v-list>
           </v-flex>
-          <v-checkbox v-model="middlewaresByDefault" label="Middlewares utilisés par défaut" />
+          <v-flex xs4 class="elevation-1 mx-3">
+            <v-list subheader>
+              <v-subheader v-text="$t('ui.pages.admin.middlewares.middlewares')" />
+              <vuedraggable
+                v-model="othersMiddlewares"
+                :options="{ group: 'middlewares' }"
+              >
+                <v-list-item v-for="(middleware, key) in othersMiddlewares" :key="key" @click.stop>
+                  <v-list-item-content>
+                    <v-list-item-title v-text="middleware" />
+                  </v-list-item-content>
+                </v-list-item>
+              </vuedraggable>
+            </v-list>
+          </v-flex>
         </v-layout>
       </v-container>
     </v-card-text>
-
-    <v-data-table
-      :headers="headers"
-      :items="middlewaresItems"
-      :no-data-text="$t('ui.pages.admin.middlewares.noMiddlewares')"
-      :no-results-text="$t('ui.pages.admin.middlewares.noMiddlewareFound')"
-      :footer-props="footerProps"
-      :items-per-page="itemsPerPage"
-    >
-      <template v-slot:item.name="{ item }">
-        <a
-          :href="`https://ezpaarse-project.github.io/ezpaarse/middlewares/${item.name}/README.html`"
-          target="_blank"
-          v-text="item.name"
-        />
-        <v-chip
-          v-if="item.default"
-          class="ma-2"
-          label
-          small
-          color="primary"
-          v-text="$t('ui.pages.admin.middlewares.default')"
-        />
-      </template>
-
-      <template v-slot:item.default="{ item }">
-        {{ item.default }}
-      </template>
-
-      <template v-slot:item.update="{ item }">
-        <v-icon v-if="middlewaresChanged[item.name]" color="info">
-          mdi-arrow-up-bold-circle
-        </v-icon>
-      </template>
-    </v-data-table>
   </v-card>
 </template>
 
 <script>
+import vuedraggable from 'vuedraggable';
+
 export default {
   auth: true,
   middleware: ['admin'],
-  data () {
+  components: {
+    vuedraggable
+  },
+  async asyncData ({ app }) {
+    const { defaults, others } = await app.$axios.$get('/api/info/middlewares');
+
     return {
       updating: false,
       onlyOutdated: false,
-      search: '',
-      itemsPerPage: 10,
-      middlewaresByDefault: false
+      defaultsMiddlewares: defaults,
+      othersMiddlewares: others,
+      loading: false
     };
   },
   async fetch ({ store }) {
-    try {
-      await store.dispatch('GET_MIDDLEWARES');
-    } catch (e) {
-      await store.dispatch('snacks/error', 'ui.errors.cannotGetMiddlewares');
-    }
-
     try {
       await store.dispatch('GET_MIDDLEWARES_CHANGED');
     } catch (e) {
@@ -136,58 +145,13 @@ export default {
       const { middlewares } = this.$store.state;
 
       return {
-        hasLocalChanges: middlewares['local-commits'] || middlewares['local-changes'],
+        hasLocalChanges: !!(middlewares['local-commits'] || middlewares['local-changes']),
         isOutdated: middlewares['from-head'] === 'outdated',
         ...middlewares
       };
     },
     middlewaresChanged () {
       return this.$store.state.middlewaresChanged;
-    },
-    middlewaresItems () {
-      return this.$store.state.middlewaresItems.filter((middleware) => {
-        if (this.onlyOutdated && !this.middlewaresChanged[middleware.name]) {
-          return false;
-        }
-
-        if (!middleware.name.includes(this.search)) {
-          return false;
-        }
-
-        if (this.middlewaresByDefault && !middleware.default) {
-          return false;
-        }
-
-        return true;
-      }).sort((a, b) => (a.name.toLowerCase() < b.name.toLowerCase() ? -1 : 1));
-    },
-    headers () {
-      return [
-        {
-          text: this.$t('ui.pages.admin.middlewares.middleware'),
-          align: 'left',
-          sortable: false,
-          value: 'name'
-        },
-        {
-          text: this.$t('ui.pages.admin.middlewares.update'),
-          align: 'right',
-          sortable: false,
-          value: 'update'
-        }
-      ];
-    },
-    footerProps () {
-      return {
-        itemsPerPageText: this.$t('ui.pages.admin.middlewares.middlewaresPerPage'),
-        itemsPerPageOptions: [this.itemsPerPage, 30, 50, -1]
-      };
-    },
-    rowsPerPage () {
-      return [10, 30, 50, {
-        text: this.$t('ui.pages.admin.middlewares.allMiddlewaresPerPage'),
-        value: -1
-      }];
     }
   },
   methods: {
@@ -203,7 +167,9 @@ export default {
       }
 
       try {
-        await this.$store.dispatch('GET_MIDDLEWARES');
+        const { defaults, others } = await this.$axios.$get('/api/info/middlewares');
+        this.defaultsMiddlewares = defaults;
+        this.othersMiddlewares = others;
       } catch (e) {
         this.$store.dispatch('snacks/error', 'ui.errors.cannotGetMiddlewares');
         this.updating = false;
@@ -219,6 +185,30 @@ export default {
       }
 
       this.updating = false;
+    },
+    async watchDefaultsMiddlewares (event) {
+      if (event.added || event.moved || event.removed) {
+        try {
+          const { data } = await this.$axios.post('/api/middlewares', { middlewares: this.defaultsMiddlewares });
+          this.defaultsMiddlewares = data.data;
+        } catch (e) {
+          this.$store.dispatch('snacks/error', 'ui.errors.impossibleToUpdate');
+        }
+      }
+    },
+    async resetMiddlewares () {
+      this.loading = true;
+      try {
+        await this.$axios.get('/api/middlewares/reset');
+        const { defaults, others } = await this.$axios.$get('/api/info/middlewares');
+        this.defaultsMiddlewares = defaults;
+        this.othersMiddlewares = others;
+
+        this.loading = false;
+      } catch (e) {
+        this.$store.dispatch('snacks/error', 'ui.errors.impossibleToUpdate');
+        this.loading = false;
+      }
     }
   }
 };

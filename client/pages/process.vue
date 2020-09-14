@@ -133,7 +133,11 @@
             </v-layout>
           </v-container>
 
-          <Settings class="ma-1" />
+          <Settings
+            class="ma-1"
+            :middlewares-headers="middlewaresHeaders"
+            :middlewares="middlewares"
+          />
         </v-stepper-content>
 
         <v-stepper-content step="3">
@@ -224,13 +228,20 @@ export default {
     Settings,
     EzmesureUploader
   },
-  data () {
+  async asyncData ({ app }) {
+    const middlewaresHeaders = await app.$axios.$get('/api/info/middlewares/headers');
+    const middlewares = await app.$axios.$get('/api/info/middlewares');
+
+    console.log(middlewares)
+
     return {
       logSamplesUrl: 'https://github.com/ezpaarse-project/ezpaarse-dataset-samples',
       fileSelectionHelp: false,
       curlDialog: false,
       uploaderDialog: false,
-      curlRequest: ''
+      curlRequest: '',
+      middlewaresHeaders,
+      middlewares
     };
   },
   async fetch ({ store }) {
@@ -244,12 +255,6 @@ export default {
       await store.dispatch('settings/GET_COUNTRIES');
     } catch (e) {
       await store.dispatch('snacks/error', 'ui.errors.cannotGetCountriesList');
-    }
-
-    try {
-      await store.dispatch('GET_MIDDLEWARES');
-    } catch (e) {
-      await store.dispatch('snacks/error', 'ui.errors.cannotGetMiddlewares');
     }
   },
   computed: {

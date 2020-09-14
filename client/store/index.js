@@ -14,7 +14,6 @@ export default {
     platformsItems: [],
     platformsChanged: [],
     middlewares: {},
-    middlewaresItems: [],
     middlewaresChanged: [],
     resources: {},
     drawer: true,
@@ -70,9 +69,6 @@ export default {
     },
     GET_PLATFORMS_CHANGED ({ commit }) {
       return api.getPlatformsChanged().then(res => commit('SET_PLATFORMS_CHANGED', res));
-    },
-    GET_MIDDLEWARES ({ commit }) {
-      return api.getMiddlewares().then(res => commit('SET_MIDDLEWARES', res));
     },
     GET_MIDDLEWARES_CHANGED ({ commit }) {
       return api.getMiddlewaresChanged().then(res => commit('SET_MIDDLEWARES_CHANGED', res));
@@ -144,9 +140,6 @@ export default {
     },
     SET_PLATFORMS_CHANGED (state, platforms) {
       Vue.set(state, 'platformsChanged', platforms);
-    },
-    SET_MIDDLEWARES (state, middlewares) {
-      Vue.set(state, 'middlewaresItems', middlewares);
     },
     SET_MIDDLEWARES_CHANGED (state, middlewares) {
       Vue.set(state, 'middlewaresChanged', middlewares);

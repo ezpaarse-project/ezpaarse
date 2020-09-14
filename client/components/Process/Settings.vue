@@ -334,8 +334,7 @@
                     <v-combobox
                       v-if="header.name && header.name.toLowerCase() === 'ezpaarse-middlewares'"
                       :return-object="false"
-                      :items="middlewares"
-                      :value="header.value"
+                      :items="middlewares.others"
                       hide-selected
                       multiple
                       single-line
@@ -386,6 +385,16 @@ import { saveAs } from 'file-saver';
 import SettingsSaver from '~/components/SettingsSaver.vue';
 
 export default {
+  props: {
+    middlewares: {
+      type: Object,
+      default: () => ({})
+    },
+    middlewaresHeaders: {
+      type: Array,
+      default: () => ([])
+    }
+  },
   components: {
     SettingsSaver
   },
@@ -547,7 +556,7 @@ export default {
         { name: 'ezPAARSE-Middlewares', anchor: 'ezpaarse-middlewares' }
       ];
 
-      this.$store.state.middlewaresItems.forEach((middleware) => {
+      this.middlewaresHeaders.forEach((middleware) => {
         if (middleware.headers.length) {
           headers.push({ divider: true });
           headers.push({ header: middleware.name });
@@ -562,9 +571,6 @@ export default {
       });
 
       return headers;
-    },
-    middlewares () {
-      return this.$store.state.middlewaresItems.map((middleware) => middleware.name);
     }
   },
   methods: {
