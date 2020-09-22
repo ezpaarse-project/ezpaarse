@@ -17,7 +17,8 @@ const defaultSettings = {
   counterReports: [],
   notificationMails: [],
   addedFields: [],
-  removedFields: []
+  removedFields: [],
+  additionalsMiddlewares: []
 };
 
 /**
@@ -34,6 +35,14 @@ function parseSettings (predefined) {
   settings.country = predefined.country;
   settings.predefined = predefined.predefined;
   settings.id = predefined.id;
+
+  if (predefined.headers['ezPAARSE-Middlewares']) {
+    if (!predefined.headers['ezPAARSE-Middlewares'].match(/^\(\s*(before|after|only)\s*(.*?)\s*\)(.+)$/i)) {
+      settings.additionalsMiddlewares = predefined.headers['ezPAARSE-Middlewares'].split(',') || [];
+
+      delete predefined.headers['ezPAARSE-Middlewares'];
+    }
+  }
 
   // Index headers by lowercased name
   const headers = {};
@@ -121,6 +130,7 @@ function parseSettings (predefined) {
     }
   });
 
+
   return settings;
 }
 
@@ -190,6 +200,17 @@ function getHeaders (settings) {
     });
   }
 
+  if (!headers['ezPAARSE-Middlewares']) {
+    if (settings.additionalsMiddlewares.length) {
+      headers['ezPAARSE-Middlewares'] = settings.additionalsMiddlewares.join(',');
+    }
+  }
+  if (headers['ezPAARSE-Middlewares']) {
+    if (!headers['ezPAARSE-Middlewares'].match(/^\(\s*(before|after|only)\s*(.*?)\s*\)(.+)$/i)) {
+      headers['ezPAARSE-Middlewares'] = settings.additionalsMiddlewares.join(',');
+    }
+  }
+
   return headers;
 }
 
@@ -231,8 +252,8 @@ export default {
     SET_FIELD (state, { name, value }) {
       Vue.set(state.settings, name, value);
     },
-    ADD_HEADER (state) {
-      state.settings.headers.push({ name: '', value: '' });
+    ADD_HEADER (state, name, value) {
+      state.settings.headers.push({ name: name || '', value: value || '' });
     },
     REMOVE_HEADER (state, index) {
       state.settings.headers.splice(index, 1);
@@ -281,8 +302,8 @@ export default {
         commit('SET_FIELD', { name, value });
       }
     },
-    ADD_HEADER ({ commit }) {
-      commit('ADD_HEADER');
+    ADD_HEADER ({ commit }, name, value) {
+      commit('ADD_HEADER', name, value);
     },
     REMOVE_HEADER ({ commit }, index) {
       commit('REMOVE_HEADER', index);

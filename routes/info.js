@@ -226,8 +226,9 @@ async function getMiddlewaresData() {
   } catch (e) {}
 
   const middlewares = {
+    defaultsConfig: defaultMiddlewares,
     defaults: defaultMiddlewares,
-    others: []
+    availables: []
   };
 
   let folders = [];
@@ -250,7 +251,7 @@ async function getMiddlewaresData() {
         } catch (e) {}
 
         if (stat.isDirectory()) {
-          middlewares.others.push(folders[i]);
+          middlewares.availables.push(folders[i]);
         }
       }
     }

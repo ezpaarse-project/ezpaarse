@@ -108,6 +108,7 @@
           "cryptedFields": "Crypted fields",
           "counterReportDetail": "* The reports are not COUNTER certified, however the deduplication algorithm and output formats follow the recommendations.",
           "advancedHeaders": "Headers (advanced)",
+          "middlewares": "Middlewares",
           "defaultParams": "Reset settings",
           "paramsSaved": "Successfully saved settings",
           "deleted": "Setting deleted",
@@ -249,10 +250,11 @@
         },
         "middlewares": {
           "title": "Middlewares",
-          "middlewares": "Middlewares",
           "update": "Update",
           "default": "Default Setting",
-          "defaultsMiddlewares": "Defaults middlewares"
+          "defaultsMiddlewares": "Active middleware for processing",
+          "middlewares": "Middlewares available",
+          "updated": "Successfully updated"
         },
         "updates": {
           "title": "Updates",

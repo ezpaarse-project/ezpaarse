@@ -108,6 +108,7 @@
           "cryptedFields": "Champs cryptés",
           "counterReportDetail": "* Les rapports ne sont pas certifiés COUNTER, cependant l'algorithme de dédoublonnage et les formats de sortie suivent les recommandations.",
           "advancedHeaders": "Headers (avancé)",
+          "middlewares": "Middlewares",
           "defaultParams": "Réinitialiser paramètres",
           "paramsSaved": "Paramètres enregistrés",
           "deleted": "Paramètre supprimé",
@@ -248,10 +249,11 @@
         },
         "middlewares": {
           "title": "Middlewares",
-          "middlewares": "Middlewares",
           "update": "Mise à jour",
           "default": "Réglage par Défaut",
-          "defaultsMiddlewares": "Middlewares par défaut"
+          "defaultsMiddlewares": "Middlewares actifs pour traitement",
+          "middlewares": "Middlewares disponibles",
+          "updated": "Liste mise à jour avec succès"
         },
         "updates": {
           "title": "Mises à jour",

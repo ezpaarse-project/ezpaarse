@@ -331,24 +331,7 @@
                     </v-combobox>
                   </v-flex>
                   <v-flex grow>
-                    <v-combobox
-                      v-if="header.name && header.name.toLowerCase() === 'ezpaarse-middlewares'"
-                      :return-object="false"
-                      :items="middlewares.others"
-                      hide-selected
-                      multiple
-                      single-line
-                      clearable
-                      chips
-                      hide-details
-                      solo
-                      deletable-chips
-                      append-outer-icon="mdi-close-circle"
-                      @click:append-outer="removeHeader(index)"
-                      @input="value => updateHeaderValue(index, value)"
-                    />
                     <v-text-field
-                      v-if="header.name !== 'ezPAARSE-Middlewares'"
                       :value="header.value"
                       append-outer-icon="mdi-close-circle"
                       :label="$t('ui.value')"
@@ -372,6 +355,75 @@
             </v-card>
           </v-expansion-panel-content>
         </v-expansion-panel>
+
+        <v-expansion-panel>
+          <v-expansion-panel-header v-text="$t('ui.pages.process.settings.middlewares')" />
+          <v-expansion-panel-content>
+            <v-card flat>
+              <v-container fluid>
+                <v-row align="start" justify="center">
+                  <v-col cols="4" align-self="start">
+                    <v-card align-self-stretch>
+                      <v-toolbar dark flat color="blue-grey darken-1">
+                        <v-toolbar-title v-text="$t('ui.pages.admin.middlewares.middlewares')" />
+                      </v-toolbar>
+
+                      <v-list dark color="blue-grey lighten-3">
+                        <vuedraggable
+                          v-model="middlewares.availables"
+                          :options="{ group: 'middlewares' }"
+                        >
+                          <template v-for="(middleware, key) in middlewares.availables">
+                            <v-list-item :key="`list-item-availables-${key}`" @click.stop>
+                              <v-list-item-content>
+                                <v-list-item-title v-text="middleware" />
+                              </v-list-item-content>
+                            </v-list-item>
+                          </template>
+                        </vuedraggable>
+                      </v-list>
+                    </v-card>
+                  </v-col>
+
+                  <v-col cols="1" align-self="center" class="text-center">
+                    <v-avatar size="36" color="primary">
+                      <v-icon dark>
+                        mdi-swap-horizontal-bold
+                      </v-icon>
+                    </v-avatar>
+                  </v-col>
+
+                  <v-col cols="4" align-self="start">
+                    <v-card align-self-stretch>
+                      <v-toolbar dark flat color="green darken-1">
+                        <v-toolbar-title
+                          v-text="$t('ui.pages.admin.middlewares.defaultsMiddlewares')"
+                        />
+                      </v-toolbar>
+
+                      <v-list dark color="green lighten-3">
+                        <vuedraggable
+                          v-model="additionalsMiddlewares"
+                          :options="{ group: 'middlewares' }"
+                        >
+                          <template
+                            v-for="(middleware, key) in additionalsMiddlewares"
+                          >
+                            <v-list-item :key="`list-item-availables-${key}`" @click.stop>
+                              <v-list-item-content>
+                                <v-list-item-title v-text="middleware" />
+                              </v-list-item-content>
+                            </v-list-item>
+                          </template>
+                        </vuedraggable>
+                      </v-list>
+                    </v-card>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-card>
+          </v-expansion-panel-content>
+        </v-expansion-panel>
       </v-expansion-panels>
     </v-card>
 
@@ -382,6 +434,7 @@
 <script>
 import i18nIsoCode from 'i18n-iso-countries';
 import { saveAs } from 'file-saver';
+import vuedraggable from 'vuedraggable';
 import SettingsSaver from '~/components/SettingsSaver.vue';
 
 export default {
@@ -396,7 +449,8 @@ export default {
     }
   },
   components: {
-    SettingsSaver
+    SettingsSaver,
+    vuedraggable
   },
   filters: {
     alphaToName (alpha, locale) {
@@ -459,6 +513,10 @@ export default {
     cryptedFields: {
       get () { return this.settings.cryptedFields; },
       set (value) { this.$store.dispatch('settings/SET_FIELD', { name: 'cryptedFields', value }); }
+    },
+    additionalsMiddlewares: {
+      get () { return this.settings.additionalsMiddlewares; },
+      set (value) { this.$store.dispatch('settings/SET_FIELD', { name: 'additionalsMiddlewares', value }); }
     },
     selectedSetting: {
       get () { return this.settings.id; },
@@ -556,7 +614,12 @@ export default {
         { name: 'ezPAARSE-Middlewares', anchor: 'ezpaarse-middlewares' }
       ];
 
-      this.middlewaresHeaders.forEach((middleware) => {
+      this.middlewaresHeaders.filter((middleware) => {
+        if (!this.middlewares.defaults.includes(middleware.name)) {
+          return false;
+        }
+        return true;
+      }).forEach((middleware) => {
         if (middleware.headers.length) {
           headers.push({ divider: true });
           headers.push({ header: middleware.name });

@@ -201,8 +201,8 @@
     >
       <v-card>
         <v-card-text>
-          <p v-text="$t('ui.pages.process.curl')" />
-          <v-textarea box :value="curlRequest" height="200" />
+          <p v-html="$t('ui.pages.process.curl')" />
+          <v-textarea filled :value="curlRequest" height="200" />
         </v-card-text>
 
         <v-card-actions>
@@ -232,8 +232,6 @@ export default {
     const middlewaresHeaders = await app.$axios.$get('/api/info/middlewares/headers');
     const middlewares = await app.$axios.$get('/api/info/middlewares');
 
-    console.log(middlewares)
-
     return {
       logSamplesUrl: 'https://github.com/ezpaarse-project/ezpaarse-dataset-samples',
       fileSelectionHelp: false,
@@ -241,7 +239,8 @@ export default {
       uploaderDialog: false,
       curlRequest: '',
       middlewaresHeaders,
-      middlewares
+      middlewares,
+      middlewaresAdded: []
     };
   },
   async fetch ({ store }) {
@@ -318,6 +317,7 @@ export default {
         curl = [...curl, `-H "ezPAARSE-Predefined-Settings:${this.settings.id}"`];
       } else {
         const headers = await this.$store.dispatch('settings/GET_HEADERS');
+
         curl = [
           ...curl,
           ...Object.entries(headers).map(([name, value]) => `-H "${name}: ${value}"`)
