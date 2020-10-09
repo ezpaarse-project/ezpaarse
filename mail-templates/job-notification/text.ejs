@@ -1,4 +1,8 @@
+<% if (hasFailed) { %>
+Your job has failed.
+<% } else { %>
 Your job is completed.
+<% } %>
 
 ID: <%= job.jobID %>
 You can get the report in this mail or view it online at <%= ezBaseURL + '/report/' + job.jobID %>.
