@@ -60,7 +60,8 @@ app.post('/', async function (req, res, next) {
     }
   }
 
-  let subject = '[ezPAARSE] Feedback ';
+  const label = config.EZPAARSE_APP_NAME || 'ezPAARSE';
+  let subject = `[${label}] Feedback `;
   subject += usermail ? 'de ' + usermail : 'anonyme';
   let text = 'Utilisateur : ' + (usermail || 'anonyme');
 
@@ -152,8 +153,10 @@ app.post('/freshinstall', function (req, res, next) {
     text += '\n- package : ' + pkg.version || 'inconnue';
     text += '\n- git : ' + (!err && stdout ? stdout : 'inconnue');
 
+    const label = config.EZPAARSE_APP_NAME || 'ezPAARSE';
+
     mailer.mail()
-      .subject('[ezPAARSE] Nouvelle installation')
+      .subject(`[${label}] Nouvelle installation`)
       .text(text)
       .from(config.EZPAARSE_ADMIN_MAIL)
       .to(config.EZPAARSE_FEEDBACK_RECIPIENTS)
