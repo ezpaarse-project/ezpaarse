@@ -2,6 +2,9 @@
 
 ezPAARSE comes with a `config.json` file (located at the root of the /ezpaarse directory) where some the configuration options for your instance can be set or modified.
 
+### EZPAARSE_APP_NAME
+ezPAARSE display name. As of now, this is only used in email subjects.
+
 ### EZPAARSE_ADMIN_MAIL
 The default value is set to `ezpaarse@couperin.org`
 
