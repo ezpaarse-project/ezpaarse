@@ -83,13 +83,20 @@ app.get('/platforms/changed', function (req, res, next) {
 /**
 * GET route on /info/platforms
 */
-app.get('/platforms', function (req, res, next) {
+app.get('/platforms', async function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'X-Requested-With');
 
   const status = req.query.status;
 
   const platformsFolder = path.resolve(__dirname, '../platforms');
+
+  let platformsCertifications;
+  try {
+    platformsCertifications = await analogist.getCertifications();
+  } catch (e) {
+    platformsCertifications = null;
+  }
 
   fs.readdir(platformsFolder, function (err, folders) {
     if (err) { return next(err); }
@@ -165,7 +172,7 @@ app.get('/platforms', function (req, res, next) {
       });
     };
 
-    (function readNextDir(callback) {
+    (async function readNextDir(callback) {
       const folder = folders[i++];
 
       if (!folder) { return callback(); }
@@ -177,18 +184,22 @@ app.get('/platforms', function (req, res, next) {
       fs.exists(parserFile, function (exists) {
         if (!exists) { return readNextDir(callback); }
 
-        fs.readFile(configFile, async function (err, content) {
+        fs.readFile(configFile, function (err, content) {
           if (err) { return readNextDir(callback); }
 
           let manifest;
           try {
             manifest = JSON.parse(content);
-            const match = /^http:\/\/([a-z.-]+)\/platforms\/([a-z0-9]+)$/i.exec(manifest.docurl);
-            if (match) {
-              manifest['certifications'] = await analogist.getCertifications(manifest.docurl);
-            }
           } catch (e) {
             return readNextDir(callback);
+          }
+
+          if (platformsCertifications) {
+            const match = /^http:\/\/([a-z.-]+)\/platforms\/([a-z0-9]+)$/i.exec(manifest.docurl);
+            if (match) {
+              const certifications = platformsCertifications[match[2]];
+              manifest['certifications'] = certifications;
+            }
           }
 
           if (!manifest.name || (status && manifest.status != status)) {
