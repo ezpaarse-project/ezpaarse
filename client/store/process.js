@@ -158,8 +158,8 @@ export default {
     CLEAR_LOG_FILES ({ commit }) {
       commit('CLEAR_LOG_FILES');
     },
-    GET_REPORT ({ commit }, data) {
-      return api.getReport(data).then(res => {
+    GET_REPORT ({ commit }, id) {
+      return api.getReport(id).then(res => {
         commit('SET_REPORT', res);
       });
     },
