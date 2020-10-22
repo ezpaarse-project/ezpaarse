@@ -187,6 +187,9 @@ app.get('/status', function (req, res, next) {
   } else if (config.EZPAARSE_PARENT_URL) {
     request.get(config.EZPAARSE_PARENT_URL + '/api/feedback/status',
       function (err, response, body) {
+        if (body !== config.EZPAARSE_ADMIN_MAIL) {
+          return next(Boom.notImplemented());
+        }
         if (err || !response || response.statusCode != 200) {
           return next(Boom.notImplemented());
         }

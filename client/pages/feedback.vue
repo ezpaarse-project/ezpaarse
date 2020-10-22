@@ -15,8 +15,12 @@ export default {
         await store.dispatch('process/GET_TREATMENTS_BY_USER', app.$auth.user.username);
       }
     } catch (e) {
-      this.$store.dispatch('snacks/error', 'ui.errors.cannotLoadJobsData');
+      store.dispatch('snacks/error', 'ui.errors.cannotLoadJobsData');
     }
+
+    try {
+      await store.dispatch('GET_FEEDBACK_STATUS');
+    } catch (e) { }
   }
 };
 </script>

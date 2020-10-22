@@ -122,7 +122,8 @@
       "test/*.js",
       "platforms/*.js",
       "middlewares/*.js",
-      "resources/*.js"
+      "resources/*.js",
+      "routes/*.js"
     ],
     "ignore": [
       "tmp",
