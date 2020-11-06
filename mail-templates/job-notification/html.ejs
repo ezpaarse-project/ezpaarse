@@ -3,7 +3,11 @@
       ezPAARSE - Job <%= job.jobID %>
     </div>
 
-    <h2>Your job is completed.</h2>
+    <% if (hasFailed) { %>
+      <h2>Your job has failed.</h2>
+    <% } else { %>
+      <h2>Your job is completed.</h2>
+    <% } %>
     <p>You can get the report in this mail or <a href="<%= ezBaseURL + '/report/' + job.jobID %>" style="text-decoration: none;">view it online</a>.</p>
 
     <h3>Alerts :</h3>

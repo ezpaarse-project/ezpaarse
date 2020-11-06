@@ -1,0 +1,3 @@
+115.87.23.43 - MAGNETO [01/Jan/2016:05:00:00 +0100] "GET http://onlinelibrary.wiley.com/doi/10.1002/jez.1990/pdf HTTP/1.1" 200 16961
+115.87.23.43 - MAGNETO [01/Jan/2016:10:00:00 +0100] "GET http://www.sciencedirect.com/science/article/pii/S2212671612001011 HTTP/1.1" 200 36890
+115.87.23.43 - MAGNETO [01/Jan/2016:15:00:00 +0100] "GET https://link.springer.com/content/pdf/10.1007/978-1-349-94186-5_769.pdf HTTP/1.1" 200 36890

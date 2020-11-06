@@ -1,18 +1,14 @@
 <template>
   <v-card>
-    <v-toolbar class="secondary" dark dense card>
+    <v-toolbar class="secondary" dark dense flat>
       <v-toolbar-title>{{ $t('ui.drawer.feedback') }}</v-toolbar-title>
     </v-toolbar>
 
-    <v-card-text v-if="checkingFeedback" class="text-center">
-      <v-progress-circular indeterminate />
-    </v-card-text>
-
-    <v-card-text v-else-if="!recipient" v-text="$t('ui.pages.feedback.unavailable')" />
+    <v-card-text v-if="!recipient" v-text="$t('ui.pages.feedback.unavailable')" />
 
     <v-card-text v-else>
       <v-alert
-        :value="recipient"
+        :value="recipient ? true : false"
         outlined
         type="info"
         class="mb-3"
@@ -73,7 +69,6 @@ export default {
   data () {
     return {
       formIsValid: false,
-      checkingFeedback: false,
       email: this.$auth.user && this.$auth.user.username,
       comment: null,
       sendBrowser: true,
@@ -81,18 +76,12 @@ export default {
       jobID: null
     };
   },
-  async mounted () {
-    this.checkingFeedback = true;
-
-    try {
-      await this.$store.dispatch('GET_FEEDBACK_STATUS');
-    } finally {
-      this.checkingFeedback = false;
-    }
-  },
   computed: {
     recipient () {
       return this.$store.state.feedback;
+    },
+    checkingFeedback () {
+      return this.$store.state.checkingFeedback;
     },
     treatments () {
       return this.$store.state.process.treatments;

@@ -198,8 +198,10 @@ app.post('/register', bodyParser.urlencoded({ extended: true }), bodyParser.json
               text = `Mail: ${user.username}\nSignup date: ${user.createdAt}`;
             }
 
+            const label = config.EZPAARSE_APP_NAME || 'ezPAARSE';
+
             mailer.mail()
-              .subject('[ezPAARSE] New subscription')
+              .subject(`[${label}] New subscription`)
               .html(html)
               .text(text)
               .from(config.EZPAARSE_ADMIN_MAIL)
@@ -345,8 +347,10 @@ app.post('/passwords', bodyParser.urlencoded({ extended: true }), bodyParser.jso
           ? 'Réinitialisation de votre mot de passe'
           : 'Resetting your password';
 
+        const label = config.EZPAARSE_APP_NAME || 'ezPAARSE';
+
         mailer.mail()
-          .subject(`[ezPAARSE] ${subject}`)
+          .subject(`[${label}] ${subject}`)
           .html(html)
           .text(text)
           .from(config.EZPAARSE_ADMIN_MAIL)

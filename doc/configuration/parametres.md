@@ -28,7 +28,7 @@ Date format used in the logs sent. Default is: 'DD/MMM/YYYY:HH:mm:ss Z'.
 ### Crypted-Fields
 Comma-separated list of fields that will be crypted in the results, or `none` to disable crypting. Defaults to `host,login`.
 
-**Caution**: each job uses a random salt for crypting, so crypted values for the same access event but from distinct jobs are not identical. Use the `Crypted-Salt` header to change this behavior.
+**Caution**: each job uses a random salt for crypting, so crypted values for the same access event but from distinct jobs are not identical. Use the `Crypting-Salt` header to change this behavior.
 
 ### Crypting-Salt
 A specific crypting key to use if you want fields to be crypted the same way accross different jobs.
@@ -85,9 +85,14 @@ The goal when using this parameter is to reduce the size of the log file, if you
 This [screencast](https://www.youtube.com/watch?v=I3D6lO4wDZo) demonstrates the usage of the Clean-Only parameter (ie the cleaning of a log file for size reduction and ease of storage)
 
 ### Force-Parser
-If URLs don't have 'domain' part, use this parameter to force right parser to be used. Usefull for Open Access log analysis which don't have domain part in URL (all URLs comes form the same domain).
-For example: Force-Parser: 'dspace'.
-Can be use in conjonction with Force-ECField-Publisher.
+If URLs don't have a `domain` part, use this parameter to force the right parser to be used. Useful for Open Access logs analysis, which don't have a domain part in the URL (all URLs comes from the same domain).
+
+Example:
+```
+Force-Parser: 'dspace'
+```
+
+Can be used in conjonction with [Force-ECField-Publisher](#force-ecfield-publisher).
 
 ### COUNTER-Reports
 List of COUNTER reports to create (ex: JR1, BR2). Download links are accessible in the `stats` section of the treatment report. [(More information)](../features/counter.html)

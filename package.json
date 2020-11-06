@@ -1,6 +1,6 @@
 {
   "name": "ezpaarse",
-  "version": "3.3.5",
+  "version": "3.4.2",
   "private": true,
   "repository": {
     "type": "git",
@@ -10,7 +10,7 @@
     "node": ">=8.1.4"
   },
   "dependencies": {
-    "@ezpaarse-project/ezmesure": "^2.2.2",
+    "@ezpaarse-project/ezmesure": "^2.2.4",
     "@ezpaarse-project/ezpaarse": "^2.0.3",
     "@mdi/font": "^5.3.45",
     "@nuxtjs/auth": "^4.5.3",
@@ -117,6 +117,19 @@
     "build": "nuxt build --no-generate",
     "docs:build": "vuepress build doc",
     "docs:dev": "vuepress dev doc"
+  },
+  "nodemonConfig": {
+    "watch": [
+      "test/*.js",
+      "platforms/*.js",
+      "middlewares/*.js",
+      "resources/*.js",
+      "routes/*.js"
+    ],
+    "ignore": [
+      "tmp",
+      "client"
+    ]
   },
   "husky": {
     "hooks": {

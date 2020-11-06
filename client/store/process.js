@@ -107,7 +107,15 @@ export default {
           }
         });
 
-        if (response && response.status === 200) {
+        await dispatch('GET_REPORT', jobID);
+
+        const jobDone = get(rootState, 'process.report.general[Job-Done]');
+        const errorMessage = get(rootState, 'process.report.general[status-message]');
+
+        if (errorMessage || !jobDone) {
+          if (errorMessage) { commit('SET_ERROR', errorMessage); }
+          commit('SET_STATUS', 'error');
+        } else if (response && response.status === 200) {
           commit('SET_STATUS', 'end');
         } else {
           commit('SET_STATUS', 'error');
@@ -158,8 +166,8 @@ export default {
     CLEAR_LOG_FILES ({ commit }) {
       commit('CLEAR_LOG_FILES');
     },
-    GET_REPORT ({ commit }, data) {
-      return api.getReport(data).then(res => {
+    GET_REPORT ({ commit }, id) {
+      return api.getReport(id).then(res => {
         commit('SET_REPORT', res);
       });
     },
