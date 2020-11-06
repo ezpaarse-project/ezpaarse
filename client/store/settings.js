@@ -178,6 +178,12 @@ function getHeaders (settings) {
     }
   }
 
+  const middlewares = settings.additionalsMiddlewares;
+
+  if (Array.isArray(middlewares) && middlewares.length > 0) {
+    headers['ezPAARSE-Middlewares'] = middlewares.join(',');
+  }
+
   if (Array.isArray(settings.headers)) {
     settings.headers.forEach(({ name, value }) => {
       let headerValue = value;
@@ -199,17 +205,6 @@ function getHeaders (settings) {
         headers[name] = headerValue;
       }
     });
-  }
-
-  if (!headers['ezPAARSE-Middlewares']) {
-    if (settings.additionalsMiddlewares.length) {
-      headers['ezPAARSE-Middlewares'] = settings.additionalsMiddlewares.join(',');
-    }
-  }
-  if (headers['ezPAARSE-Middlewares']) {
-    if (!headers['ezPAARSE-Middlewares'].match(/^\(\s*(before|after|only)\s*(.*?)\s*\)(.+)$/i)) {
-      headers['ezPAARSE-Middlewares'] = settings.additionalsMiddlewares.join(',');
-    }
   }
 
   return headers;
