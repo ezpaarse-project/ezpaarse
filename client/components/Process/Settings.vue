@@ -459,7 +459,6 @@ export default {
   },
   data () {
     return {
-      importSetting: false,
       removeSetting: false,
       outputFormats: [
         { value: 'text/csv', text: 'CSV' },
@@ -635,9 +634,8 @@ export default {
     }
   },
   methods: {
-    openSaveDialog (importSetting) {
-      this.$refs.settingsSaver.open();
-      this.importSetting = importSetting || false;
+    openSaveDialog (allowImport) {
+      this.$refs.settingsSaver.open({ allowImport });
     },
     addHeader () {
       this.$store.dispatch('settings/ADD_HEADER');
