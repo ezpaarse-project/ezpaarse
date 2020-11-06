@@ -109,9 +109,8 @@ export default {
       }
 
       try {
-        const { defaults, others } = await this.$axios.$get('/api/info/middlewares');
+        const { defaults } = await this.$axios.$get('/api/info/middlewares');
         this.defaultsMiddlewares = defaults;
-        this.othersMiddlewares = others;
       } catch (e) {
         this.$store.dispatch('snacks/error', 'ui.errors.cannotGetMiddlewares');
         this.updating = false;
