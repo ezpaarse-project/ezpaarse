@@ -79,29 +79,14 @@ import i18nIsoCode from 'i18n-iso-countries';
 
 export default {
   props: {
-    visible: {
-      type: Boolean,
-      default: () => false
-    },
     importSetting: {
       type: Boolean,
       default: () => false
     }
   },
-  watch: {
-    visible (value) {
-      if (value) {
-        if (!this.$refs.saveForm) { return; }
-        this.$refs.saveForm.resetValidation();
-        this.fullName = this.settings.fullName || '';
-        this.id = this.settings.id || '';
-        this.country = this.settings.country || 'FR';
-        this.saveAsNew = this.settings.predefined || !this.settings.id;
-      }
-    }
-  },
   data () {
     return {
+      visible: false,
       saveAsNew: true,
       saving: false,
       isValid: true,
@@ -121,8 +106,20 @@ export default {
   },
 
   methods: {
+    open () {
+      if (this.$refs.saveForm) {
+        this.$refs.saveForm.resetValidation();
+      }
+
+      this.fullName = this.settings.fullName || '';
+      this.id = this.settings.id || '';
+      this.country = this.settings.country || 'FR';
+      this.saveAsNew = this.settings.predefined || !this.settings.id;
+
+      this.setVisibility(true);
+    },
     setVisibility (value) {
-      this.$emit('update:visible', value);
+      this.visible = value;
     },
     fullNameRequired (value) {
       return !!(value && value.trim()) || this.$t('ui.pages.process.settings.fullNameRequired');

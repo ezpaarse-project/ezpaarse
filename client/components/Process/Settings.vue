@@ -427,7 +427,7 @@
       </v-expansion-panels>
     </v-card>
 
-    <SettingsSaver :visible.sync="saveDialog" :import-setting="importSetting" />
+    <SettingsSaver ref="settingsSaver" :import-setting="importSetting" />
   </v-layout>
 </template>
 
@@ -459,7 +459,6 @@ export default {
   },
   data () {
     return {
-      saveDialog: false,
       importSetting: false,
       removeSetting: false,
       outputFormats: [
@@ -637,7 +636,7 @@ export default {
   },
   methods: {
     openSaveDialog (importSetting) {
-      this.saveDialog = true;
+      this.$refs.settingsSaver.open();
       this.importSetting = importSetting || false;
     },
     addHeader () {
