@@ -46,7 +46,7 @@ function parseSettings (predefined) {
     const { value: mwString } = headers['ezpaarse-middlewares'];
 
     if (!/^\(\s*(before|after|only)\s*(.*?)\s*\)(.+)$/i.test(mwString)) {
-      settings.additionalsMiddlewares = mwString.split(',');
+      settings.additionalsMiddlewares = mwString.split(',').map(mw => mw.trim()).filter(mw => mw);
       delete headers['ezpaarse-middlewares'];
     }
   }
