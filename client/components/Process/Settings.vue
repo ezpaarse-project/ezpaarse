@@ -426,7 +426,7 @@
       </v-expansion-panels>
     </v-card>
 
-    <SettingsSaver ref="settingsSaver" :import-setting="importSetting" />
+    <SettingsSaver ref="settingsSaver" />
   </v-layout>
 </template>
 
