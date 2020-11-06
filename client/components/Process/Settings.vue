@@ -370,9 +370,10 @@
 
                       <v-list dark color="blue-grey lighten-3">
                         <vuedraggable
+                          :list="selectableMiddlewares"
                           group="middlewares"
                         >
-                          <template v-for="(middleware, key) in middlewares.availables">
+                          <template v-for="(middleware, key) in selectableMiddlewares">
                             <v-list-item :key="`list-item-availables-${key}`" @click.stop>
                               <v-list-item-content>
                                 <v-list-item-title v-text="middleware" />
@@ -560,6 +561,22 @@ export default {
         { value: 'error', text: this.$t('ui.pages.process.settings.tracesLevel.errorsOnly') },
         { value: 'warn', text: this.$t('ui.pages.process.settings.tracesLevel.warning') }
       ];
+    },
+    selectableMiddlewares () {
+      let availableMiddlewares = this.middlewares.availables;
+      let defaultMiddlewares = this.middlewares.defaults;
+      let additionalMiddlewares = this.additionalsMiddlewares;
+
+      if (!Array.isArray(availableMiddlewares)) { availableMiddlewares = []; }
+      if (!Array.isArray(defaultMiddlewares)) { defaultMiddlewares = []; }
+      if (!Array.isArray(additionalMiddlewares)) { additionalMiddlewares = []; }
+
+      const selectedMiddlewares = new Set([
+        ...this.middlewares.defaults,
+        ...this.additionalsMiddlewares
+      ]);
+
+      return availableMiddlewares.filter(mw => !selectedMiddlewares.has(mw));
     },
     headers () {
       const headers = [
