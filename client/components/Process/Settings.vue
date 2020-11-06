@@ -313,7 +313,7 @@
                             <v-icon color="accent">
                               mdi-information
                             </v-icon>
-                          </v-btn> 
+                          </v-btn>
                         </v-list-item-action>
 
                         <v-list-item-action v-if="item.middleware" @click.stop>
@@ -615,10 +615,9 @@ export default {
       ];
 
       this.middlewaresHeaders.filter((middleware) => {
-        if (!this.middlewares.defaults.includes(middleware.name)) {
-          return false;
-        }
-        return true;
+        if (this.middlewares.defaults.includes(middleware.name)) { return true; }
+        if (this.additionalsMiddlewares.includes(middleware.name)) { return true; }
+        return false;
       }).forEach((middleware) => {
         if (middleware.headers.length) {
           headers.push({ divider: true });
