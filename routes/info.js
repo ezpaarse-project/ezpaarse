@@ -226,7 +226,7 @@ app.get('/platforms', async function (req, res, next) {
 async function getMiddlewaresData() {
   const middlewaresFolder = path.resolve(__dirname, '../middlewares');
 
-  let defaultMiddlewares = config.EZPAARSE_MIDDLEWARES;
+  let defaultMiddlewares;
 
   try {
     const result = await dbConfig.getConfig('middlewares');
@@ -237,7 +237,7 @@ async function getMiddlewaresData() {
   } catch (e) {}
 
   const middlewares = {
-    defaultsConfig: defaultMiddlewares,
+    defaultsConfig: config.EZPAARSE_MIDDLEWARES,
     defaults: defaultMiddlewares,
     availables: []
   };
