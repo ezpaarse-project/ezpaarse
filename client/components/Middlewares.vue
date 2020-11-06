@@ -119,7 +119,7 @@ export default {
       this.$emit('removeDefaultMiddlewares', id);
     },
     resetMiddlewares () {
-      this.$emit('watchDefaultsMiddlewares', true);
+      this.$emit('watchDefaultsMiddlewares', null, true);
     }
   }
 };
