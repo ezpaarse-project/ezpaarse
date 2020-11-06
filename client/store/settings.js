@@ -36,19 +36,20 @@ function parseSettings (predefined) {
   settings.predefined = predefined.predefined;
   settings.id = predefined.id;
 
-  if (predefined.headers['ezPAARSE-Middlewares']) {
-    if (!predefined.headers['ezPAARSE-Middlewares'].match(/^\(\s*(before|after|only)\s*(.*?)\s*\)(.+)$/i)) {
-      settings.additionalsMiddlewares = predefined.headers['ezPAARSE-Middlewares'].split(',') || [];
-
-      delete predefined.headers['ezPAARSE-Middlewares'];
-    }
-  }
-
   // Index headers by lowercased name
   const headers = {};
   Object.entries(predefined.headers).forEach(([name, value]) => {
     headers[name.toLowerCase()] = { name, value };
   });
+
+  if (headers['ezpaarse-middlewares']) {
+    const { value: mwString } = headers['ezpaarse-middlewares'];
+
+    if (!/^\(\s*(before|after|only)\s*(.*?)\s*\)(.+)$/i.test(mwString)) {
+      settings.additionalsMiddlewares = mwString.split(',');
+      delete headers['ezpaarse-middlewares'];
+    }
+  }
 
   if (headers['date-format']) {
     settings.dateFormat = headers['date-format'].value;
