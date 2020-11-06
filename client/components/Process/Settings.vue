@@ -370,8 +370,7 @@
 
                       <v-list dark color="blue-grey lighten-3">
                         <vuedraggable
-                          v-model="middlewares.availables"
-                          :options="{ group: 'middlewares' }"
+                          group="middlewares"
                         >
                           <template v-for="(middleware, key) in middlewares.availables">
                             <v-list-item :key="`list-item-availables-${key}`" @click.stop>
@@ -404,7 +403,7 @@
                       <v-list dark color="green lighten-3">
                         <vuedraggable
                           v-model="additionalsMiddlewares"
-                          :options="{ group: 'middlewares' }"
+                          group="middlewares"
                         >
                           <template
                             v-for="(middleware, key) in additionalsMiddlewares"
