@@ -364,17 +364,18 @@
                 <v-row align="start" justify="center">
                   <v-col cols="4" align-self="start">
                     <v-card align-self-stretch>
-                      <v-toolbar dark flat color="blue-grey darken-1">
+                      <v-toolbar flat color="blue-grey darken-1 white--text">
                         <v-toolbar-title v-text="$t('ui.pages.admin.middlewares.middlewares')" />
                       </v-toolbar>
 
-                      <v-list dark color="blue-grey lighten-3">
+                      <v-list :color="`blue-grey ${dark ? 'darken-3' : 'lighten-4'}`">
                         <vuedraggable
                           :list="selectableMiddlewares"
                           group="middlewares"
+                          ghost-class="font-weight-bold"
                         >
                           <template v-for="(middleware, key) in selectableMiddlewares">
-                            <v-list-item :key="`list-item-availables-${key}`" @click.stop>
+                            <v-list-item :key="`${middleware}-${key}`" :ripple="false" @click.stop>
                               <v-list-item-content>
                                 <v-list-item-title v-text="middleware" />
                               </v-list-item-content>
@@ -395,21 +396,20 @@
 
                   <v-col cols="4" align-self="start">
                     <v-card align-self-stretch>
-                      <v-toolbar dark flat color="green darken-1">
+                      <v-toolbar flat color="green darken-1 white--text">
                         <v-toolbar-title
                           v-text="$t('ui.pages.admin.middlewares.defaultsMiddlewares')"
                         />
                       </v-toolbar>
 
-                      <v-list dark color="green lighten-3">
+                      <v-list :color="`green ${dark ? 'darken-3' : 'lighten-4'}`">
                         <vuedraggable
                           v-model="additionalsMiddlewares"
                           group="middlewares"
+                          ghost-class="font-weight-bold"
                         >
-                          <template
-                            v-for="(middleware, key) in additionalsMiddlewares"
-                          >
-                            <v-list-item :key="`list-item-availables-${key}`" @click.stop>
+                          <template v-for="(middleware, key) in additionalsMiddlewares">
+                            <v-list-item :key="`${middleware}-${key}`" :ripple="false" @click.stop>
                               <v-list-item-content>
                                 <v-list-item-title v-text="middleware" />
                               </v-list-item-content>
@@ -526,6 +526,7 @@ export default {
         }
       }
     },
+    dark () { return this.$vuetify.theme.dark; },
     settings () { return this.$store.state.settings.settings || {}; },
     predefinedSettings () { return this.$store.state.settings.predefinedSettings || []; },
     customSettings () { return this.$store.state.settings.customSettings || []; },

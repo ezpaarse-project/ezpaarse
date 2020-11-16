@@ -3,17 +3,18 @@
     <v-row align="start" justify="center">
       <v-col cols="4" align-self="start">
         <v-card align-self-stretch>
-          <v-toolbar dark flat color="blue-grey darken-1">
+          <v-toolbar flat color="blue-grey darken-1 white--text">
             <v-toolbar-title v-text="$t('ui.pages.admin.middlewares.middlewares')" />
           </v-toolbar>
 
-          <v-list dark color="blue-grey lighten-3">
+          <v-list :color="`blue-grey ${dark ? 'darken-3' : 'lighten-4'}`">
             <vuedraggable
-              v-model="middlewares.availables"
+              :list="selectableMiddlewares"
               group="middlewares"
+              ghost-class="font-weight-bold"
             >
-              <template v-for="(middleware, key) in middlewares.availables">
-                <v-list-item :key="`list-item-availables-${key}`" @click.stop>
+              <template v-for="(middleware, key) in selectableMiddlewares">
+                <v-list-item :key="`${middleware}-${key}`" :ripple="false" @click.stop>
                   <v-list-item-content>
                     <v-list-item-title v-text="middleware" />
                   </v-list-item-content>
@@ -34,7 +35,7 @@
 
       <v-col cols="4" align-self="start">
         <v-card align-self-stretch>
-          <v-toolbar dark flat color="green darken-1">
+          <v-toolbar flat color="green darken-1 white--text">
             <v-toolbar-title v-text="$t('ui.pages.admin.middlewares.defaultsMiddlewares')" />
 
             <v-spacer />
@@ -45,10 +46,11 @@
                   fab
                   icon
                   small
+                  dark
                   v-on="on"
                   @click="resetMiddlewares"
                 >
-                  <v-icon dark>
+                  <v-icon>
                     mdi-reload
                   </v-icon>
                 </v-btn>
@@ -57,21 +59,23 @@
             </v-tooltip>
           </v-toolbar>
 
-          <v-list dark color="green lighten-2">
+          <v-list :color="`green ${dark ? 'darken-3' : 'lighten-4'}`">
             <vuedraggable
               v-model="middlewares.defaults"
               group="middlewares"
+              ghost-class="font-weight-bold"
               @change="watchDefaultsMiddlewares"
             >
               <template v-for="(middleware, key) in middlewares.defaults">
                 <v-list-item
-                  :key="`list-item-defaults-${key}`"
+                  :key="`${middleware}-${key}`"
+                  :ripple="false"
                   @click.stop
                 >
                   <v-list-item-avatar>
                     <v-avatar
-                      size="36"
-                      color="green darken-1"
+                      size="32"
+                      color="green darken-1 white--text"
                     >
                       <span v-text="(key + 1)" />
                     </v-avatar>
@@ -110,6 +114,20 @@ export default {
   },
   components: {
     vuedraggable
+  },
+  computed: {
+    dark () { return this.$vuetify.theme.dark; },
+    selectableMiddlewares () {
+      let availableMiddlewares = this.middlewares.availables;
+      let defaultMiddlewares = this.middlewares.defaults;
+
+      if (!Array.isArray(availableMiddlewares)) { availableMiddlewares = []; }
+      if (!Array.isArray(defaultMiddlewares)) { defaultMiddlewares = []; }
+
+      const selectedMiddlewares = new Set(this.middlewares.defaults);
+
+      return availableMiddlewares.filter(mw => !selectedMiddlewares.has(mw));
+    }
   },
   methods: {
     watchDefaultsMiddlewares (event) {
