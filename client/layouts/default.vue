@@ -1,5 +1,5 @@
 <template>
-  <v-app id="ezpaarse" :dark="dark">
+  <v-app id="ezpaarse">
     <v-main>
       <Header />
       <Drawer />
@@ -69,9 +69,6 @@ export default {
     },
     disconnected () {
       return !this.$store.state.socket.socketid;
-    },
-    dark () {
-      return this.$store.state.dark;
     }
   },
   watch: {
