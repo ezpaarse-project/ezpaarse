@@ -1,6 +1,6 @@
 <template>
   <v-app-bar app fixed clipped-left color="primary">
-    <v-app-bar-nav-icon @click.stop="setDrawer(!drawer)" />
+    <v-app-bar-nav-icon dark @click.stop="setDrawer(!drawer)" />
     <v-toolbar-title class="white--text">
       <img class="ezPAARSELogo" :src="require('@/static/img/logo-white.svg')">
       ezPAARSE
