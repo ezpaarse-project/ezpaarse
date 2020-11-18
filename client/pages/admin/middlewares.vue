@@ -50,9 +50,10 @@
     </v-card-text>
 
     <Middlewares
-      :middlewares="middlewaresList"
-      @watchDefaultsMiddlewares="watchDefaultsMiddlewares"
-      @removeDefaultMiddlewares="removeDefaultMiddlewares"
+      v-model="middlewaresList.defaults"
+      :default="middlewaresList.defaultsConfig"
+      :available="middlewaresList.availables"
+      @change="saveMiddlewares"
     />
   </v-card>
 </template>
@@ -127,7 +128,7 @@ export default {
 
       this.updating = false;
     },
-    async watchDefaultsMiddlewares (event, defaults) {
+    async saveMiddlewares (event, defaults) {
       try {
         await this.$axios.post('/api/middlewares', {
           // eslint-disable-next-line max-len
@@ -145,11 +146,6 @@ export default {
       }
 
       this.$store.dispatch('snacks/success', 'ui.pages.admin.middlewares.updated');
-    },
-    async removeDefaultMiddlewares (id) {
-      this.middlewaresList.availables.push(this.middlewaresList.defaults[id]);
-      this.middlewaresList.defaults.splice(id, 1);
-      await this.watchDefaultsMiddlewares();
     }
   }
 };

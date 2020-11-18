@@ -18,6 +18,14 @@
                   <v-list-item-content>
                     <v-list-item-title v-text="middleware" />
                   </v-list-item-content>
+
+                  <v-list-item-action>
+                    <v-btn icon @click="addMiddleware(middleware)">
+                      <v-icon>
+                        mdi-transfer-right
+                      </v-icon>
+                    </v-btn>
+                  </v-list-item-action>
                 </v-list-item>
               </template>
             </vuedraggable>
@@ -61,12 +69,12 @@
 
           <v-list :color="`green ${dark ? 'darken-3' : 'lighten-4'}`">
             <vuedraggable
-              v-model="middlewares.defaults"
+              v-model="selectedMiddlewares"
               group="middlewares"
               ghost-class="font-weight-bold"
-              @change="watchDefaultsMiddlewares"
+              @change="emitChange"
             >
-              <template v-for="(middleware, key) in middlewares.defaults">
+              <template v-for="(middleware, key) in selectedMiddlewares">
                 <v-list-item
                   :key="`${middleware}-${key}`"
                   :ripple="false"
@@ -85,13 +93,13 @@
                     <v-list-item-title v-text="middleware" />
                   </v-list-item-content>
 
-                  <v-list-item-avatar>
-                    <v-btn icon @click="removeDefaultMiddlewares(key)">
+                  <v-list-item-action>
+                    <v-btn icon @click="removeMiddleware(key)">
                       <v-icon dark>
                         mdi-close
                       </v-icon>
                     </v-btn>
-                  </v-list-item-avatar>
+                  </v-list-item-action>
                 </v-list-item>
               </template>
             </vuedraggable>
@@ -107,9 +115,21 @@ import vuedraggable from 'vuedraggable';
 
 export default {
   props: {
-    middlewares: {
-      type: Object,
-      default: () => ({})
+    default: {
+      type: Array,
+      default: () => []
+    },
+    available: {
+      type: Array,
+      default: () => []
+    },
+    hidden: {
+      type: Array,
+      default: () => []
+    },
+    value: {
+      type: Array,
+      default: () => []
     }
   },
   components: {
@@ -117,27 +137,40 @@ export default {
   },
   computed: {
     dark () { return this.$vuetify.theme.dark; },
+
+    availableMiddlewares () { return Array.isArray(this.available) ? this.available : []; },
+    defaultMiddlewares () { return Array.isArray(this.default) ? this.default : []; },
+    hiddenMiddlewares () { return Array.isArray(this.hidden) ? this.hidden : []; },
+    selectedMiddlewares: {
+      get () { return Array.isArray(this.value) ? this.value : []; },
+      set (value) { this.$emit('input', value); }
+    },
+
     selectableMiddlewares () {
-      let availableMiddlewares = this.middlewares.availables;
-      let defaultMiddlewares = this.middlewares.defaults;
+      const selectedMiddlewares = new Set([...this.selectedMiddlewares, ...this.hiddenMiddlewares]);
 
-      if (!Array.isArray(availableMiddlewares)) { availableMiddlewares = []; }
-      if (!Array.isArray(defaultMiddlewares)) { defaultMiddlewares = []; }
-
-      const selectedMiddlewares = new Set(this.middlewares.defaults);
-
-      return availableMiddlewares.filter(mw => !selectedMiddlewares.has(mw));
+      return this.availableMiddlewares.filter(mw => !selectedMiddlewares.has(mw));
     }
   },
   methods: {
-    watchDefaultsMiddlewares (event) {
-      this.$emit('watchDefaultsMiddlewares', event, false);
+    emitChange () {
+      this.$emit('change', this.selectedMiddlewares);
     },
-    removeDefaultMiddlewares (id) {
-      this.$emit('removeDefaultMiddlewares', id);
+    addMiddleware (name) {
+      const newArray = this.selectedMiddlewares.slice();
+      newArray.push(name);
+      this.selectedMiddlewares = newArray;
+      this.emitChange();
+    },
+    removeMiddleware (index) {
+      const newArray = this.selectedMiddlewares.slice();
+      newArray.splice(index, 1);
+      this.selectedMiddlewares = newArray;
+      this.emitChange();
     },
     resetMiddlewares () {
-      this.$emit('watchDefaultsMiddlewares', null, true);
+      this.selectedMiddlewares = this.default;
+      this.emitChange();
     }
   }
 };

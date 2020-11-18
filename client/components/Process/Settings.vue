@@ -360,67 +360,10 @@
           <v-expansion-panel-header v-text="$t('ui.pages.process.settings.middlewares')" />
           <v-expansion-panel-content>
             <v-card flat>
-              <v-container fluid>
-                <v-row align="start" justify="center">
-                  <v-col cols="4" align-self="start">
-                    <v-card align-self-stretch>
-                      <v-toolbar flat color="blue-grey darken-1 white--text">
-                        <v-toolbar-title v-text="$t('ui.pages.admin.middlewares.middlewares')" />
-                      </v-toolbar>
-
-                      <v-list :color="`blue-grey ${dark ? 'darken-3' : 'lighten-4'}`">
-                        <vuedraggable
-                          :list="selectableMiddlewares"
-                          group="middlewares"
-                          ghost-class="font-weight-bold"
-                        >
-                          <template v-for="(middleware, key) in selectableMiddlewares">
-                            <v-list-item :key="`${middleware}-${key}`" :ripple="false" @click.stop>
-                              <v-list-item-content>
-                                <v-list-item-title v-text="middleware" />
-                              </v-list-item-content>
-                            </v-list-item>
-                          </template>
-                        </vuedraggable>
-                      </v-list>
-                    </v-card>
-                  </v-col>
-
-                  <v-col cols="1" align-self="center" class="text-center">
-                    <v-avatar size="36" color="primary">
-                      <v-icon dark>
-                        mdi-swap-horizontal-bold
-                      </v-icon>
-                    </v-avatar>
-                  </v-col>
-
-                  <v-col cols="4" align-self="start">
-                    <v-card align-self-stretch>
-                      <v-toolbar flat color="green darken-1 white--text">
-                        <v-toolbar-title
-                          v-text="$t('ui.pages.admin.middlewares.defaultsMiddlewares')"
-                        />
-                      </v-toolbar>
-
-                      <v-list :color="`green ${dark ? 'darken-3' : 'lighten-4'}`">
-                        <vuedraggable
-                          v-model="additionalsMiddlewares"
-                          group="middlewares"
-                          ghost-class="font-weight-bold"
-                        >
-                          <template v-for="(middleware, key) in additionalsMiddlewares">
-                            <v-list-item :key="`${middleware}-${key}`" :ripple="false" @click.stop>
-                              <v-list-item-content>
-                                <v-list-item-title v-text="middleware" />
-                              </v-list-item-content>
-                            </v-list-item>
-                          </template>
-                        </vuedraggable>
-                      </v-list>
-                    </v-card>
-                  </v-col>
-                </v-row>
-              </v-container>
+              <Middlewares
+                v-model="additionalsMiddlewares"
+                :available="middlewares.availables"
+              />
             </v-card>
           </v-expansion-panel-content>
         </v-expansion-panel>
@@ -434,8 +377,8 @@
 <script>
 import i18nIsoCode from 'i18n-iso-countries';
 import { saveAs } from 'file-saver';
-import vuedraggable from 'vuedraggable';
 import SettingsSaver from '~/components/SettingsSaver.vue';
+import Middlewares from '~/components/Middlewares.vue';
 
 export default {
   props: {
@@ -450,7 +393,7 @@ export default {
   },
   components: {
     SettingsSaver,
-    vuedraggable
+    Middlewares
   },
   filters: {
     alphaToName (alpha, locale) {
@@ -562,22 +505,6 @@ export default {
         { value: 'error', text: this.$t('ui.pages.process.settings.tracesLevel.errorsOnly') },
         { value: 'warn', text: this.$t('ui.pages.process.settings.tracesLevel.warning') }
       ];
-    },
-    selectableMiddlewares () {
-      let availableMiddlewares = this.middlewares.availables;
-      let defaultMiddlewares = this.middlewares.defaults;
-      let additionalMiddlewares = this.additionalsMiddlewares;
-
-      if (!Array.isArray(availableMiddlewares)) { availableMiddlewares = []; }
-      if (!Array.isArray(defaultMiddlewares)) { defaultMiddlewares = []; }
-      if (!Array.isArray(additionalMiddlewares)) { additionalMiddlewares = []; }
-
-      const selectedMiddlewares = new Set([
-        ...this.middlewares.defaults,
-        ...this.additionalsMiddlewares
-      ]);
-
-      return availableMiddlewares.filter(mw => !selectedMiddlewares.has(mw));
     },
     headers () {
       const headers = [
