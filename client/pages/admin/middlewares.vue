@@ -128,11 +128,10 @@ export default {
 
       this.updating = false;
     },
-    async saveMiddlewares (event, defaults) {
+    async saveMiddlewares () {
       try {
         await this.$axios.post('/api/middlewares', {
-          // eslint-disable-next-line max-len
-          middlewares: defaults ? this.middlewaresList.config : this.middlewaresList.enabled
+          middlewares: this.middlewaresList.enabled
         });
       } catch (e) {
         this.$store.dispatch('snacks/error', 'ui.errors.impossibleToUpdate');
