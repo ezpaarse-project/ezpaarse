@@ -1,7 +1,7 @@
 <template>
-  <v-container fluid>
+  <v-container fluid style="max-width: 1200px">
     <v-row align="start" justify="center">
-      <v-col cols="4" align-self="start">
+      <v-col cols="12" sm="6" md="5" align-self="start">
         <v-card align-self-stretch>
           <v-toolbar flat color="blue-grey darken-1 white--text">
             <v-toolbar-title v-text="$t('ui.pages.admin.middlewares.middlewares')" />
@@ -33,7 +33,7 @@
         </v-card>
       </v-col>
 
-      <v-col cols="1" align-self="center" class="text-center">
+      <v-col md="1" align-self="center" class="text-center d-none d-md-block">
         <v-avatar size="36" color="primary">
           <v-icon dark>
             mdi-swap-horizontal-bold
@@ -41,7 +41,7 @@
         </v-avatar>
       </v-col>
 
-      <v-col cols="4" align-self="start">
+      <v-col cols="12" sm="6" md="5" align-self="start">
         <v-card align-self-stretch>
           <v-toolbar flat color="green darken-1 white--text">
             <v-toolbar-title v-text="$t('ui.pages.admin.middlewares.defaultsMiddlewares')" />
