@@ -293,6 +293,7 @@
                       :value="header.name"
                       :return-object="false"
                       :items="headers"
+                      name="headers"
                       item-text="name"
                       item-value="name"
                       :label="$t('ui.name')"
@@ -307,6 +308,18 @@
                           <v-btn
                             icon
                             :href="`https://ezpaarse-project.github.io/ezpaarse/configuration/parametres.html#${item.anchor}`"
+                            target="_blank"
+                          >
+                            <v-icon color="accent">
+                              mdi-information
+                            </v-icon>
+                          </v-btn>
+                        </v-list-item-action>
+
+                        <v-list-item-action v-if="item.middleware" @click.stop>
+                          <v-btn
+                            icon
+                            :href="`https://ezpaarse-project.github.io/ezpaarse/middlewares/${item.middleware}/README.html`"
                             target="_blank"
                           >
                             <v-icon color="accent">
@@ -342,10 +355,23 @@
             </v-card>
           </v-expansion-panel-content>
         </v-expansion-panel>
+
+        <v-expansion-panel>
+          <v-expansion-panel-header v-text="$t('ui.pages.process.settings.middlewares')" />
+          <v-expansion-panel-content>
+            <v-card flat>
+              <Middlewares
+                v-model="additionalsMiddlewares"
+                :available="middlewares.available"
+                hide-reset-button
+              />
+            </v-card>
+          </v-expansion-panel-content>
+        </v-expansion-panel>
       </v-expansion-panels>
     </v-card>
 
-    <SettingsSaver :visible.sync="saveDialog" :import-setting="importSetting" />
+    <SettingsSaver ref="settingsSaver" />
   </v-layout>
 </template>
 
@@ -353,10 +379,22 @@
 import i18nIsoCode from 'i18n-iso-countries';
 import { saveAs } from 'file-saver';
 import SettingsSaver from '~/components/SettingsSaver.vue';
+import Middlewares from '~/components/Middlewares.vue';
 
 export default {
+  props: {
+    middlewares: {
+      type: Object,
+      default: () => ({})
+    },
+    middlewaresHeaders: {
+      type: Array,
+      default: () => ([])
+    }
+  },
   components: {
-    SettingsSaver
+    SettingsSaver,
+    Middlewares
   },
   filters: {
     alphaToName (alpha, locale) {
@@ -365,8 +403,6 @@ export default {
   },
   data () {
     return {
-      saveDialog: false,
-      importSetting: false,
       removeSetting: false,
       outputFormats: [
         { value: 'text/csv', text: 'CSV' },
@@ -420,6 +456,10 @@ export default {
       get () { return this.settings.cryptedFields; },
       set (value) { this.$store.dispatch('settings/SET_FIELD', { name: 'cryptedFields', value }); }
     },
+    additionalsMiddlewares: {
+      get () { return this.settings.additionalsMiddlewares; },
+      set (value) { this.$store.dispatch('settings/SET_FIELD', { name: 'additionalsMiddlewares', value }); }
+    },
     selectedSetting: {
       get () { return this.settings.id; },
       set (key) {
@@ -430,6 +470,7 @@ export default {
         }
       }
     },
+    dark () { return this.$vuetify.theme.dark; },
     settings () { return this.$store.state.settings.settings || {}; },
     predefinedSettings () { return this.$store.state.settings.predefinedSettings || []; },
     customSettings () { return this.$store.state.settings.customSettings || []; },
@@ -467,7 +508,7 @@ export default {
       ];
     },
     headers () {
-      return [
+      const headers = [
         { header: 'Encodage' },
         { name: 'Response-Encoding', anchor: 'response-encoding' },
         { name: 'Request-Charset', anchor: 'request-charset' },
@@ -500,9 +541,6 @@ export default {
         { name: 'Double-Click-L-Field', anchor: 'double-click-xxx' },
         { name: 'Double-Click-I-Field', anchor: 'double-click-xxx' },
         { divider: true },
-        { header: this.$t('ui.pages.process.settings.headers.anonymization') },
-        { name: 'Crypted-Fields', anchor: 'crypted-fields' },
-        { divider: true },
         { header: this.$t('ui.pages.process.settings.headers.other') },
         { name: 'Traces-Level', anchor: 'traces-level' },
         { name: 'Reject-Files', anchor: 'reject-files' },
@@ -510,38 +548,39 @@ export default {
         { name: 'Force-Parser', anchor: 'force-parser' },
         { name: 'Geoip', anchor: 'geoip' },
         { name: 'ezPAARSE-Job-Notifications', anchor: 'ezpaarse-job-notifications' },
-        { name: 'ezPAARSE-Enrich', anchor: 'ezpaarse-enrich' },
         { name: 'ezPAARSE-Predefined-Settings', anchor: 'ezpaarse-predefined-settings' },
         { name: 'ezPAARSE-Filter-Redirects', anchor: 'ezpaarse-filter-redirects' },
         { name: 'ezPAARSE-Filter-Status', anchor: 'ezpaarse-filter-status' },
         { name: 'Disable-Filters', anchor: 'disable-filters' },
         { name: 'Force-ECField-Publisher', anchor: 'force-ecfield-publisher' },
         { name: 'Extract', anchor: 'extract' },
-        { name: 'ezPAARSE-Middlewares', anchor: 'ezpaarse-middlewares' },
-        { divider: true },
-        { header: this.$t('ui.pages.process.settings.headers.metadataEnrichment') },
-        { name: 'Crossref-enrich', anchor: 'crossref' },
-        { name: 'Crossref-ttl', anchor: 'crossref' },
-        { name: 'Crossref-throttle', anchor: 'crossref' },
-        { name: 'Crossref-paquet-size', anchor: 'crossref' },
-        { name: 'Crossref-buffer-size', anchor: 'crossref' },
-        { name: 'Sudoc-enrich', anchor: 'sudoc' },
-        { name: 'Sudoc-ttl', anchor: 'sudoc' },
-        { name: 'Sudoc-throttle', anchor: 'sudoc' },
-        { name: 'Hal-enrich', anchor: 'hal' },
-        { name: 'Hal-ttl', anchor: 'hal' },
-        { name: 'Hal-throttle', anchor: 'hal' },
-        { name: 'Istex-enrich', anchor: 'istex' },
-        { name: 'Istex-ttl', anchor: 'istex' },
-        { name: 'Istex-throttle', anchor: 'istex' },
-        { name: 'Populate-Fields' }
+        { name: 'ezPAARSE-Middlewares', anchor: 'ezpaarse-middlewares' }
       ];
+
+      this.middlewaresHeaders.filter((middleware) => {
+        if (this.middlewares.enabled.includes(middleware.name)) { return true; }
+        if (this.additionalsMiddlewares.includes(middleware.name)) { return true; }
+        return false;
+      }).forEach((middleware) => {
+        if (middleware.headers.length) {
+          headers.push({ divider: true });
+          headers.push({ header: middleware.name });
+
+          middleware.headers.forEach((header) => {
+            headers.push({
+              name: header.name,
+              middleware: middleware.name
+            });
+          });
+        }
+      });
+
+      return headers;
     }
   },
   methods: {
-    openSaveDialog (importSetting) {
-      this.saveDialog = true;
-      this.importSetting = importSetting || false;
+    openSaveDialog (allowImport) {
+      this.$refs.settingsSaver.open({ allowImport });
     },
     addHeader () {
       this.$store.dispatch('settings/ADD_HEADER');

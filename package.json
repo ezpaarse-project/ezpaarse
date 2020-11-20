@@ -79,6 +79,7 @@
     "useragent": "^2.3.0",
     "uuid": "^3.3.2",
     "vue-localstorage": "^0.6.2",
+    "vuedraggable": "^2.24.1",
     "vuetify": "^2.3.4",
     "vuex": "^3.1.0",
     "winston": "^3.1.0",

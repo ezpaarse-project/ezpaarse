@@ -20,6 +20,7 @@
       "admin": {
         "administration": "Administration",
         "platforms": "Plateformes",
+        "middlewares": "Middlewares",
         "updates": "Mises à jour",
         "users": "Utilisateurs",
         "jobs": "Traitements",
@@ -107,6 +108,7 @@
           "cryptedFields": "Champs cryptés",
           "counterReportDetail": "* Les rapports ne sont pas certifiés COUNTER, cependant l'algorithme de dédoublonnage et les formats de sortie suivent les recommandations.",
           "advancedHeaders": "Headers (avancé)",
+          "middlewares": "Middlewares",
           "defaultParams": "Réinitialiser paramètres",
           "paramsSaved": "Paramètres enregistrés",
           "deleted": "Paramètre supprimé",
@@ -245,6 +247,14 @@
           "publisherCertification": "Certification éditeur",
           "publisher": "Éditeur"
         },
+        "middlewares": {
+          "title": "Middlewares",
+          "update": "Mise à jour",
+          "default": "Réglage par Défaut",
+          "defaultsMiddlewares": "Middlewares actifs pour traitement",
+          "middlewares": "Middlewares disponibles",
+          "updated": "Liste mise à jour avec succès"
+        },
         "updates": {
           "title": "Mises à jour",
           "resources": "Ressources",
@@ -263,6 +273,7 @@
           "pleaseRefreshPage": "ezPAARSE a été mis à jour. Certains changements peuvent nécessiter de recharger la page.",
           "updateDuration": "Mettre à jour ezPAARSE peut prendre plusieurs minutes. Le serveur sera mis hors-ligne le temps de l'opération.",
           "repoLocalChanges": "Des modifications locales semblent avoir été apportées au répertoire {repo}. Il est possible que les prochaines mises à jour échouent.",
+          "middlewaresLocalChanges": "Des modifications locales semblent avoir été apportées au répertoire {middlewares}. Il est possible que les prochaines mises à jour échouent.",
           "softLocalChanges": "Des modifications locales semblent avoir été apportées au code source du logiciel. Il est possible que les prochaines mises à jour échouent.",
           "contactDeploymentService": "En cas de problème, nous vous invitons à contacter le service en charge du déploiement.",
           "upwardStable": "La version actuelle du logiciel présente des changements ultérieurs à la dernière version stable. Cliquez sur le bouton ci-dessus si vous souhaitez revenir à la dernière version stable."
@@ -356,6 +367,8 @@
       "cannotLoadStatus": "Les informations de status relatives à ezPAARSE n'ont pas pu être chargées.",
       "cannotGetPlatforms": "Impossible de charger les données des plateformes.",
       "cannotGetPlatformsChanged": "Impossible de charger la liste des plateformes modifiées.",
+      "cannotGetMiddlewares": "Impossible de charger les données des middlewares.",
+      "cannotGetMiddlewaresChanged": "Impossible de charger la liste des middlewares modifiés.",
       "impossibleToUpdate": "Mise à jour impossible.",
       "cannotLoadUsersList": "Impossible de charger la liste des utilisateurs.",
       "cannotRemoveUser": "Impossible de supprimer l'utilisateur.",

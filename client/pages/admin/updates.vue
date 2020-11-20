@@ -250,7 +250,7 @@ export default {
     ezpaarse () {
       const { ezpaarse } = this.$store.state;
       return {
-        hasLocalChanges: ezpaarse['local-commits'] || ezpaarse['local-changes'],
+        hasLocalChanges: !!(ezpaarse['local-commits'] || ezpaarse['local-changes']),
         isOutdated: ezpaarse[ezpaarse.isBeta ? 'from-head' : 'from-tag'] === 'outdated',
         isGitRepo: ezpaarse['is-git-repo'] !== false,
         ...ezpaarse
@@ -259,7 +259,7 @@ export default {
     resources () {
       const { resources } = this.$store.state;
       return {
-        hasLocalChanges: resources['local-commits'] || resources['local-changes'],
+        hasLocalChanges: !!(resources['local-commits'] || resources['local-changes']),
         isOutdated: resources['from-head'] === 'outdated',
         ...resources
       };
@@ -267,7 +267,7 @@ export default {
     middlewares () {
       const { middlewares } = this.$store.state;
       return {
-        hasLocalChanges: middlewares['local-commits'] || middlewares['local-changes'],
+        hasLocalChanges: !!(middlewares['local-commits'] || middlewares['local-changes']),
         isOutdated: middlewares['from-head'] === 'outdated',
         ...middlewares
       };

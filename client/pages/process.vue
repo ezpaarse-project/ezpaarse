@@ -133,7 +133,11 @@
             </v-layout>
           </v-container>
 
-          <Settings class="ma-1" />
+          <Settings
+            class="ma-1"
+            :middlewares-headers="middlewaresHeaders"
+            :middlewares="middlewares"
+          />
         </v-stepper-content>
 
         <v-stepper-content step="3">
@@ -197,8 +201,8 @@
     >
       <v-card>
         <v-card-text>
-          <p v-text="$t('ui.pages.process.curl')" />
-          <v-textarea box :value="curlRequest" height="200" />
+          <p v-html="$t('ui.pages.process.curl')" />
+          <v-textarea filled :value="curlRequest" height="200" />
         </v-card-text>
 
         <v-card-actions>
@@ -224,13 +228,19 @@ export default {
     Settings,
     EzmesureUploader
   },
-  data () {
+  async asyncData ({ app }) {
+    const middlewaresHeaders = await app.$axios.$get('/api/info/middlewares/headers');
+    const middlewares = await app.$axios.$get('/api/info/middlewares');
+
     return {
       logSamplesUrl: 'https://github.com/ezpaarse-project/ezpaarse-dataset-samples',
       fileSelectionHelp: false,
       curlDialog: false,
       uploaderDialog: false,
-      curlRequest: ''
+      curlRequest: '',
+      middlewaresHeaders,
+      middlewares,
+      middlewaresAdded: []
     };
   },
   async fetch ({ store }) {
@@ -307,6 +317,7 @@ export default {
         curl = [...curl, `-H "ezPAARSE-Predefined-Settings:${this.settings.id}"`];
       } else {
         const headers = await this.$store.dispatch('settings/GET_HEADERS');
+
         curl = [
           ...curl,
           ...Object.entries(headers).map(([name, value]) => `-H "${name}: ${value}"`)

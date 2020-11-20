@@ -64,9 +64,6 @@ export default {
     },
     pkbState () {
       return this.pkbs.state;
-    },
-    dark () {
-      return this.$store.state.dark;
     }
   },
   methods: mapActions({

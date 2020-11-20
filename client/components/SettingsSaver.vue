@@ -7,7 +7,7 @@
     <v-form ref="saveForm" v-model="isValid" @submit.prevent="saveCustomSettings">
       <v-card>
         <v-card-title
-          v-if="importSetting"
+          v-if="allowImport"
           class="headline"
           v-text="$t('ui.pages.process.settings.importPredefinedSettings')"
         />
@@ -17,7 +17,7 @@
           v-text="$t('ui.pages.process.settings.savePredefinedSettings')"
         />
         <v-card-text>
-          <p v-if="importSetting">
+          <p v-if="allowImport">
             <input ref="upload" type="file" name="upload" @change="uploadSetting">
           </p>
           <v-switch
@@ -78,37 +78,17 @@ import get from 'lodash.get';
 import i18nIsoCode from 'i18n-iso-countries';
 
 export default {
-  props: {
-    visible: {
-      type: Boolean,
-      default: () => false
-    },
-    importSetting: {
-      type: Boolean,
-      default: () => false
-    }
-  },
-  watch: {
-    visible (value) {
-      if (value) {
-        if (!this.$refs.saveForm) { return; }
-        this.$refs.saveForm.resetValidation();
-        this.fullName = this.settings.fullName || '';
-        this.id = this.settings.id || '';
-        this.country = this.settings.country || 'FR';
-        this.saveAsNew = this.settings.predefined || !this.settings.id;
-      }
-    }
-  },
   data () {
     return {
+      visible: false,
       saveAsNew: true,
       saving: false,
       isValid: true,
       fullName: '',
       id: '',
       country: '',
-      fileUploaded: false
+      fileUploaded: false,
+      allowImport: false
     };
   },
 
@@ -121,8 +101,21 @@ export default {
   },
 
   methods: {
+    open (options = {}) {
+      if (this.$refs.saveForm) {
+        this.$refs.saveForm.resetValidation();
+      }
+
+      this.fullName = this.settings.fullName || '';
+      this.id = this.settings.id || '';
+      this.country = this.settings.country || 'FR';
+      this.saveAsNew = this.settings.predefined || !this.settings.id;
+      this.allowImport = options.allowImport;
+
+      this.setVisibility(true);
+    },
     setVisibility (value) {
-      this.$emit('update:visible', value);
+      this.visible = value;
     },
     fullNameRequired (value) {
       return !!(value && value.trim()) || this.$t('ui.pages.process.settings.fullNameRequired');

@@ -17,7 +17,8 @@ const defaultSettings = {
   counterReports: [],
   notificationMails: [],
   addedFields: [],
-  removedFields: []
+  removedFields: [],
+  additionalsMiddlewares: []
 };
 
 /**
@@ -40,6 +41,15 @@ function parseSettings (predefined) {
   Object.entries(predefined.headers).forEach(([name, value]) => {
     headers[name.toLowerCase()] = { name, value };
   });
+
+  if (headers['ezpaarse-middlewares']) {
+    const { value: mwString } = headers['ezpaarse-middlewares'];
+
+    if (!/^\(\s*(before|after|only)\s*(.*?)\s*\)(.+)$/i.test(mwString)) {
+      settings.additionalsMiddlewares = mwString.split(',').map(mw => mw.trim()).filter(mw => mw);
+      delete headers['ezpaarse-middlewares'];
+    }
+  }
 
   if (headers['date-format']) {
     settings.dateFormat = headers['date-format'].value;
@@ -111,10 +121,16 @@ function parseSettings (predefined) {
     if (/^Log-Format-[a-z]+$/i.test(name)) {
       settings.logFormat = value;
       settings.logType = name.substr(11).toLowerCase();
+    } else if (name.toLowerCase() === 'ezpaarse-middlewares') {
+      settings.headers.push({
+        name,
+        value: value.split(',').map(r => r.trim())
+      });
     } else {
       settings.headers.push({ name, value });
     }
   });
+
 
   return settings;
 }
@@ -162,18 +178,31 @@ function getHeaders (settings) {
     }
   }
 
+  const middlewares = settings.additionalsMiddlewares;
+
+  if (Array.isArray(middlewares) && middlewares.length > 0) {
+    headers['ezPAARSE-Middlewares'] = middlewares.join(',');
+  }
+
   if (Array.isArray(settings.headers)) {
     settings.headers.forEach(({ name, value }) => {
+      let headerValue = value;
       if (!name || !value) { return; }
 
       // Look case-insensitively for a header with the same name
       const headerNames = Object.keys(headers);
       const existingHeader = headerNames.find(h => h.toLowerCase() === name.toLowerCase());
 
+      if (name.toLowerCase() === 'ezpaarse-middlewares') {
+        if (Array.isArray(headerValue)) {
+          headerValue = headerValue.join(',');
+        }
+      }
+
       if (existingHeader) {
-        headers[existingHeader] = value;
+        headers[existingHeader] = headerValue;
       } else {
-        headers[name] = value;
+        headers[name] = headerValue;
       }
     });
   }
@@ -219,8 +248,8 @@ export default {
     SET_FIELD (state, { name, value }) {
       Vue.set(state.settings, name, value);
     },
-    ADD_HEADER (state) {
-      state.settings.headers.push({ name: '', value: '' });
+    ADD_HEADER (state, name, value) {
+      state.settings.headers.push({ name: name || '', value: value || '' });
     },
     REMOVE_HEADER (state, index) {
       state.settings.headers.splice(index, 1);
@@ -269,8 +298,8 @@ export default {
         commit('SET_FIELD', { name, value });
       }
     },
-    ADD_HEADER ({ commit }) {
-      commit('ADD_HEADER');
+    ADD_HEADER ({ commit }, name, value) {
+      commit('ADD_HEADER', name, value);
     },
     REMOVE_HEADER ({ commit }, index) {
       commit('REMOVE_HEADER', index);

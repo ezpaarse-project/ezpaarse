@@ -240,7 +240,7 @@ export default {
       const { platforms } = this.$store.state;
 
       return {
-        hasLocalChanges: platforms['local-commits'] || platforms['local-changes'],
+        hasLocalChanges: !!(platforms['local-commits'] || platforms['local-changes']),
         isOutdated: platforms['from-head'] === 'outdated',
         ...platforms
       };

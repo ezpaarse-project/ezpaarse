@@ -31,6 +31,8 @@ api.getPlatforms = () => axios.get('/api/info/platforms').then(res => res.data);
 
 api.getPlatformsChanged = () => axios.get('/api/info/platforms/changed').then(res => res.data);
 
+api.getMiddlewaresChanged = () => axios.get('/api/info/middlewares/changed').then(res => res.data);
+
 api.getUsersList = () => axios.get('/api/admin/users').then(res => res.data);
 
 api.addUser = (data) => axios.post('/api/admin/users', data).then(res => res.data);

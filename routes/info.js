@@ -14,6 +14,7 @@ const pkg            = require('../package.json');
 const analogist      = require('../lib/analogist.js');
 const customSettings = require('../lib/custom-predefined-settings.js');
 const auth           = require('../lib/auth-middlewares.js');
+const dbConfig       = require('../lib/db-config.js');
 
 const statusCodes = require(path.join(__dirname, '/../statuscodes.json'));
 
@@ -82,13 +83,20 @@ app.get('/platforms/changed', function (req, res, next) {
 /**
 * GET route on /info/platforms
 */
-app.get('/platforms', function (req, res, next) {
+app.get('/platforms', async function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'X-Requested-With');
 
   const status = req.query.status;
 
   const platformsFolder = path.resolve(__dirname, '../platforms');
+
+  let platformsCertifications;
+  try {
+    platformsCertifications = await analogist.getCertifications();
+  } catch (e) {
+    platformsCertifications = null;
+  }
 
   fs.readdir(platformsFolder, function (err, folders) {
     if (err) { return next(err); }
@@ -164,7 +172,7 @@ app.get('/platforms', function (req, res, next) {
       });
     };
 
-    (function readNextDir(callback) {
+    (async function readNextDir(callback) {
       const folder = folders[i++];
 
       if (!folder) { return callback(); }
@@ -176,18 +184,22 @@ app.get('/platforms', function (req, res, next) {
       fs.exists(parserFile, function (exists) {
         if (!exists) { return readNextDir(callback); }
 
-        fs.readFile(configFile, async function (err, content) {
+        fs.readFile(configFile, function (err, content) {
           if (err) { return readNextDir(callback); }
 
           let manifest;
           try {
             manifest = JSON.parse(content);
-            const match = /^http:\/\/([a-z.-]+)\/platforms\/([a-z0-9]+)$/i.exec(manifest.docurl);
-            if (match) {
-              manifest['certifications'] = await analogist.getCertifications(manifest.docurl);
-            }
           } catch (e) {
             return readNextDir(callback);
+          }
+
+          if (platformsCertifications) {
+            const match = /^http:\/\/([a-z.-]+)\/platforms\/([a-z0-9]+)$/i.exec(manifest.docurl);
+            if (match) {
+              const certifications = platformsCertifications[match[2]];
+              manifest['certifications'] = certifications;
+            }
           }
 
           if (!manifest.name || (status && manifest.status != status)) {
@@ -205,6 +217,134 @@ app.get('/platforms', function (req, res, next) {
     })(function () {
       res.status(200).json(platforms);
     });
+  });
+});
+
+/**
+* GET route on /info/middlewares
+*/
+async function getMiddlewaresData() {
+  const middlewaresFolder = path.resolve(__dirname, '../middlewares');
+  const result = await dbConfig.getConfig('middlewares');
+  const savedMiddlewares = result && result.data;
+
+  const middlewares = {
+    config: config.EZPAARSE_MIDDLEWARES,
+    enabled: Array.isArray(savedMiddlewares) ? savedMiddlewares : config.EZPAARSE_MIDDLEWARES,
+    available: []
+  };
+
+  let folders = [];
+  try {
+    folders = await fs.readdir(middlewaresFolder);
+  } catch (e) {
+    return e.code === 'ENOENT' ? middlewares : Promise.reject(e);
+  }
+
+  for (const folderName of folders) {
+    if (folderName.charAt(0) !== '.' && folderName !== 'node_modules') {
+      if (!middlewares.enabled.includes(folderName)) {
+        const folderPath = path.resolve(middlewaresFolder, folderName);
+        let stat;
+
+        try {
+          stat = await fs.lstat(folderPath);
+        } catch (e) {
+          if (e.code !== 'ENOENT') { return Promise.reject(e); }
+          continue;
+        }
+
+        if (stat.isDirectory()) {
+          middlewares.available.push(folderName);
+        }
+      }
+    }
+  }
+
+  return middlewares;
+}
+
+app.get('/middlewares', async function (req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'X-Requested-With');
+
+  try {
+    const middlewares = await getMiddlewaresData();
+    return res.status(200).json(middlewares);
+  } catch (e) {
+    return next(e);
+  }
+});
+
+app.get('/middlewares/headers', async function (req, res, next) {
+  const middlewaresFolder = path.resolve(__dirname, '../middlewares');
+  let middlewares = [];
+
+  let folders = [];
+  try {
+    folders = await fs.readdir(middlewaresFolder);
+  } catch (e) {
+    return res.json(middlewares);
+  }
+
+  for (const folderName of folders) {
+    const folderPath = path.resolve(middlewaresFolder, folderName);
+
+    if (folderName.charAt(0) === '.' || folderName === 'node_modules') {
+      continue;
+    }
+
+    let stat;
+    try {
+      stat = await fs.lstat(folderPath);
+    } catch (e) {
+      if (e.code !== 'ENOENT') { return next(e); }
+      continue;
+    }
+
+    if (!stat.isDirectory()) {
+      continue;
+    }
+
+    const manifestPath = path.resolve(folderPath, 'manifest.json');
+
+    try {
+      const manifestContent = await fs.readFile(manifestPath);
+      const { headers } = JSON.parse(manifestContent);
+
+      middlewares.push({ name: folderName, headers });
+    } catch (e) {
+      if (e.code !== 'ENOENT') { return next(e); }
+      continue;
+    }
+  }
+
+  return res.json(middlewares);
+});
+
+/**
+* GET route on /info/middlewares/changed
+*/
+app.get('/middlewares/changed', function (req, res, next) {
+  git.changed({ cwd: path.join(__dirname, '../middlewares') }, function (err, files) {
+    if (err) { return next(err); }
+
+    const changed = {};
+
+    files.forEach(function (file) {
+      const members = file.split('/');
+
+      if (members.length < 2) { return; }
+
+      const middleware = members.shift();
+
+      if (middleware.charAt(0) === '.' || middleware === 'js-parser-skeleton') { return; }
+      if (!changed[middleware]) { changed[middleware] = []; }
+
+      changed[middleware].push(members.join('/'));
+    });
+
+    res.status(200).json(changed);
   });
 });
 
