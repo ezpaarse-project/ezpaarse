@@ -50,9 +50,9 @@
     </v-card-text>
 
     <Middlewares
-      v-model="middlewaresList.defaults"
-      :default="middlewaresList.defaultsConfig"
-      :available="middlewaresList.availables"
+      v-model="middlewaresList.enabled"
+      :default="middlewaresList.config"
+      :available="middlewaresList.available"
       @change="saveMiddlewares"
     />
   </v-card>
@@ -110,8 +110,8 @@ export default {
       }
 
       try {
-        const { defaults } = await this.$axios.$get('/api/info/middlewares');
-        this.defaultsMiddlewares = defaults;
+        const { enabled } = await this.$axios.$get('/api/info/middlewares');
+        this.defaultsMiddlewares = enabled;
       } catch (e) {
         this.$store.dispatch('snacks/error', 'ui.errors.cannotGetMiddlewares');
         this.updating = false;
@@ -132,7 +132,7 @@ export default {
       try {
         await this.$axios.post('/api/middlewares', {
           // eslint-disable-next-line max-len
-          middlewares: defaults ? this.middlewaresList.defaultsConfig : this.middlewaresList.defaults
+          middlewares: defaults ? this.middlewaresList.config : this.middlewaresList.enabled
         });
       } catch (e) {
         this.$store.dispatch('snacks/error', 'ui.errors.impossibleToUpdate');

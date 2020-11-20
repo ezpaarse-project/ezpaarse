@@ -229,9 +229,9 @@ async function getMiddlewaresData() {
   const savedMiddlewares = result && result.data;
 
   const middlewares = {
-    defaultsConfig: config.EZPAARSE_MIDDLEWARES,
-    defaults: Array.isArray(savedMiddlewares) ? savedMiddlewares : [],
-    availables: []
+    config: config.EZPAARSE_MIDDLEWARES,
+    enabled: Array.isArray(savedMiddlewares) ? savedMiddlewares : [],
+    available: []
   };
 
   let folders = [];
@@ -243,7 +243,7 @@ async function getMiddlewaresData() {
 
   for (const folderName of folders) {
     if (folderName.charAt(0) !== '.' && folderName !== 'node_modules') {
-      if (!middlewares.defaults.includes(folderName)) {
+      if (!middlewares.enabled.includes(folderName)) {
         const folderPath = path.resolve(middlewaresFolder, folderName);
         let stat;
 
@@ -255,7 +255,7 @@ async function getMiddlewaresData() {
         }
 
         if (stat.isDirectory()) {
-          middlewares.availables.push(folderName);
+          middlewares.available.push(folderName);
         }
       }
     }

@@ -362,7 +362,7 @@
             <v-card flat>
               <Middlewares
                 v-model="additionalsMiddlewares"
-                :available="middlewares.availables"
+                :available="middlewares.available"
               />
             </v-card>
           </v-expansion-panel-content>
@@ -557,7 +557,7 @@ export default {
       ];
 
       this.middlewaresHeaders.filter((middleware) => {
-        if (this.middlewares.defaults.includes(middleware.name)) { return true; }
+        if (this.middlewares.enabled.includes(middleware.name)) { return true; }
         if (this.additionalsMiddlewares.includes(middleware.name)) { return true; }
         return false;
       }).forEach((middleware) => {
