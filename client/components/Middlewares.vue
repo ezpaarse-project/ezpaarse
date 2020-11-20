@@ -51,6 +51,7 @@
             <v-tooltip bottom>
               <template v-slot:activator="{ on }">
                 <v-btn
+                  v-if="!hideResetButton"
                   fab
                   icon
                   small
@@ -130,6 +131,10 @@ export default {
     value: {
       type: Array,
       default: () => []
+    },
+    hideResetButton: {
+      type: Boolean,
+      default: () => false
     }
   },
   components: {

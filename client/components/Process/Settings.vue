@@ -363,6 +363,7 @@
               <Middlewares
                 v-model="additionalsMiddlewares"
                 :available="middlewares.available"
+                hide-reset-button
               />
             </v-card>
           </v-expansion-panel-content>
