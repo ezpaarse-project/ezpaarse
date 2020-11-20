@@ -279,7 +279,7 @@ app.get('/middlewares', async function (req, res, next) {
     const middlewares = await getMiddlewaresData();
     return res.status(200).json(middlewares);
   } catch (e) {
-    return res.status(200).json([]);
+    return next(e);
   }
 });
 
