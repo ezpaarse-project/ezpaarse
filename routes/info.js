@@ -225,20 +225,12 @@ app.get('/platforms', async function (req, res, next) {
 */
 async function getMiddlewaresData() {
   const middlewaresFolder = path.resolve(__dirname, '../middlewares');
-
-  let defaultMiddlewares;
-
-  try {
-    const result = await dbConfig.getConfig('middlewares');
-    if (result && result.data) {
-      defaultMiddlewares = result.data;
-    }
-  // eslint-disable-next-line no-empty
-  } catch (e) {}
+  const result = await dbConfig.getConfig('middlewares');
+  const savedMiddlewares = result && result.data;
 
   const middlewares = {
     defaultsConfig: config.EZPAARSE_MIDDLEWARES,
-    defaults: defaultMiddlewares,
+    defaults: Array.isArray(savedMiddlewares) ? savedMiddlewares : [],
     availables: []
   };
 
@@ -246,23 +238,24 @@ async function getMiddlewaresData() {
   try {
     folders = await fs.readdir(middlewaresFolder);
   } catch (e) {
-    return [];
+    return e.code === 'ENOENT' ? middlewares : Promise.reject(e);
   }
 
-  for (let i = 0; i < folders.length; i += 1) {
-    const folderPath = path.resolve(middlewaresFolder, folders[i]);
-
-    if (folders[i].charAt(0) !== '.' && folders[i] !== 'node_modules') {
-      if (!middlewares.defaults.includes(folders[i])) {
-
+  for (const folderName of folders) {
+    if (folderName.charAt(0) !== '.' && folderName !== 'node_modules') {
+      if (!middlewares.defaults.includes(folderName)) {
+        const folderPath = path.resolve(middlewaresFolder, folderName);
         let stat;
+
         try {
           stat = await fs.lstat(folderPath);
-        // eslint-disable-next-line no-empty
-        } catch (e) {}
+        } catch (e) {
+          if (e.code !== 'ENOENT') { return Promise.reject(e); }
+          continue;
+        }
 
         if (stat.isDirectory()) {
-          middlewares.availables.push(folders[i]);
+          middlewares.availables.push(folderName);
         }
       }
     }
@@ -291,48 +284,42 @@ app.get('/middlewares/headers', async function (req, res, next) {
   try {
     folders = await fs.readdir(middlewaresFolder);
   } catch (e) {
-    return [];
+    return res.json(middlewares);
   }
 
-  for (let i = 0; i < folders.length; i += 1) {
-    const folderPath = path.resolve(middlewaresFolder, folders[i]);
+  for (const folderName of folders) {
+    const folderPath = path.resolve(middlewaresFolder, folderName);
 
-    if (folders[i].charAt(0) !== '.' && folders[i] !== 'node_modules') {
-      let stat;
-      try {
-        stat = await fs.lstat(folderPath);
-      // eslint-disable-next-line no-empty
-      } catch (e) {}
+    if (folderName.charAt(0) === '.' || folderName === 'node_modules') {
+      continue;
+    }
 
-      if (stat.isDirectory()) {
-        const manifestPath = path.resolve(middlewaresFolder, folders[i], 'manifest.json');
+    let stat;
+    try {
+      stat = await fs.lstat(folderPath);
+    } catch (e) {
+      if (e.code !== 'ENOENT') { return next(e); }
+      continue;
+    }
 
-        let manifestExists;
-        try {
-          manifestExists = await fs.lstat(manifestPath, fs.F_OK);
-          // eslint-disable-next-line no-empty
-        } catch (e) {}
+    if (!stat.isDirectory()) {
+      continue;
+    }
 
-        let headers = [];
+    const manifestPath = path.resolve(folderPath, 'manifest.json');
 
-        if (manifestExists) {
-          try {
-            const manifestContent = await fs.readFile(manifestPath);
-            const manifest = JSON.parse(manifestContent);
-            headers = manifest.headers;
-            // eslint-disable-next-line no-empty
-          } catch (e) {}
-        }
+    try {
+      const manifestContent = await fs.readFile(manifestPath);
+      const { headers } = JSON.parse(manifestContent);
 
-        middlewares.push({
-          name: folders[i],
-          headers
-        });
-      }
+      middlewares.push({ name: folderName, headers });
+    } catch (e) {
+      if (e.code !== 'ENOENT') { return next(e); }
+      continue;
     }
   }
 
-  return res.json(middlewares).end();
+  return res.json(middlewares);
 });
 
 /**
