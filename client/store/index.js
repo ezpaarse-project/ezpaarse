@@ -16,7 +16,7 @@ export default {
     middlewares: {},
     middlewaresChanged: [],
     resources: {},
-    drawer: false,
+    drawer: null,
     feedback: '',
     users: [],
     userNumber: -1,
