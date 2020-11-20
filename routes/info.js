@@ -230,7 +230,7 @@ async function getMiddlewaresData() {
 
   const middlewares = {
     config: config.EZPAARSE_MIDDLEWARES,
-    enabled: Array.isArray(savedMiddlewares) ? savedMiddlewares : [],
+    enabled: Array.isArray(savedMiddlewares) ? savedMiddlewares : config.EZPAARSE_MIDDLEWARES,
     available: []
   };
 
