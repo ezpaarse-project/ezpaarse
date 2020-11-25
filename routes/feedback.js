@@ -187,10 +187,10 @@ app.get('/status', function (req, res, next) {
   } else if (config.EZPAARSE_PARENT_URL) {
     request.get(config.EZPAARSE_PARENT_URL + '/api/feedback/status',
       function (err, response, body) {
-        if (body !== config.EZPAARSE_ADMIN_MAIL) {
+        if (err || !response || response.statusCode != 200) {
           return next(Boom.notImplemented());
         }
-        if (err || !response || response.statusCode != 200) {
+        if (!/^\S+@\S+$/.test(body)) {
           return next(Boom.notImplemented());
         }
         res.status(200).json(config.EZPAARSE_FEEDBACK_RECIPIENTS);
