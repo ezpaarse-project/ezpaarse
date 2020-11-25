@@ -54,8 +54,7 @@ export default {
         }),
         api.getPlatformsStatus().then(res => commit('SET_PLATFORMS_STATUS', res)),
         api.getResourcesStatus().then(res => commit('SET_RESOURCES_STATUS', res)),
-        api.getMiddlewaresStatus().then(res => commit('SET_MIDDLEWARES_STATUS', res)),
-        api.feedbackStatus().then(res => commit('SET_FEEDBACK_STATUS', res))
+        api.getMiddlewaresStatus().then(res => commit('SET_MIDDLEWARES_STATUS', res))
       ]);
     },
     UPDATE_REPO (ctx, repo) {
