@@ -83,6 +83,25 @@ app.get('/platforms/changed', function (req, res, next) {
 /**
 * GET route on /info/platforms
 */
+app.get('/platforms/count', async function (req, res, next) {
+  const platformsFolder = path.resolve(__dirname, '../platforms');
+
+  let dirents = [];
+  try {
+    dirents = await fs.readdir(platformsFolder, { withFileTypes: true });
+  } catch (e) {
+    return res.status(500).end();
+  }
+
+  const platforms = dirents.filter((dirent) => !dirent.isFile() || dirent.name.charAt(0) !== '.')
+    .map((dirent) => dirent.name);
+
+  return res.status(200).end(`${platforms.length}`);
+});
+
+/**
+* GET route on /info/platforms
+*/
 app.get('/platforms', async function (req, res, next) {
   res.header('Access-Control-Allow-Origin', '*');
   res.header('Access-Control-Allow-Headers', 'X-Requested-With');
