@@ -15,7 +15,8 @@
         <v-fade-transition mode="out-in">
           <v-card-text v-if="result" key="result">
             <Metric
-              v-for="metric in metrics" :key="metric.label"
+              v-for="metric in metrics"
+              :key="metric.label"
               :label="$t(`ui.ezmesure.metrics.${metric.label}`)"
               :value="metric.count"
               :icon="metric.icon"
@@ -40,7 +41,7 @@
           </v-card-text>
 
           <v-card-text v-else key="form">
-            <v-alert outlined color="error" :value="error">
+            <v-alert outlined color="error" :value="error && error.length" class="mt-3">
               <span v-if="errorMessage" v-text="errorMessage" />
               <span v-else v-text="$t('ui.errors.error')" />
             </v-alert>
@@ -133,13 +134,15 @@ export default {
   },
   watch: {
     visible () {
-      this.$refs.saveForm.resetValidation();
-      this.indice = '';
-      this.token = '';
-      this.preprod = false;
-      this.result = null;
-      this.error = null;
-      this.errorMessage = null;
+      if (this.$refs.saveForm) {
+        this.$refs.saveForm.resetValidation();
+        this.indice = '';
+        this.token = '';
+        this.preprod = false;
+        this.result = null;
+        this.error = null;
+        this.errorMessage = null;
+      }
     }
   },
   data () {
