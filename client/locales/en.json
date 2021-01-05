@@ -212,7 +212,8 @@
           "files": "Files",
           "first_event": "First consultation",
           "maximize": "Maximize",
-          "minimize": "Minimize"
+          "minimize": "Minimize",
+          "downloadReport": "Download report"
         },
         "job": {
           "title": "Ongoing processing(s)",

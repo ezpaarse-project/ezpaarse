@@ -41,6 +41,7 @@
       :report="report"
       :logging="logging"
       :download="report && report.general && status === 'end'"
+      :status="status"
     />
   </v-layout>
 </template>

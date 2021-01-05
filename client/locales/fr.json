@@ -212,7 +212,8 @@
           "files": "Fichiers",
           "first_event": "Première consultation",
           "maximize": "Maximiser",
-          "minimize": "Minimiser"
+          "minimize": "Minimiser",
+          "downloadReport": "Télécharger le rapport"
         },
         "job": {
           "title": "Traitement(s) en cours",

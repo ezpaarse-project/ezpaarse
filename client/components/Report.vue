@@ -5,6 +5,13 @@
 
       <v-spacer />
 
+      <v-btn
+        v-if="urlReport && isEnded"
+        color="primary"
+        :href="urlReport"
+        v-text="$t('ui.pages.process.report.downloadReport')"
+      />
+
       <v-toolbar-items>
         <v-btn v-if="expanded" icon text @click="collapse">
           <v-icon>mdi-arrow-collapse</v-icon>
@@ -128,6 +135,10 @@ export default {
     logging: {
       type: Array,
       default: () => []
+    },
+    status: {
+      type: String,
+      default: () => null
     }
   },
   data () {
@@ -136,6 +147,12 @@ export default {
     };
   },
   computed: {
+    urlReport () {
+      return get(this, 'report.general[\'URL-Report\']');
+    },
+    isEnded () {
+      return this.status === 'end';
+    },
     deniedPercent () {
       const nbDenied = get(this, 'report.general[\'nb-denied-ecs\']', 0);
       return Math.ceil(nbDenied / this.relevantLogLines * 100);

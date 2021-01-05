@@ -8,6 +8,9 @@ ezPAARSE display name. As of now, this is only used in email subjects.
 ### EZPAARSE_ADMIN_MAIL
 The default value is set to `ezpaarse@couperin.org`
 
+### EZPAARSE_HOSTNAME
+Domain name of the ezPAARSE instance, this parameter is optional, it should be added in the `config.local.json` file.
+
 ### EZPAARSE_PARENT_URL
 To avoid the setup of a local SMTP server, you can delegate the management of user feedback (via the online form) to another ezPAARSE instance (called a "parent" instance).
 The default value is set to `http://ezpaarse-preprod.couperin.org`
