@@ -97,6 +97,17 @@ function parseSettings (predefined) {
     delete headers['crypted-fields'];
   }
 
+
+  if (headers['filter-platforms']) {
+    const filterPlatforms = headers['filter-platforms'].value;
+
+    if (filterPlatforms) {
+      settings.filterPlatforms = filterPlatforms.split(',').map(f => f.trim()).filter(f => f);
+    }
+
+    delete headers['filter-platforms'];
+  }
+
   if (headers['counter-reports']) {
     settings.counterReports = headers['counter-reports'].value.split(',').map(r => r.trim());
     delete headers['counter-reports'];
@@ -130,7 +141,6 @@ function parseSettings (predefined) {
       settings.headers.push({ name, value });
     }
   });
-
 
   return settings;
 }
@@ -166,6 +176,10 @@ function getHeaders (settings) {
     headers['Crypted-Fields'] = settings.cryptedFields.join(',');
   } else {
     headers['Crypted-Fields'] = 'none';
+  }
+
+  if (settings.filterPlatforms && settings.filterPlatforms.length > 0) {
+    headers['filter-platforms'] = settings.filterPlatforms.join(',');
   }
 
   // Create Output-Fields headers

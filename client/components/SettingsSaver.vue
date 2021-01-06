@@ -40,6 +40,7 @@
             required
             :rules="[identifierRequired, identifierIsAvailable]"
           />
+          {{ countries }}
           <v-autocomplete
             v-model="country"
             :items="countries"
@@ -76,6 +77,9 @@
 <script>
 import get from 'lodash.get';
 import i18nIsoCode from 'i18n-iso-countries';
+
+i18nIsoCode.registerLocale(require('i18n-iso-countries/langs/en.json'));
+i18nIsoCode.registerLocale(require('i18n-iso-countries/langs/fr.json'));
 
 export default {
   data () {

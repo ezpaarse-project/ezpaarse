@@ -6,7 +6,7 @@
       <v-spacer />
 
       <v-btn
-        v-if="urlReport && isEnded"
+        v-if="urlReport && jobDone"
         color="primary"
         :href="urlReport"
         v-text="$t('ui.pages.process.report.downloadReport')"
@@ -150,8 +150,8 @@ export default {
     urlReport () {
       return get(this, 'report.general[\'URL-Report\']');
     },
-    isEnded () {
-      return this.status === 'end';
+    jobDone () {
+      return get(this, 'report.general[\'Job-Done\']');
     },
     deniedPercent () {
       const nbDenied = get(this, 'report.general[\'nb-denied-ecs\']', 0);
