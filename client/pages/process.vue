@@ -137,6 +137,7 @@
             class="ma-1"
             :middlewares-headers="middlewaresHeaders"
             :middlewares="middlewares"
+            :platforms="platforms"
           />
         </v-stepper-content>
 
@@ -251,6 +252,12 @@ export default {
     }
 
     try {
+      await store.dispatch('GET_PLATFORMS');
+    } catch (e) {
+      await store.dispatch('snacks/error', 'ui.errors.cannotGetPlatforms');
+    }
+
+    try {
       await store.dispatch('settings/GET_COUNTRIES');
     } catch (e) {
       await store.dispatch('snacks/error', 'ui.errors.cannotGetCountriesList');
@@ -290,6 +297,9 @@ export default {
     },
     resultUrl () {
       return `/${this.jobId}`;
+    },
+    platforms () {
+      return this.$store.state.platformsItems.map(({ name, longname }) => ({ name, longname }));
     }
   },
   methods: {

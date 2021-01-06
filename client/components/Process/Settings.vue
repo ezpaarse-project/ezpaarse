@@ -134,9 +134,10 @@
                   </v-flex>
 
                   <v-flex xs4 pl-2>
-                    <v-text-field
+                    <v-autocomplete
                       v-model="forceParser"
                       :label="$t('ui.pages.process.settings.defaultParser')"
+                      :items="platforms"
                       placeholder="dspace"
                       required
                     />
@@ -267,6 +268,31 @@
                     </v-combobox>
                   </v-flex>
 
+                  <v-flex xs12>
+                    <v-autocomplete
+                      v-model="filterPlatforms"
+                      :label="$t('ui.pages.process.settings.filterPlatforms')"
+                      :items="platforms"
+                      item-text="longname"
+                      item-value="name"
+                      append-icon=""
+                      multiple
+                      chips
+                      deletable-chips
+                      small-chips
+                      clearable
+                    >
+                      <template v-slot:selection="{ item, parent }">
+                        <v-chip label small>
+                          <span class="pr-2" v-text="item.longname" />
+                          <v-icon small @click="parent.selectItem(item)">
+                            mdi-close
+                          </v-icon>
+                        </v-chip>
+                      </template>
+                    </v-autocomplete>
+                  </v-flex>
+
                   <v-flex
                     xs12
                     mt-3
@@ -337,6 +363,7 @@
                       :label="$t('ui.value')"
                       hide-details
                       solo
+                      clearable
                       @click:append-outer="removeHeader(index)"
                       @input="value => updateHeaderValue(index, value)"
                     />
@@ -388,6 +415,10 @@ export default {
       default: () => ({})
     },
     middlewaresHeaders: {
+      type: Array,
+      default: () => ([])
+    },
+    platforms: {
       type: Array,
       default: () => ([])
     }
@@ -455,6 +486,10 @@ export default {
     cryptedFields: {
       get () { return this.settings.cryptedFields; },
       set (value) { this.$store.dispatch('settings/SET_FIELD', { name: 'cryptedFields', value }); }
+    },
+    filterPlatforms: {
+      get () { return this.settings.filterPlatforms; },
+      set (value) { this.$store.dispatch('settings/SET_FIELD', { name: 'filterPlatforms', value }); }
     },
     additionalsMiddlewares: {
       get () { return this.settings.additionalsMiddlewares; },
