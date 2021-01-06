@@ -40,7 +40,6 @@
             required
             :rules="[identifierRequired, identifierIsAvailable]"
           />
-          {{ countries }}
           <v-autocomplete
             v-model="country"
             :items="countries"
