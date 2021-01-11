@@ -133,6 +133,13 @@ module.exports = {
         ]
       },
       {
+        title: 'Troubleshooting',
+        collapsable: false,
+        children: [
+          '/troubleshooting/core-dumped.md'
+        ]
+      },
+      {
         title: 'Middlewares',
         collapsable: false,
         children: mwPages.filter(page => page.showInSidebar).map(page => page.path)
