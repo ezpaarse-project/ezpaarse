@@ -138,6 +138,8 @@
                       v-model="forceParser"
                       :label="$t('ui.pages.process.settings.defaultParser')"
                       :items="platforms"
+                      item-text="longname"
+                      item-value="name"
                       placeholder="dspace"
                       required
                     />
