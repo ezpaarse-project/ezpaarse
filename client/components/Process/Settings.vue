@@ -141,6 +141,7 @@
                       item-text="longname"
                       item-value="name"
                       placeholder="dspace"
+                      clearable
                       required
                     />
                   </v-flex>
