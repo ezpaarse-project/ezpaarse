@@ -45,10 +45,12 @@ describe('crossref consultations', function () {
       should.equal(result[4]['doi'], '10.1007/s00125-002-0828-3');
 
       should.equal(result[5]['type'], 'journal-article');
-      should.equal(result[5]['subject'], 'Cell Biology, Biochemistry, Molecular Biology');
+      should.equal(result[5]['print_identifier'], '0282-0080');
+      should.equal(result[5]['online_identifier'], '1573-4986');
       should.equal(result[5]['doi'], '10.1007/s10719-015-9625-3');
 
-      should.equal(result[6]['subject'], 'Engineering(all), Physics and Astronomy(all), Materials Science(all)');
+      should.equal(result[6]['print_identifier'], '1936-0851');
+      should.equal(result[6]['online_identifier'], '1936-086X');
       should.equal(result[6]['doi'], '10.1021/nn901499c');
 
       should.equal(result[7]['type'], 'book');
@@ -71,8 +73,7 @@ describe('crossref consultations', function () {
         report.should.have.property('general');
         report.general.should.have.property('crossref-queries');
         report.general['crossref-queries'].should.be.type('number');
-        report.general['crossref-queries'].should.be.below(2,
-          'too many Crossref requests, one at least should be cached');
+        report.general['crossref-queries'].should.be.below(3);
 
         done();
       });
