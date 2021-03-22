@@ -6,7 +6,7 @@
       <v-spacer />
 
       <v-toolbar-items>
-        <v-btn text @click="saveModal = true" v-text="$t('ui.save')" />
+        <v-btn text @click="openSaveDialog" v-text="$t('ui.save')" />
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
             <v-btn
@@ -24,7 +24,7 @@
       </v-toolbar-items>
     </v-toolbar>
 
-    <SettingsSaver :visible.sync="saveModal" />
+    <SettingsSaver ref="settingsSaver" />
 
     <v-dialog
       v-model="discoverModal"
@@ -334,7 +334,6 @@ export default {
       matchingSettings: null,
       tryingSettings: false,
       discoverModal: false,
-      saveModal: false,
       logTypes: [
         { value: '', text: 'Auto recognition' },
         { value: 'ezproxy', text: 'EZproxy' },
@@ -423,6 +422,10 @@ export default {
     dateFormat () { this.onChange(); }
   },
   methods: {
+    openSaveDialog () {
+      this.$refs.settingsSaver.open();
+    },
+
     onChange () {
       this.loading = true;
       this.debouncedParsing();
