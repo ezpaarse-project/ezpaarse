@@ -117,6 +117,9 @@ Insert a list of middlewares that are not present in the base configuration (`EZ
 
 By default, they will be inserted at the end of the chain, before `qualifier`. You can prefix the list with the mention `(before <middleware name>)` or `(after <middleware name>)` to insert them at a more specific place, or `(only)` to only use the middlewares you want.
 
+[`v3.7.0` and above]  
+If you need to insert middlewares at different places, you can declare multiple lists separated with `|` (see the example below).
+
 #### Examples
 ```
 'ezPAARSE-Middlewares': 'user-agent-parser, sudoc'
@@ -129,6 +132,9 @@ By default, they will be inserted at the end of the chain, before `qualifier`. Y
 ```
 ```
 'ezPAARSE-Middlewares': '(only) crossref'
+```
+```
+'ezPAARSE-Middlewares': '(after deduplicator) crossref | (before geolocalizer) host-chain'
 ```
 
 ### ezPAARSE-Enrich

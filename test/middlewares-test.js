@@ -49,4 +49,53 @@ describe('The server', function () {
       });
     });
   });
+
+  describe('receives the ezPAARSE-middlewares header with multiple parts', function () {
+    it('and uses only the specified middlewares (@01)', function (done) {
+      const mwParts = [
+        '(only) anonymizer, parser',
+        '(before anonymizer) filter',
+        '(after parser) deduplicator'
+      ];
+      const headers = {
+        'Accept': 'application/json',
+        'ezPAARSE-Middlewares': mwParts.join(' | ')
+      };
+
+      helpers.post('/', logFile, headers, function (err, res, body) {
+        if (!res) { throw new Error('ezPAARSE is not running'); }
+        if (err)  { throw err; }
+        res.should.have.status(200);
+
+        const bodyJson = JSON.parse(body);
+        bodyJson.should.be.an.instanceOf(Array);
+        bodyJson.should.have.length(2);
+
+        const reportURL = res.headers['job-report'];
+        should.exist(reportURL, 'The header "Job-Report" was not sent by the server');
+
+        helpers.get(reportURL, function (error, response, reportBody) {
+          if (!response) { throw new Error('ezPAARSE is not running'); }
+          if (error)     { throw error; }
+          res.should.have.status(200);
+
+          const report = JSON.parse(reportBody);
+
+          should.exist(report.general, 'the section "general" was not found in the report');
+          should.exist(report.general.middlewares,
+            'middlewares field is missing in the report'
+          );
+
+          const middlewares = report.general.middlewares.split(',').map(m => m.trim());
+          middlewares.should.have.length(4);
+          middlewares[0].should.equal('filter');
+          middlewares[1].should.equal('anonymizer');
+          middlewares[2].should.equal('parser');
+          middlewares[3].should.equal('deduplicator');
+
+          done();
+        });
+      });
+    });
+  });
 });
