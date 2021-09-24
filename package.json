@@ -19,7 +19,6 @@
     "axios": "^0.21.4",
     "body-parser": "^1.19.0",
     "boom": "^7.3.0",
-    "bower": "^1.8.12",
     "browserify": "^17.0.0",
     "castor-load": "~4.6.1",
     "castor-load-csv": "~2.1.2",

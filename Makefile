@@ -115,9 +115,6 @@ build-nuxt: ## Build Nuxt App
 
 node-modules: libs
 
-bower:
-	@. ./bin/env; npm run bower
-
 libs:
 	@. ./bin/env; npm install --no-save -q --unsafe-perm || (rm ./node_modules -rf && npm install --no-save -q --unsafe-perm)
 
