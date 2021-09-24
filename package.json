@@ -72,7 +72,6 @@
     "type-is": "~1.6.18",
     "useragent": "^2.3.0",
     "uuid": "^8.3.2",
-    "vue-localstorage": "^0.6.2",
     "vuedraggable": "^2.24.3",
     "vuetify": "^2.5.8",
     "vuex": "^3.6.2",
