@@ -59,7 +59,6 @@
     "passport": "^0.4.1",
     "passport-http": "~0.3.0",
     "passport-local": "~1.0.0",
-    "popper.js": "^1.14.6",
     "portscanner": "^2.2.0",
     "pretty-bytes": "^5.6.0",
     "remove-markdown": "^0.3.0",
