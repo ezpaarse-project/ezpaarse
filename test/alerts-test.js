@@ -29,7 +29,6 @@ describe('Alert', function () {
 
     // send the logs to ezPAARSE
     helper.postPiped('/', {}, stream, function (err, res) {
-
       res.should.have.status(200);
       res.headers.should.have.property('job-id');
 

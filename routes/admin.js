@@ -27,10 +27,10 @@ const app = Router();
 app.get('/jobs', auth.ensureAuthenticated(true), auth.authorizeMembersOf('admin'),
   function (req, res) {
 
-    res.status(200).json(Object.keys(ezJobs));
-
-    var socket = io().sockets.connected[req.query.socket];
+    const socket = io()?.of('/')?.sockets?.get(req.query.socket);
     if (socket) { socket.join('admin'); }
+
+    res.status(200).json(Object.keys(ezJobs));
   });
 
 /**
@@ -41,6 +41,11 @@ app.get('/:repo/status', auth.ensureAuthenticated(true),
   function (req, res, next) {
     var gitScript = path.join(__dirname, '../bin/git-status');
     var directory;
+
+    const socket = io()?.of('/')?.sockets?.get(req.query.socket);
+    if (socket) {
+      socket.join('admin');
+    }
 
     switch (req.params.repo) {
     case 'platforms':
@@ -81,7 +86,7 @@ app.put('/app/status', auth.ensureAuthenticated(true), auth.authorizeMembersOf('
     if (req.query.force == 'yes')       { args.push('--force'); }
     if (req.query.rebuild !== 'no')     { args.push('--rebuild'); }
 
-    const socket = io().sockets.connected[req.query.socket];
+    const socket = io()?.of('/')?.sockets?.get(req.query.socket);
     if (socket) {
       socket.join('admin');
     }
@@ -90,14 +95,14 @@ app.put('/app/status', auth.ensureAuthenticated(true), auth.authorizeMembersOf('
     const child = execFile('../bin/update-app', args, { cwd: __dirname });
 
     child.stdout.on('data', data => {
-      io().to('admin').emit('update-logs', data);
+      io().in('admin').emit('update-logs', data);
     });
     child.stderr.on('data', data => {
-      io().to('admin').emit('update-logs', data);
+      io().in('admin').emit('update-logs', data);
     });
     child.on('close', () => {
       res.status(200).end();
-      io().to('admin').emit('update-logs', 'Restarting...');
+      io().in('admin').emit('update-logs', 'Restarting...');
 
       setTimeout(() => {
         spawn('make', ['restart'], { cwd: path.resolve(__dirname, '..') });

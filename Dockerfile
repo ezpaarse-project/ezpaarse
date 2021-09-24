@@ -1,4 +1,4 @@
-FROM node:10.15.3
+FROM node:14.17.6
 LABEL maintainer="ezPAARSE Team <ezpaarse@couperin.org>"
 
 ENV DEBIAN_FRONTEND noninteractive

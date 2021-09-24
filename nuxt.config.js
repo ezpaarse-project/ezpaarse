@@ -3,6 +3,8 @@
 const config = require('./lib/config');
 
 module.exports = {
+  telemetry: false,
+  ssr: false,
   /*
   ** Headers of the page
   */
@@ -17,7 +19,6 @@ module.exports = {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
     ]
   },
-  mode: 'spa',
   loading: {
     color: '#FFFFFF'
   },

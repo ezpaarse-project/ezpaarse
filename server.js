@@ -71,7 +71,7 @@ if (config.EZPAARSE_TMP_CYCLE && config.EZPAARSE_TMP_LIFETIME) {
 
 if (argv.pidFile) {
   // write pid to ezpaarse.pid file
-  fs.writeFileSync(argv.pidFile, process.pid);
+  fs.writeFileSync(argv.pidFile, process.pid.toString());
 }
 if (argv.lsof) {
   (function checklsof() {

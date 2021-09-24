@@ -46,7 +46,7 @@ The default value is set to `production`
 The default value is set to `59599`
 
 ### EZPAARSE_NODEJS_VERSION
-The default value is set to `10.15.3`
+The default value is set to `14.17.6`
 
 ### DEFAULT_LOCALE
 The default value is set to `fr`

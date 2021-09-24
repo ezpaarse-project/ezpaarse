@@ -1,7 +1,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import Vue from 'vue';
 import { CancelToken } from 'axios';
-import uuid from 'uuid';
+import { v1 as uuidv1 } from 'uuid';
 import get from 'lodash.get';
 import api from './api';
 
@@ -72,7 +72,7 @@ export default {
     async PROCESS ({ commit, rootState, dispatch }, formData) {
       const headers = await dispatch('settings/GET_HEADERS', null, { root: true });
       const source = CancelToken.source();
-      const jobID = uuid.v1();
+      const jobID = uuidv1();
 
       commit('SET_PROCESS_STEP', 3);
       commit('SET_ERROR', null);

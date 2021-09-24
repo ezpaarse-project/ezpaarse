@@ -5,7 +5,7 @@ const { Nuxt, Builder } = require('nuxt');
 
 const app           = require('express')();
 const session       = require('express-session');
-const MongoStore    = require('connect-mongo')(session);
+const MongoStore    = require('connect-mongo');
 const cookieParser  = require('cookie-parser');
 const auth          = require('./lib/auth-middlewares.js');
 const passport      = require('passport');
@@ -51,7 +51,7 @@ app.use(session({
   secret: 'ezpaarseappoftheYEAR',
   resave: false,
   saveUninitialized: true,
-  store: new MongoStore({ url: config.EZPAARSE_MONGO_URL })
+  store: MongoStore.create({ mongoUrl: config.EZPAARSE_MONGO_URL })
 }));
 app.use(passport.initialize());
 app.use(passport.session());
