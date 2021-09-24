@@ -27,7 +27,6 @@
     "connect-mongo": "^4.6.0",
     "cookie-parser": "~1.4.5",
     "csv": "^5.5.3",
-    "csv-string": "^4.0.1",
     "ejs": "^3.1.6",
     "errorhandler": "~1.5.1",
     "express": "^4.17.1",
