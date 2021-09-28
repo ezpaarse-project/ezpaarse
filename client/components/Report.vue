@@ -219,7 +219,7 @@ export default {
         },
         {
           label: 'PDFConsultations',
-          icon: 'mdi-file-pdf',
+          icon: 'mdi-file-pdf-box',
           iconColor: 'red',
           value: stats['mime-PDF']
         }
