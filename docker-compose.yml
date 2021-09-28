@@ -17,6 +17,7 @@ services:
       - ./middlewares:/opt/ezpaarse/middlewares
       - ./resources:/opt/ezpaarse/resources
       - ./exclusions:/opt/ezpaarse/exclusions
+      - ./config.local.json:/opt/ezpaarse/config.local.json
     tty: true         # to have nice debug(...) outputs
     stdin_open: true  # to be able to use CTRL+C to stop the container
     ports:
