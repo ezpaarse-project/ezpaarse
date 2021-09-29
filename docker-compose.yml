@@ -6,6 +6,11 @@ services:
   ezpaarse:
     container_name: ezpaarse
     image: ezpaarseproject/ezpaarse:3.6.6
+    build:
+      context: .
+      args:
+        - http_proxy
+        - https_proxy
     environment:
       http_proxy:  ${http_proxy}
       https_proxy: ${https_proxy}
