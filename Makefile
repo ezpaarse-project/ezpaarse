@@ -150,11 +150,11 @@ exclusions-update: ## Clone or update exclusions directory
 	else git clone https://github.com/ezpaarse-project/ezpaarse-exclusions.git exclusions; \
 	fi
 
-pull: platforms-update middlewares-update exclusions-update resources-update ## Stop the daemon, update to last tag and rebuild
+pull: ## Stop the daemon, update to last tag and rebuild
 	@./bin/update-app --rebuild
 	@echo "ezPAARSE has been updated."
 
-pull-latest: platforms-update middlewares-update exclusions-update resources-update ## Stop the daemon, update to bleeding edge and rebuild
+pull-latest: ## Stop the daemon, update to bleeding edge and rebuild
 	@./bin/update-app --latest --rebuild
 	@echo "ezPAARSE has been updated."
 
