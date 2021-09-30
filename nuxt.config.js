@@ -29,7 +29,7 @@ module.exports = {
   modules: [
     '@nuxtjs/axios',
     '@nuxtjs/auth',
-    'nuxt-i18n',
+    '@nuxtjs/i18n',
   ],
   axios: {
     proxy: true
