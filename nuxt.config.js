@@ -92,6 +92,9 @@ module.exports = {
     lazy: true,
     langDir: 'locales/',
     strategy: 'no_prefix',
+    vueI18n: {
+      fallbackLocale: ['en', 'fr'],
+    },
     detectBrowserLanguage: {
       useCookie: true,
       cookieKey: 'ezpaarse_i18n',
