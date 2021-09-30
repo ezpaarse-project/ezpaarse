@@ -3,12 +3,20 @@
 # setup ezpaarse env variables
 #
 
-EZPAARSE_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
+EZPAARSE_PATH="$(dirname "${BASH_SOURCE[0]}")/.."
+NODEJS_VERSION=$(expr "`cat $EZPAARSE_PATH/config.json`" : '.*"EZPAARSE_NODEJS_VERSION":[ ]*"\([^"]*\)"')
 export NVM_DIR="$EZPAARSE_PATH/build/nvm"
 
-# Source the existing NVM file if it exists, otherwise try to source the embedded one
-if [ -f "$NVM_DIR/nvm.sh" ]; then
-  source "$NVM_DIR/nvm.sh"
+if [ "$(node -v)" != "v$NODEJS_VERSION" ]; then
+  # Source the embedded NVM file if it exists
+  if [ -f "$NVM_DIR/nvm.sh" ]; then
+    source "$NVM_DIR/nvm.sh"
+  fi
+
+  # Switch to the good version of node if NVM is available
+  if command -v nvm &> /dev/null; then
+    nvm use "$NODEJS_VERSION" > /dev/null
+  fi
 fi
 
 # list of paths to check in $PATH
