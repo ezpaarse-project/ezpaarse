@@ -91,15 +91,13 @@
               <v-layout row wrap>
                 <v-flex xs12 sm12 md3>
                   <v-select
-                    v-model="locale"
-                    :items="locales"
+                    :value="locale"
+                    :items="availableLocales"
                     :label="$t('ui.language')"
                     item-text="name"
-                    item-value="value"
-                    persistent-hint
-                    return-object
+                    item-value="code"
                     single-line
-                    @change="$i18n.locale = locale.value"
+                    @change="changeLocale"
                   />
                 </v-flex>
                 <v-spacer />
@@ -153,11 +151,6 @@ export default {
   data () {
     return {
       feedback: false,
-      locale: this.$i18n.locale,
-      locales: [
-        { name: 'Français', value: 'fr' },
-        { name: 'English', value: 'en' }
-      ],
       descriptionLinks: {
         github: 'https://github.com/ezpaarse-project/ezpaarse',
         analogist: 'http://analyses.ezpaarse.org/',
@@ -168,6 +161,17 @@ export default {
   computed: {
     appInfos () {
       return this.$store.state.appInfos;
+    },
+    locale () {
+      return this.$i18n.locale;
+    },
+    availableLocales () {
+      return this.$i18n.locales;
+    }
+  },
+  methods: {
+    changeLocale (code) {
+      this.$i18n.setLocale(code);
     }
   }
 };
