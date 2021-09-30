@@ -107,18 +107,22 @@ clean-tmp: ## Clean tmp directory
 # # # # # # # # # # # #
 
 nodejs: ## Build node for ezpaarse
+	@echo 'Building Node.js...'
 	@test -f /usr/bin/git || sudo apt-get install --yes git
 	@./bin/buildnode
 
 build-nuxt: ## Build Nuxt App
+	@echo 'Building web interface...'
 	@. ./bin/env; npm run build
 
 node-modules: libs
 
 libs:
+	@echo 'Installing node.js dependencies...'
 	@. ./bin/env; npm install --no-save -q --unsafe-perm || (rm ./node_modules -rf && npm install --no-save -q --unsafe-perm)
 
 middlewares-update: ## Clone or update middelwares directory
+	@echo 'Updating middlewares...'
 	@if test -d middlewares/.git; \
 	then cd middlewares; git pull; \
 	else git clone https://github.com/ezpaarse-project/ezpaarse-middlewares.git middlewares; \
@@ -126,18 +130,21 @@ middlewares-update: ## Clone or update middelwares directory
 	@. ./bin/env; cd middlewares; npm install --no-save -q --unsafe-perm;
 
 resources-update: ## Clone or update resources directory
+	@echo 'Updating resources...'
 	@if test -d resources/.git; \
 	then cd resources; git pull; \
 	else git clone https://github.com/ezpaarse-project/ezpaarse-resources.git resources; \
 	fi
 
 platforms-update: ## Clone or update platforms directory
+	@echo 'Updating platforms...'
 	@if test -d platforms/.git; \
 	then cd platforms; git pull; \
 	else git clone https://github.com/ezpaarse-project/ezpaarse-platforms.git platforms; \
 	fi
 
 exclusions-update: ## Clone or update exclusions directory
+	@echo 'Updating exclusions...'
 	@if test -d exclusions/.git; \
 	then cd exclusions; git pull; \
 	else git clone https://github.com/ezpaarse-project/ezpaarse-exclusions.git exclusions; \
