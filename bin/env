@@ -3,7 +3,7 @@
 # setup ezpaarse env variables
 #
 
-EZPAARSE_PATH="$(dirname "${BASH_SOURCE[0]}")/.."
+EZPAARSE_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
 NODEJS_VERSION=$(expr "`cat $EZPAARSE_PATH/config.json`" : '.*"EZPAARSE_NODEJS_VERSION":[ ]*"\([^"]*\)"')
 export NVM_DIR="$EZPAARSE_PATH/build/nvm"
 
