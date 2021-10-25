@@ -455,8 +455,8 @@ Number of seconds used for the deduplication timeframe of HTML consultations (ie
     <td></td>
   </tr><tr>
     <th>host</th>
-    <td>test.proxad.net
-      <div class="comment">Original host</div>
+    <td>test.proxad.net (a domain name in the sample log, but usually an IP address)
+      <div class="comment">Original consulting host (usually an IP address)</div>
     </td>
   </tr><tr>
     <th>login</th>
