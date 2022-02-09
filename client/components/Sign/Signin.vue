@@ -18,10 +18,7 @@
         type="password"
         :rules="[isRequired]"
       />
-      <v-checkbox
-        v-model="credentials.remember"
-        :label="$t('ui.rememberMe')"
-      />
+      <v-checkbox v-model="credentials.remember" :label="$t('ui.rememberMe')" />
     </v-card-text>
     <v-card-actions>
       <v-btn
@@ -31,7 +28,7 @@
         :to="{ path: '/password' }"
         ripple
       >
-        {{ $t('ui.passwordForgotten') }}
+        {{ $t("ui.passwordForgotten") }}
       </v-btn>
       <v-spacer />
       <v-btn
@@ -40,8 +37,9 @@
         class="body-2"
         :loading="loading"
         :disabled="!validForm"
+        @click="loader = 'loading'"
       >
-        {{ $t('ui.signin') }}
+        {{ $t("ui.signin") }}
       </v-btn>
     </v-card-actions>
   </v-form>
@@ -89,8 +87,7 @@ export default {
         return;
       }
 
-      this.$router.push('/process');
-      this.loading = false;
+      await this.$router.push('/process');
     }
   }
 };

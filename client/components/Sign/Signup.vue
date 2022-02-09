@@ -24,18 +24,13 @@
         type="password"
         :rules="[isRequired, matchesPassword]"
       />
-      <v-alert
-        :value="userNumber === 0"
-        color="primary"
-        outlined
-      >
-        <v-checkbox
-          v-model="informTeam"
-          :label="$t('ui.informTeam')"
-        />
+      <v-alert :value="userNumber === 0" color="primary" outlined>
+        <v-checkbox v-model="informTeam" :label="$t('ui.informTeam')" />
         <p
           class="text-xs-justify"
-          v-html="$t('ui.informTeamWarning', { recipients: 'ezpaarse@couperin.org' })"
+          v-html="
+            $t('ui.informTeamWarning', { recipients: 'ezpaarse@couperin.org' })
+          "
         />
       </v-alert>
     </v-card-text>
@@ -48,7 +43,7 @@
         :loading="loading"
         :disabled="!validForm"
       >
-        {{ $t('ui.signup') }}
+        {{ $t("ui.signup") }}
       </v-btn>
     </v-card-actions>
   </v-form>
@@ -81,13 +76,18 @@ export default {
       return !!(value && value.trim()) || this.$t('ui.fieldRequired');
     },
     matchesPassword (value) {
-      return (value === this.credentials.password) || this.$t('ui.errors.passwordDoesNotMatch');
+      return (
+        value === this.credentials.password
+        || this.$t('ui.errors.passwordDoesNotMatch')
+      );
     },
     async signup () {
       this.loading = true;
 
       if (this.userNumber <= 0 && this.informTeam) {
-        this.$store.dispatch('FRESHINSTALL', { mail: this.credentials.userid.trim() });
+        this.$store.dispatch('FRESHINSTALL', {
+          mail: this.credentials.userid.trim()
+        });
       }
 
       try {
@@ -103,15 +103,20 @@ export default {
         return;
       }
 
-      await this.$auth.loginWith('local', {
-        data: {
-          userid: this.credentials.userid.trim(),
-          password: this.credentials.password.trim()
-        }
-      });
+      try {
+        await this.$auth.loginWith('local', {
+          data: {
+            userid: this.credentials.userid.trim(),
+            password: this.credentials.password.trim()
+          }
+        });
+      } catch (e) {
+        this.$store.dispatch('snacks/error', 'ui.errors.error');
+        this.loading = false;
+        return;
+      }
 
       this.$router.push('/process');
-      this.loading = false;
     }
   }
 };
