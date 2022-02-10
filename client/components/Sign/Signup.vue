@@ -116,6 +116,7 @@ export default {
         return;
       }
 
+      this.loading = false;
       this.$router.push('/process');
     }
   }

@@ -87,7 +87,8 @@ export default {
         return;
       }
 
-      await this.$router.push('/process');
+      this.loading = false;
+      this.$router.push('/process');
     }
   }
 };
