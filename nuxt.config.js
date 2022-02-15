@@ -19,9 +19,7 @@ module.exports = {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
     ]
   },
-  loading: {
-    color: '#FFFFFF'
-  },
+  loading: '~/components/Loader.vue',
   loadingIndicator: {
     name: 'folding-cube',
     color: 'teal'
