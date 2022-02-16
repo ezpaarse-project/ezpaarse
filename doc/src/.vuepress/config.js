@@ -1,13 +1,27 @@
 const fs = require('fs');
 const path = require('path');
 
+const { description } = require('../../package')
+
 /**
  *
  * @param {String} dir the directory to read
  * @param {String} root the root directory used to resolved relative path
  */
-function findMarkdownFiles(dir, root) {
+ function findMarkdownFiles(dir, root) {
   root = root || dir;
+
+  const exclusions = [
+    'node_modules',
+    '.github',
+    '.git',
+    '.eslintrc',
+    '.gitignore',
+    '.travis.yml',
+    'mock.js',
+    'package.json',
+    'utils.js',
+  ];
 
   const files = fs.readdirSync(dir)
     .map(filename => ({
@@ -15,7 +29,7 @@ function findMarkdownFiles(dir, root) {
       path: path.resolve(dir, filename),
       stat: fs.statSync(path.resolve(dir, filename))
     }))
-    .filter(file => file.name !== 'node_modules');
+    .filter(file => exclusions.includes(file.name) === false);
 
   return files.reduce((acc, file) => {
     if (file.stat.isDirectory()) {
@@ -26,10 +40,10 @@ function findMarkdownFiles(dir, root) {
       return acc;
     }
 
-    const relativePath = path.relative(root, file.path).replace(/\.md$/, '.html');
+    // const relativePath = path.relative(root, file.path).replace(/\.md$/, '.html');
 
     acc.push({
-      path: path.normalize(`/middlewares/${relativePath}`),
+      path: path.normalize(`/middlewares/${path.basename(dir)}.html`),
       filePath: file.path,
       showInSidebar: file.name === 'README.md',
       frontmatter: {
@@ -40,28 +54,49 @@ function findMarkdownFiles(dir, root) {
   }, []);
 }
 
-const mwRootDir = path.resolve(__dirname, '../../middlewares');
+const mwRootDir = path.resolve(__dirname, '../../../middlewares');
 const mwPages = findMarkdownFiles(mwRootDir);
 
 module.exports = {
+  /**
+   * Ref：https://v1.vuepress.vuejs.org/config/#title
+   */
   title: 'ezPAARSE',
-  description: 'Usage analyzer for your e-resources',
-  serviceWorker: true,
-  base: '/ezpaarse/',
+  /**
+   * Ref：https://v1.vuepress.vuejs.org/config/#description
+   */
+  description: description,
+
+  /**
+   * Extra tags to be injected to the page HTML `<head>`
+   *
+   * ref：https://v1.vuepress.vuejs.org/config/#head
+   */
   head: [
-    ['link', { rel: 'icon', href: '/favicon.ico' }]
+    ['meta', { name: 'theme-color', content: '#3eaf7c' }],
+    ['meta', { name: 'apple-mobile-web-app-capable', content: 'yes' }],
+    ['meta', { name: 'apple-mobile-web-app-status-bar-style', content: 'black' }]
   ],
-  plugins: [
-    '@vuepress/plugin-back-to-top',
-    require.resolve('./components/SearchBox')
-  ],
+
   additionalPages: mwPages,
+
+  /**
+   * ref：https://v1.vuepress.vuejs.org/config/#base
+   */
+  base: '/ezpaarse/',
+
+  /**
+   * Theme configuration, here is the default theme configuration for VuePress.
+   *
+   * ref：https://v1.vuepress.vuejs.org/theme/default-theme-config.html
+   */
   themeConfig: {
     repo: 'ezpaarse-project/ezpaarse',
+    editLinks: false,
     docsDir: 'doc',
     editLinks: true,
     editLinkText: 'Edit this page on GitHub',
-    sidebarDepth: 0,
+    lastUpdated: true,
     nav: [
       {
         text: 'Homepage',
@@ -143,7 +178,16 @@ module.exports = {
         title: 'Middlewares',
         collapsable: false,
         children: mwPages.filter(page => page.showInSidebar).map(page => page.path)
-      }
-    ]
-  }
+      },
+    ],
+  },
+
+  /**
+   * Apply plugins，ref：https://v1.vuepress.vuejs.org/zh/plugin/
+   */
+  plugins: [
+    '@vuepress/plugin-back-to-top',
+    '@vuepress/plugin-medium-zoom',
+    require.resolve('./components/SearchBox'),
+  ]
 }
