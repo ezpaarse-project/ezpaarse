@@ -40,10 +40,10 @@ const { description } = require('../../package')
       return acc;
     }
 
-    // const relativePath = path.relative(root, file.path).replace(/\.md$/, '.html');
+    const relativePath = path.relative(root, file.path).replace(/\.md$/, '.html');
 
     acc.push({
-      path: path.normalize(`/middlewares/${path.basename(dir)}.html`),
+      path: path.normalize(`/middlewares/${relativePath}`),
       filePath: file.path,
       showInSidebar: file.name === 'README.md',
       frontmatter: {
