@@ -25,7 +25,6 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       -
         name: Clone middlewares
-        shell: bash
         run: make middlewares-update
       -
         name: Build and push
