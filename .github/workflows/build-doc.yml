@@ -2,7 +2,7 @@ name: Build and push documentation on docker hub
 on:
   push:
     branches:
-      - doc-docker
+      - master
     paths:
       - 'doc/**'
 
