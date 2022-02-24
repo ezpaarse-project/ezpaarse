@@ -29,4 +29,4 @@ jobs:
         with:
           push: true
           tags: ezpaarseproject/ezpaarse-doc:latest
-          file: "{context}/Dockerfile.doc"
+          file: ./Dockerfile.doc
