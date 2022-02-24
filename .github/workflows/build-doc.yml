@@ -28,3 +28,5 @@ jobs:
         with:
           push: true
           tags: ezpaarseproject/ezpaarse-doc:latest
+          context: .
+          file: Dockerfile.doc
