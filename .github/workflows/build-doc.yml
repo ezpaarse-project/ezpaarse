@@ -11,12 +11,6 @@ jobs:
   docker:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Clone middlewares
-        run: make middlewares-update
-
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
       
@@ -34,4 +28,4 @@ jobs:
         with:
           push: true
           tags: ezpaarseproject/ezpaarse-doc:latest
-          file: ./Dockerfile.doc
+          context: ./doc

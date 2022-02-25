@@ -93,7 +93,7 @@ Some tools are available online to [help you in the the writing of regular expre
 Each parser comes with the necessary to be tested: one or more files located in the `test` subdirectory. These files are in CSV format and follow the ``platform.version.csv`` pattern.
 
 The test principle is represented by the following diagram:
-<img :src="$withBase('/images/ezPAARSE-Test-des-Parseurs.png')" alt="Parsers' test"/>
+<img :src="$withBase('/images/ezPAARSE-Test-des-Parseurs.png')" alt="Parsers' test" />
 
 For each row, values from columns prefixed with ``in-`` are sent to the parser, and the result is compared with the values coming from columns prefixed with ``out-``. These must be strictly identical.
 

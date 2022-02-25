@@ -35,7 +35,7 @@ The Vuepress configuration is located in `.vuepress/config.js`. Head to this fil
 Assets are stored in the `.vuepress/public` directory. You can reference them using relative URLs.
 
 ```markdown
-<img :src="$withBase('/images/image.png')" alt="An image"/>
+<img :src="$withBase('/images/image.png')" alt="An image" />
 ```
 
 [More details](https://vuepress.vuejs.org/guide/assets.html)

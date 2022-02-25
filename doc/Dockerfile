@@ -1,10 +1,12 @@
 FROM node:16.14.0-alpine3.15 as build
 
+RUN apk add git
+
 WORKDIR /usr/src/ezpaarse/middlewares
-COPY ./middlewares ./
+RUN git clone https://github.com/ezpaarse-project/ezpaarse-middlewares.git ./middlewares
 
 WORKDIR /usr/src/ezpaarse/doc
-COPY ./doc ./
+COPY . .
 RUN npm install
 ENV NODE_ENV=production
 RUN npm run build

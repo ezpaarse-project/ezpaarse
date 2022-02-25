@@ -11,7 +11,7 @@ The documentation dedicated to contributions for parsers, pkbs and scrapers can 
 ## How does the ezPAARSE engine work?
 Simplified schemas of the [internal architecture](https://docs.google.com/drawings/d/14YFQ799U2005c62aivbGdEIDmsJOupN1ARvAwMT8Uys/edit?usp=sharing) and [general architecture](https://docs.google.com/drawings/d/1wckvIv9BmLXT758xALE9qmNfFYBiFUwzF0F9gHjndCk/edit?usp=sharing) are also available.
 
-<img :src="$withBase('/images/ezPAARSE-Moteur.png')" alt="ezpaarse's engine working Schema"/>
+<img :src="$withBase('/images/ezPAARSE-Moteur.png')" alt="ezpaarse's engine working Schema" />
 
 ## ezPAARSE's monitoring
 

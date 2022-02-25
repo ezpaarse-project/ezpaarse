@@ -5,7 +5,7 @@ docker-compose.*
 npm-debug.log
 **/node_modules/
 
-# middlewares/
+middlewares/
 platforms/
 resources/
 exclusions/
