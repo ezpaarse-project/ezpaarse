@@ -8,54 +8,54 @@ const { description } = require('../../package')
  * @param {String} dir the directory to read
  * @param {String} root the root directory used to resolved relative path
  */
- function findMarkdownFiles(dir, root) {
-  root = root || dir;
+//  function findMarkdownFiles(dir, root) {
+//   root = root || dir;
 
-  const exclusions = [
-    'node_modules',
-    '.github',
-    '.git',
-    '.eslintrc',
-    '.gitignore',
-    '.travis.yml',
-    'mock.js',
-    'package.json',
-    'utils.js',
-  ];
+//   const exclusions = [
+//     'node_modules',
+//     '.github',
+//     '.git',
+//     '.eslintrc',
+//     '.gitignore',
+//     '.travis.yml',
+//     'mock.js',
+//     'package.json',
+//     'utils.js',
+//   ];
 
-  const files = fs.readdirSync(dir)
-    .map(filename => ({
-      name: filename,
-      path: path.resolve(dir, filename),
-      stat: fs.statSync(path.resolve(dir, filename))
-    }))
-    .filter(file => exclusions.includes(file.name) === false);
+//   const files = fs.readdirSync(dir)
+//     .map(filename => ({
+//       name: filename,
+//       path: path.resolve(dir, filename),
+//       stat: fs.statSync(path.resolve(dir, filename))
+//     }))
+//     .filter(file => exclusions.includes(file.name) === false);
 
-  return files.reduce((acc, file) => {
-    if (file.stat.isDirectory()) {
-      return acc.concat(findMarkdownFiles(file.path, root));
-    }
+//   return files.reduce((acc, file) => {
+//     if (file.stat.isDirectory()) {
+//       return acc.concat(findMarkdownFiles(file.path, root));
+//     }
 
-    if (dir === root || !file.stat.isFile() || !file.name.endsWith('.md')) {
-      return acc;
-    }
+//     if (dir === root || !file.stat.isFile() || !file.name.endsWith('.md')) {
+//       return acc;
+//     }
 
-    const relativePath = path.relative(root, file.path).replace(/\.md$/, '.html');
+//     const relativePath = path.relative(root, file.path).replace(/\.md$/, '.html');
 
-    acc.push({
-      path: path.normalize(`/middlewares/${relativePath}`),
-      filePath: file.path,
-      showInSidebar: file.name === 'README.md',
-      frontmatter: {
-        editLink: false
-      }
-    })
-    return acc.concat()
-  }, []);
-}
+//     acc.push({
+//       path: path.normalize(`/middlewares/${relativePath}`),
+//       filePath: file.path,
+//       showInSidebar: file.name === 'README.md',
+//       frontmatter: {
+//         editLink: false
+//       }
+//     })
+//     return acc.concat()
+//   }, []);
+// }
 
-const mwRootDir = path.resolve(__dirname, '../../../middlewares');
-const mwPages = findMarkdownFiles(mwRootDir);
+// const mwRootDir = path.resolve(__dirname, '../../../middlewares');
+// const mwPages = findMarkdownFiles(mwRootDir);
 
 module.exports = {
   /**
@@ -78,7 +78,7 @@ module.exports = {
     ['meta', { name: 'apple-mobile-web-app-status-bar-style', content: 'black' }]
   ],
 
-  additionalPages: mwPages,
+  // additionalPages: mwPages,
 
   /**
    * Theme configuration, here is the default theme configuration for VuePress.
@@ -169,11 +169,11 @@ module.exports = {
           '/troubleshooting/core-dumped.md'
         ]
       },
-      {
-        title: 'Middlewares',
-        collapsable: false,
-        children: mwPages.filter(page => page.showInSidebar).map(page => page.path)
-      },
+      // {
+      //   title: 'Middlewares',
+      //   collapsable: false,
+      //   children: mwPages.filter(page => page.showInSidebar).map(page => page.path)
+      // },
     ],
   },
 
