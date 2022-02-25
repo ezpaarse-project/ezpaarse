@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Tree structure</title>
+    <meta name="generator" content="VuePress 1.8.2">
+    
+    <meta name="description" content="">
+    
+    <link rel="preload" href="/assets/css/0.styles.9422d7ed.css" as="style"><link rel="preload" href="/assets/js/app.0774983a.js" as="script"><link rel="preload" href="/assets/js/2.f1c961ca.js" as="script"><link rel="preload" href="/assets/js/20.ecf034ed.js" as="script"><link rel="prefetch" href="/assets/js/10.e46d72ad.js"><link rel="prefetch" href="/assets/js/11.8254d096.js"><link rel="prefetch" href="/assets/js/12.ee9e402b.js"><link rel="prefetch" href="/assets/js/13.83e5ba5e.js"><link rel="prefetch" href="/assets/js/14.b28cb6fa.js"><link rel="prefetch" href="/assets/js/15.bc06572c.js"><link rel="prefetch" href="/assets/js/16.adf7ee00.js"><link rel="prefetch" href="/assets/js/17.638c8a0e.js"><link rel="prefetch" href="/assets/js/18.661a591c.js"><link rel="prefetch" href="/assets/js/19.7fb5808b.js"><link rel="prefetch" href="/assets/js/21.9b198a89.js"><link rel="prefetch" href="/assets/js/22.6a51d93b.js"><link rel="prefetch" href="/assets/js/23.0a1cfe35.js"><link rel="prefetch" href="/assets/js/24.b90ca5c4.js"><link rel="prefetch" href="/assets/js/25.33941b02.js"><link rel="prefetch" href="/assets/js/26.95b36b7b.js"><link rel="prefetch" href="/assets/js/27.3535f59c.js"><link rel="prefetch" href="/assets/js/28.64562af7.js"><link rel="prefetch" href="/assets/js/29.849624e7.js"><link rel="prefetch" href="/assets/js/3.7ef52252.js"><link rel="prefetch" href="/assets/js/30.cbe296a5.js"><link rel="prefetch" href="/assets/js/31.6cbf0b0f.js"><link rel="prefetch" href="/assets/js/32.5b861b2b.js"><link rel="prefetch" href="/assets/js/33.acf6a958.js"><link rel="prefetch" href="/assets/js/34.a957457a.js"><link rel="prefetch" href="/assets/js/35.1035d599.js"><link rel="prefetch" href="/assets/js/36.fcc7fbc8.js"><link rel="prefetch" href="/assets/js/37.bbcb34fe.js"><link rel="prefetch" href="/assets/js/38.326e2ab1.js"><link rel="prefetch" href="/assets/js/39.4db4134f.js"><link rel="prefetch" href="/assets/js/4.4c2548f6.js"><link rel="prefetch" href="/assets/js/40.b6150ce1.js"><link rel="prefetch" href="/assets/js/5.8a2b5103.js"><link rel="prefetch" href="/assets/js/6.3a5b4460.js"><link rel="prefetch" href="/assets/js/7.60024c79.js"><link rel="prefetch" href="/assets/js/8.bcfb9593.js"><link rel="prefetch" href="/assets/js/9.e0370369.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.9422d7ed.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container no-sidebar"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <!----></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><!---->  <!----> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="tree-structure"><a href="#tree-structure" class="header-anchor">#</a> Tree structure</h1> <div class="language- extra-class"><pre class="language-text"><code>.
+├── bin [ezpaarse ecosystem binaries commands]
+├── doc [markdown documentation source files]
+│   ├── images
+│   └── templates [beautiful doc templates]
+├── lib [javascript modules]
+│   ├── bin
+│   ├── init
+│   ├── logformats
+│   ├── outputformats
+│   └── proxyformats
+├── client [frontend application]
+├── logs
+├── middlewares [middleware modul directory]
+│   ├── &lt;.modul.&gt;
+│   │   └── index.js
+│   └── crossref
+│       └── index.js
+├── misc
+│   ├── deb [debian stuff]
+│   │   ├── DEBIAN
+│   │   └── etc
+│   │       ├── init.d
+│   │       └── logrotate.d
+│   ├── gource [software version control visualisation]
+│   │   └── avatars
+│   ├── pkb-scrapers [automatic pkb creation scripts]
+│   ├── shell-with-require
+│   └── windows [windows stuff]
+├── node_modules [modules for nodejs]
+│   ├── ...
+├── mail-templates [emails templates]
+├── platforms [platform plugin directory]
+│   ├── .lib [common stuff]
+│   ├── &lt;.platform.&gt;
+│   │   ├── test
+│   │   ├── pkb [KBART files]
+│   │   │   ├── &lt;.platform.&gt;_AllTitles_&lt;.YYYY-MM-DD.&gt;.txt
+│   │   │   └── &lt;...&gt;
+│   │   ├── scrapers [KBART files generators]
+│   │   │    ├── scrape_&lt;.platform.&gt;_&lt;.file.&gt;.js
+│   │   │    └── &lt;...&gt;
+│   │   └── parser.js
+│   ├── wiley
+│   │   ├── test
+│   │   ├── pkb [KBART files]
+│   │   │   ├── wiley_journals_2016-11-14.txt
+│   │   │   └── wiley_Books_2016-11-14.txt
+│   │   ├── scrapers [KBART files generators]
+│   │   │    ├── scrape_wiley_books_from_xls.js
+│   │   │    └── scrape_wiley_journals_from_xls.js
+│   │   └── parser.js
+│   └── &lt;...&gt;
+├── public [static web pages]
+│   ├── doc
+│   │   └── images
+│   ├── img
+│   ├── js
+│   └── stylesheets
+├── recources [Resources that should be updated independently from ezPAARSE]
+│   ├── README.md
+│   ├── auto-formats.js
+│   └── predefined-settings.json
+├── routes [REST routes files]
+├── test [test files and data]
+│   └── dataset
+│       └── multiformat
+├── tmp
+│   └── jobs
+</code></pre></div></div> <footer class="page-edit"><!----> <!----></footer> <!----> </main></div><div class="global-ui"></div></div>
+    <script src="/assets/js/app.0774983a.js" defer></script><script src="/assets/js/2.f1c961ca.js" defer></script><script src="/assets/js/20.ecf034ed.js" defer></script>
+  </body>
+</html>
