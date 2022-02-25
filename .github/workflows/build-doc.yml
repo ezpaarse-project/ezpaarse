@@ -29,7 +29,6 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v2
         with:
-          push: true
           tags: ezpaarseproject/ezpaarse-doc:latest
           context: ./doc
           push: true
