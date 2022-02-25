@@ -32,3 +32,4 @@ jobs:
           push: true
           tags: ezpaarseproject/ezpaarse-doc:latest
           context: ./doc
+          push: true
