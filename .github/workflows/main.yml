@@ -20,4 +20,4 @@ jobs:
           BASE_BRANCH: master
           BRANCH: gh-pages
           FOLDER: doc/src/.vuepress/dist
-          BUILD_SCRIPT: make middlewares-update && npm install && npm run docs:build && touch doc/src/.vuepress/dist/.nojekyll
+          BUILD_SCRIPT: make middlewares-update && cd doc && npm install && npm run build && touch src/.vuepress/dist/.nojekyll
