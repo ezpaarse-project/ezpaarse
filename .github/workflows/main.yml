@@ -20,7 +20,7 @@ jobs:
         run: |
           make middlewares-update
           npm install --prefix doc
-          npm --prefix doc run build
+          BASE_URL='/ezpaarse/' npm --prefix doc run build
           touch doc/src/.vuepress/dist/.nojekyll
 
       - name: Build and Deploy
