@@ -15,11 +15,17 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@master
+
+      - name: Install & Build doc
+        run: |
+          make middlewares-update
+          npm install --prefix doc
+          npm --prefix doc run build
+          touch doc/src/.vuepress/dist/.nojekyll
+
       - name: Build and Deploy
-        uses: JamesIves/github-pages-deploy-action@2.0.3
+        uses: JamesIves/github-pages-deploy-action@4.1.4
         env:
-          ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
-          BASE_BRANCH: master
-          BRANCH: gh-pages
-          FOLDER: doc/src/.vuepress/dist
-          BUILD_SCRIPT: make middlewares-update && cd doc && npm install && npm run build && touch src/.vuepress/dist/.nojekyll
+          token: ${{ secrets.ACCESS_TOKEN }}
+          branch: gh-pages
+          folder: doc/src/.vuepress/dist
