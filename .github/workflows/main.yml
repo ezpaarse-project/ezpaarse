@@ -25,7 +25,7 @@ jobs:
 
       - name: Build and Deploy
         uses: JamesIves/github-pages-deploy-action@4.1.4
-        env:
+        with:
           token: ${{ secrets.ACCESS_TOKEN }}
           branch: gh-pages
           folder: doc/src/.vuepress/dist
