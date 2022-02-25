@@ -19,5 +19,5 @@ jobs:
           ACCESS_TOKEN: ${{ secrets.ACCESS_TOKEN }}
           BASE_BRANCH: master
           BRANCH: gh-pages
-          FOLDER: doc/.vuepress/dist
-          BUILD_SCRIPT: make middlewares-update && npm install && npm run docs:build
+          FOLDER: doc/src/.vuepress/dist
+          BUILD_SCRIPT: make middlewares-update && npm install && npm run docs:build && touch doc/src/.vuepress/dist/.nojekyll
