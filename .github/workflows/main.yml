@@ -24,7 +24,7 @@ jobs:
           touch doc/src/.vuepress/dist/.nojekyll
 
       - name: Build and Deploy
-        uses: JamesIves/github-pages-deploy-action@4.1.4
+        uses: JamesIves/github-pages-deploy-action@v4.2.5
         with:
           token: ${{ secrets.ACCESS_TOKEN }}
           branch: gh-pages
