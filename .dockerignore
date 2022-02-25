@@ -1,14 +1,16 @@
 Dockerfile
+Dockerfile.doc
 docker-compose.*
 .git
 npm-debug.log
-node_modules/
+**/node_modules/
 
-platforms/
 middlewares/
+platforms/
 resources/
 exclusions/
 
+dist/
 build/
 misc/
 test/

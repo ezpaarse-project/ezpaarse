@@ -26,21 +26,20 @@ curl -X POST http://localhost:59599 \
 
 With cURL, the generated report can be downloaded at the URL given in the **Job-Report-jr1** header (see below).
 
-<img src="../_static/images/ezPAARSE-SR18-04.jpg" alt="Commande cURL pour JR1" style="width: 750px"/>
+<img :src="$withBase('/images/ezPAARSE-SR18-04.jpg')" alt="Commande cURL pour JR1" style="width: 750px" />
 
 ## Usage through the online form
 
 Using the online form, you can ask for the creation of COUNTER reports by adding specific headers in the **Headers (advanced)** section (see below):
 
-<img src="../_static/images/ezPAARSE-SR18-01.jpg" alt="COUNTER via formulaire" style="width: 750px"/>
+<img :src="$withBase('/images/ezPAARSE-SR18-01.jpg')" alt="COUNTER via formulaire" style="width: 750px" />
 
 When the processing of logs is finished, the COUNTER reports can be downloaded via the link(s) in the stats section of the processing report, look for the **url-counter-jr1** line (see below):
 
-<img src="../_static/images/ezPAARSE-SR18-02.jpg" alt="COUNTER via formulaire" style="width: 750px"/>
+<img :src="$withBase('/images/ezPAARSE-SR18-02.jpg')" alt="COUNTER via formulaire" style="width: 750px" />
 
 ## COUNTER reports
 
 The COUNTER report(s) can be directly used in a spreadsheet program, depending on the specified output format. You can see below a TSV file imported in Excel:
 
-<img src="../_static/images/ezPAARSE-SR18-03.jpg" alt="COUNTER via formulaire" style="width: 750px"/>
-
+<img :src="$withBase('/images/ezPAARSE-SR18-03.jpg')" alt="COUNTER via formulaire" style="width: 750px" />

@@ -1,0 +1,25 @@
+{
+  "name": "ezpaarse-doc",
+  "version": "0.0.1",
+  "description": "Usage analyzer for your e-resources",
+  "main": "index.js",
+  "authors": {
+    "name": "ezTEAM",
+    "email": "ezteam@couperin.org"
+  },
+  "repository": "https://github.com/ezpaarse-project/ezpaarse.git",
+  "scripts": {
+    "dev": "vuepress dev src",
+    "build": "vuepress build src"
+  },
+  "license": "MIT",
+  "devDependencies": {
+    "@vuepress/plugin-back-to-top": "^1.9.7",
+    "@vuepress/plugin-medium-zoom": "^1.9.7",
+    "axios": "^0.26.0",
+    "minisearch": "^3.3.0",
+    "remove-markdown": "^0.3.0",
+    "striptags": "^3.2.0",
+    "vuepress": "^1.5.3"
+  }
+}
