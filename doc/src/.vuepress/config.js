@@ -188,8 +188,8 @@ module.exports = {
     [
       "vuepress-plugin-meilisearch",
       {
-        hostUrl: '',
-        apiKey: '',
+        hostUrl: process.env.MEILISEARCH_HOST_URL || 'http://localhost:7700',
+        apiKey: process.env.MEILISEARCH_API_KEY || 'ezpaarseKey',
         indexUid: 'ezpaarse',
         placeholder: 'Search ...',
         maxSuggestions: 10
