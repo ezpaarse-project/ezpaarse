@@ -78,7 +78,7 @@ module.exports = {
     ['meta', { name: 'apple-mobile-web-app-status-bar-style', content: 'black' }]
   ],
  
-  base: process.env.BASE_URL || '/',
+  base: process.env.BASE_URL || '/ezpaarse',
 
   additionalPages: mwPages,
 
@@ -185,6 +185,15 @@ module.exports = {
   plugins: [
     '@vuepress/plugin-back-to-top',
     '@vuepress/plugin-medium-zoom',
-    require.resolve('./components/SearchBox'),
+    [
+      "vuepress-plugin-meilisearch",
+      {
+        hostUrl: '',
+        apiKey: '',
+        indexUid: 'ezpaarse',
+        placeholder: 'Search ...',
+        maxSuggestions: 10
+      }
+    ]
   ]
 }
