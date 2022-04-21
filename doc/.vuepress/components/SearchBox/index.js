@@ -6,6 +6,6 @@ module.exports = (options, ctx) => ({
     $page.content = _content;
   },
   alias: {
-    '@SearchBox': path.resolve(__dirname, 'SearchBox.vue')
+    // '@SearchBox': path.resolve(__dirname, 'SearchBox.vue')
   }
 });

@@ -60,10 +60,10 @@ module.exports = {
     [
       "vuepress-plugin-meilisearch",
       {
-        hostUrl: 'http://localhost:7700',
-        apiKey: 'doc.ezpaarse.org',
+        hostUrl: '',
+        apiKey: '',
         indexUid: 'ezpaarse',
-        placeholder: 'Search',
+        placeholder: 'Search ...',
         maxSuggestions: 10
       }
     ]
