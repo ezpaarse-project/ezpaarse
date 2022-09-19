@@ -102,6 +102,7 @@ start().then(() => {
  */
 async function start () {
   logger.info(`${pkg.name} v${pkg.version} | PID: ${process.pid} | Mode: ${app.get('env')}`);
+  logger.info(`Node version: ${process.version}`);
 
   await connectToMongo();
 
