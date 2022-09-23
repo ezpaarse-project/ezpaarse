@@ -3,20 +3,11 @@
 # ezPAARSE start stop restart status script
 #
 
-# search ezpaarse root path
-[ -z "$EZPAARSE_PATH" ] && EZPAARSE_PATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
+# Move to the script directory
+cd "$(dirname "${BASH_SOURCE[0]}")/.."
 
 # load ezpaarse env
-. $EZPAARSE_PATH/bin/env
-
-[ -z "$EZPAARSE_APPFILE" ] && EZPAARSE_APPFILE="$EZPAARSE_PATH/server.js"
-[ -z "$EZPAARSE_PIDFILE" ] && EZPAARSE_PIDFILE="$EZPAARSE_PATH/ezpaarse.pid"
-[ -z "$EZPAARSE_PORT" ] && EZPAARSE_PORT=$($EZPAARSE_PATH/bin/readconfig --key EZPAARSE_NODEJS_PORT)
-[ -z "$EZPAARSE_NAME" ] && EZPAARSE_NAME=$($EZPAARSE_PATH/bin/readconfig --key name)
-[ -z "$EZPAARSE_ENV" ] && EZPAARSE_ENV=$($EZPAARSE_PATH/bin/readconfig --key EZPAARSE_ENV)
-[ -z "$EZPAARSE_DEBUG_LEVEL" ] && EZPAARSE_DEBUG_LEVEL="*"
-[ -z "$EZPAARSE_LOGDIR" ] && EZPAARSE_LOGDIR="$EZPAARSE_PATH/logs"
-[ -z "$FOREVER_CMD" ] && FOREVER_CMD="forever"
+source ./bin/env
 
 DAEMON=true
 for i in "$@"; do
@@ -25,144 +16,42 @@ for i in "$@"; do
   fi
 done
 
-ezpaarse_start() {
-  if [ "$EZPAARSE_ENV" == "development" ]; then
-    # NODE_ENV used to control the expressjs development or production flag
-    NODE_ENV=${NODE_ENV:="$EZPAARSE_ENV"}
-    # DEBUG used to activate verbose and colored logs on stdout
-    DEBUG=${DEBUG:="$EZPAARSE_DEBUG_LEVEL"}
-    # run server.js forground to help developer
-    NODE_ENV="$NODE_ENV" DEBUG="$DEBUG" node $EZPAARSE_APPFILE --pidFile $EZPAARSE_PIDFILE &
-  else
-    if [ $DAEMON == false ]; then
-      $FOREVER_CMD --workingDir $EZPAARSE_PATH -p $EZPAARSE_PATH -a -l $EZPAARSE_LOGDIR/forever.log \
-                       -o $EZPAARSE_LOGDIR/out.log \
-                       -e $EZPAARSE_LOGDIR/err.log \
-                       --pidFile $EZPAARSE_PIDFILE \
-                       --minUptime=10000 \
-                       --spinSleepTime=60000 \
-                       $EZPAARSE_APPFILE
-    else
-      $FOREVER_CMD start --workingDir $EZPAARSE_PATH -p $EZPAARSE_PATH -a -l $EZPAARSE_LOGDIR/forever.log \
-                       -o $EZPAARSE_LOGDIR/out.log \
-                       -e $EZPAARSE_LOGDIR/err.log \
-                       --pidFile $EZPAARSE_PIDFILE \
-                       --minUptime=10000 \
-                       --spinSleepTime=60000 \
-                       $EZPAARSE_APPFILE 1>/dev/null
-    fi
-
-  fi
-}
-
-ezpaarse_stop() {
-  if [ "$EZPAARSE_ENV" == "development" ]; then
-    kill `cat $EZPAARSE_PIDFILE`
-  else
-    $FOREVER_CMD stopall -p $EZPAARSE_PATH 1>/dev/null
-  fi
-}
-
-ezpaarse_restart() {
-  ezpaarse_stop
-  ezpaarse_start
-}
-
-ezpaarse_status() {
-  echo `$FOREVER_CMD list | grep $EZPAARSE_PATH | wc -l`
-}
-
 case $1 in
 
   start)
-    if [[ `ezpaarse_status` -gt 0 ]]; then
-      echo "$EZPAARSE_NAME is already running, listening on http://localhost:$EZPAARSE_PORT/"
-      exit 0
+    if [ $DAEMON == false ]; then
+      npm run pm2:kill-daemon && npm start
     else
-      $EZPAARSE_PATH/bin/checkconfig -p &> /dev/null
-      if [[ $? -eq 0 ]]; then
-        ezpaarse_start
-
-        for i in 1 2 3 4 5 6 7 8 9 10 11 12 13 14; do
-          if [ -f $EZPAARSE_PIDFILE ]; then
-            break
-          fi
-          sleep 1
-        done
-
-        if [[ `ezpaarse_status` -gt 0 ]]; then
-          echo "$EZPAARSE_NAME started, listening on http://localhost:$EZPAARSE_PORT/"
-          exit 0
-        else
-          echo "$EZPAARSE_NAME cannot be started."
-          exit 1
-        fi
-      else
-        echo "The port $EZPAARSE_PORT is already used, $EZPAARSE_NAME cannot be started"
-        exit 1
-      fi
+      npm run pm2:startd
     fi
+  ;;
+
+  dev)
+    npm run pm2:dev
   ;;
 
   stop)
-    if [[ `ezpaarse_status` -eq 0 ]]; then
-      echo "$EZPAARSE_NAME is already stopped."
-      exit 0
-    else
-      EZPAARSE_PID=`cat $EZPAARSE_PIDFILE`
-      ezpaarse_stop
-
-      for i in 1 2 3 4 5 6 7 8 9 10 11 12 13 14; do
-        if [[ `ezpaarse_status` -eq 0 ]]; then
-          echo "$EZPAARSE_NAME is stopped."
-          rm -f $EZPAARSE_PIDFILE 2>/dev/null
-          exit 0
-        fi
-        sleep 1
-      done
-
-      echo "$EZPAARSE_NAME cannot be stopped."
-      exit 1
-    fi
+    npm run pm2:stop
   ;;
 
   restart | reload | force-reload)
-    if [[ `ezpaarse_status` -eq 0 ]]; then
-      PID=0
-      ezpaarse_start
-    else
-      PID=`cat $EZPAARSE_PIDFILE`
-      ezpaarse_restart
-    fi
-
-    for i in 1 2 3 4 5 6 7 8 9 10 11 12 13 14; do
-      if [[ -f $EZPAARSE_PIDFILE && "$PID" != "`cat $EZPAARSE_PIDFILE`" ]]; then
-        break
-      fi
-      sleep 1
-    done
-
-    if [[ `ezpaarse_status` -eq 0 ]]; then
-      echo "$EZPAARSE_NAME cannot be restarted."
-      exit 1
-    else
-      echo "$EZPAARSE_NAME has been restarted, listening on http://localhost:$EZPAARSE_PORT/"
-      exit 0
-    fi
+    npm run pm2:restart
   ;;
 
   status)
-    if [[ `ezpaarse_status` -eq 0 ]]; then
-      echo "$EZPAARSE_NAME is not running."
-      exit 1
-    else
-      echo "$EZPAARSE_NAME is running, listening on http://localhost:$EZPAARSE_PORT/"
-      exit 0
-    fi
+    npm run pm2:status
+  ;;
+
+  logs)
+    npm run pm2:logs
+  ;;
+
+  monitor)
+    npm run pm2:monitor
   ;;
 
   *)
-    echo "Usage: $0 {start|stop|restart|status}"
+    echo "Usage: $0 {start|stop|restart|status|dev|logs|monitor}"
     exit 1
   ;;
 

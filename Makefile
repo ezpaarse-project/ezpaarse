@@ -14,16 +14,28 @@ checkconfig: ## Check node configuration
 	@. ./bin/env; if which node > /dev/null; then ./bin/checkconfig; else echo "Node.js was not found" >&2; fi
 
 start: ## Start ezPAARSE in deamon mode
-	@NODE_ENV=production ./bin/ezpaarse start
+	@./bin/ezpaarse start
 
-stop: ## Stop ezPAARSE started in deamon mode
+start-fg: ## Start ezPAARSE in foreground
+	@./bin/ezpaarse start --no-daemon
+
+dev: ## Start ezPAARSE in developpement mode
+	@./bin/ezpaarse dev
+
+stop: ## Stop ezPAARSE
 	@./bin/ezpaarse stop
 
-restart: ## Restart ezPAARSE started in deamon mode
+restart: ## Restart ezPAARSE
 	@./bin/ezpaarse restart
 
-status: ## Get status of ezPAARSE deamon
+status: ## Get the status of ezPAARSE
 	@./bin/ezpaarse status
+
+logs: ## Show the logs of ezPAARSE
+	@./bin/ezpaarse logs
+
+monitor: ## Monitor ezPAARSE
+	@./bin/ezpaarse monitor
 
 # Docker section
 # # # # # # # # #
@@ -161,4 +173,4 @@ pull-latest: ## Stop the daemon, update to bleeding edge and rebuild
 update: pull
 update-latest: pull-latest
 
-.PHONY: help test checkconfig nodejs platforms-update middlewares-update exclusions-update resources-update version tag update pull start restart status stop
+.PHONY: help test checkconfig nodejs platforms-update middlewares-update exclusions-update resources-update version tag update pull start start-fg logs restart dev status stop
