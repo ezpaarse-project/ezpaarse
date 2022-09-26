@@ -20,7 +20,7 @@ case $1 in
 
   start)
     if [ $DAEMON == false ]; then
-      npm run pm2:kill-daemon && npm start
+      npm start
     else
       npm run pm2:startd
     fi
