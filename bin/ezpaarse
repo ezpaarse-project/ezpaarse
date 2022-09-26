@@ -3,7 +3,7 @@
 # ezPAARSE start stop restart status script
 #
 
-# Move to the script directory
+# Move to the root directory of ezPAARSE
 cd "$(dirname "${BASH_SOURCE[0]:-$0}")/.."
 
 # load ezpaarse env
