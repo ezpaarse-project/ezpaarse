@@ -94,18 +94,6 @@ Force-Parser: 'dspace'
 
 Can be used in conjonction with [Force-ECField-Publisher](#force-ecfield-publisher).
 
-### COUNTER-Reports
-List of COUNTER reports to create (ex: JR1, BR2). Download links are accessible in the `stats` section of the treatment report. [(More information)](../features/counter.html)
-
-### COUNTER-Format
-COUNTER report formats: `XML` (by default) ou `CSV`.
-
-### COUNTER-Customer
-Name and/or email of the customer to include in the COUNTER reports, following the form `name`, `<email>` or `name<email>`. (By default :`ezPAARSE<admin email>`)
-
-### COUNTER-Vendor
-Name and/or email of the publisher  to include in the COUNTER reports, following the form `name`, `<email>` or `name<email>`. (By default :`platform42`, without email)
-
 ### Geoip
 Listing of the geolocation informations to be added to the results. By default `geoip-longitude, geoip-latitude, geoip-country`. `all` can be used to include every fiel available, or `none` to deactivate geolocation altogether. [(More information)](../features/geolocalisation.html)
 

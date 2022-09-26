@@ -201,14 +201,6 @@
                   </v-flex>
 
                   <v-flex xs12>
-                    <v-checkbox
-                      v-model="counterReports"
-                      value="jr1"
-                      :label="$t('ui.pages.process.settings.counterReports')"
-                    />
-                  </v-flex>
-
-                  <v-flex xs12>
                     <h4>{{ $t('ui.pages.process.settings.outputFields') }} :</h4>
                   </v-flex>
                   <v-flex xs6>
@@ -295,12 +287,6 @@
                       </template>
                     </v-autocomplete>
                   </v-flex>
-
-                  <v-flex
-                    xs12
-                    mt-3
-                    v-text="$t('ui.pages.process.settings.counterReportDetail')"
-                  />
                 </v-layout>
               </v-card-text>
             </v-card>
@@ -474,10 +460,6 @@ export default {
       get () { return this.settings.notificationMails; },
       set (value) { this.$store.dispatch('settings/SET_FIELD', { name: 'notificationMails', value }); }
     },
-    counterReports: {
-      get () { return this.settings.counterReports; },
-      set (value) { this.$store.dispatch('settings/SET_FIELD', { name: 'counterReports', value }); }
-    },
     addedFields: {
       get () { return this.settings.addedFields; },
       set (value) { this.$store.dispatch('settings/SET_FIELD', { name: 'addedFields', value }); }
@@ -561,12 +543,6 @@ export default {
         { divider: true },
         { header: 'Extraction' },
         { name: 'Extract', anchor: 'extract' },
-        { divider: true },
-        { header: 'COUNTER' },
-        { name: 'COUNTER-Reports', anchor: 'counter-reports' },
-        { name: 'COUNTER-Format', anchor: 'counter-format' },
-        { name: 'COUNTER-Customer', anchor: 'counter-customer' },
-        { name: 'COUNTER-Vendor', anchor: 'counter-vendor' },
         { divider: true },
         { header: this.$t('ui.pages.process.settings.headers.deduplication') },
         { name: 'Double-Click-Removal', anchor: 'double-click-xxx' },

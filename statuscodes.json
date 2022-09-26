@@ -15,8 +15,6 @@
   "4014": "Log lines are not chronologically ordered",
   "4015": "Requested charset for request is not supported",
   "4016": "Requested charset for response is not supported",
-  "4017": "Requested counter file format not supported",
-  "4018": "Requested counter report not implemented",
   "4019": "Geoip: bad field",
   "4020": "Header-Fields: bad value",
   "4021": "Unsupported notification type",

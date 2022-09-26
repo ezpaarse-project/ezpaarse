@@ -21,17 +21,6 @@
       <p>No alert generated.</p>
     <% } %>
 
-    <h3>COUNTER Reports :</h3>
-    <% if (job.counterReports.length) { %>
-    <ul>
-      <% job.counterReports.forEach(function (reportType) { %>
-        <li><a href="<%= job.headers['Job-Report-' + reportType] %>" style="text-decoration: none;"><%= reportType %></a></li>
-      <% }) %>
-    </ul>
-    <% } else { %>
-      <p>No report generated.</p>
-    <% } %>
-
     <h3>Reject files :</h3>
     <% if (job.rejects.length) { %>
     <ul>

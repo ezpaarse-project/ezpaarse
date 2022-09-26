@@ -77,7 +77,7 @@ module.exports = {
     ['meta', { name: 'apple-mobile-web-app-capable', content: 'yes' }],
     ['meta', { name: 'apple-mobile-web-app-status-bar-style', content: 'black' }]
   ],
- 
+
   base: process.env.BASE_URL || '/',
 
   additionalPages: mwPages,
@@ -133,7 +133,6 @@ module.exports = {
           'features/outputfields.md',
           'features/metadata-enrichment.md',
           'features/exclusions.md',
-          'features/counter.md',
           'features/alerts.md',
           'features/geolocalisation.md',
           'features/doubleclick.md',

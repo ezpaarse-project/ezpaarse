@@ -1,4 +1,0 @@
-150.150.150.150 - THEODORE_MCCLURE [25/Oct/2013:22:14:45 +0100] "GET http://www.nature.com:80/nature/journal/v477/n7364/pdf/nature10398.pdf HTTP/1.1" 200 41653
-180.180.180.180 - GRAPEFRUIT [25/Oct/2013:22:24:45 +0100] "GET http://www.nature.com:80/ng/journal/v45/n11/full/ng.2759.html HTTP/1.1" 200 1211509
-150.150.150.150 - THEODORE_MCCLURE [05/Nov/2013:00:25:24 +0100] "GET http://www.nature.com:80/nature/journal/v477/n7364/pdf/nature10398.pdf HTTP/1.1" 200 41653
-180.180.180.180 - GRAPEFRUIT [05/Nov/2013:00:35:45 +0100] "GET http://www.nature.com:80/ng/journal/v45/n11/full/ng.2759.html HTTP/1.1" 200 121509

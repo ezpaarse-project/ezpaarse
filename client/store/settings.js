@@ -14,7 +14,6 @@ const defaultSettings = {
   forceParser: '',
   outputFormat: 'text/csv',
   tracesLevel: 'info',
-  counterReports: [],
   notificationMails: [],
   addedFields: [],
   removedFields: [],
@@ -97,7 +96,6 @@ function parseSettings (predefined) {
     delete headers['crypted-fields'];
   }
 
-
   if (headers['filter-platforms']) {
     const filterPlatforms = headers['filter-platforms'].value;
 
@@ -106,11 +104,6 @@ function parseSettings (predefined) {
     }
 
     delete headers['filter-platforms'];
-  }
-
-  if (headers['counter-reports']) {
-    settings.counterReports = headers['counter-reports'].value.split(',').map(r => r.trim());
-    delete headers['counter-reports'];
   }
 
   if (headers['ezpaarse-job-notifications']) {
@@ -159,12 +152,6 @@ function getHeaders (settings) {
 
   if (settings.logType && settings.logFormat) {
     headers[`Log-Format-${settings.logType}`] = settings.logFormat;
-  }
-
-  // Create COUNTER reports header
-  if (Array.isArray(settings.counterReports) && settings.counterReports.length > 0) {
-    headers['COUNTER-Reports'] = settings.counterReports.join(',');
-    headers['COUNTER-Format'] = 'tsv';
   }
 
   // Create notification header
