@@ -177,7 +177,7 @@ async function connectToMongo () {
  */
 function shutdown() {
   logger.info('Got a stop signal, shutting down...');
-  process.exit(1);
+  process.exit(0);
 }
 process.on('SIGTERM', shutdown);
 process.on('SIGINT', shutdown);
