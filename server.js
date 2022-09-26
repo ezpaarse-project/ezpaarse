@@ -94,6 +94,9 @@ if (argv.memory) {
 }
 
 start().then(() => {
+  if (typeof process.send === 'function') {
+    process.send('ready');
+  }
   logger.info(`Listening on http://localhost:${app.get('port')}`);
 });
 
