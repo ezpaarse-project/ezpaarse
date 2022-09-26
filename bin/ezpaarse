@@ -4,7 +4,7 @@
 #
 
 # Move to the script directory
-cd "$(dirname "${BASH_SOURCE[0]}")/.."
+cd "$(dirname "${BASH_SOURCE[0]:-$0}")/.."
 
 # load ezpaarse env
 source ./bin/env
