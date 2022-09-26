@@ -17,7 +17,7 @@ exclusions/
 middlewares/
 
 tmp/
-ezpaarse.pid
+ezpaarse*.pid
 sessions
 config.local.json
 domains.miss.csv
