@@ -107,7 +107,7 @@
     "docs:build": "vuepress build doc",
     "docs:dev": "vuepress dev doc",
 
-    "pm2:start": "pm2 start pm2.config.js --no-daemon",
+    "start": "pm2-runtime pm2.config.js",
     "pm2:startd": "pm2 start pm2.config.js",
     "pm2:dev": "pm2-runtime pm2.config.js --env development",
     "pm2:stop": "pm2 stop pm2.config.js",
