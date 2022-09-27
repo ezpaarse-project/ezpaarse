@@ -19,7 +19,7 @@
 
 STATUS=0
 
-cd "$( dirname "${BASH_SOURCE[0]}" )/.."
+cd "$( dirname "${BASH_SOURCE[0]:-$0}" )/.."
 
 if ( set -o noclobber; echo "$$" > update.lock) 2> /dev/null ; then
   trap 'rm -f update.lock; exit $STATUS' INT TERM EXIT

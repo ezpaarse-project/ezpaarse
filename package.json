@@ -58,6 +58,7 @@
     "passport": "^0.6.0",
     "passport-http": "~0.3.0",
     "passport-local": "~1.0.0",
+    "pm2": "^5.2.0",
     "portscanner": "^2.2.0",
     "pretty-bytes": "^6.0.0",
     "request": "^2.88.2",
@@ -101,11 +102,21 @@
     "insertversion:makefile": "sed -i \"s#\\(ezpaarseproject/ezpaarse:\\)\\([\\.a-z0-9]\\+\\)#\\1${npm_package_version}#g\" Makefile",
     "version": "npm run insertversion:docker && npm run insertversion:makefile && git add docker-compose.yml Makefile",
     "lint": "eslint --ext .js,.vue lib/ test/ routes/ middlewares/ client/",
-    "dev": "NODE_ENV=development nodemon -e js server.js",
-    "start": "node server.js",
+
     "build": "nuxt build --no-generate",
     "docs:build": "vuepress build doc",
-    "docs:dev": "vuepress dev doc"
+    "docs:dev": "vuepress dev doc",
+
+    "start": "pm2-runtime pm2.config.js",
+    "pm2:startd": "pm2 start pm2.config.js",
+    "pm2:dev": "pm2-runtime pm2.config.js --env development",
+    "pm2:stop": "pm2 stop pm2.config.js",
+    "pm2:delete": "pm2 delete pm2.config.js",
+    "pm2:restart": "pm2 restart pm2.config.js",
+    "pm2:status": "pm2 list",
+    "pm2:logs": "pm2 logs ezpaarse",
+    "pm2:monitor": "pm2 monit pm2.config.js",
+    "pm2:kill-daemon": "pm2 kill"
   },
   "nodemonConfig": {
     "watch": [
