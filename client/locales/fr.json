@@ -29,7 +29,7 @@
     },
     "ezmesure": {
       "loadIntoEzmesure": "Charger dans ezMESURE",
-      "toPreprod": "Envoyer sur l'instance de préproduction",
+      "repository": "Dépôt",
       "indice": "Index de dépôt",
       "token": "Token d'authentification",
       "load": "Charger",

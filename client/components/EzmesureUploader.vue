@@ -7,7 +7,7 @@
   >
     <v-form ref="saveForm" v-model="isValid" @submit.prevent="uploadToEzMesure">
       <v-card>
-        <v-card-title class="title primary white--text">
+        <v-card-title class="title">
           <span v-if="result" v-text="$t('ui.ezmesure.fileLoaded')" />
           <span v-else v-text="$t('ui.ezmesure.loadIntoEzmesure')" />
         </v-card-title>
@@ -46,19 +46,17 @@
               <span v-else v-text="$t('ui.errors.error')" />
             </v-alert>
 
-            <v-switch
-              v-model="preprod"
-              :label="$t('ui.ezmesure.toPreprod')"
+            <v-select
+              v-model="ezmesureUrl"
+              :items="ezmesureInstances"
+              :label="$t('ui.ezmesure.repository')"
               :disabled="uploading"
-            />
-            <v-text-field
-              v-model="indice"
-              prepend-inner-icon="mdi-database"
-              :label="$t('ui.ezmesure.indice')"
-              :disabled="uploading"
+              prepend-inner-icon="mdi-folder-arrow-up-outline"
+              item-text="name"
+              item-value="url"
               outlined
-              required
             />
+
             <v-text-field
               v-model="token"
               prepend-inner-icon="mdi-lock"
@@ -69,6 +67,15 @@
               required
               :append-icon="showToken ? 'mdi-eye' : 'mdi-eye-off'"
               @click:append="showToken = !showToken"
+            />
+
+            <v-text-field
+              v-model="indice"
+              prepend-inner-icon="mdi-database"
+              :label="$t('ui.ezmesure.indice')"
+              :disabled="uploading"
+              outlined
+              required
             />
 
             <div
@@ -138,7 +145,7 @@ export default {
         this.$refs.saveForm.resetValidation();
         this.indice = '';
         this.token = '';
-        this.preprod = false;
+        this.ezmesureUrl = this.ezmesureInstances[0]?.url;
         this.result = null;
         this.error = null;
         this.errorMessage = null;
@@ -146,22 +153,28 @@ export default {
     }
   },
   data () {
+    const ezmesureInstances = [
+      { name: 'ezMESURE', url: 'https://ezmesure.couperin.org' },
+      { name: 'ezMESURE - Préproduction', url: 'https://ezmesure-preprod.couperin.org' }
+    ];
+
     return {
       uploading: false,
       isValid: true,
-      preprod: false,
       showToken: false,
       indice: '',
       token: '',
       result: null,
       error: null,
-      errorMessage: null
+      errorMessage: null,
+      ezmesureInstances,
+      ezmesureUrl: ezmesureInstances[0]?.url
     };
   },
 
   computed: {
     tokenUrl () {
-      return `https://${this.preprod ? 'ezmesure-preprod' : 'ezmesure'}.couperin.org/myspace#tab-token`;
+      return `${this.ezmesureUrl}/token`;
     },
     errors () {
       if (this.result && Array.isArray(this.result.errors)) {
@@ -219,7 +232,7 @@ export default {
             indice: this.indice,
             options: {
               token: this.token,
-              baseUrl: this.preprod ? 'https://ezmesure-preprod.couperin.org/api' : undefined
+              baseUrl: this.ezmesureUrl
             }
           }
         });
