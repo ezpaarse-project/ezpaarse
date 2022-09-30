@@ -78,5 +78,9 @@
   "EZPAARSE_ALERTS": {
     "activationThreshold": 1000,
     "unknownDomainsRate": 10
-  }
+  },
+  "EZMESURE_INSTANCES": [
+    { "name": "ezMESURE", "url": "https://ezmesure.couperin.org" },
+    { "name": "ezMESURE - Préproduction", "url": "https://ezmesure-preprod.couperin.org" }
+  ]
 }

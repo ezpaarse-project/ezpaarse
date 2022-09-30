@@ -5,9 +5,17 @@ const path       = require('path');
 const bodyParser = require('body-parser');
 const fs         = require('fs-extra');
 const ezmesure   = require('@ezpaarse-project/ezmesure');
+const config     = require('../lib/config.js');
 
 const { Router } = require('express');
 const app = Router();
+
+const ezmesureInstances = config.EZMESURE_INSTANCES;
+
+app.get('/instances.json', (req, res) => {
+  res.status(200);
+  res.json(ezmesureInstances);
+});
 
 app.post('/:jobId', bodyParser.json(), (req, res, next) => {
   const { indice, options } = req.body;
