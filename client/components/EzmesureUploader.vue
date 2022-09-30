@@ -51,10 +51,13 @@
               :items="ezmesureInstances"
               :label="$t('ui.ezmesure.repository')"
               :disabled="uploading"
+              :loading="loadingEzmesureInstances"
               prepend-inner-icon="mdi-folder-arrow-up-outline"
               item-text="name"
               item-value="url"
+              :rules="[v => !!v || $t('ui.fieldRequired')]"
               outlined
+              required
             />
 
             <v-text-field
@@ -63,6 +66,7 @@
               :label="$t('ui.ezmesure.token')"
               :disabled="uploading"
               :type="showToken ? 'text' : 'password'"
+              :rules="[v => !!v || $t('ui.fieldRequired')]"
               outlined
               required
               :append-icon="showToken ? 'mdi-eye' : 'mdi-eye-off'"
@@ -74,6 +78,7 @@
               prepend-inner-icon="mdi-database"
               :label="$t('ui.ezmesure.indice')"
               :disabled="uploading"
+              :rules="[v => !!v || $t('ui.fieldRequired')]"
               outlined
               required
             />
@@ -140,7 +145,7 @@ export default {
     Metric
   },
   watch: {
-    visible () {
+    visible (newVal) {
       if (this.$refs.saveForm) {
         this.$refs.saveForm.resetValidation();
         this.indice = '';
@@ -150,14 +155,13 @@ export default {
         this.error = null;
         this.errorMessage = null;
       }
+
+      if (newVal && this.ezmesureInstances.length === 0) {
+        this.getEzmesureInstances();
+      }
     }
   },
   data () {
-    const ezmesureInstances = [
-      { name: 'ezMESURE', url: 'https://ezmesure.couperin.org' },
-      { name: 'ezMESURE - Préproduction', url: 'https://ezmesure-preprod.couperin.org' }
-    ];
-
     return {
       uploading: false,
       isValid: true,
@@ -167,14 +171,15 @@ export default {
       result: null,
       error: null,
       errorMessage: null,
-      ezmesureInstances,
-      ezmesureUrl: ezmesureInstances[0]?.url
+      ezmesureInstances: [],
+      ezmesureUrl: null,
+      loadingEzmesureInstances: false
     };
   },
 
   computed: {
     tokenUrl () {
-      return `${this.ezmesureUrl}/token`;
+      return this.ezmesureUrl && `${this.ezmesureUrl}/token`;
     },
     errors () {
       if (this.result && Array.isArray(this.result.errors)) {
@@ -219,7 +224,21 @@ export default {
     validateForm () {
       this.$refs.saveForm.validate();
     },
+    async getEzmesureInstances () {
+      this.loadingEzmesureInstances = true;
+
+      try {
+        const { data } = await this.$axios.get('/api/ezmesure/instances.json');
+        this.ezmesureInstances = Array.isArray(data) ? data : [];
+        this.ezmesureUrl = this.ezmesureInstances[0]?.url;
+      } catch (e) {
+        this.$store.dispatch('snacks/error', 'ui.ezmesure.failedToLoadInstances');
+      }
+
+      this.loadingEzmesureInstances = false;
+    },
     async uploadToEzMesure () {
+      if (!this.ezmesureUrl) { return; }
       this.uploading = true;
       this.error = null;
       this.errorMessage = null;

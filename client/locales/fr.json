@@ -36,6 +36,7 @@
       "fileLoaded": "Chargement terminé",
       "errorsFound": "Des erreurs ont été rencontrées",
       "findYourToken": "Retrouvez votre token d'authentification dans votre <a href=\"{url}\" target=\"_blank\">espace ezMESURE</a>.",
+      "failedToLoadInstances": "Impossible de charger la liste des instances ezMESURE",
       "metrics": {
         "inserted": "Insérés",
         "updated": "Mis à jour",
