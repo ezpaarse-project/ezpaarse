@@ -66,19 +66,25 @@
               :label="$t('ui.ezmesure.token')"
               :disabled="uploading"
               :type="showToken ? 'text' : 'password'"
-              :rules="[v => !!v || $t('ui.fieldRequired')]"
+              :rules="[
+                v => !!v || $t('ui.fieldRequired'),
+                v => isValidJwt(v) || $t('ui.ezmesure.invalidJwtToken'),
+              ]"
               outlined
               required
               :append-icon="showToken ? 'mdi-eye' : 'mdi-eye-off'"
               @click:append="showToken = !showToken"
+              @change="getAvailableIndices"
             />
 
-            <v-text-field
+            <v-combobox
               v-model="indice"
-              prepend-inner-icon="mdi-database"
+              :items="availableIndices"
               :label="$t('ui.ezmesure.indice')"
               :disabled="uploading"
+              :loading="loadingAvailableIndices"
               :rules="[v => !!v || $t('ui.fieldRequired')]"
+              prepend-inner-icon="mdi-database"
               outlined
               required
             />
@@ -173,7 +179,9 @@ export default {
       errorMessage: null,
       ezmesureInstances: [],
       ezmesureUrl: null,
-      loadingEzmesureInstances: false
+      availableIndices: [],
+      loadingEzmesureInstances: false,
+      loadingAvailableIndices: false
     };
   },
 
@@ -236,6 +244,29 @@ export default {
       }
 
       this.loadingEzmesureInstances = false;
+    },
+    isValidJwt (str) {
+      return /^[\w_=-]*\.[\w_=-]*\.[\w_=-]*$/.test(str);
+    },
+    async getAvailableIndices () {
+      if (!this.ezmesureUrl) { return; }
+      if (!this.isValidJwt(this.token)) { return; }
+
+      this.loadingAvailableIndices = true;
+
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      try {
+        const { data } = await this.$axios.get(`${this.ezmesureUrl}/api/logs`, {
+          headers: { Authorization: `Bearer ${this.token}` }
+        });
+
+        this.availableIndices = data?.indices ? Object.keys(data.indices) : [];
+      } catch (e) {
+        this.$store.dispatch('snacks/error', 'ui.ezmesure.failedToLoadAvailableIndices');
+      }
+
+      this.loadingAvailableIndices = false;
     },
     async uploadToEzMesure () {
       if (!this.ezmesureUrl) { return; }

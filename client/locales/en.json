@@ -37,6 +37,8 @@
       "errorsFound": "Errors have been encountered",
       "findYourToken": "Retrieve your authentication token in your <a href=\"{url}\" target=\"_blank\">ezMESURE space</a>.",
       "failedToLoadInstances": "Failed to load the list of ezMESURE instances",
+      "failedToLoadAvailableIndices": "Failed to load the list of available indices",
+      "invalidJwtToken": "The token is not valid",
       "metrics": {
         "inserted": "Inserted",
         "updated": "Updated",
