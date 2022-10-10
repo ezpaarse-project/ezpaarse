@@ -80,7 +80,15 @@
     "unknownDomainsRate": 10
   },
   "EZMESURE_INSTANCES": [
-    { "name": "ezMESURE", "url": "https://ezmesure.couperin.org" },
-    { "name": "ezMESURE - Préproduction", "url": "https://ezmesure-preprod.couperin.org" }
+    {
+      "id": "prod",
+      "label": "ezMESURE",
+      "baseUrl": "https://ezmesure.couperin.org"
+    },
+    {
+      "id": "integ",
+      "label": "ezMESURE - Préproduction",
+      "baseUrl": "https://ezmesure-preprod.couperin.org"
+    }
   ]
 }

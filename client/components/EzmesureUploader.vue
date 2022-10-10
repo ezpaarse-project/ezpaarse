@@ -47,14 +47,14 @@
             </v-alert>
 
             <v-select
-              v-model="ezmesureUrl"
+              v-model="ezmesureInstance"
               :items="ezmesureInstances"
               :label="$t('ui.ezmesure.repository')"
               :disabled="uploading"
               :loading="loadingEzmesureInstances"
               prepend-inner-icon="mdi-folder-arrow-up-outline"
-              item-text="name"
-              item-value="url"
+              item-text="label"
+              return-object
               :rules="[v => !!v || $t('ui.fieldRequired')]"
               outlined
               required
@@ -157,7 +157,7 @@ export default {
         this.$refs.saveForm.resetValidation();
         this.indice = '';
         this.token = '';
-        this.ezmesureUrl = this.ezmesureInstances[0]?.url;
+        [this.ezmesureInstance] = this.ezmesureInstances;
         this.result = null;
         this.error = null;
         this.errorMessage = null;
@@ -179,7 +179,7 @@ export default {
       error: null,
       errorMessage: null,
       ezmesureInstances: [],
-      ezmesureUrl: null,
+      ezmesureInstance: null,
       availableIndices: [],
       loadingEzmesureInstances: false,
       loadingAvailableIndices: false
@@ -187,6 +187,9 @@ export default {
   },
 
   computed: {
+    ezmesureUrl () {
+      return this?.ezmesureInstance?.baseUrl;
+    },
     tokenUrl () {
       return this.ezmesureUrl && `${this.ezmesureUrl}/token`;
     },
@@ -239,7 +242,7 @@ export default {
       try {
         const { data } = await this.$axios.get('/api/ezmesure/instances.json');
         this.ezmesureInstances = Array.isArray(data) ? data : [];
-        this.ezmesureUrl = this.ezmesureInstances[0]?.url;
+        [this.ezmesureInstance] = this.ezmesureInstances;
       } catch (e) {
         this.$store.dispatch('snacks/error', 'ui.ezmesure.failedToLoadInstances');
       }
@@ -281,9 +284,9 @@ export default {
           jobId: this.jobId,
           data: {
             indice: this.indice,
+            instanceId: this?.ezmesureInstance?.id,
             options: {
-              token: this.token,
-              baseUrl: this.ezmesureUrl
+              token: this.token
             }
           }
         });

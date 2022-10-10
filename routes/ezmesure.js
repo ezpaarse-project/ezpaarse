@@ -18,7 +18,7 @@ app.get('/instances.json', (req, res) => {
 });
 
 app.post('/:jobId', bodyParser.json(), (req, res, next) => {
-  const { indice, options } = req.body;
+  const { indice, instanceId, options } = req.body;
   const jobId = req.params.jobId;
   const jobDir = path.resolve(__dirname, '../tmp/jobs/', jobId.charAt(0), jobId.charAt(1), jobId);
 
@@ -26,8 +26,18 @@ app.post('/:jobId', bodyParser.json(), (req, res, next) => {
     return next(Boom.badRequest('missing mandatory field: indice'));
   }
 
+  if (!instanceId) {
+    return next(Boom.badRequest('missing mandatory field: instanceId'));
+  }
+
   if (!options || !options.token) {
     return next(Boom.badRequest('missing mandatory field: options.token'));
+  }
+
+  const ezmesureInstance = ezmesureInstances.find((ezm) => ezm?.id === instanceId);
+
+  if (!ezmesureInstance) {
+    return next(Boom.badRequest(`ezMESURE instance with id ${instanceId} does not exist`));
   }
 
   fs.readdir(jobDir, function (err, files) {
@@ -48,7 +58,13 @@ app.post('/:jobId', bodyParser.json(), (req, res, next) => {
 
     const stream = fs.createReadStream(path.resolve(jobDir, filename));
 
-    ezmesure.indices.insert(stream, indice, options).then((result) => {
+    const ezmOptions = {
+      ...ezmesureInstance.options,
+      baseUrl: `${ezmesureInstance.baseUrl}/api`,
+      token: options.token,
+    };
+
+    ezmesure.indices.insert(stream, indice, ezmOptions).then((result) => {
       res.status(200);
       res.json(result);
     }).catch(next);
