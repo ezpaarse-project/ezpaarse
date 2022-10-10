@@ -58,6 +58,7 @@
               :rules="[v => !!v || $t('ui.fieldRequired')]"
               outlined
               required
+              @change="getAvailableIndices"
             />
 
             <v-text-field
