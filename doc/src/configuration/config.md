@@ -136,6 +136,8 @@ The default value is set to `1`
 ```
 
 ### EZMESURE_INSTANCES
+[`v3.8.0` and above]
+
 The list of ezMESURE instances that can be used for uploading ezPAARSE results. Each instance should have an arbitrary `id`, a `label` and a `baseUrl`. An optional `options` object can be provided, which can be used to add `headers` and `query parameters` when uploading files, or disable certificates verification by setting `strictSSL` to `false`.
 
 Example:
