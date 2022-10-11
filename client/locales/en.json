@@ -83,6 +83,7 @@
         "filesSelection": "Files selection",
         "finalization": "Finalization...",
         "finished": "Finished",
+        "canceled": "Cancelled",
         "hasLoggingErrors": "The following traces may help to understand the origin of the problem :",
         "settings": {
           "title": "Settings",

@@ -83,6 +83,7 @@
         "filesSelection": "Sélection des fichiers",
         "finalization": "Finalisation...",
         "finished": "Terminé",
+        "canceled": "Annulé",
         "hasLoggingErrors": "Les traces suivantes peuvent aider à comprendre l'origine du problème :",
         "settings": {
           "title": "Paramètres",

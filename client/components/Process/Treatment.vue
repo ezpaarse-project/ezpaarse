@@ -19,6 +19,11 @@
             <span v-if="error" v-text="error" />
             <span v-else v-text="$t('ui.errors.error')" />
           </p>
+          <p
+            v-else-if="status === 'abort'"
+            class="error--text"
+            v-text="$t('ui.pages.process.canceled')"
+          />
           <p v-else>
             {{ progress }} %
           </p>
@@ -74,9 +79,6 @@ export default {
     progress () {
       return this.$store.state.process.progress;
     },
-    cancelSource () {
-      return this.$store.state.process.cancelSource;
-    },
     logFiles () {
       return this.$store.state.process.logFiles;
     },
@@ -92,6 +94,7 @@ export default {
     progressColor () {
       if (this.status === 'end') { return 'success'; }
       if (this.status === 'error') { return 'error'; }
+      if (this.status === 'abort') { return 'error'; }
       return 'accent';
     }
   },

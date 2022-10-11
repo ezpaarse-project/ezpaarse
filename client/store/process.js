@@ -1,6 +1,5 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import Vue from 'vue';
-import { CancelToken } from 'axios';
 import { v1 as uuidv1 } from 'uuid';
 import get from 'lodash.get';
 import api from './api';
@@ -13,7 +12,7 @@ export default {
     progress: 0,
     logLines: '',
     logFiles: [],
-    cancelSource: null,
+    abortController: null,
     jobId: null,
     status: null,
     report: null,
@@ -23,7 +22,7 @@ export default {
   }),
   getters: {
     cancelable (state) {
-      return state.cancelSource !== null;
+      return state.abortController !== null;
     }
   },
   mutations: {
@@ -49,8 +48,8 @@ export default {
     CLEAR_LOG_FILES (state) {
       Vue.set(state, 'logFiles', []);
     },
-    SET_CANCEL_SOURCE (state, data) {
-      Vue.set(state, 'cancelSource', data);
+    SET_ABORT_CONTROLLER (state, data) {
+      Vue.set(state, 'abortController', data);
     },
     SET_STATUS (state, data) {
       Vue.set(state, 'status', data);
@@ -71,12 +70,12 @@ export default {
   actions: {
     async PROCESS ({ commit, rootState, dispatch }, formData) {
       const headers = await dispatch('settings/GET_HEADERS', null, { root: true });
-      const source = CancelToken.source();
+      const abortController = new AbortController();
       const jobID = uuidv1();
 
       commit('SET_PROCESS_STEP', 3);
       commit('SET_ERROR', null);
-      commit('SET_CANCEL_SOURCE', source);
+      commit('SET_ABORT_CONTROLLER', abortController);
       commit('SET_PROGRESS', 0);
       commit('SET_JOB_ID', jobID);
       commit('SET_STATUS', 'progress');
@@ -90,7 +89,7 @@ export default {
           url: `/${jobID}`,
           method: 'PUT',
           data: formData,
-          cancelToken: source.token,
+          signal: abortController.signal,
           headers: {
             ...headers,
             'Socket-ID': rootState.socket.socketid,
@@ -121,20 +120,22 @@ export default {
           commit('SET_STATUS', 'error');
         }
       } catch (e) {
-        commit('SET_STATUS', 'error');
-        commit('SET_ERROR', get(e, 'response.data.message'));
+        if (e?.code !== 'ERR_CANCELED') {
+          commit('SET_STATUS', 'error');
+          commit('SET_ERROR', get(e, 'response.data.message'));
+        }
       } finally {
         commit('SET_PROGRESS', 100);
-        commit('SET_CANCEL_SOURCE', null);
+        commit('SET_ABORT_CONTROLLER', null);
       }
     },
     UPLOAD_TO_EZMESURE (ctx, { jobId, data }) {
       return api.uploadToEzMesure(jobId, data);
     },
     CANCEL_PROCESS ({ commit, state }) {
-      if (state.cancelSource) {
-        state.cancelSource.cancel('Query canceled');
-        commit('SET_CANCEL_SOURCE', null);
+      if (state.abortController) {
+        state.abortController.abort();
+        commit('SET_ABORT_CONTROLLER', null);
       }
       commit('SET_STATUS', 'abort');
     },
