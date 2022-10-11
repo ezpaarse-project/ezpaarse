@@ -135,6 +135,28 @@ The default value is set to `1`
   }
 ```
 
+### EZMESURE_INSTANCES
+The list of ezMESURE instances that can be used for uploading ezPAARSE results. Each instance should have an arbitrary `id`, a `label` and a `baseUrl`. An optional `options` object can be provided, which can be used to add `headers` and `query parameters` when uploading files, or disable certificates verification by setting `strictSSL` to `false`.
+
+Example:
+
+```json
+[
+  { "id": "prod", "label": "ezMESURE", "baseUrl": "https://ezmesure.couperin.org" },
+  { "id": "integ", "label": "ezMESURE - Préproduction", "baseUrl": "https://ezmesure-preprod.couperin.org" },
+  {
+    "id": "dev",
+    "label": "ezMESURE - Local developpement instance",
+    "baseUrl": "https://localhost",
+    "options": {
+      "headers": { "Split-Fields": "ezproxy-groups(+)" },
+      "qs": { "store": false },
+      "strictSSL": false
+    }
+  }
+]
+```
+
 ### EZPAARSE_TMP_CYCLE
 Determines how long ezPAARSE results remain accessible for downloading.
 The default value is set to `60min`
