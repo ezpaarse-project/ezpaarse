@@ -1,6 +1,6 @@
 # Configuration options
 
-ezPAARSE comes with a `config.json` file (located at the root of the /ezpaarse directory) where some the configuration options for your instance can be set or modified.
+ezPAARSE comes with a `config.json` file (located at the root of the application directory) that contains the default configuration. You can override it by creating a `config.local.json` file with your own settings. Beware that **modifying the `config.json` file may prevent ezPAARSE from updating correctly.**  
 
 ### EZPAARSE_APP_NAME
 ezPAARSE display name. As of now, this is only used in email subjects.
@@ -9,7 +9,7 @@ ezPAARSE display name. As of now, this is only used in email subjects.
 The default value is set to `ezpaarse@couperin.org`
 
 ### EZPAARSE_HOSTNAME
-Domain name of the ezPAARSE instance, this parameter is optional, it should be added in the `config.local.json` file.
+Domain name of the ezPAARSE instance.
 
 ### EZPAARSE_PARENT_URL
 To avoid the setup of a local SMTP server, you can delegate the management of user feedback (via the online form) to another ezPAARSE instance (called a "parent" instance).
