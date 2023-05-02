@@ -282,7 +282,8 @@
           "softLocalChanges": "It seems that local changes have been applied to the source code of this instance. Future updates might fail.",
           "contactDeploymentService": "In case of problems, we invite you to contact the person in charge of the installation.",
           "upwardStable": "The current version of the software has got changes that are more recent than the latest stable release. Click the button above if you wish to get back to the latest stable release.",
-          "restartAlert": "Be careful, ezPAARSE is doing treatments, restarting the application during the treatments will cancel them."
+          "restartAlert": "Be careful, ezPAARSE is doing treatments, restarting the application during the treatments will cancel them.",
+          "force": "Force restart"
         },
         "users": {
           "title": "Users",

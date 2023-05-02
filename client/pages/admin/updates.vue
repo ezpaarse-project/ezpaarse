@@ -201,10 +201,10 @@
     <v-card-actions>
       <v-spacer />
       <v-btn color="red white--text" @click.stop="setRestartDialogVisible(true)">
-        {{ $t('ui.pages.admin.restart.button') }}
-        <v-icon color="white">
+        <v-icon left color="white">
           mdi-restart
         </v-icon>
+        {{ $t('ui.pages.admin.restart.button') }}
       </v-btn>
     </v-card-actions>
 

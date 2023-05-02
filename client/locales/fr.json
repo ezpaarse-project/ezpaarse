@@ -281,7 +281,8 @@
           "softLocalChanges": "Des modifications locales semblent avoir été apportées au code source du logiciel. Il est possible que les prochaines mises à jour échouent.",
           "contactDeploymentService": "En cas de problème, nous vous invitons à contacter le service en charge du déploiement.",
           "upwardStable": "La version actuelle du logiciel présente des changements ultérieurs à la dernière version stable. Cliquez sur le bouton ci-dessus si vous souhaitez revenir à la dernière version stable.",
-          "restartAlert": "Attention, ezPAARSE est en train de faire des traitements, redémarrer l'application pendant les traitements les annulera."
+          "restartAlert": "Attention, ezPAARSE est en train de faire des traitements, redémarrer l'application pendant les traitements les annulera.",
+          "force": "Forcer le redémarrage"
         },
         "users": {
           "title": "Utilisateurs",

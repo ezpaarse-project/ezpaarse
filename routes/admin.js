@@ -6,7 +6,6 @@ const Boom       = require('boom');
 const bodyParser = require('body-parser');
 const { execFile, spawn }   = require('child_process');
 const geoip      = require('geoip-lite');
-const pm2 = require('pm2');
 const parserlist = require('../lib/parserlist.js');
 const config     = require('../lib/config.js');
 const userlist   = require('../lib/userlist.js');
@@ -15,6 +14,8 @@ const auth       = require('../lib/auth-middlewares.js');
 const ezJobs     = require('../lib/jobs.js');
 const io         = require('../lib/socketio.js').io;
 const password = require('../lib/password');
+const restart = require('../lib/restart');
+
 
 const emailRegexp = /^[a-z0-9!#$%&'*+/=?^_`{|}~.-]+@[a-z0-9-]+(\.[a-z0-9-]+)*$/i;
 
@@ -37,24 +38,15 @@ app.get('/jobs', auth.ensureAuthenticated(true), auth.authorizeMembersOf('admin'
 app.post('/restart', auth.ensureAuthenticated(true), auth.authorizeMembersOf('admin'),
   function (req, res, next) {
     const jobs = Object.keys(ezJobs);
-    if (jobs.length > 0) {
-      return res.status(409).end();
-    }
-    const dockerEnv = process.env.DOCKER_ENV;
-    if (dockerEnv) {
-      process.exit(0);
-    }
-    pm2.connect((err) => {
-      if (err) {
-        return next(err);
+    if (!req?.query?.force) {
+      if (jobs.length > 0) {
+        return res.status(409).end();
       }
-      pm2.restart('ezpaarse', (err) => {
-        if (err) {
-          return next(err);
-        }
-        res.status(204).end();
-      });
+    }
+    res.on('finish', () => {
+      restart();
     });
+    res.status(200).end();
   });
 
 /**

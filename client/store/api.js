@@ -11,7 +11,7 @@ api.setInstance = (instance) => {
 
 api.register = (data) => axios.post('/api/admin/register', data).then(res => res.data);
 
-api.restart = (data) => axios.post('/api/admin/restart', data).then(res => res.data);
+api.restart = (force) => axios.post(`/api/admin/restart?force=${force}`).then(res => res.data);
 
 api.sendFeedback = (data) => axios.post('/api/feedback', data).then(res => res.data);
 
