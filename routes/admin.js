@@ -14,6 +14,8 @@ const auth       = require('../lib/auth-middlewares.js');
 const ezJobs     = require('../lib/jobs.js');
 const io         = require('../lib/socketio.js').io;
 const password = require('../lib/password');
+const restart = require('../lib/restart');
+
 
 const emailRegexp = /^[a-z0-9!#$%&'*+/=?^_`{|}~.-]+@[a-z0-9-]+(\.[a-z0-9-]+)*$/i;
 
@@ -31,6 +33,21 @@ app.get('/jobs', auth.ensureAuthenticated(true), auth.authorizeMembersOf('admin'
     if (socket) { socket.join('admin'); }
 
     res.status(200).json(Object.keys(ezJobs));
+  });
+
+app.post('/restart', auth.ensureAuthenticated(true), auth.authorizeMembersOf('admin'),
+  function (req, res, next) {
+    const jobs = Object.keys(ezJobs);
+    const force = /^true$/i.test(req?.query?.force);
+    if (!force) {
+      if (jobs.length > 0) {
+        return res.status(409).end();
+      }
+    }
+    res.on('finish', () => {
+      restart();
+    });
+    res.status(200).end();
   });
 
 /**

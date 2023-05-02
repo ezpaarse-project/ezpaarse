@@ -16,7 +16,7 @@
         v-text="$t('ui.pages.admin.updates.repoLocalChanges', { repo: 'resources' })"
       />
 
-      <v-layout align-center :column="this.$vuetify.breakpoint.smAndDown">
+      <v-layout align-center :column="$vuetify.breakpoint.smAndDown">
         <div class="subheading">
           {{ $t('ui.currentVersion') }} :
 
@@ -64,7 +64,7 @@
         v-text="$t('ui.pages.admin.updates.repoLocalChanges', { repo: 'middlewares' })"
       />
 
-      <v-layout align-center :column="this.$vuetify.breakpoint.smAndDown">
+      <v-layout align-center :column="$vuetify.breakpoint.smAndDown">
         <div class="subheading">
           {{ $t('ui.currentVersion') }} :
 
@@ -122,7 +122,7 @@
         <div v-text="$t('ui.pages.admin.updates.contactDeploymentService')" />
       </v-alert>
 
-      <v-layout align-center :column="this.$vuetify.breakpoint.smAndDown">
+      <v-layout align-center :column="$vuetify.breakpoint.smAndDown">
         <div class="subheading">
           {{ $t('ui.currentVersion') }} :
 
@@ -198,6 +198,20 @@
 
       <Logs v-if="updateLogs" :logs="fullUpdateLogs" max-height="500" />
     </v-card-text>
+    <v-card-actions>
+      <v-spacer />
+      <v-btn color="red white--text" @click.stop="setRestartDialogVisible(true)">
+        <v-icon left color="white">
+          mdi-restart
+        </v-icon>
+        {{ $t('ui.pages.admin.restart.button') }}
+      </v-btn>
+    </v-card-actions>
+
+    <RestartDialog
+      v-model="restartDialogVisible"
+      @closed="setRestartDialogVisible(false)"
+    />
 
     <v-dialog v-model="refreshDialog" max-width="400px">
       <v-card>
@@ -225,15 +239,18 @@
 
 <script>
 import Logs from '~/components/Logs.vue';
+import RestartDialog from '~/components/Admin/RestartDialog.vue';
 
 export default {
   auth: true,
   middleware: ['admin'],
   components: {
-    Logs
+    Logs,
+    RestartDialog
   },
   data () {
     return {
+      restartDialogVisible: false,
       updateLogs: '',
       refreshDialog: false,
       inUpdate: {
@@ -329,6 +346,9 @@ export default {
 
       this.refreshDialog = true;
       this.inUpdate.ezpaarse = false;
+    },
+    setRestartDialogVisible (value) {
+      this.restartDialogVisible = value;
     }
   }
 };

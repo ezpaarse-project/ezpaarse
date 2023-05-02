@@ -280,7 +280,9 @@
           "middlewaresLocalChanges": "Des modifications locales semblent avoir été apportées au répertoire {middlewares}. Il est possible que les prochaines mises à jour échouent.",
           "softLocalChanges": "Des modifications locales semblent avoir été apportées au code source du logiciel. Il est possible que les prochaines mises à jour échouent.",
           "contactDeploymentService": "En cas de problème, nous vous invitons à contacter le service en charge du déploiement.",
-          "upwardStable": "La version actuelle du logiciel présente des changements ultérieurs à la dernière version stable. Cliquez sur le bouton ci-dessus si vous souhaitez revenir à la dernière version stable."
+          "upwardStable": "La version actuelle du logiciel présente des changements ultérieurs à la dernière version stable. Cliquez sur le bouton ci-dessus si vous souhaitez revenir à la dernière version stable.",
+          "restartAlert": "Attention, ezPAARSE est en train de faire des traitements, redémarrer l'application pendant les traitements les annulera.",
+          "force": "Forcer le redémarrage"
         },
         "users": {
           "title": "Utilisateurs",
@@ -322,6 +324,11 @@
         },
         "report": {
           "title": "Rapport"
+        },
+        "restart": {
+          "button": "Redémarrer",
+          "title": "Redémarrer ezPAARSE",
+          "message": "Êtes-vous sûr de vouloir redémarrer ezPAARSE ? "
         }
       },
       "feedback": {
@@ -390,7 +397,8 @@
       "error": "Une ou plusieurs erreurs se sont produites.",
       "userNotFound": "Aucun compte ne correspond à cette adresse email.",
       "cannotLoadJobsData": "Une erreur est survenue pendant le chargement des données des traitements",
-      "reportDoesNotExist": "Le rapport sélectionné n'existe plus"
+      "reportDoesNotExist": "Le rapport sélectionné n'existe plus",
+      "cannotRestart": "Impossible de redémarrer ezPAARSE."
     },
     "theme": {
       "dark": "Thème sombre",
@@ -431,6 +439,8 @@
     "informTeamWarning": "Vous venez d'installer ezPAARSE et vous vous apprétez à créer le compte administrateur. Avec votre accord, nous souhaiterions être informés de cette installation. L'adresse e-mail entrée ci-dessus et la version d'ezPAARSE installée seront envoyées à <strong>{recipients}</strong>.",
     "informTeam": "Informer l'équipe",
     "loading": "Chargement en cours...",
-    "ezPAARSEOffline": "ezPAARSE ne répond pas. Ce message disparaîtra automatiquement lorsque la connexion sera de nouveau établie."
+    "ezPAARSEOffline": "ezPAARSE ne répond pas. Ce message disparaîtra automatiquement lorsque la connexion sera de nouveau établie.",
+    "yes": "Oui",
+    "no": "Non"
   }
 }
