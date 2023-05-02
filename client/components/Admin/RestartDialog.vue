@@ -67,7 +67,6 @@ export default {
   },
   computed: {
     hasJob () {
-      return true;
       return this.jobStatus !== null;
     },
     jobStatus () {
