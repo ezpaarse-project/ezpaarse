@@ -67,10 +67,7 @@ export default {
   },
   computed: {
     hasJob () {
-      return this.jobStatus !== null;
-    },
-    jobStatus () {
-      return this.$store.state.process.status;
+      return this.$store.state.process.status !== null;
     }
   }
 };
