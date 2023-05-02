@@ -11,6 +11,8 @@ api.setInstance = (instance) => {
 
 api.register = (data) => axios.post('/api/admin/register', data).then(res => res.data);
 
+api.restart = (data) => axios.post('/api/admin/restart', data).then(res => res.data);
+
 api.sendFeedback = (data) => axios.post('/api/feedback', data).then(res => res.data);
 
 api.feedbackStatus = () => axios.get('/api/feedback/status').then(res => res.data);

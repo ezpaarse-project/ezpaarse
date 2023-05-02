@@ -6,6 +6,7 @@ const Boom       = require('boom');
 const bodyParser = require('body-parser');
 const { execFile, spawn }   = require('child_process');
 const geoip      = require('geoip-lite');
+const pm2 = require('pm2');
 const parserlist = require('../lib/parserlist.js');
 const config     = require('../lib/config.js');
 const userlist   = require('../lib/userlist.js');
@@ -31,6 +32,29 @@ app.get('/jobs', auth.ensureAuthenticated(true), auth.authorizeMembersOf('admin'
     if (socket) { socket.join('admin'); }
 
     res.status(200).json(Object.keys(ezJobs));
+  });
+
+app.post('/restart', auth.ensureAuthenticated(true), auth.authorizeMembersOf('admin'),
+  function (req, res, next) {
+    const jobs = Object.keys(ezJobs);
+    if (jobs.length > 0) {
+      return res.status(409).end();
+    }
+    const dockerEnv = process.env.DOCKER_ENV;
+    if (dockerEnv) {
+      process.exit(0);
+    }
+    pm2.connect((err) => {
+      if (err) {
+        return next(err);
+      }
+      pm2.restart('ezpaarse', (err) => {
+        if (err) {
+          return next(err);
+        }
+        res.status(204).end();
+      });
+    });
   });
 
 /**

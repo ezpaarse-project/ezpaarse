@@ -43,6 +43,9 @@ export default {
     REGISTER (ctx, credentials) {
       return api.register(credentials);
     },
+    RESTART () {
+      return api.restart();
+    },
     SEND_FEEDBACK (ctx, data) {
       return api.sendFeedback(data);
     },
