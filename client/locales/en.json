@@ -398,7 +398,8 @@
       "error": "One or more errors have occurred.",
       "userNotFound": "No account corresponds to this email address.",
       "cannotLoadJobsData": "An error occurred while loading the processing data",
-      "reportDoesNotExist": "The selected report does not exist anymore"
+      "reportDoesNotExist": "The selected report does not exist anymore",
+      "cannotRestart": "Cannot restart ezPAARSE."
     },
     "theme": {
       "dark": "Dark theme",

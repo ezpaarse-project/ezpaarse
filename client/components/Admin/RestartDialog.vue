@@ -7,7 +7,7 @@
       <v-card-text>
         <div class="mt-4" v-text="$t('ui.pages.admin.restart.message')" />
         <v-alert
-          :value="hasJob"
+          :value="hasJobs"
           type="info"
           class="mt-4"
         >
@@ -29,7 +29,7 @@
         <v-btn
           text
           :loading="loading"
-          :disabled="hasJob && !force"
+          :disabled="hasJobs && !force"
           color="primary"
           @click="restart()"
         >
@@ -53,7 +53,7 @@ export default {
     return {
       loading: false,
       force: false,
-      isInJob: false
+      hasJobs: false
     };
   },
   methods: {
@@ -61,13 +61,21 @@ export default {
       this.$emit('input', visible);
     },
     async restart () {
-      await this.$store.dispatch('RESTART', this.force);
+      this.loading = true;
+      try {
+        await this.$store.dispatch('RESTART', this.force);
+      } catch (err) {
+        if (err?.response?.status === 409) {
+          this.hasJobs = true;
+          this.loading = false;
+          return;
+        }
+        this.$store.dispatch('snacks/error', 'ui.errors.cannotRestart');
+        this.loading = false;
+        return;
+      }
+      this.loading = false;
       this.updateVisible(false);
-    }
-  },
-  computed: {
-    hasJob () {
-      return this.$store.state.process.status !== null;
     }
   }
 };

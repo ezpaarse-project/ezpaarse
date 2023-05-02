@@ -38,7 +38,8 @@ app.get('/jobs', auth.ensureAuthenticated(true), auth.authorizeMembersOf('admin'
 app.post('/restart', auth.ensureAuthenticated(true), auth.authorizeMembersOf('admin'),
   function (req, res, next) {
     const jobs = Object.keys(ezJobs);
-    if (!req?.query?.force) {
+    const force = /^true$/i.test(req?.query?.force);
+    if (!force) {
       if (jobs.length > 0) {
         return res.status(409).end();
       }

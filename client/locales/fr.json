@@ -397,7 +397,8 @@
       "error": "Une ou plusieurs erreurs se sont produites.",
       "userNotFound": "Aucun compte ne correspond à cette adresse email.",
       "cannotLoadJobsData": "Une erreur est survenue pendant le chargement des données des traitements",
-      "reportDoesNotExist": "Le rapport sélectionné n'existe plus"
+      "reportDoesNotExist": "Le rapport sélectionné n'existe plus",
+      "cannotRestart": "Impossible de redémarrer ezPAARSE."
     },
     "theme": {
       "dark": "Thème sombre",
