@@ -41,11 +41,11 @@ monitor: ## Monitor ezPAARSE
 # # # # # # # # #
 
 run-prod-docker: ## run ezpaarse in production mode using docker
-	@docker-compose -f ./docker-compose.yml up -d
+	@docker compose -f ./docker-compose.yml up -d
 	@echo "Listening on http://127.0.0.1:59599/"
 
 run-debug-docker: ## run ezpaarse in debug mode using docker
-	@docker-compose -f ./docker-compose.debug.yml up -d
+	@docker compose -f ./docker-compose.debug.yml up -d
 	@# attach to the ezpaarse container in order to be able to stop it easily with CTRL+C
 	@docker attach ezpaarse
 

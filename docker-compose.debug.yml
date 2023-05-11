@@ -20,11 +20,12 @@ services:
       - 59599:59599
     tty: true         # to have nice debug(...) outputs
     stdin_open: true  # to be able to use CTRL+C to stop the debug
-    command: npm run dev
+    entrypoint: ''
+    command: bash -c "npm run build && npm run pm2:dev"
 
   ezpaarse_db:
     container_name: ezpaarse_db
-    image: mongo:3.4.1
+    image: mongo:3.6
     command: --smallfiles
     ports:
       - 27017:27017
