@@ -1,6 +1,6 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import Vue from 'vue';
-import isEqual from 'lodash.isequal';
+import { isEqual } from 'lodash';
 import api from './api';
 
 const defaultSettings = {

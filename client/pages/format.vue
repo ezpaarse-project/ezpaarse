@@ -312,7 +312,7 @@
 </template>
 
 <script>
-import debounce from 'lodash.debounce';
+import { debounce } from 'lodash';
 import i18nIsoCode from 'i18n-iso-countries';
 import SettingsSaver from '~/components/SettingsSaver.vue';
 

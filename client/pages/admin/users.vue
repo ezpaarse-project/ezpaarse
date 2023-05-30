@@ -141,8 +141,7 @@
 </template>
 
 <script>
-import isEqual from 'lodash.isequal';
-import get from 'lodash.get';
+import { get, isEqual } from 'lodash';
 
 export default {
   auth: true,

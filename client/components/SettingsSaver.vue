@@ -74,7 +74,7 @@
 </template>
 
 <script>
-import get from 'lodash.get';
+import { get } from 'lodash';
 import i18nIsoCode from 'i18n-iso-countries';
 
 i18nIsoCode.registerLocale(require('i18n-iso-countries/langs/en.json'));
