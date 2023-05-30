@@ -55,6 +55,9 @@ build-docker: ## Build ezpaarseproject/ezpaarse:3.8.0 docker image locally
 test-docker: ## Run tests inside the ezpaarse container (needs make run-debug-docker in //)
 	@docker exec -it ezpaarse make test
 
+test-docker-verbose: ## Run tests in verbose inside the ezpaarse container (needs make run-debug-docker in //)
+	@docker exec -it ezpaarse make test-verbose
+
 # Tests section
 # # # # # # # # #
 
