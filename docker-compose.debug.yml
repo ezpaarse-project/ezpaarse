@@ -22,7 +22,7 @@ services:
     tty: true         # to have nice debug(...) outputs
     stdin_open: true  # to be able to use CTRL+C to stop the debug
     entrypoint: ''
-    command: bash -c "npm run build && npm run pm2:dev"
+    command: ./entrypoint.dev.sh
 
   ezpaarse_db:
     container_name: ezpaarse_db
