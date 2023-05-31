@@ -34,16 +34,28 @@ Then, you can either grab the 'docker-compose.yml' file alone and start the cont
 mkdir ezpaarse/
 wget https://raw.githubusercontent.com/ezpaarse-project/ezpaarse/master/docker-compose.yml
 test -f config.local.json || echo '{}' > config.local.json
+
+# compose v1
 docker-compose pull
 docker-compose up -d
+
+# compose v2
+docker compose pull
+docker compose up -d
 ```
 or simply start the containers from your local github cloned repository:
 ```bash
 git clone https://github.com/ezpaarse-project/ezpaarse.git
 cd ezpaarse
 test -f config.local.json || echo '{}' > config.local.json
+
+# compose v1
 docker-compose pull
 docker-compose up -d
+
+# compose v2
+docker compose pull
+docker compose up -d
 ```
 
 ### Uninstall ezPAARSE
