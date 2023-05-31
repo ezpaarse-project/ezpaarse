@@ -46,7 +46,7 @@ The tools you need to let ezPAARSE run are:
 * MongoDB >= 3.2
 
 ezPAARSE then comes with all the elements it needs to run.
-When the prerequesites are met, you can launch the **make** command (see below) that will **run all installation steps**.
+When the prerequesites are met, you can run the **make** command (see below) that will **run all installation steps**.
 
 ## Installation quickstart ##
 
