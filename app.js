@@ -74,8 +74,8 @@ app.set('port', config.EZPAARSE_NODEJS_PORT || 3000);
 app.use(function (req, res, next) {
   if (!res.locals.updating) { return next(); }
 
-  fs.exists(path.resolve(__dirname, 'update.lock'), function (exist) {
-    if (exist) {
+  fs.access(path.resolve(__dirname, 'update.lock'), function (err) {
+    if (!err) {
       return res.status(503).send('ezPAARSE is being updated, it should be back in a few minutes');
     }
     res.locals.updating = false;
