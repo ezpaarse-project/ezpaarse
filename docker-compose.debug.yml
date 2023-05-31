@@ -18,6 +18,7 @@ services:
       EZPAARSE_MONGO_URL: "mongodb://ezpaarse_db:27017/ezpaarse"
     ports:
       - 59599:59599
+      - 9229:9229
     tty: true         # to have nice debug(...) outputs
     stdin_open: true  # to be able to use CTRL+C to stop the debug
     entrypoint: ''
