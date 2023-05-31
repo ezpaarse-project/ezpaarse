@@ -3,8 +3,8 @@
 [![Build Status](https://secure.travis-ci.org/ezpaarse-project/ezpaarse.png?branch=master)](http://travis-ci.org/ezpaarse-project/ezpaarse)
 [![Dependencies Status](https://david-dm.org/ezpaarse-project/ezpaarse.png)](https://david-dm.org/ezpaarse-project/ezpaarse)
 [![bitHound Overall Score](https://www.bithound.io/github/ezpaarse-project/ezpaarse/badges/score.svg)](https://www.bithound.io/github/ezpaarse-project/ezpaarse)
-[![Docker stars](https://img.shields.io/docker/stars/ezpaarseproject/ezpaarse.svg)](https://registry.hub.docker.com/u/ezpaarseproject/ezpaarse/)
-[![Docker Pulls](https://img.shields.io/docker/pulls/ezpaarseproject/ezpaarse.svg)](https://registry.hub.docker.com/u/ezpaarseproject/ezpaarse/)
+[![Docker stars](https://img.shields.io/docker/stars/ezpaarseproject/ezpaarse.svg)](https://registry.hub.docker.com/r/ezpaarseproject/ezpaarse)
+[![Docker Pulls](https://img.shields.io/docker/pulls/ezpaarseproject/ezpaarse.svg)](https://registry.hub.docker.com/r/ezpaarseproject/ezpaarse)
 [![Ezpaarse tweeter](https://img.shields.io/twitter/follow/ezpaarse.svg?style=social&label=Follow)](https://twitter.com/ezpaarse)
 
 
@@ -141,11 +141,11 @@ For example, to change the ezPAARSE listening port (59599 by default), you can o
 
 ## Use with docker ##
 
-ezPAARSE is available as a [docker image](https://registry.hub.docker.com/u/ezpaarseproject/ezpaarse/).
+ezPAARSE is available as a [docker image](https://registry.hub.docker.com/r/ezpaarseproject/ezpaarse).
 
 You need:
 
-- [Docker](https://docs.docker.com/engine/installation/) (Version >= 1.12)
+- [Docker](https://docs.docker.com/engine/install/) (Version >= 1.12)
 - [Docker Compose](https://docs.docker.com/compose/install/) (Version >= 1.7)
 
 Then, you can run the dockerized ezpaarse this way:

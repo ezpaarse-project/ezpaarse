@@ -25,9 +25,9 @@ make
 
 ### Docker and Compose
 
-ezPAARSE is available as a [docker image](https://registry.hub.docker.com/u/ezpaarseproject/ezpaarse/).
+ezPAARSE is available as a [docker image](https://registry.hub.docker.com/r/ezpaarseproject/ezpaarse).
 
-To run it with docker, you will need to install [Docker](https://www.docker.com/) and [Docker-Compose](https://docs.docker.com/compose/install/).
+To run it with docker, you will need to install [Docker](https://docs.docker.com/engine/install/) and [Docker-Compose](https://docs.docker.com/compose/install/).
 
 Then, you can either grab the 'docker-compose.yml' file alone and start the containers:
 ```bash

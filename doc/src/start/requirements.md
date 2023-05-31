@@ -10,7 +10,7 @@ ezPAARSE can be installed on many Linux distributions, with the following prereq
 * **MongoDB** >= 3.2
 
 If using the docker version of ezpaarse you will only need:
-- [Docker](https://docs.docker.com/engine/installation/) (Version >= 1.12)
+- [Docker](https://docs.docker.com/engine/install/) (Version >= 1.12)
 - [Docker Compose](https://docs.docker.com/compose/install/) (Version >= 1.7)
 
 
