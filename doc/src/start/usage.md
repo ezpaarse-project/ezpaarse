@@ -6,12 +6,25 @@ ezPAARSE launches from the command line.
 
 Use the following commands from the installation directory to start and stop the server:
 
+### Without Docker
+
 ```bash
 make start   # start the server
 make stop    # stop the server
 make restart # restart the server
 make status  # check the server status
 ```
+
+### With Docker and Compose
+
+```bash
+docker compose up -d   # start the server
+docker compose stop    # stop the server
+docker compose restart # restart the server
+docker compose ps      # check the server status
+```
+
+**NB**: for docker-compose version 1, replace `docker compose` by `docker-compose`.
 
 ## Let's Parse !
 

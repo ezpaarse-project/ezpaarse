@@ -113,6 +113,7 @@ module.exports = {
           '/start/requirements.md',
           '/start/install.md',
           '/start/usage.md',
+          '/start/uninstall.md',
         ]
       },
       {
