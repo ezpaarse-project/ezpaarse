@@ -1,4 +1,4 @@
-FROM node:16.14.0-alpine3.15 as build
+FROM node:18.16.0-alpine3.17 as build
 
 RUN apk add git
 
