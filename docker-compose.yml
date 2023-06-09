@@ -33,5 +33,5 @@ services:
 
   ezpaarse_db:
     container_name: ezpaarse_db
-    image: mongo:3.6.0
+    image: mongo:3.6.23
     restart: unless-stopped

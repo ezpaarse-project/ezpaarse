@@ -5,7 +5,7 @@ services:
 
   ezpaarse:
     container_name: ezpaarse
-    image: node:14.17.6
+    image: node:18.16.0
     working_dir: /app
     volumes:
       - .:/app
@@ -18,13 +18,15 @@ services:
       EZPAARSE_MONGO_URL: "mongodb://ezpaarse_db:27017/ezpaarse"
     ports:
       - 59599:59599
+      - 9229:9229
     tty: true         # to have nice debug(...) outputs
     stdin_open: true  # to be able to use CTRL+C to stop the debug
-    command: npm run dev
+    entrypoint: ''
+    command: ./entrypoint.dev.sh
 
   ezpaarse_db:
     container_name: ezpaarse_db
-    image: mongo:3.4.1
+    image: mongo:3.6
     command: --smallfiles
     ports:
       - 27017:27017

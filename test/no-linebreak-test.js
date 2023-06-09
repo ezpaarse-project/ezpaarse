@@ -6,6 +6,12 @@ var helpers     = require('./helpers.js');
 
 describe('The server receives data with no line breaks', function () {
   it('and should stop the process (@01)', function (done) {
+    // Since Nuxt dev mode adds 15 second to this request (for whatever reason)
+    // we set the timeout accordingly
+    if (process.env.NODE_ENV !== 'production') {
+      // (15s * 1000ms) + base timeout
+      this.timeout((15 * 1000) + this.timeout());
+    }
 
     var stream      = new PassThrough();
     var gotResponse = false;

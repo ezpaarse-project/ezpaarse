@@ -1,7 +1,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import Vue from 'vue';
 import { v1 as uuidv1 } from 'uuid';
-import get from 'lodash.get';
+import { get } from 'lodash';
 import api from './api';
 
 let fileId = 1;

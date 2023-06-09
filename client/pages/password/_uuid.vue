@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import get from 'lodash.get';
+import { get } from 'lodash';
 
 export default {
   auth: false,

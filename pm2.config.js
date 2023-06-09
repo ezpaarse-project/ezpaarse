@@ -8,6 +8,7 @@ module.exports = {
   apps : [{
     name: 'ezpaarse',
     script: 'server.js',
+    node_args: isDev ? ['--inspect=0.0.0.0'] : undefined,
     exp_backoff_restart_delay: 100,
     kill_timeout: 5000,
     wait_ready: true,
