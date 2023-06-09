@@ -27,5 +27,5 @@ jobs:
         uses: docker/build-push-action@v4
         with:
           tags: ezpaarseproject/ezpaarse-doc:latest
-          context: ./doc
+          context: "{{defaultContext}}:doc"
           push: true
