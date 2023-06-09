@@ -120,7 +120,7 @@ function getVersion (directory) {
 
   return new Promise((resolve, reject) => {
     return execFile(gitScript, { cwd }, (error, stdout) => {
-      if (error || !stdout) return reject(error);
+      if (error || !stdout) { return reject(error); }
 
       return resolve(stdout);
     });

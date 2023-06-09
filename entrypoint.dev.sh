@@ -1,4 +1,6 @@
 #!/bin/sh
+# Only needed in Node16, in dev mode
+# Creating user and home for pm2 and volumes permissions
 
 # Creating user with the same id as the one owning volume
 useradd -u "${EZP_USERID:=1001}" ezpaarse
