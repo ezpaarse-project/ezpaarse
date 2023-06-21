@@ -49,8 +49,8 @@ run-debug-docker: ## run ezpaarse in debug mode using docker
 	@# attach to the ezpaarse container in order to be able to stop it easily with CTRL+C
 	@docker attach ezpaarse
 
-build-docker: ## Build ezpaarseproject/ezpaarse:3.8.0 docker image locally
-	@docker build -t ezpaarseproject/ezpaarse:3.8.0 --build-arg http_proxy --build-arg https_proxy .
+build-docker: ## Build ezpaarseproject/ezpaarse:3.9.0 docker image locally
+	@docker build -t ezpaarseproject/ezpaarse:3.9.0 --build-arg http_proxy --build-arg https_proxy .
 
 test-docker: ## Run tests inside the ezpaarse container (needs make run-debug-docker in //)
 	@docker exec -it ezpaarse make test
