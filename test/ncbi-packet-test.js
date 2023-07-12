@@ -17,7 +17,7 @@ describe('NCBI consultations', function () {
     // Setup headers to load information
     var headers = {
       'Accept': 'application/json',
-      'ncbi-enrichment': 'true',
+      'ezPAARSE-Middlewares': '(only) parser, ncbi-enrichment',
       'ncbi-buffer-size' : '5',
       'ncbi-packet-size' : '5',
       'ncbi-cache': 'false',
