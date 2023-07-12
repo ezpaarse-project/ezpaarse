@@ -35,7 +35,6 @@ describe('NCBI consultations', function () {
 
       // Get the output result
       var result = JSON.parse(body);
-      console.log(result);
 
       result.should.be.an.instanceOf(Array).and.have.lengthOf(10);
 
