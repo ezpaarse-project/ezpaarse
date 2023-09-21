@@ -129,6 +129,8 @@ async function start () {
 
   const server = http.createServer(app);
 
+  server.requestTimeout = 0;
+
   socketIO.listen(server);
 
   return new Promise(resolve => server.listen(app.get('port'), resolve));
