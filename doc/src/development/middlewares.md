@@ -70,7 +70,7 @@ Here is an example of a very simple middleware that counts the articles and put 
 
 ```javascript
 module.exports = function articleCounter() {
-  this.logger.verbose('Initializing article counter');
+  this.logger?.verbose('Initializing article counter');
 
   this.report.set('general', 'nb-articles', 0);
 
@@ -93,7 +93,7 @@ This middleware is a bit more advanced. It's activated by giving a field name in
 
 ```javascript
 module.exports = function mandatoryField() {
-  this.logger.verbose('Initializing mandatory field');
+  this.logger?.verbose('Initializing mandatory field');
 
   let mandatoryField = req.header('Mandatory-Field');
 
