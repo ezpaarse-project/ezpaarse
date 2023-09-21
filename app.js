@@ -180,7 +180,9 @@ app.use((err, req, res, next) => {
     error.output.payload.stack = error.stack;
   }
 
-  res.status(error.output.statusCode).set(error.output.headers).json(error.output.payload);
+  if (!res.headersSent) {
+    res.status(error.output.statusCode).set(error.output.headers).json(error.output.payload);
+  }
 });
 
 // Import and Set Nuxt.js options
