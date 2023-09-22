@@ -5,7 +5,7 @@ const Browser = require('zombie');
 const assert  = require('assert');
 const config  = require('../lib/config.js');
 
-const host = `http://localhost:${config.EZPAARSE_NODEJS_PORT || 59599}/`;
+const host = `http://127.0.0.1:${config.EZPAARSE_NODEJS_PORT || 59599}/`;
 
 describe('The browser', () => {
   const browser = new Browser({
