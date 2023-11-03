@@ -168,7 +168,8 @@ module.exports = {
         title: 'Troubleshooting',
         collapsable: false,
         children: [
-          '/troubleshooting/core-dumped.md'
+          '/troubleshooting/core-dumped.md',
+          '/troubleshooting/mongodb-connection.md'
         ]
       },
       {
