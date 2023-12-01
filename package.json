@@ -99,7 +99,7 @@
     "version": "npm run insertversion:docker && npm run insertversion:makefile && git add docker-compose.yml Makefile",
     "lint": "eslint --ext .js,.vue lib/ test/ routes/ middlewares/ client/",
     "build": "nuxt build --no-generate",
-    "postinstall": "npm run pm2:update && npm run pm2:delete",
+    "postinstall": "npm run pm2:delete && npm run pm2:update",
     "docs:build": "vuepress build doc",
     "docs:dev": "vuepress dev doc",
     "start": "pm2-runtime pm2.config.js",
