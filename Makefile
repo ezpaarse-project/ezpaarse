@@ -28,6 +28,12 @@ stop: ## Stop ezPAARSE
 restart: ## Restart ezPAARSE
 	@./bin/ezpaarse restart
 
+reload: ## Delete the daemonized ezPAARSE instance and starts a new one
+	@./bin/ezpaarse reload
+
+wipe: ## Delete the daemonized ezPAARSE instance and kill the PM2 daemon
+	@./bin/ezpaarse wipe
+
 status: ## Get the status of ezPAARSE
 	@./bin/ezpaarse status
 

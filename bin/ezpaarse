@@ -34,8 +34,16 @@ case $1 in
     npm run pm2:stop
   ;;
 
-  restart | reload | force-reload)
+  restart)
     npm run pm2:restart
+  ;;
+
+  reload | force-reload)
+    npm run pm2:delete && npm run pm2:startd
+  ;;
+
+  wipe)
+    npm run pm2:delete && npm run pm2:kill-daemon
   ;;
 
   status)
