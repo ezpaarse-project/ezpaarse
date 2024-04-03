@@ -61,7 +61,9 @@ if (config.EZPAARSE_TMP_CYCLE && config.EZPAARSE_TMP_LIFETIME) {
     threshold: config.EZPAARSE_TMP_LIFETIME,
     every: config.EZPAARSE_TMP_CYCLE
   }).watch(path.resolve(__dirname, 'tmp'))
-    .on('error', err => logger.error(err.message))
+    .on('error', err => {
+      logger.error(`[Temp. cleaner] ${err}`);
+    })
     .start();
 } else {
   let err = 'Temporary folder won\'t be automatically cleaned, ';
