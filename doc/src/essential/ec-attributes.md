@@ -169,16 +169,26 @@ const sortByCode = (a, b) => a.code > b.code ? 1 : -1
 export default {
   data () {
     return {
+      fetchError: null,
       rtypes: [],
       mimes: [],
       rids: [],
     }
   },
   async mounted () {
-    const { data } = await axios.get('https://raw.githubusercontent.com/ezpaarse-project/ezpaarse-platforms/master/fields.json');
-    this.rtypes = (data.rtype || []).sort(sortByCode);
-    this.mimes = (data.mime || []).sort(sortByCode);
-    this.rids = (data.rid || []).sort(sortByCode);
+    let response;
+    let data;
+
+    try {
+      response = await fetch('https://raw.githubusercontent.com/ezpaarse-project/ezpaarse-platforms/master/fields.json');
+      data = await response.json();
+    } catch (e) {
+      this.fetchError = e;
+    }
+    
+    this.rtypes = (data?.rtype || []).sort(sortByCode);
+    this.mimes = (data?.mime || []).sort(sortByCode);
+    this.rids = (data?.rid || []).sort(sortByCode);
   }
 }
 </script>
