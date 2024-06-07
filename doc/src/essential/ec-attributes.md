@@ -141,6 +141,10 @@ For more information, see all the [fields](../configuration/parametres.html#outp
 
 The identifier of a resource allows to characterize the access events associated with it. It can take the values defined in the table below (loaded from [the settings of ezPAARSE](https://github.com/ezpaarse-project/ezpaarse-platforms/blob/master/fields.json)). A resource can also be characterized by several identifiers at the same time (eg. a proprietary identifier and an ISBN).
 
+<div v-if="fetchError" class="custom-block danger">
+  <p>The field list could not be loaded</p>
+</div>
+
 <FieldsTable :rows="rids" />
 
 ### UnitId
@@ -153,17 +157,23 @@ This may be the `DOI` or a more complex identifier that will spot as precisely a
 
 The type of a resource allows to know the nature of a resource and characterize the associated access event. It can take one of the values defined in the table below (loaded from [settings of ezPAARSE](https://github.com/ezpaarse-project/ezpaarse-platforms/blob/master/fields.json)).
 
+<div v-if="fetchError" class="custom-block danger">
+  <p>The field list could not be loaded</p>
+</div>
+
 <FieldsTable :rows="rtypes" />
 
 ## Resources Formats (mime)
 
 The format of a resource allows to characterize the associated access event. It can take one of the values defined in the table below (loaded from the [settings of ezPAARSE](https://github.com/ezpaarse-project/ezpaarse-platforms/blob/master/fields.json)).
 
+<div v-if="fetchError" class="custom-block danger">
+  <p>The field list could not be loaded</p>
+</div>
+
 <FieldsTable :rows="mimes" />
 
 <script>
-import axios from 'axios';
-
 const sortByCode = (a, b) => a.code > b.code ? 1 : -1
 
 export default {
