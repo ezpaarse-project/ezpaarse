@@ -3,12 +3,18 @@
     <thead>
       <tr>
         <th>Code</th>
-        <th>Description</th>
+        <th>
+          Description
+          <select v-model="lang">
+            <option value="fr">Fr</option>
+            <option value="en">En</option>
+          </select>
+        </th>
       </tr>
     </thead>
 
     <tbody>
-      <tr v-for="row in rows">
+      <tr v-for="row in localizedRows">
         <td>
           {{ row.code }}
         </td>
@@ -29,6 +35,22 @@ export default {
     rows: {
       type: Array,
       default: () => []
+    }
+  },
+  data() {
+    return {
+      lang: 'en',
+    };
+  },
+  computed: {
+    localizedRows() {
+      return this.rows.map(row => {
+        return {
+          ...row,
+          description: this.lang === 'fr' ? row.description : row.description_en,
+          comment: this.lang === 'fr' ? row.comment : row.comment_en,
+        };
+      });
     }
   }
 }
