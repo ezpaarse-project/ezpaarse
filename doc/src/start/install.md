@@ -53,6 +53,9 @@ cd ezpaarse
 test -f config.local.json || echo '{}' > config.local.json
 ```
 
+> [!NOTE]  
+> If you install ezPAARSE with docker compose, there's no need to install mongodb in addition.
+
 ## MongoDB
 
 ezPAARSE needs a mongodb to work, it can store the admin account, PKBs cache and processing history.
@@ -60,7 +63,7 @@ by default,
 ezPAARSE tries to connect to a mongodb which is available on port 27017.
 
 > [!NOTE]  
-> ezPAARSE loads PKBs on mongodb. As of mongodb version 5, this feature is no longer available.
+> ezPAARSE loads PKBs on mongodb. As of mongodb version 6, this feature is no longer available.
 
 ### Official packages
 
