@@ -7,6 +7,7 @@ require('./lib/global.js');
 const config        = require('./lib/config.js');
 const socketIO      = require('./lib/socketio.js');
 const mongo         = require('./lib/mongo.js');
+const castor        = require('./lib/castor.js');
 const http          = require('http');
 const path          = require('path');
 const mkdirp        = require('mkdirp').mkdirp;
@@ -89,6 +90,8 @@ start().then(() => {
     process.send('ready');
   }
   logger.info(`Listening on http://localhost:${app.get('port')}`);
+
+  castor.start();
 });
 
 /**

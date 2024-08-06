@@ -2,6 +2,8 @@
   "ui": {
     "header": {
       "pkbsSynchronized": "PKBs Synchronized",
+      "pkbsSynchronizedDesc": "Publisher knowledge bases are synchronized.",
+      "pkbsSynchronizingDesc": "Publisher knowledge bases are synchronizing.",
       "pkbsRemaining": "{pkbs} PKBs remaining",
       "noCurrentProcessing": "No process loading",
       "currentProcessing": "Processing in progress : {percent} %",

@@ -164,7 +164,7 @@ app.use('/api/logs', require('./routes/logs'));
 app.use('/api/views', require('./routes/views'));
 app.use('/api/ezmesure', require('./routes/ezmesure'));
 app.use('/api/middlewares', require('./routes/middlewares'));
-app.use('/castor', require('./lib/castor'));
+app.use('/castor', require('./lib/castor').app);
 app.use('/', require('./routes/ws'));
 app.use('/', require('./routes/logs'));
 

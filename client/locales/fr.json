@@ -2,6 +2,8 @@
   "ui": {
     "header": {
       "pkbsSynchronized": "PKBs Synchronisées",
+      "pkbsSynchronizedDesc": "Les bases de connaissance éditeur sont synchronisées.",
+      "pkbsSynchronizingDesc": "Les bases de connaissance éditeur sont en cours de synchronisation.",
       "pkbsRemaining": "{pkbs} PKBs restantes",
       "noCurrentProcessing": "Aucun traitement en cours",
       "currentProcessing": "Traitement en cours : {percent} %",

@@ -21,8 +21,6 @@
     "axios": "^1.1.2",
     "body-parser": "^1.20.1",
     "boom": "^7.3.0",
-    "castor-load": "~4.6.1",
-    "castor-load-csv": "~2.1.2",
     "chalk": "^4.1.2",
     "cheerio": "^1.0.0-rc.12",
     "co": "~4.6.0",
