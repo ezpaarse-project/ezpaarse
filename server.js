@@ -13,15 +13,14 @@ const mkdirp        = require('mkdirp').mkdirp;
 const Reaper        = require('tmp-reaper');
 const parserlist    = require('./lib/parserlist.js');
 const ecFilter      = require('./lib/ecfilter.js');
-const winston       = require('winston');
-require('./lib/winston-socketio.js');
+const logger        = require('./lib/logger.js');
+
 const lsof          = require('lsof');
 const fs            = require('fs-extra');
 const pkg           = require('./package.json');
 const app           = require('./app');
 const jobsCache     = require('./lib/cache-jobs');
 
-winston.addColors({ verbose: 'green', info: 'green', warn: 'yellow', error: 'red' });
 
 // to have a nice unix process name
 process.title = pkg.name.toLowerCase();
@@ -41,16 +40,6 @@ const { argv } = require('yargs')
     describe: 'periodically prints the memory usage'
   });
 
-const { format } = winston;
-const logger = winston.createLogger({
-  level: 'info',
-  format: format.combine(
-    format.colorize(),
-    format.timestamp(),
-    format.printf(info => `${info.timestamp} ${info.level}: ${info.message}`)
-  ),
-  transports: [new (winston.transports.Console)()]
-});
 
 mkdirp.sync(path.resolve(__dirname, 'tmp'));
 
