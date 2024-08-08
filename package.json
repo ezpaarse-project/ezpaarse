@@ -21,7 +21,7 @@
     "axios": "^1.7.3",
     "body-parser": "^1.20.1",
     "boom": "^7.3.0",
-    "chalk": "^4.1.2",
+    "chalk": "^5.3.0",
     "cheerio": "^1.0.0-rc.12",
     "co": "~4.6.0",
     "co-busboy": "^2.0.0",
@@ -43,7 +43,7 @@
     "lines-skipper": "0.0.5",
     "lodash": "^4.17.21",
     "lsof": "0.1.0",
-    "mime": "^3.0.0",
+    "mime": "^4.0.4",
     "mkdirp": "^3.0.1",
     "moment": "^2.30.1",
     "mongodb": "^6.8.0",
@@ -68,7 +68,7 @@
     "vuedraggable": "^2.24.3",
     "vuetify": "^2.6.15",
     "vuex": "^3.6.2",
-    "winston": "^3.13.1",
+    "winston": "^3.14.0",
     "xlsjs": "^1.0.1",
     "xlsx": "^0.18.5",
     "xml-mapping": "~1.7.2",
@@ -76,19 +76,17 @@
     "yargs": "^17.6.0"
   },
   "devDependencies": {
-    "@vuepress/plugin-back-to-top": "^1.9.10",
     "babel-eslint": "^10.1.0",
     "cross-env": "^7.0.3",
-    "eslint": "^7.32.0",
-    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint": "^8.57.0",
+    "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.29.1",
-    "eslint-plugin-vue": "^7.18.0",
-    "husky": "^8.0.3",
+    "eslint-plugin-vue": "^8.7.1",
+    "husky": "^9.1.4",
     "mocha": "^10.7.0",
     "nodemon": "^3.1.4",
     "should": "*",
     "should-http": "*",
-    "vuepress": "^1.9.10",
     "zombie": "^6.1.4"
   },
   "scripts": {
@@ -111,7 +109,8 @@
     "pm2:status": "pm2 list",
     "pm2:logs": "pm2 logs ezpaarse",
     "pm2:monitor": "pm2 monit pm2.config.js",
-    "pm2:kill-daemon": "pm2 kill"
+    "pm2:kill-daemon": "pm2 kill",
+    "prepare": "husky"
   },
   "nodemonConfig": {
     "watch": [
@@ -125,10 +124,5 @@
       "tmp",
       "client"
     ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "./pre-commit"
-    }
   }
 }

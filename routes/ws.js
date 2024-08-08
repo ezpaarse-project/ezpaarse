@@ -3,10 +3,13 @@
 const fs = require('fs-extra');
 const uuid = require('uuid');
 const path = require('path');
-const mime = require('mime');
 const Boom = require('boom');
 const Job = require('../lib/job.js');
 const uuidRegExp = /^\/([a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})\/?$/;
+
+let mime;
+// mime>=4 does not support CommonJS
+import('mime').then(m => { mime = m.default; });
 
 const { Router } = require('express');
 const app = Router();
