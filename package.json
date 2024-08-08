@@ -59,7 +59,6 @@
     "request": "^2.88.2",
     "socket.io": "^4.7.5",
     "socket.io-client": "^4.7.5",
-    "stackware": "0.0.2",
     "tmp-reaper": "~0.0.5",
     "type-is": "~1.6.18",
     "useragent": "^2.3.0",
