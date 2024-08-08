@@ -17,7 +17,6 @@
     "@nuxtjs/auth": "^4.9.1",
     "@nuxtjs/axios": "^5.13.6",
     "@nuxtjs/i18n": "^7.3.1",
-    "async": "^3.2.5",
     "axios": "^1.7.3",
     "body-parser": "^1.20.1",
     "boom": "^7.3.0",
