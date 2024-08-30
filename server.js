@@ -10,7 +10,6 @@ const mongo         = require('./lib/mongo.js');
 const castor        = require('./lib/castor.js');
 const http          = require('http');
 const path          = require('path');
-const mkdirp        = require('mkdirp').mkdirp;
 const Reaper        = require('tmp-reaper');
 const parserlist    = require('./lib/parserlist.js');
 const ecFilter      = require('./lib/ecfilter.js');
@@ -42,7 +41,7 @@ const { argv } = require('yargs')
   });
 
 
-mkdirp.sync(path.resolve(__dirname, 'tmp'));
+fs.ensureDirSync(path.resolve(__dirname, 'tmp'));
 
 // Setup cleaning jobs for the temporary folder
 if (config.EZPAARSE_TMP_CYCLE && config.EZPAARSE_TMP_LIFETIME) {

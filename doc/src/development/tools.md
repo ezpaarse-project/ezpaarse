@@ -1,16 +1,5 @@
 # Ecosystem
 
-
-## platform-init
-This Command Line Interactive (CLI) utility creates the structure for a platform's parser. It asks a series of questions and generates the repository structure for the parser with a manifest.json file, a parser's skeleton and an empty test file. The command is interactive and doesn't take any parameter.
-
-Example:
-```bash
-cd ezpaarse/
-. ./bin/env
-platform-init
-```
-
 ## pkb-cleaner
 
 Detects and deletes duplicates in the knowledge bases.

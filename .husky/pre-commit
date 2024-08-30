@@ -1,0 +1,11 @@
+#!/bin/sh
+# Ensure all javascript files staged for commit pass standard code style
+
+JSFILES=`git diff --name-only --cached --diff-filter=ACM | grep '\.js$' | sed 's| |\\ |g'`
+
+if [ -n "$JSFILES" ]; then
+  echo "$JSFILES" | xargs ./node_modules/.bin/eslint
+  if [ $? -ne 0 ]; then exit 1; fi
+fi
+
+exit 0

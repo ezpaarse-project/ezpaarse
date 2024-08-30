@@ -15,7 +15,7 @@ module.exports = {
     // // allow debugger during development
     // 'no-debugger': process.env.NODE_ENV === 'production' ? 2 : 0,
     'comma-dangle': ['error', 'never'],
-    'no-param-reassign': ['error', { 'props': false }],
+    'no-param-reassign': ['error', { props: false }],
     'space-before-function-paren': ['error', 'always'],
     'no-warning-comments': 1,
     'prefer-const': 2,
@@ -33,16 +33,13 @@ module.exports = {
         Property: true
       }
     }],
-    'no-unused-vars': ['error', { 'args': 'after-used' }],
+    'no-unused-vars': ['error', { args: 'after-used' }],
     'dot-notation': 0,
     'import/no-unresolved': 0,
     'vue/max-attributes-per-line': [1, {
-      'singleline': 4,
-      'multiline': {
-        'max': 1,
-        'allowFirstLine': false
-      }
+      singleline: 4,
+      multiline: 1
     }]
   },
   globals: {}
-}
+};
