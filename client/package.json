@@ -1,0 +1,38 @@
+{
+  "name": "ezpaarse-web-client",
+  "version": "3.9.4",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ezpaarse-project/ezpaarse.git"
+  },
+  "engines": {
+    "node": ">=8.1.4"
+  },
+  "dependencies": {
+    "@mdi/font": "^7.4.47",
+    "@nuxtjs/auth": "^4.9.1",
+    "@nuxtjs/axios": "^5.13.6",
+    "@nuxtjs/i18n": "^7.3.1",
+    "axios": "^1.1.2",
+    "file-saver": "^2.0.5",
+    "i18n-iso-countries": "^7.11.3",
+    "lodash": "^4.17.21",
+    "moment": "^2.29.4",
+    "nuxt": "^2.16.3",
+    "pretty-bytes": "^6.1.1",
+    "socket.io-client": "^4.7.5",
+    "tmp-reaper": "~0.0.5",
+    "uuid": "^9.0.0",
+    "vuedraggable": "^2.24.3",
+    "vuetify": "^2.6.15",
+    "vuex": "^3.6.2"
+  },
+  "devDependencies": {
+    "eslint-plugin-vue": "^7.18.0"
+  },
+  "scripts": {
+    "lint": "eslint --ext .js,.vue .",
+    "build": "nuxt build --no-generate"
+  }
+}

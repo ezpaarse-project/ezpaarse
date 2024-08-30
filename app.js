@@ -1,8 +1,6 @@
 /* eslint no-console: 0 */
 'use strict';
 
-const { Nuxt, Builder } = require('nuxt');
-
 const app           = require('express')();
 const session       = require('express-session');
 const MongoStore    = require('connect-mongo');
@@ -17,6 +15,7 @@ const bodyParser    = require('body-parser');
 const errorHandler  = require('errorhandler');
 const morgan        = require('morgan');
 const path          = require('path');
+const logger        = require('./lib/logger.js');
 const config        = require('./lib/config.js');
 const pkg           = require('./package.json');
 const mailer        = require('./lib/mailer.js');
@@ -185,21 +184,12 @@ app.use((err, req, res, next) => {
   }
 });
 
-// Import and Set Nuxt.js options
-const nuxtConfig = require('./nuxt.config.js');
-nuxtConfig.dev = isDev;
-
-// Init Nuxt.js
-const nuxt = new Nuxt(nuxtConfig);
-app.use(nuxt.render);
-
-// Build only in dev mode
-if (nuxtConfig.dev) {
-  new Builder(nuxt).build()
-    .catch(error => {
-      console.error(error);
-      process.exit(1);
-    });
+// Setup client if needed
+if (!process.env.EZPAARSE_NO_WEB_CLIENT) {
+  // eslint-disable-next-line global-require
+  app.use(require('./client/index.js')({ isDev }));
+} else {
+  logger.warn('Web client is disabled');
 }
 
 module.exports = app;

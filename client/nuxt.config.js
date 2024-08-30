@@ -1,8 +1,9 @@
 'use strict';
 
-const config = require('./lib/config');
+const config = require('../lib/config');
 
 module.exports = {
+  buildDir: '../.nuxt',
   telemetry: false,
   ssr: false,
   /*
@@ -53,23 +54,11 @@ module.exports = {
   router: {
     middleware: [ 'auth' ]
   },
-  buildModules: [],
   plugins: [
     { src: '~/plugins/vuetify.js' },
     { src: '~/plugins/axios.js', ssr: false },
     { src: '~/plugins/socket.js', ssr: false }
   ],
-  /*
-  ** Global CSS
-  */
-  css: [],
-  /*
-  ** Add global packages
-  */
-  build: {
-    extend (config, ctx) {}
-  },
-  srcDir: 'client/',
   i18n: {
     locales: [
       {
