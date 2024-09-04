@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 const { Nuxt, Builder } = require('nuxt');
 
 const nuxtConfig = require('./nuxt.config');
