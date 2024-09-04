@@ -5,7 +5,6 @@ const nuxtConfig = require('./nuxt.config');
 module.exports = function setupClient (options) {
   // Import and Set Nuxt.js options
   nuxtConfig.dev = options.isDev;
-  nuxtConfig.buildDir = undefined;
 
   // Init Nuxt.js
   const nuxt = new Nuxt(nuxtConfig);
