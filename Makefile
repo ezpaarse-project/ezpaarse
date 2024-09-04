@@ -133,14 +133,16 @@ nodejs: ## Build node for ezpaarse
 	@./bin/buildnode
 
 build-nuxt: ## Build Nuxt App
-	@echo 'Building web interface...'
-	@. ./bin/env; npm run build
+	@. ./bin/env
+	@if test -z "${EZPAARSE_NO_WEB_CLIENT}"; \
+	then echo 'Building web interface...'; npm run build; \
+	fi
 
 node-modules: libs
 
 libs:
 	@echo 'Installing node.js dependencies...'
-	@. ./bin/env; npm install --no-save -q --unsafe-perm || (rm ./node_modules -rf && npm install --no-save -q --unsafe-perm)
+	@. ./bin/env; npm ci -q $(if $(EZPAARSE_NO_WEB_CLIENT),--omit=optional,)
 
 middlewares-update: ## Clone or update middelwares directory
 	@echo 'Updating middlewares...'

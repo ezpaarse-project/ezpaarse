@@ -2,7 +2,7 @@
 'use strict';
 
 const helpers = require('./helpers.js');
-const appname = require('../nuxt.config.js').head.title;
+const appname = require('../client/nuxt.config.js').head.title;
 
 describe('The server', () => {
   it('sends a page containing the application name (@01)', (done) => {
