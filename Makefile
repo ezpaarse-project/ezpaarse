@@ -142,10 +142,7 @@ node-modules: libs
 
 libs:
 	@echo 'Installing node.js dependencies...'
-	@. ./bin/env; npm install --no-save -q --unsafe-perm || (rm ./node_modules -rf && npm install --no-save -q --unsafe-perm)
-	@if test -z "${EZPAARSE_NO_WEB_CLIENT}"; \
-	then cd client; npm install --no-save -q --unsafe-perm || (rm ./node_modules -rf && npm install --no-save -q --unsafe-perm); \
-	fi
+	@. ./bin/env; npm ci -q $(if $(EZPAARSE_NO_WEB_CLIENT),--omit=optional,)
 
 middlewares-update: ## Clone or update middelwares directory
 	@echo 'Updating middlewares...'
