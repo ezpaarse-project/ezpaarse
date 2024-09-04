@@ -1,8 +1,7 @@
-'use strict';
-
 const config = require('../lib/config');
 
 module.exports = {
+  rootDir: __dirname,
   buildDir: '../.nuxt',
   telemetry: false,
   ssr: false,
