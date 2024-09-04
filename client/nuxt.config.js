@@ -17,7 +17,7 @@ module.exports = {
       { hid: 'description', name: 'description', content: 'ezPAARSE' }
     ],
     link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
+      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
   loading: '~/components/Loader.vue',
@@ -28,7 +28,7 @@ module.exports = {
   modules: [
     '@nuxtjs/axios',
     '@nuxtjs/auth',
-    '@nuxtjs/i18n',
+    '@nuxtjs/i18n'
   ],
   axios: {
     proxy: true
@@ -52,7 +52,7 @@ module.exports = {
     }
   },
   router: {
-    middleware: [ 'auth' ]
+    middleware: ['auth']
   },
   plugins: [
     { src: '~/plugins/vuetify.js' },
@@ -65,14 +65,14 @@ module.exports = {
         name: 'Français',
         code: 'fr',
         iso: 'fr-FR',
-        file: 'fr.json',
+        file: 'fr.json'
       },
       {
         name: 'English',
         code: 'en',
         iso: 'en-US',
-        file: 'en.json',
-      },
+        file: 'en.json'
+      }
     ],
     baseUrl: '/',
     defaultLocale: config.DEFAULT_LOCALE,
@@ -80,13 +80,13 @@ module.exports = {
     langDir: 'locales/',
     strategy: 'no_prefix',
     vueI18n: {
-      fallbackLocale: ['en', 'fr'],
+      fallbackLocale: ['en', 'fr']
     },
     detectBrowserLanguage: {
       useCookie: true,
       cookieKey: 'ezpaarse_i18n',
       alwaysRedirect: true,
-      fallbackLocale: 'en',
-    },
+      fallbackLocale: 'en'
+    }
   }
 };
