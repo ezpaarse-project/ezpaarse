@@ -184,11 +184,14 @@ app.use((err, req, res, next) => {
   }
 });
 
-// Setup client if needed
-if (!process.env.EZPAARSE_NO_WEB_CLIENT) {
+// Setup client if client dependencies are installed
+try {
   // eslint-disable-next-line global-require
   app.use(require('./client/index.js')({ isDev }));
-} else {
+} catch (e) {
+  if (e.code !== 'MODULE_NOT_FOUND') {
+    throw e;
+  }
   logger.warn('Web client is disabled');
 }
 
