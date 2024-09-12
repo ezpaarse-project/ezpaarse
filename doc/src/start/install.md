@@ -14,14 +14,25 @@ For an ezPAARSE installation on a **Windows** OS, you will have to use a dockeri
 git clone https://github.com/ezpaarse-project/ezpaarse
 ```
 
-2. Go to ezPAARSE directory and use the command **make** to install.
-
-This command will  will check whether your server has all the necessary prerequisites and download all dependencies and resources to enable ezPAARSE to work properly. 
+2. Open the ezPAARSE directory and get the latest stable version
 
 ```bash
 cd ezpaarse
 git checkout `git describe --tags --abbrev=0`
+```
+
+2. Use the command **make** to install.
+
+This command will check whether your server has all the necessary prerequisites and download all dependencies and resources to enable ezPAARSE to work properly.
+
+If you're planning to use ezPAARSE only from the command line and don't need the web interface, you can set the `EZPAARSE_NO_WEB_CLIENT` environment variable to prevent client side dependencies from being installed.
+
+```bash
+# Full setup
 make
+
+# Setup without web client
+EZPAARSE_NO_WEB_CLIENT=1 make
 ```
 
 > [!NOTE]  
