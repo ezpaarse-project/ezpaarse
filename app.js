@@ -184,14 +184,22 @@ app.use((err, req, res, next) => {
   }
 });
 
-// Setup client if client dependencies are installed
-try {
-  // eslint-disable-next-line global-require
-  app.use(require('./client/index.js')({ isDev }));
-} catch (e) {
-  if (e.code !== 'MODULE_NOT_FOUND') {
-    throw e;
+let webClient = !process.env.EZPAARSE_NO_WEB_CLIENT;
+
+if (webClient) {
+  // Setup client if client dependencies are installed
+  try {
+    // eslint-disable-next-line global-require
+    app.use(require('./client/index.js')({ isDev }));
+  } catch (e) {
+    if (e.code !== 'MODULE_NOT_FOUND') {
+      throw e;
+    }
+    webClient = false;
   }
+}
+
+if (!webClient) {
   logger.warn('Web client is disabled');
 }
 
