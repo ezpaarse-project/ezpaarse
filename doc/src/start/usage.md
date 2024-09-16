@@ -4,7 +4,7 @@
 
 ezPAARSE launches from the command line. Use the following commands from the installation directory to start and stop the server.
 
-If you wan't to launch ezPAARSE without the web client, set the `EZPAARSE_NO_WEB_CLIENT` environment variable with any value. This is not necessary if ezPAARSE has been installed without client dependencies.
+If you want to launch ezPAARSE without the web client, set the `EZPAARSE_NO_WEB_CLIENT` environment variable with any value. This is not necessary if ezPAARSE has been installed without client dependencies.
 
 ### Without Docker
 
