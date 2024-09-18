@@ -133,9 +133,8 @@ nodejs: ## Build node for ezpaarse
 	@./bin/buildnode
 
 build-nuxt: ## Build Nuxt App
-	@. ./bin/env
 	@if test -z "${EZPAARSE_NO_WEB_CLIENT}"; \
-	then echo 'Building web interface...'; npm run build; \
+	then . ./bin/env; echo 'Building web interface...'; npm run build; \
 	fi
 
 node-modules: libs
