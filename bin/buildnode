@@ -18,18 +18,19 @@ fi
 # download or update nvm from github
 if [ -d "$NVM_DIR/.git" ]; then
   echo "Updating NVM..."
-  cd $NVM_DIR
-  git reset --hard
-  git pull
 else
   echo "Downloading NVM..."
   # If the nvm dir exists but is not a git repo, delete it
   if [ -d $NVM_DIR ]; then
     rm $NVM_DIR -rf
   fi
-  git clone https://github.com/creationix/nvm.git $NVM_DIR
+  git clone https://github.com/nvm-sh/nvm.git $NVM_DIR
 fi
 
+cd $NVM_DIR
+git reset --hard --quiet
+git fetch --tags origin
+git -c advice.detachedHead=false checkout `git describe --abbrev=0 --tags --match "v[0-9]*" $(git rev-list --tags --max-count=1)`
 source "$NVM_DIR/nvm.sh"
 
 # install nodejs with nvm
