@@ -141,7 +141,7 @@ node-modules: libs
 
 libs:
 	@echo 'Installing node.js dependencies...'
-	@. ./bin/env; npm ci -q $(if $(EZPAARSE_NO_WEB_CLIENT),--omit=optional,)
+	@. ./bin/env; npm ci $(if $(EZPAARSE_VERBOSE_INSTALL),,--silent --no-audit) $(if $(EZPAARSE_NO_WEB_CLIENT),--omit=optional,)
 
 middlewares-update: ## Clone or update middelwares directory
 	@echo 'Updating middlewares...'
@@ -149,7 +149,7 @@ middlewares-update: ## Clone or update middelwares directory
 	then cd middlewares; git pull --no-rebase; \
 	else git clone https://github.com/ezpaarse-project/ezpaarse-middlewares.git middlewares; \
 	fi
-	@. ./bin/env; cd middlewares; npm install --no-save -q --unsafe-perm;
+	@. ./bin/env; cd middlewares; npm ci $(if $(EZPAARSE_VERBOSE_INSTALL),,--silent --no-audit);
 
 resources-update: ## Clone or update resources directory
 	@echo 'Updating resources...'
