@@ -105,7 +105,7 @@
     "pm2:logs": "pm2 logs ezpaarse",
     "pm2:monitor": "pm2 monit pm2.config.js",
     "pm2:kill-daemon": "pm2 kill",
-    "prepare": "husky"
+    "prepare": "node .husky/install.mjs"
   },
   "nodemonConfig": {
     "watch": [
