@@ -12,7 +12,7 @@ WORKDIR /opt/ezpaarse
 RUN mkdir -p /opt/ezpaarse/logs
 
 # minimal build of ezpaarse (install npm modules and build front)
-RUN make node-modules build-nuxt ; npm cache clear --force
+RUN make node-modules build-nuxt && npm cache clear --force
 
 # ezmasterification of ezpaarse
 # see https://github.com/Inist-CNRS/ezmaster
