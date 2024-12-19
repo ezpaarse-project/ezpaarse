@@ -1,6 +1,6 @@
 {
   "EZPAARSE_ADMIN_MAIL": "ezpaarse@couperin.org",
-  "EZPAARSE_PARENT_URL": "http://dev.ezpaarse.org",
+  "EZPAARSE_PARENT_URL": "https://demo.ezpaarse.org",
   "EZPAARSE_MONGO_URL": "mongodb://localhost:27017/ezpaarse",
   "EZPAARSE_FEEDBACK_RECIPIENTS": "ezpaarse@couperin.org",
   "EZPAARSE_SUBSCRIPTION_MAIL": false,
