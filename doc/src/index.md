@@ -15,7 +15,7 @@ actionLink: /start/requirements.md
 
 There are two publicly available instances of ezPAARSE:
 * [http://demo.ezpaarse.org](http://demo.ezpaarse.org) (called National Demo Instance, see below)
-* [http://dev.ezpaarse.org](http://dev.ezpaarse.org) (called Preproduction Demo Instance)
+* [https://preprod.ezpaarse.org](https://preprod.ezpaarse.org) (called Preproduction Demo Instance)
 
 Those two instance are for test purposes only (and now identified as such: you'll see a banner indicating "This ezPAARSE instance is available as a demonstration tool") and should therefore not be used as production tools. They are very convenient to test small log files and play around with the software and discover its interface. The data you process is only kept for an hour and is then deleted.
 
@@ -26,6 +26,6 @@ The instance available on [http://demo.ezpaarse.org](http://demo.ezpaarse.org) i
 
 
 ### Preproduction Demo Instance
-The instance available on [http://dev.ezpaarse.org](http://dev.ezpaarse.org) is based on the bleeding edge version of the ezPAARSE software (can be unstable).
+The instance available on [https://preprod.ezpaarse.org](https://preprod.ezpaarse.org) is based on the bleeding edge version of the ezPAARSE software (can be unstable).
 
 This is were we test the latest features (and you can too!).
