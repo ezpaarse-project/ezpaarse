@@ -10,7 +10,7 @@
     "node": ">=18.0.0"
   },
   "dependencies": {
-    "@ezpaarse-project/ezmesure": "^3.0.0",
+    "@ezpaarse-project/ezmesure": "^3.0.2",
     "@ezpaarse-project/ezpaarse": "^3.0.0",
     "@faker-js/faker": "^8.4.1",
     "axios": "^1.7.5",
