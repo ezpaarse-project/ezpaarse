@@ -191,7 +191,7 @@ export default {
       return this?.ezmesureInstance?.baseUrl;
     },
     tokenUrl () {
-      return this.ezmesureUrl && `${this.ezmesureUrl}/token`;
+      return this.ezmesureUrl && `${this.ezmesureUrl}/myspace/token`;
     },
     errors () {
       if (this.result && Array.isArray(this.result.errors)) {
