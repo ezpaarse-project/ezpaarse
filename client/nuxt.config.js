@@ -19,6 +19,9 @@ module.exports = {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
+  publicRuntimeConfig: {
+    isInist: process.env.IS_INIST || false
+  },
   loading: '~/components/Loader.vue',
   loadingIndicator: {
     name: 'folding-cube',
