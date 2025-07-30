@@ -10,7 +10,7 @@
                   <h3 class="mb-0" v-html="$t('ui.pages.index.whatIsEzpaarse')" />
                   <p v-html="$t('ui.pages.index.description', descriptionLinks)" />
                   <v-tooltip bottom>
-                    <template v-slot:activator="{ on }">
+                    <template #activator="{ on }">
                       <v-chip v-on="on">
                         <v-avatar left>
                           <v-icon small>
@@ -23,7 +23,7 @@
                     <span v-text="$t('ui.pages.index.fewClicksToInstall')" />
                   </v-tooltip>
                   <v-tooltip bottom>
-                    <template v-slot:activator="{ on }">
+                    <template #activator="{ on }">
                       <v-chip v-on="on">
                         <v-avatar left>
                           <v-icon small>
@@ -36,7 +36,7 @@
                     <span v-text="$t('ui.pages.index.contactUs')" />
                   </v-tooltip>
                   <v-tooltip bottom>
-                    <template v-slot:activator="{ on }">
+                    <template #activator="{ on }">
                       <v-chip v-on="on">
                         <v-avatar left>
                           <v-icon small>
@@ -49,6 +49,19 @@
                     <span v-text="$t('ui.pages.index.notOnlyFrench')" />
                   </v-tooltip>
                 </v-card-text>
+                <div v-if="$config.isInist" class="drawer-image">
+                  <a
+                    href="https://inist.fr"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    <v-img
+                      :src="require('@/static/img/inist-light.png')"
+                      alt="Inist CNRS"
+                      style="max-width: 120px; max-height: 120px;"
+                    />
+                  </a>
+                </div>
               </v-card>
             </v-layout>
           </v-container>
@@ -180,5 +193,11 @@ export default {
 <style scoped>
 a {
   color: #ccc;
+}
+
+.drawer-image {
+  display: flex;
+  justify-content: center;
+  padding: 16px;
 }
 </style>
