@@ -5,8 +5,6 @@
 [![bitHound Overall Score](https://www.bithound.io/github/ezpaarse-project/ezpaarse/badges/score.svg)](https://www.bithound.io/github/ezpaarse-project/ezpaarse)
 [![Docker stars](https://img.shields.io/docker/stars/ezpaarseproject/ezpaarse.svg)](https://registry.hub.docker.com/r/ezpaarseproject/ezpaarse)
 [![Docker Pulls](https://img.shields.io/docker/pulls/ezpaarseproject/ezpaarse.svg)](https://registry.hub.docker.com/r/ezpaarseproject/ezpaarse)
-[![Ezpaarse tweeter](https://img.shields.io/twitter/follow/ezpaarse.svg?style=social&label=Follow)](https://twitter.com/ezpaarse)
-
 
 
 ezPAARSE is an open-source software that can ingest your (proxy) log files and show how users access subscribed electronic resources.
