@@ -18,15 +18,21 @@ services:
       EZPAARSE_MONGO_URL: "mongodb://ezpaarse_db:27017/ezpaarse"
     ports:
       - 59599:59599
-      - 9229:9229
-    tty: true         # to have nice debug(...) outputs
-    stdin_open: true  # to be able to use CTRL+C to stop the debug
-    entrypoint: ''
-    command: ./entrypoint.dev.sh
+    restart: unless-stopped
+    healthcheck:
+      test:
+        ["CMD-SHELL", "wget -q -S -O - http://localhost:59599 2>&1 | grep 'HTTP/1.1 200 OK'"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
 
   ezpaarse_db:
+    image: mongo:7.0.20
     container_name: ezpaarse_db
-    image: mongo:3.6
-    command: --smallfiles
-    ports:
-      - 27017:27017
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
