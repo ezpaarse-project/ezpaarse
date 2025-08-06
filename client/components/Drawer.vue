@@ -21,6 +21,23 @@
       >
         <v-icon dark v-text="link.icon" />
       </v-btn>
+
+      <v-tooltip bottom>
+        <template #activator="{ on }">
+          <v-btn
+            class="mx-2"
+            icon
+            target="_blank"
+            href="mailto:ezteam@couperin.org"
+            v-on="on"
+          >
+            <v-icon dark>
+              mdi-email
+            </v-icon>
+          </v-btn>
+        </template>
+        <span v-text="'ezteam@couperin.org'" />
+      </v-tooltip>
     </v-list>
 
     <v-divider />
@@ -41,7 +58,7 @@
         </v-list-item-content>
         <v-list-item-icon v-if="$auth.loggedIn">
           <v-tooltip right>
-            <template v-slot:activator="{ on }">
+            <template #activator="{ on }">
               <v-btn
                 text
                 icon
@@ -95,7 +112,7 @@
         append-icon="mdi-chevron-down"
         :value="$nuxt.$route.name && $nuxt.$route.name.indexOf('admin') !== -1"
       >
-        <template v-slot:activator>
+        <template #activator>
           <v-list-item-title class="body-2" v-text="$t('ui.drawer.admin.administration')" />
           <v-list-item-icon
             v-if="hasAvailableUpdates"
@@ -188,7 +205,7 @@
       </v-list-item>
 
       <v-list-group no-action append-icon="mdi-chevron-down" prepend-icon="mdi-translate">
-        <template v-slot:activator>
+        <template #activator>
           <v-list-item-title class="body-2" v-text="$t('ui.language')" />
         </template>
 
@@ -218,10 +235,10 @@
       </v-list-item>
     </v-list>
 
-    <template v-slot:append>
+    <template #append>
       <div class="pa-2 text-center">
         <v-tooltip top>
-          <template v-slot:activator="{ on }">
+          <template #activator="{ on }">
             <v-btn
               small
               text
@@ -267,7 +284,6 @@ export default {
       mini: false,
       links: [
         { icon: 'mdi-home', href: 'http://www.ezpaarse.org/' },
-        { icon: 'mdi-email', href: 'mailto:ezpaarse@couperin.org' },
         { icon: 'mdi-twitter', href: 'https://twitter.com/ezpaarse' },
         { icon: 'mdi-comment-text-outline', href: 'http://blog.ezpaarse.org/' },
         { icon: 'mdi-youtube', href: 'https://www.youtube.com/channel/UCcR-0UE9WjYiwS4fMG2T4tQ' }
