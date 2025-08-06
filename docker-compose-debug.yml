@@ -1,0 +1,32 @@
+# ezpaarse docker-compose.debug.yml dedicated for developements
+version: '3'
+
+services:
+
+  ezpaarse:
+    container_name: ezpaarse
+    image: node:18.16.0
+    working_dir: /app
+    volumes:
+      - .:/app
+    environment:
+      DEBUG: ${DEBUG}
+      NODE_ENV: "development"
+      EZPAARSE_MONGO_URL: "mongodb://ezpaarse_db:27017/ezpaarse"
+    ports:
+      - 59599:59599
+      - 9229:9229
+    command: npm run pm2:dev
+
+  ezpaarse_db:
+    image: mongo:7.0.20
+    container_name: ezpaarse_db
+    restart: unless-stopped
+    volumes:
+      - ./data/ezpaarse_db:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
