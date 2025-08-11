@@ -284,7 +284,6 @@ export default {
       mini: false,
       links: [
         { icon: 'mdi-home', href: 'http://www.ezpaarse.org/' },
-        { icon: 'mdi-twitter', href: 'https://twitter.com/ezpaarse' },
         { icon: 'mdi-comment-text-outline', href: 'http://blog.ezpaarse.org/' },
         { icon: 'mdi-youtube', href: 'https://www.youtube.com/channel/UCcR-0UE9WjYiwS4fMG2T4tQ' }
       ]
@@ -327,4 +326,5 @@ export default {
   left: 0;
   right: 0;
 }
+
 </style>
