@@ -10,28 +10,22 @@ services:
     volumes:
       - .:/app
     environment:
-      http_proxy: ${http_proxy}
-      https_proxy: ${https_proxy}
-      no_proxy: ${no_proxy}
       DEBUG: ${DEBUG}
       NODE_ENV: "development"
       EZPAARSE_MONGO_URL: "mongodb://ezpaarse_db:27017/ezpaarse"
     ports:
       - 59599:59599
-    restart: unless-stopped
-    healthcheck:
-      test:
-        ["CMD-SHELL", "wget -q -S -O - http://localhost:59599 2>&1 | grep 'HTTP/1.1 200 OK'"]
-      interval: 10s
-      timeout: 10s
-      retries: 5
+      - 9229:9229
+    command: npm run pm2:dev
 
   ezpaarse_db:
     image: mongo:7.0.20
     container_name: ezpaarse_db
     restart: unless-stopped
+    volumes:
+      - ./data/ezpaarse_db:/data/db
     healthcheck:
-      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      test: ["CMD", "mongosh", "--eval", "\"db.adminCommand('ping')\""]
       interval: 10s
       timeout: 5s
       retries: 5

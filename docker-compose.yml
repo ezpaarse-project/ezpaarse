@@ -12,9 +12,6 @@ services:
         - http_proxy
         - https_proxy
     environment:
-      http_proxy:  ${http_proxy}
-      https_proxy: ${https_proxy}
-      no_proxy: ${no_proxy}
       NODE_ENV: "production"
       EZPAARSE_MONGO_URL: "mongodb://ezpaarse_db:27017/ezpaarse"
     volumes:
@@ -23,8 +20,6 @@ services:
       - ./resources:/opt/ezpaarse/resources
       - ./exclusions:/opt/ezpaarse/exclusions
       - ./config.local.json:/opt/ezpaarse/config.local.json
-    tty: true         # to have nice debug(...) outputs
-    stdin_open: true  # to be able to use CTRL+C to stop the container
     ports:
       - 59599:59599
     depends_on:
@@ -32,6 +27,14 @@ services:
     restart: unless-stopped
 
   ezpaarse_db:
+    image: mongo:7.0.20
     container_name: ezpaarse_db
-    image: mongo:3.6.23
     restart: unless-stopped
+    volumes:
+      - ./data/ezpaarse_db:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "\"db.adminCommand('ping')\""]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
