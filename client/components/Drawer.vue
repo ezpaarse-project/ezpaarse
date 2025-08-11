@@ -268,7 +268,6 @@ export default {
       links: [
         { icon: 'mdi-home', href: 'http://www.ezpaarse.org/' },
         { icon: 'mdi-email', href: 'mailto:ezpaarse@couperin.org' },
-        { icon: 'mdi-twitter', href: 'https://twitter.com/ezpaarse' },
         { icon: 'mdi-comment-text-outline', href: 'http://blog.ezpaarse.org/' },
         { icon: 'mdi-youtube', href: 'https://www.youtube.com/channel/UCcR-0UE9WjYiwS4fMG2T4tQ' }
       ]
