@@ -179,6 +179,10 @@ app.use((err, req, res, next) => {
     error.output.payload.stack = error.stack;
   }
 
+  if (error.output.statusCode === 500) {
+    logger.error(error.stack);
+  }
+
   if (!res.headersSent) {
     res.status(error.output.statusCode).set(error.output.headers).json(error.output.payload);
   }
