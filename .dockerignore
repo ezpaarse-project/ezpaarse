@@ -5,6 +5,7 @@ docker-compose.*
 npm-debug.log
 **/node_modules/
 
+data/
 middlewares/
 platforms/
 resources/
