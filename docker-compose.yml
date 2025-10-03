@@ -5,7 +5,7 @@ services:
 
   ezpaarse:
     container_name: ezpaarse
-    image: ezpaarseproject/ezpaarse:3.10.9
+    image: ezpaarseproject/ezpaarse:3.11.0
     build:
       context: .
       args:
