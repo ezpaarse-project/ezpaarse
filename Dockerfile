@@ -23,6 +23,11 @@ RUN echo '{ \
   "configPath": "/opt/ezpaarse/config.local.json" \
 }' > /etc/ezmaster.json
 
+RUN git config --global --add safe.directory /opt/ezpaarse/platforms \
+  && git config --global --add safe.directory /opt/ezpaarse/middlewares \
+  && git config --global --add safe.directory /opt/ezpaarse/resources \
+  && git config --global --add safe.directory /opt/ezpaarse/exclusions 
+
 # run ezpaarse process
 EXPOSE 59599
 ENTRYPOINT [ "/opt/ezpaarse/docker-entrypoint.sh" ]
