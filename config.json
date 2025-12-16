@@ -90,5 +90,6 @@
       "label": "ezMESURE - Préproduction",
       "baseUrl": "https://ezmesure-preprod.couperin.org"
     }
-  ]
+  ],
+  "ANALOGIST_URL": "https://analyses.ezpaarse.org/api/platforms"
 }
