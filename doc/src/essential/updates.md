@@ -58,10 +58,10 @@ After updating the middleware, you must restart the ezpaarse instance via the we
 You can update the middleware using **make** or **git**.
 
 ```bash
-# in ezPAARSE forlder
+# in ezPAARSE folder
 make middlewares-update
 
-# in middleware forlder
+# in middleware folder
 git pull
 ```
 
@@ -84,10 +84,10 @@ After updating the platforms, you must restart the ezpaarse instance via the web
 You can update the platforms using **make** or **git**.
 
 ```bash
-# in ezPAARSE forlder
+# in ezPAARSE folder
 make platforms-update
 
-# in platforms forlder![middlewares-update-1](./images/middlewares-update-1.png)
+# in platforms folder![middlewares-update-1](./images/middlewares-update-1.png)
 git pull
 ```
 
@@ -110,10 +110,10 @@ After updating the resources, you must restart the ezpaarse instance via the web
 You can update the resources using **make** or **git**.
 
 ```bash
-# in ezPAARSE forlder
+# in ezPAARSE folder
 make resources-update
 
-# in resources forlder
+# in resources folder
 git pull
 ```
 
@@ -130,10 +130,10 @@ make restart
 You can update the exclusion using **make** or **git**.
 
 ```bash
-# in ezPAARSE forlder
+# in ezPAARSE folder
 make exclusions-update
 
-# in exclusion forlder
+# in exclusion folder
 git pull
 ```
 
