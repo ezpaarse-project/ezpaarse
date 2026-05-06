@@ -87,7 +87,7 @@ You can update the platforms using **make** or **git**.
 # in ezPAARSE folder
 make platforms-update
 
-# in platforms folder![middlewares-update-1](./images/middlewares-update-1.png)
+# in platforms folder
 git pull
 ```
 
