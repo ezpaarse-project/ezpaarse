@@ -14,6 +14,8 @@ These updates can be performed either through the ezPAARSE administration interf
 
 ### Web interface
 
+On page **/admin/updates** you can click on **update** button, on the **Software** tab.
+
 ![core-update](./images/core-update.png)
 
 After clicking the “Restart” button, ezPAARSE will restart.
@@ -41,13 +43,13 @@ make restart
 
 ### Web interface
 
-You can update middlewars on 2 pages :
+You can update middlewares on 2 pages :
 
-- on page /admin/update
+- on page **/admin/update**, you can click on **update** button, on the **Middlewares** tab.
 
 ![middlewares-update-1](./images/middlewares-update-1.png)
 
-- on page /admin/middlewares
+- on page /admin/middlewares, you can click on **update** button.
 
 ![middlewares-update-2](./images/middlewares-update-2.png)
 
@@ -75,6 +77,8 @@ make restart
 
 ### Web interface
 
+On page **/admin/platforms** you can click on **update** button.
+
 ![platforms-update](./images/platforms-update.png)
 
 After updating the platforms, you must restart the ezpaarse instance via the web interface or the command line.
@@ -100,6 +104,8 @@ make restart
 ## Resources
 
 ### Web interface
+
+On page **/admin/updates** you can click on **update** button, on the **Resources** tab.
 
 ![resources-update](./images/resources-update.png)
 
