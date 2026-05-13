@@ -132,13 +132,16 @@ See the [ezpaarse-platforms README](https://github.com/ezpaarse-project/ezpaarse
 The parser is described by a ``manifest.json`` file, located in its root directory.
 This file contains the following information:
 
-* **name**: the short name of the parser, used as a prefix to the file names. Care should be taken not to use a name already used.
-* **version**: the current version of the parser. It is used in the validation file names parsers.
-* **longname**: the long name of the parser, used in the documentation.
-* **describe**: the description for the parser, can be a paragraph.
-* **docurl**: the URL of the documentation on the analogist website (must end by /).
-* **domains**: an array of domains that the parser can handle.
-* **pkb-domains**: if the platform has a PKB and if domains are present, this field is the column that contains them,
+* **name (mandatory)**: the short name of the parser, matching the name of its directory. Care should be taken not to use a name already used.
+* **longname (mandatory)**: the long name of the parser, used in the documentation.
+* **domains (mandatory)**: an array of domains that the parser should handle.
+* **publisher_name**: if the parser covers resources of a single publisher, you can put its name in this field.
+* **describe**: a longer description for the parser, can be a paragraph.
+* **version**: the current version of the parser.
+* **status**: the current status of the parser (`beta` or `stable`).
+* **contact**: main contributor(s) of the parser.
+* **docurl**: the URL of the documentation on the Analogist website.
+* **pkb-domains**: if the platform has a PKB with a column that contains domains, you can enter the name of the column in this field so that the parser handles those domains.
 
 
 ## Vendors' PKBs management principles
