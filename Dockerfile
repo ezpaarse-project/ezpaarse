@@ -1,4 +1,4 @@
-FROM node:18.16.0
+FROM node:26.12.1
 LABEL maintainer="ezPAARSE Team <ezpaarse@couperin.org>"
 
 ENV DEBIAN_FRONTEND noninteractive
@@ -26,7 +26,7 @@ RUN echo '{ \
 RUN git config --global --add safe.directory /opt/ezpaarse/platforms \
   && git config --global --add safe.directory /opt/ezpaarse/middlewares \
   && git config --global --add safe.directory /opt/ezpaarse/resources \
-  && git config --global --add safe.directory /opt/ezpaarse/exclusions 
+  && git config --global --add safe.directory /opt/ezpaarse/exclusions
 
 # run ezpaarse process
 EXPOSE 59599
