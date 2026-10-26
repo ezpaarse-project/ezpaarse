@@ -43,9 +43,12 @@ app.post('/login', bodyParser.urlencoded({ extended: true }), bodyParser.json(),
 /**
  * Logout
  */
-app.post('/logout', function (req, res) {
-  req.logout();
-  res.status(204).end();
+app.post('/logout', function (req, res, next) {
+  req.logout((err) => {
+    if (err) { return next(err); }
+
+    res.status(204).end();
+  });
 });
 
 module.exports = app;
