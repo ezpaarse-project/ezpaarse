@@ -5,7 +5,7 @@ services:
 
   ezpaarse:
     container_name: ezpaarse
-    image: node:18.16.0
+    image: node:26.12.1
     working_dir: /app
     volumes:
       - .:/app
@@ -20,7 +20,7 @@ services:
       sh -c "git config --global --add safe.directory '*' && npm run pm2:dev"
 
   ezpaarse_db:
-    image: mongo:7.0.20
+    image: mongo:9.0.4
     container_name: ezpaarse_db
     restart: unless-stopped
     volumes:
